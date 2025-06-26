@@ -10,13 +10,13 @@ export default defineConfig({
     emptyOutDir: true,
     assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        about: resolve(__dirname, 'about.html'),
-        projects: resolve(__dirname, 'projects.html'),
-        contact: resolve(__dirname, 'contact.html'),
-        blog: resolve(__dirname, 'blog.html')
-      },
+      input: [
+        resolve(__dirname, 'index.html')
+        // Add other HTML files here if they exist
+        // resolve(__dirname, 'about.html'),
+        // resolve(__dirname, 'projects.html'),
+        // resolve(__dirname, 'contact.html')
+      ],
     },
   },
   server: {

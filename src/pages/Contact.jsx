@@ -18,8 +18,10 @@ const Contact = () => {
         <input type="tel" id="phone" name="phone" />
 
         <label htmlFor="service">Service You Need *</label>
-        <select id="service" name="service" required>
-          <option value="" disabled selected>Select a service</option>
+        <select id="service" name="service" required defaultValue="">
+          <option value="" disabled>
+            Select a service
+          </option>
           <option value="dashboard-design">Dashboard Design</option>
           <option value="data-cleaning">Data Cleaning & Analysis</option>
           <option value="inventory-automation">Inventory Automation</option>
@@ -31,18 +33,37 @@ const Contact = () => {
         <textarea id="project-description" name="project-description" rows="5" required></textarea>
 
         <label htmlFor="file-attachment">Attach File (optional)</label>
-        <input type="file" id="file-attachment" name="file-attachment" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip" />
+        <input
+          type="file"
+          id="file-attachment"
+          name="file-attachment"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip"
+        />
 
-        <button type="submit" className="btn-primary">Send Request</button>
+        <button type="submit" className="btn-primary">
+          Send Request
+        </button>
       </form>
 
       <section aria-labelledby="contact-info-title">
         <h2 id="contact-info-title">Find more About Me on these platforms:</h2>
         <ul>
           <li>Location: Rajasthan, India (Open for Relocation)</li>
-          <li>Email: <a href="mailto:sahilkhan36985@gmail.com">sahilkhan36985@gmail.com</a></li>
-          <li>GitHub: <a href="https://github.com/SahilTheCoder" target="_blank" rel="noopener noreferrer">github.com/SahilTheCoder</a></li>
-          <li>LinkedIn: <a href="https://linkedin.com/in/sahil-ali-714867242/" target="_blank" rel="noopener noreferrer">linkedin.com/in/sahil-ali-714867242/</a></li>
+          <li>
+            Email: <a href="mailto:sahilkhan36985@gmail.com">sahilkhan36985@gmail.com</a>
+          </li>
+          <li>
+            GitHub:{' '}
+            <a href="https://github.com/SahilTheCoder" target="_blank" rel="noopener noreferrer">
+              github.com/SahilTheCoder
+            </a>
+          </li>
+          <li>
+            LinkedIn:{' '}
+            <a href="https://linkedin.com/in/sahil-ali-714867242/" target="_blank" rel="noopener noreferrer">
+              linkedin.com/in/sahil-ali-714867242/
+            </a>
+          </li>
         </ul>
       </section>
     </main>

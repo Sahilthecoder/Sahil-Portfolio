@@ -1,12 +1,28 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import { resolve } from 'path';
 
 export default defineConfig({
-  plugins: [react()],
-  root: './',
+  root: '.',
+  base: './', // Relative base path for GitHub Pages
   publicDir: 'public',
-  base: '/Sahilthecoder/',
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    assetsDir: 'assets',
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        about: resolve(__dirname, 'about.html'),
+        projects: resolve(__dirname, 'projects.html'),
+        contact: resolve(__dirname, 'contact.html'),
+        blog: resolve(__dirname, 'blog.html')
+      },
+    },
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
   css: {
     preprocessorOptions: {
       scss: {
@@ -27,44 +43,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src')
+      '@': resolve(__dirname, './src')
     }
   },
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    assetsDir: 'assets',
-    emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: './index.html',
-        about: './about.html',
-        projects: './projects.html',
-        resume: './resume.html',
-        contact: './contact.html',
-      },
-      output: {
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-      },
-    },
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-      },
-    },
-  },
-  server: {
-    open: true,
-    port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        secure: false,
-        changeOrigin: true
-      }
-    }
-  }
+  plugins: []
 });

@@ -1,28 +1,33 @@
-// Import base styles and variables
+// Core modules
+@use 'sass:color';
+@use 'sass:math';
 
-@import 'base/variables';
-@import 'base/reset';
-
-// Components
-@import 'components/animations';
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/navbar';
-@import 'components/footer';
-
-// Layouts
-@import 'layouts/containers';
-@import 'layouts/grid';
-
-// Pages
-@import 'pages/home';
-@import 'pages/about';
-@import 'pages/projects';
-@import 'pages/contact';
+// Base
+@use 'base/variables' as *;
+@use 'base/reset';
 
 // Utils
-@import 'utils/mixins';
-@import 'utils/helpers';
+@use 'utils/mixins';
+@use 'utils/helpers';
+
+// Layouts
+@use 'layouts/containers';
+@use 'layouts/grid';
+
+// Components
+@use 'components/animations';
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/navbar';
+@use 'components/footer';
+
+// Pages
+@use 'pages/home';
+@use 'pages/about';
+@use 'pages/projects';
+@use 'pages/contact';
+
+// Core styles and variables
 
 // Global Styles
 :root {

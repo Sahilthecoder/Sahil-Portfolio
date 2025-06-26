@@ -1,42 +1,57 @@
 .project-card {
-  background: $white;
+  background: $light;
   border-radius: $border-radius;
   box-shadow: $box-shadow-light;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: $transition-base;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-lg;
+  }
 
   &__image {
     width: 100%;
-    height: auto;
+    height: 200px;
     object-fit: cover;
   }
 
   &__content {
     padding: $spacing-md;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 
     h3 {
-      margin-top: 0;
-      color: $primary-color;
-      font-family: $font-family-heading;
+      margin: 0 0 $spacing-sm 0;
+      color: $primary;
+      font-size: 1.25rem;
     }
 
     .project-type {
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 600;
-      color: $text-light;
+      color: $secondary;
       margin-bottom: $spacing-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     p {
       margin-bottom: $spacing-md;
-      color: $text-color;
+      color: $dark;
+      line-height: 1.6;
+      flex-grow: 1;
     }
 
     &__actions {
       display: flex;
       gap: $spacing-md;
+      margin-top: auto;
+      padding-top: $spacing-md;
+      border-top: 1px solid rgba($dark, 0.1);
 
       a {
         padding: 0.5rem 1rem;
@@ -45,22 +60,28 @@
         text-align: center;
         text-decoration: none;
         cursor: pointer;
+        font-size: 0.875rem;
+        transition: $transition-base;
 
         &.btn-primary {
-          background-color: $primary-color;
-          color: $white;
+          background-color: $primary;
+          color: $light;
 
           &:hover {
-            background-color: $primary-color-dark;
+            background-color: color.adjust($primary, $lightness: -10%);
+            transform: translateY(-1px);
+            box-shadow: $shadow-md;
           }
         }
 
         &.btn-secondary {
-          background-color: $secondary-color;
-          color: $text-color;
+          background-color: transparent;
+          color: $primary;
+          border: 2px solid $primary;
 
           &:hover {
-            background-color: $secondary-color-dark;
+            background-color: rgba($primary, 0.1);
+            transform: translateY(-1px);
           }
         }
       }

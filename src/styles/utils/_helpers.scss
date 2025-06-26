@@ -103,7 +103,7 @@ img[data-src] {
   border-radius: 10px;
   
   &:hover {
-    background: darken($primary, 10%);
+    background: color.adjust($primary, $lightness: -10%);
   }
 }
 
@@ -162,12 +162,12 @@ img[data-src] {
 .mx-2 { margin-left: $spacing-sm !important; margin-right: $spacing-sm !important; }
 .my-2 { margin-top: $spacing-sm !important; margin-bottom: $spacing-sm !important; }
 
-.mt-3 { margin-top: $spacing !important; }
-.mb-3 { margin-bottom: $spacing !important; }
-.ml-3 { margin-left: $spacing !important; }
-.mr-3 { margin-right: $spacing !important; }
-.mx-3 { margin-left: $spacing !important; margin-right: $spacing !important; }
-.my-3 { margin-top: $spacing !important; margin-bottom: $spacing !important; }
+.mt-3 { margin-top: $spacing-md !important; }
+.mb-3 { margin-bottom: $spacing-md !important; }
+.ml-3 { margin-left: $spacing-md !important; }
+.mr-3 { margin-right: $spacing-md !important; }
+.mx-3 { margin-left: $spacing-md !important; margin-right: $spacing-md !important; }
+.my-3 { margin-top: $spacing-md !important; margin-bottom: $spacing-md !important; }
 
 .mt-4 { margin-top: $spacing-lg !important; }
 .mb-4 { margin-bottom: $spacing-lg !important; }

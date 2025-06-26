@@ -7,5 +7,5 @@
 
 // Darken color by percentage
 @function darken-percent($color, $percent) {
-  @return darken($color, $percent);
+  @return color.adjust($color, $lightness: -$percent);
 }

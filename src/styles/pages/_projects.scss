@@ -1,15 +1,33 @@
 main {
   h1 {
     font-family: $font-family-heading;
-    font-size: 2rem;
-    color: $primary-color;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $primary;
     margin-bottom: $spacing-lg;
+    text-align: center;
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   p {
-    font-size: 1rem;
-    color: $text-color;
-    margin-bottom: $spacing-lg;
+    font-size: 1.25rem;
+    color: $dark;
+    margin-bottom: $spacing-xl;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-lg;
+    margin-bottom: $spacing-xl;
   }
 
   section {
@@ -17,24 +35,40 @@ main {
 
     h2 {
       font-family: $font-family-heading;
-      font-size: 1.5rem;
-      color: $primary-color;
-      margin-bottom: $spacing-sm;
+      font-size: 1.75rem;
+      color: $primary;
+      margin-bottom: $spacing-md;
+      position: relative;
+      display: inline-block;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: $gradient-primary;
+        border-radius: 2px;
+      }
 
       small {
-        font-size: 0.875rem;
-        color: $text-light;
-        margin-left: $spacing-xs;
+        font-size: 1rem;
+        color: $secondary;
+        margin-left: $spacing-sm;
+        font-weight: 500;
       }
     }
 
     p {
-      font-size: 1rem;
-      color: $text-color;
-      margin-bottom: $spacing-md;
+      font-size: 1.1rem;
+      color: $dark;
+      margin-bottom: $spacing-lg;
+      text-align: left;
+      max-width: 100%;
     }
 
-    a.btn-primary {
+    .btn-primary {
       margin-top: $spacing-sm;
     }
   }

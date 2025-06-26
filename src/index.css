@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --neon-blue: #00f7ff;
+  --neon-pink: #ff00ff;
+  --neon-purple: #b700ff;
+  --dark-bg: #0a0a0f;
+  --darker-bg: #050508;
+}
+
+/* Base Styles */
+body {
+  @apply bg-dark-bg text-white font-sans antialiased overflow-x-hidden;
+  background-color: var(--dark-bg);
+  color: white;
+}
+
+/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Neon Text Effect */
+.neon-text {
+  text-shadow: 0 0 5px var(--neon-blue), 
+               0 0 10px var(--neon-blue), 
+               0 0 20px var(--neon-blue);
+  animation: neonGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonGlow {
+  from {
+    text-shadow: 0 0 5px var(--neon-blue), 
+                 0 0 10px var(--neon-blue), 
+                 0 0 20px var(--neon-blue);
+  }
+  to {
+    text-shadow: 0 0 10px var(--neon-blue), 
+                 0 0 20px var(--neon-blue), 
+                 0 0 30px var(--neon-blue), 
+                 0 0 40px var(--neon-pink);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-blue);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-pink);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Hover Effects */
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom Components */
+.btn {
+  @apply px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg focus:ring-neon-blue;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-neon-blue to-neon-purple text-dark-bg font-bold hover:shadow-lg hover:shadow-neon-blue/30;
+}
+
+.btn-outline {
+  @apply border-2 border-neon-blue text-neon-blue hover:bg-neon-blue/10;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  h1 {
+    @apply text-4xl;
+  }
+  
+  h2 {
+    @apply text-3xl;
+  }
+  
+  p {
+    @apply text-base;
+  }
+}

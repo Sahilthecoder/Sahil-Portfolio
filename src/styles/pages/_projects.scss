@@ -1,0 +1,41 @@
+main {
+  h1 {
+    font-family: $font-family-heading;
+    font-size: 2rem;
+    color: $primary-color;
+    margin-bottom: $spacing-lg;
+  }
+
+  p {
+    font-size: 1rem;
+    color: $text-color;
+    margin-bottom: $spacing-lg;
+  }
+
+  section {
+    margin-bottom: $spacing-xl;
+
+    h2 {
+      font-family: $font-family-heading;
+      font-size: 1.5rem;
+      color: $primary-color;
+      margin-bottom: $spacing-sm;
+
+      small {
+        font-size: 0.875rem;
+        color: $text-light;
+        margin-left: $spacing-xs;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+      color: $text-color;
+      margin-bottom: $spacing-md;
+    }
+
+    a.btn-primary {
+      margin-top: $spacing-sm;
+    }
+  }
+}

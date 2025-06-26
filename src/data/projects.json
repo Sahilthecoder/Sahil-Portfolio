@@ -1,0 +1,19 @@
+[
+  {
+    "title": "Zomato Restaurant Expansion Analysis",
+    "description": "Built an interactive Excel dashboard analyzing city-wise expansion strategy across India.",
+    "cover": "/assets/images/project1-before.avif",
+    "liveLink": "#",
+    "githubLink": "#",
+    "projectType": "Excel"
+  },
+  {
+    "title": "Bansal Supermarket Sales Analysis",
+    "description": "Created a dynamic Tableau dashboard revealing sales trends and customer behavior.",
+    "cover": "/assets/images/project1-after.avif",
+    "liveLink": "#",
+    "githubLink": "#",
+    "projectType": "Tableau"
+  }
+  // Add more projects similarly
+]

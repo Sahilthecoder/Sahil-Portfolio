@@ -1,0 +1,21 @@
+section[aria-label="Introduction"] {
+  text-align: center;
+  padding: $spacing-xl 0;
+
+  h1 {
+    font-family: $font-family-heading;
+    font-size: 2.5rem;
+    color: $primary-color;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: $text-color;
+    margin-bottom: $spacing-md;
+  }
+
+  .btn-primary {
+    margin-top: $spacing-md;
+  }
+}

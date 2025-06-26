@@ -1,0 +1,54 @@
+.btn-primary {
+  background-color: $primary-color;
+  color: $white;
+  padding: 0.6rem 1.2rem;
+  border-radius: $border-radius;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: $primary-color-dark;
+    outline: none;
+  }
+}
+
+.btn-secondary {
+  background-color: $secondary-color;
+  color: $text-color;
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: $secondary-color-dark;
+    outline: none;
+  }
+}
+.theme-toggle-btn {
+  background: none;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  padding: 0.4rem 1rem;
+  border-radius: $border-radius;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: $primary-color;
+    color: $white;
+    outline: none;
+  }
+}

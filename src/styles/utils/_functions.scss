@@ -1,0 +1,11 @@
+// Example functions (Sass functions)
+
+// Convert px to rem
+@function px-to-rem($px, $base: 16) {
+  @return #{$px / $base}rem;
+}
+
+// Darken color by percentage
+@function darken-percent($color, $percent) {
+  @return darken($color, $percent);
+}

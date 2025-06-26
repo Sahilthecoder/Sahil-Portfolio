@@ -1,0 +1,76 @@
+.project-card {
+  background: $white;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-light;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  &__content {
+    padding: $spacing-md;
+    flex-grow: 1;
+
+    h3 {
+      margin-top: 0;
+      color: $primary-color;
+      font-family: $font-family-heading;
+    }
+
+    .project-type {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $text-light;
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      margin-bottom: $spacing-md;
+      color: $text-color;
+    }
+
+    &__actions {
+      display: flex;
+      gap: $spacing-md;
+
+      a {
+        padding: 0.5rem 1rem;
+        border-radius: $border-radius;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+        &.btn-primary {
+          background-color: $primary-color;
+          color: $white;
+
+          &:hover {
+            background-color: $primary-color-dark;
+          }
+        }
+
+        &.btn-secondary {
+          background-color: $secondary-color;
+          color: $text-color;
+
+          &:hover {
+            background-color: $secondary-color-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+.projects-grid {
+  display: grid;
+  gap: $spacing-lg;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: $spacing-lg;
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Sahil Ali Portfolio",
+  "short_name": "SahilPortfolio",
+  "icons": [
+    {
+      "src": "/assets/icons/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0a74da",
+  "background_color": "#f9f9f9"
+}

@@ -1,0 +1,157 @@
+// src/styles/main.scss
+
+// Import base styles and variables
+@import 'base/variables';
+@import 'base/reset';
+
+@import 'layouts/grid';
+@import 'layouts/containers';
+
+@import 'components/buttons';
+@import 'components/cards';
+
+@import 'pages/home';
+@import 'pages/projects';
+
+@import 'utils/mixins';
+@import 'utils/functions';
+
+
+// Typography and body
+body {
+  font-family: 'Roboto', 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 0;
+  color: #0a74da;
+}
+
+a {
+  color: #0a74da;
+  text-decoration: none;
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+// Layout
+header, footer {
+  background-color: #0a74da;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+main {
+  max-width: 960px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+// Navigation Menu
+nav {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  a {
+    color: white;
+    font-weight: 600;
+    &.active {
+      border-bottom: 2px solid #fff;
+    }
+  }
+
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    ul {
+      flex-direction: column;
+      display: none;
+      &.open {
+        display: flex;
+      }
+    }
+    .menu-toggle {
+      display: block;
+    }
+  }
+}
+
+// Buttons
+.btn-primary {
+  display: inline-block;
+  background-color: #0a74da;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover,
+  &:focus {
+    background-color: #095bb5;
+  }
+}
+
+// Forms
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+
+  label {
+    font-weight: 600;
+  }
+
+  input, select, textarea {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: #0a74da;
+      box-shadow: 0 0 5px rgba(10, 116, 218, 0.5);
+    }
+  }
+
+  button {
+    align-self: flex-start;
+  }
+}
+
+// Footer
+footer p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  a {
+    color: #fff;
+    text-decoration: underline;
+  }
+}

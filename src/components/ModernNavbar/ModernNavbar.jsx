@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   FiMenu, 
   FiX, 
@@ -28,14 +28,12 @@ const NAV_ITEMS = [
 
 // Theme Toggle Component
 const ThemeToggle = React.memo(() => {
-  const { theme, toggleTheme, autoTheme, toggleAutoTheme, isDark } = useTheme();
-  const [isAnimating, setIsAnimating] = useState(false);
+  const { theme, toggleTheme, autoTheme, toggleAutoTheme } = useTheme();
+  const [isHovered, setIsHovered] = useState(false);
   
   const handleToggle = useCallback((e) => {
     e.stopPropagation();
-    setIsAnimating(true);
     toggleTheme();
-    setTimeout(() => setIsAnimating(false), 200);
   }, [toggleTheme]);
   
   const handleAutoThemeToggle = useCallback((e) => {
@@ -44,55 +42,65 @@ const ThemeToggle = React.memo(() => {
     toggleAutoTheme();
   }, [toggleAutoTheme]);
   
-  // Get the appropriate icon based on theme
-  const getThemeIcon = () => {
-    switch(theme) {
-      case 'dark':
-        return <FiMoon className="w-5 h-5 text-light-text-body dark:text-dark-text-body" />;
-      case 'futuristic':
-        return <FiStar className="w-5 h-5 text-purple-400" />;
-      case 'light':
-      default:
-        return <FiSun className="w-5 h-5 text-yellow-500" />;
-    }
-  };
-  
-  // Get the next theme name for screen readers
-  const getNextThemeName = () => {
-    switch(theme) {
-      case 'light': return 'dark';
-      case 'dark': return 'futuristic';
-      case 'futuristic': return 'light';
-      default: return 'light';
+  // Theme configurations
+  const themes = {
+    light: {
+      icon: <FiSun className="w-4 h-4" />,
+      label: 'Light',
+      color: 'text-yellow-500',
+      bg: 'bg-yellow-100',
+      hoverBg: 'hover:bg-yellow-100/80',
+    },
+    dark: {
+      icon: <FiMoon className="w-4 h-4" />,
+      label: 'Dark',
+      color: 'text-indigo-500',
+      bg: 'bg-indigo-100',
+      hoverBg: 'hover:bg-indigo-100/80',
     }
   };
 
+  const currentTheme = themes[theme] || themes.light;
+  const nextTheme = theme === 'light' ? 'dark' : 'light';
+
   return (
-    <div className="relative group">
+    <div className="relative flex items-center">
       <motion.button
         onClick={handleToggle}
         onContextMenu={handleAutoThemeToggle}
-        aria-label={`Toggle theme to ${getNextThemeName()}${autoTheme ? ` (Auto)` : ''}`}
-        className="relative w-10 h-10 flex items-center justify-center rounded-full overflow-hidden transition-all duration-300 hover:bg-light-glass dark:hover:bg-dark-glass/20 focus:outline-none focus:ring-2 focus:ring-light-primary dark:focus:ring-dark-primary focus:ring-offset-2 dark:focus:ring-offset-dark-bg"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        aria-label={`Switch to ${nextTheme} theme${autoTheme ? ' (Auto)' : ''}`}
+        className={`relative flex items-center justify-center h-9 px-3 rounded-full ${currentTheme.bg} ${currentTheme.hoverBg} ${currentTheme.color} transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900`}
       >
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
+        <motion.span 
+          className="flex items-center space-x-2 text-sm font-medium"
           initial={false}
-          animate={{
-            scale: 1,
-            opacity: 1,
-            rotate: isAnimating ? 180 : 0,
-          }}
-          transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+          animate={{ width: isHovered ? 'auto' : 'auto' }}
         >
-          {getThemeIcon()}
-        </motion.div>
+          <motion.span
+            animate={{ rotate: isHovered ? 30 : 0 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+          >
+            {currentTheme.icon}
+          </motion.span>
+          <motion.span 
+            className="whitespace-nowrap"
+            initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              width: isHovered ? 'auto' : 0,
+              marginLeft: isHovered ? 8 : 0,
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            {currentTheme.label}
+          </motion.span>
+        </motion.span>
         
         {autoTheme && (
           <motion.span 
-            className="absolute -bottom-1 -right-1 w-3 h-3 bg-blue-500 rounded-full border-2 border-white dark:border-dark-bg"
+            className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
@@ -100,21 +108,30 @@ const ThemeToggle = React.memo(() => {
         )}
       </motion.button>
       
-      <div className="hidden group-hover:block absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-dark-bg border border-light-border dark:border-dark-border z-50">
-        <div className="p-2">
-          <button
-            onClick={handleAutoThemeToggle}
-            className={`w-full text-left px-4 py-2 text-sm rounded-md flex items-center justify-between ${
-              autoTheme 
-                ? 'bg-light-primary/10 text-light-primary dark:bg-dark-primary/20 dark:text-dark-primary' 
-                : 'text-light-text-body dark:text-dark-text-body hover:bg-light-hover dark:hover:bg-dark-hover'
-            }`}
+      {/* Auto theme tooltip */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div 
+            className="absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 z-50"
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            transition={{ duration: 0.15 }}
           >
-            <span>Auto Theme</span>
-            {autoTheme && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
-          </button>
-        </div>
-      </div>
+            <button
+              onClick={handleAutoThemeToggle}
+              className={`w-full text-left px-3 py-2 rounded-md flex items-center justify-between ${
+                autoTheme 
+                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300' 
+                  : 'hover:bg-gray-100 dark:hover:bg-gray-700/50'
+              }`}
+            >
+              <span>Auto Theme</span>
+              {autoTheme && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 });
@@ -129,7 +146,7 @@ const ModernNavbar = () => {
   const lastScrollY = useRef(0);
 
   // Get active section from path
-  const activeSection = location.pathname === '/' ? 'home' : location.pathname.slice(1);
+  const activeSection = location.pathname === '/' ? 'home' : location.pathname.split('/')[1];
 
   // Close mobile menu when clicking outside
   const handleClickOutsideMobile = useCallback((event) => {
@@ -170,6 +187,24 @@ const ModernNavbar = () => {
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
+  }, []);
+
+  // Smooth scroll to section
+  const scrollTo = useCallback((id) => {
+    if (id === 'home') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
   }, []);
 
   return (
@@ -216,21 +251,38 @@ const ModernNavbar = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
-              {NAV_ITEMS.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.path}
-                  className={`flex-shrink-0 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    activeSection === item.section
-                      ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800/50'
-                  }`}
-                  style={{ minWidth: 'fit-content' }}
-                >
-                  <span className="mr-1.5">{item.icon}</span>
-                  <span className="whitespace-nowrap">{item.name}</span>
-                </a>
-              ))}
+              {NAV_ITEMS.map((item) => {
+                const isActive = location.pathname === item.path || 
+                              (item.path !== '/' && location.pathname.startsWith(item.path));
+                return (
+                  <button
+                    key={item.name}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      closeMenu();
+                      if (item.path === '/') {
+                        scrollTo('home');
+                        navigate(item.path);
+                      } else {
+                        navigate(item.path);
+                        // Small delay to ensure the component has mounted
+                        setTimeout(() => {
+                          scrollTo(item.section);
+                        }, 50);
+                      }
+                    }}
+                    className={`flex-shrink-0 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                      isActive
+                        ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
+                        : 'text-gray-600 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40'
+                    }`}
+                    style={{ minWidth: 'fit-content' }}
+                  >
+                    <span className="mr-1.5">{item.icon}</span>
+                    <span className="whitespace-nowrap">{item.name}</span>
+                  </button>
+                );
+              })}
             </nav>
 
             {/* Desktop Right Side */}
@@ -288,21 +340,37 @@ const ModernNavbar = () => {
                     </button>
                   </div>
                   <nav className="flex-1 space-y-2 px-4">
-                    {NAV_ITEMS.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.path}
-                        className={`flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors duration-200 ${
-                          activeSection === item.section
-                            ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
-                            : 'text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800/50'
-                        }`}
-                        onClick={closeMenu}
-                      >
-                        <span className="mr-3">{item.icon}</span>
-                        {item.name}
-                      </a>
-                    ))}
+                    {NAV_ITEMS.map((item) => {
+                      const isActive = location.pathname === item.path || 
+                                    (item.path !== '/' && location.pathname.startsWith(item.path));
+                      return (
+                        <button
+                          key={item.name}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            closeMenu();
+                            if (item.path === '/') {
+                              scrollTo('home');
+                              navigate(item.path);
+                            } else {
+                              navigate(item.path);
+                              // Small delay to ensure the component has mounted
+                              setTimeout(() => {
+                                scrollTo(item.section);
+                              }, 50);
+                            }
+                          }}
+                          className={`w-full text-left flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors duration-300 ${
+                            isActive
+                              ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
+                              : 'text-gray-600 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40'
+                          }`}
+                        >
+                          <span className="mr-3">{item.icon}</span>
+                          {item.name}
+                        </button>
+                      );
+                    })}
                   </nav>
                   <div className="px-4 pt-4 border-t border-light-glass-border dark:border-dark-glass-border">
                     <div className="flex items-center justify-between mb-4">

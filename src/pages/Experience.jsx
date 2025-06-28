@@ -467,14 +467,17 @@ const Experience = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden">
+        {/* Grid background */}
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
         </div>
         
         <div className="container mx-auto px-6 relative z-10">
@@ -485,16 +488,16 @@ const Experience = () => {
             className="text-center mb-16"
           >
             <motion.h1 
-              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
               variants={item}
             >
               Professional{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
                 Journey
               </span>
             </motion.h1>
             <motion.p 
-              className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
               variants={item}
             >
               My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting.
@@ -503,26 +506,26 @@ const Experience = () => {
         </div>
       </section>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         {/* Main Content */}
         <div className="space-y-12">
           <motion.div 
-            className="bg-white rounded-2xl shadow-xl overflow-hidden"
+            className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100/50 dark:border-gray-700/50"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             {/* Tabs Navigation */}
             <div className="border-b border-gray-200">
-              <nav className="flex flex-wrap justify-center md:justify-start -mb-px">
+              <nav className="flex flex-wrap justify-center md:justify-start -mb-px bg-gray-50/50 dark:bg-gray-800/50">
                 {navItems.map((item) => (
                   <motion.button
                     key={item.id}
                     onClick={() => setActiveTab(item.id)}
                     className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 transition-all duration-300 ${
                       activeTab === item.id
-                        ? 'border-indigo-500 text-indigo-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-500'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'
                     }`}
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.98 }}
@@ -557,11 +560,11 @@ const Experience = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-400">
               Interested in working together?{' '}
               <a 
                 href="/contact" 
-                className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+                className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors"
               >
                 Get in touch
               </a>

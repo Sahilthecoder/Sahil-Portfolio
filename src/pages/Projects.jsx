@@ -139,7 +139,7 @@ const Projects = () => {
   })), []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg px-4">
       <SEO 
         title="My Projects"
         description="Explore my portfolio of professional projects showcasing my skills and experience."
@@ -148,11 +148,11 @@ const Projects = () => {
         structuredData={structuredData}
       />
       {/* Hero Section with Animated Blobs */}
-      <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
         <div className="absolute inset-0 z-0 opacity-20">
-          <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-          <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+          <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 dark:bg-dark-primary/30 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 dark:bg-dark-accent/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 dark:bg-dark-accent-pink/30 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
         </div>
         
         <div className="container mx-auto px-6 relative z-10">
@@ -162,10 +162,10 @@ const Projects = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center mb-16 max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">Projects</span>
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-dark-text-heading mb-6 leading-tight">
+              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-dark-primary dark:to-dark-accent">Projects</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 dark:text-dark-text-body/80 max-w-3xl mx-auto leading-relaxed">
               Explore my portfolio of data-driven solutions and innovative projects that demonstrate my expertise and creativity.
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-8 rounded-full"></div>
@@ -215,17 +215,17 @@ const Projects = () => {
                 </div>
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex justify-between items-start mb-3">
-                    <span className="text-xs font-semibold tracking-wide uppercase text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1 rounded-full">
+                    <span className="text-xs font-semibold tracking-wide uppercase text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/40 px-3 py-1 rounded-full">
                       {project.category}
                     </span>
                     {project.badge && (
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200 border border-indigo-200 dark:border-indigo-800">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200 border border-indigo-200 dark:border-indigo-800">
                         {project.badge}
                       </span>
                     )}
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-3 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                     {project.title}
                   </h3>
                   
@@ -241,7 +241,7 @@ const Projects = () => {
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                           </svg>
                           <p className="text-sm text-blue-700 dark:text-blue-300 leading-relaxed">
-                            <span className="font-semibold">Impact: </span>{project.impact}
+                            <span className="font-semibold text-blue-800 dark:text-blue-200">Impact: </span>{project.impact}
                           </p>
                         </div>
                       </div>
@@ -251,7 +251,7 @@ const Projects = () => {
                       {project.tags.map((tag, tagIndex) => (
                         <span 
                           key={tagIndex}
-                          className="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700/50 dark:text-gray-300 border border-gray-200 dark:border-gray-600 whitespace-nowrap hover:bg-gray-200 dark:hover:bg-gray-600/50 transition-colors"
+                          className="px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-700/60 dark:text-gray-200 border border-gray-200 dark:border-gray-600 whitespace-nowrap hover:bg-gray-200 dark:hover:bg-gray-600/60 transition-colors duration-200"
                         >
                           {tag}
                         </span>

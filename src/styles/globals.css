@@ -2,6 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme (default) */
+:root {
+  --color-primary: 79, 70, 229;    /* indigo-600 */
+  --color-primary-hover: 67, 56, 202; /* indigo-700 */
+  --color-text: 17, 24, 39;        /* gray-900 */
+  --color-text-muted: 75, 85, 99;   /* gray-600 */
+  --color-bg: 249, 250, 251;       /* gray-50 */
+  --color-bg-elevated: 255, 255, 255; /* white */
+  --color-border: 229, 231, 235;   /* gray-200 */
+}
+
+/* Dark theme */
+.dark {
+  --color-primary: 99, 102, 241;   /* indigo-500 */
+  --color-primary-hover: 129, 140, 248; /* indigo-400 */
+  --color-text: 243, 244, 246;    /* gray-100 */
+  --color-text-muted: 156, 163, 175; /* gray-400 */
+  --color-bg: 17, 24, 39;         /* gray-900 */
+  --color-bg-elevated: 31, 41, 55; /* gray-800 */
+  --color-border: 55, 65, 81;     /* gray-700 */
+}
+
+/* Smooth theme transitions */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+  transition-delay: 0s !important;
+}
+
+/* Base styles */
+body {
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Install Prompt Styles */
+#install-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  z-index: 9999;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.5s ease;
+}
+
+#install-screen.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#install-screen > div {
+  pointer-events: auto;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  transform-origin: center;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+}
+
+#install-screen.show > div {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Center position */
+.install-prompt-center {
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* Corner position */
+#install-screen.move-to-corner {
+  background-color: transparent;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 1rem;
+}
+
+#install-screen.move-to-corner > div {
+  transform: translateY(0) scale(0.8) !important;
+  transform-origin: bottom left !important;
+  margin: 0 !important;
+  max-width: 300px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
 /* Base styles */
 @layer base {
   :root {

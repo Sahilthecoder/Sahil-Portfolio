@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   content: [
@@ -9,21 +9,35 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundImage: {
+        'grid': "url('data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e')"
+      },
       colors: {
-        // Primary Colors
-        primary: '#2563eb',
-        secondary: '#7c3aed',
-        accent: '#8b5cf6',
-        // Light Mode Colors
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+          DEFAULT: '#2563eb',
+          hover: '#1d4ed8',
+        },
+        secondary: {
+          DEFAULT: '#7c3aed',
+          hover: '#6d28d9',
+        },
+        accent: {
+          DEFAULT: '#8b5cf6',
+          hover: '#7c3cf5',
+        },
         light: {
           bg: '#F8FAFF',
-            gradient: 'linear-gradient(135deg, #f1f5ff 0%, #ffffff 100%)',
-          },
-          primary: {
-            DEFAULT: '#5A6BD8',
-            hover: '#7E8EF1',
-          },
-          secondary: '#9F6BFF',
+          gradient: 'linear-gradient(135deg, #f1f5ff 0%, #ffffff 100%)',
           text: {
             title: '#1F2233',
             body: '#4C5466',
@@ -40,7 +54,6 @@ module.exports = {
             shadow: '0 4px 30px rgba(0, 0, 0, 0.05)',
           },
         },
-        // Dark Mode Colors
         dark: {
           bg: {
             DEFAULT: '#0D1117',
@@ -166,9 +179,9 @@ module.exports = {
     },
   },
   plugins: [
-    // Simplified plugins to avoid build issues
-    // require('@tailwindcss/typography'),
-    // require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/line-clamp'),
   ],
 }

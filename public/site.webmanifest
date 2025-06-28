@@ -17,22 +17,6 @@
   "theme_color": "#2563eb",
   "prefer_related_applications": false,
   "categories": ["business", "productivity", "utilities"], 
-  "screenshots": [
-    {
-      "src": "/images/screenshots/homepage.png",
-      "sizes": "1280x800",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Homepage Screenshot"
-    },
-    {
-      "src": "/images/screenshots/mobile.png",
-      "sizes": "375x667",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile Screenshot"
-    }
-  ],
   "icons": [
     {
       "src": "/favicon.ico",
@@ -40,28 +24,19 @@
       "type": "image/x-icon"
     },
     {
-      "src": "/android-chrome-192x192.png",
-      "type": "image/png",
+      "src": "/images/logo192.png",
       "sizes": "192x192",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/android-chrome-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/apple-touch-icon.png",
+      "src": "/images/apple-touch-icon.png",
       "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/safari-pinned-tab.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "monochrome"
+      "src": "/images/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
   "shortcuts": [

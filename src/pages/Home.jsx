@@ -104,14 +104,17 @@ const Home = () => {
   ].filter(Boolean); // Filter out any undefined projects
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
       {/* Hero Section */}
-      <section ref={heroRef} className="relative py-20 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      <section ref={heroRef} className="relative pt-24 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden">
+        {/* Grid background */}
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
         </div>
         
         <div className="container mx-auto px-6 relative z-10">
@@ -129,50 +132,50 @@ const Home = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <H1 className="inline-block">
+                  <H1 className="inline-block text-gray-900 dark:text-white">
                     Hello, I'm{' '}
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700">
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
                       Sahil Ali
                     </span>
                   </H1>
                 </motion.div>
               </motion.div>
-              <Lead className="text-xl text-gray-800 mb-6">
+              <Lead className="text-xl text-gray-800 dark:text-gray-200 mb-6">
                 Data-Driven Inventory Specialist & Business Intelligence Analyst
               </Lead>
-              <P className="text-gray-700 max-w-2xl mb-8">
+              <P className="text-gray-700 dark:text-gray-300 max-w-2xl mb-8">
                 Transforming complex data into strategic insights and operational excellence through advanced analytics and process optimization.
               </P>
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
                 <Link
                   to="/about"
-                  className="group relative bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden"
+                  className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
                 >
                   <span className="relative z-10 flex items-center justify-center">
                     <span className="transition-transform duration-300 group-hover:translate-x-1">Let's Explore More!</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
                   </span>
-                  <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
                 </Link>
                 <Link
                   to="/projects"
-                  className="group relative bg-white text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden"
+                  className="group relative bg-white hover:bg-gray-50 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
                 >
                   <span className="relative z-10 flex items-center justify-center">
                     <span className="transition-transform duration-300 group-hover:translate-x-1">View Projects</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
                   </span>
-                  <span className="absolute inset-0 bg-indigo-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                  <span className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
                 </Link>
                 <a
                   href="#contact"
-                  className="group relative bg-transparent text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden"
+                  className="group relative bg-transparent hover:bg-gray-100 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700/50"
                 >
                   <span className="relative z-10 flex items-center justify-center">
                     <span className="transition-transform duration-300 group-hover:translate-x-1">Contact Me</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
                   </span>
-                  <span className="absolute inset-0 bg-indigo-50/80 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                  <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
                 </a>
               </div>
             </motion.div>
@@ -205,7 +208,9 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 bg-white/80 backdrop-blur-sm">
+      <section id="about" className="relative py-16 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute top-0 right-0 w-1/3 h-64 bg-gradient-to-bl from-purple-100/60 to-transparent dark:from-purple-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <H2 className="flex items-center">
@@ -214,15 +219,15 @@ const Home = () => {
             <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
           </div>
 
-          <div className="max-w-4xl mx-auto bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-lg">
-            <H3>Professional Profile</H3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              I am <span className="font-semibold text-indigo-600 dark:text-indigo-400">Sahil Ali</span>, 
+          <div className="relative z-10 max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-100/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <H3 className="dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Professional Profile</H3>
+            <p className="text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
+              I am <span className="font-semibold text-indigo-700 dark:text-indigo-400">Sahil Ali</span>, 
               a results-driven professional with 4+ years of expertise in inventory management and data analysis. 
               My career has been dedicated to optimizing supply chain operations, enhancing data accuracy, 
               and implementing automation solutions that drive business efficiency.
             </p>
-            <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed">
               Specializing in transforming complex datasets into actionable business intelligence, 
               I leverage cutting-edge tools and methodologies to deliver data-driven insights. 
               My approach combines technical proficiency with operational knowledge to create 
@@ -255,7 +260,9 @@ const Home = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-16 bg-gray-50/80 backdrop-blur-sm">
+      <section id="experience" className="relative py-16 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute top-0 left-0 w-1/3 h-64 bg-gradient-to-br from-blue-100/60 to-transparent dark:from-blue-900/20 dark:to-transparent rounded-full filter blur-3xl -ml-40 -mt-40"></div>
         <div className="container mx-auto px-6">
           <div className="text-center mb-12">
             <H2 className="flex items-center">
@@ -264,15 +271,15 @@ const Home = () => {
             <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
           </div>
 
-          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
-            <H3>Professional Experience</H3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+          <div className="relative z-10 max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-100/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+            <H3 className="dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Professional Experience</H3>
+            <p className="text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
               My professional journey spans across international retail and supply chain management, 
               with key roles at Ekam Indian Groceries (Australia), Bansal Supermarket, and Arzt Health. 
               This diverse experience has equipped me with a comprehensive understanding of 
               end-to-end inventory management and operational excellence.
             </p>
-            <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed">
               I specialize in implementing data-driven solutions that enhance operational efficiency, 
               from developing AI-powered reporting tools to optimizing inventory control systems. 
               My track record includes significant improvements in process accuracy, 
@@ -308,10 +315,11 @@ const Home = () => {
       <section 
         ref={projectsRef} 
         id="projects" 
-        className="relative py-20 bg-white/80 backdrop-blur-sm overflow-hidden"
+        className="relative py-20 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden"
       >
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-1/3 h-64 bg-gradient-to-bl from-indigo-100 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute top-0 right-0 w-1/3 h-64 bg-gradient-to-bl from-indigo-100/60 to-transparent dark:from-indigo-900/30 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
         
         <div className="container mx-auto px-6 relative">
           <motion.div 
@@ -332,7 +340,7 @@ const Home = () => {
                 </H2>
               </motion.div>
               <motion.p 
-                className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg"
+                className="text-gray-700 dark:text-gray-200 max-w-2xl mx-auto text-lg"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
@@ -342,23 +350,13 @@ const Home = () => {
             </div>
             <Link
               to="/projects"
-              className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline flex items-center"
+              className="group relative bg-white hover:bg-gray-50 text-indigo-700 font-medium py-2 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
             >
-              View All Projects
-              <svg
-                className="w-5 h-5 ml-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <span className="relative z-10 flex items-center justify-center">
+                <span className="transition-transform duration-300 group-hover:translate-x-1">View All Projects</span>
+                <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+              </span>
+              <span className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
             </Link>
           </motion.div>
 
@@ -414,7 +412,7 @@ const Home = () => {
                     )}
                   </div>
                   <h3 
-                    className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700"
+                    className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700"
                   >
                     {project.title}
                   </h3>
@@ -473,19 +471,23 @@ const Home = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 bg-gray-50/80 backdrop-blur-sm">
-        <div className="container mx-auto px-6">
+      <section id="contact" className="relative py-20 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute bottom-0 right-0 w-1/3 h-64 bg-gradient-to-tr from-green-100/60 to-transparent dark:from-emerald-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mb-40"></div>
+        
+        <div className="container mx-auto px-6 relative z-10">
           <div className="text-center mb-12">
-            <H2 className="flex items-center">
-              <span className="mr-3">📬</span> Get In Touch
+            <H2 className="flex items-center justify-center">
+              <span className="mr-3 bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">Get In Touch</span>
+              <span className="text-2xl ml-2">📬</span>
             </H2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 dark:text-gray-200 max-w-2xl mx-auto mt-4">
               Let's collaborate on transforming data into strategic business solutions
             </p>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto mt-4"></div>
+            <div className="w-20 h-1 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto mt-6 rounded-full"></div>
           </div>
 
-          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+          <div className="relative z-10 max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-gray-100/50 dark:border-gray-700/50">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
                 <H3>Professional Contact</H3>

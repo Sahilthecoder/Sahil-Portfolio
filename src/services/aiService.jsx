@@ -1,31 +1,21 @@
-import { OpenAI } from 'openai';
 import { ChatOpenAI } from '@langchain/openai';
 import { HumanMessage, SystemMessage } from '@langchain/core/messages';
-import { Pinecone } from '@pinecone-database/pinecone';
-import { OpenAIEmbeddings } from '@langchain/openai';
-import { PineconeStore } from '@langchain/community/vectorstores/pinecone';
 
 // Initialize the OpenAI chat model
 const chatModel = new ChatOpenAI({
-  openAIApiKey: process.env.REACT_APP_OPENAI_API_KEY || '',
+  openAIApiKey: import.meta.env.VITE_OPENAI_API_KEY,
   modelName: 'gpt-4',
   temperature: 0.7,
 });
 
-// Initialize Pinecone client with environment variables
-let pinecone = null;
-
-// Only initialize Pinecone if API key is available
-if (process.env.REACT_APP_PINECONE_API_KEY) {
-  pinecone = new Pinecone({
-    apiKey: process.env.REACT_APP_PINECONE_API_KEY,
-    environment: process.env.REACT_APP_PINECONE_ENVIRONMENT || 'us-west1-gcp',
-  });
-}
-
-// Initialize Pinecone vector store
-let vectorStore = null;
-let isInitializing = false;
+// Static knowledge base
+const knowledgeBase = {
+  'zomato analysis': {
+    path: '/projects/zomato-analysis',
+    description: 'Analysis of Zomato restaurant data using Python and data visualization',
+    technologies: ['Python', 'Pandas', 'Matplotlib', 'Seaborn']
+  },
+};
 
 // Project knowledge base (in a real app, this would be in a vector database)
 const projectKnowledge = [
@@ -37,7 +27,6 @@ const projectKnowledge = [
     content: "Ekam Attendance System: Uses facial recognition to track employee attendance. Features real-time monitoring, automated reporting, and integrates with existing HR systems.",
     metadata: { project: 'ekam-attendance', type: 'overview' }
   },
-  // Add more project knowledge as needed
 ];
 
 // Initialize the vector store
@@ -47,76 +36,33 @@ const initVectorStore = async () => {
   isInitializing = true;
   
   try {
-    if (!pinecone || !process.env.REACT_APP_PINECONE_API_KEY) {
-      console.warn('Pinecone is not initialized. Using static knowledge base instead.');
-      isInitializing = false;
-      return;
-    }
-
-    const indexName = process.env.REACT_APP_PINECONE_INDEX || 'portfolio';
-    const index = pinecone.Index(indexName);
-    
-    const embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.REACT_APP_OPENAI_API_KEY || '',
-    });
-
-    // Initialize the vector store with the latest Pinecone client
-    vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
-      pineconeIndex: index,
-      namespace: 'portfolio',
-    });
-    
-    console.log('Pinecone vector store initialized');
+    console.warn('Pinecone is not supported in browser environment. Using static knowledge base instead.');
+    return;
   } catch (error) {
-    console.warn('Error initializing Pinecone vector store. Falling back to static knowledge base.', error);
-    vectorStore = null;
+    console.error('Error initializing vector store:', error);
+    throw error;
   } finally {
     isInitializing = false;
   }
 };
 
-// Initialize the vector store when the service is imported
-initVectorStore().catch(console.error);
-
 // Function to get relevant context from the knowledge base
-const getRelevantContext = async (query) => {
-  try {
-    // If no vector store is available, fall back to the static knowledge base
-    if (!vectorStore || !process.env.REACT_APP_PINECONE_API_KEY) {
-      // Simple keyword matching as fallback
-      const queryLower = query.toLowerCase();
-      const matchedItems = projectKnowledge.filter(item => 
-        item.content.toLowerCase().includes(queryLower) ||
-        (item.metadata.project && item.metadata.project.toLowerCase().includes(queryLower))
-      );
-      
-      if (matchedItems.length > 0) {
-        return matchedItems.map(item => item.content).join('\n\n');
-      }
-      
-      // If no matches found, provide a helpful response
-      return `I couldn't find specific information about "${query}" in my knowledge base. ` +
-             'Here are some projects you might be interested in: ' +
-             projectKnowledge.map(p => p.metadata.project).join(', ');
-    }
-    
-    // Try to get context from the vector store
-    const results = await vectorStore.similaritySearch(query, 3);
-    if (results && results.length > 0) {
-      return results.map(doc => doc.pageContent).join('\n\n');
-    }
-    
-    // Fallback to static knowledge if no results from vector store
-    return projectKnowledge
-      .filter(item => item.content.toLowerCase().includes(query.toLowerCase()))
-      .map(item => item.content)
-      .join('\n\n') || 'No relevant information found.';
-      
-  } catch (error) {
-    console.error('Error getting relevant context:', error);
-    return 'I encountered an error while retrieving information. Please try again later.';
-  }
-};
+function getRelevantContext(query) {
+  // Use static knowledge base
+  const relevantProjects = Object.entries(knowledgeBase)
+    .filter(([key, project]) => 
+      key.toLowerCase().includes(query.toLowerCase()) ||
+      project.description.toLowerCase().includes(query.toLowerCase()) ||
+      project.technologies.some(tech => tech.toLowerCase().includes(query.toLowerCase()))
+    );
+
+  return relevantProjects.map(([key, project]) => `
+Project: ${key}
+Path: ${project.path}
+Description: ${project.description}
+Technologies: ${project.technologies.join(', ')}
+`).join('\n\n');
+}
 
 // Project details for enhanced responses
 const projectDetails = {
@@ -310,54 +256,26 @@ const generateAIResponse = async (messages) => {
     }
 
     // If no common response, check if OpenAI is configured
-    if (!process.env.REACT_APP_OPENAI_API_KEY) {
+    if (!import.meta.env.VITE_OPENAI_API_KEY) {
       return "I can help with general questions about Sahil's experience and projects. For specific inquiries, please use the contact form on the website.";
     }
 
-    try {
-      // Get relevant context
-      const context = await getRelevantContext(lastUserMessage.text);
+    // Get relevant context
+    const context = await getRelevantContext(lastUserMessage.text);
+    
+    // Prepare messages for chat model
+    const systemMessage = new SystemMessage(`You are a helpful AI assistant for Sahil's portfolio. Use the following context to answer questions:
+      ${context}
       
-      // Prepare system message with context
-      const systemMessage = new SystemMessage({
-        content: `You are a helpful AI assistant for Sahil's portfolio. Use the following context to answer questions:
-        ${context}
-        
-        If the user asks about projects, provide specific details about the technologies used, challenges faced, and business impact.
-        If you don't know the answer, say you don't know rather than making something up.`
-      });
-
-      // Convert messages to the format expected by the chat model
-      const formattedMessages = [
-        systemMessage,
-        ...messages.map(msg => 
-          msg.sender === 'user' 
-            ? new HumanMessage({ content: msg.text })
-            : new SystemMessage({ content: msg.text })
-        )
-      ];
-
-      // Generate response
-      const response = await chatModel.invoke(formattedMessages);
-      return response.content;
-    } catch (error) {
-      console.error('Error generating AI response:', error);
-      return `I'm having trouble processing your request. Here's what I know about the topic: ${projectKnowledge
-        .filter(item => item.content.toLowerCase().includes(lastUserMessage.text.toLowerCase()))
-        .map(item => item.content)
-        .join('\n\n') || 'No specific information found.'}`;
-    }
+      If the user asks about projects, provide specific details about the technologies used, challenges faced, and business impact.
+      If you don't know the answer, say you don't know rather than making something up.`);
+    const userMessage = new HumanMessage(lastUserMessage.text);
+    const response = await chatModel.invoke([systemMessage, userMessage]);
+    return response.content;
   } catch (error) {
     console.error('Error in AI service:', error);
     return "I'm sorry, I encountered an error processing your request. Please try again later.";
   }
 };
 
-// Export functions
-const aiService = {
-  generateAIResponse,
-  getNavigationIntent
-};
-
 export { generateAIResponse, getNavigationIntent };
-export default aiService;

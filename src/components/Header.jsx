@@ -89,7 +89,7 @@ const Header = () => {
   const glowStyle = {
     '--glow-x': `${glowPosition.x}px`,
     '--glow-y': `${glowPosition.y}px`,
-    '--glow-color': darkMode ? 'rgba(99, 102, 241, 0.15)' : 'rgba(99, 102, 241, 0.1)',
+    '--glow-color': darkMode ? 'rgba(108, 159, 246, 0.15)' : 'rgba(99, 102, 241, 0.1)',
   };
 
   return (
@@ -111,8 +111,8 @@ const Header = () => {
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         className={`fixed w-full z-50 transition-all duration-300 ${
           scrolled 
-            ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-b border-white/10 dark:border-gray-800/30 shadow-2xl shadow-indigo-500/5 dark:shadow-indigo-500/10 py-2'
-            : 'bg-white/30 dark:bg-gray-900/30 backdrop-blur-lg border-b border-white/10 dark:border-gray-800/30 py-3'
+            ? 'bg-white/70 dark:bg-dark-bg/80 backdrop-blur-lg border-b border-white/10 dark:border-gray-800/30 shadow-2xl shadow-indigo-500/5 dark:shadow-indigo-500/10 py-2'
+            : 'bg-white/30 dark:bg-dark-bg/30 backdrop-blur-lg border-b border-white/10 dark:border-gray-800/30 py-3'
         }`}
       >
         <div className="container mx-auto px-4">
@@ -146,8 +146,8 @@ const Header = () => {
                     to={item.path}
                     className={`relative px-4 py-2.5 rounded-lg flex items-center space-x-2 text-sm font-medium transition-all duration-200 ${
                       isActive 
-                        ? 'text-white bg-black shadow-md shadow-black/20 hover:bg-gray-900'
-                        : 'text-gray-700 hover:text-black hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800/90 dark:hover:text-white'
+                        ? 'text-white bg-indigo-600 shadow-md shadow-indigo-500/20 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600'
+                        : 'text-gray-700 hover:text-indigo-600 hover:bg-gray-100 dark:text-dark-text-body dark:hover:bg-dark-glass/50 dark:hover:text-dark-text-heading'
                     }`}
                   >
                     <span className={isActive ? 'text-white' : 'text-gray-600 group-hover:text-black dark:group-hover:text-white'}>

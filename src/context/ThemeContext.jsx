@@ -24,14 +24,10 @@ export const ThemeProvider = ({ children }) => {
     setIsMounted(true);
   }, []);
 
-  // Toggle between light, dark, and futuristic themes
+  // Toggle between light and dark themes
   const toggleTheme = useCallback(() => {
     setTheme(prevTheme => {
-      let newTheme;
-      if (prevTheme === 'light') newTheme = 'dark';
-      else if (prevTheme === 'dark') newTheme = 'futuristic';
-      else newTheme = 'light';
-      
+      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
       return newTheme;
     });

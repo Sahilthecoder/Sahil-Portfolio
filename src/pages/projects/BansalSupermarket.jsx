@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaChartLine, FaChartPie, FaBox, FaSearchDollar, FaTable, FaShoppingBasket, FaChartBar } from 'react-icons/fa';
+import { FaChartLine, FaChartPie, FaBox, FaSearchDollar, FaTable, FaShoppingBasket, FaChartBar, FaArrowLeft, FaDownload } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const BansalSupermarket = () => {
@@ -17,23 +17,42 @@ const BansalSupermarket = () => {
           to="/projects" 
           className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-8 transition-colors"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
+          <FaArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
           Back to Projects
         </Link>
 
         {/* Project Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 mb-4">
-            Tableau Dashboard | Retail Analytics
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div>
+              <div className="flex items-center mb-4">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Bansal Supermarket Sales Analysis</h1>
+                <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
+                  Tableau Dashboard
+                </span>
+              </div>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                Comprehensive analysis of sales data to optimize inventory, pricing, and boost profitability.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["#Tableau", "#RetailAnalytics", "#SalesAnalysis", "#InventoryManagement", "#DataVisualization"].map((tag, index) => (
+                  <span key={index} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex space-x-4">
+              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <FaDownload className="mr-2" />
+                Download Report
+              </button>
+              <button className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600">
+                <FaChartLine className="mr-2" />
+                View Dashboard
+              </button>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Bansal Supermarket Sales Analysis
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Comprehensive analysis of sales data to optimize inventory, pricing, and boost profitability.
-          </p>
         </div>
 
         {/* Project Overview */}

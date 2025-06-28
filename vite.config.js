@@ -1,43 +1,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
-// Base URL for GitHub Pages deployment
-const isProd = process.env.NODE_ENV === 'production';
-const base = isProd ? '/Sahil-Portfolio/' : '/';
-
+// https://vitejs.dev/config/
 export default defineConfig({
-  base,
-  plugins: [
-    react(),
-  ],
+  base: '/Sahil-Portfolio/',
+  plugins: [react()],
   server: {
-    port: 4000,
+    port: 3000,
     open: true,
   },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+    },
+  },
   build: {
-    target: 'esnext',
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
-          animation: ['framer-motion'],
-          icons: ['react-icons'],
-        },
-      },
-    },
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    sourcemap: true,
   },
-  define: {
-    'process.env': {},
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom'],
-    exclude: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
-  },
-  css: {
-    modules: {
-      localsConvention: 'camelCaseOnly',
-    },
-  },
+  publicDir: 'public',
 });

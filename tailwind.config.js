@@ -10,14 +10,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Neon Colors
-        'neon-blue': '#00f7ff',
-        'neon-pink': '#ff00ff',
-        'neon-purple': '#b700ff',
+        // Primary Colors
+        primary: '#2563eb',
+        secondary: '#7c3aed',
+        accent: '#8b5cf6',
         // Light Mode Colors
         light: {
-          bg: {
-            DEFAULT: '#F8FAFF',
+          bg: '#F8FAFF',
             gradient: 'linear-gradient(135deg, #f1f5ff 0%, #ffffff 100%)',
           },
           primary: {
@@ -167,8 +166,9 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms'),
+    // Simplified plugins to avoid build issues
+    // require('@tailwindcss/typography'),
+    // require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
   ],
 }

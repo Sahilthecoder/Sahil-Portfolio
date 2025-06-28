@@ -1,11 +1,10 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
-  /* Light Theme */
+  /* Light Theme (default) */
   --color-bg: #ffffff;
   --color-text: #1f2937;
   --color-primary: #4f46e5;
@@ -15,6 +14,8 @@
   --color-border: #e5e7eb;
   --color-card: #ffffff;
   --color-card-hover: #f9fafb;
+  --neon-blue: #00f7ff;
+  --neon-pink: #ff00ff;
 }
 
 .dark {
@@ -29,78 +30,35 @@
   --color-card-hover: #334155;
 }
 
-.futuristic {
-  --color-bg: #0a0a0f;
-  --color-text: #e2e8f0;
-  --color-primary: #00f7ff;
-  --color-secondary: #ff00ff;
-  --color-accent: #b700ff;
-  --color-muted: #94a3b8;
-  --color-border: #1e1e2e;
-  --color-card: #111827;
-  --color-card-hover: #1f2937;
-}
-
 /* Base Styles */
 body {
   @apply bg-[var(--color-bg)] text-[var(--color-text)] font-sans antialiased overflow-x-hidden transition-colors duration-200;
   line-height: 1.6;
-  color: var(--color-text);
-  background-color: var(--color-bg);
 }
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   @apply font-bold leading-tight tracking-tight;
-  color: var(--color-text);
 }
 
 p, li {
-  @apply text-base md:text-lg leading-relaxed;
-  color: var(--color-text);
-  opacity: 0.95;
+  @apply text-base md:text-lg leading-relaxed opacity-95;
 }
 
-/* Ensure all text elements inherit the theme colors */
-a, button, input, textarea, select {
-  color: var(--color-text);
-}
-
-/* Section backgrounds */
-section {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-}
-
+/* Links & Interactive Elements */
 a {
   @apply text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200;
+  text-decoration: none;
 }
 
-/* Dark mode styles */
-.dark {
-  --color-bg: var(--dark-bg);
-  --color-text: #ffffff;
+button, input, textarea, select {
+  color: var(--color-text);
 }
 
-/* Custom components */
-@layer components {
-  .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
-  }
-  
-  .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
-  }
-}
-
-/* Glassmorphism Effect */
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-  transition: all 0.3s ease;
+/* Layout Components */
+section {
+  @apply py-12 md:py-16 lg:py-20;
+  background-color: var(--color-bg);
 }
 
 /* Card Styles */
@@ -116,16 +74,23 @@ a {
   border-color: var(--color-primary);
 }
 
-/* Theme-specific styles */
-.theme-transition * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  transition: all 0.3s ease;
 }
 
 /* Neon Text Effect */
 .neon-text {
   text-shadow: 0 0 5px var(--neon-blue), 
                0 0 10px var(--neon-blue), 
-               0 0 20px var(--neon-blue);
+               0 0 20px var(--neon-blue), 
+               0 0 30px var(--neon-blue), 
+               0 0 40px var(--neon-pink);
   animation: neonGlow 1.5s ease-in-out infinite alternate;
 }
 
@@ -143,37 +108,61 @@ a {
   }
 }
 
-/* Animations */
+/* Gradient Animation */
+.gradient-xy {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
 @keyframes gradient-xy {
-  0% {
-    background-position: 0% 50%;
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Theme Transition */
+.theme-transition * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom Components */
+@layer components {
+  .btn {
+    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-300 
+           focus:outline-none focus:ring-2 focus:ring-offset-2
+           hover:shadow-lg active:scale-95;
   }
-  50% {
-    background-position: 100% 50%;
+  
+  .btn-primary {
+    @apply bg-[var(--color-primary)] text-white 
+           hover:bg-[color-mix(in_srgb,var(--color-primary),black_15%)]
+           focus:ring-[var(--color-primary)] focus:ring-opacity-50;
   }
-  100% {
-    background-position: 0% 50%;
+  
+  .btn-secondary {
+    @apply bg-[var(--color-secondary)] text-white 
+           hover:bg-[color-mix(in_srgb,var(--color-secondary),black_15%)]
+           focus:ring-[var(--color-secondary)] focus:ring-opacity-50;
+  }
+  
+  .container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl w-full;
   }
 }
 
-@keyframes pulse-slow {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(0.98);
+/* Responsive Typography */
+@media (max-width: 768px) {
+  h1 {
+    @apply text-4xl;
   }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.02);
+  
+  h2 {
+    @apply text-3xl;
   }
-}
-
-.animate-gradient-xy {
-  background-size: 200% 200%;
-  animation: gradient-xy 8s ease infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  
+  p {
+    @apply text-base;
+  }
 }
 
 /* Custom Scrollbar */
@@ -194,7 +183,6 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-pink);
 }
-
 /* Animations */
 @keyframes float {
   0%, 100% { transform: translateY(0); }

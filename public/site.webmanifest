@@ -1,0 +1,88 @@
+{
+  "name": "Sahil Ali - Portfolio",
+  "short_name": "Sahil's Portfolio",
+  "description": "Professional portfolio of Sahil Ali - Inventory Specialist & Data Analyst",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sahilthecoder/Sahil-Portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Sahilthecoder/Sahil-Portfolio/issues"
+  },
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "prefer_related_applications": false,
+  "categories": ["business", "productivity", "utilities"], 
+  "screenshots": [
+    {
+      "src": "/images/screenshots/homepage.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Homepage Screenshot"
+    },
+    {
+      "src": "/images/screenshots/mobile.png",
+      "sizes": "375x667",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile Screenshot"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/safari-pinned-tab.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "monochrome"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Projects",
+      "short_name": "Projects",
+      "description": "View my portfolio projects",
+      "url": "/projects?source=pwa_homescreen",
+      "icons": [{ "src": "/icons/projects-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact Me",
+      "short_name": "Contact",
+      "description": "Get in touch with me",
+      "url": "/contact?source=pwa_homescreen"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://your-portfolio-url.com/site.webmanifest"
+    }
+  ]
+}

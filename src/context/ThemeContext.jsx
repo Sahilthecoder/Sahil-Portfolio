@@ -1,78 +1,166 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('dark'); // 'dark', 'light', or 'futuristic'
+  const [theme, setTheme] = useState('light');
+  const [autoTheme, setAutoTheme] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const isDark = theme === 'dark';
 
-  // Load theme from localStorage or use system preference
+  // Initialize theme from localStorage or system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 
-                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setTheme(savedTheme);
+    const savedTheme = localStorage.getItem('theme');
+    const savedAutoTheme = localStorage.getItem('autoTheme') === 'true';
+    
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+    
+    setAutoTheme(savedAutoTheme);
     setIsMounted(true);
   }, []);
 
-  // Save theme preference and apply classes
+  // Toggle between light, dark, and futuristic themes
+  const toggleTheme = useCallback(() => {
+    setTheme(prevTheme => {
+      let newTheme;
+      if (prevTheme === 'light') newTheme = 'dark';
+      else if (prevTheme === 'dark') newTheme = 'futuristic';
+      else newTheme = 'light';
+      
+      localStorage.setItem('theme', newTheme);
+      return newTheme;
+    });
+  }, []);
+
+  // Toggle auto theme
+  const toggleAutoTheme = useCallback(() => {
+    setAutoTheme(prev => {
+      const newValue = !prev;
+      localStorage.setItem('autoTheme', newValue);
+      return newValue;
+    });
+  }, []);
+
+  // Apply theme classes to document
   useEffect(() => {
     if (!isMounted) return;
     
+    const root = document.documentElement;
+    
     // Remove all theme classes
-    document.documentElement.classList.remove('dark-theme', 'light-theme', 'futuristic-theme');
+    root.classList.remove('light', 'dark');
     
     // Add current theme class
-    document.documentElement.classList.add(`${theme}-theme`);
+    root.classList.add(theme);
+    root.setAttribute('data-theme', theme);
     
-    // Save to localStorage
-    localStorage.setItem('theme', theme);
-    
-    // Update CSS variables based on theme
+    // Update CSS variables
     updateCSSVariables(theme);
   }, [theme, isMounted]);
 
-  const updateCSSVariables = (theme) => {
+  // Update theme based on time of day when autoTheme is enabled
+  useEffect(() => {
+    if (!autoTheme) return;
+    
+    const updateThemeBasedOnTime = () => {
+      const hours = new Date().getHours();
+      const isNightTime = hours < 6 || hours >= 18; // 6 PM to 6 AM
+      const newTheme = isNightTime ? 'dark' : 'light';
+      
+      if (theme !== newTheme) {
+        setTheme(newTheme);
+      }
+    };
+    
+    // Initial update
+    updateThemeBasedOnTime();
+    
+    // Set up interval for auto theme updates
+    const intervalId = setInterval(updateThemeBasedOnTime, 300000); // Check every 5 minutes
+    
+    return () => clearInterval(intervalId);
+  }, [autoTheme, theme]);
+
+  // Listen for system theme changes when autoTheme is enabled
+  useEffect(() => {
+    if (!autoTheme) return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = () => {
+      const newTheme = mediaQuery.matches ? 'dark' : 'light';
+      setTheme(newTheme);
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, [autoTheme]);
+
+  // Update CSS variables based on theme
+  const updateCSSVariables = (currentTheme) => {
     const root = document.documentElement;
     
-    if (theme === 'dark') {
-      root.style.setProperty('--bg-primary', '#0a0a0f');
-      root.style.setProperty('--bg-secondary', '#111118');
-      root.style.setProperty('--text-primary', '#ffffff');
-      root.style.setProperty('--text-secondary', '#a0a0b0');
-      root.style.setProperty('--accent', '#00f7ff');
-      root.style.setProperty('--accent-hover', '#00d8df');
+    if (currentTheme === 'dark') {
+      // Dark theme variables
+      root.style.setProperty('--bg-primary', '#0f172a'); // Slate 900
+      root.style.setProperty('--bg-secondary', '#1e293b'); // Slate 800
+      root.style.setProperty('--text-primary', '#f8fafc'); // Slate 50
+      root.style.setProperty('--text-secondary', '#94a3b8'); // Slate 400
+      root.style.setProperty('--accent', '#60a5fa'); // Blue 400
+      root.style.setProperty('--accent-hover', '#3b82f6'); // Blue 500
+      root.style.setProperty('--border-color', '#334155'); // Slate 700
     } else if (theme === 'light') {
-      root.style.setProperty('--bg-primary', '#f5f7fa');
-      root.style.setProperty('--bg-secondary', '#ffffff');
-      root.style.setProperty('--text-primary', '#1a202c');
-      root.style.setProperty('--text-secondary', '#4a5568');
-      root.style.setProperty('--accent', '#4f46e5');
-      root.style.setProperty('--accent-hover', '#4338ca');
+      // Light theme with better contrast
+      root.style.setProperty('--bg-primary', '#f8fafc'); // Slate 50
+      root.style.setProperty('--bg-secondary', '#ffffff'); // White
+      root.style.setProperty('--text-primary', '#1e293b'); // Slate 800
+      root.style.setProperty('--text-secondary', '#64748b'); // Slate 500
+      root.style.setProperty('--accent', '#3b82f6'); // Blue 500
+      root.style.setProperty('--accent-hover', '#2563eb'); // Blue 600
+      root.style.setProperty('--border-color', '#e2e8f0'); // Slate 200
     } else { // futuristic
-      root.style.setProperty('--bg-primary', '#0a0a12');
-      root.style.setProperty('--bg-secondary', '#12121a');
-      root.style.setProperty('--text-primary', '#e0e0ff');
-      root.style.setProperty('--text-secondary', '#b0b0ff');
-      root.style.setProperty('--accent', '#b700ff');
-      root.style.setProperty('--accent-hover', '#ff00ff');
+      // Futuristic theme with better contrast
+      root.style.setProperty('--bg-primary', '#0f172a'); // Slate 900
+      root.style.setProperty('--bg-secondary', '#1e1b4b'); // Indigo 950
+      root.style.setProperty('--text-primary', '#e0e7ff'); // Indigo 100
+      root.style.setProperty('--text-secondary', '#a5b4fc'); // Indigo 300
+      root.style.setProperty('--accent', '#818cf8'); // Indigo 400
+      root.style.setProperty('--accent-hover', '#6366f1'); // Indigo 500
+      root.style.setProperty('--border-color', '#3730a3'); // Indigo 800
     }
   };
 
-  const toggleTheme = () => {
-    setTheme(prev => {
-      if (prev === 'dark') return 'light';
-      if (prev === 'light') return 'futuristic';
-      return 'dark';
-    });
+  // Add dark mode class to html element if dark theme is active
+  useEffect(() => {
+    if (theme === 'dark' || theme === 'futuristic') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  // Create the context value
+  const contextValue = {
+    theme,
+    setTheme,
+    toggleTheme,
+    autoTheme,
+    toggleAutoTheme,
+    isDark: theme === 'dark' || theme === 'futuristic'
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {isMounted ? children : null}
+    <ThemeContext.Provider value={contextValue}>
+      {children}
     </ThemeContext.Provider>
   );
 };
 
+// Custom hook for using the theme context
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
@@ -81,4 +169,5 @@ export const useTheme = () => {
   return context;
 };
 
-export default ThemeContext;
+// Export the ThemeProvider as default
+export default ThemeProvider;

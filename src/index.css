@@ -1,22 +1,96 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
-  --neon-blue: #00f7ff;
-  --neon-pink: #ff00ff;
-  --neon-purple: #b700ff;
-  --dark-bg: #0a0a0f;
-  --darker-bg: #050508;
+  /* Light Theme */
+  --color-bg: #ffffff;
+  --color-text: #1f2937;
+  --color-primary: #4f46e5;
+  --color-secondary: #7c3aed;
+  --color-accent: #8b5cf6;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-card: #ffffff;
+  --color-card-hover: #f9fafb;
+}
+
+.dark {
+  --color-bg: #0f172a;
+  --color-text: #f8fafc;
+  --color-primary: #818cf8;
+  --color-secondary: #a78bfa;
+  --color-accent: #a78bfa;
+  --color-muted: #94a3b8;
+  --color-border: #1e293b;
+  --color-card: #1e293b;
+  --color-card-hover: #334155;
+}
+
+.futuristic {
+  --color-bg: #0a0a0f;
+  --color-text: #e2e8f0;
+  --color-primary: #00f7ff;
+  --color-secondary: #ff00ff;
+  --color-accent: #b700ff;
+  --color-muted: #94a3b8;
+  --color-border: #1e1e2e;
+  --color-card: #111827;
+  --color-card-hover: #1f2937;
 }
 
 /* Base Styles */
 body {
-  @apply bg-dark-bg text-white font-sans antialiased overflow-x-hidden;
-  background-color: var(--dark-bg);
-  color: white;
+  @apply bg-[var(--color-bg)] text-[var(--color-text)] font-sans antialiased overflow-x-hidden transition-colors duration-200;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold leading-tight tracking-tight;
+  color: var(--color-text);
+}
+
+p, li {
+  @apply text-base md:text-lg leading-relaxed;
+  color: var(--color-text);
+  opacity: 0.95;
+}
+
+/* Ensure all text elements inherit the theme colors */
+a, button, input, textarea, select {
+  color: var(--color-text);
+}
+
+/* Section backgrounds */
+section {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+a {
+  @apply text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200;
+}
+
+/* Dark mode styles */
+.dark {
+  --color-bg: var(--dark-bg);
+  --color-text: #ffffff;
+}
+
+/* Custom components */
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 text-white hover:bg-blue-700;
+  }
 }
 
 /* Glassmorphism Effect */
@@ -25,7 +99,26 @@ body {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Card Styles */
+.card {
+  @apply rounded-xl p-6 transition-all duration-300;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-primary);
+}
+
+/* Theme-specific styles */
+.theme-transition * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* Neon Text Effect */
@@ -48,6 +141,39 @@ body {
                  0 0 30px var(--neon-blue), 
                  0 0 40px var(--neon-pink);
   }
+}
+
+/* Animations */
+@keyframes gradient-xy {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.02);
+  }
+}
+
+.animate-gradient-xy {
+  background-size: 200% 200%;
+  animation: gradient-xy 8s ease infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Custom Scrollbar */
@@ -99,16 +225,41 @@ body {
 }
 
 /* Custom Components */
-.btn {
-  @apply px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-dark-bg focus:ring-neon-blue;
-}
+@layer components {
+  .btn {
+    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
 
-.btn-primary {
-  @apply bg-gradient-to-r from-neon-blue to-neon-purple text-dark-bg font-bold hover:shadow-lg hover:shadow-neon-blue/30;
-}
+  .btn-primary {
+    @apply bg-gradient-to-r text-white font-semibold hover:opacity-90 shadow-lg hover:shadow-xl;
+    background-image: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+    --tw-ring-color: var(--color-primary);
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
 
-.btn-outline {
-  @apply border-2 border-neon-blue text-neon-blue hover:bg-neon-blue/10;
+  .btn-primary:hover {
+    --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 20px 25px -5px var(--color-primary, 0 0 0 / 0.2), 0 8px 10px -6px var(--color-primary, 0 0 0 / 0.2);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+  .btn-outline {
+    @apply border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 focus:ring-[var(--color-primary)];
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold mb-4 text-center;
+    color: var(--color-text);
+  }
+  
+  .section-subtitle {
+    @apply text-lg md:text-xl text-center max-w-3xl mx-auto mb-12;
+    color: var(--color-muted);
+  }
 }
 
 /* Responsive Typography */

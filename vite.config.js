@@ -1,36 +1,43 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// Base URL for GitHub Pages deployment
+const isProd = process.env.NODE_ENV === 'production';
+const base = isProd ? '/Sahil-Portfolio/' : '/';
 
 export default defineConfig({
-  base: '/Sahil-portfolio/',
-  plugins: [react()],
-  css: {
-    postcss: {
-      plugins: [
-        tailwindcss(),
-        autoprefixer(),
-      ],
-    },
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
-    },
+  base,
+  plugins: [
+    react(),
+  ],
+  server: {
+    port: 4000,
+    open: true,
   },
   build: {
-    outDir: 'dist',
-    sourcemap: true,
-    emptyOutDir: true,
+    target: 'esnext',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
+          animation: ['framer-motion'],
+          icons: ['react-icons'],
+        },
+      },
+    },
   },
-  server: {
-    port: 3000,
-    open: true,
+  define: {
+    'process.env': {},
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+    exclude: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
+  },
+  css: {
+    modules: {
+      localsConvention: 'camelCaseOnly',
+    },
   },
 });

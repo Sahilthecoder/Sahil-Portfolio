@@ -1,0 +1,576 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  FaBriefcase, 
+  FaGraduationCap, 
+  FaTools,
+  FaCalendarAlt,
+  FaBuilding,
+  FaUserFriends,
+  FaChartBar,
+  FaLaptopCode,
+  FaFileExcel,
+  FaSync,
+  FaEye,
+  FaUsers,
+  FaLanguage,
+  FaBoxes,
+  FaChartLine,
+  FaLink,
+  FaBookOpen,
+  FaShieldAlt
+} from 'react-icons/fa';
+import { SiGooglesheets } from 'react-icons/si';
+
+const Experience = () => {
+  const [activeTab, setActiveTab] = useState('work');
+
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 20
+      }
+    },
+  };
+
+  // Navigation items
+  const navItems = [
+    { id: 'work', label: 'Work Experience', icon: <FaBriefcase className="mr-2" /> },
+    { id: 'skills', label: 'Skills', icon: <FaTools className="mr-2" /> },
+    { id: 'education', label: 'Education', icon: <FaGraduationCap className="mr-2" /> },
+  ];
+
+  // Get role icon based on role name
+  const getRoleIcon = (role) => {
+    const roleLower = role.toLowerCase();
+    if (roleLower.includes('inventory') || roleLower.includes('specialist')) 
+      return <FaBoxes className="text-blue-500" />;
+    if (roleLower.includes('officer') || roleLower.includes('supervisor')) 
+      return <FaShieldAlt className="text-green-500" />;
+    if (roleLower.includes('analyst') || roleLower.includes('data'))
+      return <FaChartLine className="text-purple-500" />;
+    if (roleLower.includes('automation') || roleLower.includes('developer'))
+      return <FaLaptopCode className="text-indigo-500" />;
+    return <FaBriefcase className="text-yellow-500" />;
+  };
+
+  // Work Experience Data
+  const workExperience = [
+    {
+      id: 1,
+      role: 'Inventory Specialist & Cash Flow',
+      company: 'Ekam Indian Groceries',
+      duration: 'Dec 2023 - Present',
+      location: 'Adelaide, Australia',
+      companyUrl: 'https://www.facebook.com/ekamindiangroceries/',
+      description: 'Managed daily purchase entries, invoice verification, attendance tracking, and supplier coordination across dual store locations. Automated reporting processes and supported cash flow documentation during manager absence.',
+      highlights: [
+        'Handled purchase data and fruit/vegetable invoices using ERP software and advanced Excel functions',
+        'Cross-checked supplier invoices and reconciled statements to prevent overbilling, ensuring financial accuracy',
+        'Maintained staff attendance and created daily cash reports',
+        'Reduced billing errors and improved invoice match accuracy by 95%',
+        'Saved over 4 hours per week through structured Excel logs and automation'
+      ],
+      skills: ['Inventory Management', 'Data Analysis', 'Excel', 'Financial Reporting', 'Process Automation']
+    },
+    {
+      id: 2,
+      role: 'GRN Officer',
+      company: 'Bansal Supermarket',
+      duration: 'Dec 2022 - Nov 2023',
+      location: 'Surat, India',
+      companyUrl: 'https://www.bansalsupermarket.com/',
+      description: 'Responsible for goods receipt entries, invoice cross-checking, offer updates, and FIFO-based inventory flow. Maintained operational registers including Top 100/200 item reports.',
+      highlights: [
+        'Managed GRNs, MRP/offer changes, and 10-item register maintenance with precision',
+        'Conducted regular floor walks and enforced FIFO practices across departments',
+        'Handled PI management, rate updates, and price accuracy for fast-moving items',
+        'Reduced stock discrepancies by 30% through enhanced GRN practices',
+        'Improved offer accuracy and register organization across 500+ SKUs'
+      ],
+      skills: ['GRN Management', 'Inventory Control', 'Vendor Coordination', 'FIFO', 'Data Accuracy']
+    },
+    {
+      id: 3,
+      role: 'Warehouse Supervisor',
+      company: 'Arzt Health & Private Limited',
+      duration: 'June 2022 - Nov 2022',
+      location: 'Jaipur, India',
+      companyUrl: 'https://www.indiamart.com/arzt-and-health-private-limited/',
+      description: 'Oversaw stock control, warehouse documentation, and physical inventory across training material storage. Ensured FIFO handling, audits, and timely replenishment.',
+      highlights: [
+        'Led day-to-day warehouse operations and staff coordination with a strong focus on efficiency',
+        'Maintained accurate bin cards, stock logs, and conducted warehouse audits',
+        'Implemented FIFO principles and organized material flow for training batches',
+        'Achieved 100% stock availability across training cycles',
+        'Streamlined warehouse layout and improved stock handling speed'
+      ],
+      skills: ['Warehouse Management', 'Inventory Control', 'Team Leadership', 'FIFO', 'Process Improvement']
+    },
+    {
+      id: 4,
+      role: 'Data Analyst & Automation Specialist',
+      company: 'Personal Portfolio & Projects',
+      duration: '2024 - Present',
+      location: 'Self-Employed',
+      description: 'Designed and developed a professional portfolio website to showcase data analytics, automation, and inventory management expertise. Utilized cutting-edge AI and creative tools to enhance productivity, insights, and workflow automation.',
+      highlights: [
+        'Leveraged ChatGPT for code generation, SQL query optimization, and automating routine analysis tasks',
+        'Incorporated Perplexity AI for real-time data insights and quick research',
+        'Used advanced Google Sheets formulas and Apps Script to automate dashboards and KPI tracking',
+        'Created a fully automated portfolio site and project dashboards',
+        'Enhanced productivity through AI-driven research and process automation'
+      ],
+      skills: ['Data Analysis', 'Process Automation', 'Excel/Google Sheets', 'AI Tools', 'Dashboard Development']
+    }
+  ];
+
+  // Skills Data
+  const skillsData = [
+    {
+      category: 'Core Competencies',
+      icon: <FaChartBar className="text-xl" />,
+      skills: [
+        { name: 'Inventory Management', level: 95 },
+        { name: 'Data Analysis & Reporting', level: 90 },
+        { name: 'Process Automation', level: 85 },
+        { name: 'Stock Reconciliation', level: 90 },
+      ]
+    },
+    {
+      category: 'Technical Skills',
+      icon: <FaLaptopCode className="text-xl" />,
+      skills: [
+        { name: 'Excel/Google Sheets', level: 90 },
+        { name: 'ERP Software', level: 85 },
+        { name: 'Data Visualization', level: 80 },
+        { name: 'AI Tools (ChatGPT, Perplexity)', level: 85 },
+      ]
+    },
+    {
+      category: 'Soft Skills',
+      icon: <FaUserFriends className="text-xl" />,
+      skills: [
+        { name: 'Attention to Detail', level: 95 },
+        { name: 'Team Collaboration', level: 90 },
+        { name: 'Problem Solving', level: 90 },
+        { name: 'Time Management', level: 90 },
+      ]
+    }
+  ];
+
+  // Education Data
+  const education = [
+    {
+      id: 1,
+      degree: 'Bachelor of Science (B.Sc.)',
+      major: 'Computer Science',
+      institution: 'MDSU University, Rajasthan',
+      year: 'Jan 2018 - Jan 2021',
+      description: 'Specialized in software development, data structures, and database management',
+      icon: <FaGraduationCap className="text-2xl" />,
+      courses: [
+        'Data Structures & Algorithms',
+        'Database Management',
+        'Software Engineering',
+        'Web Technologies',
+        'Operating Systems'
+      ]
+    },
+    {
+      id: 2,
+      degree: 'Self-Taught Professional Development',
+      major: 'Data Analysis & Automation',
+      institution: 'Online Learning & Practical Experience',
+      year: '2022 - Present',
+      description: 'Focused on mastering Excel, Google Sheets, data analysis techniques, and automation tools',
+      icon: <FaLaptopCode className="text-2xl" />,
+      courses: [
+        'Advanced Excel & Google Sheets',
+        'Data Analysis & Visualization',
+        'Process Automation',
+        'AI Tools for Productivity',
+        'Business Intelligence'
+      ]
+    }
+  ];
+
+  // Languages Data
+  const languages = [
+    {
+      name: 'English',
+      level: 60,
+      description: 'Intermediate (Can communicate fluently, write clearly & understand native speakers)'
+    },
+    {
+      name: 'Hindi',
+      level: 100,
+      description: 'Native speaker — read, write, speak effortlessly'
+    }
+  ];
+
+  // Render work experience section
+  const renderWorkExperience = () => (
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+      {workExperience.map((exp) => (
+        <motion.div 
+          key={exp.id}
+          variants={item}
+          className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-indigo-500/10 border-l-4 border-indigo-500"
+        >
+          <div className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
+              <div className="flex items-center mb-4 md:mb-0">
+                <div className="p-3 rounded-xl bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-4">
+                  {getRoleIcon(exp.role)}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.role}</h3>
+                  <a 
+                    href={exp.companyUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline inline-flex items-center"
+                  >
+                    <FaLink className="mr-1 text-xs" />
+                    {exp.company}
+                  </a>
+                </div>
+              </div>
+              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                <FaCalendarAlt className="mr-2" />
+                <span>{exp.duration}</span>
+              </div>
+            </div>
+            
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
+              <FaBuilding className="mr-2" />
+              <span>{exp.location}</span>
+            </div>
+            
+            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
+            
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg flex items-center">
+                <FaChartLine className="mr-2 text-indigo-500" />
+                Key Achievements & Responsibilities:
+              </h4>
+              <ul className="space-y-2">
+                {exp.highlights.map((highlight, i) => (
+                  <motion.li 
+                    key={i} 
+                    className="flex items-start bg-gray-50 dark:bg-gray-700 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                    whileHover={{ x: 5 }}
+                  >
+                    <span className="text-indigo-500 mr-3 mt-0.5">•</span>
+                    <span className="text-gray-700 dark:text-gray-300">{highlight}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg flex items-center">
+                <FaTools className="mr-2 text-indigo-500" />
+                Skills Applied:
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {exp.skills.map((skill, i) => (
+                  <motion.span 
+                    key={i}
+                    className="px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm font-medium"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+
+  // Render skills section
+  const renderSkills = () => (
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-12">
+      {/* Core Skills */}
+      <div className="space-y-6">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+          <FaTools className="mr-2 text-indigo-500" />
+          Professional Skills
+        </h3>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {skillsData.map((category, index) => (
+            <motion.div
+              key={index}
+              variants={item}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 h-full border border-gray-100 dark:border-gray-700"
+              whileHover={{ y: -5 }}
+            >
+              <div className="flex items-center mb-5">
+                <div className="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-3">
+                  {category.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {category.category}
+                </h3>
+              </div>
+              <div className="space-y-5">
+                {category.skills.map((skill, i) => (
+                  <div key={i} className="group">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        {skill.name}
+                      </span>
+                      <span className="text-xs font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-2 py-0.5 rounded-full">
+                        {skill.level}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
+                      <motion.div
+                        className="bg-gradient-to-r from-indigo-500 to-indigo-400 h-full rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.level}%` }}
+                        transition={{ duration: 1, delay: index * 0.1 + i * 0.05 }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Languages */}
+      <div className="space-y-6 mt-12">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+          <FaLanguage className="mr-2 text-indigo-500" />
+          Languages
+        </h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {languages.map((lang, i) => (
+            <motion.div
+              key={i}
+              variants={item}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
+              whileHover={{ y: -3 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                  {lang.name}
+                </h4>
+                <span className="text-sm font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 rounded-full">
+                  {lang.level === 100 ? 'Native' : 'Professional'}
+                </span>
+              </div>
+              <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 mb-3 overflow-hidden">
+                <motion.div
+                  className="bg-gradient-to-r from-indigo-500 to-indigo-400 h-full rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${lang.level}%` }}
+                  transition={{ duration: 1, delay: 0.5 + i * 0.2 }}
+                />
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                {lang.description}
+              </p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  // Render education section
+  const renderEducation = () => (
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+      {education.map((edu) => (
+        <motion.div
+          key={edu.id}
+          variants={item}
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-indigo-500 group"
+          whileHover={{ x: 5 }}
+        >
+          <div className="flex flex-col md:flex-row">
+            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+              <div className="p-4 rounded-xl bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 inline-block group-hover:scale-110 transition-transform duration-300">
+                {edu.icon}
+              </div>
+            </div>
+            <div className="flex-1">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {edu.degree}
+                </h3>
+                <span className="inline-block mt-1 md:mt-0 px-3 py-1 text-sm font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full">
+                  {edu.year}
+                </span>
+              </div>
+              <h4 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">
+                {edu.institution}
+              </h4>
+              {edu.major && (
+                <div className="mb-3">
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    {edu.major}
+                  </span>
+                </div>
+              )}
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                {edu.description}
+              </p>
+              {edu.courses && edu.courses.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <h5 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
+                    <FaBookOpen className="mr-2 text-indigo-500" />
+                    Key Courses & Skills:
+                  </h5>
+                  <div className="flex flex-wrap gap-2">
+                    {edu.courses.map((course, i) => (
+                      <motion.span 
+                        key={i}
+                        className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        {course}
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.header 
+            variants={container}
+            initial="hidden"
+            animate="show"
+            className="text-center mb-16"
+          >
+            <motion.h1 
+              className="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+              variants={item}
+            >
+              Professional{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700">
+                Journey
+              </span>
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed"
+              variants={item}
+            >
+              My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting.
+            </motion.p>
+          </motion.header>
+        </div>
+      </section>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Main Content */}
+        <div className="space-y-12">
+          <motion.div 
+            className="bg-white rounded-2xl shadow-xl overflow-hidden"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* Tabs Navigation */}
+            <div className="border-b border-gray-200">
+              <nav className="flex flex-wrap justify-center md:justify-start -mb-px">
+                {navItems.map((item) => (
+                  <motion.button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 transition-all duration-300 ${
+                      activeTab === item.id
+                        ? 'border-indigo-500 text-indigo-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <span className="mr-2 text-lg">{item.icon}</span>
+                    {item.label}
+                  </motion.button>
+                ))}
+              </nav>
+            </div>
+
+            {/* Tab Content */}
+            <div className="p-6 md:p-8">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {activeTab === 'work' && renderWorkExperience()}
+                {activeTab === 'skills' && renderSkills()}
+                {activeTab === 'education' && renderEducation()}
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Footer Note */}
+          <motion.div 
+            className="text-center py-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <p className="text-gray-600">
+              Interested in working together?{' '}
+              <a 
+                href="/contact" 
+                className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
+              >
+                Get in touch
+              </a>
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Experience;

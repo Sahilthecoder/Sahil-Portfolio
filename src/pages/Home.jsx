@@ -1,12 +1,20 @@
-// src/pages/Home.jsx
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
-import { useVoice } from '../context/VoiceContext';
-import { TypeAnimation } from 'react-type-animation';
-import Particles from 'react-tsparticles';
-import { loadFull } from 'tsparticles';
+import { 
+  FiArrowRight, 
+  FiGithub, 
+  FiLinkedin, 
+  FiMail, 
+  FiDownload, 
+  FiMapPin,
+  FiFileText,
+  FiClock 
+} from 'react-icons/fi';
+import { FaReact, FaNodeJs, FaPython, FaDatabase } from 'react-icons/fa';
+import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
+import { Link } from 'react-router-dom';
+import { H1, H2, H3, H4, P, Lead, Small } from '../components/Typography';
+import { getProject } from '../utils/projectData';
 
 // Animation variants
 const container = {
@@ -14,414 +22,573 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
+      staggerChildren: 0.1
+    }
+  }
 };
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
-const Home = () => {
+// Intersection Observer hook
+const useScrollAnimation = (ref, threshold = 0.2) => {
   const controls = useAnimation();
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
-  const { theme } = useTheme();
-  const { isListening } = useVoice();
-  const [cursor, setCursor] = useState('default');
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const isInView = useInView(ref, { once: true, amount: threshold });
 
-  // Initialize particles
-  const particlesInit = async (main) => {
-    await loadFull(main);
-  };
-
-  // Handle mouse move for parallax effect
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      // Change cursor style when hovering over interactive elements
-      const target = e.target;
-      if (target.closest('a, button, [role="button"]')) {
-        setCursor('pointer');
-      } else {
-        setCursor('default');
-      }
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // Animate elements when in view
   useEffect(() => {
     if (isInView) {
       controls.start('show');
     }
   }, [controls, isInView]);
 
-  // Parallax effect for elements
-  const parallaxStyle = (factor = 1) => ({
-    transform: `translate(${mousePosition.x * 0.01 * factor}px, ${mousePosition.y * 0.01 * factor}px)`,
-    transition: 'transform 0.1s ease-out'
-  });
+  return controls;
+};
 
-  // Particle configuration
-  const particlesOptions = {
-    particles: {
-      number: {
-        value: 50,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: theme === 'dark' ? '#00f7ff' : '#4f46e5'
-      },
-      shape: {
-        type: 'circle',
-      },
-      opacity: {
-        value: 0.5,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 1,
-          opacity_min: 0.1,
-          sync: false
-        }
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 2,
-          size_min: 0.1,
-          sync: false
-        }
-      },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: theme === 'dark' ? '#00f7ff' : '#4f46e5',
-        opacity: 0.2,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 1,
-        direction: 'none',
-        random: true,
-        straight: false,
-        out_mode: 'out',
-        bounce: false,
-        attract: {
-          enable: false,
-          rotateX: 600,
-          rotateY: 1200
-        }
-      }
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: {
-        onhover: {
-          enable: true,
-          mode: 'grab'
-        },
-        onclick: {
-          enable: true,
-          mode: 'push'
-        },
-        resize: true
-      },
-      modes: {
-        grab: {
-          distance: 140,
-          line_linked: {
-            opacity: 0.5
-          }
-        },
-        push: {
-          particles_nb: 4
-        }
-      }
-    },
-    retina_detect: true
+
+const Home = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [activeSkill, setActiveSkill] = useState('All');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const heroRef = useRef(null);
+  const projectsRef = useRef(null);
+  const controls = useScrollAnimation(heroRef);
+
+  // Handle scroll effect for navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Smooth scroll function
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Skills data
+  const skills = [
+    { name: 'React', icon: <FaReact className="w-6 h-6" />, category: 'Frontend' },
+    { name: 'Node.js', icon: <FaNodeJs className="w-6 h-6" />, category: 'Backend' },
+    { name: 'Python', icon: <FaPython className="w-6 h-6" />, category: 'Backend' },
+    { name: 'JavaScript', icon: <SiJavascript className="w-6 h-6" />, category: 'Frontend' },
+    { name: 'TypeScript', icon: <SiTypescript className="w-6 h-6" />, category: 'Frontend' },
+    { name: 'MongoDB', icon: <SiMongodb className="w-6 h-6" />, category: 'Database' },
+    { name: 'PostgreSQL', icon: <SiPostgresql className="w-6 h-6" />, category: 'Database' },
+  ];
+
+  // Filter skills based on active category
+  const filteredSkills = activeSkill === 'All' 
+    ? skills 
+    : skills.filter(skill => skill.category === activeSkill);
+
+  const featuredProjects = [
+    {
+      ...getProject('zomato'),
+      image: '/images/projects/Project1 excel/Project1 Cover.avif',
+      path: '/projects/zomato'
+    },
+    {
+      ...getProject('bansal'),
+      image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+      path: '/projects/bansal-supermarket'
+    },
+    {
+      ...getProject('retail'),
+      image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+      path: '/projects/retail-cash-flow'
+    }
+  ].filter(Boolean); // Filter out any undefined projects
+
   return (
-    <main className="relative overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10">
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={particlesOptions}
-        />
-      </div>
-
-      {/* Custom cursor */}
-      <div 
-        className={`fixed w-6 h-6 rounded-full pointer-events-none z-50 transition-transform duration-100 ${
-          cursor === 'pointer' ? 'bg-blue-500 scale-150' : 'bg-white scale-100'
-        }`}
-        style={{
-          left: `${mousePosition.x - 12}px`,
-          top: `${mousePosition.y - 12}px`,
-          mixBlendMode: 'difference',
-          transform: `translate3d(0, 0, 0) scale(${cursor === 'pointer' ? 1.5 : 1})`,
-          transition: 'transform 0.1s ease, background-color 0.2s ease',
-        }}
-      />
-
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
-      <section 
-        id="hero" 
-        className="min-h-screen flex items-center justify-center relative overflow-hidden"
-        aria-label="Introduction"
-      >
-        <div className="container mx-auto px-4 py-20 relative z-10">
-          <motion.div
-            ref={ref}
+      <section ref={heroRef} className="relative py-20 bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.div 
             variants={container}
             initial="hidden"
             animate={controls}
-            className="max-w-4xl mx-auto text-center"
+            className="flex flex-col md:flex-row items-center"
           >
-            <motion.div 
-              variants={item}
-              className="inline-block px-4 py-2 rounded-full bg-opacity-20 bg-blue-500 mb-6 text-sm font-medium text-blue-300"
-            >
-              {isListening ? (
-                <span className="flex items-center justify-center">
-                  <span className="flex h-2 w-2 mr-2">
-                    <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            <motion.div variants={item} className="md:w-1/2 mb-10 md:mb-0 text-white">
+              <motion.div className="mb-6">
+                <motion.div 
+                  className="mb-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <H1 className="inline-block">
+                    Hello, I'm{' '}
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700">
+                      Sahil Ali
+                    </span>
+                  </H1>
+                </motion.div>
+              </motion.div>
+              <Lead className="text-xl text-gray-800 mb-6">
+                Data-Driven Inventory Specialist & Business Intelligence Analyst
+              </Lead>
+              <P className="text-gray-700 max-w-2xl mb-8">
+                Transforming complex data into strategic insights and operational excellence through advanced analytics and process optimization.
+              </P>
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <Link
+                  to="/about"
+                  className="group relative bg-indigo-700 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center justify-center">
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">Let's Explore More!</span>
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
                   </span>
-                  Listening...
-                </span>
-              ) : (
-                "Welcome to my futuristic portfolio"
-              )}
+                  <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                </Link>
+                <Link
+                  to="/projects"
+                  className="group relative bg-white text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center justify-center">
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">View Projects</span>
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
+                  </span>
+                  <span className="absolute inset-0 bg-indigo-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                </Link>
+                <a
+                  href="#contact"
+                  className="group relative bg-transparent text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center justify-center">
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">Contact Me</span>
+                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
+                  </span>
+                  <span className="absolute inset-0 bg-indigo-50/80 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                </a>
+              </div>
             </motion.div>
-            
-            <motion.h1 
-              variants={item}
-              className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600"
+            <motion.div
+              className="md:w-1/2 mt-10 md:mt-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <TypeAnimation
-                sequence={[
-                  'Hi, I\'m Sahil Ali',
-                  1000,
-                  'Hi, I\'m a Data Analyst',
-                  1000,
-                  'Hi, I\'m an Inventory Specialist',
-                  1000,
-                ]}
-                wrapper="span"
-                speed={50}
-                repeat={Infinity}
-              />
-            </motion.h1>
-            
-            <motion.p 
-              variants={item}
-              className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
-            >
-              Transforming data into <span className="text-blue-400 font-medium">actionable insights</span> and optimizing supply chains through <span className="text-purple-400 font-medium">cutting-edge analytics</span> and automation.
-            </motion.p>
-            
-            <motion.div 
-              variants={item}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            >
-              <Link 
-                to="/about" 
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
-              >
-                Explore My Journey
-              </Link>
-              <a 
-                href="#featured" 
-                className="px-8 py-4 rounded-full bg-white bg-opacity-10 backdrop-blur-sm text-white font-medium hover:bg-opacity-20 transition-all duration-300 border border-white border-opacity-20 hover:border-opacity-40"
-              >
-                View My Work
-              </a>
+              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto">
+                <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
+                    <img
+                      src="/images/profile.avif"
+                      alt="Sahil Ali"
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/400x400?text=Sahil+Ali';
+                      }}
+                    />
+                    <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
-        
-        {/* Animated elements */}
-        <motion.div 
-          className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-blue-500 opacity-20 filter blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            x: [-50, 0, -50],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div 
-          className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-purple-500 opacity-20 filter blur-3xl"
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
       </section>
 
-      {/* Who am I Section */}
-      <section 
-        id="who-am-i" 
-        className="py-20 relative overflow-hidden"
-        aria-labelledby="who-am-i-title"
-      >
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 
-              id="who-am-i-title" 
-              className="text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 inline-block"
-            >
-              Who am I?
-            </h2>
-            
-            <div className="glass p-8 rounded-2xl backdrop-blur-md border border-white border-opacity-10 shadow-2xl">
-              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                I'm <span className="text-blue-400 font-medium">Sahil Ali</span> — a data-savvy inventory specialist and data analyst with 4+ years of experience transforming supply chains, reducing billing errors, and building automation-powered dashboards.
-              </p>
-              <p>
-                From ERPs and Excel magic to clean data and AI tools, I thrive on streamlining operations, reconciling records, and making business workflows smarter — one insight at a time.
-              </p>
-              <Link to="/about" className="btn-secondary">Learn More About Me</Link>
-              <Link to="/resume" className="btn-secondary">See My Experience</Link>
+      {/* About Section */}
+      <section id="about" className="py-16 bg-white/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <H2 className="flex items-center">
+              <span className="mr-3">🙋‍♂️</span> About Me
+            </H2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-gray-50 dark:bg-gray-700 p-8 rounded-xl shadow-lg">
+            <H3>Professional Profile</H3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              I am <span className="font-semibold text-indigo-600 dark:text-indigo-400">Sahil Ali</span>, 
+              a results-driven professional with 4+ years of expertise in inventory management and data analysis. 
+              My career has been dedicated to optimizing supply chain operations, enhancing data accuracy, 
+              and implementing automation solutions that drive business efficiency.
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              Specializing in transforming complex datasets into actionable business intelligence, 
+              I leverage cutting-edge tools and methodologies to deliver data-driven insights. 
+              My approach combines technical proficiency with operational knowledge to create 
+              sustainable improvements in business processes and decision-making.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/about"
+                className="group relative bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow-md overflow-hidden inline-flex items-center"
+              >
+                <span className="relative z-10 flex items-center">
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">Learn More About Me</span>
+                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                </span>
+                <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+              </Link>
+              <Link
+                to="/experience"
+                className="group relative border-2 border-indigo-700 text-indigo-700 font-medium py-2 px-6 rounded-lg shadow-sm overflow-hidden inline-flex items-center"
+              >
+                <span className="relative z-10 flex items-center">
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">See My Experience</span>
+                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                </span>
+                <span className="absolute inset-0 bg-indigo-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+              </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Experience Section */}
-      <section id="experience" aria-labelledby="experience-title">
-        <h2 id="experience-title">Experience</h2>
-        <p>
-          Over the years, I’ve worked across retail, supermarket, and warehouse operations — including roles at Ekam Indian Groceries (Australia), Bansal Supermarket, and Arzt Health.
-        </p>
-        <p>
-          Whether it’s GRNs, invoice accuracy, inventory audits, or building AI-powered tools for reporting — I’ve consistently improved efficiency, cut errors, and delivered measurable value.
-        </p>
-        <Link to="/resume#experience" className="btn-secondary">View My Journey</Link>
-        <Link to="/projects" className="btn-secondary">Check Out the Projects</Link>
+      <section id="experience" className="py-16 bg-gray-50/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <H2 className="flex items-center">
+              <span className="mr-3">👨‍💼</span> Experience
+            </H2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <H3>Professional Experience</H3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              My professional journey spans across international retail and supply chain management, 
+              with key roles at Ekam Indian Groceries (Australia), Bansal Supermarket, and Arzt Health. 
+              This diverse experience has equipped me with a comprehensive understanding of 
+              end-to-end inventory management and operational excellence.
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+              I specialize in implementing data-driven solutions that enhance operational efficiency, 
+              from developing AI-powered reporting tools to optimizing inventory control systems. 
+              My track record includes significant improvements in process accuracy, 
+              cost reduction, and workflow automation across multiple business functions.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                to="/experience"
+                className="group relative bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow-md overflow-hidden inline-flex items-center"
+              >
+                <span className="relative z-10 flex items-center">
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">View My Journey</span>
+                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                </span>
+                <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+              </Link>
+              <Link
+                to="/projects"
+                className="group relative border-2 border-indigo-700 text-indigo-700 font-medium py-2 px-6 rounded-lg shadow-sm overflow-hidden inline-flex items-center"
+              >
+                <span className="relative z-10 flex items-center">
+                  <span className="transition-transform duration-300 group-hover:translate-x-1">Check Out the Projects</span>
+                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                </span>
+                <span className="absolute inset-0 bg-indigo-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+              </Link>
+            </div>
+          </div>
+        </div>
       </section>
 
-      {/* Projects Preview Section */}
-      <section id="projects-preview" aria-labelledby="projects-preview-title">
-        <h2 id="projects-preview-title">View All Projects ←</h2>
-        <p>Explore my projects where I apply data analysis and inventory management skills to solve real-world challenges.</p>
+      {/* Projects Section */}
+      <section 
+        ref={projectsRef} 
+        id="projects" 
+        className="relative py-20 bg-white/80 backdrop-blur-sm overflow-hidden"
+      >
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 w-1/3 h-64 bg-gradient-to-bl from-indigo-100 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
+        
+        <div className="container mx-auto px-6 relative">
+          <motion.div 
+            className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="max-w-2xl">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <H2 className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700">
+                  Portfolio Showcase
+                </H2>
+              </motion.div>
+              <motion.p 
+                className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-lg"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Explore my collection of data-driven solutions and business intelligence projects
+              </motion.p>
+            </div>
+            <Link
+              to="/projects"
+              className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline flex items-center"
+            >
+              View All Projects
+              <svg
+                className="w-5 h-5 ml-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
+          </motion.div>
 
-        {/* Static project preview cards; consider replacing with dynamic mapping */}
-        <article className="project-card">
-          <h3>Zomato Restaurant Expansion Analysis <small>Excel</small></h3>
-          <p>
-            <strong>Market Strategy Dashboard</strong><br />
-            Built an interactive Excel dashboard to analyze Zomato's city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.
-          </p>
-          <Link to="/projects#zomato" className="btn-tertiary">Explore Project</Link>
-        </article>
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {featuredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                variants={item}
+                className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-500/30 flex flex-col h-full transform hover:-translate-y-1"
+                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800">
+                  <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
+                    <div className="absolute inset-0">
+                      <img
+                        src={project.image || '/images/placeholder.svg'}
+                        alt={project.title}
+                        className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/images/placeholder.svg';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 p-4 z-20">
+                    <span className="text-white text-sm font-medium bg-black/70 px-3 py-1.5 rounded-md backdrop-blur-sm">
+                      {project.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
+                      {project.category}
+                    </span>
+                    {project.badge && (
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
+                        {project.badge}
+                      </span>
+                    )}
+                  </div>
+                  <h3 
+                    className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700"
+                  >
+                    {project.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 flex-grow mb-4">{project.description}</p>
+                  {project.impact && (
+                    <div className="mt-auto p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-lg border border-blue-100 dark:border-blue-900/20">
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        <span className="font-semibold">Impact:</span> {project.impact}
+                      </p>
+                    </div>
+                  )}
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.tech?.map((tech, techIndex) => (
+                      <span 
+                        key={techIndex}
+                        className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 whitespace-nowrap"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <Link
+                  to={project.path}
+                  className="block w-full text-center py-3 bg-gray-50 dark:bg-gray-700/50 text-indigo-600 dark:text-indigo-400 font-medium hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors border-t border-gray-100 dark:border-gray-700"
+                >
+                  View Project
+                  <svg
+                    className="w-4 h-4 ml-2 inline-block"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
 
-        <article className="project-card">
-          <h3>Bansal Supermarket Sales Analysis <small>Tableau</small></h3>
-          <p>
-            <strong>Sales Performance Insights</strong><br />
-            Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.
-          </p>
-          <Link to="/projects#bansal" className="btn-tertiary">Explore Project</Link>
-        </article>
-
-        <article className="project-card">
-          <h3>Ekam Attendance Tracker <small>SQL + Sheets</small></h3>
-          <p>
-            <strong>HR & Finance Automation</strong><br />
-            Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia. Reduced manual reporting time by 80% monthly for HR and accounts.
-          </p>
-          <Link to="/projects#ekam" className="btn-tertiary">Explore Project</Link>
-        </article>
-
-        <article className="project-card">
-          <h3>Daily Cash Flow Dashboard <small>Power BI</small></h3>
-          <p>
-            <strong>Retail Finance Tracker</strong><br />
-            Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.
-          </p>
-          <Link to="/projects#cashflow" className="btn-tertiary">Explore Project</Link>
-        </article>
-
-        <article className="project-card">
-          <h3>AI-Powered Daily Decision & Automation System <small>GPT + Notion</small></h3>
-          <p>
-            <strong>AI-Powered Planning</strong><br />
-            Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking. Saved 2+ hours daily by automating decisions and personal workflows.
-          </p>
-          <Link to="/projects#ai-planner" className="btn-tertiary">Explore the AI</Link>
-        </article>
-
-        <article className="project-card">
-          <h3>Smart Automation Suite <small>GPT + Zapier</small></h3>
-          <p>
-            <strong>Business Workflow Automation</strong><br />
-            Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use. Saved 15+ hours/month by eliminating repetitive manual work.
-          </p>
-          <Link to="/projects#automation-suite" className="btn-tertiary">See the Project</Link>
-        </article>
-
-        <article className="project-card">
-          <h3>Mahira’s GitHub Portfolio <small>Web + AI</small></h3>
-          <p>
-            <strong>AI-Enhanced Personal Website</strong><br />
-            Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.
-          </p>
-          <a href="https://github.com/MahiraChaudhry" target="_blank" rel="noopener noreferrer" className="btn-tertiary">View Portfolio</a>
-        </article>
-
-        <Link to="/projects" className="btn-primary">View All Projects</Link>
+          <div className="text-center mt-12">
+            <Link
+              to="/projects"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              View All Projects
+            </Link>
+          </div>
+        </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" aria-labelledby="contact-title">
-        <h2 id="contact-title">Get in touch with Me</h2>
-        <p>Let's connect! Your data and my expertise can create impactful solutions.</p>
-        <ul>
-          <li>Location: Rajasthan, India (Open for Relocation)</li>
-          <li>Email: <a href="mailto:sahilkhan36985@gmail.com">sahilkhan36985@gmail.com</a></li>
-          <li>GitHub: <a href="https://github.com/SahilTheCoder" target="_blank" rel="noopener noreferrer">github.com/SahilTheCoder</a></li>
-          <li>LinkedIn: <a href="https://linkedin.com/in/sahil-ali-714867242/" target="_blank" rel="noopener noreferrer">linkedin.com/in/sahil-ali-714867242/</a></li>
-        </ul>
+      <section id="contact" className="py-16 bg-gray-50/80 backdrop-blur-sm">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <H2 className="flex items-center">
+              <span className="mr-3">📬</span> Get In Touch
+            </H2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Let's collaborate on transforming data into strategic business solutions
+            </p>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto mt-4"></div>
+          </div>
+
+          <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <H3>Professional Contact</H3>
+                <p className="text-gray-600 dark:text-gray-300 mb-8">
+                  Connect with me through these professional channels:
+                </p>
+
+                <div className="space-y-5">
+                  <div className="flex items-start">
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg">
+                      <FiMapPin className="text-indigo-600 dark:text-indigo-400 text-xl" />
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium text-gray-700 dark:text-gray-200">Location</h4>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        Rajasthan, India <span className="text-indigo-600 dark:text-indigo-400 font-medium">(Open to Relocation)</span>
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <a
+                    href="mailto:sahilkhan36985@gmail.com"
+                    className="flex items-start hover:opacity-80 transition-opacity"
+                  >
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg">
+                      <FiMail className="text-indigo-600 dark:text-indigo-400 text-xl" />
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium text-gray-700 dark:text-gray-200">Email Address</h4>
+                      <p className="text-indigo-600 dark:text-indigo-400 break-all">
+                        sahilkhan36985@gmail.com
+                      </p>
+                    </div>
+                  </a>
+                  
+                  <a
+                    href="https://github.com/SahilTheCoder"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start hover:opacity-80 transition-opacity"
+                  >
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg">
+                      <FiGithub className="text-indigo-600 dark:text-indigo-400 text-xl" />
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium text-gray-700 dark:text-gray-200">GitHub</h4>
+                      <p className="text-indigo-600 dark:text-indigo-400">
+                        @SahilTheCoder
+                      </p>
+                    </div>
+                  </a>
+                  
+                  <a
+                    href="https://linkedin.com/in/sahil-ali-714867242/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start hover:opacity-80 transition-opacity"
+                  >
+                    <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg">
+                      <FiLinkedin className="text-indigo-600 dark:text-indigo-400 text-xl" />
+                    </div>
+                    <div className="ml-4">
+                      <h4 className="font-medium text-gray-700 dark:text-gray-200">LinkedIn</h4>
+                      <p className="text-indigo-600 dark:text-indigo-400">
+                        in/sahil-ali-714867242
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col h-full bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 p-6 rounded-xl border border-indigo-100 dark:border-gray-700">
+                <div className="flex items-center mb-4">
+                  <div className="bg-indigo-100 dark:bg-indigo-900/30 p-2 rounded-lg">
+                    <FiFileText className="text-indigo-600 dark:text-indigo-400 text-2xl" />
+                  </div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+                    Professional Resume
+                  </h1>
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 flex-grow">
+                  Access my comprehensive CV to review my professional journey, technical expertise, and career achievements in detail.
+                </p>
+                <div className="space-y-4">
+                  <a
+                    href="/assets/Sahil_Ali_Cv.pdf"
+                    download="Sahil_Ali_Resume.pdf"
+                    className="flex items-center justify-center w-full bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]"
+                  >
+                    <FiDownload className="mr-2" />
+                    Download CV (PDF)
+                  </a>
+                  <div className="flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">
+                    <FiClock className="mr-1.5" />
+                    <span>Last updated: June 2024</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-    </main>
+    </div>
   );
 };
 

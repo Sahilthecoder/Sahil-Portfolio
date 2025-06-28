@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+@layer base {
+  :root {
+    --color-bg-primary: #f8fafc;
+    --color-bg-secondary: #ffffff;
+    --color-text-primary: #1e293b;
+    --color-text-secondary: #64748b;
+    --color-accent: #3b82f6;
+    --color-accent-hover: #2563eb;
+    --color-border: #e2e8f0;
+  }
+
+  .dark {
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e293b;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #94a3b8;
+    --color-accent: #60a5fa;
+    --color-accent-hover: #3b82f6;
+    --color-border: #334155;
+  }
+
+  .futuristic {
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e1b4b;
+    --color-text-primary: #e0e7ff;
+    --color-text-secondary: #a5b4fc;
+    --color-accent: #818cf8;
+    --color-accent-hover: #6366f1;
+    --color-border: #3730a3;
+  }
+
+  body {
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-200;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Better text selection */
+  ::selection {
+    @apply bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100;
+  }
+}
+
+/* Layout */
+.container {
+  @apply px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-7xl;
+}
+
+/* Page content spacing */
+.page-content {
+  @apply pt-20 pb-12 px-4 sm:px-6 lg:px-8 mx-auto w-full max-w-7xl;
+  min-height: calc(100vh - 5rem);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold text-slate-900 dark:text-white;
+  line-height: 1.2;
+}
+
+h1 { @apply text-4xl sm:text-5xl lg:text-6xl; }
+h2 { @apply text-3xl sm:text-4xl; }
+h3 { @apply text-2xl sm:text-3xl; }
+h4 { @apply text-xl sm:text-2xl; }
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-slate-900;
+}
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md;
+}
+
+/* Links */
+.link {
+  @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-200 font-medium;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-slate-800/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-600 rounded-full hover:bg-slate-400 dark:hover:bg-slate-500 transition-colors;
+}
+
+/* Smooth scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Focus styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-slate-900 rounded;
+}
+
+/* Animation for page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}

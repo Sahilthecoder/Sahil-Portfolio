@@ -3,6 +3,9 @@ node_modules/
 .pnp
 .pnp.js
 
+# Package lock (included for consistent builds)
+# package-lock.json
+
 # Build output
 dist/
 build/

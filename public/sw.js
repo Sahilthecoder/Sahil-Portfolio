@@ -1,6 +1,6 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v6';
-const BASE_PATH = '/Sahil-Portfolio/'; // Hardcode base path for GitHub Pages
+const CACHE_NAME = 'portfolio-cache-v7';
+const BASE_PATH = '/Sahil-Portfolio';
 
 // Add a trailing slash to the base path if it doesn't have one
 const ensureTrailingSlash = (path) => path.endsWith('/') ? path : `${path}/`;
@@ -8,11 +8,9 @@ const BASE = ensureTrailingSlash(BASE_PATH);
 
 // List of URLs to cache during installation
 const ASSETS_TO_CACHE = [
-  BASE,
   `${BASE}index.html`,
   `${BASE}manifest.json`,
   `${BASE}logo192.png`,
-  `${BASE}logo512.png`,
   `${BASE}images/apple-touch-icon.png`,
   // Add other assets that should be cached on install
 ];
@@ -33,10 +31,26 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Caching static assets');
-        return cache.addAll(ASSETS_TO_CACHE);
+        console.log('Caching static assets', ASSETS_TO_CACHE);
+        return Promise.all(
+          ASSETS_TO_CACHE.map(url => {
+            return fetch(url, { credentials: 'include' })
+              .then(response => {
+                if (!response.ok) {
+                  console.warn(`Failed to cache ${url}: ${response.status}`);
+                  return null;
+                }
+                return cache.put(url, response);
+              })
+              .catch(err => {
+                console.warn(`Error caching ${url}:`, err);
+                return null;
+              });
+          })
+        );
       })
       .then(() => self.skipWaiting())
+      .catch(err => console.error('Cache addAll error:', err))
   );
 });
 

@@ -232,40 +232,9 @@ const ModernNavbar = () => {
                   <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-300 group-hover:duration-200"></div>
                   <div className="relative p-1 bg-white dark:bg-gray-900 rounded-full ring-1 ring-gray-900/5 dark:ring-white/10">
                     <img 
-                      src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src="/logo192.png" alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} 
-                      alt="Sahil Ali" 
+                      src="/logo192.png"
+                      alt="Sahil Ali"
+                      loading="lazy"
                       className="h-9 w-9 md:h-10 md:w-10 transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>

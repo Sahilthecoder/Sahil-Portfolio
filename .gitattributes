@@ -1,0 +1,86 @@
+# Set default behavior to automatically normalize line endings
+* text=auto eol=lf
+
+# Declare files that will always have CRLF line endings on checkout
+*.bat           eol=crlf
+*.cmd           eol=crlf
+*.ps1           eol=crlf
+
+# Binary files that should not be modified
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.svg           binary
+*.ico           binary
+*.woff          binary
+*.woff2         binary
+*.ttf           binary
+*.eot           binary
+*.pdf           binary
+*.zip           binary
+*.gz            binary
+*.bz2           binary
+*.tar           binary
+*.exe           binary
+*.dll           binary
+*.pdb           binary
+*.so            binary
+*.dylib         binary
+*.dmg           binary
+*.app           binary
+*.applescript   binary
+*.pyc           binary
+*.pyo           binary
+*.pyd           binary
+*.db            binary
+*.sqlite        binary
+*.sqlite3       binary
+*.db-journal    binary
+*.sqlite-journal binary
+*.sublime-workspace binary
+*.sublime-project binary
+
+# Source code files (keep LF line endings)
+*.js            text eol=lf
+*.jsx           text eol=lf
+*.ts            text eol=lf
+*.tsx           text eol=lf
+*.json          text eol=lf
+*.html          text eol=lf
+*.css           text eol=lf
+*.scss          text eol=lf
+*.sass          text eol=lf
+*.less          text eol=lf
+*.md            text eol=lf
+*.markdown      text eol=lf
+*.txt           text eol=lf
+*.xml           text eol=lf
+*.yaml          text eol=lf
+*.yml           text eol=lf
+*.sh            text eol=lf
+*.bash          text eol=lf
+*.zsh           text eol=lf
+
+# Special files
+.editorconfig   text eol=lf
+.gitattributes  text eol=lf
+.gitignore      text eol=lf
+*.gitmodules    text eol=lf
+*.npmrc         text eol=lf
+*.yarnrc        text eol=lf
+*.lock          text eol=lf
+
+# Project files
+package.json    text eol=lf
+package-lock.json text eol=lf
+yarn.lock       text eol=lf
+*.config.js     text eol=lf
+*.config.json   text eol=lf
+*.eslintrc*     text eol=lf
+*.babelrc*      text eol=lf
+*.prettierrc*   text eol=lf
+*.stylelintrc*  text eol=lf
+*.browserslistrc text eol=lf
+*.editorconfig  text eol=lf
+*.gitkeep       text eol=lf

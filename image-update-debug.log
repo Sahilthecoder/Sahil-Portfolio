@@ -1,0 +1,1853 @@
+# Image Update Debug Log - 2025-06-29T13:49:09.671Z
+
+[2025-06-29T13:49:09.673Z] [33mLogging to: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\image-update-debug.log[39m
+[2025-06-29T13:49:09.671Z] [34m🔍 Starting image reference update...[39m
+[2025-06-29T13:49:09.678Z] [33mLogging to: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\image-update-debug.log[39m
+[2025-06-29T13:49:09.680Z] [2025-06-29T13:49:09.680Z] INFO: Environment Info
+{
+  "cwd": "C:\\Users\\sahil\\Desktop\\Portfolio\\sahil-portfolio",
+  "node": "v22.16.0",
+  "platform": "win32",
+  "optimizedDir": "public/optimized-images",
+  "absOptimizedDir": "C:\\Users\\sahil\\Desktop\\Portfolio\\sahil-portfolio\\public\\optimized-images",
+  "env": {
+    "DEBUG": "*"
+  }
+}
+[2025-06-29T13:49:09.680Z] [36m[2025-06-29T13:49:09.680Z] INFO: Environment Info[39m 
+{
+  "cwd": "C:\\Users\\sahil\\Desktop\\Portfolio\\sahil-portfolio",
+  "node": "v22.16.0",
+  "platform": "win32",
+  "optimizedDir": "public/optimized-images",
+  "absOptimizedDir": "C:\\Users\\sahil\\Desktop\\Portfolio\\sahil-portfolio\\public\\optimized-images",
+  "env": {
+    "DEBUG": "*"
+  }
+}
+[2025-06-29T13:49:09.681Z] Current working directory: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio
+[2025-06-29T13:49:09.681Z] Looking for optimized images in: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\optimized-images
+[2025-06-29T13:49:09.682Z] [2025-06-29T13:49:09.682Z] DEBUG: Optimized images directory contents:
+[
+  {
+    "name": "apple-touch-icon.avif",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "apple-touch-icon.png",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "apple-touch-icon.webp",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "images",
+    "isDirectory": true,
+    "isFile": false
+  }
+]
+[2025-06-29T13:49:09.682Z] [34m[2025-06-29T13:49:09.682Z] DEBUG: Optimized images directory contents:[39m 
+[
+  {
+    "name": "apple-touch-icon.avif",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "apple-touch-icon.png",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "apple-touch-icon.webp",
+    "isDirectory": false,
+    "isFile": true
+  },
+  {
+    "name": "images",
+    "isDirectory": true,
+    "isFile": false
+  }
+]
+[2025-06-29T13:49:09.683Z] [2025-06-29T13:49:09.683Z] INFO: Looking for optimized images in: public/optimized-images
+[2025-06-29T13:49:09.683Z] [36m[2025-06-29T13:49:09.683Z] INFO: Looking for optimized images in: public/optimized-images[39m 
+[2025-06-29T13:49:09.698Z] [2025-06-29T13:49:09.698Z] INFO: Found 3 files matching pattern: public/optimized-images/*.{jpg,jpeg,png,webp,gif,avif}
+[2025-06-29T13:49:09.698Z] [36m[2025-06-29T13:49:09.698Z] INFO: Found 3 files matching pattern: public/optimized-images/*.{jpg,jpeg,png,webp,gif,avif}[39m 
+[2025-06-29T13:49:09.699Z] [2025-06-29T13:49:09.699Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.webp
+{
+  "relativePath": "apple-touch-icon.webp",
+  "originalPath": "apple-touch-icon.webp"
+}
+[2025-06-29T13:49:09.700Z] [36m[2025-06-29T13:49:09.699Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.webp[39m 
+{
+  "relativePath": "apple-touch-icon.webp",
+  "originalPath": "apple-touch-icon.webp"
+}
+[2025-06-29T13:49:09.701Z] [2025-06-29T13:49:09.701Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.webp","ext":"webp","webPath":"/optimized-images/apple-touch-icon.webp","exists":true}
+[2025-06-29T13:49:09.701Z] [36m[2025-06-29T13:49:09.701Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.webp","ext":"webp","webPath":"/optimized-images/apple-touch-icon.webp","exists":true}[39m 
+[2025-06-29T13:49:09.701Z] [2025-06-29T13:49:09.701Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.png
+{
+  "relativePath": "apple-touch-icon.png",
+  "originalPath": "apple-touch-icon.png"
+}
+[2025-06-29T13:49:09.701Z] [36m[2025-06-29T13:49:09.701Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.png[39m 
+{
+  "relativePath": "apple-touch-icon.png",
+  "originalPath": "apple-touch-icon.png"
+}
+[2025-06-29T13:49:09.702Z] [2025-06-29T13:49:09.702Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.png","ext":"png","webPath":"/optimized-images/apple-touch-icon.png","exists":true}
+[2025-06-29T13:49:09.702Z] [36m[2025-06-29T13:49:09.702Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.png","ext":"png","webPath":"/optimized-images/apple-touch-icon.png","exists":true}[39m 
+[2025-06-29T13:49:09.703Z] [2025-06-29T13:49:09.703Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.avif
+{
+  "relativePath": "apple-touch-icon.avif",
+  "originalPath": "apple-touch-icon.avif"
+}
+[2025-06-29T13:49:09.703Z] [36m[2025-06-29T13:49:09.703Z] INFO: Processing optimized file: public\optimized-images\apple-touch-icon.avif[39m 
+{
+  "relativePath": "apple-touch-icon.avif",
+  "originalPath": "apple-touch-icon.avif"
+}
+[2025-06-29T13:49:09.704Z] [2025-06-29T13:49:09.704Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.avif","ext":"avif","webPath":"/optimized-images/apple-touch-icon.avif","exists":true}
+[2025-06-29T13:49:09.704Z] [36m[2025-06-29T13:49:09.704Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\apple-touch-icon.avif","ext":"avif","webPath":"/optimized-images/apple-touch-icon.avif","exists":true}[39m 
+[2025-06-29T13:49:09.708Z] [2025-06-29T13:49:09.708Z] INFO: Found 3 files matching pattern: public/optimized-images/images/*.{jpg,jpeg,png,webp,gif,avif}
+[2025-06-29T13:49:09.708Z] [36m[2025-06-29T13:49:09.708Z] INFO: Found 3 files matching pattern: public/optimized-images/images/*.{jpg,jpeg,png,webp,gif,avif}[39m 
+[2025-06-29T13:49:09.708Z] [2025-06-29T13:49:09.708Z] INFO: Processing optimized file: public\optimized-images\images\logo192.webp
+{
+  "relativePath": "images\\logo192.webp",
+  "originalPath": "images\\logo192.webp"
+}
+[2025-06-29T13:49:09.708Z] [36m[2025-06-29T13:49:09.708Z] INFO: Processing optimized file: public\optimized-images\images\logo192.webp[39m 
+{
+  "relativePath": "images\\logo192.webp",
+  "originalPath": "images\\logo192.webp"
+}
+[2025-06-29T13:49:09.709Z] [2025-06-29T13:49:09.709Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.webp","ext":"webp","webPath":"/optimized-images/images/logo192.webp","exists":true}
+[2025-06-29T13:49:09.709Z] [36m[2025-06-29T13:49:09.709Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.webp","ext":"webp","webPath":"/optimized-images/images/logo192.webp","exists":true}[39m 
+[2025-06-29T13:49:09.709Z] [2025-06-29T13:49:09.709Z] INFO: Processing optimized file: public\optimized-images\images\logo192.png
+{
+  "relativePath": "images\\logo192.png",
+  "originalPath": "images\\logo192.png"
+}
+[2025-06-29T13:49:09.709Z] [36m[2025-06-29T13:49:09.709Z] INFO: Processing optimized file: public\optimized-images\images\logo192.png[39m 
+{
+  "relativePath": "images\\logo192.png",
+  "originalPath": "images\\logo192.png"
+}
+[2025-06-29T13:49:09.710Z] [2025-06-29T13:49:09.710Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.png","ext":"png","webPath":"/optimized-images/images/logo192.png","exists":true}
+[2025-06-29T13:49:09.710Z] [36m[2025-06-29T13:49:09.710Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.png","ext":"png","webPath":"/optimized-images/images/logo192.png","exists":true}[39m 
+[2025-06-29T13:49:09.710Z] [2025-06-29T13:49:09.710Z] INFO: Processing optimized file: public\optimized-images\images\logo192.avif
+{
+  "relativePath": "images\\logo192.avif",
+  "originalPath": "images\\logo192.avif"
+}
+[2025-06-29T13:49:09.710Z] [36m[2025-06-29T13:49:09.710Z] INFO: Processing optimized file: public\optimized-images\images\logo192.avif[39m 
+{
+  "relativePath": "images\\logo192.avif",
+  "originalPath": "images\\logo192.avif"
+}
+[2025-06-29T13:49:09.711Z] [2025-06-29T13:49:09.711Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.avif","ext":"avif","webPath":"/optimized-images/images/logo192.avif","exists":true}
+[2025-06-29T13:49:09.711Z] [36m[2025-06-29T13:49:09.711Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\logo192.avif","ext":"avif","webPath":"/optimized-images/images/logo192.avif","exists":true}[39m 
+[2025-06-29T13:49:09.714Z] [2025-06-29T13:49:09.714Z] INFO: Found 2 files matching pattern: public/optimized-images/images/projects/**/*.{jpg,jpeg,png,webp,gif,avif}
+[2025-06-29T13:49:09.714Z] [36m[2025-06-29T13:49:09.714Z] INFO: Found 2 files matching pattern: public/optimized-images/images/projects/**/*.{jpg,jpeg,png,webp,gif,avif}[39m 
+[2025-06-29T13:49:09.714Z] [2025-06-29T13:49:09.714Z] INFO: Processing optimized file: public\optimized-images\images\projects\Mahira Portfolio Web+AI\Project7 Cover.webp
+{
+  "relativePath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp",
+  "originalPath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp"
+}
+[2025-06-29T13:49:09.714Z] [36m[2025-06-29T13:49:09.714Z] INFO: Processing optimized file: public\optimized-images\images\projects\Mahira Portfolio Web+AI\Project7 Cover.webp[39m 
+{
+  "relativePath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp",
+  "originalPath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp"
+}
+[2025-06-29T13:49:09.715Z] [2025-06-29T13:49:09.715Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp","ext":"webp","webPath":"/optimized-images/images/projects/Mahira Portfolio Web+AI/Project7 Cover.webp","exists":true}
+[2025-06-29T13:49:09.715Z] [36m[2025-06-29T13:49:09.715Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.webp","ext":"webp","webPath":"/optimized-images/images/projects/Mahira Portfolio Web+AI/Project7 Cover.webp","exists":true}[39m 
+[2025-06-29T13:49:09.716Z] [2025-06-29T13:49:09.716Z] INFO: Processing optimized file: public\optimized-images\images\projects\Mahira Portfolio Web+AI\Project7 Cover.avif
+{
+  "relativePath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif",
+  "originalPath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif"
+}
+[2025-06-29T13:49:09.716Z] [36m[2025-06-29T13:49:09.716Z] INFO: Processing optimized file: public\optimized-images\images\projects\Mahira Portfolio Web+AI\Project7 Cover.avif[39m 
+{
+  "relativePath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif",
+  "originalPath": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif"
+}
+[2025-06-29T13:49:09.716Z] [2025-06-29T13:49:09.716Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif","ext":"avif","webPath":"/optimized-images/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif","exists":true}
+[2025-06-29T13:49:09.716Z] [36m[2025-06-29T13:49:09.716Z] INFO: Adding optimized version: {"path":"public\\optimized-images\\images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif","ext":"avif","webPath":"/optimized-images/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif","exists":true}[39m 
+[2025-06-29T13:49:09.717Z] [2025-06-29T13:49:09.717Z] INFO: Found 8 unique original images with optimized versions
+[2025-06-29T13:49:09.717Z] [36m[2025-06-29T13:49:09.717Z] INFO: Found 8 unique original images with optimized versions[39m 
+[2025-06-29T13:49:09.717Z] [2025-06-29T13:49:09.717Z] INFO: Example optimized images (5 of 8):
+[2025-06-29T13:49:09.717Z] [36m[2025-06-29T13:49:09.717Z] INFO: Example optimized images (5 of 8):[39m 
+[2025-06-29T13:49:09.717Z] [2025-06-29T13:49:09.717Z] INFO:   apple-touch-icon.webp -> 1 versions:
+webp
+[2025-06-29T13:49:09.717Z] [36m[2025-06-29T13:49:09.717Z] INFO:   apple-touch-icon.webp -> 1 versions:[39m 
+webp
+[2025-06-29T13:49:09.717Z] [2025-06-29T13:49:09.717Z] INFO:   apple-touch-icon.png -> 1 versions:
+png
+[2025-06-29T13:49:09.717Z] [36m[2025-06-29T13:49:09.717Z] INFO:   apple-touch-icon.png -> 1 versions:[39m 
+png
+[2025-06-29T13:49:09.718Z] [2025-06-29T13:49:09.718Z] INFO:   apple-touch-icon.avif -> 1 versions:
+avif
+[2025-06-29T13:49:09.718Z] [36m[2025-06-29T13:49:09.718Z] INFO:   apple-touch-icon.avif -> 1 versions:[39m 
+avif
+[2025-06-29T13:49:09.718Z] [2025-06-29T13:49:09.718Z] INFO:   images\logo192.webp -> 1 versions:
+webp
+[2025-06-29T13:49:09.718Z] [36m[2025-06-29T13:49:09.718Z] INFO:   images\logo192.webp -> 1 versions:[39m 
+webp
+[2025-06-29T13:49:09.719Z] [2025-06-29T13:49:09.719Z] INFO:   images\logo192.png -> 1 versions:
+png
+[2025-06-29T13:49:09.719Z] [36m[2025-06-29T13:49:09.719Z] INFO:   images\logo192.png -> 1 versions:[39m 
+png
+[2025-06-29T13:49:09.719Z] [2025-06-29T13:49:09.719Z] INFO: Found 8 optimized images
+[2025-06-29T13:49:09.719Z] [36m[2025-06-29T13:49:09.719Z] INFO: Found 8 optimized images[39m 
+[2025-06-29T13:49:09.730Z] Found 94 source files to process
+[2025-06-29T13:49:09.731Z] [2025-06-29T13:49:09.731Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts ===
+INFO
+[2025-06-29T13:49:09.731Z] [36m[2025-06-29T13:49:09.731Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts ===[39m 
+INFO
+[2025-06-29T13:49:09.735Z] [2025-06-29T13:49:09.735Z] INFO: Found 6 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts
+[
+  "*.png",
+  "*.jpg",
+  "*.jpeg",
+  "*.gif",
+  "*.webp",
+  "*.avif"
+]
+[2025-06-29T13:49:09.735Z] [36m[2025-06-29T13:49:09.735Z] INFO: Found 6 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts[39m 
+[
+  "*.png",
+  "*.jpg",
+  "*.jpeg",
+  "*.gif",
+  "*.webp",
+  "*.avif"
+]
+[2025-06-29T13:49:09.735Z] [2025-06-29T13:49:09.735Z] INFO: Looking for optimized versions of: *.png
+DEBUG
+[2025-06-29T13:49:09.735Z] [36m[2025-06-29T13:49:09.735Z] INFO: Looking for optimized versions of: *.png[39m 
+DEBUG
+[2025-06-29T13:49:09.736Z] [2025-06-29T13:49:09.736Z] INFO: No optimized versions found for: *.png
+[2025-06-29T13:49:09.736Z] [36m[2025-06-29T13:49:09.736Z] INFO: No optimized versions found for: *.png[39m 
+[2025-06-29T13:49:09.736Z] [2025-06-29T13:49:09.736Z] INFO: Looking for optimized versions of: *.jpg
+DEBUG
+[2025-06-29T13:49:09.736Z] [36m[2025-06-29T13:49:09.736Z] INFO: Looking for optimized versions of: *.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.736Z] [2025-06-29T13:49:09.736Z] INFO: No optimized versions found for: *.jpg
+[2025-06-29T13:49:09.736Z] [36m[2025-06-29T13:49:09.736Z] INFO: No optimized versions found for: *.jpg[39m 
+[2025-06-29T13:49:09.737Z] [2025-06-29T13:49:09.737Z] INFO: Looking for optimized versions of: *.jpeg
+DEBUG
+[2025-06-29T13:49:09.737Z] [36m[2025-06-29T13:49:09.737Z] INFO: Looking for optimized versions of: *.jpeg[39m 
+DEBUG
+[2025-06-29T13:49:09.737Z] [2025-06-29T13:49:09.737Z] INFO: No optimized versions found for: *.jpeg
+[2025-06-29T13:49:09.737Z] [36m[2025-06-29T13:49:09.737Z] INFO: No optimized versions found for: *.jpeg[39m 
+[2025-06-29T13:49:09.737Z] [2025-06-29T13:49:09.737Z] INFO: Looking for optimized versions of: *.gif
+DEBUG
+[2025-06-29T13:49:09.738Z] [36m[2025-06-29T13:49:09.737Z] INFO: Looking for optimized versions of: *.gif[39m 
+DEBUG
+[2025-06-29T13:49:09.738Z] [2025-06-29T13:49:09.738Z] INFO: No optimized versions found for: *.gif
+[2025-06-29T13:49:09.738Z] [36m[2025-06-29T13:49:09.738Z] INFO: No optimized versions found for: *.gif[39m 
+[2025-06-29T13:49:09.738Z] [2025-06-29T13:49:09.738Z] INFO: Looking for optimized versions of: *.webp
+DEBUG
+[2025-06-29T13:49:09.738Z] [36m[2025-06-29T13:49:09.738Z] INFO: Looking for optimized versions of: *.webp[39m 
+DEBUG
+[2025-06-29T13:49:09.738Z] [2025-06-29T13:49:09.738Z] INFO: No optimized versions found for: *.webp
+[2025-06-29T13:49:09.738Z] [36m[2025-06-29T13:49:09.738Z] INFO: No optimized versions found for: *.webp[39m 
+[2025-06-29T13:49:09.739Z] [2025-06-29T13:49:09.739Z] INFO: Looking for optimized versions of: *.avif
+DEBUG
+[2025-06-29T13:49:09.739Z] [36m[2025-06-29T13:49:09.739Z] INFO: Looking for optimized versions of: *.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.739Z] [2025-06-29T13:49:09.739Z] INFO: No optimized versions found for: *.avif
+[2025-06-29T13:49:09.739Z] [36m[2025-06-29T13:49:09.739Z] INFO: No optimized versions found for: *.avif[39m 
+[2025-06-29T13:49:09.739Z] [2025-06-29T13:49:09.739Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts
+[2025-06-29T13:49:09.739Z] [36m[2025-06-29T13:49:09.739Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\vite-env.d.ts[39m 
+[2025-06-29T13:49:09.739Z] [2025-06-29T13:49:09.739Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx ===
+INFO
+[2025-06-29T13:49:09.739Z] [36m[2025-06-29T13:49:09.739Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.741Z] [2025-06-29T13:49:09.741Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx
+[]
+[2025-06-29T13:49:09.741Z] [36m[2025-06-29T13:49:09.741Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx[39m 
+[]
+[2025-06-29T13:49:09.741Z] [2025-06-29T13:49:09.741Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx
+[2025-06-29T13:49:09.741Z] [36m[2025-06-29T13:49:09.741Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pwa.jsx[39m 
+[2025-06-29T13:49:09.742Z] [2025-06-29T13:49:09.742Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx ===
+INFO
+[2025-06-29T13:49:09.742Z] [36m[2025-06-29T13:49:09.742Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.743Z] [2025-06-29T13:49:09.743Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx
+[]
+[2025-06-29T13:49:09.743Z] [36m[2025-06-29T13:49:09.743Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx[39m 
+[]
+[2025-06-29T13:49:09.743Z] [2025-06-29T13:49:09.743Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx
+[2025-06-29T13:49:09.743Z] [36m[2025-06-29T13:49:09.743Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\main.jsx[39m 
+[2025-06-29T13:49:09.744Z] [2025-06-29T13:49:09.744Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx ===
+INFO
+[2025-06-29T13:49:09.744Z] [36m[2025-06-29T13:49:09.744Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx ===[39m 
+INFO
+[2025-06-29T13:49:09.745Z] [2025-06-29T13:49:09.745Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx
+[]
+[2025-06-29T13:49:09.745Z] [36m[2025-06-29T13:49:09.745Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx[39m 
+[]
+[2025-06-29T13:49:09.745Z] [2025-06-29T13:49:09.745Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx
+[2025-06-29T13:49:09.745Z] [36m[2025-06-29T13:49:09.745Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\App.tsx[39m 
+[2025-06-29T13:49:09.745Z] [2025-06-29T13:49:09.745Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js ===
+INFO
+[2025-06-29T13:49:09.745Z] [36m[2025-06-29T13:49:09.745Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.747Z] [2025-06-29T13:49:09.747Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js
+[]
+[2025-06-29T13:49:09.747Z] [36m[2025-06-29T13:49:09.747Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js[39m 
+[]
+[2025-06-29T13:49:09.747Z] [2025-06-29T13:49:09.747Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js
+[2025-06-29T13:49:09.747Z] [36m[2025-06-29T13:49:09.747Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\__tests__\example.test.js[39m 
+[2025-06-29T13:49:09.747Z] [2025-06-29T13:49:09.747Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html ===
+INFO
+[2025-06-29T13:49:09.747Z] [36m[2025-06-29T13:49:09.747Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html ===[39m 
+INFO
+[2025-06-29T13:49:09.748Z] [2025-06-29T13:49:09.748Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html
+[
+  "/assets/images/project1-before.avif"
+]
+[2025-06-29T13:49:09.748Z] [36m[2025-06-29T13:49:09.748Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html[39m 
+[
+  "/assets/images/project1-before.avif"
+]
+[2025-06-29T13:49:09.749Z] [2025-06-29T13:49:09.749Z] INFO: Looking for optimized versions of: assets/images/project1-before.avif
+DEBUG
+[2025-06-29T13:49:09.749Z] [36m[2025-06-29T13:49:09.749Z] INFO: Looking for optimized versions of: assets/images/project1-before.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.749Z] [2025-06-29T13:49:09.749Z] INFO: No optimized versions found for: /assets/images/project1-before.avif
+[2025-06-29T13:49:09.749Z] [36m[2025-06-29T13:49:09.749Z] INFO: No optimized versions found for: /assets/images/project1-before.avif[39m 
+[2025-06-29T13:49:09.749Z] [2025-06-29T13:49:09.749Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html
+[2025-06-29T13:49:09.749Z] [36m[2025-06-29T13:49:09.749Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\project-detail.html[39m 
+[2025-06-29T13:49:09.750Z] [2025-06-29T13:49:09.750Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html ===
+INFO
+[2025-06-29T13:49:09.750Z] [36m[2025-06-29T13:49:09.750Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html ===[39m 
+INFO
+[2025-06-29T13:49:09.751Z] [2025-06-29T13:49:09.751Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html
+[]
+[2025-06-29T13:49:09.751Z] [36m[2025-06-29T13:49:09.751Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html[39m 
+[]
+[2025-06-29T13:49:09.751Z] [2025-06-29T13:49:09.751Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html
+[2025-06-29T13:49:09.751Z] [36m[2025-06-29T13:49:09.751Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\views\header.html[39m 
+[2025-06-29T13:49:09.751Z] [2025-06-29T13:49:09.751Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js ===
+INFO
+[2025-06-29T13:49:09.751Z] [36m[2025-06-29T13:49:09.751Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js ===[39m 
+INFO
+[2025-06-29T13:49:09.753Z] [2025-06-29T13:49:09.753Z] INFO: Found 16 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js
+[
+  "zometo-ds.avif",
+  "zt1.avif",
+  "zt2.avif",
+  "bs-saleVSpft.avif",
+  "bs-stockTO.avif",
+  "bs-top10.avif",
+  "bs2.avif",
+  "bs3.avif",
+  "Store_POWERBI1.avif",
+  "CashFlow1.avif",
+  "CashFlow2.avif",
+  "Attendance.avif",
+  "Attendance_after.avif",
+  "analysis.jpg",
+  "dashboard.jpg",
+  "insights.jpg"
+]
+[2025-06-29T13:49:09.753Z] [36m[2025-06-29T13:49:09.753Z] INFO: Found 16 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js[39m 
+[
+  "zometo-ds.avif",
+  "zt1.avif",
+  "zt2.avif",
+  "bs-saleVSpft.avif",
+  "bs-stockTO.avif",
+  "bs-top10.avif",
+  "bs2.avif",
+  "bs3.avif",
+  "Store_POWERBI1.avif",
+  "CashFlow1.avif",
+  "CashFlow2.avif",
+  "Attendance.avif",
+  "Attendance_after.avif",
+  "analysis.jpg",
+  "dashboard.jpg",
+  "insights.jpg"
+]
+[2025-06-29T13:49:09.754Z] [2025-06-29T13:49:09.754Z] INFO: Looking for optimized versions of: zometo-ds.avif
+DEBUG
+[2025-06-29T13:49:09.754Z] [36m[2025-06-29T13:49:09.754Z] INFO: Looking for optimized versions of: zometo-ds.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.755Z] [2025-06-29T13:49:09.755Z] INFO: No optimized versions found for: zometo-ds.avif
+[2025-06-29T13:49:09.755Z] [36m[2025-06-29T13:49:09.755Z] INFO: No optimized versions found for: zometo-ds.avif[39m 
+[2025-06-29T13:49:09.755Z] [2025-06-29T13:49:09.755Z] INFO: Looking for optimized versions of: zt1.avif
+DEBUG
+[2025-06-29T13:49:09.755Z] [36m[2025-06-29T13:49:09.755Z] INFO: Looking for optimized versions of: zt1.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.755Z] [2025-06-29T13:49:09.755Z] INFO: No optimized versions found for: zt1.avif
+[2025-06-29T13:49:09.755Z] [36m[2025-06-29T13:49:09.755Z] INFO: No optimized versions found for: zt1.avif[39m 
+[2025-06-29T13:49:09.755Z] [2025-06-29T13:49:09.755Z] INFO: Looking for optimized versions of: zt2.avif
+DEBUG
+[2025-06-29T13:49:09.755Z] [36m[2025-06-29T13:49:09.755Z] INFO: Looking for optimized versions of: zt2.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.756Z] [2025-06-29T13:49:09.756Z] INFO: No optimized versions found for: zt2.avif
+[2025-06-29T13:49:09.756Z] [36m[2025-06-29T13:49:09.756Z] INFO: No optimized versions found for: zt2.avif[39m 
+[2025-06-29T13:49:09.756Z] [2025-06-29T13:49:09.756Z] INFO: Looking for optimized versions of: bs-saleVSpft.avif
+DEBUG
+[2025-06-29T13:49:09.756Z] [36m[2025-06-29T13:49:09.756Z] INFO: Looking for optimized versions of: bs-saleVSpft.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.756Z] [2025-06-29T13:49:09.756Z] INFO: No optimized versions found for: bs-saleVSpft.avif
+[2025-06-29T13:49:09.756Z] [36m[2025-06-29T13:49:09.756Z] INFO: No optimized versions found for: bs-saleVSpft.avif[39m 
+[2025-06-29T13:49:09.756Z] [2025-06-29T13:49:09.756Z] INFO: Looking for optimized versions of: bs-stockTO.avif
+DEBUG
+[2025-06-29T13:49:09.756Z] [36m[2025-06-29T13:49:09.756Z] INFO: Looking for optimized versions of: bs-stockTO.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs-stockTO.avif
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs-stockTO.avif[39m 
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs-top10.avif
+DEBUG
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs-top10.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs-top10.avif
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs-top10.avif[39m 
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs2.avif
+DEBUG
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs2.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs2.avif
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs2.avif[39m 
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs3.avif
+DEBUG
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: Looking for optimized versions of: bs3.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.757Z] [2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs3.avif
+[2025-06-29T13:49:09.757Z] [36m[2025-06-29T13:49:09.757Z] INFO: No optimized versions found for: bs3.avif[39m 
+[2025-06-29T13:49:09.758Z] [2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: Store_POWERBI1.avif
+DEBUG
+[2025-06-29T13:49:09.758Z] [36m[2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: Store_POWERBI1.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.758Z] [2025-06-29T13:49:09.758Z] INFO: No optimized versions found for: Store_POWERBI1.avif
+[2025-06-29T13:49:09.758Z] [36m[2025-06-29T13:49:09.758Z] INFO: No optimized versions found for: Store_POWERBI1.avif[39m 
+[2025-06-29T13:49:09.758Z] [2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: CashFlow1.avif
+DEBUG
+[2025-06-29T13:49:09.758Z] [36m[2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: CashFlow1.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.758Z] [2025-06-29T13:49:09.758Z] INFO: No optimized versions found for: CashFlow1.avif
+[2025-06-29T13:49:09.758Z] [36m[2025-06-29T13:49:09.758Z] INFO: No optimized versions found for: CashFlow1.avif[39m 
+[2025-06-29T13:49:09.758Z] [2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: CashFlow2.avif
+DEBUG
+[2025-06-29T13:49:09.758Z] [36m[2025-06-29T13:49:09.758Z] INFO: Looking for optimized versions of: CashFlow2.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.759Z] [2025-06-29T13:49:09.759Z] INFO: No optimized versions found for: CashFlow2.avif
+[2025-06-29T13:49:09.759Z] [36m[2025-06-29T13:49:09.759Z] INFO: No optimized versions found for: CashFlow2.avif[39m 
+[2025-06-29T13:49:09.759Z] [2025-06-29T13:49:09.759Z] INFO: Looking for optimized versions of: Attendance.avif
+DEBUG
+[2025-06-29T13:49:09.759Z] [36m[2025-06-29T13:49:09.759Z] INFO: Looking for optimized versions of: Attendance.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.759Z] [2025-06-29T13:49:09.759Z] INFO: No optimized versions found for: Attendance.avif
+[2025-06-29T13:49:09.759Z] [36m[2025-06-29T13:49:09.759Z] INFO: No optimized versions found for: Attendance.avif[39m 
+[2025-06-29T13:49:09.759Z] [2025-06-29T13:49:09.759Z] INFO: Looking for optimized versions of: Attendance_after.avif
+DEBUG
+[2025-06-29T13:49:09.759Z] [36m[2025-06-29T13:49:09.759Z] INFO: Looking for optimized versions of: Attendance_after.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.760Z] [2025-06-29T13:49:09.760Z] INFO: No optimized versions found for: Attendance_after.avif
+[2025-06-29T13:49:09.760Z] [36m[2025-06-29T13:49:09.760Z] INFO: No optimized versions found for: Attendance_after.avif[39m 
+[2025-06-29T13:49:09.760Z] [2025-06-29T13:49:09.760Z] INFO: Looking for optimized versions of: analysis.jpg
+DEBUG
+[2025-06-29T13:49:09.760Z] [36m[2025-06-29T13:49:09.760Z] INFO: Looking for optimized versions of: analysis.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.760Z] [2025-06-29T13:49:09.760Z] INFO: No optimized versions found for: analysis.jpg
+[2025-06-29T13:49:09.760Z] [36m[2025-06-29T13:49:09.760Z] INFO: No optimized versions found for: analysis.jpg[39m 
+[2025-06-29T13:49:09.761Z] [2025-06-29T13:49:09.761Z] INFO: Looking for optimized versions of: dashboard.jpg
+DEBUG
+[2025-06-29T13:49:09.761Z] [36m[2025-06-29T13:49:09.761Z] INFO: Looking for optimized versions of: dashboard.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.761Z] [2025-06-29T13:49:09.761Z] INFO: No optimized versions found for: dashboard.jpg
+[2025-06-29T13:49:09.761Z] [36m[2025-06-29T13:49:09.761Z] INFO: No optimized versions found for: dashboard.jpg[39m 
+[2025-06-29T13:49:09.761Z] [2025-06-29T13:49:09.761Z] INFO: Looking for optimized versions of: insights.jpg
+DEBUG
+[2025-06-29T13:49:09.761Z] [36m[2025-06-29T13:49:09.761Z] INFO: Looking for optimized versions of: insights.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.761Z] [2025-06-29T13:49:09.761Z] INFO: No optimized versions found for: insights.jpg
+[2025-06-29T13:49:09.761Z] [36m[2025-06-29T13:49:09.761Z] INFO: No optimized versions found for: insights.jpg[39m 
+[2025-06-29T13:49:09.762Z] [2025-06-29T13:49:09.762Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js
+[2025-06-29T13:49:09.762Z] [36m[2025-06-29T13:49:09.762Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\projectData.js[39m 
+[2025-06-29T13:49:09.762Z] [2025-06-29T13:49:09.762Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js ===
+INFO
+[2025-06-29T13:49:09.762Z] [36m[2025-06-29T13:49:09.762Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js ===[39m 
+INFO
+[2025-06-29T13:49:09.763Z] [2025-06-29T13:49:09.763Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js
+[]
+[2025-06-29T13:49:09.763Z] [36m[2025-06-29T13:49:09.763Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js[39m 
+[]
+[2025-06-29T13:49:09.763Z] [2025-06-29T13:49:09.763Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js
+[2025-06-29T13:49:09.763Z] [36m[2025-06-29T13:49:09.763Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\performance.js[39m 
+[2025-06-29T13:49:09.764Z] [2025-06-29T13:49:09.764Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js ===
+INFO
+[2025-06-29T13:49:09.764Z] [36m[2025-06-29T13:49:09.764Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js ===[39m 
+INFO
+[2025-06-29T13:49:09.765Z] [2025-06-29T13:49:09.765Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js
+[]
+[2025-06-29T13:49:09.765Z] [36m[2025-06-29T13:49:09.765Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js[39m 
+[]
+[2025-06-29T13:49:09.766Z] [2025-06-29T13:49:09.766Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js
+[2025-06-29T13:49:09.766Z] [36m[2025-06-29T13:49:09.766Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\imageUtils.js[39m 
+[2025-06-29T13:49:09.766Z] [2025-06-29T13:49:09.766Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts ===
+INFO
+[2025-06-29T13:49:09.766Z] [36m[2025-06-29T13:49:09.766Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts ===[39m 
+INFO
+[2025-06-29T13:49:09.767Z] [2025-06-29T13:49:09.767Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts
+[]
+[2025-06-29T13:49:09.767Z] [36m[2025-06-29T13:49:09.767Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts[39m 
+[]
+[2025-06-29T13:49:09.768Z] [2025-06-29T13:49:09.768Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts
+[2025-06-29T13:49:09.768Z] [36m[2025-06-29T13:49:09.768Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\cloudinary.ts[39m 
+[2025-06-29T13:49:09.768Z] [2025-06-29T13:49:09.768Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js ===
+INFO
+[2025-06-29T13:49:09.768Z] [36m[2025-06-29T13:49:09.768Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js ===[39m 
+INFO
+[2025-06-29T13:49:09.769Z] [2025-06-29T13:49:09.769Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js
+[]
+[2025-06-29T13:49:09.769Z] [36m[2025-06-29T13:49:09.769Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js[39m 
+[]
+[2025-06-29T13:49:09.770Z] [2025-06-29T13:49:09.770Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js
+[2025-06-29T13:49:09.770Z] [36m[2025-06-29T13:49:09.770Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\utils\accessibility.js[39m 
+[2025-06-29T13:49:09.770Z] [2025-06-29T13:49:09.770Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js ===
+INFO
+[2025-06-29T13:49:09.770Z] [36m[2025-06-29T13:49:09.770Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.771Z] [2025-06-29T13:49:09.771Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js
+[]
+[2025-06-29T13:49:09.771Z] [36m[2025-06-29T13:49:09.771Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js[39m 
+[]
+[2025-06-29T13:49:09.771Z] [2025-06-29T13:49:09.771Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js
+[2025-06-29T13:49:09.771Z] [36m[2025-06-29T13:49:09.771Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\performance.test.js[39m 
+[2025-06-29T13:49:09.772Z] [2025-06-29T13:49:09.772Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js ===
+INFO
+[2025-06-29T13:49:09.772Z] [36m[2025-06-29T13:49:09.772Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.773Z] [2025-06-29T13:49:09.773Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js
+[]
+[2025-06-29T13:49:09.773Z] [36m[2025-06-29T13:49:09.773Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js[39m 
+[]
+[2025-06-29T13:49:09.773Z] [2025-06-29T13:49:09.773Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js
+[2025-06-29T13:49:09.773Z] [36m[2025-06-29T13:49:09.773Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\forms.test.js[39m 
+[2025-06-29T13:49:09.774Z] [2025-06-29T13:49:09.774Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js ===
+INFO
+[2025-06-29T13:49:09.774Z] [36m[2025-06-29T13:49:09.774Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.775Z] [2025-06-29T13:49:09.775Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js
+[]
+[2025-06-29T13:49:09.775Z] [36m[2025-06-29T13:49:09.775Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js[39m 
+[]
+[2025-06-29T13:49:09.775Z] [2025-06-29T13:49:09.775Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js
+[2025-06-29T13:49:09.775Z] [36m[2025-06-29T13:49:09.775Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\components.test.js[39m 
+[2025-06-29T13:49:09.775Z] [2025-06-29T13:49:09.775Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js ===
+INFO
+[2025-06-29T13:49:09.775Z] [36m[2025-06-29T13:49:09.775Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.776Z] [2025-06-29T13:49:09.776Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js
+[]
+[2025-06-29T13:49:09.776Z] [36m[2025-06-29T13:49:09.776Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js[39m 
+[]
+[2025-06-29T13:49:09.777Z] [2025-06-29T13:49:09.777Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js
+[2025-06-29T13:49:09.777Z] [36m[2025-06-29T13:49:09.777Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\tests\accessibility.test.js[39m 
+[2025-06-29T13:49:09.777Z] [2025-06-29T13:49:09.777Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js ===
+INFO
+[2025-06-29T13:49:09.777Z] [36m[2025-06-29T13:49:09.777Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.781Z] [2025-06-29T13:49:09.781Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js
+[]
+[2025-06-29T13:49:09.781Z] [36m[2025-06-29T13:49:09.781Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js[39m 
+[]
+[2025-06-29T13:49:09.781Z] [2025-06-29T13:49:09.781Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js
+[2025-06-29T13:49:09.781Z] [36m[2025-06-29T13:49:09.781Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\simple.test.js[39m 
+[2025-06-29T13:49:09.781Z] [2025-06-29T13:49:09.781Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js ===
+INFO
+[2025-06-29T13:49:09.781Z] [36m[2025-06-29T13:49:09.781Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js ===[39m 
+INFO
+[2025-06-29T13:49:09.783Z] [2025-06-29T13:49:09.783Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js
+[]
+[2025-06-29T13:49:09.783Z] [36m[2025-06-29T13:49:09.783Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js[39m 
+[]
+[2025-06-29T13:49:09.783Z] [2025-06-29T13:49:09.783Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js
+[2025-06-29T13:49:09.783Z] [36m[2025-06-29T13:49:09.783Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\setup.js[39m 
+[2025-06-29T13:49:09.783Z] [2025-06-29T13:49:09.783Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js ===
+INFO
+[2025-06-29T13:49:09.783Z] [36m[2025-06-29T13:49:09.783Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js ===[39m 
+INFO
+[2025-06-29T13:49:09.785Z] [2025-06-29T13:49:09.785Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js
+[]
+[2025-06-29T13:49:09.785Z] [36m[2025-06-29T13:49:09.785Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js[39m 
+[]
+[2025-06-29T13:49:09.785Z] [2025-06-29T13:49:09.785Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js
+[2025-06-29T13:49:09.785Z] [36m[2025-06-29T13:49:09.785Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\test\example.test.js[39m 
+[2025-06-29T13:49:09.785Z] [2025-06-29T13:49:09.785Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts ===
+INFO
+[2025-06-29T13:49:09.785Z] [36m[2025-06-29T13:49:09.785Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts ===[39m 
+INFO
+[2025-06-29T13:49:09.787Z] [2025-06-29T13:49:09.787Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts
+[]
+[2025-06-29T13:49:09.787Z] [36m[2025-06-29T13:49:09.787Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts[39m 
+[]
+[2025-06-29T13:49:09.787Z] [2025-06-29T13:49:09.787Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts
+[2025-06-29T13:49:09.787Z] [36m[2025-06-29T13:49:09.787Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\sentry.ts[39m 
+[2025-06-29T13:49:09.787Z] [2025-06-29T13:49:09.787Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx ===
+INFO
+[2025-06-29T13:49:09.787Z] [36m[2025-06-29T13:49:09.787Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.789Z] [2025-06-29T13:49:09.789Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx
+[]
+[2025-06-29T13:49:09.789Z] [36m[2025-06-29T13:49:09.789Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx[39m 
+[]
+[2025-06-29T13:49:09.789Z] [2025-06-29T13:49:09.789Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx
+[2025-06-29T13:49:09.789Z] [36m[2025-06-29T13:49:09.789Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\services\aiService.jsx[39m 
+[2025-06-29T13:49:09.789Z] [2025-06-29T13:49:09.789Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js ===
+INFO
+[2025-06-29T13:49:09.789Z] [36m[2025-06-29T13:49:09.789Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js ===[39m 
+INFO
+[2025-06-29T13:49:09.790Z] [2025-06-29T13:49:09.790Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js
+[]
+[2025-06-29T13:49:09.790Z] [36m[2025-06-29T13:49:09.790Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js[39m 
+[]
+[2025-06-29T13:49:09.791Z] [2025-06-29T13:49:09.791Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js
+[2025-06-29T13:49:09.791Z] [36m[2025-06-29T13:49:09.791Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\server\aiService.js[39m 
+[2025-06-29T13:49:09.791Z] [2025-06-29T13:49:09.791Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx ===
+INFO
+[2025-06-29T13:49:09.791Z] [36m[2025-06-29T13:49:09.791Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.792Z] [2025-06-29T13:49:09.792Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx
+[]
+[2025-06-29T13:49:09.792Z] [36m[2025-06-29T13:49:09.792Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx[39m 
+[]
+[2025-06-29T13:49:09.792Z] [2025-06-29T13:49:09.792Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx
+[2025-06-29T13:49:09.792Z] [36m[2025-06-29T13:49:09.792Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\TestRoute.jsx[39m 
+[2025-06-29T13:49:09.793Z] [2025-06-29T13:49:09.793Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx ===
+INFO
+[2025-06-29T13:49:09.793Z] [36m[2025-06-29T13:49:09.793Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.794Z] [2025-06-29T13:49:09.794Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx
+[]
+[2025-06-29T13:49:09.794Z] [36m[2025-06-29T13:49:09.794Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx[39m 
+[]
+[2025-06-29T13:49:09.794Z] [2025-06-29T13:49:09.794Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx
+[2025-06-29T13:49:09.794Z] [36m[2025-06-29T13:49:09.794Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Resume.jsx[39m 
+[2025-06-29T13:49:09.794Z] [2025-06-29T13:49:09.794Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx ===
+INFO
+[2025-06-29T13:49:09.794Z] [36m[2025-06-29T13:49:09.794Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.795Z] [2025-06-29T13:49:09.795Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx
+[]
+[2025-06-29T13:49:09.795Z] [36m[2025-06-29T13:49:09.795Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx[39m 
+[]
+[2025-06-29T13:49:09.796Z] [2025-06-29T13:49:09.796Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx
+[2025-06-29T13:49:09.796Z] [36m[2025-06-29T13:49:09.796Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Projects.jsx[39m 
+[2025-06-29T13:49:09.796Z] [2025-06-29T13:49:09.796Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx ===
+INFO
+[2025-06-29T13:49:09.796Z] [36m[2025-06-29T13:49:09.796Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.797Z] [2025-06-29T13:49:09.797Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx
+[]
+[2025-06-29T13:49:09.797Z] [36m[2025-06-29T13:49:09.797Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx[39m 
+[]
+[2025-06-29T13:49:09.797Z] [2025-06-29T13:49:09.797Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx
+[2025-06-29T13:49:09.797Z] [36m[2025-06-29T13:49:09.797Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\ProjectDetails.jsx[39m 
+[2025-06-29T13:49:09.797Z] [2025-06-29T13:49:09.797Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx ===
+INFO
+[2025-06-29T13:49:09.797Z] [36m[2025-06-29T13:49:09.797Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.798Z] [2025-06-29T13:49:09.798Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx
+[]
+[2025-06-29T13:49:09.798Z] [36m[2025-06-29T13:49:09.798Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx[39m 
+[]
+[2025-06-29T13:49:09.799Z] [2025-06-29T13:49:09.799Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx
+[2025-06-29T13:49:09.799Z] [36m[2025-06-29T13:49:09.799Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\NotFound.jsx[39m 
+[2025-06-29T13:49:09.799Z] [2025-06-29T13:49:09.799Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx ===
+INFO
+[2025-06-29T13:49:09.799Z] [36m[2025-06-29T13:49:09.799Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.800Z] [2025-06-29T13:49:09.800Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx
+[]
+[2025-06-29T13:49:09.801Z] [36m[2025-06-29T13:49:09.800Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx[39m 
+[]
+[2025-06-29T13:49:09.801Z] [2025-06-29T13:49:09.801Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx
+[2025-06-29T13:49:09.801Z] [36m[2025-06-29T13:49:09.801Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Home.jsx[39m 
+[2025-06-29T13:49:09.801Z] [2025-06-29T13:49:09.801Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx ===
+INFO
+[2025-06-29T13:49:09.801Z] [36m[2025-06-29T13:49:09.801Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.803Z] [2025-06-29T13:49:09.803Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx
+[]
+[2025-06-29T13:49:09.803Z] [36m[2025-06-29T13:49:09.803Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx[39m 
+[]
+[2025-06-29T13:49:09.803Z] [2025-06-29T13:49:09.803Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx
+[2025-06-29T13:49:09.803Z] [36m[2025-06-29T13:49:09.803Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Experience.jsx[39m 
+[2025-06-29T13:49:09.804Z] [2025-06-29T13:49:09.804Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx ===
+INFO
+[2025-06-29T13:49:09.804Z] [36m[2025-06-29T13:49:09.804Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.805Z] [2025-06-29T13:49:09.805Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx
+[]
+[2025-06-29T13:49:09.805Z] [36m[2025-06-29T13:49:09.805Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx[39m 
+[]
+[2025-06-29T13:49:09.806Z] [2025-06-29T13:49:09.805Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx
+[2025-06-29T13:49:09.806Z] [36m[2025-06-29T13:49:09.805Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\Contact.jsx[39m 
+[2025-06-29T13:49:09.806Z] [2025-06-29T13:49:09.806Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx ===
+INFO
+[2025-06-29T13:49:09.806Z] [36m[2025-06-29T13:49:09.806Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.807Z] [2025-06-29T13:49:09.807Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx
+[
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.807Z] [36m[2025-06-29T13:49:09.807Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx[39m 
+[
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.808Z] [2025-06-29T13:49:09.808Z] INFO: Looking for optimized versions of: images/profile.avif
+DEBUG
+[2025-06-29T13:49:09.808Z] [36m[2025-06-29T13:49:09.808Z] INFO: Looking for optimized versions of: images/profile.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.808Z] [2025-06-29T13:49:09.808Z] INFO: No optimized versions found for: /images/profile.avif
+[2025-06-29T13:49:09.808Z] [36m[2025-06-29T13:49:09.808Z] INFO: No optimized versions found for: /images/profile.avif[39m 
+[2025-06-29T13:49:09.808Z] [2025-06-29T13:49:09.808Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx
+[2025-06-29T13:49:09.808Z] [36m[2025-06-29T13:49:09.808Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About.jsx[39m 
+[2025-06-29T13:49:09.808Z] [2025-06-29T13:49:09.808Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx ===
+INFO
+[2025-06-29T13:49:09.808Z] [36m[2025-06-29T13:49:09.808Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.810Z] [2025-06-29T13:49:09.810Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx
+[
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.810Z] [36m[2025-06-29T13:49:09.810Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx[39m 
+[
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.810Z] [2025-06-29T13:49:09.810Z] INFO: Looking for optimized versions of: images/profile.avif
+DEBUG
+[2025-06-29T13:49:09.810Z] [36m[2025-06-29T13:49:09.810Z] INFO: Looking for optimized versions of: images/profile.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.811Z] [2025-06-29T13:49:09.811Z] INFO: No optimized versions found for: /images/profile.avif
+[2025-06-29T13:49:09.811Z] [36m[2025-06-29T13:49:09.811Z] INFO: No optimized versions found for: /images/profile.avif[39m 
+[2025-06-29T13:49:09.811Z] [2025-06-29T13:49:09.811Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx
+[2025-06-29T13:49:09.811Z] [36m[2025-06-29T13:49:09.811Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\About-backup.jsx[39m 
+[2025-06-29T13:49:09.811Z] [2025-06-29T13:49:09.811Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js ===
+INFO
+[2025-06-29T13:49:09.811Z] [36m[2025-06-29T13:49:09.811Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js ===[39m 
+INFO
+[2025-06-29T13:49:09.813Z] [2025-06-29T13:49:09.813Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js
+[]
+[2025-06-29T13:49:09.813Z] [36m[2025-06-29T13:49:09.813Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js[39m 
+[]
+[2025-06-29T13:49:09.813Z] [2025-06-29T13:49:09.813Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js
+[2025-06-29T13:49:09.813Z] [36m[2025-06-29T13:49:09.813Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\project-slider.js[39m 
+[2025-06-29T13:49:09.813Z] [2025-06-29T13:49:09.813Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js ===
+INFO
+[2025-06-29T13:49:09.813Z] [36m[2025-06-29T13:49:09.813Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js ===[39m 
+INFO
+[2025-06-29T13:49:09.815Z] [2025-06-29T13:49:09.815Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js
+[]
+[2025-06-29T13:49:09.815Z] [36m[2025-06-29T13:49:09.815Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js[39m 
+[]
+[2025-06-29T13:49:09.815Z] [2025-06-29T13:49:09.815Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js
+[2025-06-29T13:49:09.815Z] [36m[2025-06-29T13:49:09.815Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\main.js[39m 
+[2025-06-29T13:49:09.815Z] [2025-06-29T13:49:09.815Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js ===
+INFO
+[2025-06-29T13:49:09.815Z] [36m[2025-06-29T13:49:09.815Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js ===[39m 
+INFO
+[2025-06-29T13:49:09.816Z] [2025-06-29T13:49:09.816Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js
+[]
+[2025-06-29T13:49:09.816Z] [36m[2025-06-29T13:49:09.816Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js[39m 
+[]
+[2025-06-29T13:49:09.816Z] [2025-06-29T13:49:09.816Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js
+[2025-06-29T13:49:09.816Z] [36m[2025-06-29T13:49:09.816Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\dark-mode.js[39m 
+[2025-06-29T13:49:09.816Z] [2025-06-29T13:49:09.816Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js ===
+INFO
+[2025-06-29T13:49:09.817Z] [36m[2025-06-29T13:49:09.816Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js ===[39m 
+INFO
+[2025-06-29T13:49:09.818Z] [2025-06-29T13:49:09.818Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js
+[]
+[2025-06-29T13:49:09.818Z] [36m[2025-06-29T13:49:09.818Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js[39m 
+[]
+[2025-06-29T13:49:09.818Z] [2025-06-29T13:49:09.818Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js
+[2025-06-29T13:49:09.818Z] [36m[2025-06-29T13:49:09.818Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\contact.js[39m 
+[2025-06-29T13:49:09.819Z] [2025-06-29T13:49:09.819Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js ===
+INFO
+[2025-06-29T13:49:09.819Z] [36m[2025-06-29T13:49:09.819Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js ===[39m 
+INFO
+[2025-06-29T13:49:09.820Z] [2025-06-29T13:49:09.820Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js
+[]
+[2025-06-29T13:49:09.820Z] [36m[2025-06-29T13:49:09.820Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js[39m 
+[]
+[2025-06-29T13:49:09.820Z] [2025-06-29T13:49:09.820Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js
+[2025-06-29T13:49:09.820Z] [36m[2025-06-29T13:49:09.820Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\animations.js[39m 
+[2025-06-29T13:49:09.821Z] [2025-06-29T13:49:09.821Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js ===
+INFO
+[2025-06-29T13:49:09.821Z] [36m[2025-06-29T13:49:09.821Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js ===[39m 
+INFO
+[2025-06-29T13:49:09.822Z] [2025-06-29T13:49:09.822Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js
+[]
+[2025-06-29T13:49:09.822Z] [36m[2025-06-29T13:49:09.822Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js[39m 
+[]
+[2025-06-29T13:49:09.822Z] [2025-06-29T13:49:09.822Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js
+[2025-06-29T13:49:09.822Z] [36m[2025-06-29T13:49:09.822Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\analytics.js[39m 
+[2025-06-29T13:49:09.822Z] [2025-06-29T13:49:09.822Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json ===
+INFO
+[2025-06-29T13:49:09.822Z] [36m[2025-06-29T13:49:09.822Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json ===[39m 
+INFO
+[2025-06-29T13:49:09.824Z] [2025-06-29T13:49:09.824Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json
+[]
+[2025-06-29T13:49:09.824Z] [36m[2025-06-29T13:49:09.824Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json[39m 
+[]
+[2025-06-29T13:49:09.824Z] [2025-06-29T13:49:09.824Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json
+[2025-06-29T13:49:09.824Z] [36m[2025-06-29T13:49:09.824Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\testimonials.json[39m 
+[2025-06-29T13:49:09.824Z] [2025-06-29T13:49:09.824Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json ===
+INFO
+[2025-06-29T13:49:09.824Z] [36m[2025-06-29T13:49:09.824Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json ===[39m 
+INFO
+[2025-06-29T13:49:09.825Z] [2025-06-29T13:49:09.825Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json
+[]
+[2025-06-29T13:49:09.825Z] [36m[2025-06-29T13:49:09.825Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json[39m 
+[]
+[2025-06-29T13:49:09.825Z] [2025-06-29T13:49:09.825Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json
+[2025-06-29T13:49:09.825Z] [36m[2025-06-29T13:49:09.825Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\skills.json[39m 
+[2025-06-29T13:49:09.826Z] [2025-06-29T13:49:09.826Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json ===
+INFO
+[2025-06-29T13:49:09.826Z] [36m[2025-06-29T13:49:09.826Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json ===[39m 
+INFO
+[2025-06-29T13:49:09.827Z] [2025-06-29T13:49:09.827Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json
+[
+  "/assets/images/project1-before.avif",
+  "/assets/images/project1-after.avif"
+]
+[2025-06-29T13:49:09.827Z] [36m[2025-06-29T13:49:09.827Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json[39m 
+[
+  "/assets/images/project1-before.avif",
+  "/assets/images/project1-after.avif"
+]
+[2025-06-29T13:49:09.827Z] [2025-06-29T13:49:09.827Z] INFO: Looking for optimized versions of: assets/images/project1-before.avif
+DEBUG
+[2025-06-29T13:49:09.827Z] [36m[2025-06-29T13:49:09.827Z] INFO: Looking for optimized versions of: assets/images/project1-before.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.828Z] [2025-06-29T13:49:09.828Z] INFO: No optimized versions found for: /assets/images/project1-before.avif
+[2025-06-29T13:49:09.828Z] [36m[2025-06-29T13:49:09.828Z] INFO: No optimized versions found for: /assets/images/project1-before.avif[39m 
+[2025-06-29T13:49:09.828Z] [2025-06-29T13:49:09.828Z] INFO: Looking for optimized versions of: assets/images/project1-after.avif
+DEBUG
+[2025-06-29T13:49:09.828Z] [36m[2025-06-29T13:49:09.828Z] INFO: Looking for optimized versions of: assets/images/project1-after.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.828Z] [2025-06-29T13:49:09.828Z] INFO: No optimized versions found for: /assets/images/project1-after.avif
+[2025-06-29T13:49:09.828Z] [36m[2025-06-29T13:49:09.828Z] INFO: No optimized versions found for: /assets/images/project1-after.avif[39m 
+[2025-06-29T13:49:09.828Z] [2025-06-29T13:49:09.828Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json
+[2025-06-29T13:49:09.828Z] [36m[2025-06-29T13:49:09.828Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.json[39m 
+[2025-06-29T13:49:09.828Z] [2025-06-29T13:49:09.828Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js ===
+INFO
+[2025-06-29T13:49:09.829Z] [36m[2025-06-29T13:49:09.828Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js ===[39m 
+INFO
+[2025-06-29T13:49:09.829Z] [2025-06-29T13:49:09.829Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js
+[]
+[2025-06-29T13:49:09.829Z] [36m[2025-06-29T13:49:09.829Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js[39m 
+[]
+[2025-06-29T13:49:09.830Z] [2025-06-29T13:49:09.830Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js
+[2025-06-29T13:49:09.830Z] [36m[2025-06-29T13:49:09.830Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects.js[39m 
+[2025-06-29T13:49:09.830Z] [2025-06-29T13:49:09.830Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json ===
+INFO
+[2025-06-29T13:49:09.830Z] [36m[2025-06-29T13:49:09.830Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json ===[39m 
+INFO
+[2025-06-29T13:49:09.831Z] [2025-06-29T13:49:09.831Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json
+[]
+[2025-06-29T13:49:09.831Z] [36m[2025-06-29T13:49:09.831Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json[39m 
+[]
+[2025-06-29T13:49:09.831Z] [2025-06-29T13:49:09.831Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json
+[2025-06-29T13:49:09.831Z] [36m[2025-06-29T13:49:09.831Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\experience.json[39m 
+[2025-06-29T13:49:09.831Z] [2025-06-29T13:49:09.831Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json ===
+INFO
+[2025-06-29T13:49:09.831Z] [36m[2025-06-29T13:49:09.831Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json ===[39m 
+INFO
+[2025-06-29T13:49:09.833Z] [2025-06-29T13:49:09.833Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json
+[]
+[2025-06-29T13:49:09.833Z] [36m[2025-06-29T13:49:09.833Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json[39m 
+[]
+[2025-06-29T13:49:09.833Z] [2025-06-29T13:49:09.833Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json
+[2025-06-29T13:49:09.833Z] [36m[2025-06-29T13:49:09.833Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\education.json[39m 
+[2025-06-29T13:49:09.833Z] [2025-06-29T13:49:09.833Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js ===
+INFO
+[2025-06-29T13:49:09.833Z] [36m[2025-06-29T13:49:09.833Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js ===[39m 
+INFO
+[2025-06-29T13:49:09.835Z] [2025-06-29T13:49:09.835Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js
+[]
+[2025-06-29T13:49:09.835Z] [36m[2025-06-29T13:49:09.835Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js[39m 
+[]
+[2025-06-29T13:49:09.835Z] [2025-06-29T13:49:09.835Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js
+[2025-06-29T13:49:09.835Z] [36m[2025-06-29T13:49:09.835Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useScrollPosition.js[39m 
+[2025-06-29T13:49:09.835Z] [2025-06-29T13:49:09.835Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js ===
+INFO
+[2025-06-29T13:49:09.835Z] [36m[2025-06-29T13:49:09.835Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js ===[39m 
+INFO
+[2025-06-29T13:49:09.837Z] [2025-06-29T13:49:09.837Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js
+[]
+[2025-06-29T13:49:09.837Z] [36m[2025-06-29T13:49:09.837Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js[39m 
+[]
+[2025-06-29T13:49:09.837Z] [2025-06-29T13:49:09.837Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js
+[2025-06-29T13:49:09.837Z] [36m[2025-06-29T13:49:09.837Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useFetch.js[39m 
+[2025-06-29T13:49:09.837Z] [2025-06-29T13:49:09.837Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js ===
+INFO
+[2025-06-29T13:49:09.837Z] [36m[2025-06-29T13:49:09.837Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js ===[39m 
+INFO
+[2025-06-29T13:49:09.838Z] [2025-06-29T13:49:09.838Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js
+[]
+[2025-06-29T13:49:09.838Z] [36m[2025-06-29T13:49:09.838Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js[39m 
+[]
+[2025-06-29T13:49:09.839Z] [2025-06-29T13:49:09.839Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js
+[2025-06-29T13:49:09.839Z] [36m[2025-06-29T13:49:09.839Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useDarkMode.js[39m 
+[2025-06-29T13:49:09.839Z] [2025-06-29T13:49:09.839Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js ===
+INFO
+[2025-06-29T13:49:09.839Z] [36m[2025-06-29T13:49:09.839Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js ===[39m 
+INFO
+[2025-06-29T13:49:09.840Z] [2025-06-29T13:49:09.840Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js
+[]
+[2025-06-29T13:49:09.840Z] [36m[2025-06-29T13:49:09.840Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js[39m 
+[]
+[2025-06-29T13:49:09.840Z] [2025-06-29T13:49:09.840Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js
+[2025-06-29T13:49:09.840Z] [36m[2025-06-29T13:49:09.840Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAIAssistant.js[39m 
+[2025-06-29T13:49:09.840Z] [2025-06-29T13:49:09.840Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js ===
+INFO
+[2025-06-29T13:49:09.840Z] [36m[2025-06-29T13:49:09.840Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js ===[39m 
+INFO
+[2025-06-29T13:49:09.842Z] [2025-06-29T13:49:09.842Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js
+[]
+[2025-06-29T13:49:09.842Z] [36m[2025-06-29T13:49:09.842Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js[39m 
+[]
+[2025-06-29T13:49:09.842Z] [2025-06-29T13:49:09.842Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js
+[2025-06-29T13:49:09.842Z] [36m[2025-06-29T13:49:09.842Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\hooks\useAccessibility.js[39m 
+[2025-06-29T13:49:09.842Z] [2025-06-29T13:49:09.842Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx ===
+INFO
+[2025-06-29T13:49:09.842Z] [36m[2025-06-29T13:49:09.842Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.843Z] [2025-06-29T13:49:09.843Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx
+[]
+[2025-06-29T13:49:09.843Z] [36m[2025-06-29T13:49:09.843Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx[39m 
+[]
+[2025-06-29T13:49:09.843Z] [2025-06-29T13:49:09.843Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx
+[2025-06-29T13:49:09.843Z] [36m[2025-06-29T13:49:09.843Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\ThemeContext.jsx[39m 
+[2025-06-29T13:49:09.843Z] [2025-06-29T13:49:09.843Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx ===
+INFO
+[2025-06-29T13:49:09.843Z] [36m[2025-06-29T13:49:09.843Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.845Z] [2025-06-29T13:49:09.845Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx
+[]
+[2025-06-29T13:49:09.845Z] [36m[2025-06-29T13:49:09.845Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx[39m 
+[]
+[2025-06-29T13:49:09.845Z] [2025-06-29T13:49:09.845Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx
+[2025-06-29T13:49:09.845Z] [36m[2025-06-29T13:49:09.845Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIContext.jsx[39m 
+[2025-06-29T13:49:09.845Z] [2025-06-29T13:49:09.845Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx ===
+INFO
+[2025-06-29T13:49:09.845Z] [36m[2025-06-29T13:49:09.845Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.846Z] [2025-06-29T13:49:09.846Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx
+[]
+[2025-06-29T13:49:09.846Z] [36m[2025-06-29T13:49:09.846Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx[39m 
+[]
+[2025-06-29T13:49:09.846Z] [2025-06-29T13:49:09.846Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx
+[2025-06-29T13:49:09.846Z] [36m[2025-06-29T13:49:09.846Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\context\AIAssistantContext.jsx[39m 
+[2025-06-29T13:49:09.846Z] [2025-06-29T13:49:09.846Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js ===
+INFO
+[2025-06-29T13:49:09.846Z] [36m[2025-06-29T13:49:09.846Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js ===[39m 
+INFO
+[2025-06-29T13:49:09.848Z] [2025-06-29T13:49:09.848Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js
+[]
+[2025-06-29T13:49:09.848Z] [36m[2025-06-29T13:49:09.848Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js[39m 
+[]
+[2025-06-29T13:49:09.848Z] [2025-06-29T13:49:09.848Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js
+[2025-06-29T13:49:09.848Z] [36m[2025-06-29T13:49:09.848Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\config\images.js[39m 
+[2025-06-29T13:49:09.848Z] [2025-06-29T13:49:09.848Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx ===
+INFO
+[2025-06-29T13:49:09.848Z] [36m[2025-06-29T13:49:09.848Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.849Z] [2025-06-29T13:49:09.849Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx
+[]
+[2025-06-29T13:49:09.849Z] [36m[2025-06-29T13:49:09.849Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx[39m 
+[]
+[2025-06-29T13:49:09.849Z] [2025-06-29T13:49:09.849Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx
+[2025-06-29T13:49:09.849Z] [36m[2025-06-29T13:49:09.849Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Typography.jsx[39m 
+[2025-06-29T13:49:09.849Z] [2025-06-29T13:49:09.849Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx ===
+INFO
+[2025-06-29T13:49:09.849Z] [36m[2025-06-29T13:49:09.849Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.851Z] [2025-06-29T13:49:09.851Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx
+[]
+[2025-06-29T13:49:09.851Z] [36m[2025-06-29T13:49:09.851Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx[39m 
+[]
+[2025-06-29T13:49:09.852Z] [2025-06-29T13:49:09.852Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx
+[2025-06-29T13:49:09.852Z] [36m[2025-06-29T13:49:09.852Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ThemeToggle.jsx[39m 
+[2025-06-29T13:49:09.852Z] [2025-06-29T13:49:09.852Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx ===
+INFO
+[2025-06-29T13:49:09.852Z] [36m[2025-06-29T13:49:09.852Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.853Z] [2025-06-29T13:49:09.853Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx
+[]
+[2025-06-29T13:49:09.853Z] [36m[2025-06-29T13:49:09.853Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx[39m 
+[]
+[2025-06-29T13:49:09.853Z] [2025-06-29T13:49:09.853Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx
+[2025-06-29T13:49:09.853Z] [36m[2025-06-29T13:49:09.853Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SkillBadge.jsx[39m 
+[2025-06-29T13:49:09.854Z] [2025-06-29T13:49:09.854Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx ===
+INFO
+[2025-06-29T13:49:09.854Z] [36m[2025-06-29T13:49:09.854Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.855Z] [2025-06-29T13:49:09.855Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx
+[
+  "/images/og-default.jpg"
+]
+[2025-06-29T13:49:09.855Z] [36m[2025-06-29T13:49:09.855Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx[39m 
+[
+  "/images/og-default.jpg"
+]
+[2025-06-29T13:49:09.855Z] [2025-06-29T13:49:09.855Z] INFO: Looking for optimized versions of: images/og-default.jpg
+DEBUG
+[2025-06-29T13:49:09.855Z] [36m[2025-06-29T13:49:09.855Z] INFO: Looking for optimized versions of: images/og-default.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.855Z] [2025-06-29T13:49:09.855Z] INFO: No optimized versions found for: /images/og-default.jpg
+[2025-06-29T13:49:09.855Z] [36m[2025-06-29T13:49:09.855Z] INFO: No optimized versions found for: /images/og-default.jpg[39m 
+[2025-06-29T13:49:09.856Z] [2025-06-29T13:49:09.856Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx
+[2025-06-29T13:49:09.856Z] [36m[2025-06-29T13:49:09.856Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\SEO.jsx[39m 
+[2025-06-29T13:49:09.856Z] [2025-06-29T13:49:09.856Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx ===
+INFO
+[2025-06-29T13:49:09.856Z] [36m[2025-06-29T13:49:09.856Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.857Z] [2025-06-29T13:49:09.857Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx
+[]
+[2025-06-29T13:49:09.857Z] [36m[2025-06-29T13:49:09.857Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx[39m 
+[]
+[2025-06-29T13:49:09.857Z] [2025-06-29T13:49:09.857Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx
+[2025-06-29T13:49:09.857Z] [36m[2025-06-29T13:49:09.857Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectImage.jsx[39m 
+[2025-06-29T13:49:09.858Z] [2025-06-29T13:49:09.858Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx ===
+INFO
+[2025-06-29T13:49:09.858Z] [36m[2025-06-29T13:49:09.858Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.859Z] [2025-06-29T13:49:09.859Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx
+[]
+[2025-06-29T13:49:09.859Z] [36m[2025-06-29T13:49:09.859Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx[39m 
+[]
+[2025-06-29T13:49:09.859Z] [2025-06-29T13:49:09.859Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx
+[2025-06-29T13:49:09.859Z] [36m[2025-06-29T13:49:09.859Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ProjectCard.jsx[39m 
+[2025-06-29T13:49:09.859Z] [2025-06-29T13:49:09.859Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx ===
+INFO
+[2025-06-29T13:49:09.859Z] [36m[2025-06-29T13:49:09.859Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.860Z] [2025-06-29T13:49:09.860Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx
+[]
+[2025-06-29T13:49:09.860Z] [36m[2025-06-29T13:49:09.860Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx[39m 
+[]
+[2025-06-29T13:49:09.860Z] [2025-06-29T13:49:09.860Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx
+[2025-06-29T13:49:09.861Z] [36m[2025-06-29T13:49:09.860Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Menu.jsx[39m 
+[2025-06-29T13:49:09.861Z] [2025-06-29T13:49:09.861Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx ===
+INFO
+[2025-06-29T13:49:09.861Z] [36m[2025-06-29T13:49:09.861Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.862Z] [2025-06-29T13:49:09.862Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx
+[]
+[2025-06-29T13:49:09.862Z] [36m[2025-06-29T13:49:09.862Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx[39m 
+[]
+[2025-06-29T13:49:09.862Z] [2025-06-29T13:49:09.862Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx
+[2025-06-29T13:49:09.862Z] [36m[2025-06-29T13:49:09.862Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\LoadingScreen.jsx[39m 
+[2025-06-29T13:49:09.862Z] [2025-06-29T13:49:09.862Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx ===
+INFO
+[2025-06-29T13:49:09.862Z] [36m[2025-06-29T13:49:09.862Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.863Z] [2025-06-29T13:49:09.863Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx
+[]
+[2025-06-29T13:49:09.863Z] [36m[2025-06-29T13:49:09.863Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx[39m 
+[]
+[2025-06-29T13:49:09.864Z] [2025-06-29T13:49:09.864Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx
+[2025-06-29T13:49:09.864Z] [36m[2025-06-29T13:49:09.864Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\InstallPrompt.jsx[39m 
+[2025-06-29T13:49:09.864Z] [2025-06-29T13:49:09.864Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx ===
+INFO
+[2025-06-29T13:49:09.864Z] [36m[2025-06-29T13:49:09.864Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx ===[39m 
+INFO
+[2025-06-29T13:49:09.865Z] [2025-06-29T13:49:09.865Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx
+[]
+[2025-06-29T13:49:09.865Z] [36m[2025-06-29T13:49:09.865Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx[39m 
+[]
+[2025-06-29T13:49:09.865Z] [2025-06-29T13:49:09.865Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx
+[2025-06-29T13:49:09.865Z] [36m[2025-06-29T13:49:09.865Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Image.tsx[39m 
+[2025-06-29T13:49:09.866Z] [2025-06-29T13:49:09.866Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx ===
+INFO
+[2025-06-29T13:49:09.866Z] [36m[2025-06-29T13:49:09.866Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.867Z] [2025-06-29T13:49:09.867Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx
+[]
+[2025-06-29T13:49:09.867Z] [36m[2025-06-29T13:49:09.867Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx[39m 
+[]
+[2025-06-29T13:49:09.867Z] [2025-06-29T13:49:09.867Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx
+[2025-06-29T13:49:09.867Z] [36m[2025-06-29T13:49:09.867Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Header.jsx[39m 
+[2025-06-29T13:49:09.868Z] [2025-06-29T13:49:09.868Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx ===
+INFO
+[2025-06-29T13:49:09.868Z] [36m[2025-06-29T13:49:09.868Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx ===[39m 
+INFO
+[2025-06-29T13:49:09.869Z] [2025-06-29T13:49:09.869Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx
+[]
+[2025-06-29T13:49:09.869Z] [36m[2025-06-29T13:49:09.869Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx[39m 
+[]
+[2025-06-29T13:49:09.869Z] [2025-06-29T13:49:09.869Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx
+[2025-06-29T13:49:09.869Z] [36m[2025-06-29T13:49:09.869Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Footer.tsx[39m 
+[2025-06-29T13:49:09.869Z] [2025-06-29T13:49:09.869Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx ===
+INFO
+[2025-06-29T13:49:09.869Z] [36m[2025-06-29T13:49:09.869Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx ===[39m 
+INFO
+[2025-06-29T13:49:09.871Z] [2025-06-29T13:49:09.871Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx
+[]
+[2025-06-29T13:49:09.871Z] [36m[2025-06-29T13:49:09.871Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx[39m 
+[]
+[2025-06-29T13:49:09.871Z] [2025-06-29T13:49:09.871Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx
+[2025-06-29T13:49:09.871Z] [36m[2025-06-29T13:49:09.871Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.tsx[39m 
+[2025-06-29T13:49:09.871Z] [2025-06-29T13:49:09.871Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx ===
+INFO
+[2025-06-29T13:49:09.871Z] [36m[2025-06-29T13:49:09.871Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.872Z] [2025-06-29T13:49:09.872Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx
+[]
+[2025-06-29T13:49:09.872Z] [36m[2025-06-29T13:49:09.872Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx[39m 
+[]
+[2025-06-29T13:49:09.873Z] [2025-06-29T13:49:09.873Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx
+[2025-06-29T13:49:09.873Z] [36m[2025-06-29T13:49:09.873Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ErrorBoundary.jsx[39m 
+[2025-06-29T13:49:09.873Z] [2025-06-29T13:49:09.873Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx ===
+INFO
+[2025-06-29T13:49:09.873Z] [36m[2025-06-29T13:49:09.873Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx ===[39m 
+INFO
+[2025-06-29T13:49:09.874Z] [2025-06-29T13:49:09.874Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx
+[]
+[2025-06-29T13:49:09.874Z] [36m[2025-06-29T13:49:09.874Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx[39m 
+[]
+[2025-06-29T13:49:09.874Z] [2025-06-29T13:49:09.874Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx
+[2025-06-29T13:49:09.874Z] [36m[2025-06-29T13:49:09.874Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\Analytics.tsx[39m 
+[2025-06-29T13:49:09.874Z] [2025-06-29T13:49:09.874Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx ===
+INFO
+[2025-06-29T13:49:09.874Z] [36m[2025-06-29T13:49:09.874Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.875Z] [2025-06-29T13:49:09.875Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx
+[]
+[2025-06-29T13:49:09.875Z] [36m[2025-06-29T13:49:09.875Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx[39m 
+[]
+[2025-06-29T13:49:09.876Z] [2025-06-29T13:49:09.876Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx
+[2025-06-29T13:49:09.876Z] [36m[2025-06-29T13:49:09.876Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.old.jsx[39m 
+[2025-06-29T13:49:09.876Z] [2025-06-29T13:49:09.876Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx ===
+INFO
+[2025-06-29T13:49:09.876Z] [36m[2025-06-29T13:49:09.876Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.877Z] [2025-06-29T13:49:09.877Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx
+[]
+[2025-06-29T13:49:09.877Z] [36m[2025-06-29T13:49:09.877Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx[39m 
+[]
+[2025-06-29T13:49:09.877Z] [2025-06-29T13:49:09.877Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx
+[2025-06-29T13:49:09.877Z] [36m[2025-06-29T13:49:09.877Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant.jsx[39m 
+[2025-06-29T13:49:09.878Z] [2025-06-29T13:49:09.878Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx ===
+INFO
+[2025-06-29T13:49:09.878Z] [36m[2025-06-29T13:49:09.878Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.879Z] [2025-06-29T13:49:09.879Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx
+[]
+[2025-06-29T13:49:09.879Z] [36m[2025-06-29T13:49:09.879Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx[39m 
+[]
+[2025-06-29T13:49:09.879Z] [2025-06-29T13:49:09.879Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx
+[2025-06-29T13:49:09.879Z] [36m[2025-06-29T13:49:09.879Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ZomatoAnalysis.jsx[39m 
+[2025-06-29T13:49:09.879Z] [2025-06-29T13:49:09.879Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx ===
+INFO
+[2025-06-29T13:49:09.879Z] [36m[2025-06-29T13:49:09.879Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.881Z] [2025-06-29T13:49:09.881Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx
+[]
+[2025-06-29T13:49:09.881Z] [36m[2025-06-29T13:49:09.881Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx[39m 
+[]
+[2025-06-29T13:49:09.881Z] [2025-06-29T13:49:09.881Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx
+[2025-06-29T13:49:09.881Z] [36m[2025-06-29T13:49:09.881Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\SnapeSentimentAnalysis.jsx[39m 
+[2025-06-29T13:49:09.881Z] [2025-06-29T13:49:09.881Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx ===
+INFO
+[2025-06-29T13:49:09.881Z] [36m[2025-06-29T13:49:09.881Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.883Z] [2025-06-29T13:49:09.883Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx
+[]
+[2025-06-29T13:49:09.883Z] [36m[2025-06-29T13:49:09.883Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx[39m 
+[]
+[2025-06-29T13:49:09.883Z] [2025-06-29T13:49:09.883Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx
+[2025-06-29T13:49:09.883Z] [36m[2025-06-29T13:49:09.883Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\RetailCashFlow.jsx[39m 
+[2025-06-29T13:49:09.883Z] [2025-06-29T13:49:09.883Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx ===
+INFO
+[2025-06-29T13:49:09.883Z] [36m[2025-06-29T13:49:09.883Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.884Z] [2025-06-29T13:49:09.884Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx
+[]
+[2025-06-29T13:49:09.884Z] [36m[2025-06-29T13:49:09.884Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx[39m 
+[]
+[2025-06-29T13:49:09.885Z] [2025-06-29T13:49:09.885Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx
+[2025-06-29T13:49:09.885Z] [36m[2025-06-29T13:49:09.885Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\ProductSalesDashboard.jsx[39m 
+[2025-06-29T13:49:09.885Z] [2025-06-29T13:49:09.885Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx ===
+INFO
+[2025-06-29T13:49:09.885Z] [36m[2025-06-29T13:49:09.885Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.886Z] [2025-06-29T13:49:09.886Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx
+[]
+[2025-06-29T13:49:09.886Z] [36m[2025-06-29T13:49:09.886Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx[39m 
+[]
+[2025-06-29T13:49:09.886Z] [2025-06-29T13:49:09.886Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx
+[2025-06-29T13:49:09.886Z] [36m[2025-06-29T13:49:09.886Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\EkamAttendance.jsx[39m 
+[2025-06-29T13:49:09.887Z] [2025-06-29T13:49:09.887Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx ===
+INFO
+[2025-06-29T13:49:09.887Z] [36m[2025-06-29T13:49:09.887Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.888Z] [2025-06-29T13:49:09.888Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx
+[]
+[2025-06-29T13:49:09.888Z] [36m[2025-06-29T13:49:09.888Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx[39m 
+[]
+[2025-06-29T13:49:09.889Z] [2025-06-29T13:49:09.889Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx
+[2025-06-29T13:49:09.889Z] [36m[2025-06-29T13:49:09.889Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\pages\projects\BansalSupermarket.jsx[39m 
+[2025-06-29T13:49:09.889Z] [2025-06-29T13:49:09.889Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js ===
+INFO
+[2025-06-29T13:49:09.889Z] [36m[2025-06-29T13:49:09.889Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js ===[39m 
+INFO
+[2025-06-29T13:49:09.890Z] [2025-06-29T13:49:09.890Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js
+[]
+[2025-06-29T13:49:09.890Z] [36m[2025-06-29T13:49:09.890Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js[39m 
+[]
+[2025-06-29T13:49:09.890Z] [2025-06-29T13:49:09.890Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js
+[2025-06-29T13:49:09.890Z] [36m[2025-06-29T13:49:09.890Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\js\utils\api.js[39m 
+[2025-06-29T13:49:09.891Z] [2025-06-29T13:49:09.891Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js ===
+INFO
+[2025-06-29T13:49:09.891Z] [36m[2025-06-29T13:49:09.891Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js ===[39m 
+INFO
+[2025-06-29T13:49:09.892Z] [2025-06-29T13:49:09.892Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js
+[
+  "/images/projects/zomato-analysis.jpg",
+  "/images/projects/bansal-supermarket.jpg"
+]
+[2025-06-29T13:49:09.892Z] [36m[2025-06-29T13:49:09.892Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js[39m 
+[
+  "/images/projects/zomato-analysis.jpg",
+  "/images/projects/bansal-supermarket.jpg"
+]
+[2025-06-29T13:49:09.892Z] [2025-06-29T13:49:09.892Z] INFO: Looking for optimized versions of: images/projects/zomato-analysis.jpg
+DEBUG
+[2025-06-29T13:49:09.892Z] [36m[2025-06-29T13:49:09.892Z] INFO: Looking for optimized versions of: images/projects/zomato-analysis.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.892Z] [2025-06-29T13:49:09.892Z] INFO: No optimized versions found for: /images/projects/zomato-analysis.jpg
+[2025-06-29T13:49:09.892Z] [36m[2025-06-29T13:49:09.892Z] INFO: No optimized versions found for: /images/projects/zomato-analysis.jpg[39m 
+[2025-06-29T13:49:09.893Z] [2025-06-29T13:49:09.893Z] INFO: Looking for optimized versions of: images/projects/bansal-supermarket.jpg
+DEBUG
+[2025-06-29T13:49:09.893Z] [36m[2025-06-29T13:49:09.893Z] INFO: Looking for optimized versions of: images/projects/bansal-supermarket.jpg[39m 
+DEBUG
+[2025-06-29T13:49:09.893Z] [2025-06-29T13:49:09.893Z] INFO: No optimized versions found for: /images/projects/bansal-supermarket.jpg
+[2025-06-29T13:49:09.893Z] [36m[2025-06-29T13:49:09.893Z] INFO: No optimized versions found for: /images/projects/bansal-supermarket.jpg[39m 
+[2025-06-29T13:49:09.893Z] [2025-06-29T13:49:09.893Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js
+[2025-06-29T13:49:09.893Z] [36m[2025-06-29T13:49:09.893Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\data\projects\index.js[39m 
+[2025-06-29T13:49:09.893Z] [2025-06-29T13:49:09.893Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx ===
+INFO
+[2025-06-29T13:49:09.893Z] [36m[2025-06-29T13:49:09.893Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.894Z] [2025-06-29T13:49:09.894Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx
+[]
+[2025-06-29T13:49:09.894Z] [36m[2025-06-29T13:49:09.894Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx[39m 
+[]
+[2025-06-29T13:49:09.895Z] [2025-06-29T13:49:09.895Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx
+[2025-06-29T13:49:09.895Z] [36m[2025-06-29T13:49:09.895Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\seo\DocumentHead.jsx[39m 
+[2025-06-29T13:49:09.895Z] [2025-06-29T13:49:09.895Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx ===
+INFO
+[2025-06-29T13:49:09.895Z] [36m[2025-06-29T13:49:09.895Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.896Z] [2025-06-29T13:49:09.896Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx
+[]
+[2025-06-29T13:49:09.896Z] [36m[2025-06-29T13:49:09.896Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx[39m 
+[]
+[2025-06-29T13:49:09.896Z] [2025-06-29T13:49:09.896Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx
+[2025-06-29T13:49:09.896Z] [36m[2025-06-29T13:49:09.896Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\performance\PerformanceMonitor.jsx[39m 
+[2025-06-29T13:49:09.896Z] [2025-06-29T13:49:09.896Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx ===
+INFO
+[2025-06-29T13:49:09.896Z] [36m[2025-06-29T13:49:09.896Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.897Z] [2025-06-29T13:49:09.897Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx
+[
+  "/logo192.png"
+]
+[2025-06-29T13:49:09.897Z] [36m[2025-06-29T13:49:09.897Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx[39m 
+[
+  "/logo192.png"
+]
+[2025-06-29T13:49:09.898Z] [2025-06-29T13:49:09.898Z] INFO: Looking for optimized versions of: logo192.png
+DEBUG
+[2025-06-29T13:49:09.898Z] [36m[2025-06-29T13:49:09.898Z] INFO: Looking for optimized versions of: logo192.png[39m 
+DEBUG
+[2025-06-29T13:49:09.898Z] [2025-06-29T13:49:09.898Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.898Z] [32m[2025-06-29T13:49:09.898Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.898Z] [2025-06-29T13:49:09.898Z] SUCCESS: Found 1 optimized versions for /logo192.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.898Z] [32m[2025-06-29T13:49:09.898Z] SUCCESS: Found 1 optimized versions for /logo192.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.904Z] [2025-06-29T13:49:09.904Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx.bak)
+[2025-06-29T13:49:09.905Z] [32m[2025-06-29T13:49:09.904Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\ModernNavbar.jsx.bak)[39m 
+[2025-06-29T13:49:09.905Z] [2025-06-29T13:49:09.905Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js ===
+INFO
+[2025-06-29T13:49:09.905Z] [36m[2025-06-29T13:49:09.905Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js ===[39m 
+INFO
+[2025-06-29T13:49:09.906Z] [2025-06-29T13:49:09.906Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js
+[]
+[2025-06-29T13:49:09.906Z] [36m[2025-06-29T13:49:09.906Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js[39m 
+[]
+[2025-06-29T13:49:09.907Z] [2025-06-29T13:49:09.907Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js
+[2025-06-29T13:49:09.907Z] [36m[2025-06-29T13:49:09.907Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\ModernNavbar\index.js[39m 
+[2025-06-29T13:49:09.907Z] [2025-06-29T13:49:09.907Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx ===
+INFO
+[2025-06-29T13:49:09.907Z] [36m[2025-06-29T13:49:09.907Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.908Z] [2025-06-29T13:49:09.908Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx
+[]
+[2025-06-29T13:49:09.908Z] [36m[2025-06-29T13:49:09.908Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx[39m 
+[]
+[2025-06-29T13:49:09.908Z] [2025-06-29T13:49:09.908Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx
+[2025-06-29T13:49:09.908Z] [36m[2025-06-29T13:49:09.908Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\media\ResponsiveImage.jsx[39m 
+[2025-06-29T13:49:09.909Z] [2025-06-29T13:49:09.909Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx ===
+INFO
+[2025-06-29T13:49:09.909Z] [36m[2025-06-29T13:49:09.909Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.910Z] [2025-06-29T13:49:09.910Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx
+[]
+[2025-06-29T13:49:09.910Z] [36m[2025-06-29T13:49:09.910Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx[39m 
+[]
+[2025-06-29T13:49:09.910Z] [2025-06-29T13:49:09.910Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx
+[2025-06-29T13:49:09.910Z] [36m[2025-06-29T13:49:09.910Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\error\ErrorBoundary.jsx[39m 
+[2025-06-29T13:49:09.910Z] [2025-06-29T13:49:09.910Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx ===
+INFO
+[2025-06-29T13:49:09.910Z] [36m[2025-06-29T13:49:09.910Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.912Z] [2025-06-29T13:49:09.912Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx
+[
+  ".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+]
+[2025-06-29T13:49:09.912Z] [36m[2025-06-29T13:49:09.912Z] INFO: Found 1 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx[39m 
+[
+  ".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+]
+[2025-06-29T13:49:09.912Z] [2025-06-29T13:49:09.912Z] INFO: Looking for optimized versions of: .pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png
+DEBUG
+[2025-06-29T13:49:09.912Z] [36m[2025-06-29T13:49:09.912Z] INFO: Looking for optimized versions of: .pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png[39m 
+DEBUG
+[2025-06-29T13:49:09.912Z] [2025-06-29T13:49:09.912Z] INFO: No optimized versions found for: .pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png
+[2025-06-29T13:49:09.912Z] [36m[2025-06-29T13:49:09.912Z] INFO: No optimized versions found for: .pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png[39m 
+[2025-06-29T13:49:09.913Z] [2025-06-29T13:49:09.912Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx
+[2025-06-29T13:49:09.913Z] [36m[2025-06-29T13:49:09.912Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\AIAssistant\AIAssistant.jsx[39m 
+[2025-06-29T13:49:09.913Z] [2025-06-29T13:49:09.913Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx ===
+INFO
+[2025-06-29T13:49:09.913Z] [36m[2025-06-29T13:49:09.913Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.914Z] [2025-06-29T13:49:09.914Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx
+[]
+[2025-06-29T13:49:09.914Z] [36m[2025-06-29T13:49:09.914Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx[39m 
+[]
+[2025-06-29T13:49:09.914Z] [2025-06-29T13:49:09.914Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx
+[2025-06-29T13:49:09.914Z] [36m[2025-06-29T13:49:09.914Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\SemanticHeadings.jsx[39m 
+[2025-06-29T13:49:09.914Z] [2025-06-29T13:49:09.914Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx ===
+INFO
+[2025-06-29T13:49:09.914Z] [36m[2025-06-29T13:49:09.914Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.915Z] [2025-06-29T13:49:09.915Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx
+[]
+[2025-06-29T13:49:09.915Z] [36m[2025-06-29T13:49:09.915Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx[39m 
+[]
+[2025-06-29T13:49:09.916Z] [2025-06-29T13:49:09.916Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx
+[2025-06-29T13:49:09.916Z] [36m[2025-06-29T13:49:09.916Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleLink.jsx[39m 
+[2025-06-29T13:49:09.916Z] [2025-06-29T13:49:09.916Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx ===
+INFO
+[2025-06-29T13:49:09.916Z] [36m[2025-06-29T13:49:09.916Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx ===[39m 
+INFO
+[2025-06-29T13:49:09.918Z] [2025-06-29T13:49:09.918Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx
+[]
+[2025-06-29T13:49:09.918Z] [36m[2025-06-29T13:49:09.918Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx[39m 
+[]
+[2025-06-29T13:49:09.918Z] [2025-06-29T13:49:09.918Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx
+[2025-06-29T13:49:09.918Z] [36m[2025-06-29T13:49:09.918Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\src\components\accessibility\AccessibleButton.jsx[39m 
+[2025-06-29T13:49:09.918Z] [2025-06-29T13:49:09.918Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js ===
+INFO
+[2025-06-29T13:49:09.918Z] [36m[2025-06-29T13:49:09.918Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js ===[39m 
+INFO
+[2025-06-29T13:49:09.919Z] [2025-06-29T13:49:09.919Z] INFO: Found 3 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js
+[
+  "/Sahil-Portfolio/logo192.png",
+  "/Sahil-Portfolio/apple-touch-icon.png",
+  "/Sahil-Portfolio/logo512.png"
+]
+[2025-06-29T13:49:09.919Z] [36m[2025-06-29T13:49:09.919Z] INFO: Found 3 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js[39m 
+[
+  "/Sahil-Portfolio/logo192.png",
+  "/Sahil-Portfolio/apple-touch-icon.png",
+  "/Sahil-Portfolio/logo512.png"
+]
+[2025-06-29T13:49:09.920Z] [2025-06-29T13:49:09.920Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo192.png
+DEBUG
+[2025-06-29T13:49:09.920Z] [36m[2025-06-29T13:49:09.920Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo192.png[39m 
+DEBUG
+[2025-06-29T13:49:09.920Z] [2025-06-29T13:49:09.920Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.920Z] [32m[2025-06-29T13:49:09.920Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.920Z] [2025-06-29T13:49:09.920Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/logo192.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.920Z] [32m[2025-06-29T13:49:09.920Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/logo192.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.921Z] [2025-06-29T13:49:09.921Z] INFO: Looking for optimized versions of: Sahil-Portfolio/apple-touch-icon.png
+DEBUG
+[2025-06-29T13:49:09.921Z] [36m[2025-06-29T13:49:09.921Z] INFO: Looking for optimized versions of: Sahil-Portfolio/apple-touch-icon.png[39m 
+DEBUG
+[2025-06-29T13:49:09.921Z] [2025-06-29T13:49:09.921Z] SUCCESS: Found 1 optimized versions using path variation: apple-touch-icon.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.921Z] [32m[2025-06-29T13:49:09.921Z] SUCCESS: Found 1 optimized versions using path variation: apple-touch-icon.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.921Z] [2025-06-29T13:49:09.921Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/apple-touch-icon.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\apple-touch-icon.png"
+  }
+]
+[2025-06-29T13:49:09.921Z] [32m[2025-06-29T13:49:09.921Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/apple-touch-icon.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\apple-touch-icon.png"
+  }
+]
+[2025-06-29T13:49:09.922Z] [2025-06-29T13:49:09.922Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo512.png
+DEBUG
+[2025-06-29T13:49:09.922Z] [36m[2025-06-29T13:49:09.922Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo512.png[39m 
+DEBUG
+[2025-06-29T13:49:09.922Z] [2025-06-29T13:49:09.922Z] INFO: No optimized versions found for: /Sahil-Portfolio/logo512.png
+[2025-06-29T13:49:09.922Z] [36m[2025-06-29T13:49:09.922Z] INFO: No optimized versions found for: /Sahil-Portfolio/logo512.png[39m 
+[2025-06-29T13:49:09.926Z] [2025-06-29T13:49:09.926Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js.bak)
+[2025-06-29T13:49:09.926Z] [32m[2025-06-29T13:49:09.926Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\sw.js.bak)[39m 
+[2025-06-29T13:49:09.926Z] [2025-06-29T13:49:09.926Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js ===
+INFO
+[2025-06-29T13:49:09.926Z] [36m[2025-06-29T13:49:09.926Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js ===[39m 
+INFO
+[2025-06-29T13:49:09.928Z] [2025-06-29T13:49:09.928Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js
+[]
+[2025-06-29T13:49:09.928Z] [36m[2025-06-29T13:49:09.928Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js[39m 
+[]
+[2025-06-29T13:49:09.930Z] [2025-06-29T13:49:09.930Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js
+[2025-06-29T13:49:09.930Z] [36m[2025-06-29T13:49:09.930Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\service-worker.js[39m 
+[2025-06-29T13:49:09.931Z] [2025-06-29T13:49:09.931Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html ===
+INFO
+[2025-06-29T13:49:09.931Z] [36m[2025-06-29T13:49:09.931Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html ===[39m 
+INFO
+[2025-06-29T13:49:09.932Z] [2025-06-29T13:49:09.932Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html
+[]
+[2025-06-29T13:49:09.932Z] [36m[2025-06-29T13:49:09.932Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html[39m 
+[]
+[2025-06-29T13:49:09.932Z] [2025-06-29T13:49:09.932Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html
+[2025-06-29T13:49:09.932Z] [36m[2025-06-29T13:49:09.932Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\offline.html[39m 
+[2025-06-29T13:49:09.933Z] [2025-06-29T13:49:09.933Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json ===
+INFO
+[2025-06-29T13:49:09.933Z] [36m[2025-06-29T13:49:09.933Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json ===[39m 
+INFO
+[2025-06-29T13:49:09.934Z] [2025-06-29T13:49:09.934Z] INFO: Found 3 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json
+[
+  "/Sahil-Portfolio/logo192.png",
+  "/Sahil-Portfolio/apple-touch-icon.png",
+  "/Sahil-Portfolio/logo512.png"
+]
+[2025-06-29T13:49:09.934Z] [36m[2025-06-29T13:49:09.934Z] INFO: Found 3 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json[39m 
+[
+  "/Sahil-Portfolio/logo192.png",
+  "/Sahil-Portfolio/apple-touch-icon.png",
+  "/Sahil-Portfolio/logo512.png"
+]
+[2025-06-29T13:49:09.934Z] [2025-06-29T13:49:09.934Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo192.png
+DEBUG
+[2025-06-29T13:49:09.934Z] [36m[2025-06-29T13:49:09.934Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo192.png[39m 
+DEBUG
+[2025-06-29T13:49:09.935Z] [2025-06-29T13:49:09.935Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.935Z] [32m[2025-06-29T13:49:09.935Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.935Z] [2025-06-29T13:49:09.935Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/logo192.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.935Z] [32m[2025-06-29T13:49:09.935Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/logo192.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.935Z] [2025-06-29T13:49:09.935Z] INFO: Looking for optimized versions of: Sahil-Portfolio/apple-touch-icon.png
+DEBUG
+[2025-06-29T13:49:09.935Z] [36m[2025-06-29T13:49:09.935Z] INFO: Looking for optimized versions of: Sahil-Portfolio/apple-touch-icon.png[39m 
+DEBUG
+[2025-06-29T13:49:09.936Z] [2025-06-29T13:49:09.936Z] SUCCESS: Found 1 optimized versions using path variation: apple-touch-icon.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.936Z] [32m[2025-06-29T13:49:09.936Z] SUCCESS: Found 1 optimized versions using path variation: apple-touch-icon.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.936Z] [2025-06-29T13:49:09.936Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/apple-touch-icon.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\apple-touch-icon.png"
+  }
+]
+[2025-06-29T13:49:09.936Z] [32m[2025-06-29T13:49:09.936Z] SUCCESS: Found 1 optimized versions for /Sahil-Portfolio/apple-touch-icon.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\apple-touch-icon.png"
+  }
+]
+[2025-06-29T13:49:09.936Z] [2025-06-29T13:49:09.936Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo512.png
+DEBUG
+[2025-06-29T13:49:09.936Z] [36m[2025-06-29T13:49:09.936Z] INFO: Looking for optimized versions of: Sahil-Portfolio/logo512.png[39m 
+DEBUG
+[2025-06-29T13:49:09.937Z] [2025-06-29T13:49:09.937Z] INFO: No optimized versions found for: /Sahil-Portfolio/logo512.png
+[2025-06-29T13:49:09.937Z] [36m[2025-06-29T13:49:09.937Z] INFO: No optimized versions found for: /Sahil-Portfolio/logo512.png[39m 
+[2025-06-29T13:49:09.940Z] [2025-06-29T13:49:09.940Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json.bak)
+[2025-06-29T13:49:09.940Z] [32m[2025-06-29T13:49:09.940Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\manifest.json.bak)[39m 
+[2025-06-29T13:49:09.940Z] [2025-06-29T13:49:09.940Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html ===
+INFO
+[2025-06-29T13:49:09.940Z] [36m[2025-06-29T13:49:09.940Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html ===[39m 
+INFO
+[2025-06-29T13:49:09.942Z] [2025-06-29T13:49:09.942Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html
+[
+  "/logo192.png",
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.942Z] [36m[2025-06-29T13:49:09.942Z] INFO: Found 2 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html[39m 
+[
+  "/logo192.png",
+  "/images/profile.avif"
+]
+[2025-06-29T13:49:09.942Z] [2025-06-29T13:49:09.942Z] INFO: Looking for optimized versions of: logo192.png
+DEBUG
+[2025-06-29T13:49:09.942Z] [36m[2025-06-29T13:49:09.942Z] INFO: Looking for optimized versions of: logo192.png[39m 
+DEBUG
+[2025-06-29T13:49:09.943Z] [2025-06-29T13:49:09.943Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png
+[
+  "png"
+]
+[2025-06-29T13:49:09.943Z] [32m[2025-06-29T13:49:09.943Z] SUCCESS: Found 1 optimized versions using path variation: images\logo192.png[39m 
+[
+  "png"
+]
+[2025-06-29T13:49:09.943Z] [2025-06-29T13:49:09.943Z] SUCCESS: Found 1 optimized versions for /logo192.png
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.943Z] [32m[2025-06-29T13:49:09.943Z] SUCCESS: Found 1 optimized versions for /logo192.png[39m 
+[
+  {
+    "ext": "png",
+    "exists": true,
+    "path": "public\\optimized-images\\images\\logo192.png"
+  }
+]
+[2025-06-29T13:49:09.943Z] [2025-06-29T13:49:09.943Z] INFO: Looking for optimized versions of: images/profile.avif
+DEBUG
+[2025-06-29T13:49:09.943Z] [36m[2025-06-29T13:49:09.943Z] INFO: Looking for optimized versions of: images/profile.avif[39m 
+DEBUG
+[2025-06-29T13:49:09.944Z] [2025-06-29T13:49:09.944Z] INFO: No optimized versions found for: /images/profile.avif
+[2025-06-29T13:49:09.944Z] [36m[2025-06-29T13:49:09.944Z] INFO: No optimized versions found for: /images/profile.avif[39m 
+[2025-06-29T13:49:09.947Z] [2025-06-29T13:49:09.947Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html.bak)
+[2025-06-29T13:49:09.947Z] [32m[2025-06-29T13:49:09.947Z] SUCCESS: ✅ Updated: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html (backup saved to C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\about.html.bak)[39m 
+[2025-06-29T13:49:09.948Z] [2025-06-29T13:49:09.948Z] INFO: 
+=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html ===
+INFO
+[2025-06-29T13:49:09.948Z] [36m[2025-06-29T13:49:09.948Z] INFO: [39m
+[36m=== Processing file: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html ===[39m 
+INFO
+[2025-06-29T13:49:09.949Z] [2025-06-29T13:49:09.949Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html
+[]
+[2025-06-29T13:49:09.949Z] [36m[2025-06-29T13:49:09.949Z] INFO: Found 0 unique image references in C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html[39m 
+[]
+[2025-06-29T13:49:09.949Z] [2025-06-29T13:49:09.949Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html
+[2025-06-29T13:49:09.949Z] [36m[2025-06-29T13:49:09.949Z] INFO: No updates needed for: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\public\404.html[39m 
+[2025-06-29T13:49:09.949Z] [32m[39m
+[32m✅ Update complete![39m
+[2025-06-29T13:49:09.950Z] 📊 [1mSummary:[22m
+[2025-06-29T13:49:09.950Z]    📄 Files processed: 4
+[2025-06-29T13:49:09.950Z]    🖼️  Images updated: 6
+[2025-06-29T13:49:09.951Z]    ⏭️  Images skipped: 34
+[2025-06-29T13:49:09.951Z] [2025-06-29T13:49:09.951Z] INFO: Final Summary
+{
+  "✅ Update complete!": "",
+  "📊 Summary": {
+    "📄 Files processed": 4,
+    "🖼️ Images updated": 6,
+    "⏭️ Images skipped": 34,
+    "❌ Errors": 0
+  }
+}
+[2025-06-29T13:49:09.951Z] [36m[2025-06-29T13:49:09.951Z] INFO: Final Summary[39m 
+{
+  "✅ Update complete!": "",
+  "📊 Summary": {
+    "📄 Files processed": 4,
+    "🖼️ Images updated": 6,
+    "⏭️ Images skipped": 34,
+    "❌ Errors": 0
+  }
+}
+[2025-06-29T13:49:09.951Z] 
+[36m=== Detailed Summary ===[39m
+[2025-06-29T13:49:09.951Z] {
+  "✅ Update complete!": "",
+  "📊 Summary": {
+    "📄 Files processed": 4,
+    "🖼️ Images updated": 6,
+    "⏭️ Images skipped": 34,
+    "❌ Errors": 0
+  }
+}
+[2025-06-29T13:49:09.952Z] [33m[39m
+[33m💡 Check the full debug log at: C:\Users\sahil\Desktop\Portfolio\sahil-portfolio\image-update-debug.log[39m
+
+--- End of log ---

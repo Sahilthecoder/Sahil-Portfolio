@@ -3,5 +3,10 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /private/
+Disallow: /404.html
 
-Sitemap: https://your-portfolio-url.com/sitemap.xml
+# Sitemap
+Sitemap: https://sahilthecoder.github.io/Sahil-Portfolio/sitemap.xml
+
+# Crawl-delay: 10
+# Uncomment above and set delay if needed to prevent server overload

@@ -253,11 +253,7 @@ const ModernNavbar = () => {
           <img src={`<picture>
           
           
-          <img src={`<picture>
-          
-          
           <img src="/logo192.png" alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
         </picture>`} alt="" loading="lazy" />
         </picture>`} alt="" loading="lazy" />
         </picture>`} alt="" loading="lazy" />

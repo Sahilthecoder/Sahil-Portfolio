@@ -1,53 +1,53 @@
 export const projects = [
   {
     id: 'project1',
-    title: 'Portfolio Website',
-    description: 'A modern, responsive portfolio website built with React, Tailwind CSS, and Framer Motion. Features dark mode, smooth animations, and a clean, minimalist design.',
-    image: 'https://via.placeholder.com/800x500/3b82f6/ffffff?text=Portfolio+Website',
-    category: 'Web Development',
-    technologies: ['React', 'Tailwind CSS', 'Framer Motion'],
-    githubUrl: 'https://github.com/yourusername/portfolio',
-    liveUrl: 'https://yourusername.github.io/portfolio'
+    title: 'Zomato Data Analysis',
+    description: 'Comprehensive data analysis of Zomato restaurant data to extract insights about restaurant ratings, cuisines, and customer preferences.',
+    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    category: 'Data Analysis',
+    technologies: ['Excel', 'Pivot Tables', 'Data Visualization'],
+    githubUrl: 'https://github.com/Sahilthecoder/Zomato-Data-Analysis',
+    liveUrl: 'https://github.com/Sahilthecoder/Zomato-Data-Analysis'
   },
   {
     id: 'project2',
-    title: 'E-commerce Platform',
-    description: 'A full-stack e-commerce platform with user authentication, product catalog, shopping cart, and payment integration.',
-    image: 'https://via.placeholder.com/800x500/10b981/ffffff?text=E-commerce+Platform',
-    category: 'Full Stack',
-    technologies: ['React', 'Node.js', 'Express', 'MongoDB'],
-    githubUrl: 'https://github.com/yourusername/ecommerce',
-    liveUrl: 'https://yourecommerceapp.com'
+    title: 'Retail Sales Dashboard',
+    description: 'Interactive Tableau dashboard for retail sales analysis, tracking performance metrics and sales trends.',
+    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    category: 'Data Visualization',
+    technologies: ['Tableau', 'Data Analysis', 'Dashboards'],
+    githubUrl: 'https://github.com/Sahilthecoder/Retail-Sales-Dashboard',
+    liveUrl: 'https://public.tableau.com/app/profile/sahil.ali/viz/RetailSalesDashboard_17186311978530/Dashboard1'
   },
   {
     id: 'project3',
-    title: 'Task Management App',
-    description: 'A task management application with drag-and-drop functionality, task categories, and real-time updates.',
-    image: 'https://via.placeholder.com/800x500/8b5cf6/ffffff?text=Task+App',
-    category: 'Web App',
-    technologies: ['React', 'Redux', 'Firebase'],
-    githubUrl: 'https://github.com/yourusername/task-app',
-    liveUrl: 'https://yourtaskapp.com'
+    title: 'Ekam Attendance System',
+    description: 'SQL database solution for managing employee attendance with reporting and analytics capabilities.',
+    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    category: 'Database',
+    technologies: ['SQL', 'Google Sheets', 'Data Management'],
+    githubUrl: 'https://github.com/Sahilthecoder/Ekam-Attendance-System',
+    liveUrl: 'https://github.com/Sahilthecoder/Ekam-Attendance-System'
   },
   {
     id: 'project4',
-    title: 'Weather Dashboard',
-    description: 'A weather dashboard that displays current weather conditions and forecast using a weather API.',
-    image: 'https://via.placeholder.com/800x500/0ea5e9/ffffff?text=Weather+Dashboard',
-    category: 'Web App',
-    technologies: ['JavaScript', 'OpenWeather API', 'CSS3'],
-    githubUrl: 'https://github.com/yourusername/weather-app',
-    liveUrl: 'https://yourweatherapp.com'
+    title: 'Retail Cash Flow Analysis',
+    description: 'Power BI dashboard for analyzing retail cash flow and financial performance metrics.',
+    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    category: 'Business Intelligence',
+    technologies: ['Power BI', 'DAX', 'Data Modeling'],
+    githubUrl: 'https://github.com/Sahilthecoder/Retail-Cash-Flow-Analysis',
+    liveUrl: 'https://app.powerbi.com/view?r=eyJrIjoiYjY4YjY0MmYtZWIyZS00YzY3LWE2NzItYjQ4ZDc3YzYwNmYxIiwidCI6IjQ2Zjg4YzBiLWE1YjQtNDQ4ZS1iYzQzLTVkY2Q5YzUwYzQyYyJ9'
   },
   {
     id: 'project5',
-    title: 'Recipe Finder',
-    description: 'A recipe finder application that suggests recipes based on available ingredients.',
-    image: 'https://via.placeholder.com/800x500/f59e0b/ffffff?text=Recipe+Finder',
-    category: 'Web App',
-    technologies: ['React', 'Spoonacular API', 'Tailwind CSS'],
-    githubUrl: 'https://github.com/yourusername/recipe-finder',
-    liveUrl: 'https://yourrecipeapp.com'
+    title: 'AI-Powered Notion Assistant',
+    description: 'Custom GPT integration with Notion to enhance productivity and automate workflow tasks.',
+    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    category: 'AI Automation',
+    technologies: ['OpenAI API', 'Notion API', 'Python'],
+    githubUrl: 'https://github.com/Sahilthecoder/Notion-GPT-Assistant',
+    liveUrl: 'https://github.com/Sahilthecoder/Notion-GPT-Assistant'
   }
 ];
 

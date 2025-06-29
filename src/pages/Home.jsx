@@ -193,10 +193,6 @@ const Home = () => {
                       alt="Sahil Ali"
                       className="w-full h-full object-cover"
                       loading="eager"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/400x400?text=Sahil+Ali';
-                      }}
                     />
                     <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
                   </div>

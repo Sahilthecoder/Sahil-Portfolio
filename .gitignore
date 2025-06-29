@@ -107,6 +107,11 @@ out
 *.tsbuildinfo
 
 # Optional: lock files
-package-lock.json
+# package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Backup and temporary files
+*.bak
+*.old
+*.new

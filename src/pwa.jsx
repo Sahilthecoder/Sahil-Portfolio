@@ -8,8 +8,9 @@ const INSTALL_PROMPT_SHOWN = 'installPromptShown';
 // ✅ Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const base = '/Sahil-Portfolio';
-    const swUrl = `${base}/service-worker.js`;
+    // Use the current path as base for GitHub Pages
+    const base = window.location.pathname.includes('/Sahil-Portfolio') ? '/Sahil-Portfolio' : '/';
+    const swUrl = `${base}service-worker.js`;
     
     navigator.serviceWorker.register(swUrl, { scope: base })
       .then(registration => {

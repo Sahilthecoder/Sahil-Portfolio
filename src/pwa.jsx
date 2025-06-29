@@ -8,9 +8,12 @@ const INSTALL_PROMPT_SHOWN = 'installPromptShown';
 // ✅ Register service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(() => {
-        console.log('✅ ServiceWorker registration successful');
+    const base = '/Sahil-Portfolio';
+    const swUrl = `${base}/service-worker.js`;
+    
+    navigator.serviceWorker.register(swUrl, { scope: base })
+      .then(registration => {
+        console.log('✅ ServiceWorker registration successful with scope: ', registration.scope);
       })
       .catch(err => {
         console.error('❌ ServiceWorker registration failed:', err);

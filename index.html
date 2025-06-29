@@ -71,12 +71,13 @@
           // Handle GitHub Pages base path
           const basePath = '/Sahil-Portfolio';
           const swPath = `${basePath}/sw.js`;
+          const scope = `${basePath}/`; // Ensure trailing slash for scope
           
-          console.log('Registering service worker at:', swPath, 'with base path:', basePath);
+          console.log('Registering service worker at:', swPath, 'with scope:', scope);
           
           // Register with the correct scope
           navigator.serviceWorker.register(swPath, { 
-            scope: basePath,
+            scope: scope,
             updateViaCache: 'none'
           })
             .then(registration => {

@@ -1,17 +1,16 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v7';
+const CACHE_NAME = 'portfolio-cache-v8';
 const BASE_PATH = '/Sahil-Portfolio';
-
-// Add a trailing slash to the base path if it doesn't have one
-const ensureTrailingSlash = (path) => path.endsWith('/') ? path : `${path}/`;
-const BASE = ensureTrailingSlash(BASE_PATH);
+const SCOPE = '/Sahil-Portfolio/';
 
 // List of URLs to cache during installation
 const ASSETS_TO_CACHE = [
-  `${BASE}index.html`,
-  `${BASE}manifest.json`,
-  `${BASE}logo192.png`,
-  `${BASE}images/apple-touch-icon.png`,
+  '/Sahil-Portfolio/',
+  '/Sahil-Portfolio/index.html',
+  '/Sahil-Portfolio/manifest.json',
+  '/Sahil-Portfolio/logo192.png',
+  '/Sahil-Portfolio/logo512.png',
+  '/Sahil-Portfolio/apple-touch-icon.png',
   // Add other assets that should be cached on install
 ];
 
@@ -32,25 +31,32 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Caching static assets', ASSETS_TO_CACHE);
-        return Promise.all(
-          ASSETS_TO_CACHE.map(url => {
-            return fetch(url, { credentials: 'include' })
-              .then(response => {
-                if (!response.ok) {
-                  console.warn(`Failed to cache ${url}: ${response.status}`);
-                  return null;
-                }
-                return cache.put(url, response);
-              })
-              .catch(err => {
-                console.warn(`Error caching ${url}:`, err);
-                return null;
-              });
-          })
-        );
+        return cache.addAll(ASSETS_TO_CACHE)
+          .catch(err => {
+            console.error('Cache addAll error:', err);
+            // If addAll fails, try to add files one by one
+            return Promise.all(
+              ASSETS_TO_CACHE.map(url => 
+                fetch(url, { credentials: 'include' })
+                  .then(response => {
+                    if (!response.ok) {
+                      console.warn(`Failed to cache ${url}: ${response.status}`);
+                      return null;
+                    }
+                    return cache.put(url, response);
+                  })
+                  .catch(err => {
+                    console.warn(`Error caching ${url}:`, err);
+                    return null;
+                  })
+              )
+            );
+          });
       })
-      .then(() => self.skipWaiting())
-      .catch(err => console.error('Cache addAll error:', err))
+      .then(() => {
+        console.log('Service Worker installed and assets cached');
+        return self.skipWaiting();
+      })
   );
 });
 

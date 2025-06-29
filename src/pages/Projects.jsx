@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { FaFilePdf, FaChartLine, FaDatabase, FaLaptopCode, FaTools, FaExternalLinkAlt } from 'react-icons/fa';
 import SEO from '../components/SEO';
 import Image from '../components/Image';
+import { getImageUrl } from '../config/images';
 
 // Project data
 const projects = [
@@ -14,7 +15,7 @@ const projects = [
     icon: <FaChartLine className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
     tags: ['Excel', 'Data Analysis', 'Market Strategy'],
     path: '/projects/zomato',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    image: getImageUrl('PROJECT1_COVER'),
     category: 'Market Analysis Dashboard',
     impact: 'Identified key growth opportunities and optimized expansion strategy by analyzing city-wise performance metrics.',
     badge: 'Excel'
@@ -26,7 +27,7 @@ const projects = [
     icon: <FaDatabase className="w-6 h-6 text-green-600 dark:text-green-400" />,
     tags: ['Tableau', 'Sales Analytics', 'Retail Insights'],
     path: '/projects/bansal-supermarket',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    image: getImageUrl('PROJECT2_COVER'),
     category: 'Retail Analytics',
     impact: 'Drove 12% revenue growth through data-informed inventory optimization and targeted promotional strategies.',
     badge: 'Tableau'
@@ -38,7 +39,7 @@ const projects = [
     icon: <FaDatabase className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
     tags: ['SQL', 'Google Sheets', 'Process Automation'],
     path: '/projects/ekam-attendance',
-    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: getImageUrl('PROJECT3_COVER'),
     category: 'HR Automation',
     impact: 'Reduced monthly HR and accounting workload by 80% through process automation and streamlined reporting.',
     badge: 'SQL + Sheets'
@@ -50,7 +51,7 @@ const projects = [
     icon: <FaChartLine className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />,
     tags: ['Power BI', 'Financial Analysis', 'Data Visualization'],
     path: '/projects/retail-cash-flow',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: getImageUrl('PROJECT4_COVER'),
     category: 'Financial Intelligence',
     impact: 'Enhanced financial oversight and reduced cash handling discrepancies through real-time transaction monitoring.',
     badge: 'Power BI'
@@ -62,7 +63,7 @@ const projects = [
     icon: <FaChartLine className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     tags: ['SQL', 'Google Sheets', 'Power BI', 'Automation', 'Retail'],
     path: '/projects/product-sales',
-    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: getImageUrl('PROJECT5_COVER'),
     category: 'Retail Analytics',
     impact: 'Reduced reporting time by 80% and decreased stockouts by 60% through automated data processing and real-time inventory tracking.',
     badge: 'SQL + Sheets + Power BI'
@@ -74,7 +75,7 @@ const projects = [
     icon: <FaTools className="w-6 h-6 text-red-600 dark:text-red-400" />,
     tags: ['Process Automation', 'AI Integration', 'Business Intelligence'],
     path: '/projects/automation-suite',
-    image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
+    image: getImageUrl('PROJECT6_COVER'),
     category: 'Business Automation',
     impact: 'Eliminated 60+ hours of monthly manual work through intelligent process automation and system integration.',
     badge: 'AI + Zapier'
@@ -86,7 +87,7 @@ const projects = [
     icon: <FaLaptopCode className="w-6 h-6 text-pink-600 dark:text-pink-400" />,
     tags: ['Web Development', 'UI/UX Design', 'AI Integration'],
     path: 'https://mahiradesignhub.github.io/mahira-portfolio/',
-    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    image: getImageUrl('PROJECT7_COVER'),
     category: 'Digital Portfolio',
     impact: 'Enhanced professional visibility and attracted international clientele through modern, interactive presentation of work.',
     badge: 'Web + AI',
@@ -144,7 +145,7 @@ const Projects = () => {
         title="My Projects"
         description="Explore my portfolio of professional projects showcasing my skills and experience."
         type="website"
-        image="/images/og-projects.jpg"
+        image={getImageUrl('OG_PROJECTS')}
         structuredData={structuredData}
       />
       {/* Hero Section with Animated Blobs */}

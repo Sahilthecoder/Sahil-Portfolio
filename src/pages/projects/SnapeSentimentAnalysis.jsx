@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaPython, FaSearch, FaChartPie, FaBook, FaGithub, FaTools } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const SnapeSentimentAnalysisNew = () => {
   console.log('SnapeSentimentAnalysis component mounted');
@@ -105,6 +106,15 @@ const SnapeSentimentAnalysisNew = () => {
                     <span>Cleaned and preprocessed text data</span>
                   </li>
                 </ul>
+                <img 
+                  src={getImageUrl('PROJECT7_SNAPE_COVER')} 
+                  alt="Snape Sentiment Analysis"
+                  className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Snape+Sentiment+Analysis';
+                  }}
+                />
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Analysis</h3>
@@ -154,6 +164,15 @@ const SnapeSentimentAnalysisNew = () => {
                     <span>Love and loss</span>
                   </li>
                 </ul>
+                <img 
+                  src={getImageUrl('PROJECT7_SENTIMENT_ANALYSIS')} 
+                  alt="Sentiment Analysis Results"
+                  className="w-full h-auto rounded-lg shadow-lg"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Sentiment+Analysis+Results';
+                  }}
+                />
               </div>
             </div>
           </section>

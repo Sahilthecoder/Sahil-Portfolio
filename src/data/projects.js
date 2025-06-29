@@ -1,9 +1,11 @@
+import { getImageUrl } from '../config/images';
+
 export const projects = [
   {
     id: 'project1',
     title: 'Zomato Data Analysis',
     description: 'Comprehensive data analysis of Zomato restaurant data to extract insights about restaurant ratings, cuisines, and customer preferences.',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    image: getImageUrl('PROJECT1_COVER'),
     category: 'Data Analysis',
     technologies: ['Excel', 'Pivot Tables', 'Data Visualization'],
     githubUrl: 'https://github.com/Sahilthecoder/Zomato-Data-Analysis',
@@ -13,7 +15,7 @@ export const projects = [
     id: 'project2',
     title: 'Retail Sales Dashboard',
     description: 'Interactive Tableau dashboard for retail sales analysis, tracking performance metrics and sales trends.',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    image: getImageUrl('PROJECT2_COVER'),
     category: 'Data Visualization',
     technologies: ['Tableau', 'Data Analysis', 'Dashboards'],
     githubUrl: 'https://github.com/Sahilthecoder/Retail-Sales-Dashboard',
@@ -23,7 +25,7 @@ export const projects = [
     id: 'project3',
     title: 'Ekam Attendance System',
     description: 'SQL database solution for managing employee attendance with reporting and analytics capabilities.',
-    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: getImageUrl('PROJECT3_COVER'),
     category: 'Database',
     technologies: ['SQL', 'Google Sheets', 'Data Management'],
     githubUrl: 'https://github.com/Sahilthecoder/Ekam-Attendance-System',
@@ -33,7 +35,7 @@ export const projects = [
     id: 'project4',
     title: 'Retail Cash Flow Analysis',
     description: 'Power BI dashboard for analyzing retail cash flow and financial performance metrics.',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: getImageUrl('PROJECT4_COVER'),
     category: 'Business Intelligence',
     technologies: ['Power BI', 'DAX', 'Data Modeling'],
     githubUrl: 'https://github.com/Sahilthecoder/Retail-Cash-Flow-Analysis',
@@ -43,7 +45,7 @@ export const projects = [
     id: 'project5',
     title: 'AI-Powered Notion Assistant',
     description: 'Custom GPT integration with Notion to enhance productivity and automate workflow tasks.',
-    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: getImageUrl('PROJECT5_COVER'),
     category: 'AI Automation',
     technologies: ['OpenAI API', 'Notion API', 'Python'],
     githubUrl: 'https://github.com/Sahilthecoder/Notion-GPT-Assistant',

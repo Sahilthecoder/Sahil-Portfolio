@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaChartLine, FaDownload, FaEnvelope, FaArrowLeft, FaSearchDollar, FaChartPie, FaChartBar, FaGlobeAmericas, FaStar, FaUtensils, FaDollarSign } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const ZomatoAnalysis = () => {
   return (
@@ -112,12 +113,12 @@ const ZomatoAnalysis = () => {
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
               <img 
-                src="/images/projects/Project1 excel/Project1 Cover.avif" 
+                src={getImageUrl('PROJECT1_COVER')} 
                 alt="Zomato Expansion Dashboard"
                 className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/placeholder.svg';
+                  e.target.src = 'https://via.placeholder.com/1200x600?text=Zomato+Expansion+Dashboard';
                 }}
               />
               <div className="p-4 border-t border-gray-100 dark:border-gray-700">
@@ -140,14 +141,14 @@ const ZomatoAnalysis = () => {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Market Analysis</h3>
               </div>
-              <div className="aspect-w-16 aspect-h-9 mb-4">
-                <img 
-                  src="/images/projects/Project1 excel/zt1.avif" 
-                  alt="Market Analysis by Country"
-                  className="w-full h-full object-contain"
+              <div className="mt-8 rounded-xl overflow-hidden shadow-xl">
+                <img
+                  src={getImageUrl('PROJECT1_COVER')}
+                  alt="Zomato Analysis Dashboard"
+                  className="w-full h-auto"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/images/placeholder.svg';
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Zomato+Analysis+Dashboard';
                   }}
                 />
               </div>
@@ -168,12 +169,12 @@ const ZomatoAnalysis = () => {
               </div>
               <div className="aspect-w-16 aspect-h-9 mb-4">
                 <img 
-                  src="/images/projects/Project1 excel/zt2.avif" 
+                  src={getImageUrl('PROJECT1_ZT2')} 
                   alt="Restaurant Performance Metrics"
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/images/placeholder.svg';
+                    e.target.src = 'https://via.placeholder.com/800x450?text=Restaurant+Performance+Metrics';
                   }}
                 />
               </div>

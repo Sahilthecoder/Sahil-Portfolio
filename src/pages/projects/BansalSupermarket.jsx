@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaChartLine, FaChartPie, FaBox, FaSearchDollar, FaTable, FaShoppingBasket, FaChartBar, FaArrowLeft, FaDownload } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const BansalSupermarket = () => {
   return (
@@ -176,12 +177,12 @@ const BansalSupermarket = () => {
               </div>
               <div className="aspect-w-16 aspect-h-9 mb-4">
                 <img 
-                  src="/images/projects/Project2 tableau/bs3.avif" 
+                  src={getImageUrl('PROJECT2_BS3')} 
                   alt="Food vs Non-Food Sales Distribution"
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/images/placeholder.svg';
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Bansal+Supermarket+Dashboard';
                   }}
                 />
               </div>
@@ -202,12 +203,12 @@ const BansalSupermarket = () => {
               </div>
               <div className="aspect-w-16 aspect-h-9 mb-4">
                 <img 
-                  src="/images/projects/Project2 tableau/bs-top10.avif" 
+                  src={getImageUrl('PROJECT2_BS_TOP10')} 
                   alt="Top 10 Best-Selling Products"
                   className="w-full h-full object-contain"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/images/placeholder.svg';
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Bansal+Supermarket+Dashboard';
                   }}
                 />
               </div>
@@ -229,12 +230,12 @@ const BansalSupermarket = () => {
             </div>
             <div className="aspect-w-16 aspect-h-9 mb-6">
               <img 
-                src="/images/projects/Project2 tableau/bs-stockTO.avif" 
+                src={getImageUrl('PROJECT2_BS_STOCK')} 
                 alt="Stock Turnover Rate by Category"
                 className="w-full h-full object-contain"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/placeholder.svg';
+                  e.target.src = 'https://via.placeholder.com/1200x600?text=Bansal+Supermarket+Dashboard';
                 }}
               />
             </div>

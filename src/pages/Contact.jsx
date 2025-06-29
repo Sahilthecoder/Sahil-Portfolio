@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
+import { getImageUrl } from '../config/images';
 import { 
   FaPaperPlane, 
   FaFileUpload, 
@@ -276,7 +277,7 @@ const HeroSection = ({ heroRef, controls, container, item }) => (
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 p-1 shadow-2xl">
               <div className="relative w-full h-full rounded-2xl overflow-hidden bg-white dark:bg-gray-800">
                 <img
-                  src="/images/contact-hero.avif"
+                  src={getImageUrl('CONTACT_HERO')}
                   alt="Contact Sahil Ali"
                   className="w-full h-full object-cover"
                   onError={(e) => {

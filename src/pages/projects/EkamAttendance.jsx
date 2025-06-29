@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaDatabase, FaClock, FaChartLine, FaCheckCircle, FaExclamationTriangle, FaArrowLeft, FaFileExcel, FaGoogle, FaServer } from 'react-icons/fa';
 import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const EkamAttendance = () => {
   return (
@@ -109,12 +110,12 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">Before: Manual Process</h3>
               </div>
               <img 
-                src="/images/projects/Project3 Sql+Sheets/Attendance_before.avif" 
-                alt="Manual attendance tracking"
-                className="w-full h-auto border-b border-gray-200 dark:border-gray-700"
+                src={getImageUrl('PROJECT3_ATTENDANCE_BEFORE')} 
+                alt="Manual Attendance Process"
+                className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/placeholder.svg';
+                  e.target.src = 'https://via.placeholder.com/1200x600?text=Manual+Attendance+Process';
                 }}
               />
               <div className="p-4">
@@ -139,12 +140,12 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">After: Automated Solution</h3>
               </div>
               <img 
-                src="/images/projects/Project3 Sql+Sheets/Attendance_after.avif" 
-                alt="Automated attendance tracking"
-                className="w-full h-auto border-b border-gray-200 dark:border-gray-700"
+                src={getImageUrl('PROJECT3_ATTENDANCE_AFTER')} 
+                alt="Automated Attendance System"
+                className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/images/placeholder.svg';
+                  e.target.src = 'https://via.placeholder.com/1200x600?text=Automated+Attendance+System';
                 }}
               />
               <div className="p-4">

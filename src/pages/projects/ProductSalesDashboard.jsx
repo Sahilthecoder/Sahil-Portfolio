@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaDatabase, FaChartLine, FaBox, FaRobot, FaMobileScreen, FaClock, FaArrowTrendUp, FaDollarSign } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const ProductSalesDashboard = () => {
   return (
@@ -118,9 +119,13 @@ const ProductSalesDashboard = () => {
         {/* Project Image */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-12 max-w-6xl mx-auto">
           <img 
-            src="/images/projects/Project5 Gpt+Notion/Project5 Cover.avif"
+            src={getImageUrl('PROJECT4_DASHBOARD')} 
             alt="Product Sales Dashboard"
-            className="w-full h-auto object-cover"
+            className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://via.placeholder.com/1200x600?text=Product+Sales+Dashboard';
+            }}
           />
         </div>
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaChartLine, FaMoneyBillWave, FaCalculator, FaChartPie, FaSearchDollar, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 import { FaTable, FaFileExcel } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../../config/images';
 
 const RetailCashFlow = () => {
   return (
@@ -106,11 +107,14 @@ const RetailCashFlow = () => {
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
                 <img 
-                  src="/images/projects/Project4 Power BI/CashFlow1.avif" 
-                  alt="Retail Cash Flow Dashboard Overview"
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  src={getImageUrl('PROJECT6_DASHBOARD')} 
+                  alt="Retail Cash Flow Dashboard"
+                  className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Retail+Cash+Flow+Dashboard';
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
               </div>
             </div>
             <p className="p-4 text-sm text-gray-500 dark:text-gray-400 text-center">
@@ -121,9 +125,13 @@ const RetailCashFlow = () => {
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
                 <img 
-                  src="/images/projects/Project4 Power BI/CashFlow2.avif" 
-                  alt="Cash Flow Trends and Analysis"
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  src={getImageUrl('PROJECT6_RCF2')} 
+                  alt="Daily Cash Flow Analysis"
+                  className="w-full h-auto rounded-lg shadow-lg"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/1200x600?text=Daily+Cash+Flow+Analysis';
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
               </div>

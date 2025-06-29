@@ -15,6 +15,7 @@ import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, H4, P, Lead, Small } from '../components/Typography';
 import { getProject } from '../utils/projectData';
+import { getImageUrl } from '../config/images';
 
 // Animation variants
 const container = {
@@ -189,10 +190,14 @@ const Home = () => {
                 <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <img
-                      src="/images/profile.avif"
+                      src={getImageUrl('PROFILE')}
                       alt="Sahil Ali"
                       className="w-full h-full object-cover"
                       loading="eager"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/400x400?text=Sahil+Ali';
+                      }}
                     />
                     <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
                   </div>

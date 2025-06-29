@@ -8,6 +8,45 @@ export default defineConfig(({ command }) => ({
 
   plugins: [react()],
   
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: true,
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
+    minify: 'esbuild',
+    manifest: true,
+    target: 'esnext',
+    assetsInlineLimit: 0, // Force all assets to be copied to the output directory
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          framer: ['framer-motion'],
+          tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
+          // Temporarily removing langchain as it's causing build issues
+          // langchain: ['@langchain/core', '@langchain/community', '@langchain/openai']
+        },
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (/\.(woff|woff2|eot|ttf|otf)$/i.test(assetInfo.name)) {
+            return 'assets/fonts/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        }
+      },
+      // Externalize Node.js built-ins
+      external: [
+        'fs', 'path', 'os', 'crypto', 'stream', 'http', 'https', 
+        'zlib', 'tls', 'net', 'dns', 'child_process', 'worker_threads'
+      ]
+    }
+  },
+  
   server: {
     port: 5173,
     strictPort: false,
@@ -60,48 +99,6 @@ export default defineConfig(({ command }) => ({
       '@sentry/react',
       'plausible'
     ]
-  },
-
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    emptyOutDir: true,
-    sourcemap: true,
-    cssCodeSplit: true,
-    
-    // Ensure assets are copied to the correct location
-    assetsInlineLimit: 0, // Force all assets to be copied to the output directory
-    
-    // Minification options
-    minify: 'esbuild',
-    
-    // Ensure proper handling of static assets
-    manifest: true,
-    
-    // Configure rollup options
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            '@langchain/openai',
-            '@sentry/react',
-            '@sentry/tracing',
-            'plausible'
-          ]
-        }
-      }
-    },
-
-    // ⚠️ This only works if minify is 'terser'
-    // terserOptions: {
-    //   compress: {
-    //     drop_console: true,
-    //     drop_debugger: true
-    //   }
-    // }
   },
 
   publicDir: 'public',

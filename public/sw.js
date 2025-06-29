@@ -1,14 +1,31 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v2';
-const BASE_PATH = '/Sahil-Portfolio/';
+const CACHE_NAME = 'portfolio-cache-v5';
+const BASE_PATH = self.location.pathname.includes('Sahil-Portfolio') ? '/Sahil-Portfolio/' : '/';
+
+// Add a trailing slash to the base path if it doesn't have one
+const ensureTrailingSlash = (path) => path.endsWith('/') ? path : `${path}/`;
+const BASE = ensureTrailingSlash(BASE_PATH);
 
 // List of URLs to cache during installation
 const ASSETS_TO_CACHE = [
-  BASE_PATH,
-  `${BASE_PATH}index.html`,
-  `${BASE_PATH}manifest.json`,
-  `${BASE_PATH}logo192.png`,
-  `${BASE_PATH}logo512.png`
+  BASE,
+  `${BASE}index.html`,
+  `${BASE}manifest.json`,
+  `${BASE}logo192.png`,
+  `${BASE}logo512.png`,
+  `${BASE}apple-touch-icon.png`,
+  // Add other assets that should be cached on install
+];
+
+// Cache Google Fonts
+const GOOGLE_FONTS_CACHE = 'google-fonts-cache';
+const GOOGLE_FONTS_URL = 'https://fonts.googleapis.com/css2';
+const GOOGLE_STATIC_FONTS = 'https://fonts.gstatic.com';
+
+// Cache these font files when they're requested
+const FONTS_TO_CACHE = [
+  '/fonts/Inter.var.woff2',
+  '/fonts/FiraCode.var.woff2'
 ];
 
 // Install event - Cache static assets
@@ -39,8 +56,41 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Handle font requests
+function isFontRequest(url) {
+  return url.includes('fonts.googleapis.com') || 
+         url.includes('fonts.gstatic.com') ||
+         url.endsWith('.woff2') || 
+         url.endsWith('.woff') ||
+         url.endsWith('.ttf');
+}
+
 // Fetch event - Serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
+  const requestUrl = new URL(event.request.url);
+  
+  // Handle font requests
+  if (isFontRequest(requestUrl.href)) {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        if (response) return response;
+        
+        return fetch(event.request).then((networkResponse) => {
+          if (!networkResponse || networkResponse.status !== 200) {
+            return networkResponse;
+          }
+          
+          const responseToCache = networkResponse.clone();
+          caches.open(GOOGLE_FONTS_CACHE).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+          
+          return networkResponse;
+        });
+      })
+    );
+    return;
+  }
   // Skip non-GET requests and cross-origin requests
   if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
     return;
@@ -90,41 +140,4 @@ self.addEventListener('fetch', (event) => {
         return new Response('', { status: 404, statusText: 'Not Found' });
       })
   );
-});
-                cache.put(event.request, responseToCache);
-              });
-          }
-          return response;
-        })
-        .catch(() => {
-          // If offline, return the offline page
-          return caches.match(OFFLINE_URL);
-        })
-    );
-  } else {
-    // Handle other requests with cache-first strategy
-    event.respondWith(
-      caches.match(event.request)
-        .then((response) => {
-          // Return cached response if found
-          if (response) {
-            return response;
-          }
-
-          // Otherwise, fetch from network and cache the response
-          return fetch(event.request)
-            .then((networkResponse) => {
-              // Only cache valid responses
-              if (networkResponse.status === 200) {
-                const responseToCache = networkResponse.clone();
-                caches.open(CACHE_NAME)
-                  .then((cache) => {
-                    cache.put(event.request, responseToCache);
-                  });
-              }
-              return networkResponse;
-            });
-        })
-    );
-  }
 });

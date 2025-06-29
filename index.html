@@ -56,6 +56,78 @@
     <!-- Light/Dark Theme Colors -->
     <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" />
+    <!-- PWA Installation Prompt -->
+    <div id="installContainer" class="fixed bottom-4 right-4 hidden">
+      <button id="installButton" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">
+        Install App
+      </button>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+      // Register service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // Use correct path for both development and production
+          const basePath = window.location.pathname.includes('Sahil-Portfolio') ? '/Sahil-Portfolio' : '';
+          navigator.serviceWorker.register(`${basePath}/sw.js`, { scope: `${basePath}/` })
+            .then(registration => {
+              console.log('ServiceWorker registration successful');
+              
+              // Show install button for PWA
+              let deferredPrompt;
+              const installButton = document.getElementById('installButton');
+              const installContainer = document.getElementById('installContainer');
+              
+              // Only show install button if the app isn't already installed
+              window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installContainer.classList.remove('hidden');
+              });
+              
+              // Handle install button click
+              installButton.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                
+                installButton.textContent = 'Installing...';
+                installButton.disabled = true;
+                
+                // Show the install prompt
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                
+                if (outcome === 'accepted') {
+                  console.log('User accepted the install prompt');
+                  installContainer.classList.add('hidden');
+                } else {
+                  console.log('User dismissed the install prompt');
+                }
+                
+                deferredPrompt = null;
+                installButton.textContent = 'Install App';
+                installButton.disabled = false;
+              });
+              
+              // Hide install button if app is already installed
+              window.addEventListener('appinstalled', () => {
+                console.log('PWA was installed');
+                installContainer.classList.add('hidden');
+                deferredPrompt = null;
+              });
+              
+              // Check if app is already installed
+              if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+                console.log('App is running in standalone mode');
+                installContainer.classList.add('hidden');
+              }
+              
+              return registration;
+            })
+            .catch(err => console.error('ServiceWorker registration failed: ', err));
+        });
+      }
+    </script>
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200">
     <div id="root"></div>

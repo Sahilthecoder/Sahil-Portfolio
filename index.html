@@ -68,9 +68,13 @@
       // Register service worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          // Use correct path for both development and production
-          const basePath = window.location.pathname.includes('Sahil-Portfolio') ? '/Sahil-Portfolio' : '';
-          navigator.serviceWorker.register(`${basePath}/sw.js`, { scope: `${basePath}/` })
+          // Handle GitHub Pages base path
+          const basePath = '/Sahil-Portfolio';
+          const swPath = `${basePath}/sw.js`;
+          const scope = `${basePath}/`;
+          
+          console.log('Registering service worker at:', swPath, 'with scope:', scope);
+          navigator.serviceWorker.register(swPath, { scope })
             .then(registration => {
               console.log('ServiceWorker registration successful');
               

@@ -1,6 +1,6 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v5';
-const BASE_PATH = self.location.pathname.includes('Sahil-Portfolio') ? '/Sahil-Portfolio/' : '/';
+const CACHE_NAME = 'portfolio-cache-v6';
+const BASE_PATH = '/Sahil-Portfolio/'; // Hardcode base path for GitHub Pages
 
 // Add a trailing slash to the base path if it doesn't have one
 const ensureTrailingSlash = (path) => path.endsWith('/') ? path : `${path}/`;
@@ -13,7 +13,7 @@ const ASSETS_TO_CACHE = [
   `${BASE}manifest.json`,
   `${BASE}logo192.png`,
   `${BASE}logo512.png`,
-  `${BASE}apple-touch-icon.png`,
+  `${BASE}images/apple-touch-icon.png`,
   // Add other assets that should be cached on install
 ];
 

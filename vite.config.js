@@ -55,6 +55,7 @@ export default defineConfig(({ command }) => ({
     ]
   },
   build: {
+    base: '/Sahil-Portfolio/',
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,

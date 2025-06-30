@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
   const isProduction = mode === 'production';
-  const base = isProduction ? '/Sahil-Portfolio' : '';
+  const base = isProduction ? '/Sahil-Portfolio/' : '/';
   
   return {
     base,

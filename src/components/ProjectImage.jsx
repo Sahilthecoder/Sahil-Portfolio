@@ -48,15 +48,15 @@ const ProjectImage = ({
   // Clean up the image name by removing leading/trailing slashes and spaces
   const cleanImageName = imageName ? imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '') : '';
   
-  // Construct the image path with the base path for GitHub Pages
-  const basePath = import.meta.env.PROD ? '/Sahil-Portfolio' : '';
-  const imagePath = `${basePath}/images/projects/${folderName}/${cleanImageName}`.replace(/\\/g, '/').replace(/([^:])\/+/g, '$1/');
+  // Construct the image path using Vite's base URL
+  const basePath = import.meta.env.BASE_URL;
+  const imagePath = `${basePath}images/projects/${folderName}/${cleanImageName}`.replace(/\\/g, '/').replace(/([^:])\/+/g, '$1/');
   
   // Debug: Log the constructed image path
   console.log(`Loading image: ${imagePath}`);
   
-  // Fallback image in case of errors - include base path
-  const fallbackImage = `${basePath}/images/placeholder.svg`;
+  // Fallback image in case of errors
+  const fallbackImage = `${basePath}images/placeholder.svg`;
   
   // Calculate padding based on aspect ratio
   const [width, height] = aspectRatio.split('/').map(Number);

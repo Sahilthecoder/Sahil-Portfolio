@@ -1,7 +1,7 @@
 // Project image helper function
 const getProjectImage = (projectId, imageName) => {
-  const basePath = import.meta.env.PROD ? '/Sahil-Portfolio' : '';
-  return `${basePath}/images/projects/${projectId}/${imageName}`;
+  const basePath = import.meta.env.BASE_URL;
+  return `${basePath}images/projects/${projectId}/${imageName}`;
 };
 
 // Project data with image references

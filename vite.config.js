@@ -6,8 +6,8 @@ import path from 'path';
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
 export default defineConfig(({ command, mode }) => ({
-  // Base URL configuration for GitHub Pages
-  base: mode === 'production' ? '/Sahil-Portfolio/' : '/',
+  // Base URL configuration - use root path for both development and production
+  base: '/',
   // Build configuration
 
   plugins: [

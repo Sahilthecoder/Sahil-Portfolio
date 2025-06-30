@@ -378,8 +378,8 @@ const projects = [
     tags: ['Tableau', 'Data Visualization', 'Retail', 'Dashboard'],
     techStack: ['Tableau', 'Data Visualization', 'Retail Analytics'],
     path: '/projects/bansal-supermarket',
-    image: '/optimized-images/projects/Project2 tableau/Project2 Cover.avif',
-    previewImage: '/optimized-images/projects/Project2 tableau/Project2 Cover.avif',
+    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -404,8 +404,8 @@ const projects = [
     tags: ['Power BI', 'Finance', 'Data Visualization', 'Retail'],
     techStack: ['Power BI', 'DAX', 'Data Visualization', 'Financial Analysis'],
     path: '/projects/retail-cash-flow',
-    image: '/optimized-images/projects/Project4 Power BI/Project4 Cover.avif',
-    previewImage: '/optimized-images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    previewImage: '/images/projects/Project4 Power BI/Project4 Cover.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -454,8 +454,8 @@ const projects = [
     tags: ['Python', 'Streamlit', 'Data Analysis', 'E-commerce'],
     techStack: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'Machine Learning'],
     path: '/projects/product-sales',
-    image: '/optimized-images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-    previewImage: '/optimized-images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    previewImage: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -466,9 +466,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: '/projects/#/projects/product-sales',
     gallery: [
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80'
+      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'
     ]
   },
   {
@@ -480,8 +480,8 @@ const projects = [
     tags: ['React', 'Next.js', 'AI Integration', 'Web Design'],
     techStack: ['React', 'Next.js', 'Tailwind CSS', 'OpenAI API'],
     path: '/projects/mahira-portfolio',
-    image: '/optimized-images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
-    previewImage: '/optimized-images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    previewImage: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
     featured: true,
@@ -492,9 +492,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: '/projects/#/projects/mahira-portfolio',
     gallery: [
-      'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&auto=format&fit=crop&q=80'
+      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'
     ]
   }
 ];

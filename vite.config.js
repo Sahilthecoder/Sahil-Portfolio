@@ -38,8 +38,9 @@ export default defineConfig(({ command, mode }) => {
   // Resolve aliases for absolute imports
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src')
     },
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   
   server: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaDatabase, FaChartLine, FaBox, FaRobot, FaMobileScreen, FaClock, FaArrowTrendUp, FaDollarSign, FaExternalLinkAlt } from 'react-icons/fa6';
+import { FaDatabase, FaChartLine, FaBox, FaRobot, FaMobileScreen, FaClock, FaArrowTrendUp, FaDollarSign, FaUpRightFromSquare } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import ProjectImage from '../../components/ProjectImage';
 

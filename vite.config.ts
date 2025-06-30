@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const base = '/Sahil-portfolio/'; // must match your GitHub repo name
+  const base = '/Sahil-Portfolio/'; // must match your GitHub repo name (note the capital "P")
   const isProduction = mode === 'production';
 
   return {

@@ -7,6 +7,10 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: 'class',
+  important: true,
+  corePlugins: {
+    preflight: true,
+  },
   theme: {
     extend: {
       backgroundImage: {
@@ -182,6 +186,5 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/line-clamp'),
   ],
 }

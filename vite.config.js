@@ -2,12 +2,66 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-export default defineConfig(({ command }) => ({
-  // ✅ MUST for GitHub Pages deployment
-  base: '/Sahil-Portfolio/',
+// Disable React's Fast Refresh in development if needed
+const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
-  plugins: [react()],
+export default defineConfig(({ command, mode }) => ({
+  // Base URL configuration
+  base: command === 'build' ? '/Sahil-Portfolio/' : '/',
+
+  plugins: [
+    react({
+      // Enable Fast Refresh
+      fastRefresh: !disableFastRefresh,
+      // Use automatic JSX runtime
+      jsxRuntime: 'automatic',
+      // Disable React Strict Mode if needed
+      // reactStrictMode: false,
+      // Add babel plugins if needed
+      babel: {
+        plugins: [
+          // Add any required babel plugins here
+        ]
+      }
+    })
+  ],
   
+  server: {
+    port: 3000,
+    strictPort: true,
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3001,
+      clientPort: 3001
+    },
+    watch: {
+      usePolling: true,
+      interval: 100
+    },
+    // Enable CORS for development
+    cors: true,
+    // Enable source maps for better debugging
+    sourcemap: true
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-dom/client',
+      'react-router-dom',
+      'framer-motion',
+      'react-helmet',
+      'react-icons/fa',
+      'react-helmet-async'
+    ],
+    // Don't force optimization during development
+    force: command === 'build',
+    // Enable esbuild for faster builds
+    esbuildOptions: {
+      loader: { '.js': 'jsx' },
+    }
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -48,25 +102,30 @@ export default defineConfig(({ command }) => ({
   },
   
   server: {
-    port: 5173,
+    port: 4000,
     strictPort: false,
+    host: true, // Listen on all network interfaces
     hmr: {
-      protocol: 'ws',
       host: 'localhost',
-      clientPort: 5173,
-      overlay: false
+      port: 4000,
+      protocol: 'ws'
     },
     watch: {
-      usePolling: true,
-      useFsEvents: false
+      usePolling: false,
+      useFsEvents: true
     },
     cors: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     },
-    force: true
+    fs: {
+      strict: false,
+      allow: ['..']
+    },
+    open: true,
+    proxy: {}
   },
 
   resolve: {

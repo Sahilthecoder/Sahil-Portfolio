@@ -23,6 +23,7 @@ import {
   FaDesktop,
   FaArrowRight
 } from 'react-icons/fa';
+// Image paths are now directly referenced from the public directory
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -122,7 +123,7 @@ const About = () => {
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-white/20 p-1 bg-white/10 dark:bg-gray-700/30 backdrop-blur-sm">
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl">
                   <img
-                    src="/images/profile.avif"
+                    src="/images/profile.avif" 
                     alt="Sahil Ali"
                     className="w-full h-full object-cover"
                     onError={(e) => {

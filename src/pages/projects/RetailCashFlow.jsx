@@ -1,9 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaChartLine, FaMoneyBillWave, FaCalculator, FaChartPie, FaSearchDollar, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
-import { FaTable, FaFileExcel } from 'react-icons/fa';
+import { FaTable, FaFileExcel, FaExternalLinkAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImageUrl } from '../../config/images';
+import ProjectImage from '../../components/ProjectImage';
+
+// Placeholder images - replace with actual project images
+const dashboardImage = '/images/projects/Project4 Power BI/dashboard-preview.jpg';
+const dataModelImage = '/images/projects/Project4 Power BI/data-model.jpg';
+const reportImage = '/images/projects/Project4 Power BI/report-preview.jpg';
 
 const RetailCashFlow = () => {
   return (
@@ -45,10 +50,15 @@ const RetailCashFlow = () => {
               </div>
             </div>
             <div className="flex space-x-4">
-              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <a 
+                href="https://app.powerbi.com/view?r=your-dashboard-link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
                 <FaFileExcel className="mr-2" />
                 View Dashboard
-              </button>
+              </a>
             </div>
           </div>
 
@@ -106,14 +116,13 @@ const RetailCashFlow = () => {
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
-                <img 
-                  src={getImageUrl('PROJECT6_DASHBOARD')} 
+                <ProjectImage
+                  projectId="retail-cash-flow"
+                  imageName="CashFlow1.avif"
                   alt="Retail Cash Flow Dashboard"
-                  className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/1200x600?text=Retail+Cash+Flow+Dashboard';
-                  }}
+                  aspectRatio="16/9"
+                  className="rounded-xl"
+                  zoomOnHover={true}
                 />
               </div>
             </div>
@@ -122,21 +131,18 @@ const RetailCashFlow = () => {
             </p>
           </div>
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-            <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
-              <div className="absolute inset-0">
-                <img 
-                  src={getImageUrl('PROJECT6_RCF2')} 
-                  alt="Daily Cash Flow Analysis"
-                  className="w-full h-auto rounded-lg shadow-lg"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/1200x600?text=Daily+Cash+Flow+Analysis';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
-              </div>
+            <div className="relative">
+              <ProjectImage
+                projectId="retail-cash-flow"
+                imageName="CashFlow2.avif"
+                alt="Daily Cash Flow Analysis"
+                aspectRatio="16/9"
+                className="rounded-t-xl"
+                showOverlay={true}
+                zoomOnHover={true}
+              />
             </div>
-            <p className="p-4 text-sm text-gray-500 dark:text-gray-400 text-center">
+            <p className="p-4 text-sm text-gray-500 dark:text-gray-300 text-center border-t border-gray-100 dark:border-gray-700">
               Historical cash flow trends and detailed analysis.
             </p>
           </div>
@@ -323,6 +329,8 @@ Variance =
             </div>
           </div>
         </div>
+
+
       </div>
     </motion.div>
   );

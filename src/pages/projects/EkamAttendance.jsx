@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { FaDatabase, FaClock, FaChartLine, FaCheckCircle, FaExclamationTriangle, FaArrowLeft, FaFileExcel, FaGoogle, FaServer } from 'react-icons/fa';
 import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImageUrl } from '../../config/images';
 
 const EkamAttendance = () => {
   return (
@@ -45,10 +44,15 @@ const EkamAttendance = () => {
               </div>
             </div>
             <div className="flex space-x-4">
-              <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <a 
+                href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit?usp=sharing" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
                 <FaFileExcel className="mr-2" />
                 View Dashboard
-              </button>
+              </a>
             </div>
           </div>
 
@@ -110,12 +114,12 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">Before: Manual Process</h3>
               </div>
               <img 
-                src={getImageUrl('PROJECT3_ATTENDANCE_BEFORE')} 
+                src="/images/projects/Project3 Sql+Sheets/Attendance_before.avif"
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/1200x600?text=Manual+Attendance+Process';
+                  e.target.src = '/images/placeholder.svg';
                 }}
               />
               <div className="p-4">
@@ -140,12 +144,12 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">After: Automated Solution</h3>
               </div>
               <img 
-                src={getImageUrl('PROJECT3_ATTENDANCE_AFTER')} 
+                src="/images/projects/Project3 Sql+Sheets/Attendance_after.avif"
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/1200x600?text=Automated+Attendance+System';
+                  e.target.src = '/images/placeholder.svg';
                 }}
               />
               <div className="p-4">
@@ -432,6 +436,59 @@ GROUP BY e.name;`}
                 </ul>
               </div>
           </div>
+        </div>
+
+        {/* Before & After Section */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Before Automation</h3>
+              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                <img 
+                  src="/images/projects/Project3 Sql+Sheets/Attendance_before.avif" 
+                  alt="Manual attendance tracking process"
+                  className="w-full h-full object-contain p-4"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/placeholder.svg';
+                  }}
+                />
+              </div>
+              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                Manual tracking led to errors and inconsistencies in attendance records.
+              </p>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">After Automation</h3>
+              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
+                <img 
+                  src="/images/projects/Project3 Sql+Sheets/Attendance_after.avif" 
+                  alt="Automated attendance dashboard"
+                  className="w-full h-full object-contain p-4"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/placeholder.svg';
+                  }}
+                />
+              </div>
+              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+                Automated system with real-time tracking and discrepancy alerts.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Back to Projects Button */}
+        <div className="mt-16 mb-8 text-center">
+          <Link
+            to="/projects"
+            className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all duration-300 group"
+          >
+            <FaArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+            Back to All Projects
+          </Link>
         </div>
       </div>
     </motion.div>

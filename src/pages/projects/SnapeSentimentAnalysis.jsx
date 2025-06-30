@@ -2,11 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaPython, FaSearch, FaChartPie, FaBook, FaGithub, FaTools } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImageUrl } from '../../config/images';
 
-const SnapeSentimentAnalysisNew = () => {
-  console.log('SnapeSentimentAnalysis component mounted');
-  
+const SnapeSentimentAnalysis = () => {
   return (
     <motion.div 
       className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
@@ -29,7 +26,7 @@ const SnapeSentimentAnalysisNew = () => {
         {/* Project Header */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div>
+            <div className="w-full md:w-2/3">
               <div className="flex items-center mb-4">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Secrets of Severus Snape: Web Scraping & Sentiment Analysis</h1>
                 <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
@@ -46,26 +43,66 @@ const SnapeSentimentAnalysisNew = () => {
                   </span>
                 ))}
               </div>
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                <FaTools className="mr-2" />
-                <span>Tools used: Python, BeautifulSoup, NLTK, Pandas, Matplotlib, Jupyter Notebook</span>
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-6">
+                <div className="flex items-center">
+                  <FaTools className="mr-2" />
+                  <span>Python, NLTK, BeautifulSoup, Pandas, Matplotlib</span>
+                </div>
+                <a 
+                  href="https://github.com/yourusername/snape-sentiment-analysis" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
+                >
+                  <FaGithub className="mr-1" />
+                  View on GitHub
+                </a>
+              </div>
+              
+              {/* Project Cover */}
+              <div className="rounded-xl overflow-hidden shadow-lg mb-6">
+                <img 
+                  src="https://images.unsplash.com/photo-1608889825205-eeb911fe6048?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                  alt="Severus Snape Sentiment Analysis"
+                  className="w-full h-64 object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                  }}
+                />
               </div>
             </div>
+            
             <div className="w-full md:w-1/3">
-              <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
-                <h3 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Project Highlights</h3>
-                <ul className="space-y-2">
+              <div className="bg-gray-100 dark:bg-gray-700 p-6 rounded-xl">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Project Highlights</h3>
+                <ul className="space-y-4">
                   <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700 dark:text-gray-300">Web scraping of character data</span>
+                    <div className="flex-shrink-0 h-6 w-6 text-green-500 flex items-center justify-center mr-3">
+                      <FaSearch className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Web Scraping</h4>
+                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Collected and processed character dialogue from multiple sources</p>
+                    </div>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700 dark:text-gray-300">Sentiment analysis using NLTK</span>
+                    <div className="flex-shrink-0 h-6 w-6 text-purple-500 flex items-center justify-center mr-3">
+                      <FaChartPie className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Sentiment Analysis</h4>
+                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Analyzed emotional tone using NLTK's VADER</p>
+                    </div>
                   </li>
                   <li className="flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    <span className="text-gray-700 dark:text-gray-300">Data visualization</span>
+                    <div className="flex-shrink-0 h-6 w-6 text-blue-500 flex items-center justify-center mr-3">
+                      <FaBook className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-800 dark:text-gray-200">Character Study</h4>
+                      <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Uncovered emotional patterns and character development</p>
+                    </div>
                   </li>
                 </ul>
               </div>
@@ -106,19 +143,21 @@ const SnapeSentimentAnalysisNew = () => {
                     <span>Cleaned and preprocessed text data</span>
                   </li>
                 </ul>
-                <img 
-                  src={getImageUrl('PROJECT7_SNAPE_COVER')} 
-                  alt="Snape Sentiment Analysis"
-                  className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/1200x600?text=Snape+Sentiment+Analysis';
-                  }}
-                />
+                <div className="mt-6 rounded-lg overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                    alt="Data Collection Process"
+                    className="w-full h-48 object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1486406149866-d6fc28fc647f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                    }}
+                  />
+                </div>
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Analysis</h3>
-                <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+                <ul className="space-y-2 text-gray-600 dark:text-gray-400 mb-6">
                   <li className="flex items-start">
                     <span className="text-purple-500 mr-2">•</span>
                     <span>Performed sentiment analysis using NLTK</span>
@@ -132,6 +171,16 @@ const SnapeSentimentAnalysisNew = () => {
                     <span>Visualized emotional arc over time</span>
                   </li>
                 </ul>
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-800 dark:text-gray-200 mb-2">Technologies Used</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['Python', 'NLTK', 'Pandas', 'Matplotlib', 'BeautifulSoup'].map((tech, i) => (
+                      <span key={i} className="px-3 py-1 bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm rounded-full">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -151,6 +200,17 @@ const SnapeSentimentAnalysisNew = () => {
                     <span>Identified key emotional turning points</span>
                   </li>
                 </ul>
+                <div className="mt-6 rounded-lg overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                    alt="Emotional Patterns"
+                    className="w-full h-48 object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1486406149866-d6fc28fc647f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                    }}
+                  />
+                </div>
               </div>
               <div>
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Themes</h3>
@@ -163,40 +223,41 @@ const SnapeSentimentAnalysisNew = () => {
                     <span className="text-yellow-500 mr-2">•</span>
                     <span>Love and loss</span>
                   </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-500 mr-2">•</span>
+                    <span>Dualities in character</span>
+                  </li>
                 </ul>
-                <img 
-                  src={getImageUrl('PROJECT7_SENTIMENT_ANALYSIS')} 
-                  alt="Sentiment Analysis Results"
-                  className="w-full h-auto rounded-lg shadow-lg"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/1200x600?text=Sentiment+Analysis+Results';
-                  }}
-                />
+                <div className="mt-6 rounded-lg overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                    alt="Thematic Analysis"
+                    className="w-full h-48 object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1486406149866-d6fc28fc647f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </section>
-        </div>
 
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Interested in the Analysis?</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-            Check out the full analysis and code on GitHub to explore the technical details and findings.
-          </p>
-          <a
-            href="https://github.com/yourusername/snape-sentiment-analysis"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
-          >
-            <FaGithub className="mr-2" />
-            View on GitHub
-          </a>
+          <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Conclusion</h2>
+            <div className="prose dark:prose-invert max-w-none">
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                This project demonstrated how data science techniques can provide unique insights into literary analysis. By quantifying and visualizing emotional patterns in Severus Snape's character, we gain a deeper appreciation for J.K. Rowling's character development and storytelling techniques.
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                The methodology used here could be applied to analyze other complex characters or to study character development across different works of literature.
+              </p>
+            </div>
+          </section>
         </div>
       </div>
     </motion.div>
   );
 };
 
-export default SnapeSentimentAnalysisNew;
+export default SnapeSentimentAnalysis;

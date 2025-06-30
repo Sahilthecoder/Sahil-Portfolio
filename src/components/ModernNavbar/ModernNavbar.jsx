@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { 
   FiMenu, 
   FiX, 
@@ -146,7 +146,12 @@ const ModernNavbar = () => {
   const lastScrollY = useRef(0);
 
   // Get active section from path
-  const activeSection = location.pathname === '/' ? 'home' : location.pathname.split('/')[1];
+  const activeSection = useMemo(() => {
+    const path = location.pathname;
+    if (path === '/') return 'home';
+    if (path.startsWith('/projects')) return 'projects';
+    return path.split('/')[1];
+  }, [location.pathname]);
 
   // Close mobile menu when clicking outside
   const handleClickOutsideMobile = useCallback((event) => {

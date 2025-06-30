@@ -1,6 +1,10 @@
 import { Component } from 'react';
 
 class ErrorBoundary extends Component {
+  static defaultProps = {
+    fallback: null,
+    children: null
+  };
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -16,7 +20,7 @@ class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return (
+      return this.props.fallback || (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
           <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-xl max-w-2xl w-full text-center">
             <h2 className="text-2xl font-bold text-red-500 mb-4">Something went wrong</h2>

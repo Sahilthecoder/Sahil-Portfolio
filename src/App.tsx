@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { FC } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { AIAssistantProvider } from './context/AIAssistantContext';
 import ThemeProvider from './context/ThemeContext';
 import ModernNavbar from './components/ModernNavbar';
@@ -28,7 +28,7 @@ const RetailCashFlow = lazy(() => import('./pages/projects/RetailCashFlow'));
 const ProductSalesDashboard = lazy(() => import('./pages/projects/ProductSalesDashboard'));
 const SnapeSentimentAnalysis = lazy(() => import('./pages/projects/SnapeSentimentAnalysis'));
 
-const App: FC = () => {
+const App = () => {
   const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -82,33 +82,82 @@ const App: FC = () => {
     <ThemeProvider>
       <AIAssistantProvider>
         <Router>
-          <div className="flex min-h-screen flex-col bg-light-bg dark:bg-dark-bg">
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingScreen />}>
-                <ModernNavbar />
-                <AIAssistant />
-                <div className="flex flex-col min-h-screen">
-                  <main className="flex-grow">
+          <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900 transition-colors duration-200">
+            {/* Toast Notifications */}
+            <Toaster 
+              position="top-center"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: 'var(--bg-color)',
+                  color: 'var(--text-color)',
+                  borderRadius: '0.5rem',
+                  padding: '0.75rem 1rem',
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                },
+                success: {
+                  iconTheme: {
+                    primary: '#10B981',
+                    secondary: 'white',
+                  },
+                },
+                error: {
+                  iconTheme: {
+                    primary: '#EF4444',
+                    secondary: 'white',
+                  },
+                },
+                loading: {
+                  iconTheme: {
+                    primary: '#3B82F6',
+                    secondary: 'white',
+                  },
+                },
+              }}
+            />
+            <ModernNavbar />
+            <AIAssistant />
+            <div className="flex flex-col min-h-screen">
+              <main className="flex-grow">
+                <ErrorBoundary>
+                  <Suspense fallback={<LoadingScreen />}>
                     <Routes>
                       <Route path="/" element={<Home />} />
                       <Route path="/about" element={<About />} />
                       <Route path="/experience" element={<Experience />} />
                       <Route path="/projects" element={<Projects />} />
-                      <Route path="/projects/zomato" element={<ZomatoAnalysis />} />
+                      <Route 
+                        path="/projects/zomato-analysis" 
+                        element={
+                          <ErrorBoundary>
+                            <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading Zomato Analysis...</div>}>
+                              <ZomatoAnalysis />
+                            </Suspense>
+                          </ErrorBoundary>
+                        } 
+                      />
                       <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
                       <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
                       <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
                       <Route path="/projects/product-sales" element={<ProductSalesDashboard />} />
-                      <Route path="/projects/automation-suite" element={<SnapeSentimentAnalysis />} />
-                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/projects/snape-sentiment-analysis" element={<SnapeSentimentAnalysis />} />
+                      <Route path="/contact" element={
+                        <Suspense fallback={<LoadingScreen />}>
+                          <Contact />
+                        </Suspense>
+                      } />
                       <Route path="/test" element={<TestRoute />} />
-                      <Route path="*" element={<NotFound />} />
+                      <Route path="*" element={
+                        <Suspense fallback={<LoadingScreen />}>
+                          <NotFound />
+                        </Suspense>
+                      } />
                     </Routes>
-                  </main>
-                  <Footer />
-                </div>
-              </Suspense>
-            </ErrorBoundary>
+                  </Suspense>
+                </ErrorBoundary>
+              </main>
+              <Footer />
+            </div>
           </div>
         </Router>
       </AIAssistantProvider>

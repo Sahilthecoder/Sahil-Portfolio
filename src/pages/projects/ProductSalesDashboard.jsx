@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaDatabase, FaChartLine, FaBox, FaRobot, FaMobileScreen, FaClock, FaArrowTrendUp, FaDollarSign } from 'react-icons/fa6';
+import { FaDatabase, FaChartLine, FaBox, FaRobot, FaMobileScreen, FaClock, FaArrowTrendUp, FaDollarSign, FaExternalLinkAlt } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import { getImageUrl } from '../../config/images';
+import ProjectImage from '../../components/ProjectImage';
+
+// Image paths
+const dashboardImage = '/images/projects/Project5 SQL/dashboard-preview.jpg';
+const productAnalysisImage = '/images/projects/Project5 SQL/product-analysis.jpg';
 
 const ProductSalesDashboard = () => {
   return (
@@ -44,6 +48,55 @@ const ProductSalesDashboard = () => {
                   </span>
                 ))}
               </div>
+            </div>
+            <div className="flex space-x-4">
+              <a 
+                href="https://app.powerbi.com/view?r=your-dashboard-link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <FaChartLine className="mr-2" />
+                View Dashboard
+              </a>
+            </div>
+          </div>
+
+          {/* Dashboard Preview */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">Sales Overview</h3>
+              <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
+                <ProjectImage
+                  projectId="product-sales-dashboard"
+                  imageName="dashboard-preview.jpg"
+                  alt="Sales Overview Dashboard"
+                  aspectRatio="16/9"
+                  className="rounded-lg"
+                  showOverlay={false}
+                  zoomOnHover={true}
+                />
+              </div>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                Comprehensive view of sales performance across all products and categories.
+              </p>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-xl">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3">Product Performance</h3>
+              <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
+                <ProjectImage
+                  projectId="product-sales-dashboard"
+                  imageName="product-analysis.jpg"
+                  alt="Product Performance Analysis"
+                  aspectRatio="16/9"
+                  className="rounded-lg"
+                  showOverlay={false}
+                  zoomOnHover={true}
+                />
+              </div>
+              <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
+                Detailed analysis of top-performing products and categories.
+              </p>
             </div>
           </div>
           
@@ -119,12 +172,12 @@ const ProductSalesDashboard = () => {
         {/* Project Image */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-12 max-w-6xl mx-auto">
           <img 
-            src={getImageUrl('PROJECT4_DASHBOARD')} 
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
             alt="Product Sales Dashboard"
-            className="w-full h-full object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="w-full h-96 object-cover rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/1200x600?text=Product+Sales+Dashboard';
+              e.target.src = 'https://images.unsplash.com/photo-1486406149866-d6fc28fc647f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
             }}
           />
         </div>

@@ -177,7 +177,7 @@ const ProjectModal = ({ project, onClose }) => {
             {project.projectUrl && (
               <div className="absolute bottom-4 right-4 z-10">
                 <a
-                  href={`${window.location.origin}${project.projectUrl}`}
+                  href={project.projectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800/50 transition-colors shadow-sm"
@@ -342,6 +342,16 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 // Single project data
+// Helper function to prepend base URL to image paths
+const withBaseUrl = (path) => {
+  // If path is an array, process each item
+  if (Array.isArray(path)) {
+    return path.map(p => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`);
+  }
+  // If path is a string, process it directly
+  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+};
+
 const projects = [
   {
     id: 'zomato-analysis',
@@ -352,21 +362,21 @@ const projects = [
     tags: ['Data Analysis', 'Market Research', 'Excel', 'Dashboard'],
     techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
     path: '/projects/zomato-analysis',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
-    previewImage: '/images/projects/Project1 excel/zometo-ds.avif',
+    image: withBaseUrl('/images/projects/Project1 excel/Project1 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Project1 excel/zometo-ds.avif'),
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
     role: 'Data Analyst',
     year: '2024',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/zomato-analysis',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     gallery: [
-      '/images/projects/Project1 excel/zometo-ds.avif',
-      '/images/projects/Project1 excel/zt1.avif',
-      '/images/projects/Project1 excel/zt2.avif'
+      withBaseUrl('/images/projects/Project1 excel/zometo-ds.avif'),
+      withBaseUrl('/images/projects/Project1 excel/zt1.avif'),
+      withBaseUrl('/images/projects/Project1 excel/zt2.avif')
     ]
   },
   {
@@ -378,21 +388,21 @@ const projects = [
     tags: ['Tableau', 'Data Visualization', 'Retail', 'Dashboard'],
     techStack: ['Tableau', 'Data Visualization', 'Retail Analytics'],
     path: '/projects/bansal-supermarket',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
-    previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    image: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
     role: 'BI Developer',
     year: '2023',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/bansal-supermarket',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     gallery: [
-      '/images/projects/Project2 tableau/bs2.avif',
-      '/images/projects/Project2 tableau/bs3.avif',
-      '/images/projects/Project2 tableau/bs-top10.avif'
+      withBaseUrl('/images/projects/Project2 tableau/bs2.avif'),
+      withBaseUrl('/images/projects/Project2 tableau/bs3.avif'),
+      withBaseUrl('/images/projects/Project2 tableau/bs-top10.avif')
     ]
   },
   {
@@ -404,20 +414,20 @@ const projects = [
     tags: ['Power BI', 'Finance', 'Data Visualization', 'Retail'],
     techStack: ['Power BI', 'DAX', 'Data Visualization', 'Financial Analysis'],
     path: '/projects/retail-cash-flow',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
-    previewImage: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
     role: 'Data Analyst',
     year: '2023',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/retail-cash-flow',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     gallery: [
-      '/images/projects/Project4 Power BI/CashFlow1.avif',
-      '/images/projects/Project4 Power BI/CashFlow2.avif'
+      withBaseUrl('/images/projects/Project4 Power BI/CashFlow1.avif'),
+      withBaseUrl('/images/projects/Project4 Power BI/CashFlow2.avif')
     ]
   },
   {
@@ -429,20 +439,20 @@ const projects = [
     tags: ['SQL', 'Google Sheets', 'Automation', 'Payroll', 'HR'],
     techStack: ['SQL', 'Google Apps Script', 'Data Automation', 'HR Analytics'],
     path: '/projects/ekam-attendance',
-    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-    previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
     role: 'Data Analyst',
     year: '2024',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/ekam-attendance',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     gallery: [
-      '/images/projects/Project3 Sql+Sheets/Attendance_before.avif',
-      '/images/projects/Project3 Sql+Sheets/Attendance_after.avif'
+      withBaseUrl('/images/projects/Project3 Sql+Sheets/Attendance_before.avif'),
+      withBaseUrl('/images/projects/Project3 Sql+Sheets/Attendance_after.avif')
     ]
   },
   {
@@ -454,21 +464,21 @@ const projects = [
     tags: ['Python', 'Streamlit', 'Data Analysis', 'E-commerce'],
     techStack: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'Machine Learning'],
     path: '/projects/product-sales',
-    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-    previewImage: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
     role: 'Data Engineer',
     year: '2023',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/product-sales',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     gallery: [
-      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-      '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'
+      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
+      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
+      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif')
     ]
   },
   {
@@ -480,21 +490,21 @@ const projects = [
     tags: ['React', 'Next.js', 'AI Integration', 'Web Design'],
     techStack: ['React', 'Next.js', 'Tailwind CSS', 'OpenAI API'],
     path: '/projects/mahira-portfolio',
-    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
-    previewImage: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    image: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
+    previewImage: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
     featured: true,
     role: 'Full-stack Developer',
     year: '2024',
     github: '#',
-    liveDemo: '#',
+    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
     caseStudy: '#',
-    projectUrl: '/projects/#/projects/mahira-portfolio',
+    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
     gallery: [
-      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
-      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
-      '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'
+      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
+      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
+      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif')
     ]
   }
 ];
@@ -520,8 +530,7 @@ const Projects = () => {
   
   // Download CV function
   const handleDownloadCV = () => {
-    // Replace with actual CV download URL
-    const cvUrl = '/Sahil_Resume.pdf'; // Update this path to your actual CV file
+    const cvUrl = `${import.meta.env.BASE_URL}Sahil_Resume.pdf`;
     const link = document.createElement('a');
     link.href = cvUrl;
     link.download = 'Sahil_Resume.pdf';

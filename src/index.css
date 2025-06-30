@@ -48,6 +48,59 @@ p, li {
   @apply text-base md:text-lg leading-relaxed opacity-95;
 }
 
+/* Custom Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #c7d2fe #f1f5f9;
+}
+
+.dark .custom-scrollbar {
+  scrollbar-color: #4f46e5 #1e293b;
+}
+
+/* For Webkit browsers (Chrome, Safari, etc.) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c7d2fe;
+  border-radius: 4px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4f46e5;
+}
+
+/* Better touch targets for mobile */
+@media (max-width: 640px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve tap targets for mobile navigation */
+  .mobile-menu-container button {
+    padding: 12px 16px;
+  }
+  
+  /* Prevent text size adjustments on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+}
+
 /* Links & Interactive Elements */
 a {
   @apply text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200;

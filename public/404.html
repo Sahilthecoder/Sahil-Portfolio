@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Not Found - Sahil Ali's Portfolio</title>
+    <title>Redirecting... - Sahil Ali's Portfolio</title>
+    <script>
+      // Store the current URL
+      sessionStorage.redirect = location.href;
+      
+      // Redirect to the main app with the original path
+      const baseUrl = '/Sahil-Portfolio';
+      const path = window.location.pathname.replace(/\/$/, '');
+      const redirectTo = `${baseUrl}${path}${window.location.search}${window.location.hash}`;
+      
+      // Use replaceState to avoid adding to browser history
+      window.history.replaceState({}, '', `${baseUrl}/`);
+      
+      // Redirect to the main app
+      window.location.href = redirectTo;
+    </script>
     <style>
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -18,6 +33,11 @@
             min-height: 100vh;
             text-align: center;
             padding: 1rem;
+            transition: opacity 0.3s ease;
+        }
+        
+        .loading {
+            opacity: 0.7;
         }
         .container {
             max-width: 600px;
@@ -25,6 +45,12 @@
             background: white;
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
             font-size: 2.25rem;

@@ -1,16 +1,22 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Disable React's Fast Refresh if needed
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
-export default defineConfig(({ command, mode }) => ({
+export default defineConfig(({ command, mode }) => {
+  // Load env file based on `mode` in the current directory.
+  // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
+  const env = loadEnv(mode, process.cwd(), '');
+  
+  return {
   // Base URL configuration – root for dev, repo sub-folder for production (GitHub Pages)
-  base: command === 'serve' ? '/' : '/Sahil-Portfolio/',
+  base: env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/'),
   // Ensure assets are properly prefixed with base URL
   define: {
-    'import.meta.env.BASE_URL': JSON.stringify(command === 'serve' ? '/' : '/Sahil-Portfolio/')
+    'import.meta.env.BASE_URL': JSON.stringify(env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/'))
   },
   // Build configuration
 
@@ -21,36 +27,58 @@ export default defineConfig(({ command, mode }) => ({
       babel: {
         plugins: []
       }
+    }),
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
     })
   ],
+  
+  // Resolve aliases for absolute imports
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   
   server: {
     port: 3000,
     strictPort: true,
     host: true,
+    open: true,
     hmr: {
       protocol: 'ws',
       host: 'localhost',
       port: 3000,
-      clientPort: 3000
+      clientPort: 443,
+      overlay: true
     },
     watch: {
       usePolling: true,
       interval: 100,
-      useFsEvents: true
+      useFsEvents: true,
+      ignored: ['**/node_modules/**', '**/.git/**']
     },
     cors: true,
     fs: {
-      strict: false,
-      allow: ['..']
+      strict: true,
+      allow: ['..', 'node_modules']
+    },
+    proxy: {
+      // Add API proxies if needed
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false
+      }
     },
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, X-Custom-Header',
+      'X-Content-Type-Options': 'nosniff'
     },
-    open: true,
-    proxy: {}
   },
 
   optimizeDeps: {
@@ -76,13 +104,11 @@ export default defineConfig(({ command, mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    emptyOutDir: true,
-    sourcemap: false, // Disable sourcemaps for production
+    sourcemap: true,
+    minify: 'terser',
     cssCodeSplit: true,
+    reportCompressedSize: true,
     chunkSizeWarningLimit: 1000,
-    minify: 'esbuild',
-    manifest: true,
-    target: 'esnext',
     assetsInlineLimit: 0, // This ensures all asset paths are relative to the base URL
     rollupOptions: {
       output: {
@@ -102,27 +128,13 @@ export default defineConfig(({ command, mode }) => ({
             return 'assets/fonts/[name]-[hash][extname]';
           }
           return 'assets/[name]-[hash][extname]';
-        }
-      },
-      external: [
-        'fs', 'path', 'os', 'crypto', 'stream', 'http', 'https', 
-        'zlib', 'tls', 'net', 'dns', 'child_process', 'worker_threads'
-      ]
+        },
+
+      }
     }
   },
 
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src')
-    },
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    dedupe: ['react', 'react-dom', 'react-router-dom'],
-    conditions: ['development', 'browser'],
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, 'node_modules')
-    ]
-  },
+
 
   css: {
     preprocessorOptions: {
@@ -138,4 +150,5 @@ export default defineConfig(({ command, mode }) => ({
     '**/*.png', '**/*.ico', '**/*.svg',
     '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'
   ]
-}));
+  }
+});

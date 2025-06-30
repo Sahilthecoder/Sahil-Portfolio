@@ -230,7 +230,7 @@ const ModernNavbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link
                 to="/"
-                className="group flex items-center space-x-3"
+                className="group flex items-center space-x-2 sm:space-x-3"
                 onClick={closeMenu}
               >
                 <div className="relative">
@@ -240,15 +240,15 @@ const ModernNavbar = () => {
                       src={`${import.meta.env.BASE_URL}logo192.png`}
                       alt="Sahil Ali"
                       loading="lazy"
-                      className="h-9 w-9 md:h-10 md:w-10 transition-transform duration-300 group-hover:scale-110"
+                      className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col leading-tight">
-                  <h2 className="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-400">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-400">
                     Sahil Ali
                   </h2>
-                  <span className="text-[10px] text-gray-500 dark:text-gray-400 tracking-wide mt-0.5">
+                  <span className="text-[9px] sm:text-[10px] text-gray-500 dark:text-gray-400 tracking-wide mt-0.5">
                     DATA ANALYST
                   </span>
                 </div>
@@ -256,7 +256,7 @@ const ModernNavbar = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
+            <nav className="hidden md:flex items-center space-x-1 flex-wrap">
               {NAV_ITEMS.map((item) => {
                 const isActive = location.pathname === item.path || 
                               (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -277,7 +277,7 @@ const ModernNavbar = () => {
                         }, 50);
                       }
                     }}
-                    className={`flex-shrink-0 flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                    className={`flex-shrink-0 flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-300 ${
                       isActive
                         ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
                         : 'text-gray-600 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40'
@@ -292,7 +292,7 @@ const ModernNavbar = () => {
             </nav>
 
             {/* Desktop Right Side */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2">
               <ThemeToggle />
             </div>
 

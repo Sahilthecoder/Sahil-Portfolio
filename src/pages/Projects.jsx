@@ -43,7 +43,7 @@ const techIcons = {
 const ProjectCard = ({ project, index, onClick }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
       className="w-full h-full"
@@ -74,12 +74,15 @@ const ProjectCard = ({ project, index, onClick }) => {
           <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Project image */}
-          <div className="relative pt-[60%] overflow-hidden">
+          <div className="relative pt-[56.25%] sm:pt-[60%] overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
               loading="lazy"
+              width="100%"
+              height="auto"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
               <div className="w-full">
@@ -90,7 +93,7 @@ const ProjectCard = ({ project, index, onClick }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05 }}
-                      className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm cursor-default"
+                      className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm cursor-default"
                     >
                       {techIcons[tech] || tech}
                       <span className="ml-1.5">{tech}</span>
@@ -102,7 +105,7 @@ const ProjectCard = ({ project, index, onClick }) => {
           </div>
           
           {/* Project info */}
-          <div className="p-6 bg-white dark:bg-gray-800">
+          <div className="p-4 sm:p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 {techIcons[project.icon] || <BsFileEarmarkExcel className="text-emerald-600 dark:text-emerald-400" />}
@@ -113,11 +116,11 @@ const ProjectCard = ({ project, index, onClick }) => {
               <span className="text-xs text-gray-600 dark:text-gray-300">{project.year}</span>
             </div>
             
-            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors">
               <GlitchText>{project.title}</GlitchText>
             </h3>
             
-            <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">
+            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
               {project.shortDescription}
             </p>
             
@@ -147,10 +150,11 @@ const ProjectModal = ({ project, onClose }) => {
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div className="flex items-center justify-center min-h-screen p-2 sm:p-4 text-center">
         <motion.div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
           aria-hidden="true"
+          onClick={onClose}
         />
         
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
@@ -158,38 +162,42 @@ const ProjectModal = ({ project, onClose }) => {
         </span>
 
         <motion.div
-          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full"
+          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl text-left overflow-hidden shadow-xl transform transition-all w-full max-w-full sm:max-w-4xl sm:my-8 sm:align-middle"
           onClick={(e) => e.stopPropagation()}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
+          exit={{ opacity: 0, y: 20 }}
+          style={{
+            maxHeight: '90vh',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
         >
-          <div className="relative">
-            <div className="absolute top-4 right-4 z-10">
+          <div className="relative flex-shrink-0">
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 flex space-x-2">
               <button
                 onClick={onClose}
-                className="p-2 rounded-full bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600 transition-colors shadow-lg"
+                className="p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600 transition-colors shadow-lg"
                 aria-label="Close"
               >
-                <FaTimes className="h-5 w-5" />
+                <FaTimes className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
-            </div>
             {project.projectUrl && (
-              <div className="absolute bottom-4 right-4 z-10">
-                <a
-                  href={project.projectUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800/50 transition-colors shadow-sm"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <FaExternalLinkAlt className="mr-2 h-4 w-4" />
-                  View Project
-                </a>
-              </div>
+              <a
+                href={project.projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800/50 transition-colors shadow-sm whitespace-nowrap"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaExternalLinkAlt className="mr-1.5 h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">View Project</span>
+                <span className="xs:hidden">View</span>
+              </a>
             )}
+            </div>
             
-            <div className="h-[16rem] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
+            <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
                 <img
                   src={project.image || '/project-placeholder.jpg'}
@@ -200,17 +208,17 @@ const ProjectModal = ({ project, onClose }) => {
               {/* Tech stack overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
                 <div className="w-full">
-                  <div className="flex flex-wrap gap-2 justify-center">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {project.techStack?.map((tech, idx) => (
                       <motion.span
                         key={idx}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05 }}
-                        className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm"
+                        className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm select-none"
                       >
-                        {techIcons[tech] || techIcons['Data Analysis']}
-                        <span className="ml-1.5">{tech}</span>
+                        <span className="text-xs sm:text-sm">{techIcons[tech] || techIcons['Data Analysis']}</span>
+                        <span className="ml-1 sm:ml-1.5">{tech}</span>
                       </motion.span>
                     ))}
                   </div>
@@ -218,45 +226,44 @@ const ProjectModal = ({ project, onClose }) => {
               </div>
             </div>
 
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between md:space-x-6">
+            <div className="overflow-y-auto flex-1 p-4 sm:p-6 md:p-8 custom-scrollbar">
+              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between lg:space-x-6 space-y-4 lg:space-y-0">
                 <div className="flex-1">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
                     {project.title}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                     {project.description}
                   </p>
                   
                   {/* Gallery Section */}
                   {project.gallery && project.gallery.length > 0 && (
-                    <div className="mt-6">
-                      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Project Gallery</h3>
-                      <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                    <div className="mt-4 sm:mt-6">
+                      <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2 sm:mb-3">Project Gallery</h3>
+                      <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 gap-1.5 sm:gap-2">
                         {project.gallery.map((img, index) => (
-                          <div 
+                          <motion.div 
                             key={index} 
-                            className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 aspect-square cursor-pointer"
+                            className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 aspect-square cursor-pointer touch-pan-y"
                             onClick={() => openImage(img)}
+                            whileTap={{ scale: 0.98 }}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.05 }}
                           >
                             <img
                               src={img}
                               alt={`${project.title} - ${index + 1}`}
                               className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
+                              loading="lazy"
+                              width="100%"
+                              height="100%"
                             />
-                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-2">
-                              <FaExternalLinkAlt className="text-white text-lg" />
-                              <a
-                                href={`${window.location.origin}${project.projectUrl}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded-full whitespace-nowrap"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                View Project
-                              </a>
+                            <div className="absolute inset-0 bg-black/20 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-1 sm:space-y-2">
+                              <FaExternalLinkAlt className="text-white text-lg sm:text-xl" />
+                              <span className="text-white text-xs sm:text-sm font-medium text-center px-1">View Full Size</span>
                             </div>
-                          </div>
+                          </motion.div>
                         ))}
                       </div>
                     </div>
@@ -605,21 +612,21 @@ const Projects = () => {
         <Header />
         
         {/* CV Download Button */}
-        <div className="fixed bottom-8 right-8 z-50">
+        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50">
           <button
             onClick={handleDownloadCV}
-            className="flex items-center justify-center w-14 h-14 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-colors duration-300 group"
+            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-colors duration-300 group"
             aria-label="Download CV"
             title="Download CV"
           >
-            <FaFilePdf className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <FaFilePdf className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
           </button>
         </div>
         
         {/* Main Content */}
         <main className="w-full">
           {/* Hero Section - Compact Height */}
-          <section className="relative w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 overflow-hidden">
+          <section className="relative w-full py-12 sm:py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 overflow-hidden">
             {/* Grid background - Full width */}
             <div className="absolute inset-0 w-full h-full bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
             
@@ -655,10 +662,10 @@ const Projects = () => {
                       show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
                     }}
                   >
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight">
                       My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
                     </h1>
-                    <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-8">
+                    <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-6 sm:mb-8">
                       Explore my portfolio of data analysis and visualization projects that bring data to life
                     </p>
                   </motion.div>
@@ -702,16 +709,16 @@ const Projects = () => {
                   }}
                 >
                   {/* Search Bar */}
-                  <div className="relative mb-6">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <FaSearch className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                  <div className="relative mb-4 sm:mb-6">
+                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                      <FaSearch className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-500 dark:text-indigo-400" />
                     </div>
                     <input
                       type="text"
-                      placeholder="Search projects by tech, role, or keywords..."
+                      placeholder="Search projects..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="block w-full pl-12 pr-5 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-all duration-300 text-base"
+                      className="block w-full pl-9 pr-4 sm:pl-12 sm:pr-5 py-3 sm:py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-all duration-300 text-sm sm:text-base"
                       aria-label="Search projects by technologies, role, or keywords"
                     />
                     {searchTerm && (
@@ -728,7 +735,7 @@ const Projects = () => {
                   </div>
                   
                   {/* Quick Filter Chips */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                     {['SQL', 'Tableau', 'Power BI', 'Python', 'Automation'].map((term) => (
                       <button
                         key={term}

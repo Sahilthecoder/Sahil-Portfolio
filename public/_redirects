@@ -1,1 +1,5 @@
-/* /index.html 200
+# Handle client-side routing - return index.html for all routes
+/*    /index.html   200
+
+# Handle 404s
+/*/    /404.html   404

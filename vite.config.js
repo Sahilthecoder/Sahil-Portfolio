@@ -6,8 +6,9 @@ import path from 'path';
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
 export default defineConfig(({ command, mode }) => ({
-  // Base URL configuration
-  base: command === 'build' ? '/Sahil-Portfolio/' : '/',
+  // Base URL configuration for GitHub Pages
+  base: process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio/' : '/',
+  // Build configuration
 
   plugins: [
     react({
@@ -71,13 +72,13 @@ export default defineConfig(({ command, mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true,
+    sourcemap: false, // Disable sourcemaps for production
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
     minify: 'esbuild',
     manifest: true,
     target: 'esnext',
-    assetsInlineLimit: 0,
+    assetsInlineLimit: 0, // This ensures all asset paths are relative to the base URL
     rollupOptions: {
       output: {
         manualChunks: {

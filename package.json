@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/copy-assets.js && node scripts/copy-files.js",
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest watch",

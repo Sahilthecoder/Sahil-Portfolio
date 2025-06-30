@@ -114,7 +114,7 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">Before: Manual Process</h3>
               </div>
               <img 
-                src="/images/projects/Project3 Sql+Sheets/Attendance_before.avif"
+                src="/Sahil-Portfolio/images/projects/Project3 Sql+Sheets/Attendance_before.avif"
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
@@ -144,7 +144,7 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">After: Automated Solution</h3>
               </div>
               <img 
-                src="/images/projects/Project3 Sql+Sheets/Attendance_after.avif"
+                src="/Sahil-Portfolio/images/projects/Project3 Sql+Sheets/Attendance_after.avif"
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
@@ -445,7 +445,7 @@ GROUP BY e.name;`}
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Before Automation</h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img 
-                  src="/images/projects/Project3 Sql+Sheets/Attendance_before.avif" 
+                  src="/Sahil-Portfolio/images/projects/Project3 Sql+Sheets/Attendance_before.avif" 
                   alt="Manual attendance tracking process"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
@@ -464,7 +464,7 @@ GROUP BY e.name;`}
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">After Automation</h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img 
-                  src="/images/projects/Project3 Sql+Sheets/Attendance_after.avif" 
+                  src="/Sahil-Portfolio/images/projects/Project3 Sql+Sheets/Attendance_after.avif" 
                   alt="Automated attendance dashboard"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {

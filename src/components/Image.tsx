@@ -21,9 +21,13 @@ const Image: React.FC<ImageProps> = ({ src, alt, width, height, className = '', 
   const isSVG = src.toLowerCase().endsWith('.svg');
 
   if (isSVG) {
+    // Handle local SVG paths by adding repository name for GitHub Pages
+    const processedSrc = !src.startsWith('http') && !src.startsWith('data:') ? 
+      `/Sahil-Portfolio${src.startsWith('/') ? '' : '/'}${src}` : src;
+      
     return (
       <img
-        src={src}
+        src={processedSrc}
         alt={alt}
         width={width}
         height={height}

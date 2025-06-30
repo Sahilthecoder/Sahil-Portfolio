@@ -43,7 +43,7 @@ const ProjectDetails = () => {
           <div className="md:flex-shrink-0 md:w-1/2">
             <img
               className="h-full w-full object-cover md:w-full"
-              src={project.image}
+              src={project.image.startsWith('http') ? project.image : `/Sahil-Portfolio${project.image}`}
               alt={project.title}
             />
           </div>

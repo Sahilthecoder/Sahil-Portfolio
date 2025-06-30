@@ -234,7 +234,7 @@ const BansalSupermarket = () => {
 
   // Reusable ImageContainer component
   const ImageContainer = ({ image, index, className = '', onClick, isModal = false }) => {
-    const imagePath = `/images/projects/Project2 tableau/${image.name}`;
+    const imagePath = `/Sahil-Portfolio/images/projects/Project2 tableau/${image.name}`;
     
     const content = (
       <div 

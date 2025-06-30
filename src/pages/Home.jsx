@@ -89,17 +89,17 @@ const Home = () => {
   const featuredProjects = [
     {
       ...getProject('zomato'),
-      image: '/images/projects/Project1 excel/Project1 Cover.avif',
+      image: '/Sahil-Portfolio/images/projects/Project1 excel/Project1 Cover.avif',
       path: '/projects/zomato'
     },
     {
       ...getProject('bansal'),
-      image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+      image: '/Sahil-Portfolio/images/projects/Project2 tableau/Project2 Cover.avif',
       path: '/projects/bansal-supermarket'
     },
     {
       ...getProject('retail'),
-      image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+      image: '/Sahil-Portfolio/images/projects/Project4 Power BI/Project4 Cover.avif',
       path: '/projects/retail-cash-flow'
     }
   ].filter(Boolean); // Filter out any undefined projects

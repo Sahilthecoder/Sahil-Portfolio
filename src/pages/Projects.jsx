@@ -538,7 +538,7 @@ const Projects = () => {
                     >
                       <div className="relative pt-[56.25%] overflow-hidden">
                         <img
-                          src={project.image}
+                          src={project.image.startsWith('http') ? project.image : `/Sahil-Portfolio${project.image}`}
                           alt={project.title}
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           loading="lazy"

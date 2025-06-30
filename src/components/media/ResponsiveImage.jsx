@@ -33,6 +33,13 @@ const ResponsiveImage = ({
     if (onLoad) onLoad(e);
   };
 
+  // Process image source - add repository name for local paths
+  const processImagePath = (path) => {
+    if (!path) return '';
+    if (path.startsWith('http') || path.startsWith('data:')) return path;
+    return `/Sahil-Portfolio${path.startsWith('/') ? '' : '/'}${path}`;
+  };
+
   // Handle image error
   const handleError = (e) => {
     setHasError(true);
@@ -76,15 +83,24 @@ const ResponsiveImage = ({
     }
   }, [loading]);
 
+  // Process srcSet if provided
+  const processSrcSet = (srcSetStr) => {
+    if (!srcSetStr) return '';
+    return srcSetStr.split(',').map(src => {
+      const [url, descriptor] = src.trim().split(' ');
+      return `${processImagePath(url)}${descriptor ? ' ' + descriptor : ''}`;
+    }).join(',');
+  };
+
   // Generate srcSet if not provided
-  const finalSrcSet = srcSet || (src ? `${src} 1x` : '');
+  const finalSrcSet = srcSet ? processSrcSet(srcSet) : (src ? `${processImagePath(src)} 1x` : '');
 
   // Generate sizes if not provided
   const finalSizes = sizes || '100vw';
 
   // Determine the source to use
   const shouldLoadImage = loading !== 'lazy' || isInView;
-  const imgSrc = shouldLoadImage ? src : undefined;
+  const imgSrc = shouldLoadImage ? processImagePath(src) : undefined;
   const imgSrcSet = shouldLoadImage ? finalSrcSet : undefined;
 
   // Generate placeholder if needed

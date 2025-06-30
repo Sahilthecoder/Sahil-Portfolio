@@ -18,7 +18,7 @@ const ProjectCard = ({
       {cover && (
         <div className="relative h-48 overflow-hidden">
           <img
-            src={cover}
+            src={cover && (cover.startsWith('http') ? cover : `/Sahil-Portfolio${cover}`)}
             alt={`Screenshot of ${title} project`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"

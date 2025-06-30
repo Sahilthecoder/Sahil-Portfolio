@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// Disable React's Fast Refresh in development if needed
+// Disable React's Fast Refresh if needed
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
 export default defineConfig(({ command, mode }) => ({
@@ -11,17 +11,10 @@ export default defineConfig(({ command, mode }) => ({
 
   plugins: [
     react({
-      // Enable Fast Refresh
       fastRefresh: !disableFastRefresh,
-      // Use automatic JSX runtime
       jsxRuntime: 'automatic',
-      // Disable React Strict Mode if needed
-      // reactStrictMode: false,
-      // Add babel plugins if needed
       babel: {
-        plugins: [
-          // Add any required babel plugins here
-        ]
+        plugins: []
       }
     })
   ],
@@ -29,21 +22,32 @@ export default defineConfig(({ command, mode }) => ({
   server: {
     port: 3000,
     strictPort: true,
+    host: true,
     hmr: {
       protocol: 'ws',
       host: 'localhost',
-      port: 3001,
-      clientPort: 3001
+      port: 3000,
+      clientPort: 3000
     },
     watch: {
       usePolling: true,
-      interval: 100
+      interval: 100,
+      useFsEvents: true
     },
-    // Enable CORS for development
     cors: true,
-    // Enable source maps for better debugging
-    sourcemap: true
+    fs: {
+      strict: false,
+      allow: ['..']
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+    },
+    open: true,
+    proxy: {}
   },
+
   optimizeDeps: {
     include: [
       'react',
@@ -53,15 +57,17 @@ export default defineConfig(({ command, mode }) => ({
       'framer-motion',
       'react-helmet',
       'react-icons/fa',
-      'react-helmet-async'
+      'react-helmet-async',
+      '@langchain/openai',
+      '@sentry/react',
+      'plausible'
     ],
-    // Don't force optimization during development
     force: command === 'build',
-    // Enable esbuild for faster builds
     esbuildOptions: {
       loader: { '.js': 'jsx' },
     }
   },
+
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -71,15 +77,13 @@ export default defineConfig(({ command, mode }) => ({
     minify: 'esbuild',
     manifest: true,
     target: 'esnext',
-    assetsInlineLimit: 0, // Force all assets to be copied to the output directory
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
           framer: ['framer-motion'],
-          tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands'],
-          // Temporarily removing langchain as it's causing build issues
-          // langchain: ['@langchain/core', '@langchain/community', '@langchain/openai']
+          tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands']
         },
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
@@ -93,39 +97,11 @@ export default defineConfig(({ command, mode }) => ({
           return 'assets/[name]-[hash][extname]';
         }
       },
-      // Externalize Node.js built-ins
       external: [
         'fs', 'path', 'os', 'crypto', 'stream', 'http', 'https', 
         'zlib', 'tls', 'net', 'dns', 'child_process', 'worker_threads'
       ]
     }
-  },
-  
-  server: {
-    port: 4000,
-    strictPort: false,
-    host: true, // Listen on all network interfaces
-    hmr: {
-      host: 'localhost',
-      port: 4000,
-      protocol: 'ws'
-    },
-    watch: {
-      usePolling: false,
-      useFsEvents: true
-    },
-    cors: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-    },
-    fs: {
-      strict: false,
-      allow: ['..']
-    },
-    open: true,
-    proxy: {}
   },
 
   resolve: {
@@ -147,17 +123,6 @@ export default defineConfig(({ command, mode }) => ({
         additionalData: `@import "src/styles/variables.scss";`
       }
     }
-  },
-
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      '@langchain/openai',
-      '@sentry/react',
-      'plausible'
-    ]
   },
 
   publicDir: 'public',

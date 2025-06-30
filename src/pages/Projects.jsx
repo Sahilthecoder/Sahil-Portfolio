@@ -45,7 +45,7 @@ const itemVariants = {
 // Helper function to handle image loading errors
 const handleImageError = (e) => {
   e.target.onerror = null;
-  e.target.src = 'images/placeholder.svg';
+  e.target.src = '/images/placeholder.svg';
 };
 
 // Categories for filtering - updated to match project categories
@@ -69,7 +69,7 @@ const projects = [
     icon: <FaChartLine className="w-5 h-5 text-blue-500" />,
     tags: ['Excel', 'Data Analysis', 'Market Strategy'],
     path: '/projects/zomato-analysis',
-    image: 'images/projects/Project1 excel/Project1 Cover.avif',
+    image: '/images/projects/Project1 excel/Project1 Cover.avif',
     category: ['dashboard', 'analysis'],
     impact: 'Identified key growth opportunities and optimized expansion strategy by analyzing city-wise performance metrics.',
     badge: 'Excel',
@@ -89,7 +89,7 @@ const projects = [
     icon: <FaDatabase className="w-6 h-6 text-green-600 dark:text-green-400" />,
     tags: ['Tableau', 'Sales Analytics', 'Retail Insights'],
     path: '/projects/bansal-supermarket',
-    image: 'images/projects/Project2 tableau/Project2 Cover.avif',
+    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
     category: 'Retail Analytics',
     impact: 'Drove 12% revenue growth through data-informed inventory optimization and targeted promotional strategies.',
     badge: 'Tableau'
@@ -101,7 +101,7 @@ const projects = [
     icon: <FaDatabase className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
     tags: ['SQL', 'Google Sheets', 'Process Automation'],
     path: '/projects/ekam-attendance',
-    image: 'images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     category: 'HR Automation',
     impact: 'Reduced monthly HR and accounting workload by 80% through process automation and streamlined reporting.',
     badge: 'SQL + Sheets'
@@ -113,7 +113,7 @@ const projects = [
     icon: <FaChartLine className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />,
     tags: ['Power BI', 'Financial Analytics', 'Data Visualization'],
     path: '/projects/retail-cash-flow',
-    image: 'images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
     category: 'Financial Analytics',
     impact: 'Improved financial visibility and reduced reporting time by 90% with automated data processing and visualization.',
     badge: 'Power BI'
@@ -125,7 +125,7 @@ const projects = [
     icon: <FaChartLine className="w-6 h-6 text-red-600 dark:text-red-400" />,
     tags: ['Python', 'Streamlit', 'Data Analysis'],
     path: '/projects/product-sales',
-    image: 'images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     category: 'E-commerce Analytics',
     impact: 'Enhanced decision-making with real-time sales insights and predictive analytics.',
     badge: 'Python + Streamlit'
@@ -137,7 +137,7 @@ const projects = [
     icon: <FaTools className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     tags: ['Python', 'NLTK', 'Sentiment Analysis', 'Data Visualization'],
     path: '/projects/snape-sentiment-analysis',
-    image: 'images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
+    image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
     category: 'NLP Project',
     impact: 'Revealed deep insights into character development and emotional arcs through data-driven analysis.',
     badge: 'Python + NLTK'
@@ -149,7 +149,7 @@ const projects = [
     icon: <FaLaptopCode className="w-6 h-6 text-pink-600 dark:text-pink-400" />,
     tags: ['React', 'AI Integration', 'Responsive Design'],
     path: 'https://mahiradesignhub.github.io/mahira-portfolio/',
-    image: 'images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
     category: 'Digital Portfolio',
     impact: 'Enhanced professional visibility and attracted international clientele through modern, interactive presentation of work.',
     badge: 'Web + AI',

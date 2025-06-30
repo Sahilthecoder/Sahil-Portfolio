@@ -48,14 +48,14 @@ const ProjectImage = ({
   // Clean up the image name by removing leading/trailing slashes and spaces
   const cleanImageName = imageName ? imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '') : '';
   
-  // Construct the image path with repository name for GitHub Pages
-  const imagePath = `/Sahil-Portfolio/images/projects/${folderName}/${cleanImageName}`.replace(/\\/g, '/').replace(/\/+/g, '/');
+  // Construct the image path relative to the public directory
+  const imagePath = `/images/projects/${folderName}/${cleanImageName}`.replace(/\\/g, '/').replace(/\/+/g, '/');
   
   // Debug: Log the constructed image path
   console.log(`Loading image: ${imagePath}`);
   
   // Fallback image in case of errors
-  const fallbackImage = '/Sahil-Portfolio/images/fallback-image.jpg';
+  const fallbackImage = '/images/fallback-image.jpg';
   
   // Calculate padding based on aspect ratio
   const [width, height] = aspectRatio.split('/').map(Number);

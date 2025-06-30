@@ -383,13 +383,13 @@ const Home = () => {
                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
                     <div className="absolute inset-0">
                       <img
-                        src={project.image || '/images/placeholder.svg'}
+                        src={project.image || '/Sahil-Portfolio/images/placeholder.svg'}
                         alt={project.title}
                         className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = '/images/placeholder.svg';
+                          e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>

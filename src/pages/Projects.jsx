@@ -45,7 +45,7 @@ const itemVariants = {
 // Helper function to handle image loading errors
 const handleImageError = (e) => {
   e.target.onerror = null;
-  e.target.src = '/images/placeholder.svg';
+  e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
 };
 
 // Categories for filtering - updated to match project categories
@@ -284,7 +284,7 @@ const Projects = () => {
       return {
         ...project,
         isExternal: project.path?.startsWith?.('http') || false,
-        image: project.image || '/images/placeholder.svg',
+        image: project.image || '/Sahil-Portfolio/images/placeholder.svg',
         categories: [...new Set(projectCategories)],
         impact: project.impact || '',
         date: project.date || '2024-01-01',

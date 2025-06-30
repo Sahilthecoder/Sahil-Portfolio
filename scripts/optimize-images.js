@@ -4,13 +4,36 @@ const path = require('path');
 const { glob } = require('glob');
 
 // Configuration
-const QUALITY = 80;
-const SIZES = [1, 2, 3]; // For responsive images
-const SOURCE_DIRS = ['public', 'public/images']; // Check both root and images directory
+const QUALITY = 80; // Default quality for WebP/AVIF
+const SIZES = [1, 1.5, 2, 3]; // For responsive images (1x, 1.5x, 2x, 3x)
+const MAX_WIDTH = 2560; // Maximum width for any image
+const SOURCE_DIRS = ['public/images']; // Source directories to search for images
 const DEST_DIR = 'public/optimized-images';
 const SUPPORTED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
-const IGNORED_FILES = ['favicon.ico', 'favicon.svg'];
-const IGNORED_PATTERNS = [/\/node_modules\//, /\/optimized-images\//]; // Ignore node_modules and optimized-images
+const IGNORED_FILES = ['favicon.ico', 'favicon.svg', 'logo192.png', 'logo512.png'];
+const IGNORED_PATTERNS = [/\/node_modules\//, /\/optimized-images\//, /\/icons?\//];
+
+// Format specific settings
+const FORMAT_SETTINGS = {
+  webp: {
+    quality: 80,
+    effort: 6, // CPU effort (0-6, 6 is slowest but smallest)
+    lossless: false,
+  },
+  avif: {
+    quality: 60, // AVIF can be more aggressive with quality
+    effort: 5,   // CPU effort (0-9, 9 is slowest but smallest)
+    lossless: false,
+  },
+  jpg: {
+    quality: 80,
+    mozjpeg: true,
+  },
+  png: {
+    quality: 80,
+    compressionLevel: 9, // 0-9
+  },
+};
 
 // Simple logger
 const logger = {
@@ -39,14 +62,108 @@ async function isSupportedImage(filePath) {
 
 async function optimizeImage(filePath) {
   const parsedPath = path.parse(filePath);
+  const fileName = parsedPath.name;
   
-  // Find which source directory this file is in
-  const sourceDir = SOURCE_DIRS.find(dir => 
-    path.resolve(filePath).startsWith(path.resolve(dir))
-  ) || path.dirname(filePath);
-  
-  const relativePath = path.relative(sourceDir, parsedPath.dir);
-  const destDir = path.join(DEST_DIR, relativePath);
+  try {
+    // Skip if already optimized (starts with _)
+    if (fileName.startsWith('_')) {
+      logger.info(`Skipping already optimized file: ${filePath}`);
+      return { success: true, skipped: true };
+    }
+
+    // Find which source directory this file is in
+    const sourceDir = SOURCE_DIRS.find(dir => 
+      path.resolve(filePath).startsWith(path.resolve(dir))
+    ) || path.dirname(filePath);
+    
+    const relativePath = path.relative(sourceDir, parsedPath.dir);
+    const destDir = path.join(DEST_DIR, relativePath);
+    
+    // Create destination directory if it doesn't exist
+    await fs.mkdir(destDir, { recursive: true });
+    
+    // Get image metadata
+    const metadata = await sharp(filePath).metadata();
+    const { width: originalWidth, height: originalHeight, format } = metadata;
+    
+    if (!originalWidth || !originalHeight) {
+      logger.warn(`Could not get dimensions for ${filePath}, skipping`);
+      return { success: false, error: 'Invalid image dimensions' };
+    }
+    
+    // Generate optimized versions for each size and format
+    const results = [];
+    
+    // Calculate target widths (don't upscale)
+    const targetWidths = Array.from(new Set([
+      Math.min(originalWidth, MAX_WIDTH), // Original size (capped at MAX_WIDTH)
+      Math.min(Math.ceil(originalWidth * 0.75), MAX_WIDTH), // 75% of original
+      Math.min(Math.ceil(originalWidth * 0.5), MAX_WIDTH),  // 50% of original
+      Math.min(Math.ceil(originalWidth * 0.25), MAX_WIDTH), // 25% of original
+    ])).sort((a, b) => a - b);
+    
+    // Generate WebP and AVIF versions for each size
+    for (const format of ['webp', 'avif']) {
+      for (const width of targetWidths) {
+        const height = Math.round((width / originalWidth) * originalHeight);
+        const outputFileName = `${fileName}${width !== originalWidth ? `@${width}w` : ''}.${format}`;
+        const outputPath = path.join(destDir, outputFileName);
+        
+        // Skip if file already exists and is newer than source
+        try {
+          const outputStat = await fs.stat(outputPath);
+          const sourceStat = await fs.stat(filePath);
+          
+          if (outputStat.mtime > sourceStat.mtime) {
+            logger.info(`Skipping existing optimized file: ${outputPath}`);
+            results.push({ format, width, path: outputPath, skipped: true });
+            continue;
+          }
+        } catch (e) {
+          // File doesn't exist, proceed with optimization
+        }
+        
+        // Create sharp instance with format-specific settings
+        let pipeline = sharp(filePath)
+          .resize(width, height, {
+            fit: 'inside',
+            withoutEnlargement: true,
+          });
+        
+        // Apply format-specific optimization
+        switch (format) {
+          case 'webp':
+            pipeline = pipeline.webp(FORMAT_SETTINGS.webp);
+            break;
+          case 'avif':
+            pipeline = pipeline.avif(FORMAT_SETTINGS.avif);
+            break;
+          default:
+            pipeline = pipeline.toFormat(format, FORMAT_SETTINGS[format] || {});
+        }
+        
+        // Write the optimized image
+        await pipeline.toFile(outputPath);
+        
+        const stats = await fs.stat(outputPath);
+        results.push({
+          format,
+          width,
+          path: outputPath,
+          size: stats.size,
+          saved: true
+        });
+        
+        logger.success(`Created ${format.toUpperCase()} (${width}px): ${outputPath}`);
+      }
+    }
+    
+    return { success: true, results };
+    
+  } catch (error) {
+    logger.error(`Error optimizing ${filePath}: ${error.message}`);
+    return { success: false, error: error.message };
+  }
   
   try {
     // Skip unsupported images
@@ -142,69 +259,76 @@ async function optimizeImage(filePath) {
     
     logger.success(`Optimized: ${filePath} (${optimizedFiles.length} variants created)`);
     return { success: true, filePath, optimizedFiles };
+    logger.success(`Optimized: ${filePath} (${optimizedFiles.length} variants created)`);
+    return { success: true, filePath, optimizedFiles };
   } catch (error) {
     logger.error(`Error optimizing ${filePath}: ${error.message}`);
     return { success: false, error: error.message, filePath };
   }
-}
 
+/**
+ * Scans source directories for images and optimizes them
+ */
 async function optimizeAllImages() {
   logger.info('🚀 Starting image optimization...');
   
   try {
-    // Get all image files from all source directories
-    const files = [];
+    // Find all image files in source directories
+    const imageFiles = [];
     
     for (const sourceDir of SOURCE_DIRS) {
-      const patterns = SUPPORTED_EXTENSIONS.map(ext => `${sourceDir}/**/*${ext}`);
-      
-      for (const pattern of patterns) {
-        try {
-          const matches = await glob(pattern, { 
-            nodir: true,
-            ignore: ['**/node_modules/**', '**/optimized-images/**']
-          });
-          
-          // Filter out ignored files and patterns
-          const filteredMatches = matches.filter(file => {
-            const fileName = path.basename(file);
-            const shouldIgnore = 
-              IGNORED_FILES.includes(fileName) ||
-              IGNORED_PATTERNS.some(pattern => pattern.test(file));
-              
-            if (shouldIgnore) {
-              logger.warn(`Skipping ignored file: ${file}`);
-              return false;
-            }
-            return true;
-          });
-          
-          files.push(...filteredMatches);
-        } catch (error) {
-          logger.warn(`Error processing pattern ${pattern}: ${error.message}`);
+      try {
+        const dirExists = await fs.access(sourceDir).then(() => true).catch(() => false);
+        if (!dirExists) {
+          logger.warn(`Source directory does not exist: ${sourceDir}`);
+          continue;
         }
+        
+        logger.info(`Scanning directory: ${sourceDir}`);
+        
+        // Find all image files (case insensitive)
+        const files = await glob(`${sourceDir}/**/*.{jpg,jpeg,png,webp,avif}`, { 
+          ignore: IGNORED_PATTERNS.map(pattern => `**/${pattern}/**`),
+          nocase: true,
+          absolute: true
+        });
+        
+        // Filter out ignored files and directories
+        const validFiles = [];
+        for (const file of files) {
+          const fileName = path.basename(file);
+          const relativePath = path.relative(process.cwd(), file);
+          
+          if (IGNORED_FILES.includes(fileName.toLowerCase())) {
+            logger.info(`Skipping ignored file: ${relativePath}`);
+            continue;
+          }
+          
+          if (IGNORED_PATTERNS.some(pattern => pattern.test(file))) {
+            logger.info(`Skipping ignored pattern: ${relativePath}`);
+            continue;
+          }
+          
+          validFiles.push(file);
+        }
+        
+        imageFiles.push(...validFiles);
+        
+      } catch (error) {
+        logger.warn(`Error reading directory ${sourceDir}: ${error.message}`);
       }
     }
     
-    // Remove duplicates (in case files exist in multiple source dirs)
-    const uniqueFiles = [...new Set(files)];
-    
-    logger.info(`📁 Found ${uniqueFiles.length} potential images to optimize`);
-    
-    if (uniqueFiles.length === 0) {
-      logger.warn('No images found to optimize. Please check your source directories.');
-      return { success: true, optimized: 0, skipped: 0, errors: 0 };
+    if (imageFiles.length === 0) {
+      logger.warn('❌ No images found to optimize');
+      return { success: true, optimized: 0, skipped: 0 };
     }
     
-    // Log where we found the images
-    logger.info('Searching in directories: ' + SOURCE_DIRS.join(', '));
-    logger.info('Supported extensions: ' + SUPPORTED_EXTENSIONS.join(', '));
+    logger.info(`📸 Found ${imageFiles.length} images to process`);
     
-    // Process all images in parallel with limited concurrency
-    const BATCH_SIZE = 3; // Reduced concurrency to prevent memory issues
-    let processed = 0;
     let successCount = 0;
-    let skippedCount = 0;
+    let skipCount = 0;
+    const errors = [];
     let errorCount = 0;
     
     // Ensure destination directory exists

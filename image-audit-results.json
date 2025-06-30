@@ -1,0 +1,409 @@
+{
+  "timestamp": "2025-06-30T10:03:33.665Z",
+  "totalImages": 61,
+  "totalSize": 5926388,
+  "byDir": {
+    "public": [
+      {
+        "path": "public\\logo512.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "public\\logo192.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "public\\apple-touch-icon.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "public\\favicon.ico",
+        "size": 4286,
+        "ext": ".ico",
+        "mtime": "2025-06-27T16:06:43.619Z"
+      },
+      {
+        "path": "public\\favicon.svg",
+        "size": 3806,
+        "ext": ".svg",
+        "mtime": "2025-06-29T01:11:35.153Z"
+      }
+    ],
+    "public\\images": [
+      {
+        "path": "public\\images\\logo192.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "public\\images\\apple-touch-icon.png",
+        "size": 48536,
+        "ext": ".png",
+        "mtime": "2025-06-29T13:34:21.928Z"
+      },
+      {
+        "path": "public\\images\\Background.avif",
+        "size": 24296,
+        "ext": ".avif",
+        "mtime": "2025-06-20T21:14:19.675Z"
+      },
+      {
+        "path": "public\\images\\profile.avif",
+        "size": 14228,
+        "ext": ".avif",
+        "mtime": "2025-06-27T06:25:43.325Z"
+      },
+      {
+        "path": "public\\images\\placeholder.svg",
+        "size": 4455,
+        "ext": ".svg",
+        "mtime": "2025-06-27T00:30:14.554Z"
+      },
+      {
+        "path": "public\\images\\favicon-32x32.png",
+        "size": 1993,
+        "ext": ".png",
+        "mtime": "2025-06-29T01:13:07.748Z"
+      },
+      {
+        "path": "public\\images\\favicon-16x16.png",
+        "size": 1993,
+        "ext": ".png",
+        "mtime": "2025-06-29T01:12:25.084Z"
+      },
+      {
+        "path": "public\\images\\fallback-image.jpg",
+        "size": 0,
+        "ext": ".jpg",
+        "mtime": "2025-06-29T20:43:17.167Z"
+      }
+    ],
+    "public\\images\\projects\\Project6 Gpt+Zapier": [
+      {
+        "path": "public\\images\\projects\\Project6 Gpt+Zapier\\Project6 Cover.avif",
+        "size": 24004,
+        "ext": ".avif",
+        "mtime": "2025-05-10T23:46:25.518Z"
+      }
+    ],
+    "public\\images\\projects\\Project5 Gpt+Notion": [
+      {
+        "path": "public\\images\\projects\\Project5 Gpt+Notion\\Project5 Cover.avif",
+        "size": 13036,
+        "ext": ".avif",
+        "mtime": "2025-05-10T23:50:34.391Z"
+      }
+    ],
+    "public\\images\\projects\\Project4 Power BI": [
+      {
+        "path": "public\\images\\projects\\Project4 Power BI\\Project4 Cover.avif",
+        "size": 29177,
+        "ext": ".avif",
+        "mtime": "2025-04-30T11:26:10.883Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project4 Power BI\\CashFlow2.avif",
+        "size": 22477,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:25.523Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project4 Power BI\\CashFlow1.avif",
+        "size": 15364,
+        "ext": ".avif",
+        "mtime": "2025-04-30T10:54:35.395Z"
+      }
+    ],
+    "public\\images\\projects\\Project3 Sql+Sheets": [
+      {
+        "path": "public\\images\\projects\\Project3 Sql+Sheets\\Attendance_before.avif",
+        "size": 41659,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:34.750Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project3 Sql+Sheets\\Attendance_after.avif",
+        "size": 36264,
+        "ext": ".avif",
+        "mtime": "2025-06-24T15:49:28.188Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project3 Sql+Sheets\\Project3 Cover.avif",
+        "size": 22002,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:36.696Z"
+      }
+    ],
+    "public\\images\\projects\\Project2 tableau": [
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\bs3.avif",
+        "size": 33371,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:11.640Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\bs2.avif",
+        "size": 32003,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:59.146Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\Project2 Cover.avif",
+        "size": 21050,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:21.129Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\bs-saleVSpft.avif",
+        "size": 7453,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:36.706Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\bs-stockTO.avif",
+        "size": 6992,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:53.149Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project2 tableau\\bs-top10.avif",
+        "size": 6541,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:02.076Z"
+      }
+    ],
+    "public\\images\\projects\\Project1 excel": [
+      {
+        "path": "public\\images\\projects\\Project1 excel\\Project1 Cover.avif",
+        "size": 33408,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:10.677Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project1 excel\\zometo-ds.avif",
+        "size": 32261,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:21.433Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project1 excel\\zt1.avif",
+        "size": 30547,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:42.973Z"
+      },
+      {
+        "path": "public\\images\\projects\\Project1 excel\\zt2.avif",
+        "size": 22672,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:53.439Z"
+      }
+    ],
+    "public\\images\\projects\\Mahira Portfolio Web+AI": [
+      {
+        "path": "public\\images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif",
+        "size": 493848,
+        "ext": ".avif",
+        "mtime": "2025-06-19T23:00:31.254Z"
+      }
+    ],
+    "src\\assets\\images": [
+      {
+        "path": "src\\assets\\images\\logo192.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "src\\assets\\images\\apple-touch-icon.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      }
+    ],
+    "images": [
+      {
+        "path": "images\\logo192.png",
+        "size": 554148,
+        "ext": ".png",
+        "mtime": "2025-06-27T16:27:37.606Z"
+      },
+      {
+        "path": "images\\apple-touch-icon.png",
+        "size": 48536,
+        "ext": ".png",
+        "mtime": "2025-06-29T13:34:21.928Z"
+      },
+      {
+        "path": "images\\Background.avif",
+        "size": 24296,
+        "ext": ".avif",
+        "mtime": "2025-06-20T21:14:19.675Z"
+      },
+      {
+        "path": "images\\profile.avif",
+        "size": 14228,
+        "ext": ".avif",
+        "mtime": "2025-06-27T06:25:43.325Z"
+      },
+      {
+        "path": "images\\placeholder.svg",
+        "size": 4455,
+        "ext": ".svg",
+        "mtime": "2025-06-27T00:30:14.554Z"
+      },
+      {
+        "path": "images\\favicon-32x32.png",
+        "size": 1993,
+        "ext": ".png",
+        "mtime": "2025-06-29T01:13:07.748Z"
+      },
+      {
+        "path": "images\\favicon-16x16.png",
+        "size": 1993,
+        "ext": ".png",
+        "mtime": "2025-06-29T01:12:25.084Z"
+      },
+      {
+        "path": "images\\fallback-image.jpg",
+        "size": 0,
+        "ext": ".jpg",
+        "mtime": "2025-06-29T20:43:17.167Z"
+      }
+    ],
+    "images\\projects\\Project6 Gpt+Zapier": [
+      {
+        "path": "images\\projects\\Project6 Gpt+Zapier\\Project6 Cover.avif",
+        "size": 24004,
+        "ext": ".avif",
+        "mtime": "2025-05-10T23:46:25.518Z"
+      }
+    ],
+    "images\\projects\\Project4 Power BI": [
+      {
+        "path": "images\\projects\\Project4 Power BI\\Project4 Cover.avif",
+        "size": 29177,
+        "ext": ".avif",
+        "mtime": "2025-04-30T11:26:10.883Z"
+      },
+      {
+        "path": "images\\projects\\Project4 Power BI\\CashFlow2.avif",
+        "size": 22477,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:25.523Z"
+      },
+      {
+        "path": "images\\projects\\Project4 Power BI\\CashFlow1.avif",
+        "size": 15364,
+        "ext": ".avif",
+        "mtime": "2025-04-30T10:54:35.395Z"
+      }
+    ],
+    "images\\projects\\Project5 Gpt+Notion": [
+      {
+        "path": "images\\projects\\Project5 Gpt+Notion\\Project5 Cover.avif",
+        "size": 13036,
+        "ext": ".avif",
+        "mtime": "2025-05-10T23:50:34.391Z"
+      }
+    ],
+    "images\\projects\\Project2 tableau": [
+      {
+        "path": "images\\projects\\Project2 tableau\\bs3.avif",
+        "size": 33371,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:11.640Z"
+      },
+      {
+        "path": "images\\projects\\Project2 tableau\\bs2.avif",
+        "size": 32003,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:59.146Z"
+      },
+      {
+        "path": "images\\projects\\Project2 tableau\\Project2 Cover.avif",
+        "size": 21050,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:21.129Z"
+      },
+      {
+        "path": "images\\projects\\Project2 tableau\\bs-saleVSpft.avif",
+        "size": 7453,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:36.706Z"
+      },
+      {
+        "path": "images\\projects\\Project2 tableau\\bs-stockTO.avif",
+        "size": 6992,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:11:53.149Z"
+      },
+      {
+        "path": "images\\projects\\Project2 tableau\\bs-top10.avif",
+        "size": 6541,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:02.076Z"
+      }
+    ],
+    "images\\projects\\Mahira Portfolio Web+AI": [
+      {
+        "path": "images\\projects\\Mahira Portfolio Web+AI\\Project7 Cover.avif",
+        "size": 493848,
+        "ext": ".avif",
+        "mtime": "2025-06-19T23:00:31.254Z"
+      }
+    ],
+    "images\\projects\\Project1 excel": [
+      {
+        "path": "images\\projects\\Project1 excel\\Project1 Cover.avif",
+        "size": 33408,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:10.677Z"
+      },
+      {
+        "path": "images\\projects\\Project1 excel\\zometo-ds.avif",
+        "size": 32261,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:21.433Z"
+      },
+      {
+        "path": "images\\projects\\Project1 excel\\zt1.avif",
+        "size": 30547,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:42.973Z"
+      },
+      {
+        "path": "images\\projects\\Project1 excel\\zt2.avif",
+        "size": 22672,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:13:53.439Z"
+      }
+    ],
+    "images\\projects\\Project3 Sql+Sheets": [
+      {
+        "path": "images\\projects\\Project3 Sql+Sheets\\Attendance_before.avif",
+        "size": 41659,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:10:34.750Z"
+      },
+      {
+        "path": "images\\projects\\Project3 Sql+Sheets\\Attendance_after.avif",
+        "size": 36264,
+        "ext": ".avif",
+        "mtime": "2025-06-24T15:49:28.188Z"
+      },
+      {
+        "path": "images\\projects\\Project3 Sql+Sheets\\Project3 Cover.avif",
+        "size": 22002,
+        "ext": ".avif",
+        "mtime": "2025-04-30T08:12:36.696Z"
+      }
+    ]
+  }
+}

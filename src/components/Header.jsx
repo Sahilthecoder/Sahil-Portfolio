@@ -117,23 +117,40 @@ const Header = () => {
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            {/* Logo with animation */}
+            {/* Modern Logo with Animation */}
             <Link 
               to="/" 
-              className="relative group"
+              className="group flex items-center space-x-3 relative"
             >
-              <motion.span 
-                className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="relative"
               >
-                Sahil Ali
-              </motion.span>
-              <motion.span 
-                className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: location.pathname === '/' ? 1 : 0 }}
-              />
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300 w-12 h-12 -z-10" />
+                <motion.img 
+                  src="/logo512.png" 
+                  alt="Sahil Ali"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white/20 shadow-lg group-hover:border-indigo-400/50 transition-all duration-300"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400 whitespace-nowrap">
+                  Sahil Ali
+                </span>
+                <motion.div 
+                  className="h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 mt-0.5"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: location.pathname === '/' ? 1 : 0 }}
+                />
+              </motion.div>
             </Link>
 
             {/* Desktop Navigation */}

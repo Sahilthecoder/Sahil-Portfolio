@@ -92,7 +92,7 @@ const Home = () => {
       projectId: 'bansal-supermarket'
     },
     {
-      ...getProject('retail'),
+      ...getProject('retail-cash-flow'),
       image: 'Project4 Cover.avif',
       path: '/projects/retail-cash-flow',
       projectId: 'retail-cash-flow'
@@ -185,14 +185,16 @@ const Home = () => {
                 <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <img
-                      src="/Sahil-Portfolio/images/profile.avif"
+                      src="/profile.avif"
                       alt="Sahil Ali"
                       className="w-full h-full object-cover"
                       loading="eager"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                        e.target.src = '/images/placeholder.svg';
                       }}
+                      srcSet="/optimized-images/profile@200w.avif 200w, /optimized-images/profile@400w.avif 400w, /optimized-images/profile@600w.avif 600w"
+                      sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
                     />
                     <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
                   </div>
@@ -378,9 +380,10 @@ const Home = () => {
                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
                     <div className="absolute inset-0">
                       <ProjectImage
+                        key={`project-${project.id || project.projectId}`}
                         projectId={project.projectId}
                         imageName={project.image}
-                        alt={project.title}
+                        alt={project.title || `Project ${project.id || project.projectId}`}
                         className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                         containerClassName="absolute inset-0"
                         aspectRatio="16/9"

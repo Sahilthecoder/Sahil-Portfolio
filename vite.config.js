@@ -7,7 +7,7 @@ const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
 export default defineConfig(({ command, mode }) => ({
   // Base URL configuration for GitHub Pages
-  base: process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio/' : '/',
+  base: mode === 'production' ? '/Sahil-Portfolio/' : '/',
   // Build configuration
 
   plugins: [
@@ -72,6 +72,7 @@ export default defineConfig(({ command, mode }) => ({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
+    emptyOutDir: true,
     sourcemap: false, // Disable sourcemaps for production
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
@@ -82,8 +83,9 @@ export default defineConfig(({ command, mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+          react: ['react', 'react-dom', 'react-router-dom'],
           framer: ['framer-motion'],
+          icons: ['react-icons'],
           tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands']
         },
         chunkFileNames: 'assets/[name]-[hash].js',

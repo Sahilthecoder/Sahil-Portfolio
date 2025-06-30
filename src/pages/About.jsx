@@ -101,7 +101,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden">
+      <section className="relative pt-32 pb-20 md:pt-40 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden mt-16">
         {/* Grid background */}
         <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
         
@@ -123,13 +123,16 @@ const About = () => {
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-white/20 p-1 bg-white/10 dark:bg-gray-700/30 backdrop-blur-sm">
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl">
                   <img
-                    src="/Sahil-Portfolio/images/profile.avif" 
+                    src="/profile.avif"
                     alt="Sahil Ali"
                     className="w-full h-full object-cover"
+                    loading="eager"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = 'https://ui-avatars.com/api/?name=Sahil+Ali&background=4f46e5&color=fff&size=512';
+                      e.target.src = '/images/placeholder.svg';
                     }}
+                    srcSet="/optimized-images/profile@200w.avif 200w, /optimized-images/profile@400w.avif 400w, /optimized-images/profile@600w.avif 600w"
+                    sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
                   />
                 </div>
               </div>

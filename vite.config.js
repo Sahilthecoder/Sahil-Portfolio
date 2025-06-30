@@ -8,6 +8,10 @@ const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 export default defineConfig(({ command, mode }) => ({
   // Base URL configuration – root for dev, repo sub-folder for production (GitHub Pages)
   base: command === 'serve' ? '/' : '/Sahil-Portfolio/',
+  // Ensure assets are properly prefixed with base URL
+  define: {
+    'import.meta.env.BASE_URL': JSON.stringify(command === 'serve' ? '/' : '/Sahil-Portfolio/')
+  },
   // Build configuration
 
   plugins: [

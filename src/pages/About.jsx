@@ -123,7 +123,7 @@ const About = () => {
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-white/20 p-1 bg-white/10 dark:bg-gray-700/30 backdrop-blur-sm">
                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl">
                   <img
-                    src="/profile.avif"
+                    src={`${import.meta.env.BASE_URL}profile.avif`}
                     alt="Sahil Ali"
                     className="w-full h-full object-cover"
                     loading="eager"
@@ -131,7 +131,7 @@ const About = () => {
                       e.target.onerror = null;
                       e.target.src = '/images/placeholder.svg';
                     }}
-                    srcSet="/optimized-images/profile@200w.avif 200w, /optimized-images/profile@400w.avif 400w, /optimized-images/profile@600w.avif 600w"
+                    srcSet={`${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`}
                     sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
                   />
                 </div>

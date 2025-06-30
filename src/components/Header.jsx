@@ -130,7 +130,7 @@ const Header = () => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-300 w-12 h-12 -z-10" />
                 <motion.img 
-                  src="/logo512.png" 
+                  src={`${import.meta.env.BASE_URL}logo512.png`} 
                   alt="Sahil Ali"
                   className="w-10 h-10 rounded-full object-cover border-2 border-white/20 shadow-lg group-hover:border-indigo-400/50 transition-all duration-300"
                   whileHover={{ scale: 1.1, rotate: 5 }}

@@ -185,7 +185,7 @@ const Home = () => {
                 <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <img
-                      src="/profile.avif"
+                      src={`${import.meta.env.BASE_URL}profile.avif`}
                       alt="Sahil Ali"
                       className="w-full h-full object-cover"
                       loading="eager"
@@ -193,7 +193,7 @@ const Home = () => {
                         e.target.onerror = null;
                         e.target.src = '/images/placeholder.svg';
                       }}
-                      srcSet="/optimized-images/profile@200w.avif 200w, /optimized-images/profile@400w.avif 400w, /optimized-images/profile@600w.avif 600w"
+                      srcSet={`${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`}
                       sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
                     />
                     <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>

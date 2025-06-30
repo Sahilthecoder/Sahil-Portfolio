@@ -190,13 +190,13 @@ const Home = () => {
                 <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <img
-                      src="/images/profile.avif"
+                      src="/Sahil-Portfolio/images/profile.avif"
                       alt="Sahil Ali"
                       className="w-full h-full object-cover"
                       loading="eager"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/images/placeholder.svg';
+                        e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
                       }}
                     />
                     <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>

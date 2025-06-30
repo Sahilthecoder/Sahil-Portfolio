@@ -1,6 +1,6 @@
 // Project image helper function
 const getProjectImage = (projectId, imageName) => {
-  return `/images/projects/${projectId}/${imageName}`;
+  return `/Sahil-Portfolio/images/projects/${projectId}/${imageName}`;
 };
 
 // Project data with image references
@@ -9,7 +9,7 @@ export const projects = {
     id: 'zomato',
     title: 'Zomato Restaurant Expansion Analysis',
     description: 'Built an interactive Excel dashboard to analyze Zomato\'s city-wise expansion strategy across India, uncovering performance trends and market insights.',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project1 excel/Project1 Cover.avif',
     images: {
       main: 'Project1 Cover.avif',
       gallery: ['zometo-ds.avif', 'zt1.avif', 'zt2.avif']
@@ -25,7 +25,7 @@ export const projects = {
     id: 'bansal',
     title: 'Bansal Supermarket Sales Analysis',
     description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making.',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project2 tableau/Project2 Cover.avif',
     images: {
       main: 'Project2 Cover.avif',
       gallery: ['bs-saleVSpft.avif', 'bs-stockTO.avif', 'bs-top10.avif', 'bs2.avif', 'bs3.avif']
@@ -41,7 +41,7 @@ export const projects = {
     id: 'retail',
     title: 'Daily Cash Flow Dashboard',
     description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time.',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project4 Power BI/Project4 Cover.avif',
     images: {
       main: 'Project4 Cover.avif',
       gallery: ['Store_POWERBI1.avif', 'CashFlow1.avif', 'CashFlow2.avif']
@@ -57,7 +57,7 @@ export const projects = {
     id: 'ekam',
     title: 'Ekam Attendance Tracker',
     description: 'Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia.',
-    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     images: {
       main: 'Project3 Cover.avif',
       gallery: ['Attendance.avif', 'Attendance_after.avif']
@@ -73,7 +73,7 @@ export const projects = {
     id: 'ai-planner',
     title: 'AI-Powered Daily Decision & Automation System',
     description: 'Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking.',
-    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     images: {
       main: 'Project5 Cover.avif',
       gallery: []
@@ -89,7 +89,7 @@ export const projects = {
     id: 'automation-suite',
     title: 'Smart Automation Suite',
     description: 'Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use.',
-    image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
     images: {
       main: 'Project6 Cover.avif',
       gallery: []
@@ -105,7 +105,7 @@ export const projects = {
     id: 'mahira-portfolio',
     title: 'Mahira\'s GitHub Portfolio',
     description: 'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases.',
-    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    image: '/Sahil-Portfolio/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
     images: {
       main: 'Project7 Cover.avif',
       gallery: []

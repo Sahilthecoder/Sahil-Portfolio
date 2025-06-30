@@ -1,12 +1,19 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
-import { visualizer } from 'rollup-plugin-visualizer';
 
 // Disable React's Fast Refresh if needed
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(async ({ command, mode }) => {
+  // Load visualizer only in development
+  let visualizer = () => [];
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined) {
+    const { default: visualizerPlugin } = await import('rollup-plugin-visualizer');
+    visualizer = visualizerPlugin;
+  }
+
+  const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === undefined;
   // Load env file based on `mode` in the current directory.
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '');
@@ -28,10 +35,11 @@ export default defineConfig(({ command, mode }) => {
         plugins: []
       }
     }),
-    visualizer({
+    isDev && visualizer({
       open: true,
       gzipSize: true,
       brotliSize: true,
+      filename: './dist/stats.html'
     })
   ],
   

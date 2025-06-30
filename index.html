@@ -1,40 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" dir="ltr">
+<html lang="en" class="scroll-smooth" dir="ltr" itemscope itemtype="https://schema.org/WebPage">
   <head>
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Polyfills for older browsers -->
+    <script>
+      // Ensure window.Promise is available
+      window.Promise || document.write('<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js"><\/script>');
+      // Ensure window.fetch is available
+      window.fetch || document.write('<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js"><\/script>');
+    </script>
     <meta name="description" content="Sahil Ali - Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
     <meta name="author" content="Sahil Ali" />
     <meta name="theme-color" content="#2563eb" />
     <meta name="color-scheme" content="light dark" />
     <meta name="keywords" content="data analyst, inventory specialist, business intelligence, data visualization, dashboard design, power bi, excel, erply, system optimization, data-driven insights" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta property="og:title" content="Sahil Ali | Data Analyst & Inventory Specialist" />
+    <meta property="og:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
+    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/logo512.png" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@yourusername" />
-    <meta name="twitter:creator" content="@yourusername" />
+    <meta name="twitter:site" content="@sahilthecoder" />
+    <meta name="twitter:creator" content="@sahilthecoder" />
     <meta name="twitter:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta name="twitter:title" content="Sahil Ali | Data Analyst & Inventory Specialist" />
+    <meta name="twitter:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
+    <meta name="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/logo512.png" />
     <meta name="twitter:image:alt" content="Sahil Ali's Portfolio" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
-
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/Sahil-Portfolio/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/Sahil-Portfolio/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Sahil-Portfolio/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/Sahil-Portfolio/logo192.png" />
+    <link rel="icon" type="image/png" href="/Sahil-Portfolio/images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/Sahil-Portfolio/images/favicon-16x16.png" sizes="16x16" />
+    <link rel="manifest" href="/Sahil-Portfolio/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#2563eb" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="apple-mobile-web-app-title" content="Sahil Ali" />
+    <meta name="application-name" content="Sahil Ali" />
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
+    
     <!-- Repo Links -->
     <link rel="code" href="https://github.com/Sahilthecoder/Sahil-Portfolio" />
     <link rel="source" href="https://github.com/Sahilthecoder/Sahil-Portfolio" />
 
     <title>Sahil Ali | Inventory Specialist & Data Analyst</title>
-
-    <!-- Icons & Manifest -->
-    <link rel="icon" type="image/svg+xml" href="/Sahil-Portfolio/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/Sahil-Portfolio/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/Sahil-Portfolio/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/Sahil-Portfolio/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2563eb" />
-    <link rel="manifest" href="/Sahil-Portfolio/site.webmanifest" />
-    <meta name="msapplication-TileColor" content="#2563eb" />
-    <meta name="msapplication-config" content="browserconfig.xml" />
 
     <!-- Fonts & Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
@@ -51,19 +79,42 @@
     <meta property="og:title" content="Sahil Ali | Inventory Specialist & Data Analyst" />
     <meta property="og:site_name" content="Sahil Ali's Portfolio" />
     <meta property="og:description" content="Experienced Inventory Specialist and Data Analyst specializing in data analysis, dashboard design, and system optimization." />
-    <meta property="og:image" content="images/profile.avif" />
+    <meta property="og:image" content="/Sahil-Portfolio/assets/profile-D_lb6KNf.avif" />
 
     <!-- Light/Dark Theme Colors -->
     <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" />
-    <script type="module" crossorigin src="/Sahil-Portfolio/assets/index-B_juVFHq.js"></script>
-    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/vendor-DXARcUiv.js">
-    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/framer-C5f-rKy7.js">
-    <link rel="stylesheet" crossorigin href="/Sahil-Portfolio/assets/index-qa8p1Y64.css">
+    <script type="module" crossorigin src="/Sahil-Portfolio/assets/index-ByCBRRA9.js"></script>
+    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/vendor-DpDttCMF.js">
+    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/framer-BOETFl10.js">
+    <link rel="stylesheet" crossorigin href="/Sahil-Portfolio/assets/index-WEFSXpP1.css">
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200">
-    <div id="root"></div>
+    <!-- Skip to main content link for keyboard users -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:dark:bg-gray-800 focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+      Skip to main content
+    </a>
+    
+    <!-- Main content container with id for skip link -->
+    <div id="main-content" tabindex="-1">
+      <div id="root"></div>
+    </div>
 
     <!-- Vite will automatically inject the correct script and link tags here -->
+    
+    <!-- Unregister any existing service workers -->
+    <script>
+      // Only run in development
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (const registration of registrations) {
+              registration.unregister();
+              console.log('ServiceWorker unregistered:', registration.scope);
+            }
+          });
+        }
+      }
+    </script>
   </body>
 </html>

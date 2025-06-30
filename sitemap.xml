@@ -1,18 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  <!-- Homepage -->
   <url>
-    <loc>https://sahilthecoder.github.io/Sahilthecoder/</loc>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
+  
+  <!-- Main Pages -->
   <url>
-    <loc>https://sahilthecoder.github.io/Sahilthecoder/about.html</loc>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#about</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-    <loc>https://sahilthecoder.github.io/Sahilthecoder/projects.html</loc>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#projects</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
+  
   <url>
-    <loc>https://sahilthecoder.github.io/Sahilthecoder/resume.html</loc>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#resume</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+  
   <url>
-    <loc>https://sahilthecoder.github.io/Sahilthecoder/contact.html</loc>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#contact</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
+  
+  <!-- Blog/Articles (if applicable) -->
+  <!-- 
+  <url>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/blog</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  -->
+  
+  <!-- Project Pages (if applicable) -->
+  <!-- 
+  <url>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/projects/project-1</loc>
+    <lastmod>2025-06-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  -->
 </urlset>

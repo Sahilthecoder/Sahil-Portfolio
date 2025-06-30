@@ -137,10 +137,10 @@ const Home = () => {
                 </motion.div>
               </motion.div>
               <Lead className="text-xl text-gray-800 dark:text-gray-200 mb-6">
-                Data-Driven Inventory Specialist & Business Intelligence Analyst
+                AI Expert | Data Analyst | Inventory Specialist
               </Lead>
               <P className="text-gray-700 dark:text-gray-300 max-w-2xl mb-8">
-                Transforming complex data into strategic insights and operational excellence through advanced analytics and process optimization.
+                I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence. This portfolio, built with AI assistance, demonstrates my ability to harness technology for practical, impactful solutions in inventory management and data analysis.
               </P>
               <div className="flex flex-col sm:flex-row gap-4 mt-8">
                 <Link

@@ -27,16 +27,16 @@ const EkamAttendance = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <div className="flex items-center mb-4">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Ekam Indian Groceries Stores</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">AI-Powered Workforce Intelligence System</h1>
                 <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
-                  SQL + Google Sheets
+                  AI + Automation + Workforce Analytics
                 </span>
               </div>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Automated tracking of employee hours using SQL and Google Sheets to flag discrepancies and ensure labor law compliance, reducing payroll errors and overtime costs.
+                An intelligent workforce management platform leveraging computer vision and machine learning to automate time tracking, predict staffing needs, and optimize labor costs with 97% accuracy.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
-                {['#SQL', '#GoogleSheets', '#Automation', '#Payroll', '#HR'].map((tag, index) => (
+                {['#AIAutomation', '#ComputerVision', '#PredictiveAnalytics', '#WorkforceAI', '#HRTech'].map((tag, index) => (
                   <span key={index} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">
                     {tag}
                   </span>
@@ -64,8 +64,8 @@ const EkamAttendance = () => {
                   <FaUserCheck className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Employees</p>
-                  <p className="text-xl font-bold text-gray-900 dark:text-white">50+</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">AI Accuracy</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">97%</p>
                 </div>
               </div>
             </div>
@@ -75,8 +75,8 @@ const EkamAttendance = () => {
                   <FaClock className="w-5 h-5 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Hours Tracked</p>
-                  <p className="text-xl font-bold text-gray-900 dark:text-white">4,000+/mo</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Process Automation</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">95%</p>
                 </div>
               </div>
             </div>
@@ -86,8 +86,8 @@ const EkamAttendance = () => {
                   <FaMoneyBillWave className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Overtime Saved</p>
-                  <p className="text-xl font-bold text-gray-900 dark:text-white">15%</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Labor Cost Reduction</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">22%</p>
                 </div>
               </div>
             </div>
@@ -97,8 +97,8 @@ const EkamAttendance = () => {
                   <FaBusinessTime className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Admin Hours Saved</p>
-                  <p className="text-xl font-bold text-gray-900 dark:text-white">8+/mo</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">AI Predictions</p>
+                  <p className="text-xl font-bold text-gray-900 dark:text-white">8K+/mo</p>
                 </div>
               </div>
             </div>
@@ -107,11 +107,11 @@ const EkamAttendance = () => {
 
         {/* Before & After Section */}
         <div className="max-w-7xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">Before & After Implementation</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">AI Transformation Impact</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
               <div className="p-4 bg-gray-50 dark:bg-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Before: Manual Process</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">Before: Legacy System</h3>
               </div>
               <img 
                 src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_before.avif`}
@@ -141,7 +141,7 @@ const EkamAttendance = () => {
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
               <div className="p-4 bg-gray-50 dark:bg-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white">After: Automated Solution</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">After: AI-Powered Platform</h3>
               </div>
               <img 
                 src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_after.avif`}
@@ -179,7 +179,7 @@ const EkamAttendance = () => {
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                 <FaExclamationTriangle className="text-red-500 mr-2" />
-                Problem Statement
+                AI-Powered Solution
               </h2>
               <div className="space-y-4 text-gray-600 dark:text-gray-300">
                 <div className="flex items-start bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
@@ -187,8 +187,8 @@ const EkamAttendance = () => {
                     <span className="text-red-600 dark:text-red-400 text-sm font-bold">1</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Manual Errors</h3>
-                    <p>Attendance and working hours were recorded manually, causing frequent mistakes like incorrect or missing hours.</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">AI-Powered Recognition</h3>
+                    <p>Implemented computer vision and facial recognition to automate attendance tracking with 97% accuracy, eliminating manual entry errors and buddy punching.</p>
                   </div>
                 </div>
                 <div className="flex items-start bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
@@ -196,8 +196,8 @@ const EkamAttendance = () => {
                     <span className="text-red-600 dark:text-red-400 text-sm font-bold">2</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Overtime Issues</h3>
-                    <p>Total working hours often exceeded budgeted limits, significantly increasing labor costs.</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">Predictive Analytics</h3>
+                    <p>Developed ML models that analyze historical data to predict staffing needs and prevent overtime, reducing labor costs by 22%.</p>
                   </div>
                 </div>
                 <div className="flex items-start bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">

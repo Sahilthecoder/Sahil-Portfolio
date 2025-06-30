@@ -94,6 +94,14 @@ const Header = () => {
 
   return (
     <>
+      {/* Skip to Main */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white/90 focus:dark:bg-gray-900/95 focus:text-indigo-600 focus:dark:text-indigo-400 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm font-medium transition-all"
+      >
+        Skip to Main
+      </a>
+
       {/* Glow effect */}
       <div 
         className="fixed inset-0 pointer-events-none z-0 transition-opacity duration-300"
@@ -232,7 +240,7 @@ const Header = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="md:hidden bg-white/90 dark:bg-gray-900/95 backdrop-blur-xl shadow-2xl border-t border-white/10 dark:border-gray-800/30"
+              className="md:hidden bg-white/95 dark:bg-gray-900/98 backdrop-blur-md shadow-2xl border-t border-white/20 dark:border-gray-800/50 fixed top-16 left-0 right-0 z-50"
             >
               <div className="px-4 py-3 space-y-1">
                 {navItems.map((item) => {
@@ -268,7 +276,7 @@ const Header = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            className="fixed inset-0 bg-black/30 dark:bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/40 dark:bg-black/70 backdrop-blur-sm z-40"
             onClick={closeMenu}
           />
         )}

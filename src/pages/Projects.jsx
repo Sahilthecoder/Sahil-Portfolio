@@ -6,7 +6,7 @@ import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiG
 import { FiArrowRight } from 'react-icons/fi';
 import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Header from '../components/Header';
 
@@ -41,6 +41,24 @@ const techIcons = {
 
 // Project card component
 const ProjectCard = ({ project, index, onClick }) => {
+  // Use React Router's useNavigate for client-side navigation
+  const navigate = useNavigate();
+  
+  // Handle click to navigate to project details page
+  const handleClick = (e) => {
+    // Only navigate if the click is not on a link or button
+    if (!e.target.closest('a, button')) {
+      const path = project.id ? `/projects/${project.id}` : project.projectUrl;
+      if (path) {
+        if (path.startsWith('http')) {
+          window.open(path, '_blank');
+        } else {
+          navigate(path);
+        }
+      }
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -67,7 +85,7 @@ const ProjectCard = ({ project, index, onClick }) => {
             scale: 1.01,
             backgroundColor: 'rgba(255, 255, 255, 0.98)'
           }}
-          onClick={onClick}
+          onClick={handleClick}
         >
           {/* Enhanced glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -117,15 +135,40 @@ const ProjectCard = ({ project, index, onClick }) => {
             </div>
             
             <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors">
-              <GlitchText>{project.title}</GlitchText>
+              <Link 
+                to={project.id ? `/projects/${project.id}` : project.projectUrl || '#'}
+                className="hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <GlitchText>{project.title}</GlitchText>
+              </Link>
             </h3>
             
             <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
               {project.shortDescription}
             </p>
             
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
-              {/* Empty div to maintain spacing */}
+            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
+              <a 
+                href={project.github} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <FaGithub className="mr-1.5" /> Code
+              </a>
+              {project.liveDemo && (
+                <a 
+                  href={project.liveDemo} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Live Demo <FaExternalLinkAlt className="ml-1.5 text-xs" />
+                </a>
+              )}
             </div>
           </div>
         </motion.div>
@@ -362,12 +405,12 @@ const withBaseUrl = (path) => {
 const projects = [
   {
     id: 'zomato-analysis',
-    title: 'Zomato Market Expansion',
-    shortDescription: 'Data-driven insights for Zomato\'s city expansion strategy',
-    description: 'Comprehensive analysis of Zomato\'s expansion strategy across Indian cities with actionable market insights. This project involved analyzing customer behavior, order patterns, and market potential to optimize Zomato\'s expansion into new cities.',
+    title: 'AI-Powered Market Analysis',
+    shortDescription: 'Leveraged AI and data analytics to optimize Zomato\'s city expansion strategy',
+    description: 'Applied advanced data analysis and AI-driven insights to evaluate market potential across Indian cities, identifying optimal locations for Zomato\'s expansion based on comprehensive customer behavior and competitive analysis.',
     icon: 'Excel',
-    tags: ['Data Analysis', 'Market Research', 'Excel', 'Dashboard'],
-    techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+    tags: ['AI Analysis', 'Market Research', 'Data Visualization', 'Predictive Modeling'],
+    techStack: ['Excel', 'AI Tools', 'Data Analysis', 'Market Strategy'],
     path: '/projects/zomato-analysis',
     image: withBaseUrl('/images/projects/Project1 excel/Project1 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Project1 excel/zometo-ds.avif'),
@@ -388,12 +431,12 @@ const projects = [
   },
   {
     id: 'bansal-supermarket',
-    title: 'Retail Analytics Dashboard',
-    shortDescription: 'Interactive sales performance visualization',
-    description: 'Designed an interactive Tableau dashboard tracking sales performance, customer behavior, and inventory metrics for Bansal Supermarket. The dashboard provides actionable insights into product performance, customer preferences, and sales trends to optimize inventory management and marketing strategies.',
+    title: 'Retail Inventory Intelligence',
+    shortDescription: 'AI-enhanced inventory and sales analytics platform',
+    description: 'Developed a comprehensive Tableau dashboard integrating inventory data with sales performance, using AI to predict stock requirements and optimize supply chain decisions for Bansal Supermarket.',
     icon: 'Tableau',
-    tags: ['Tableau', 'Data Visualization', 'Retail', 'Dashboard'],
-    techStack: ['Tableau', 'Data Visualization', 'Retail Analytics'],
+    tags: ['Inventory Analytics', 'AI Forecasting', 'Retail Intelligence', 'Dashboard'],
+    techStack: ['Tableau', 'AI Integration', 'Inventory Analysis', 'Data Visualization'],
     path: '/projects/bansal-supermarket',
     image: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
@@ -414,12 +457,12 @@ const projects = [
   },
   {
     id: 'retail-cash-flow',
-    title: 'Retail Cash Flow Dashboard',
-    shortDescription: 'Real-time financial monitoring system',
-    description: 'Multi-store Power BI dashboard for tracking daily cash flow and flagging discrepancies in real-time. This comprehensive financial monitoring solution provides store managers and regional directors with actionable insights to optimize cash handling and reduce financial losses.',
+    title: 'AI-Optimized Cash Flow Management',
+    shortDescription: 'Intelligent financial monitoring and prediction system',
+    description: 'Created a Power BI dashboard with AI-powered anomaly detection for cash flow monitoring across multiple retail locations, enabling proactive financial management and reducing operational risks.',
     icon: 'PowerBI',
-    tags: ['Power BI', 'Finance', 'Data Visualization', 'Retail'],
-    techStack: ['Power BI', 'DAX', 'Data Visualization', 'Financial Analysis'],
+    tags: ['AI Analytics', 'Financial Intelligence', 'Anomaly Detection', 'Retail Finance'],
+    techStack: ['Power BI', 'AI Integration', 'Financial Analysis', 'Data Visualization'],
     path: '/projects/retail-cash-flow',
     image: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
@@ -439,12 +482,12 @@ const projects = [
   },
   {
     id: 'ekam-attendance',
-    title: 'Ekam Attendance System',
-    shortDescription: 'Automated employee attendance and payroll system',
-    description: 'Automated tracking of employee hours using SQL and Google Sheets to flag discrepancies and ensure labor law compliance. This system integrates with existing time-tracking hardware to provide real-time attendance data, automated shift scheduling, and comprehensive reporting for HR and payroll processing.',
+    title: 'AI-Enhanced Attendance & Payroll System',
+    shortDescription: 'Automated workforce management solution with AI insights',
+    description: 'Developed an intelligent attendance tracking and payroll system using SQL and Google Apps Script, incorporating AI to detect patterns and anomalies in workforce data while ensuring compliance with labor regulations.',
     icon: 'SQL',
-    tags: ['SQL', 'Google Sheets', 'Automation', 'Payroll', 'HR'],
-    techStack: ['SQL', 'Google Apps Script', 'Data Automation', 'HR Analytics'],
+    tags: ['AI Automation', 'Workforce Analytics', 'Payroll System', 'Data Integration'],
+    techStack: ['SQL', 'Google Apps Script', 'AI Integration', 'HR Analytics'],
     path: '/projects/ekam-attendance',
     image: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
@@ -464,12 +507,12 @@ const projects = [
   },
   {
     id: 'product-sales-dashboard',
-    title: 'Product Sales Dashboard',
-    shortDescription: 'E-commerce performance analytics',
-    description: 'Comprehensive sales analytics platform built with Python and Streamlit that provides real-time insights into product performance, customer behavior, and sales trends. Features include interactive visualizations, sales forecasting, and inventory optimization recommendations.',
+    title: 'AI-Powered Sales & Inventory Dashboard',
+    shortDescription: 'Predictive analytics for e-commerce optimization',
+    description: 'Built an AI-driven dashboard using Python and Streamlit that provides predictive insights for inventory management and sales forecasting, helping optimize stock levels and improve revenue.',
     icon: 'Python',
-    tags: ['Python', 'Streamlit', 'Data Analysis', 'E-commerce'],
-    techStack: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'Machine Learning'],
+    tags: ['AI/ML', 'Predictive Analytics', 'Inventory Optimization', 'E-commerce'],
+    techStack: ['Python', 'Streamlit', 'Machine Learning', 'AI Forecasting'],
     path: '/projects/product-sales',
     image: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
@@ -490,12 +533,12 @@ const projects = [
   },
   {
     id: 'mahira-portfolio',
-    title: 'Professional Portfolio Website',
-    shortDescription: 'AI-enhanced web portfolio',
-    description: 'Sophisticated, responsive portfolio website with AI integration and modern UI/UX. Features include a custom AI assistant, project showcase with interactive elements, and a blog section. Built with React, Next.js, and integrated with various APIs for enhanced functionality.',
-    icon: 'React',
-    tags: ['React', 'Next.js', 'AI Integration', 'Web Design'],
-    techStack: ['React', 'Next.js', 'Tailwind CSS', 'OpenAI API'],
+    title: 'AI-Enhanced Professional Portfolio',
+    shortDescription: 'Showcasing AI and data expertise through an interactive portfolio',
+    description: 'Demonstrating my expertise in AI and data analytics, this portfolio was built with AI assistance to showcase practical applications of technology in solving real-world business challenges, particularly in inventory and data analysis.',
+    icon: 'AI',
+    tags: ['AI Implementation', 'Data Visualization', 'Portfolio', 'Technical Showcase'],
+    techStack: ['AI Tools', 'Data Analytics', 'Portfolio Development', 'Technical Communication'],
     path: '/projects/mahira-portfolio',
     image: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
     previewImage: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),

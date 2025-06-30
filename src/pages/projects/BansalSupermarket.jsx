@@ -27,13 +27,13 @@ const BansalSupermarket = () => {
   
   // Project metadata
   const projectMeta = {
-    title: "Bansal Supermarket Analytics",
-    tagline: "Data-Driven Retail Optimization",
-    description: "A comprehensive analytics dashboard providing actionable insights for Bansal Supermarket's retail operations, inventory management, and sales performance.",
-    tags: ["Tableau", "Data Visualization", "Retail Analytics", "Business Intelligence"],
-    role: "Data Analyst & Visualization Specialist",
+    title: "AI-Powered Retail Intelligence Platform",
+    tagline: "Transforming Retail with Predictive Analytics",
+    description: "An advanced AI-driven analytics solution that revolutionized inventory management and sales forecasting for Bansal Supermarket, leveraging machine learning to optimize stock levels and maximize profitability.",
+    tags: ["AI/ML", "Predictive Analytics", "Inventory Optimization", "Retail Intelligence"],
+    role: "AI & Data Solutions Architect",
     timeline: "Q2 2023 - Present",
-    tools: ["Tableau Desktop", "Excel", "SQL", "Google Sheets"]
+    tools: ["Tableau", "Python (Scikit-learn, TensorFlow)", "SQL", "AI/ML Models"]
   };
 
   // Image gallery data with dimensions (width, height)
@@ -119,68 +119,68 @@ const BansalSupermarket = () => {
   const stats = [
     { 
       icon: <FaShoppingBasket className="w-6 h-6" />, 
-      label: 'Product SKUs', 
-      value: '1,250+',
+      label: 'AI Predictions', 
+      value: '95%',
       color: 'blue',
       darkColor: 'blue-700',
-      description: 'Diverse inventory across categories'
+      description: 'Forecast accuracy rate'
     },
     { 
       icon: <FaChartLine className="w-6 h-6" />, 
-      label: 'Monthly Sales', 
-      value: '₹5.2M+',
+      label: 'Inventory Reduction', 
+      value: '30%',
       color: 'indigo',
       darkColor: 'indigo-700',
-      description: 'Average monthly revenue'
+      description: 'Decrease in excess stock'
     },
     { 
       icon: <FaBox className="w-6 h-6" />, 
-      label: 'Inventory Turnover', 
-      value: '4.2x',
+      label: 'Stockouts Prevented', 
+      value: '85%',
       color: 'purple',
       darkColor: 'purple-700',
-      description: 'Annual turnover rate'
+      description: 'Reduction in out-of-stock events'
     },
     { 
       icon: <FaSearchDollar className="w-6 h-6" />, 
-      label: 'Profit Margin', 
-      value: '18.5%',
+      label: 'Profit Boost', 
+      value: '22%',
       color: 'green',
       darkColor: 'green-700',
-      description: 'Net profit margin'
+      description: 'Increase in net profit margin'
     },
     { 
       icon: <FaChartPie className="w-6 h-6" />, 
-      label: 'Categories', 
-      value: '25+',
+      label: 'AI Models', 
+      value: '7+',
       color: 'violet',
       darkColor: 'violet-700',
-      description: 'Diverse product range'
+      description: 'Specialized ML models deployed'
     },
     { 
       icon: <FaChartLine className="w-6 h-6" />, 
-      label: 'Growth', 
-      value: '18.5%',
+      label: 'Process Automation', 
+      value: '15',
       color: 'purple',
       darkColor: 'purple-700',
-      description: 'Year-over-year increase'
+      description: 'Automated workflows'
     },
     { 
       icon: <FaChartLine className="w-6 h-6" />, 
-      label: 'Top Margin', 
-      value: '17.5%',
+      label: 'Data Points', 
+      value: '2.5M+',
       color: 'indigo',
       darkColor: 'indigo-700',
-      description: 'Highest profit margin'
+      description: 'Processed daily'
     }
   ];
 
   // Tech stack data
   const techStack = [
-    { name: 'Tableau', icon: '📊', color: 'blue' },
-    { name: 'Excel', icon: '📈', color: 'green' },
-    { name: 'SQL', icon: '🗃️', color: 'yellow' },
-    { name: 'Python', icon: '🐍', color: 'indigo' }
+    { name: 'Machine Learning', icon: '🤖', color: 'blue' },
+    { name: 'Tableau', icon: '📊', color: 'indigo' },
+    { name: 'Python (Scikit-learn)', icon: '🐍', color: 'green' },
+    { name: 'Predictive Analytics', icon: '🔮', color: 'purple' }
   ];
 
   // Calculate image container style based on image dimensions

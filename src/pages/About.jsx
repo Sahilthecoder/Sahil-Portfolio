@@ -157,13 +157,13 @@ const About = () => {
                 className="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-6"
                 variants={item}
               >
-                Data-Driven Inventory Specialist & Business Intelligence Analyst
+                AI & Data Analytics Expert | Inventory Management Specialist
               </motion.div>
               <motion.p 
                 className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mb-8 leading-relaxed"
                 variants={item}
               >
-                Transforming complex data into strategic insights and operational excellence through advanced analytics and process optimization.
+                I combine expertise in AI, data analytics, and inventory management to create efficient, data-driven solutions. This portfolio, built with AI assistance, demonstrates my ability to leverage technology for practical business applications. My approach focuses on using data to optimize inventory systems, automate processes, and drive operational excellence.
               </motion.p>
               <motion.div 
                 className="flex flex-wrap justify-center md:justify-start gap-4"

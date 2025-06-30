@@ -50,10 +50,10 @@ const ZomatoAnalysis = () => {
           <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-transparent" />
           <div className="absolute bottom-0 right-0 p-8 max-w-2xl">
             <div className="text-right">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">Zomato Market Analysis</h1>
-              <p className="text-xl text-gray-100 mb-6">Strategic insights for data-driven restaurant expansion</p>
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">AI-Powered Restaurant Market Analysis</h1>
+              <p className="text-xl text-gray-100 mb-6">Leveraging machine learning for data-driven expansion strategies</p>
               <div className="flex flex-wrap justify-end gap-2">
-                {['#DataAnalysis', '#MarketResearch', '#BusinessStrategy', '#RestaurantAnalytics'].map((tag, index) => (
+                {['#AIAnalytics', '#PredictiveModeling', '#MarketIntelligence', '#BusinessStrategy'].map((tag, index) => (
                   <span key={index} className="px-3 py-1 bg-red-600 dark:bg-red-700 text-white text-sm rounded-full hover:bg-red-700 dark:hover:bg-red-600 transition-colors">
                     {tag}
                   </span>
@@ -68,41 +68,42 @@ const ZomatoAnalysis = () => {
           <div className="space-y-8">
             {/* Project Title and Description */}
             <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Project Overview</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">AI-Enhanced Market Intelligence</h2>
               <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl">
-                A comprehensive analysis of Zomato's restaurant data to identify optimal markets for expansion,
-                focusing on customer preferences, pricing strategies, and market potential across different regions.
+                Developed an advanced analytics platform using machine learning to analyze Zomato's restaurant data, 
+                identifying high-potential markets through predictive modeling of customer behavior, competitive analysis, 
+                and revenue potential across diverse geographic regions.
               </p>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
-                { 
+                {
                   icon: <FaGlobeAmericas className="w-5 h-5" />, 
-                  label: 'Countries', 
-                  value: '15',
+                  label: 'Markets Analyzed', 
+                  value: '15+',
                   color: 'red',
                   darkColor: 'red-700'
                 },
                 { 
                   icon: <FaUtensils className="w-5 h-5" />, 
-                  label: 'Restaurants', 
-                  value: '9,000+',
+                  label: 'AI Models', 
+                  value: '5+',
                   color: 'orange',
                   darkColor: 'orange-700'
                 },
                 { 
                   icon: <FaTable className="w-5 h-5" />, 
-                  label: 'Cuisines', 
-                  value: '80+',
+                  label: 'Data Points', 
+                  value: '500K+',
                   color: 'amber',
                   darkColor: 'amber-700'
                 },
                 { 
                   icon: <FaStar className="w-5 h-5" />, 
-                  label: 'Avg. Rating', 
-                  value: '4.29/5',
+                  label: 'Accuracy', 
+                  value: '92%',
                   color: 'yellow',
                   darkColor: 'yellow-600'
                 }
@@ -129,7 +130,7 @@ const ZomatoAnalysis = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {['#MarketResearch', '#DataVisualization', '#BusinessStrategy', '#RestaurantAnalytics'].map((tag, index) => (
+                  {['#AIAnalytics', '#PredictiveModeling', '#MarketIntelligence', '#DataScience'].map((tag, index) => (
                     <span 
                       key={index} 
                       className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"

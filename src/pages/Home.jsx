@@ -88,12 +88,12 @@ const Home = () => {
 
   const featuredProjects = [
     {
-      ...getProject('zomato'),
+      ...getProject('zomato-analysis'),
       image: '/Sahil-Portfolio/images/projects/Project1 excel/Project1 Cover.avif',
-      path: '/projects/zomato'
+      path: '/projects/zomato-analysis'
     },
     {
-      ...getProject('bansal'),
+      ...getProject('bansal-supermarket'),
       image: '/Sahil-Portfolio/images/projects/Project2 tableau/Project2 Cover.avif',
       path: '/projects/bansal-supermarket'
     },

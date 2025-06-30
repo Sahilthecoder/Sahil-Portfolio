@@ -2,15 +2,14 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 
+// https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  // Load env file based on `mode` in the current working directory
-  const env = loadEnv(mode, process.cwd(), '');
-  
   const isProduction = mode === 'production';
   const base = isProduction ? '/Sahil-Portfolio/' : '/';
   
   return {
     base,
+
     plugins: [react()],
     server: {
       port: 5173,
@@ -32,6 +31,8 @@ export default defineConfig(({ command, mode }) => {
       assetsDir: 'assets',
       sourcemap: false,
       minify: isProduction ? 'terser' : false,
+      emptyOutDir: true,
+      assetsInlineLimit: 0, // Ensure all assets are emitted as files
       terserOptions: isProduction ? {
         compress: {
           drop_console: true,
@@ -43,9 +44,19 @@ export default defineConfig(({ command, mode }) => {
           main: resolve(__dirname, 'index.html'),
         },
         output: {
-          entryFileNames: 'assets/[name]-[hash].js',
-          chunkFileNames: 'assets/[name]-[hash].js',
-          assetFileNames: 'assets/[name]-[hash][extname]',
+          entryFileNames: 'assets/[name].[hash].js',
+          chunkFileNames: 'assets/[name].[hash].js',
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name.split('.');
+            const ext = info[info.length - 1];
+            if (['png', 'jpe?g', 'gif', 'svg', 'webp', 'avif', 'ico'].includes(ext)) {
+              return 'assets/images/[name].[hash][extname]';
+            }
+            if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
+              return 'assets/fonts/[name].[hash][extname]';
+            }
+            return 'assets/[name].[hash][extname]';
+          },
           manualChunks: {
             'react-vendor': ['react', 'react-dom', 'react-router-dom'],
             'framer-motion': ['framer-motion'],
@@ -60,6 +71,7 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     define: {
+      'import.meta.env.BASE_URL': JSON.stringify(base),
       'process.env': {},
       'process.env.NODE_ENV': `"${mode}"`,
       'process.env.BASE_URL': `"${base}"`,

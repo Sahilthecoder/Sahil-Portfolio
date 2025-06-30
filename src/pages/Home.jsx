@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { 
-  FiArrowRight, 
-  FiGithub, 
-  FiLinkedin, 
-  FiMail, 
-  FiDownload, 
-  FiMapPin,
-  FiFileText,
-  FiClock 
-} from 'react-icons/fi';
+import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { Link } from 'react-router-dom';
+import ProjectImage from '../components/ProjectImage';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { getProject } from '../utils/projectData';
 
@@ -89,18 +81,21 @@ const Home = () => {
   const featuredProjects = [
     {
       ...getProject('zomato-analysis'),
-      image: '/Sahil-Portfolio/images/projects/Project1 excel/Project1 Cover.avif',
-      path: '/projects/zomato-analysis'
+      image: 'Project1 Cover.avif',
+      path: '/projects/zomato-analysis',
+      projectId: 'zomato-analysis'
     },
     {
       ...getProject('bansal-supermarket'),
-      image: '/Sahil-Portfolio/images/projects/Project2 tableau/Project2 Cover.avif',
-      path: '/projects/bansal-supermarket'
+      image: 'Project2 Cover.avif',
+      path: '/projects/bansal-supermarket',
+      projectId: 'bansal-supermarket'
     },
     {
       ...getProject('retail'),
-      image: '/Sahil-Portfolio/images/projects/Project4 Power BI/Project4 Cover.avif',
-      path: '/projects/retail-cash-flow'
+      image: 'Project4 Cover.avif',
+      path: '/projects/retail-cash-flow',
+      projectId: 'retail-cash-flow'
     }
   ].filter(Boolean); // Filter out any undefined projects
 
@@ -382,15 +377,16 @@ const Home = () => {
                 <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800">
                   <div className="relative w-full" style={{ paddingTop: '56.25%' }}> {/* 16:9 Aspect Ratio */}
                     <div className="absolute inset-0">
-                      <img
-                        src={project.image || '/Sahil-Portfolio/images/placeholder.svg'}
+                      <ProjectImage
+                        projectId={project.projectId}
+                        imageName={project.image}
                         alt={project.title}
                         className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
-                        }}
+                        containerClassName="absolute inset-0"
+                        aspectRatio="16/9"
+                        objectFit="contain"
+                        showOverlay={false}
+                        zoomOnHover={false}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
                     </div>

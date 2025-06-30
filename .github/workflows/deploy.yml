@@ -2,17 +2,25 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # Change to your default branch name if different
-  pull_request:
     branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     
     steps:
       - name: Checkout
@@ -32,19 +40,30 @@ jobs:
       
       - name: Build
         run: |
-          npm run build
+          VITE_BASE_URL='/Sahil-Portfolio/' npm run build
+          # Create .nojekyll to bypass Jekyll processing
           touch ./dist/.nojekyll
+          # Create _redirects for SPA routing
+          echo '/* /index.html 200' > ./dist/_redirects
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
+        with:
+          static_site_generator: "vite"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
-      
+    
+    # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          enablement: true

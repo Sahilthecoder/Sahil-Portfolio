@@ -1,674 +1,865 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FaChartLine, 
-  FaDatabase, 
-  FaFilePdf, 
-  FaExternalLinkAlt, 
-  FaSearch, 
-  FaFilter, 
-  FaTimes, 
-  FaArrowUp,
-  FaLaptopCode,
-  FaCalendarAlt,
-  FaArrowRight,
-  FaTools,
-  FaGithub
-} from 'react-icons/fa';
+import Tilt from 'react-parallax-tilt';
+import { FaGithub, FaExternalLinkAlt, FaTimes, FaArrowUp, FaSearch, FaFilePdf, FaLaptopCode, FaArrowRight, FaDatabase, FaChartLine } from 'react-icons/fa';
+import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai } from 'react-icons/si';
+import { FiArrowRight } from 'react-icons/fi';
+import { FiFigma } from 'react-icons/fi';
+import { BsFileEarmarkExcel } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import ProjectImage from '../components/ProjectImage';
+import Header from '../components/Header';
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.5,
-      ease: [0.4, 0, 0.2, 1]
-    } 
-  }
-};
-
-// Helper function to handle image loading errors
-const handleImageError = (e) => {
-  e.target.onerror = null;
-  e.target.src = '/images/placeholder.svg';
-};
-
-// Categories for filtering - updated to match project categories
-const categories = [
-  { id: 'all', name: 'All Projects', icon: '📊' },
-  { id: 'dashboard', name: 'Data Visualization', icon: '📊' },
-  { id: 'analysis', name: 'Data Analysis', icon: '📈' },
-  { id: 'excel', name: 'Excel', icon: '📋' },
-  { id: 'tableau', name: 'Tableau', icon: '📊' },
-  { id: 'sql', name: 'SQL', icon: '🗃️' },
-  { id: 'web', name: 'Web Development', icon: '🌐' },
-  { id: 'ai', name: 'AI/ML', icon: '🤖' }
-];
-
-// Project data
-const projects = [
-  {
-    id: 'zomato',
-    title: 'Zomato Market Expansion Analysis',
-    description: 'Comprehensive analysis of Zomato\'s expansion strategy across Indian cities with actionable market insights.',
-    icon: <FaChartLine className="w-5 h-5 text-blue-500" />,
-    tags: ['Excel', 'Data Analysis', 'Market Strategy'],
-    path: '/projects/zomato-analysis',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
-    category: ['dashboard', 'analysis'],
-    impact: 'Identified key growth opportunities and optimized expansion strategy by analyzing city-wise performance metrics.',
-    badge: 'Excel',
-    featured: true,
-    date: '2024-03-15',
-    readTime: '5 min read',
-    highlights: [
-      'Analyzed 10,000+ data points',
-      'Identified top 5 high-potential cities',
-      'Increased market penetration by 30%'
-    ]
-  },
-  {
-    id: 'bansal-supermarket',
-    title: 'Retail Sales Performance Dashboard',
-    description: 'Designed an interactive Tableau dashboard tracking sales performance, customer behavior, and inventory metrics to support data-driven decision making for Bansal Supermarket.',
-    icon: <FaDatabase className="w-6 h-6 text-green-600 dark:text-green-400" />,
-    tags: ['Tableau', 'Sales Analytics', 'Retail Insights'],
-    path: '/projects/bansal-supermarket',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
-    category: 'Retail Analytics',
-    impact: 'Drove 12% revenue growth through data-informed inventory optimization and targeted promotional strategies.',
-    badge: 'Tableau'
-  },
-  {
-    id: 'ekam-attendance',
-    title: 'Automated HR Management System',
-    description: 'Engineered a SQL and Google Sheets-based solution automating attendance tracking and payroll processing for Ekam Indian Groceries, Australia.',
-    icon: <FaDatabase className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
-    tags: ['SQL', 'Google Sheets', 'Process Automation'],
-    path: '/projects/ekam-attendance',
-    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-    category: 'HR Automation',
-    impact: 'Reduced monthly HR and accounting workload by 80% through process automation and streamlined reporting.',
-    badge: 'SQL + Sheets'
-  },
-  {
-    id: 'retail-cash-flow',
-    title: 'Multi-Store Financial Dashboard',
-    description: 'Developed a real-time Power BI dashboard for monitoring cash flow and financial transactions across multiple retail locations.',
-    icon: <FaChartLine className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />,
-    tags: ['Power BI', 'Financial Analytics', 'Data Visualization'],
-    path: '/projects/retail-cash-flow',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
-    category: 'Financial Analytics',
-    impact: 'Improved financial visibility and reduced reporting time by 90% with automated data processing and visualization.',
-    badge: 'Power BI'
-  },
-  {
-    id: 'product-sales',
-    title: 'E-commerce Sales Analytics Platform',
-    description: 'Built a comprehensive sales analytics platform using Python and Streamlit to track product performance and customer behavior.',
-    icon: <FaChartLine className="w-6 h-6 text-red-600 dark:text-red-400" />,
-    tags: ['Python', 'Streamlit', 'Data Analysis'],
-    path: '/projects/product-sales',
-    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-    category: 'E-commerce Analytics',
-    impact: 'Enhanced decision-making with real-time sales insights and predictive analytics.',
-    badge: 'Python + Streamlit'
-  },
-  {
-    id: 'snape-sentiment-analysis',
-    title: 'Snape Sentiment Analysis',
-    description: 'Conducted sentiment analysis on Severus Snape character dialogue from the Harry Potter series using Python and NLTK to uncover emotional patterns and character development.',
-    icon: <FaTools className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
-    tags: ['Python', 'NLTK', 'Sentiment Analysis', 'Data Visualization'],
-    path: '/projects/snape-sentiment-analysis',
-    image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
-    category: 'NLP Project',
-    impact: 'Revealed deep insights into character development and emotional arcs through data-driven analysis.',
-    badge: 'Python + NLTK'
-  },
-  {
-    id: 'mahira-portfolio',
-    title: 'AI-Enhanced Professional Portfolio',
-    description: 'Crafted a sophisticated, responsive portfolio website with AI integration, showcasing professional work and capabilities through an intuitive user interface.',
-    icon: <FaLaptopCode className="w-6 h-6 text-pink-600 dark:text-pink-400" />,
-    tags: ['React', 'AI Integration', 'Responsive Design'],
-    path: 'https://mahiradesignhub.github.io/mahira-portfolio/',
-    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
-    category: 'Digital Portfolio',
-    impact: 'Enhanced professional visibility and attracted international clientele through modern, interactive presentation of work.',
-    badge: 'Web + AI',
-    isExternal: true
-  }
-];
-
-const Projects = () => {
-  const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [showScroll, setShowScroll] = useState(false);
-  
-  // Animation variants for the projects grid
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  };
-  
-  // Handle scroll to top
-  const checkScrollTop = () => {
-    if (!showScroll && window.pageYOffset > 400) {
-      setShowScroll(true);
-    } else if (showScroll && window.pageYOffset <= 400) {
-      setShowScroll(false);
-    }
-  };
-  
-  const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  
-  React.useEffect(() => {
-    window.addEventListener('scroll', checkScrollTop);
-    return () => window.removeEventListener('scroll', checkScrollTop);
-  }, [showScroll]);
-
-  // Generate structured data for SEO
-  const structuredData = useMemo(() => ({
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    itemListElement: projects.map((project, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      item: {
-        '@type': 'CreativeWork',
-        name: project.title,
-        description: project.description,
-        image: project.image,
-        url: project.path.startsWith('http') ? project.path : window.location.origin + project.path
-      }
-    }))
-  }), []);
-
-  // Handle project click with analytics
-  const handleProjectClick = (e, project) => {
-    if (project.isExternal) {
-      e.preventDefault();
-      window.open(project.path, '_blank', 'noopener,noreferrer');
-      if (window.gtag) {
-        window.gtag('event', 'click', {
-          'event_category': 'Outbound Link',
-          'event_label': project.path,
-          'transport_type': 'beacon'
-        });
-      }
-    } else {
-      e.preventDefault();
-      navigate(project.path);
-    }
-  };
-
-  // Enhanced project processing with modern features
-  const { filteredProjects, allSkills, allTags, categoryMetadata } = useMemo(() => {
-    // Skill and category mapping with metadata
-    const metadata = {
-      dashboard: { name: 'Data Visualization', icon: '📊', color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' },
-      analysis: { name: 'Data Analysis', icon: '📈', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' },
-      excel: { name: 'Excel', icon: '📋', color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
-      tableau: { name: 'Tableau', icon: '📊', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400' },
-      sql: { name: 'SQL', icon: '🗃️', color: 'bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-400' },
-      web: { name: 'Web Dev', icon: '🌐', color: 'bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900/30 dark:text-fuchsia-400' },
-      ai: { name: 'AI/ML', icon: '🤖', color: 'bg-pink-100 text-pink-800 dark:bg-pink-900/30 dark:text-pink-400' },
-      automation: { name: 'Automation', icon: '⚡', color: 'bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-400' },
-      other: { name: 'Other', icon: '📌', color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200' }
-    };
-
-    // Extract all unique skills and tags
-    const skills = new Set();
-    const tags = new Set();
-
-    const normalizeCategory = (category) => {
-      if (!category) return 'other';
-      const normalized = category.toString().toLowerCase().trim();
-      return Object.keys(metadata).includes(normalized) ? normalized : 'other';
-    };
-
-    const processed = projects.map(project => {
-      // Normalize categories
-      const projectCategories = Array.isArray(project.category) 
-        ? project.category.map(normalizeCategory)
-        : [normalizeCategory(project.category)];
-
-      // Process tags and skills
-      (project.tags || []).forEach(tag => {
-        const normalizedTag = tag.trim().toLowerCase();
-        if (normalizedTag) {
-          tags.add(normalizedTag);
-          if (['excel', 'tableau', 'sql', 'python', 'javascript', 'react', 'node', 'ai', 'ml', 'automation'].includes(normalizedTag)) {
-            skills.add(normalizedTag);
-          }
-        }
-      });
-
-      // Generate consistent color based on project ID
-      const accentColor = `hsl(${Math.abs(project.id.split('').reduce((a, b) => {
-        a = (a << 5) - a + b.charCodeAt(0);
-        return a & a;
-      }, 0)) % 360}, 70%, 60%)`;
-
-      return {
-        ...project,
-        isExternal: project.path?.startsWith?.('http') || false,
-        image: project.image || '/Sahil-Portfolio/images/placeholder.svg',
-        categories: [...new Set(projectCategories)],
-        impact: project.impact || '',
-        date: project.date || '2024-01-01',
-        readTime: project.readTime || '5 min read',
-        accentColor
-      };
-    });
-
-    // Filter projects based on search and active category
-    const filtered = processed.filter(project => {
-      if (searchTerm) {
-        const searchLower = searchTerm.toLowerCase();
-        const searchFields = [
-          project.title,
-          project.description,
-          ...(project.tags || []),
-          ...project.categories.map(cat => metadata[cat]?.name || cat)
-        ].join(' ').toLowerCase();
-        
-        if (!searchFields.includes(searchLower)) return false;
-      }
-      
-      if (activeCategory !== 'all') {
-        return project.categories.some(cat => cat === activeCategory);
-      }
-      
-      return true;
-    });
-
-    return {
-      filteredProjects: filtered,
-      allSkills: Array.from(skills).sort(),
-      allTags: Array.from(tags).sort(),
-      categoryMetadata: metadata
-    };
-  }, [searchTerm, activeCategory]);
-
-  // Toggle mobile filters
-  const toggleFilters = useCallback(() => {
-    setIsFilterOpen(prev => !prev);
-  }, []);
-
+// Glitch text component
+const GlitchText = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <SEO 
-        title="My Projects | Portfolio"
-        description="Explore my portfolio of professional projects showcasing expertise in data analysis, visualization, and web development."
-        type="website"
-        image="/images/og-image.jpg"
-        structuredData={structuredData}
-      />
-      
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-            <div className="absolute inset-0 bg-grid-gray-200/50 dark:bg-grid-gray-800/50"></div>
-          </div>
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute -top-20 -left-20 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-            <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
-          </div>
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 mb-6">
-              <span className="mr-2">✨</span> Featured Projects
-            </span>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">Projects</span>
-            </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Explore a collection of my professional work, from data visualization to web development, each crafted with attention to detail and user experience.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+    <span className="glitch" data-text={children}>
+      {children}
+    </span>
+  );
+};
 
-      {/* Projects Grid Section */}
-      <motion.main 
-        className="py-12 sm:py-16 relative"
-        initial="hidden"
-        animate="show"
-        variants={containerVariants}
+// Tech stack icons mapping
+const techIcons = {
+  'Tableau': <SiTableau />,
+  'Power BI': <FaChartLine />,
+  'Python': <SiPython />,
+  'React': <SiReact />,
+  'JavaScript': <SiJavascript />,
+  'HTML5': <SiHtml5 />,
+  'CSS3': <SiCss3 />,
+  'Git': <SiGit />,
+  'GitHub': <SiGithub />,
+  'Notion': <SiNotion />,
+  'Zapier': <SiZapier />,
+  'OpenAI': <SiOpenai />,
+  'Figma': <FiFigma />,
+  'Excel': <BsFileEarmarkExcel />,
+  'Data Analysis': <FaChartLine />,
+  'Market Strategy': <FaChartLine />
+};
+
+// Project card component
+const ProjectCard = ({ project, index, onClick }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="w-full h-full"
+    >
+      <Tilt
+        tiltMaxAngleX={5}
+        tiltMaxAngleY={5}
+        scale={1.02}
+        glareEnable={true}
+        glareMaxOpacity={0.2}
+        glareColor="#ffffff"
+        glarePosition="all"
+        glareBorderRadius="12px"
+        className="h-full"
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Search and Filter Bar */}
-          <div className="mb-12">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-              <motion.div 
-                className="relative w-full sm:max-w-md"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-10 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 shadow-sm"
-                  placeholder="Search projects by title, tech, or description..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  aria-label="Search projects"
-                />
-                {searchTerm && (
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setSearchTerm('')}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                    aria-label="Clear search"
-                  >
-                    <FaTimes className="h-4 w-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors" />
-                  </motion.button>
-                )}
-              </motion.div>
-              
-              <div className="flex items-center gap-3 w-full sm:w-auto">
-                <button
-                  onClick={toggleFilters}
-                  className="sm:hidden flex items-center gap-2 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                  aria-expanded={isFilterOpen}
-                  aria-controls="filter-dropdown"
-                >
-                  <FaFilter className="h-4 w-4" />
-                  <span>Filters</span>
-                </button>
-                
-                <div className="hidden sm:flex items-center gap-2">
-                  {categories.map((category) => (
-                    <motion.button
-                      key={category.id}
-                      whileHover={{ 
-                        y: -2,
-                        scale: 1.03,
-                        transition: { duration: 0.2 }
-                      }}
-                      whileTap={{ 
-                        scale: 0.98,
-                        transition: { duration: 0.1 }
-                      }}
-                      onClick={() => setActiveCategory(category.id)}
-                      className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 flex items-center ${
-                        activeCategory === category.id
-                          ? 'bg-blue-600 text-white shadow-md transform -translate-y-0.5'
-                          : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 hover:shadow-sm'
-                      }`}
-                      aria-current={activeCategory === category.id ? 'page' : undefined}
+        <motion.div 
+          className="h-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200/80 dark:border-white/10 hover:border-indigo-400/70 dark:hover:border-blue-400/50 transition-all duration-300 group relative shadow-sm hover:shadow-lg cursor-pointer"
+          whileHover={{ 
+            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 15px 20px -8px rgba(0, 0, 0, 0.08)',
+            y: -5,
+            scale: 1.01,
+            backgroundColor: 'rgba(255, 255, 255, 0.98)'
+          }}
+          onClick={onClick}
+        >
+          {/* Enhanced glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
+          
+          {/* Project image */}
+          <div className="relative pt-[60%] overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <div className="w-full">
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {project.techStack?.slice(0, 4).map((tech, idx) => (
+                    <motion.span
+                      key={idx}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                      className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm cursor-default"
                     >
-                      <span className="mr-2 text-base">{category.icon}</span>
-                      {category.name}
-                    </motion.button>
+                      {techIcons[tech] || tech}
+                      <span className="ml-1.5">{tech}</span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
             </div>
-            
-            {/* Mobile Filter Dropdown */}
-            <AnimatePresence>
-              {isFilterOpen && (
-                <motion.div
-                  id="filter-dropdown"
-                  initial={{ opacity: 0, height: 0, marginTop: 0, marginBottom: 0 }}
-                  animate={{ 
-                    opacity: 1, 
-                    height: 'auto',
-                    marginTop: '1rem',
-                    marginBottom: '1rem',
-                    transition: { 
-                      opacity: { duration: 0.2 },
-                      height: { duration: 0.3, ease: 'easeInOut' },
-                      marginTop: { duration: 0.3, ease: 'easeInOut' },
-                      marginBottom: { duration: 0.3, ease: 'easeInOut' }
-                    }
-                  }}
-                  exit={{ 
-                    opacity: 0, 
-                    height: 0, 
-                    marginTop: 0, 
-                    marginBottom: 0,
-                    transition: { 
-                      opacity: { duration: 0.2 },
-                      height: { duration: 0.2, ease: 'easeInOut' },
-                      marginTop: { duration: 0.2, ease: 'easeInOut' },
-                      marginBottom: { duration: 0.2, ease: 'easeInOut' }
-                    }
-                  }}
-                  className="overflow-hidden sm:hidden"
-                >
-                  <div className="flex flex-wrap gap-2 p-1 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
-                    {categories.map((category) => (
-                      <motion.button
-                        key={category.id}
-                        layoutId={`mobile-filter-${category.id}`}
-                        initial={false}
-                        onClick={() => setActiveCategory(category.id)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          activeCategory === category.id
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
-                        }`}
-                        aria-current={activeCategory === category.id ? 'page' : undefined}
-                      >
-                        {category.name}
-                      </motion.button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
           
-          {/* Projects Grid */}
-          {filteredProjects.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => (
-                <motion.div
-                  key={project.id}
-                  variants={itemVariants}
-                  className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full border border-gray-200 dark:border-gray-700"
-                  style={{
-                    '--accent-color': project.accentColor,
-                    '--accent-light': `${project.accentColor}15`
-                  }}
-                >
-                  <div 
-                    className="absolute top-0 left-0 w-full h-1 bg-[var(--accent-color)] opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  <Link
-                    to={project.path}
-                    onClick={(e) => handleProjectClick(e, project)}
-                    className={`relative overflow-hidden rounded-2xl shadow-lg h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 group-hover:border-blue-200 dark:group-hover:border-blue-900/50 ${
-                      project.isExternal ? 'cursor-newtab' : 'cursor-pointer'
-                    }`}
-                    aria-label={`View ${project.title} project`}
-                  >
-                    <motion.div
-                      className="h-full flex flex-col overflow-hidden"
-                      variants={itemVariants}
-                      whileHover={{ y: -5 }}
-                    >
-                      <div className="relative pt-[56.25%] overflow-hidden">
-                        <img
-                          src={project.image.startsWith('http') ? project.image : `/Sahil-Portfolio${project.image}`}
-                          alt={project.title}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                          onError={handleImageError}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                          <div>
-                            <div className="flex flex-wrap gap-2 mb-2">
-                              {project.tags.slice(0, 3).map((tag, idx) => (
-                                <span
-                                  key={idx}
-                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-black/30 text-white backdrop-blur-sm"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                              {project.tags.length > 3 && (
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-black/20 text-white/80">
-                                  +{project.tags.length - 3} more
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-6 flex-1 flex flex-col">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center space-x-2">
-                            {project.icon || <FaChartLine className="w-5 h-5 text-gray-400" />}
-                            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                              {project.badge || 'Project'}
-                            </span>
-                          </div>
-                          {project.categories?.[0] && (
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryMetadata[project.categories[0]]?.color || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}>
-                              {categoryMetadata[project.categories[0]]?.name || project.categories[0]}
-                            </span>
-                          )}
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[var(--accent-color)] transition-colors">
-                          {project.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 flex-grow">
-                          {project.description}
-                        </p>
-                        <div className="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                              <FaCalendarAlt className="mr-1.5 h-4 w-4 flex-shrink-0" />
-                              <span>{project.date ? new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : 'Ongoing'}</span>
-                            </div>
-                            <Link
-                              to={project.path}
-                              onClick={(e) => handleProjectClick(e, project)}
-                              className="inline-flex items-center text-sm font-medium text-[var(--accent-color)] hover:opacity-80 transition-opacity"
-                            >
-                              View Project
-                              <FaArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                            </Link>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="mx-auto w-24 h-24 text-gray-300 dark:text-gray-700 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          {/* Project info */}
+          <div className="p-6 bg-white dark:bg-gray-800">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center space-x-2">
+                {techIcons[project.icon] || <BsFileEarmarkExcel className="text-emerald-600 dark:text-emerald-400" />}
+                <span className="text-sm font-medium text-indigo-600 dark:text-blue-400">
+                  {project.category}
+                </span>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">No projects found</h3>
-              <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
-                We couldn't find any projects matching your search. Try adjusting your filters.
-              </p>
-              <button 
-                onClick={() => {
-                  setSearchTerm('');
-                  setActiveCategory('all');
-                }}
-                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+              <span className="text-xs text-gray-600 dark:text-gray-300">{project.year}</span>
+            </div>
+            
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors">
+              <GlitchText>{project.title}</GlitchText>
+            </h3>
+            
+            <p className="text-gray-700 dark:text-gray-300 mb-4 line-clamp-2">
+              {project.shortDescription}
+            </p>
+            
+            <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
+              {/* Empty div to maintain spacing */}
+            </div>
+          </div>
+        </motion.div>
+      </Tilt>
+    </motion.div>
+  );
+};
+
+// Project modal component
+const ProjectModal = ({ project, onClose }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  
+  const openImage = (img) => setSelectedImage(img);
+  const closeImage = () => setSelectedImage(null);
+  if (!project) return null;
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 overflow-y-auto"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <motion.div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
+          aria-hidden="true"
+        />
+        
+        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+          &#8203;
+        </span>
+
+        <motion.div
+          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full"
+          onClick={(e) => e.stopPropagation()}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+        >
+          <div className="relative">
+            <div className="absolute top-4 right-4 z-10">
+              <button
+                onClick={onClose}
+                className="p-2 rounded-full bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600 transition-colors shadow-lg"
+                aria-label="Close"
               >
-                Clear all filters
+                <FaTimes className="h-5 w-5" />
               </button>
             </div>
-          )}
-        </div>
-      </motion.main>
+            {project.projectUrl && (
+              <div className="absolute bottom-4 right-4 z-10">
+                <a
+                  href={`${window.location.origin}${project.projectUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800/50 transition-colors shadow-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaExternalLinkAlt className="mr-2 h-4 w-4" />
+                  View Project
+                </a>
+              </div>
+            )}
+            
+            <div className="h-[16rem] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
+              <div className="w-full h-full flex items-center justify-center p-0">
+                <img
+                  src={project.image || '/project-placeholder.jpg'}
+                  alt={project.title}
+                  className="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              {/* Tech stack overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                <div className="w-full">
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {project.techStack?.map((tech, idx) => (
+                      <motion.span
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm"
+                      >
+                        {techIcons[tech] || techIcons['Data Analysis']}
+                        <span className="ml-1.5">{tech}</span>
+                      </motion.span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-      {/* Scroll to Top Button */}
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between md:space-x-6">
+                <div className="flex-1">
+                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    {project.title}
+                  </h2>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    {project.description}
+                  </p>
+                  
+                  {/* Gallery Section */}
+                  {project.gallery && project.gallery.length > 0 && (
+                    <div className="mt-6">
+                      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Project Gallery</h3>
+                      <div className="grid grid-cols-3 md:grid-cols-4 gap-2">
+                        {project.gallery.map((img, index) => (
+                          <div 
+                            key={index} 
+                            className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 aspect-square cursor-pointer"
+                            onClick={() => openImage(img)}
+                          >
+                            <img
+                              src={img}
+                              alt={`${project.title} - ${index + 1}`}
+                              className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-2">
+                              <FaExternalLinkAlt className="text-white text-lg" />
+                              <a
+                                href={`${window.location.origin}${project.projectUrl}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-white bg-indigo-600 hover:bg-indigo-700 px-2 py-1 rounded-full whitespace-nowrap"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                View Project
+                              </a>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-6 md:mt-0 flex space-x-4">
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <FaGithub className="mr-2 h-4 w-4" />
+                      View Code
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <FaExternalLinkAlt className="mr-2 h-3 w-3" />
+                      Live Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+
+{project.features && (
+                <div className="mt-8">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Key Features</h3>
+                  <ul className="space-y-2">
+                    {project.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className="text-green-500 mr-2">•</span>
+                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Image Lightbox */}
       <AnimatePresence>
-        {showScroll && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            onClick={scrollTop}
-            className="fixed right-6 bottom-6 z-50 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 border border-gray-200 dark:border-gray-700"
-            aria-label="Scroll to top"
+        {selectedImage && (
+          <motion.div 
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={closeImage}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <FaArrowUp className="w-5 h-5" />
-          </motion.button>
+            <div className="relative max-w-4xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
+              <button 
+                onClick={closeImage}
+                className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
+                aria-label="Close"
+              >
+                <FaTimes className="h-6 w-6" />
+              </button>
+              <img 
+                src={selectedImage} 
+                alt="Enlarged view" 
+                className="max-w-full max-h-[80vh] object-contain"
+              />
+              <div className="mt-2 text-center text-white text-sm opacity-75">
+                Click anywhere to close
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
+    </motion.div>
+  );
+};
+
+// Single project data
+const projects = [
+  {
+    id: 'zomato-analysis',
+    title: 'Zomato Market Expansion',
+    shortDescription: 'Data-driven insights for Zomato\'s city expansion strategy',
+    description: 'Comprehensive analysis of Zomato\'s expansion strategy across Indian cities with actionable market insights. This project involved analyzing customer behavior, order patterns, and market potential to optimize Zomato\'s expansion into new cities.',
+    icon: 'Excel',
+    tags: ['Data Analysis', 'Market Research', 'Excel', 'Dashboard'],
+    techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+    path: '/projects/zomato-analysis',
+    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    previewImage: '/images/projects/Project1 excel/zometo-ds.avif',
+    category: 'Data Analytics',
+    impact: 'Identified key growth opportunities and optimized expansion strategy',
+    featured: true,
+    role: 'Data Analyst',
+    year: '2024',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/zomato-analysis',
+    gallery: [
+      '/images/projects/Project1 excel/zometo-ds.avif',
+      '/images/projects/Project1 excel/zt1.avif',
+      '/images/projects/Project1 excel/zt2.avif'
+    ]
+  },
+  {
+    id: 'bansal-supermarket',
+    title: 'Retail Analytics Dashboard',
+    shortDescription: 'Interactive sales performance visualization',
+    description: 'Designed an interactive Tableau dashboard tracking sales performance, customer behavior, and inventory metrics for Bansal Supermarket. The dashboard provides actionable insights into product performance, customer preferences, and sales trends to optimize inventory management and marketing strategies.',
+    icon: 'Tableau',
+    tags: ['Tableau', 'Data Visualization', 'Retail', 'Dashboard'],
+    techStack: ['Tableau', 'Data Visualization', 'Retail Analytics'],
+    path: '/projects/bansal-supermarket',
+    image: '/optimized-images/projects/Project2 tableau/Project2 Cover.avif',
+    previewImage: '/optimized-images/projects/Project2 tableau/Project2 Cover.avif',
+    category: 'Data Visualization',
+    impact: 'Drove 12% revenue growth through data-informed decisions',
+    featured: true,
+    role: 'BI Developer',
+    year: '2023',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/bansal-supermarket',
+    gallery: [
+      '/images/projects/Project2 tableau/bs2.avif',
+      '/images/projects/Project2 tableau/bs3.avif',
+      '/images/projects/Project2 tableau/bs-top10.avif'
+    ]
+  },
+  {
+    id: 'retail-cash-flow',
+    title: 'Retail Cash Flow Dashboard',
+    shortDescription: 'Real-time financial monitoring system',
+    description: 'Multi-store Power BI dashboard for tracking daily cash flow and flagging discrepancies in real-time. This comprehensive financial monitoring solution provides store managers and regional directors with actionable insights to optimize cash handling and reduce financial losses.',
+    icon: 'PowerBI',
+    tags: ['Power BI', 'Finance', 'Data Visualization', 'Retail'],
+    techStack: ['Power BI', 'DAX', 'Data Visualization', 'Financial Analysis'],
+    path: '/projects/retail-cash-flow',
+    image: '/optimized-images/projects/Project4 Power BI/Project4 Cover.avif',
+    previewImage: '/optimized-images/projects/Project4 Power BI/Project4 Cover.avif',
+    category: 'Business Intelligence',
+    impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
+    featured: true,
+    role: 'Data Analyst',
+    year: '2023',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/retail-cash-flow',
+    gallery: [
+      '/images/projects/Project4 Power BI/CashFlow1.avif',
+      '/images/projects/Project4 Power BI/CashFlow2.avif'
+    ]
+  },
+  {
+    id: 'ekam-attendance',
+    title: 'Ekam Attendance System',
+    shortDescription: 'Automated employee attendance and payroll system',
+    description: 'Automated tracking of employee hours using SQL and Google Sheets to flag discrepancies and ensure labor law compliance. This system integrates with existing time-tracking hardware to provide real-time attendance data, automated shift scheduling, and comprehensive reporting for HR and payroll processing.',
+    icon: 'SQL',
+    tags: ['SQL', 'Google Sheets', 'Automation', 'Payroll', 'HR'],
+    techStack: ['SQL', 'Google Apps Script', 'Data Automation', 'HR Analytics'],
+    path: '/projects/ekam-attendance',
+    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    category: 'Data Automation',
+    impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
+    featured: true,
+    role: 'Data Analyst',
+    year: '2024',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/ekam-attendance',
+    gallery: [
+      '/images/projects/Project3 Sql+Sheets/Attendance_before.avif',
+      '/images/projects/Project3 Sql+Sheets/Attendance_after.avif'
+    ]
+  },
+  {
+    id: 'product-sales-dashboard',
+    title: 'Product Sales Dashboard',
+    shortDescription: 'E-commerce performance analytics',
+    description: 'Comprehensive sales analytics platform built with Python and Streamlit that provides real-time insights into product performance, customer behavior, and sales trends. Features include interactive visualizations, sales forecasting, and inventory optimization recommendations.',
+    icon: 'Python',
+    tags: ['Python', 'Streamlit', 'Data Analysis', 'E-commerce'],
+    techStack: ['Python', 'Streamlit', 'Pandas', 'Plotly', 'Machine Learning'],
+    path: '/projects/product-sales',
+    image: '/optimized-images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    previewImage: '/optimized-images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    category: 'Data Analytics',
+    impact: 'Improved decision-making with real-time insights and predictive analytics',
+    featured: true,
+    role: 'Data Engineer',
+    year: '2023',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/product-sales',
+    gallery: [
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80'
+    ]
+  },
+  {
+    id: 'mahira-portfolio',
+    title: 'Professional Portfolio Website',
+    shortDescription: 'AI-enhanced web portfolio',
+    description: 'Sophisticated, responsive portfolio website with AI integration and modern UI/UX. Features include a custom AI assistant, project showcase with interactive elements, and a blog section. Built with React, Next.js, and integrated with various APIs for enhanced functionality.',
+    icon: 'React',
+    tags: ['React', 'Next.js', 'AI Integration', 'Web Design'],
+    techStack: ['React', 'Next.js', 'Tailwind CSS', 'OpenAI API'],
+    path: '/projects/mahira-portfolio',
+    image: '/optimized-images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    previewImage: '/optimized-images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    category: 'Web Development',
+    impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
+    featured: true,
+    role: 'Full-stack Developer',
+    year: '2024',
+    github: '#',
+    liveDemo: '#',
+    caseStudy: '#',
+    projectUrl: '/projects/#/projects/mahira-portfolio',
+    gallery: [
+      'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&auto=format&fit=crop&q=80'
+    ]
+  }
+];
+
+const Projects = () => {
+  // State management
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showScroll, setShowScroll] = useState(false);
+  const projectsRef = useRef(null);
+  
+  // Filter projects based on search term
+  const filteredProjects = useMemo(() => {
+    if (!searchTerm.trim()) return projects;
+    const term = searchTerm.toLowerCase();
+    return projects.filter(project => 
+      project.title.toLowerCase().includes(term) ||
+      project.description.toLowerCase().includes(term) ||
+      project.techStack.some(tech => tech.toLowerCase().includes(term))
+    );
+  }, [searchTerm]);
+  
+  // Download CV function
+  const handleDownloadCV = () => {
+    // Replace with actual CV download URL
+    const cvUrl = '/Sahil_Resume.pdf'; // Update this path to your actual CV file
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Sahil_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Open project modal
+  const openModal = useCallback((project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  }, []);
+  
+  // Close modal
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    document.body.style.overflow = 'auto';
+    // Small delay to allow the modal close animation to complete
+    setTimeout(() => setSelectedProject(null), 300);
+  }, []);
+  
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [closeModal]);
+  
+  // Scroll to top function
+  const scrollTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  // Show/hide scroll to top button
+  useEffect(() => {
+    const checkScroll = () => {
+      setShowScroll(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', checkScroll);
+    return () => window.removeEventListener('scroll', checkScroll);
+  }, []);
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+      {/* SEO */}
+      <SEO 
+        title="My Projects | Data Analysis & Visualization" 
+        description="Explore my portfolio of data analysis and visualization projects. See how I turn complex data into actionable insights."
+      />
       
-      {/* Resume Download Section */}
-      <div className="bg-gray-50 dark:bg-gray-900 py-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Looking for more details?</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-            Download my full resume to see more about my experience, skills, and professional background.
-          </p>
-          <a 
-            href="/Sahil_Ali_Cv.pdf" 
-            download="Sahil_Ali_Resume.pdf"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
-            aria-label="Download my resume (PDF)"
-            onMouseDown={(e) => e.preventDefault()}
-            onKeyDown={(e) => e.key === 'Enter' && e.target.click()}
-            tabIndex={0}
-            role="button"
+      {/* Subtle background pattern */}
+      <div className="fixed inset-0 opacity-[0.03] dark:opacity-[0.03]" style={{
+        backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
+        backgroundSize: '24px 24px',
+        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.8) 50%,rgba(0,0,0,0.2) 100%)',
+        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.8) 50%,rgba(0,0,0,0.2) 100%)'
+      }}></div>
+      
+      {/* Subtle gradient overlay */}
+      <div className="fixed inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 pointer-events-none"></div>
+
+      <div className="relative z-10">
+        {/* Header */}
+        <Header />
+        
+        {/* CV Download Button */}
+        <div className="fixed bottom-8 right-8 z-50">
+          <button
+            onClick={handleDownloadCV}
+            className="flex items-center justify-center w-14 h-14 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-colors duration-300 group"
+            aria-label="Download CV"
+            title="Download CV"
           >
-            <FaFilePdf className="mr-2" aria-hidden="true" />
-            <span>Download My Resume</span>
-            <span className="sr-only">(Opens in a new tab)</span>
-            <FaExternalLinkAlt className="ml-2 w-3 h-3 opacity-70" aria-hidden="true" />
-          </a>
+            <FaFilePdf className="w-6 h-6 group-hover:scale-110 transition-transform" />
+          </button>
+        </div>
+        
+        {/* Main Content */}
+        <main className="w-full">
+          {/* Hero Section - Compact Height */}
+          <section className="relative w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 overflow-hidden">
+            {/* Grid background - Full width */}
+            <div className="absolute inset-0 w-full h-full bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+            
+            {/* Animated background elements - Full width */}
+            <div className="absolute inset-0 overflow-hidden">
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
+              <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
+            </div>
+            
+            {/* Content container */}
+            <div className="container mx-auto px-6 relative z-10">
+              <motion.div 
+                className="flex flex-col lg:flex-row items-start gap-12 py-12 md:py-20"
+                variants={{
+                  hidden: { opacity: 0 },
+                  show: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+                initial="hidden"
+                animate="show"
+              >
+                {/* Left Content */}
+                <div className="w-full lg:w-1/2">
+                  <motion.div 
+                    className="w-full max-w-4xl mx-auto"
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                    }}
+                  >
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                      My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
+                    </h1>
+                    <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-8">
+                      Explore my portfolio of data analysis and visualization projects that bring data to life
+                    </p>
+                  </motion.div>
+
+                  <motion.div 
+                    className="flex flex-col sm:flex-row gap-4 mt-4"
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } }
+                    }}
+                  >
+                    <a
+                      href="#featured-projects"
+                      className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">Explore Projects</span>
+                        <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                      </span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
+                    </a>
+                    <a
+                      href="#contact"
+                      className="group relative bg-transparent hover:bg-gray-100 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700/50"
+                    >
+                      <span className="relative z-10 flex items-center justify-center">
+                        <span className="transition-transform duration-300 group-hover:translate-x-1">Get In Touch</span>
+                        <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                      </span>
+                      <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
+                    </a>
+                  </motion.div>
+                </div>
+                
+                {/* Right Side - Search Bar with Image */}
+                <motion.div 
+                  className="w-full lg:w-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700/50"
+                  variants={{
+                    hidden: { opacity: 0, x: 20 },
+                    show: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.4 } }
+                  }}
+                >
+                  {/* Search Bar */}
+                  <div className="relative mb-6">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <FaSearch className="h-5 w-5 text-indigo-500 dark:text-indigo-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search projects by tech, role, or keywords..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="block w-full pl-12 pr-5 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-all duration-300 text-base"
+                      aria-label="Search projects by technologies, role, or keywords"
+                    />
+                    {searchTerm && (
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-4">
+                        <button
+                          onClick={() => setSearchTerm('')}
+                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1"
+                          aria-label="Clear search"
+                        >
+                          <FaTimes className="h-5 w-5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Quick Filter Chips */}
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {['SQL', 'Tableau', 'Power BI', 'Python', 'Automation'].map((term) => (
+                      <button
+                        key={term}
+                        onClick={() => setSearchTerm(term.toLowerCase())}
+                        className={`px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 flex items-center ${
+                          searchTerm.toLowerCase() === term.toLowerCase() 
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500'
+                            : 'bg-white/90 dark:bg-gray-700/90 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600/90 shadow-sm hover:shadow-md border border-gray-200/80 dark:border-gray-600/50 hover:border-gray-300 dark:hover:border-gray-500'
+                        }`}
+                      >
+                        {term}
+                        {searchTerm.toLowerCase() === term.toLowerCase() && (
+                          <FaTimes className="ml-1.5 h-3 w-3" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {searchTerm && (
+                    <motion.p 
+                      className="text-center text-gray-500 dark:text-gray-400 mt-4 text-sm"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {filteredProjects.length > 0 
+                        ? `Found ${filteredProjects.length} ${filteredProjects.length === 1 ? 'project' : 'projects'}`
+                        : 'No projects match your search. Try different keywords.'}
+                    </motion.p>
+                  )}
+                </motion.div>
+              </motion.div>
+            </div>
+          </section>
+          
+          {/* Projects Section */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <motion.h2 
+              className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {searchTerm ? 'Search Results' : 'Featured Projects'}
+            </motion.h2>
+            
+            {/* Projects Grid */}
+            <motion.div 
+              className="relative z-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              {filteredProjects.length > 0 ? (
+                <div 
+                  ref={projectsRef}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+                >
+                  {filteredProjects.map((project, index) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      index={index}
+                      onClick={() => openModal(project)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <div className="inline-block p-8 bg-white/70 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg">
+                    <FaSearch className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
+                    <p className="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking for.</p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+          
+          {/* Scroll to top button */}
+          <AnimatePresence>
+            {showScroll && (
+              <motion.button
+                onClick={scrollTop}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                aria-label="Scroll to top"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+              >
+                <FaArrowUp className="w-5 h-5" />
+              </motion.button>
+            )}
+          </AnimatePresence>
+          
+          {/* Project Modal */}
+          <AnimatePresence>
+            {isModalOpen && selectedProject && (
+              <ProjectModal 
+                project={selectedProject} 
+                onClose={closeModal} 
+              />
+            )}
+          </AnimatePresence>
+        </main>
+        
+        {/* Resume Download Section */}
+        <div className="mt-24 py-16 bg-gradient-to-r from-indigo-700 to-blue-700">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <motion.h2 
+              className="text-3xl font-bold text-white mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              Looking for more details?
+            </motion.h2>
+            <motion.p 
+              className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Check out my resume for a comprehensive overview of my experience, skills, and achievements.
+            </motion.p>
+            <motion.a
+              href="/Sahil_Resume.pdf"
+              download="Sahil_Resume.pdf"
+              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <FaFilePdf className="mr-2 -ml-1 h-5 w-5" />
+              Download My Resume
+            </motion.a>
+          </div>
         </div>
       </div>
     </div>

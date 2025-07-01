@@ -60,18 +60,36 @@ const ProjectCard = ({ project, index, onClick }) => {
   // Use React Router's useNavigate for client-side navigation
   const navigate = useNavigate();
   
-  // Handle click to navigate to project details page
+  // Handle click to show project preview
   const handleClick = (e) => {
-    // Only navigate if the click is not on a link or button
-    if (!e.target.closest('a, button')) {
-      const path = project.id ? `/projects/${project.id}` : project.projectUrl;
-      if (path) {
-        if (path.startsWith('http')) {
-          window.open(path, '_blank');
-        } else {
-          navigate(path);
+    // Only proceed if the click is not on a link or button
+    if (!e.target.closest('a, button, h3')) {
+      // Call the onClick handler from parent to show the modal
+      if (onClick && typeof onClick === 'function') {
+        onClick(project);
+      } else {
+        // Fallback to navigation if no onClick handler
+        const path = project.id ? `/projects/${project.id}` : project.projectUrl;
+        if (path) {
+          if (path.startsWith('http')) {
+            window.open(path, '_blank');
+          } else {
+            navigate(path);
+          }
         }
       }
+    }
+  };
+  
+  // Handle direct navigation for title and other interactive elements
+  const handleDirectNavigation = (e, path) => {
+    e.stopPropagation();
+    if (!path) return;
+    
+    if (path.startsWith('http')) {
+      window.open(path, '_blank');
+    } else {
+      navigate(path);
     }
   };
 
@@ -101,7 +119,10 @@ const ProjectCard = ({ project, index, onClick }) => {
             scale: 1.01,
             backgroundColor: 'rgba(255, 255, 255, 0.98)'
           }}
-          onClick={handleClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleProjectSelect(project);
+          }}
         >
           {/* Enhanced glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -139,7 +160,10 @@ const ProjectCard = ({ project, index, onClick }) => {
           </div>
           
           {/* Project info */}
-          <div className="p-4 sm:p-6 bg-white dark:bg-gray-800">
+          <div 
+            className="p-4 sm:p-6 bg-white dark:bg-gray-800 cursor-pointer"
+            onClick={handleClick}
+          >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 {techIcons[project.icon] || <BsFileEarmarkExcel className="text-emerald-600 dark:text-emerald-400" />}
@@ -150,14 +174,11 @@ const ProjectCard = ({ project, index, onClick }) => {
               <span className="text-xs text-gray-600 dark:text-gray-300">{project.year}</span>
             </div>
             
-            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors">
-              <Link 
-                to={project.id ? `/projects/${project.id}` : project.projectUrl || '#'}
-                className="hover:underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <GlitchText>{project.title}</GlitchText>
-              </Link>
+            <h3 
+              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer"
+              onClick={(e) => handleDirectNavigation(e, project.id ? `/projects/${project.id}` : project.projectUrl)}
+            >
+              <GlitchText>{project.title}</GlitchText>
             </h3>
             
             <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
@@ -576,37 +597,15 @@ const projects = [
 ];
 
 const Projects = () => {
-  // State management
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
   const [showScroll, setShowScroll] = useState(false);
   const projectsRef = useRef(null);
   
-  // Filter projects based on search term
-  const filteredProjects = useMemo(() => {
-    if (!searchTerm.trim()) return projects;
-    const term = searchTerm.toLowerCase();
-    return projects.filter(project => 
-      project.title.toLowerCase().includes(term) ||
-      project.description.toLowerCase().includes(term) ||
-      project.techStack.some(tech => tech.toLowerCase().includes(term))
-    );
-  }, [searchTerm]);
-  
-  // Download CV function
-  const handleDownloadCV = () => {
-    const cvUrl = `${import.meta.env.BASE_URL}Sahil_Resume.pdf`;
-    const link = document.createElement('a');
-    link.href = cvUrl;
-    link.download = 'Sahil_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  // Open project modal
-  const openModal = useCallback((project) => {
+  // Handle project selection for preview
+  const handleProjectSelect = useCallback((project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden';
@@ -631,6 +630,33 @@ const Projects = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [closeModal]);
+  
+  // Filter projects based on search term
+  const filteredProjects = useMemo(() => {
+    if (!searchTerm.trim()) return projects;
+    const term = searchTerm.toLowerCase();
+    return projects.filter(project => 
+      project.title.toLowerCase().includes(term) ||
+      project.description.toLowerCase().includes(term) ||
+      project.techStack.some(tech => tech.toLowerCase().includes(term))
+    );
+  }, [searchTerm]);
+  
+  // Download CV function
+  const handleDownloadCV = () => {
+    const cvUrl = `${import.meta.env.BASE_URL}Sahil_Resume.pdf`;
+    const link = document.createElement('a');
+    link.href = cvUrl;
+    link.download = 'Sahil_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Open project modal (alias for handleProjectSelect for backward compatibility)
+  const openModal = useCallback((project) => {
+    handleProjectSelect(project);
+  }, [handleProjectSelect]);
   
   // Scroll to top function
   const scrollTop = useCallback(() => {
@@ -857,7 +883,7 @@ const Projects = () => {
                       key={project.id}
                       project={project}
                       index={index}
-                      onClick={() => openModal(project)}
+                      onClick={() => handleProjectSelect(project)}
                     />
                   ))}
                 </div>

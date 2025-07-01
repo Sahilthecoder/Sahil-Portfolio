@@ -217,8 +217,8 @@ const ModernNavbar = () => {
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
           isScrolled
-            ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 shadow-lg'
-            : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-transparent'
+            ? 'bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-lg'
+            : 'bg-white dark:bg-gray-900 border-b border-transparent'
         } ${!isVisible ? '-translate-y-full' : 'translate-y-0'}`}
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : '-100%' }}

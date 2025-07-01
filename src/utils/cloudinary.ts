@@ -28,8 +28,8 @@ export const getCloudinaryUrl = (imagePath: string, options: Record<string, any>
       return normalizedPath;
     }
     
-    // Otherwise, prepend /images/projects/ for local development
-    return `/images/projects${normalizedPath}`;
+    // Otherwise, prepend /optimized-images/projects/ for local development
+    return `/optimized-images/projects${normalizedPath}`;
   }
 
   // Production: Handle Cloudinary URLs
@@ -42,8 +42,8 @@ export const getCloudinaryUrl = (imagePath: string, options: Record<string, any>
   let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
   
   // If the path already includes images/, use it as is, otherwise prepend images/projects/
-  if (!cleanPath.startsWith('images/')) {
-    cleanPath = `images/projects/${cleanPath}`;
+  if (!cleanPath.startsWith('optimized-images/')) {
+    cleanPath = `optimized-images/projects/${cleanPath.replace(/^images\//, '')}`;
   }
   
   // Default Cloudinary transformations

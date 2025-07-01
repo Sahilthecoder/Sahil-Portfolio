@@ -476,12 +476,17 @@ const ProjectModal = ({ project, onClose }) => {
 // Single project data
 // Helper function to prepend base URL to image paths
 const withBaseUrl = (path) => {
+  const remap = (p) => {
+    const cleaned = p.replace(/^\//, '');
+    const fixed = cleaned.replace(/^images\//, 'optimized-images/');
+    return `${import.meta.env.BASE_URL}${fixed}`;
+  };
   // If path is an array, process each item
   if (Array.isArray(path)) {
-    return path.map(p => `${import.meta.env.BASE_URL}${p.replace(/^\//, '')}`);
+    return path.map(p => remap(p));
   }
   // If path is a string, process it directly
-  return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+  return remap(path);
 };
 
 const projects = [

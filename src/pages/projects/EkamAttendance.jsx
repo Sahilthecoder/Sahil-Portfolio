@@ -119,7 +119,7 @@ const EkamAttendance = () => {
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                  e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
                 }}
               />
               <div className="p-4">
@@ -149,7 +149,7 @@ const EkamAttendance = () => {
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                  e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
                 }}
               />
               <div className="p-4">
@@ -450,7 +450,7 @@ GROUP BY e.name;`}
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                    e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
                   }}
                 />
               </div>
@@ -469,7 +469,7 @@ GROUP BY e.name;`}
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                    e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
                   }}
                 />
               </div>

@@ -250,7 +250,7 @@ const BansalSupermarket = () => {
               className="max-w-full max-h-[80vh] object-contain rounded-lg shadow-xl"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
               }}
             />
           </div>
@@ -263,7 +263,7 @@ const BansalSupermarket = () => {
               className="w-full h-full object-cover rounded-lg"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/Sahil-Portfolio/images/placeholder.svg';
+                e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
               }}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center">

@@ -129,7 +129,7 @@ const About = () => {
                     loading="eager"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/images/placeholder.svg';
+                      e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
                     }}
                     srcSet={`${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`}
                     sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"

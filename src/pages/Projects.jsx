@@ -212,27 +212,52 @@ const ProjectCard = ({ project, index, onClick }) => {
               {project.shortDescription}
             </p>
             
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-              <a 
-                href={project.github} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-sm text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <FaGithub className="mr-1.5" /> Code
-              </a>
-              {project.liveDemo && (
+            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex flex-wrap gap-3">
+              <div className="flex-1 flex justify-between items-center">
                 <a 
-                  href={project.liveDemo} 
+                  href={project.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-sm text-indigo-600 dark:text-indigo-400 hover:underline flex items-center"
+                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  Live Demo <FaExternalLinkAlt className="ml-1.5 text-xs" />
+                  <FaGithub className="mr-1.5" /> Code
                 </a>
-              )}
+                <div className="flex items-center space-x-2">
+                  <motion.button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onClick && typeof onClick === 'function') {
+                        onClick(project);
+                      }
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-3 py-1.5 text-xs font-medium text-white bg-gray-700 hover:bg-gray-800 rounded-md border border-gray-600 shadow-sm transition-all duration-200 flex items-center"
+                  >
+                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Preview
+                  </motion.button>
+                  
+                  {project.path && (
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(project.path);
+                      }}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-md border border-indigo-500/20 shadow-sm transition-all duration-200 flex items-center"
+                    >
+                      <FiArrowRight className="w-3.5 h-3.5 mr-1" />
+                      View
+                    </motion.button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>

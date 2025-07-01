@@ -32,11 +32,20 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-          cache-key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      
+          cache-dependency-path: 'package.json'
+       
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+       
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
       
       - name: Build
         run: |

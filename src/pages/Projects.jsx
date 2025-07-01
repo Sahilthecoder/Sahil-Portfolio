@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaArrowUp, FaSearch, FaFilePdf, FaLaptopCode, FaArrowRight, FaDatabase, FaChartLine } from 'react-icons/fa';
-import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai, SiMicrosoft, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
+import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
+import { FaMicrosoft } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
 import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
@@ -44,7 +45,7 @@ const techIcons = {
   'Prophet': <SiPython />,
   'SQL': <FaDatabase />,
   'PyTorch': <SiPython />,
-  'Azure ML': <SiMicrosoft />,
+  'Azure ML': <FaMicrosoft />,
   'OpenCV': <SiPython />,
   'FastAPI': <SiPython />,
   'Docker': <SiDocker />,

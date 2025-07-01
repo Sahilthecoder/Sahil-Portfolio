@@ -1,6 +1,10 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Disable React's Fast Refresh if needed
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
@@ -28,18 +32,38 @@ export default defineConfig(async ({ command, mode }) => {
     define: {
       'import.meta.env.BASE_URL': JSON.stringify(base)
     },
-    // Ensure proper MIME types for JSX files
+    // Configure esbuild for JSX/TSX
     esbuild: {
-      loader: 'jsx',
-      include: /src\/.*\.jsx?$/,
-      exclude: []
+      loader: 'tsx',
+      include: /src\/.*\.(tsx?|jsx?)$/,
+      exclude: [],
+      jsx: 'automatic',
+      tsconfigRaw: {
+        compilerOptions: {
+          jsx: 'react-jsx'
+        }
+      }
     },
     // Configure server for development
     server: {
       port: 3000,
       open: true,
       strictPort: true,
-      host: true
+      host: true,
+      fs: {
+        // Allow serving files from one level up from the package root
+        allow: ['..']
+      }
+    },
+    build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      sourcemap: true,
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html')
+        }
+      }
     },
   // Build configuration
 

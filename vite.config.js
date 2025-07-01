@@ -28,6 +28,13 @@ export default defineConfig(({ command, mode }) => {
       cors: true,
       fs: {
         allow: ['..', 'node_modules']
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, X-Custom-Header',
+        'X-Content-Type-Options': 'nosniff'
+      }
       }
     },
 
@@ -139,14 +146,6 @@ export default defineConfig(({ command, mode }) => {
       '**/*.webp'
     ],
 
-    // Headers for the dev server
-    server: {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, X-Custom-Header',
-        'X-Content-Type-Options': 'nosniff'
-      }
-    }
+
   };
 });

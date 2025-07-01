@@ -3,8 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const { optimize } = require('svgo');
 const chalk = require('chalk');
-const { promisify } = require('util');
-const glob = promisify(require('glob'));
+const glob = require('glob').glob;
 
 // Configuration
 const CONFIG = {
@@ -140,21 +139,92 @@ async function optimizeImage(filePath, outputDir) {
 
 // Process all images in a directory
 async function processDirectory(dir) {
-  const files = await glob(path.join(dir, '**/*.{jpg,jpeg,png,webp,svg}'), {
-    nodir: true,
-    ignore: CONFIG.imageSettings.skipPatterns,
-  });
+  console.log(chalk.yellow(`\n=== Processing directory: ${dir} ===`));
   
-  console.log(chalk.cyan(`Found ${files.length} images in ${dir}`));
+  // Check if directory exists
+  try {
+    const dirExists = await fs.access(dir).then(() => true).catch(() => false);
+    if (!dirExists) {
+      console.log(chalk.red(`❌ Directory does not exist: ${dir}`));
+      return [];
+    }
+    
+    console.log(chalk.green(`✅ Directory exists: ${dir}`));
+    
+    // List directory contents for debugging
+    try {
+      const dirContents = await fs.readdir(dir, { withFileTypes: true });
+      console.log(chalk.blue('📂 Directory contents:'));
+      dirContents.forEach(dirent => {
+        console.log(`  ${dirent.isDirectory() ? '📁' : '📄'} ${dirent.name}`);
+      });
+    } catch (error) {
+      console.log(chalk.yellow(`⚠ Could not list directory contents: ${error.message}`));
+    }
+    
+    // Use forward slashes for glob patterns, even on Windows
+    const normalizedDir = dir.replace(/\\/g, '/');
+    const pattern = `${normalizedDir}/**/*.{jpg,jpeg,png,webp,svg}`;
+    
+    console.log(chalk.cyan(`\n🔍 Search pattern: "${pattern}"`));
+    console.log(chalk.blue('Glob pattern details:'));
+    console.log(`- Base directory: ${path.resolve(dir)}`);
+    console.log(`- Pattern: ${pattern}`);
+    console.log(`- Skip patterns: ${JSON.stringify(CONFIG.imageSettings.skipPatterns)}`);
+    
+    // Use a try-catch to get more detailed error information
+    let files = [];
+    try {
+      console.log(chalk.cyan('\n🔎 Running glob search...'));
+      
+      // Try with the default options first
+      files = await glob.glob(pattern, {
+        nodir: true,
+        ignore: CONFIG.imageSettings.skipPatterns,
+        absolute: true,
+        cwd: path.resolve('.'), // Use project root as cwd
+        windowsPathsNoEscape: true, // Handle Windows paths correctly
+      });
+      
+      console.log(chalk.cyan('Glob search completed. Checking results...'));
+      
+      console.log(chalk.green(`✅ Found ${files.length} images in ${dir}`));
+      if (files.length > 0) {
+        console.log(chalk.cyan('📄 Files found:'));
+        files.forEach((file, index) => console.log(`  ${index + 1}. ${file}`));
+      } else {
+        console.log(chalk.yellow('ℹ No image files found matching the pattern'));
+      }
+    } catch (error) {
+      console.error(chalk.red('❌ Error during glob search:'), error);
+      console.log(chalk.yellow('Trying alternative glob pattern...'));
+      
+      // Try a simpler pattern as fallback
+      try {
+        const altPattern = path.join(dir, '**/*.svg'); // Just look for SVGs
+        files = await glob.glob(altPattern, {
+          nodir: true,
+          absolute: true,
+          cwd: path.resolve(dir),
+        });
+        console.log(chalk.yellow(`Found ${files.length} files with alternative pattern`));
+      } catch (e) {
+        console.error(chalk.red('❌ Alternative pattern also failed:'), e);
+      }
+    }
+    
+    const results = [];
   
-  const results = [];
-  
-  for (const file of files) {
-    const fileResults = await optimizeImage(file, CONFIG.outputDir);
-    results.push(...fileResults);
+    for (const file of files) {
+      const fileResults = await optimizeImage(file, CONFIG.outputDir);
+      results.push(...fileResults);
+    }
+    
+    return results;
+  } catch (error) {
+    console.error(chalk.red(`Error processing directory ${dir}:`), error);
+    return [];
   }
-  
-  return results;
 }
 
 // Generate a manifest file with all optimized images

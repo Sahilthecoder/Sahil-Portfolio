@@ -34,6 +34,11 @@ jobs:
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
       
+      - name: Remove temp-portfolio to prevent conflicts
+        run: |
+          echo "Removing temp-portfolio directory to prevent version conflicts"
+          rm -rf temp-portfolio
+          
       - name: Install dependencies
         run: |
           npm ci --legacy-peer-deps

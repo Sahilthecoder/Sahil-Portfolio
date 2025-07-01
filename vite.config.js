@@ -10,15 +10,16 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const isDev = mode === 'development';
   
+  // Determine base URL
+  const base = env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/');
+  
   return {
     // Base URL configuration for GitHub Pages
-    base: env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/'),
+    base: base.endsWith('/') ? base : `${base}/`,
     
     // Environment variables
     define: {
-      'import.meta.env.BASE_URL': JSON.stringify(
-        env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/')
-      ),
+      'import.meta.env.BASE_URL': JSON.stringify(base.endsWith('/') ? base : `${base}/`),
       'process.env': {}
     },
 

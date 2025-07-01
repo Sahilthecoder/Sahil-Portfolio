@@ -29,9 +29,7 @@
     "analyze": "npm run analyze:bundle",
     "audit:performance": "lighthouse http://localhost:3000 --view --preset=desktop",
     "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA",
-    "audit:all": "npm run audit:performance && npm run audit:accessibility",
-    "prebuild": "npm run optimize:assets",
-    "postbuild": "npm run analyze:bundle"
+    "audit:all": "npm run audit:performance && npm run audit:accessibility"
   },
   "dependencies": {
     "@langchain/community": "^0.3.47",

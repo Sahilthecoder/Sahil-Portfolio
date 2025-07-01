@@ -1,5 +1,5 @@
 {
-  "generated": "2025-07-01T20:45:21.128Z",
+  "generated": "2025-07-01T20:53:37.119Z",
   "images": [
     {
       "original": "src\\assets\\images\\logo192.png",
@@ -170,10 +170,7 @@
       "size": {
         "suffix": "@1x",
         "width": 480
-      },
-      "originalSize": 7347,
-      "optimizedSize": 1408,
-      "savings": 80.8
+      }
     },
     {
       "original": "public\\images\\fallback-image.jpg",
@@ -182,10 +179,7 @@
       "size": {
         "suffix": "@2x",
         "width": 960
-      },
-      "originalSize": 7347,
-      "optimizedSize": 1868,
-      "savings": 74.6
+      }
     },
     {
       "original": "public\\images\\fallback-image.jpg",
@@ -194,10 +188,7 @@
       "size": {
         "suffix": "@3x",
         "width": 1440
-      },
-      "originalSize": 7347,
-      "optimizedSize": 1868,
-      "savings": 74.6
+      }
     },
     {
       "original": "public\\images\\apple-touch-icon.png",

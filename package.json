@@ -23,12 +23,15 @@
     "lint": "eslint src --ext .js,.jsx",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css}\"",
     "start": "vite",
-    "optimize-images": "node scripts/optimize-images.js",
-    "analyze-images": "node scripts/analyze-images.js",
-    "update-image-references": "node scripts/update-image-references.js",
-    "generate-sitemap": "node scripts/generate-sitemap.js",
-    "generate-favicon": "node scripts/generate-favicon.js",
-    "update-repo-links": "node scripts/update-repo-links.js"
+    "optimize:images": "node scripts/optimize-assets.js",
+    "analyze:bundle": "node scripts/analyze-bundle.js",
+    "optimize:assets": "npm run optimize:images",
+    "analyze": "npm run analyze:bundle",
+    "audit:performance": "lighthouse http://localhost:3000 --view --preset=desktop",
+    "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA",
+    "audit:all": "npm run audit:performance && npm run audit:accessibility",
+    "prebuild": "npm run optimize:assets",
+    "postbuild": "npm run analyze:bundle"
   },
   "dependencies": {
     "@langchain/community": "^0.3.47",
@@ -71,7 +74,7 @@
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.6.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "assert": "^2.1.0",
     "autoprefixer": "^10.4.17",
@@ -98,7 +101,9 @@
     "jest-environment-node": "^29.7.0",
     "jest-junit": "^16.0.0",
     "jest-watch-typeahead": "^2.2.2",
+    "lighthouse": "^12.7.0",
     "ora": "^6.3.1",
+    "pa11y": "^9.0.0",
     "postcss": "^8.4.35",
     "postcss-import": "^16.1.1",
     "postcss-nested": "^7.0.2",
@@ -109,12 +114,14 @@
     "sass-embedded": "^1.89.2",
     "sharp": "^0.32.6",
     "stream-browserify": "^3.0.0",
+    "svgo": "^4.0.0",
     "tailwindcss": "^3.4.17",
     "terser": "^5.27.0",
     "typescript": "^5.8.3",
     "url": "^0.11.4",
     "util": "^0.12.5",
     "vite": "^6.1.6",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "webpack-bundle-analyzer": "^4.10.2"
   }
 }

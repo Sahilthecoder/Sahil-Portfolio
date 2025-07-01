@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fa';
 import { BsRobot } from 'react-icons/bs';
 import ErrorBoundary from '../ErrorBoundary';
+import { useAIAssistant } from '../../context/AIAssistantContext';
 
 // Lazy load the heavy component
 const AIAssistantContent = lazy(() => import('./AIAssistantContent'));

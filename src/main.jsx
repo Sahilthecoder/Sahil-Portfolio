@@ -6,6 +6,7 @@ import './index.css';
 import './App.css';
 import './styles/globals.css';
 import ClientOnly from './components/ClientOnly';
+import { AIAssistantProvider } from './context/AIAssistantContext';
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
@@ -82,7 +83,9 @@ if (container) {
     <React.StrictMode>
       <ClientOnly>
         <ErrorBoundary>
-          <App />
+          <AIAssistantProvider>
+            <App />
+          </AIAssistantProvider>
         </ErrorBoundary>
       </ClientOnly>
     </React.StrictMode>

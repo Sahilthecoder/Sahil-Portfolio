@@ -200,14 +200,6 @@ const ModernNavbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => !prev);
-  }, []);
-
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-  }, []);
-
   // Smooth scroll to section
   const scrollTo = useCallback((id) => {
     if (id === 'home') {

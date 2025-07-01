@@ -473,6 +473,13 @@ const Experience = () => {
         subtitle="Experience & Expertise"
         description="My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting."
         containerClass="pt-32 pb-20 md:pt-40"
+        showImage={true}
+        imageProps={{
+          src: `${import.meta.env.BASE_URL}profile.avif`,
+          alt: 'Sahil Ali',
+          className: 'w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover mx-auto md:mx-0',
+          style: { boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }
+        }}
       >
         <motion.div 
           className="flex flex-wrap justify-center gap-4 mt-8"

@@ -742,6 +742,13 @@ const Projects = () => {
         subtitle="Data Analysis | Visualization | Machine Learning"
         description="Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively."
         containerClass="pt-32 pb-20 md:pt-40"
+        showImage={true}
+        imageProps={{
+          src: `${import.meta.env.BASE_URL}profile.avif`,
+          alt: 'Sahil Ali',
+          className: 'w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full border-4 border-white dark:border-gray-800 shadow-lg object-cover mx-auto md:mx-0',
+          style: { boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }
+        }}
       >
         <div className="relative max-w-2xl mx-auto mt-8">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

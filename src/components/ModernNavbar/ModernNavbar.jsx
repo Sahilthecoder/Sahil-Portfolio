@@ -215,7 +215,7 @@ const ModernNavbar = () => {
   return (
     <div ref={navbarRef} className="mobile-menu-container" style={{ position: 'relative' }}>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-[9997] transition-all duration-300 ease-in-out ${
           isScrolled
             ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/80 dark:border-gray-700/80 shadow-lg'
             : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-transparent'
@@ -335,11 +335,11 @@ const ModernNavbar = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                zIndex: 1000,
+                zIndex: 9998, // High z-index for overlay
                 overflow: 'hidden',
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
                 animation: 'fadeIn 0.2s ease-out',
                 touchAction: 'none',
                 overscrollBehavior: 'contain',
@@ -355,11 +355,11 @@ const ModernNavbar = () => {
                   top: 0,
                   right: 0,
                   bottom: 0,
-                  zIndex: 1001,
+                  zIndex: 9999, // Higher than overlay
                   width: '90%',
                   maxWidth: '24rem',
                   backgroundColor: 'var(--color-bg)',
-                  boxShadow: '0 0 40px rgba(0, 0, 0, 0.2)',
+                  boxShadow: '-4px 0 30px rgba(0, 0, 0, 0.2)',
                   overflowY: 'auto',
                   WebkitOverflowScrolling: 'touch',
                   scrollbarWidth: 'thin',

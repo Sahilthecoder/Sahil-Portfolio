@@ -36,7 +36,6 @@ const ProjectImage = ({
     'mahira-portfolio': 'Mahira Portfolio Web+AI',
     'product-sales': 'Project5 Gpt+Notion',
     'snape-sentiment-analysis': 'Project6 Gpt+Zapier',
-    'bansal-supermarket': 'Project2 tableau',
     'ekam-attendance': 'Project3 Sql+Sheets',
     'retail-cash-flow': 'Project4 Power BI',
     'zomato-analysis': 'Project1 excel'

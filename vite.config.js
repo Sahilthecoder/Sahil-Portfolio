@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 // Disable React's Fast Refresh if needed
 const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
@@ -34,7 +35,6 @@ export default defineConfig(({ command, mode }) => {
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
         'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, X-Custom-Header',
         'X-Content-Type-Options': 'nosniff'
-      }
       }
     },
 
@@ -86,8 +86,16 @@ export default defineConfig(({ command, mode }) => {
           plugins: []
         },
         include: ['**/*.tsx', '**/*.ts', '**/*.jsx', '**/*.js']
+      }),
+      // Bundle analyzer
+      process.env.VITE_BUNDLE_ANALYZE === 'true' && 
+      visualizer({
+        filename: 'reports/bundle-stats.html',
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
       })
-    ],
+    ].filter(Boolean),
     
     // Resolve configuration
     resolve: {

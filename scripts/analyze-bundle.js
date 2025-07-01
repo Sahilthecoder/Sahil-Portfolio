@@ -1,23 +1,50 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const { defineConfig } = require('@vitejs/plugin-react');
+const { visualizer } = require('rollup-plugin-visualizer');
 
-// Create a temporary Vite config with bundle analyzer
-const tempConfig = defineConfig({
+// Create a bundle analysis report using rollup-plugin-visualizer
+const generateBundleAnalysis = () => {
+  try {
+    console.log('Generating bundle analysis report...');
+    
+    // Ensure the reports directory exists
+    const reportsDir = path.join(process.cwd(), 'reports');
+    if (!fs.existsSync(reportsDir)) {
+      fs.mkdirSync(reportsDir, { recursive: true });
+    }
+    
+    // Run the build with the visualizer plugin
+    execSync('vite build --mode production', { 
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        VITE_BUNDLE_ANALYZE: 'true'
+      }
+    });
+    
+    console.log('Bundle analysis report generated at:', path.join(reportsDir, 'bundle-stats.html'));
+  } catch (error) {
+    console.error('Error generating bundle analysis:', error);
+    process.exit(1);
+  }
+};
+
+// Export the Vite config for the visualizer plugin
+module.exports = {
   plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: 'bundle-analysis.html',
-      openAnalyzer: false,
-    }),
+    process.env.VITE_BUNDLE_ANALYZE === 'true' && visualizer({
+      filename: 'reports/bundle-stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    })
   ],
   build: {
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          vendor: ['react', 'react-dom', 'react-router-dom'],
           'ai': ['@tensorflow/tfjs', '@langchain/core', 'openai'],
           'pdf': ['html2canvas', 'jspdf'],
         },

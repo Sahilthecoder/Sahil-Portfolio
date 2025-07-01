@@ -2,21 +2,21 @@
   "name": "Sahil Portfolio",
   "short_name": "Portfolio",
   "description": "Professional portfolio of Sahil Ali - Inventory Specialist & Data Analyst",
-  "start_url": "/Sahil-Portfolio/?source=pwa",
-  "scope": "/Sahil-Portfolio/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#1a202c",
   "icons": [
     {
-      "src": "/Sahil-Portfolio/logo192.png",
+      "src": "/images/logo192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/logo512.png",
+      "src": "/images/logo512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

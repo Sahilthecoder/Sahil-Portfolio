@@ -330,7 +330,7 @@ const ModernNavbar = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="fixed inset-0 z-50"
+              className="fixed inset-0 z-[9999]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -345,7 +345,7 @@ const ModernNavbar = () => {
             >
               {/* Mobile menu panel */}
               <motion.div
-                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto mobile-menu-container"
+                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto mobile-menu-container z-[10000]"
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}

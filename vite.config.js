@@ -28,6 +28,19 @@ export default defineConfig(async ({ command, mode }) => {
     define: {
       'import.meta.env.BASE_URL': JSON.stringify(base)
     },
+    // Ensure proper MIME types for JSX files
+    esbuild: {
+      loader: 'jsx',
+      include: /src\/.*\.jsx?$/,
+      exclude: []
+    },
+    // Configure server for development
+    server: {
+      port: 3000,
+      open: true,
+      strictPort: true,
+      host: true
+    },
   // Build configuration
 
   plugins: [

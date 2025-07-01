@@ -333,7 +333,7 @@ const ModernNavbar = () => {
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="h-full flex flex-col py-6 px-4">
+                <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-gray-900 to-blue-900/90 backdrop-blur-sm">
                   <div className="flex items-center justify-between px-4 mb-8">
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       Menu

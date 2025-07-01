@@ -51,6 +51,7 @@
     "react-hot-toast": "^2.5.1",
     "react-router-dom": "^6.21.3",
     "react-reveal": "^1.2.2",
+    "react-icons": "^4.12.0",
     "vite-plugin-pwa": "^0.17.5",
     "vite-plugin-react-svg": "^0.2.0"
   },

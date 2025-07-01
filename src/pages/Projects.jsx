@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaArrowUp, FaSearch, FaFilePdf, FaLaptopCode, FaArrowRight, FaDatabase, FaChartLine } from 'react-icons/fa';
+import { FiArrowRight } from 'react-icons/fi';
 import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
 import { FaMicrosoft } from 'react-icons/fa';
-import { FiArrowRight } from 'react-icons/fi';
 import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -62,21 +62,15 @@ const ProjectCard = ({ project, index, onClick }) => {
   
   // Handle click to show project preview
   const handleClick = (e) => {
+    // Prevent default action and stop propagation
+    e.preventDefault();
+    e.stopPropagation();
+    
     // Only proceed if the click is not on a link or button
     if (!e.target.closest('a, button, h3')) {
       // Call the onClick handler from parent to show the modal
       if (onClick && typeof onClick === 'function') {
         onClick(project);
-      } else {
-        // Fallback to navigation if no onClick handler
-        const path = project.id ? `/projects/${project.id}` : project.projectUrl;
-        if (path) {
-          if (path.startsWith('http')) {
-            window.open(path, '_blank');
-          } else {
-            navigate(path);
-          }
-        }
       }
     }
   };
@@ -119,10 +113,7 @@ const ProjectCard = ({ project, index, onClick }) => {
             scale: 1.01,
             backgroundColor: 'rgba(255, 255, 255, 0.98)'
           }}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleProjectSelect(project);
-          }}
+          onClick={handleClick}
         >
           {/* Enhanced glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -262,18 +253,18 @@ const ProjectModal = ({ project, onClose }) => {
               >
                 <FaTimes className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
-            {project.projectUrl && (
-              <a
-                href={project.projectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs sm:text-sm font-medium hover:bg-indigo-200 dark:hover:bg-indigo-800/50 transition-colors shadow-sm whitespace-nowrap"
-                onClick={(e) => e.stopPropagation()}
+            {project.path && (
+              <Link
+                to={project.path}
+                className="group inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-indigo-500/20 dark:shadow-indigo-900/30 whitespace-nowrap"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose(); // Close the modal when navigating
+                }}
               >
-                <FaExternalLinkAlt className="mr-1.5 h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="hidden xs:inline">View Project</span>
-                <span className="xs:hidden">View</span>
-              </a>
+                <span className="mr-2.5">View Project</span>
+                <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             )}
             </div>
             

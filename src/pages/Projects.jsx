@@ -175,9 +175,9 @@ const ProjectCard = ({ project, index, onClick }) => {
               {project.shortDescription}
             </p>
             
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
+            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 relative z-10">
               <div className="flex justify-end">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3">
                   <motion.button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -185,15 +185,22 @@ const ProjectCard = ({ project, index, onClick }) => {
                         onClick(project);
                       }
                     }}
-                    whileHover={{ scale: 1.03 }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      y: -2,
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+                    }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-3 py-1.5 text-xs font-medium text-white bg-gray-700 hover:bg-gray-800 rounded-md border border-gray-600 shadow-sm transition-all duration-200 flex items-center"
+                    className="px-4 py-2 text-xs font-medium text-white bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 rounded-lg border border-gray-600/30 shadow-md transition-all duration-200 flex items-center group relative overflow-hidden"
                   >
-                    <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    Preview
+                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="relative z-10 flex items-center">
+                      <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                      Preview
+                    </span>
                   </motion.button>
                   
                   {project.path && (
@@ -202,12 +209,19 @@ const ProjectCard = ({ project, index, onClick }) => {
                         e.stopPropagation();
                         navigate(project.path);
                       }}
-                      whileHover={{ scale: 1.03 }}
+                      whileHover={{ 
+                        scale: 1.05,
+                        y: -2,
+                        boxShadow: '0 4px 16px rgba(79, 70, 229, 0.3)'
+                      }}
                       whileTap={{ scale: 0.98 }}
-                      className="px-3 py-1.5 text-xs font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-md border border-indigo-500/20 shadow-sm transition-all duration-200 flex items-center"
+                      className="px-4 py-2 text-xs font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg border border-indigo-500/30 shadow-md transition-all duration-200 flex items-center group relative overflow-hidden"
                     >
-                      <FiArrowRight className="w-3.5 h-3.5 mr-1" />
-                      View
+                      <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                      <span className="relative z-10 flex items-center">
+                        <FiArrowRight className="w-3.5 h-3.5 mr-1.5 transition-transform group-hover:translate-x-0.5" />
+                        View Project
+                      </span>
                     </motion.button>
                   )}
                 </div>

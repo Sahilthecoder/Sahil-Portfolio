@@ -213,7 +213,7 @@ const ModernNavbar = () => {
   }, []);
 
   return (
-    <div ref={navbarRef} className="mobile-menu-container">
+    <div ref={navbarRef} className="mobile-menu-container" style={{ position: 'relative' }}>
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ease-in-out ${
           isScrolled
@@ -322,7 +322,7 @@ const ModernNavbar = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="fixed inset-0 z-[99999]"
+              className="fixed inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -334,22 +334,14 @@ const ModernNavbar = () => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                zIndex: 99999,
+                zIndex: 1000,
+                overflow: 'hidden',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)'
               }}
             >
               {/* Semi-transparent overlay */}
-              <div 
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm"
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: 1,
-                }}
-              />
-              
               {/* Mobile menu panel */}
               <motion.div
                 className="fixed right-0 top-0 h-full w-4/5 max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
@@ -358,7 +350,7 @@ const ModernNavbar = () => {
                   top: 0,
                   right: 0,
                   bottom: 0,
-                  zIndex: 2,
+                  zIndex: 1001,
                   width: '80%',
                   maxWidth: '28rem',
                   backgroundColor: 'var(--color-bg)',

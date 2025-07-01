@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import ProjectImage from '../components/ProjectImage';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { getProject } from '../utils/projectData';
+import HeroSection from '../components/HeroSection/HeroSection';
+import '../components/HeroSection/HeroSection.css';
 
 
 // Animation variants
@@ -101,109 +103,37 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
-      {/* Hero Section */}
-      <section ref={heroRef} className="relative pt-24 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden">
-        {/* Grid background */}
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
-            variants={container}
-            initial="hidden"
-            animate={controls}
-            className="flex flex-col md:flex-row items-center"
-          >
-            <motion.div variants={item} className="md:w-1/2 mb-10 md:mb-0 text-white">
-              <motion.div className="mb-6">
-                <motion.div 
-                  className="mb-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <H1 className="inline-block text-gray-900 dark:text-white">
-                    Hello, I'm{' '}
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                      Sahil Ali
-                    </span>
-                  </H1>
-                </motion.div>
-              </motion.div>
-              <Lead className="text-xl text-gray-800 dark:text-gray-200 mb-6">
-                AI Expert | Data Analyst | Inventory Specialist
-              </Lead>
-              <P className="text-gray-700 dark:text-gray-300 max-w-2xl mb-8">
-                I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence. This portfolio, built with AI assistance, demonstrates my ability to harness technology for practical, impactful solutions in inventory management and data analysis.
-              </P>
-              <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <Link
-                  to="/about"
-                  className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">Let's Explore More!</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-                </Link>
-                <Link
-                  to="/projects"
-                  className="group relative bg-white hover:bg-gray-50 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">View Projects</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                  </span>
-                  <span className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-                </Link>
-                <a
-                  href="#contact"
-                  className="group relative bg-transparent hover:bg-gray-100 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700/50"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">Contact Me</span>
-                    <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                  </span>
-                  <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-                </a>
-              </div>
-            </motion.div>
-            <motion.div
-              className="md:w-1/2 mt-10 md:mt-0"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto">
-                <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
-                    <img
-                      src={`${import.meta.env.BASE_URL}profile.avif`}
-                      alt="Sahil Ali"
-                      className="w-full h-full object-cover"
-                      loading="eager"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
-                      }}
-                      srcSet={`${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`}
-                      sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
-                    />
-                    <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
+      <HeroSection
+        ref={heroRef}
+        title={
+          <>
+            Hello, I'm{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+              Sahil Ali
+            </span>
+          </>
+        }
+        subtitle="AI Expert | Data Analyst | Inventory Specialist"
+        description="I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence. This portfolio, built with AI assistance, demonstrates my ability to harness technology for practical, impactful solutions in inventory management and data analysis."
+        primaryButton={{
+          text: "Let's Explore More!",
+          link: "/about",
+          showArrow: true
+        }}
+        secondaryButton={{
+          text: 'View Projects',
+          link: '/projects',
+          showArrow: true
+        }}
+        isHome={true}
+        imageProps={{
+          src: `${import.meta.env.BASE_URL}profile.avif`,
+          alt: 'Sahil Ali',
+          className: 'w-full h-full object-cover',
+          srcSet: `${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`,
+          sizes: '(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px'
+        }}
+      />
 
       {/* About Section */}
       <section id="about" className="relative py-16 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">

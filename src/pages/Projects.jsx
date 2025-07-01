@@ -9,6 +9,8 @@ import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
+import HeroSection from '../components/HeroSection/HeroSection';
+import '../components/HeroSection/HeroSection.css';
 
 // Glitch text component
 const GlitchText = ({ children }) => {
@@ -724,290 +726,140 @@ const Projects = () => {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
-      {/* SEO */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
       <SEO 
         title="My Projects | Data Analysis & Visualization" 
-        description="Explore my portfolio of data analysis and visualization projects. See how I turn complex data into actionable insights."
+        description="Explore my portfolio of data analysis, visualization, and machine learning projects showcasing my skills in turning data into insights."
+        keywords="data analysis, data visualization, machine learning, portfolio, projects, data science, AI"
       />
-      
-      {/* Subtle background pattern */}
-      <div className="fixed inset-0 opacity-[0.03] dark:opacity-[0.03]" style={{
-        backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
-        backgroundSize: '24px 24px',
-        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.8) 50%,rgba(0,0,0,0.2) 100%)',
-        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%,rgba(0,0,0,0.8) 50%,rgba(0,0,0,0.2) 100%)'
-      }}></div>
-      
-      {/* Subtle gradient overlay */}
-      <div className="fixed inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 pointer-events-none"></div>
 
-      <div className="relative z-10">
-        {/* CV Download Button */}
-        <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50">
-          <button
-            onClick={handleDownloadCV}
-            className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-indigo-600 text-white shadow-lg hover:bg-indigo-700 transition-colors duration-300 group"
-            aria-label="Download CV"
-            title="Download CV"
-          >
-            <FaFilePdf className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
-          </button>
+      <HeroSection
+        title={
+          <>
+            My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
+          </>
+        }
+        subtitle="Data Analysis | Visualization | Machine Learning"
+        description="Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively."
+        containerClass="pt-32 pb-20 md:pt-40"
+      >
+        <div className="relative max-w-2xl mx-auto mt-8">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <FaSearch className="h-5 w-5 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            className="block w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm"
+            placeholder="Search projects..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label="Search projects"
+          />
         </div>
-        
-        {/* Main Content */}
-        <main className="w-full">
-          {/* Hero Section - Compact Height */}
-          <section className="relative w-full py-12 sm:py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 overflow-hidden">
-            {/* Grid background - Full width */}
-            <div className="absolute inset-0 w-full h-full bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-            
-            {/* Animated background elements - Full width */}
-            <div className="absolute inset-0 overflow-hidden">
-              <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
-              <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
-            </div>
-            
-            {/* Content container */}
-            <div className="container mx-auto px-6 relative z-10">
-              <motion.div 
-                className="flex flex-col lg:flex-row items-start gap-12 py-12 md:py-20"
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.1
-                    }
-                  }
-                }}
-                initial="hidden"
-                animate="show"
-              >
-                {/* Left Content */}
-                <div className="w-full lg:w-1/2">
-                  <motion.div 
-                    className="w-full max-w-4xl mx-auto"
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                    }}
-                  >
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight">
-                      My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
-                    </h1>
-                    <p className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mb-6 sm:mb-8">
-                      Explore my portfolio of data analysis and visualization projects that bring data to life
-                    </p>
-                  </motion.div>
+      </HeroSection>
 
-                  <motion.div 
-                    className="flex flex-col sm:flex-row gap-4 mt-4"
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      show: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } }
-                    }}
-                  >
-                    <a
-                      href="#featured-projects"
-                      className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-                    >
-                      <span className="relative z-10 flex items-center justify-center">
-                        <span className="transition-transform duration-300 group-hover:translate-x-1">Explore Projects</span>
-                        <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                      </span>
-                      <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-indigo-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-                    </a>
-                    <a
-                      href="#contact"
-                      className="group relative bg-transparent hover:bg-gray-100 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700/50"
-                    >
-                      <span className="relative z-10 flex items-center justify-center">
-                        <span className="transition-transform duration-300 group-hover:translate-x-1">Get In Touch</span>
-                        <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                      </span>
-                      <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
-                    </a>
-                  </motion.div>
-                </div>
-                
-                {/* Right Side - Search Bar with Image */}
-                <motion.div 
-                  className="w-full lg:w-1/2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-gray-100 dark:border-gray-700/50"
-                  variants={{
-                    hidden: { opacity: 0, x: 20 },
-                    show: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.4 } }
-                  }}
-                >
-                  {/* Search Bar */}
-                  <div className="relative mb-4 sm:mb-6">
-                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
-                      <FaSearch className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-500 dark:text-indigo-400" />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Search projects..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="block w-full pl-9 pr-4 sm:pl-12 sm:pr-5 py-3 sm:py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-sm transition-all duration-300 text-sm sm:text-base"
-                      aria-label="Search projects by technologies, role, or keywords"
-                    />
-                    {searchTerm && (
-                      <div className="absolute inset-y-0 right-0 flex items-center pr-4">
-                        <button
-                          onClick={() => setSearchTerm('')}
-                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors p-1"
-                          aria-label="Clear search"
-                        >
-                          <FaTimes className="h-5 w-5" />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Quick Filter Chips */}
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                    {['SQL', 'Tableau', 'Power BI', 'Python', 'Automation'].map((term) => (
-                      <button
-                        key={term}
-                        onClick={() => setSearchTerm(term.toLowerCase())}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-full transition-all duration-200 flex items-center ${
-                          searchTerm.toLowerCase() === term.toLowerCase() 
-                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/20 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500'
-                            : 'bg-white/90 dark:bg-gray-700/90 text-gray-800 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600/90 shadow-sm hover:shadow-md border border-gray-200/80 dark:border-gray-600/50 hover:border-gray-300 dark:hover:border-gray-500'
-                        }`}
-                      >
-                        {term}
-                        {searchTerm.toLowerCase() === term.toLowerCase() && (
-                          <FaTimes className="ml-1.5 h-3 w-3" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                  
-                  {searchTerm && (
-                    <motion.p 
-                      className="text-center text-gray-500 dark:text-gray-400 mt-4 text-sm"
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                    >
-                      {filteredProjects.length > 0 
-                        ? `Found ${filteredProjects.length} ${filteredProjects.length === 1 ? 'project' : 'projects'}`
-                        : 'No projects match your search. Try different keywords.'}
-                    </motion.p>
-                  )}
-                </motion.div>
-              </motion.div>
-            </div>
-          </section>
-          
-          {/* Projects Section */}
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <motion.h2 
-              className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              {searchTerm ? 'Search Results' : 'Featured Projects'}
-            </motion.h2>
-            
-            {/* Projects Grid */}
-            <motion.div 
-              className="relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              {filteredProjects.length > 0 ? (
-                <div 
-                  ref={projectsRef}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
-                >
-                  {filteredProjects.map((project, index) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      index={index}
-                      onClick={() => handleProjectSelect(project)}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <div className="inline-block p-8 bg-white/70 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg">
-                    <FaSearch className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
-                    <p className="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking for.</p>
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </div>
-          
-          {/* Scroll to top button */}
-          <AnimatePresence>
-            {showScroll && (
-              <motion.button
-                onClick={scrollTop}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                aria-label="Scroll to top"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-              >
-                <FaArrowUp className="w-5 h-5" />
-              </motion.button>
-            )}
-          </AnimatePresence>
-          
-          {/* Project Modal */}
-          <AnimatePresence>
-            {isModalOpen && selectedProject && (
-              <ProjectModal 
-                project={selectedProject} 
-                onClose={closeModal} 
-              />
-            )}
-          </AnimatePresence>
-        </main>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <motion.h2 
+          className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {searchTerm ? 'Search Results' : 'Featured Projects'}
+        </motion.h2>
         
-        {/* Resume Download Section */}
-        <div className="mt-24 py-16 bg-gradient-to-r from-indigo-700 to-blue-700">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.h2 
-              className="text-3xl font-bold text-white mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+        <motion.div 
+          className="relative z-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          {filteredProjects.length > 0 ? (
+            <div 
+              ref={projectsRef}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
             >
-              Looking for more details?
-            </motion.h2>
-            <motion.p 
-              className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              Check out my resume for a comprehensive overview of my experience, skills, and achievements.
-            </motion.p>
-            <motion.a
-              href="/Sahil_Resume.pdf"
-              download="Sahil_Resume.pdf"
-              className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <FaFilePdf className="mr-2 -ml-1 h-5 w-5" />
-              Download My Resume
-            </motion.a>
-          </div>
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onClick={() => handleProjectSelect(project)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-16">
+              <div className="inline-block p-8 bg-white/70 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg">
+                <FaSearch className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
+                <p className="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking for.</p>
+              </div>
+            </div>
+          )}
+        </motion.div>
+      </div>
+
+      {/* Scroll to top button */}
+      <AnimatePresence>
+        {showScroll && (
+          <motion.button
+            onClick={scrollTop}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            aria-label="Scroll to top"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+          >
+            <FaArrowUp className="w-5 h-5" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+      
+      {/* Project Modal */}
+      <AnimatePresence>
+        {isModalOpen && selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={closeModal} 
+          />
+        )}
+      </AnimatePresence>
+      
+      {/* Resume Download Section */}
+      <div className="mt-24 py-16 bg-gradient-to-r from-indigo-700 to-blue-700">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h2 
+            className="text-3xl font-bold text-white mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Looking for more details?
+          </motion.h2>
+          <motion.p 
+            className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Check out my resume for a comprehensive overview of my experience, skills, and achievements.
+          </motion.p>
+          <motion.a
+            href="/Sahil_Resume.pdf"
+            download="Sahil_Resume.pdf"
+            className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <FaFilePdf className="mr-2 -ml-1 h-5 w-5" />
+            Download My Resume
+          </motion.a>
         </div>
       </div>
     </div>

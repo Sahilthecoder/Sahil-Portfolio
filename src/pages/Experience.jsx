@@ -21,6 +21,8 @@ import {
   FaShieldAlt
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
+import HeroSection from '../components/HeroSection/HeroSection';
+import '../components/HeroSection/HeroSection.css';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('work');
@@ -404,154 +406,116 @@ const Experience = () => {
 
   // Render education section
   const renderEducation = () => (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
-      {education.map((edu) => (
-        <motion.div
-          key={edu.id}
-          variants={item}
-          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-indigo-500 group"
-          whileHover={{ x: 5 }}
-        >
-          <div className="flex flex-col md:flex-row">
-            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-              <div className="p-4 rounded-xl bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 inline-block group-hover:scale-110 transition-transform duration-300">
-                {edu.icon}
-              </div>
-            </div>
-            <div className="flex-1">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-12">
+      {/* Education */}
+      <div className="space-y-6">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
+          <FaGraduationCap className="mr-2 text-indigo-500" />
+          Education
+        </h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          {education.map((edu, i) => (
+            <motion.div
+              key={i}
+              variants={item}
+              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-700"
+              whileHover={{ y: -3 }}
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
                   {edu.degree}
-                </h3>
-                <span className="inline-block mt-1 md:mt-0 px-3 py-1 text-sm font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full">
+                </h4>
+                <span className="text-sm font-medium bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 rounded-full">
                   {edu.year}
                 </span>
               </div>
-              <h4 className="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">
-                {edu.institution}
-              </h4>
-              {edu.major && (
-                <div className="mb-3">
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                    {edu.major}
-                  </span>
+              <div className="flex items-center mb-4">
+                <div className="p-2 rounded-lg bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-3">
+                  {edu.icon}
                 </div>
-              )}
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {edu.major}
+                </h4>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                 {edu.description}
               </p>
-              {edu.courses && edu.courses.length > 0 && (
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <h5 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center">
-                    <FaBookOpen className="mr-2 text-indigo-500" />
-                    Key Courses & Skills:
-                  </h5>
-                  <div className="flex flex-wrap gap-2">
-                    {edu.courses.map((course, i) => (
-                      <motion.span 
-                        key={i}
-                        className="text-xs px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        {course}
-                      </motion.span>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </motion.div>
-      ))}
+              <ul className="space-y-2">
+                {edu.courses.map((course, i) => (
+                  <motion.li 
+                    key={i} 
+                    className="flex items-start bg-gray-50 dark:bg-gray-700 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                    whileHover={{ x: 5 }}
+                  >
+                    <span className="text-indigo-500 mr-3 mt-0.5">•</span>
+                    <span className="text-gray-700 dark:text-gray-300">{course}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+      </div>
     </motion.div>
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden">
-        {/* Grid background */}
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.header 
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="text-center mb-16"
-          >
-            <motion.h1 
-              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+      <HeroSection
+        title={
+          <>
+            Professional{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+              Journey
+            </span>
+          </>
+        }
+        subtitle="Experience & Expertise"
+        description="My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting."
+        containerClass="pt-32 pb-20 md:pt-40"
+      >
+        <motion.div 
+          className="flex flex-wrap justify-center gap-4 mt-8"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {navItems.map((navItem) => (
+            <motion.button
+              key={navItem.id}
+              onClick={() => setActiveTab(navItem.id)}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center ${
+                activeTab === navItem.id
+                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                  : 'bg-white/70 dark:bg-gray-800/70 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800'
+              }`}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
               variants={item}
             >
-              Professional{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                Journey
-              </span>
-            </motion.h1>
-            <motion.p 
-              className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed"
-              variants={item}
-            >
-              My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting.
-            </motion.p>
-          </motion.header>
-        </div>
-      </section>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
-        {/* Main Content */}
-        <div className="space-y-12">
-          <motion.div 
-            className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100/50 dark:border-gray-700/50"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Tabs Navigation */}
-            <div className="border-b border-gray-200">
-              <nav className="flex flex-wrap justify-center md:justify-start -mb-px bg-gray-50/50 dark:bg-gray-800/50">
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id)}
-                    className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 transition-all duration-300 ${
-                      activeTab === item.id
-                        ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400 dark:border-indigo-500'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'
-                    }`}
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="mr-2 text-lg">{item.icon}</span>
-                    {item.label}
-                  </motion.button>
-                ))}
-              </nav>
-            </div>
-
-            {/* Tab Content */}
+              {navItem.icon}
+              {navItem.label}
+            </motion.button>
+          ))}
+        </motion.div>
+      </HeroSection>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto">
+          {/* Main Content */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
             <div className="p-6 md:p-8">
               <motion.div
                 key={activeTab}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
               >
                 {activeTab === 'work' && renderWorkExperience()}
                 {activeTab === 'skills' && renderSkills()}
                 {activeTab === 'education' && renderEducation()}
               </motion.div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Footer Note */}
           <motion.div 
@@ -572,8 +536,7 @@ const Experience = () => {
           </motion.div>
         </div>
       </div>
-    </div>
-  );
+    </div>  );
 };
 
 export default Experience;

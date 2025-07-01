@@ -226,6 +226,7 @@ const ModernNavbar = () => {
         style={{
           WebkitBackdropFilter: 'blur(12px)',
           backdropFilter: 'blur(12px)',
+          touchAction: 'manipulation', // Improve touch response
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -234,7 +235,7 @@ const ModernNavbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link
                 to="/"
-                className="group flex items-center space-x-2 sm:space-x-3"
+                className="group flex items-center space-x-2 sm:space-x-3 active:scale-95 transform transition-transform"
                 onClick={closeMenu}
               >
                 <div className="relative">
@@ -336,27 +337,33 @@ const ModernNavbar = () => {
                 bottom: 0,
                 zIndex: 1000,
                 overflow: 'hidden',
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                backdropFilter: 'blur(4px)',
-                WebkitBackdropFilter: 'blur(4px)'
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                animation: 'fadeIn 0.2s ease-out',
+                touchAction: 'none',
+                overscrollBehavior: 'contain',
+                WebkitOverflowScrolling: 'touch',
               }}
             >
               {/* Semi-transparent overlay */}
               {/* Mobile menu panel */}
               <motion.div
-                className="fixed right-0 top-0 h-full w-4/5 max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
+                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
                 style={{
                   position: 'fixed',
                   top: 0,
                   right: 0,
                   bottom: 0,
                   zIndex: 1001,
-                  width: '80%',
-                  maxWidth: '28rem',
+                  width: '90%',
+                  maxWidth: '24rem',
                   backgroundColor: 'var(--color-bg)',
                   boxShadow: '0 0 40px rgba(0, 0, 0, 0.2)',
                   overflowY: 'auto',
                   WebkitOverflowScrolling: 'touch',
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'rgba(0, 0, 0, 0.2) transparent',
                 }}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
@@ -365,18 +372,19 @@ const ModernNavbar = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                  <div className="flex items-center justify-between px-4 mb-8">
+                  <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-10">
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       Menu
                     </span>
                     <button
                       onClick={closeMenu}
-                      className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                      className="p-2 -mr-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors"
+                      aria-label="Close menu"
                     >
                       <FiX className="h-6 w-6" />
                     </button>
                   </div>
-                  <nav className="flex-1 space-y-2 px-4">
+                  <nav className="flex-1 px-2 py-4 space-y-1">
                     {NAV_ITEMS.map((item) => {
                       const isActive = location.pathname === item.path || 
                                     (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -397,11 +405,16 @@ const ModernNavbar = () => {
                               }, 50);
                             }
                           }}
-                          className={`w-full text-left flex items-center px-4 py-3 text-base font-medium rounded-lg transition-colors duration-300 ${
+                          className={`w-full text-left flex items-center px-4 py-3.5 text-base font-medium rounded-lg transition-all duration-200 ${
                             isActive
                               ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
-                              : 'text-gray-600 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40'
+                              : 'text-gray-700 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40 active:scale-[0.98] transform transition-transform'
                           }`}
+                          style={{
+                            WebkitTapHighlightColor: 'transparent',
+                            WebkitTouchCallout: 'none',
+                            touchAction: 'manipulation',
+                          }}
                         >
                           <span className="mr-3">{item.icon}</span>
                           {item.name}
@@ -409,7 +422,7 @@ const ModernNavbar = () => {
                       );
                     })}
                   </nav>
-                  <div className="px-4 pt-4 border-t border-light-glass-border dark:border-dark-glass-border">
+                  <div className="sticky bottom-0 px-4 py-4 mt-auto bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                         Theme

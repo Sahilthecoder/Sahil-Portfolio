@@ -23,6 +23,8 @@ import {
   FaDesktop,
   FaArrowRight
 } from 'react-icons/fa';
+import HeroSection from '../components/HeroSection/HeroSection';
+import '../components/HeroSection/HeroSection.css';
 // Image paths are now directly referenced from the public directory
 
 const About = () => {
@@ -100,101 +102,38 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-40 bg-gradient-to-br from-gray-50 to-gray-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg overflow-hidden mt-16">
-        {/* Grid background */}
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center">
-            <motion.div 
-              className="mb-10 md:mb-0 md:mr-12"
-              variants={item}
-              initial="hidden"
-              animate="show"
-            >
-              <div className="w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-white/20 p-1 bg-white/10 dark:bg-gray-700/30 backdrop-blur-sm">
-                <div className="w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl">
-                  <img
-                    src={`${import.meta.env.BASE_URL}profile.avif`}
-                    alt="Sahil Ali"
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
-                    }}
-                    srcSet={`${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`}
-                    sizes="(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px"
-                  />
-                </div>
-              </div>
-            </motion.div>
-            
-            <motion.div
-              variants={container}
-              initial="hidden"
-              animate="show"
-              className="text-center md:text-left"
-            >
-              <motion.h1 
-                className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
-                variants={item}
-              >
-                About{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700 dark:from-indigo-400 dark:to-blue-500">
-                  Me
-                </span>
-              </motion.h1>
-              <motion.div 
-                className="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-6"
-                variants={item}
-              >
-                AI & Data Analytics Expert | Inventory Management Specialist
-              </motion.div>
-              <motion.p 
-                className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mb-8 leading-relaxed"
-                variants={item}
-              >
-                I combine expertise in AI, data analytics, and inventory management to create efficient, data-driven solutions. This portfolio, built with AI assistance, demonstrates my ability to leverage technology for practical business applications. My approach focuses on using data to optimize inventory systems, automate processes, and drive operational excellence.
-              </motion.p>
-              <motion.div 
-                className="flex flex-wrap justify-center md:justify-start gap-4"
-                variants={item}
-              >
-                <a 
-                  href="#contact" 
-                  className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-colors duration-300"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">Contact Me</span>
-                    <FaArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
-                  </span>
-                  <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-                </a>
-                <a 
-                  href="/resume.pdf" 
-                  download
-                  className="group relative bg-white dark:bg-gray-800 text-indigo-700 dark:text-indigo-300 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 dark:border-indigo-500 shadow-md overflow-hidden hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">Download CV</span>
-                    <FaDownload className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100" />
-                  </span>
-                  <span className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-                </a>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <HeroSection
+        title={
+          <>
+            About{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+              Me
+            </span>
+          </>
+        }
+        subtitle="AI & Data Analytics Expert | Inventory Management Specialist"
+        description="I combine expertise in AI, data analytics, and inventory management to create efficient, data-driven solutions. This portfolio, built with AI assistance, demonstrates my ability to leverage technology for practical business applications. My approach focuses on using data to optimize inventory systems, automate processes, and drive operational excellence."
+        primaryButton={{
+          text: 'Contact Me',
+          link: '#contact',
+          showArrow: true
+        }}
+        secondaryButton={{
+          text: 'Download CV',
+          link: '/resume.pdf',
+          showArrow: true,
+          download: true
+        }}
+        imageProps={{
+          src: `${import.meta.env.BASE_URL}profile.avif`,
+          alt: 'Sahil Ali',
+          className: 'w-full h-full object-cover',
+          srcSet: `${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`,
+          sizes: '(max-width: 640px) 200px, (max-width: 1024px) 400px, 600px',
+          containerClass: 'w-48 h-48 md:w-56 md:h-56 rounded-full border-4 border-white/20 p-1 bg-white/10 dark:bg-gray-700/30 backdrop-blur-sm',
+          innerClass: 'w-full h-full rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-xl'
+        }}
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16 relative z-10">

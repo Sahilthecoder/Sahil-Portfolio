@@ -35,15 +35,37 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: |
+          npm ci --legacy-peer-deps
+          npm list --depth=0
+          
+      - name: Debug - List files
+        run: |
+          echo "Current directory structure:"
+          ls -la
+          echo -e "\nNode version:"
+          node -v
+          echo -e "\nNPM version:"
+          npm -v
+          echo -e "\nVite version:"
+          npx vite --version
       
       - name: Build
         run: |
-          VITE_BASE_URL='/Sahil-Portfolio/' npm run build
+          set -e
+          echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
+          VITE_BASE_URL='/Sahil-Portfolio/' npm run build --if-present || (echo "Build failed. Check logs above for error details." && exit 1)
+          
+          echo -e "\nBuild completed. Contents of dist directory:"
+          ls -la dist/
+          
           # Create .nojekyll to bypass Jekyll processing
           touch ./dist/.nojekyll
           # Create _redirects for SPA routing
           echo '/* /index.html 200' > ./dist/_redirects
+          
+          echo -e "\nAfter adding deployment files:"
+          ls -la dist/
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

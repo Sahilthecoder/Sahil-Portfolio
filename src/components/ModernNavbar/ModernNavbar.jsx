@@ -153,26 +153,12 @@ const ModernNavbar = () => {
     return path.split('/')[1];
   }, [location.pathname]);
 
-  // Toggle mobile menu with body scroll lock
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => {
-      document.body.style.overflow = !prev ? 'hidden' : 'auto';
-      return !prev;
-    });
-  }, []);
-  
-  // Close mobile menu
-  const closeMenu = useCallback(() => {
-    setIsMenuOpen(false);
-    document.body.style.overflow = 'auto';
-  }, []);
-  
-  // Close mobile menu when clicking outside or when a link is clicked
+  // Close mobile menu when clicking outside
   const handleClickOutsideMobile = useCallback((event) => {
-    if (isMenuOpen && !event.target.closest('.mobile-menu-container') || event.target.closest('a, button')) {
-      closeMenu();
+    if (isMenuOpen && !event.target.closest('.mobile-menu-container')) {
+      setIsMenuOpen(false);
     }
-  }, [isMenuOpen, closeMenu]);
+  }, [isMenuOpen]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutsideMobile);
@@ -198,6 +184,14 @@ const ModernNavbar = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
   }, []);
 
   // Smooth scroll to section
@@ -311,15 +305,14 @@ const ModernNavbar = () => {
             <div className="md:hidden flex items-center">
               <button
                 onClick={toggleMenu}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200"
+                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-expanded={isMenuOpen}
-                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-label={isMenuOpen ? 'Close menu' : 'Menu'}
               >
-                <span className="sr-only">{isMenuOpen ? 'Close menu' : 'Open menu'}</span>
                 {isMenuOpen ? (
-                  <FiX className="block h-6 w-6" aria-hidden="true" />
+                  <FiX className="block h-6 w-6" />
                 ) : (
-                  <FiMenu className="block h-6 w-6" aria-hidden="true" />
+                  <FiMenu className="block h-6 w-6" />
                 )}
               </button>
             </div>
@@ -330,46 +323,62 @@ const ModernNavbar = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="fixed inset-0 z-[9999]"
+              className="fixed inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={handleClickOutsideMobile}
+              onClick={closeMenu}
               style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 1000,
+                overflow: 'hidden',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
                 backdropFilter: 'blur(8px)',
                 WebkitBackdropFilter: 'blur(8px)',
+                animation: 'fadeIn 0.2s ease-out',
                 touchAction: 'none',
+                overscrollBehavior: 'contain',
+                WebkitOverflowScrolling: 'touch',
               }}
             >
+              {/* Semi-transparent overlay */}
               {/* Mobile menu panel */}
               <motion.div
-                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto mobile-menu-container z-[10000]"
+                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 1001,
+                  width: '90%',
+                  maxWidth: '24rem',
+                  backgroundColor: 'var(--color-bg)',
+                  boxShadow: '0 0 40px rgba(0, 0, 0, 0.2)',
+                  overflowY: 'auto',
+                  WebkitOverflowScrolling: 'touch',
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: 'rgba(0, 0, 0, 0.2) transparent',
+                }}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ 
-                  type: 'spring', 
-                  stiffness: 300, 
-                  damping: 30,
-                  mass: 0.5
-                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
-                style={{
-                  '--tw-bg-opacity': 1,
-                }}
               >
-                <div className="h-full flex flex-col py-6 px-4 bg-white dark:bg-gray-900 transition-colors duration-200">
+                <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                   <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-10">
-                    <div className="flex items-center">
-                      <span className="text-xl font-bold text-gray-900 dark:text-white">
-                        Navigation
-                      </span>
-                    </div>
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">
+                      Menu
+                    </span>
                     <button
-                      onClick={toggleMenu}
-                      className="p-2 -mr-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors duration-200"
+                      onClick={closeMenu}
+                      className="p-2 -mr-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors"
                       aria-label="Close menu"
                     >
                       <FiX className="h-6 w-6" />
@@ -380,30 +389,23 @@ const ModernNavbar = () => {
                       const isActive = location.pathname === item.path || 
                                     (item.path !== '/' && location.pathname.startsWith(item.path));
                       return (
-                        <Link
+                        <button
                           key={item.name}
-                          to={item.path}
                           onClick={(e) => {
                             e.preventDefault();
-                            toggleMenu();
+                            closeMenu();
                             if (item.path === '/') {
+                              scrollTo('home');
                               navigate(item.path);
-                              window.scrollTo(0, 0);
                             } else {
                               navigate(item.path);
                               // Small delay to ensure the component has mounted
                               setTimeout(() => {
-                                const element = document.getElementById(item.section);
-                                if (element) {
-                                  window.scrollTo({
-                                    top: element.offsetTop - 80,
-                                    behavior: 'smooth'
-                                  });
-                                }
-                              }, 100);
+                                scrollTo(item.section);
+                              }, 50);
                             }
                           }}
-                          className={`w-full block px-4 py-3.5 text-base font-medium rounded-lg transition-all duration-200 ${
+                          className={`w-full text-left flex items-center px-4 py-3.5 text-base font-medium rounded-lg transition-all duration-200 ${
                             isActive
                               ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
                               : 'text-gray-700 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40 active:scale-[0.98] transform transition-transform'
@@ -412,13 +414,11 @@ const ModernNavbar = () => {
                             WebkitTapHighlightColor: 'transparent',
                             WebkitTouchCallout: 'none',
                             touchAction: 'manipulation',
-                            display: 'flex',
-                            alignItems: 'center',
                           }}
                         >
                           <span className="mr-3">{item.icon}</span>
                           {item.name}
-                        </Link>
+                        </button>
                       );
                     })}
                   </nav>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -27,7 +26,6 @@ import '../components/HeroSection/HeroSection.css';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('work');
-  const navigate = useNavigate();
 
   // Animation variants
   const container = {
@@ -528,17 +526,12 @@ const Experience = () => {
           >
             <p className="text-gray-600 dark:text-gray-400">
               Interested in working together?{' '}
-              <Link 
-                to="/contact" 
+              <a 
+                href="/contact" 
                 className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/contact');
-                  window.scrollTo(0, 0);
-                }}
               >
                 Get in touch
-              </Link>
+              </a>
             </p>
           </motion.div>
         </div>

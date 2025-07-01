@@ -9,7 +9,6 @@ import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
-import Header from '../components/Header';
 
 // Glitch text component
 const GlitchText = ({ children }) => {
@@ -131,7 +130,7 @@ const ProjectCard = ({ project, index, onClick }) => {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
-              <div className="w-full space-y-3">
+              <div className="w-full">
                 <div className="flex flex-wrap gap-2 justify-center">
                   {project.techStack?.slice(0, 4).map((tech, idx) => (
                     <motion.span
@@ -145,42 +144,6 @@ const ProjectCard = ({ project, index, onClick }) => {
                       <span className="ml-1.5">{tech}</span>
                     </motion.span>
                   ))}
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="flex flex-wrap gap-3 justify-center">
-                  <motion.button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (onClick && typeof onClick === 'function') {
-                        onClick(project);
-                      }
-                    }}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-4 py-2 text-sm font-medium text-white bg-gray-800/90 hover:bg-gray-900/90 rounded-lg border border-white/10 shadow-md backdrop-blur-sm transition-all duration-200 flex items-center"
-                  >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    Preview
-                  </motion.button>
-                  
-                  {project.path && (
-                    <motion.button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(project.path);
-                      }}
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg border border-indigo-500/20 shadow-md transition-all duration-200 flex items-center"
-                    >
-                      <FiArrowRight className="w-4 h-4 mr-2" />
-                      View Project
-                    </motion.button>
-                  )}
                 </div>
               </div>
             </div>
@@ -212,17 +175,8 @@ const ProjectCard = ({ project, index, onClick }) => {
               {project.shortDescription}
             </p>
             
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex flex-wrap gap-3">
-              <div className="flex-1 flex justify-between items-center">
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <FaGithub className="mr-1.5" /> Code
-                </a>
+            <div className="pt-3 border-t border-gray-100 dark:border-gray-700">
+              <div className="flex justify-end">
                 <div className="flex items-center space-x-2">
                   <motion.button
                     onClick={(e) => {
@@ -770,9 +724,6 @@ const Projects = () => {
       <div className="fixed inset-0 bg-gradient-to-br from-blue-50/30 via-transparent to-purple-50/30 dark:from-blue-900/10 dark:to-purple-900/10 pointer-events-none"></div>
 
       <div className="relative z-10">
-        {/* Header */}
-        <Header />
-        
         {/* CV Download Button */}
         <div className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50">
           <button

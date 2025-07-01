@@ -215,14 +215,18 @@ const ModernNavbar = () => {
   return (
     <div ref={navbarRef} className="mobile-menu-container">
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 ease-in-out ${
           isScrolled
-            ? 'bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-lg'
-            : 'bg-white dark:bg-gray-900 border-b border-transparent'
+            ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/80 dark:border-gray-700/80 shadow-lg'
+            : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-transparent'
         } ${!isVisible ? '-translate-y-full' : 'translate-y-0'}`}
         initial={{ y: 0 }}
         animate={{ y: isVisible ? 0 : '-100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        style={{
+          WebkitBackdropFilter: 'blur(12px)',
+          backdropFilter: 'blur(12px)',
+        }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
@@ -318,22 +322,57 @@ const ModernNavbar = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="fixed inset-0 bg-black/30 z-40"
+              className="fixed inset-0 z-[99999]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={closeMenu}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 99999,
+              }}
             >
+              {/* Semi-transparent overlay */}
+              <div 
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 1,
+                }}
+              />
+              
+              {/* Mobile menu panel */}
               <motion.div
-                className="absolute right-0 top-0 h-full w-4/5 max-w-sm bg-light-bg dark:bg-dark-bg shadow-xl"
+                className="fixed right-0 top-0 h-full w-4/5 max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  zIndex: 2,
+                  width: '80%',
+                  maxWidth: '28rem',
+                  backgroundColor: 'var(--color-bg)',
+                  boxShadow: '0 0 40px rgba(0, 0, 0, 0.2)',
+                  overflowY: 'auto',
+                  WebkitOverflowScrolling: 'touch',
+                }}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-gray-900 to-blue-900/90 backdrop-blur-sm">
+                <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
                   <div className="flex items-center justify-between px-4 mb-8">
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
                       Menu

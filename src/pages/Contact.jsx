@@ -13,7 +13,8 @@ import {
   FaSync, 
   FaTools, 
   FaCheck,
-  FaChartLine
+  FaChartLine,
+  FaDatabase
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';

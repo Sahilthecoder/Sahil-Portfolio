@@ -526,12 +526,17 @@ const Experience = () => {
           >
             <p className="text-gray-600 dark:text-gray-400">
               Interested in working together?{' '}
-              <a 
-                href="/contact" 
+              <Link 
+                to="/contact" 
                 className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/contact');
+                  window.scrollTo(0, 0);
+                }}
               >
                 Get in touch
-              </a>
+              </Link>
             </p>
           </motion.div>
         </div>

@@ -281,6 +281,21 @@ const About = () => {
               </div>
             </div>
           </div>
+          
+          {/* Get in Touch Button */}
+          <div className="mt-16 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Let's Work Together</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+              Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            >
+              Get in Touch
+              <FiArrowRight className="ml-2 -mr-1 h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

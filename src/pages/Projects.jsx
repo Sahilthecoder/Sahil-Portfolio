@@ -829,37 +829,68 @@ const Projects = () => {
       </AnimatePresence>
       
       {/* Resume Download Section */}
-      <div className="mt-24 py-16 bg-gradient-to-r from-indigo-700 to-blue-700">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="mt-24 py-16 bg-gradient-to-br from-indigo-700 via-blue-700 to-indigo-800 relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          <div className="absolute -top-20 -left-20 w-64 h-64 bg-white rounded-full mix-blend-overlay"></div>
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-white rounded-full mix-blend-overlay"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <motion.div 
+            className="inline-block p-1 rounded-full bg-white/10 backdrop-blur-sm mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-indigo-600 bg-opacity-90 text-white">
+              <FaFilePdf className="w-8 h-8" />
+            </div>
+          </motion.div>
+          
           <motion.h2 
-            className="text-3xl font-bold text-white mb-4"
+            className="text-3xl md:text-4xl font-bold text-white mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Looking for more details?
+            Ready to Work Together?
           </motion.h2>
+          
           <motion.p 
-            className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg"
+            className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Check out my resume for a comprehensive overview of my experience, skills, and achievements.
+            Download my resume to explore my full professional journey, or let's connect to discuss how I can contribute to your next project.
           </motion.p>
-          <motion.a
-            href="/Sahil_Resume.pdf"
-            download="Sahil_Resume.pdf"
-            className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <FaFilePdf className="mr-2 -ml-1 h-5 w-5" />
-            Download My Resume
-          </motion.a>
+            <motion.a
+              href="/Sahil_Resume.pdf"
+              download="Sahil_Ali_Resume.pdf"
+              className="flex items-center justify-center px-8 py-4 bg-white text-indigo-700 rounded-lg font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <FaFilePdf className="mr-3 h-5 w-5 group-hover:animate-pulse" />
+              Download Resume (PDF)
+            </motion.a>
+            
+            <Link
+              to="/contact"
+              className="flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold text-base md:text-lg hover:bg-white hover:bg-opacity-10 transition-all duration-300 group"
+            >
+              Get in Touch
+              <FiArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
         </div>
       </div>
     </div>

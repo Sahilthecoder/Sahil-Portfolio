@@ -44,7 +44,6 @@ export default defineConfig(async ({ command, mode }) => {
         }
       }
     },
-    // Configure server for development
     server: {
       port: 3000,
       open: true,
@@ -65,33 +64,27 @@ export default defineConfig(async ({ command, mode }) => {
         }
       }
     },
-  // Build configuration
-
-  plugins: [
-    react({
-      fastRefresh: !disableFastRefresh,
-      jsxRuntime: 'automatic',
-      babel: {
-        plugins: []
-      }
-    }),
-    isDev && visualizer({
-      open: true,
-      gzipSize: true,
-      brotliSize: true,
-      filename: './dist/stats.html'
-    })
-  ],
-  
-  // Resolve aliases for absolute imports
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src')
+    plugins: [
+      react({
+        fastRefresh: !disableFastRefresh,
+        jsxRuntime: 'automatic',
+        babel: {
+          plugins: []
+        }
+      }),
+      isDev && visualizer({
+        open: true,
+        gzipSize: true,
+        brotliSize: true,
+        filename: './dist/stats.html'
+      })
+    ],
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src')
+      },
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
-  },
-  
-  server: {
     port: 3000,
     strictPort: true,
     host: true,

@@ -130,8 +130,8 @@ const ProjectCard = ({ project, index, onClick }) => {
               height="auto"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-              <div className="w-full">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
+              <div className="w-full space-y-3">
                 <div className="flex flex-wrap gap-2 justify-center">
                   {project.techStack?.slice(0, 4).map((tech, idx) => (
                     <motion.span
@@ -145,6 +145,42 @@ const ProjectCard = ({ project, index, onClick }) => {
                       <span className="ml-1.5">{tech}</span>
                     </motion.span>
                   ))}
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <motion.button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (onClick && typeof onClick === 'function') {
+                        onClick(project);
+                      }
+                    }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-4 py-2 text-sm font-medium text-white bg-gray-800/90 hover:bg-gray-900/90 rounded-lg border border-white/10 shadow-md backdrop-blur-sm transition-all duration-200 flex items-center"
+                  >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Preview
+                  </motion.button>
+                  
+                  {project.path && (
+                    <motion.button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(project.path);
+                      }}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg border border-indigo-500/20 shadow-md transition-all duration-200 flex items-center"
+                    >
+                      <FiArrowRight className="w-4 h-4 mr-2" />
+                      View Project
+                    </motion.button>
+                  )}
                 </div>
               </div>
             </div>
@@ -245,28 +281,43 @@ const ProjectModal = ({ project, onClose }) => {
           }}
         >
           <div className="relative flex-shrink-0">
-            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 flex space-x-2">
+            {/* Close button in top right */}
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
               <button
                 onClick={onClose}
-                className="p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-600 transition-colors shadow-lg"
+                className="p-2 sm:p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-lg hover:scale-110"
                 aria-label="Close"
               >
                 <FaTimes className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
-            {project.path && (
-              <Link
-                to={project.path}
-                className="group inline-flex items-center px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-indigo-500/20 dark:shadow-indigo-900/30 whitespace-nowrap"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClose(); // Close the modal when navigating
-                }}
-              >
-                <span className="mr-2.5">View Project</span>
-                <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </Link>
-            )}
             </div>
+            
+            {/* View Project button in bottom right */}
+            {project.path && (
+              <div className="absolute bottom-6 right-6 z-10">
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative group"
+                >
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg blur-sm opacity-0 group-hover:opacity-75 transition duration-300 group-hover:duration-200"></div>
+                  <Link
+                    to={project.path}
+                    className="relative flex items-center px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg leading-none overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl border border-indigo-500/20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClose();
+                    }}
+                  >
+                    <span className="relative z-10 flex items-center">
+                      <span className="mr-3">View Project</span>
+                      <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  </Link>
+                </motion.div>
+              </div>
+            )}
             
             <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
@@ -300,9 +351,19 @@ const ProjectModal = ({ project, onClose }) => {
             <div className="overflow-y-auto flex-1 p-4 sm:p-6 md:p-8 custom-scrollbar">
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between lg:space-x-6 space-y-4 lg:space-y-0">
                 <div className="flex-1">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-                    {project.title}
-                  </h2>
+                  <Link
+                    to={project.path}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClose();
+                    }}
+                    className="group inline-block"
+                  >
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 inline-flex items-center">
+                      {project.title}
+                      <FiArrowRight className="ml-2 h-5 w-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    </h2>
+                  </Link>
                   <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                     {project.description}
                   </p>

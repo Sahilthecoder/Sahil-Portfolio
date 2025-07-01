@@ -127,7 +127,7 @@ const Home = () => {
         }}
         isHome={true}
         imageProps={{
-          src: `${import.meta.env.BASE_URL}profile.avif`,
+          src: `/images/profile.avif`,
           alt: 'Sahil Ali',
           className: 'w-full h-full object-cover',
           srcSet: `${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`,

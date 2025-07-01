@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -26,6 +27,7 @@ import '../components/HeroSection/HeroSection.css';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('work');
+  const navigate = useNavigate();
 
   // Animation variants
   const container = {

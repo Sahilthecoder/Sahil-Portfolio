@@ -23,6 +23,7 @@ import {
   FaDesktop,
   FaArrowRight
 } from 'react-icons/fa';
+import { FiArrowRight } from 'react-icons/fi';
 import HeroSection from '../components/HeroSection/HeroSection';
 import '../components/HeroSection/HeroSection.css';
 // Image paths are now directly referenced from the public directory
@@ -125,7 +126,7 @@ const About = () => {
           download: true
         }}
         imageProps={{
-          src: `${import.meta.env.BASE_URL}profile.avif`,
+          src: `/images/profile.avif`,
           alt: 'Sahil Ali',
           className: 'w-full h-full object-cover',
           srcSet: `${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`,

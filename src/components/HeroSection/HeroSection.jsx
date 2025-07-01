@@ -11,7 +11,7 @@ const HeroSection = ({
   secondaryButton = { text: 'Learn More', link: '/about', showArrow: true },
   showImage = true,
   imageProps = {
-    src: `${import.meta.env.BASE_URL}profile.avif`,
+    src: '/images/profile.avif',
     alt: 'Sahil Ali',
     className: 'w-full h-full object-cover',
   },

@@ -18,13 +18,16 @@ export default defineConfig(async ({ command, mode }) => {
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), '');
   
+  // Determine base URL based on environment
+  const base = env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/');
+  
   return {
-  // Base URL configuration – root for dev, repo sub-folder for production (GitHub Pages)
-  base: env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/'),
-  // Ensure assets are properly prefixed with base URL
-  define: {
-    'import.meta.env.BASE_URL': JSON.stringify(env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/'))
-  },
+    // Base URL configuration – root for dev, repo sub-folder for production (GitHub Pages)
+    base: base,
+    // Ensure assets are properly prefixed with base URL
+    define: {
+      'import.meta.env.BASE_URL': JSON.stringify(base)
+    },
   // Build configuration
 
   plugins: [

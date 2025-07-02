@@ -152,42 +152,44 @@ const App = () => {
         // Use system fonts as fallback
         const systemFonts = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
         
+        // Set system fonts as default
+        document.documentElement.style.setProperty('--font-sans', systemFonts);
+        
         // Try to load the custom font, but don't block rendering if it fails
         try {
-          // Preload critical fonts
-          const font = new FontFace(
+          // Use Google Fonts for better reliability
+          const link = document.createElement('link');
+          link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+          link.rel = 'stylesheet';
+          
+          // Set up font loading
+          const fontFace = new FontFace(
             'Inter',
-            'url(/fonts/Inter-Regular.woff2) format("woff2")',
+            'local("Inter"), local("Inter-Regular")',
             { 
               weight: '400',
               style: 'normal',
               display: 'swap',
-              fallback: systemFonts
             }
           );
           
-          await font.load();
-          document.fonts.add(font);
+          // Add the link to the document
+          document.head.appendChild(link);
           
-          // Load bold variant
-          const fontBold = new FontFace(
-            'Inter',
-            'url(/fonts/Inter-Bold.woff2) format("woff2")',
-            { 
-              weight: '700',
-              style: 'normal',
-              display: 'swap'
-            }
-          );
+          // Wait for the font to load or timeout after 3 seconds
+          await Promise.race([
+            fontFace.load(),
+            new Promise(resolve => setTimeout(resolve, 3000))
+          ]);
           
-          await fontBold.load();
-          document.fonts.add(fontBold);
+          // If we got here, the font loaded successfully
+          document.fonts.add(fontFace);
+          document.documentElement.style.setProperty('--font-sans', '"Inter", ' + systemFonts);
           
           console.log('Custom fonts loaded successfully');
-        } catch (fontError) {
-          console.warn('Error loading custom fonts, falling back to system fonts', fontError);
-          // Apply system fonts directly
-          document.documentElement.style.setProperty('--font-sans', systemFonts);
+        } catch (error) {
+          console.warn('Error loading custom fonts, using system fonts', error);
+          // Already using system fonts by default
         }
         
         setFontLoaded(true);

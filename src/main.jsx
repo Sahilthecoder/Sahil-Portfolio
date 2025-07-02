@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
-import './index.css';
+import './reset.css'; // CSS reset
+// import './index.css'; // Temporarily disabled
 import './App.css';
 import './styles/globals.css';
 import ClientOnly from './components/ClientOnly';

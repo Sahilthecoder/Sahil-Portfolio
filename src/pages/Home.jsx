@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
-import { FaReact, FaNodeJs, FaPython } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 import ProjectImage from '../components/ProjectImage';
@@ -203,51 +203,92 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 overflow-x-hidden">
-      <HeroSection
-        ref={heroRef}
-        title={
-          <>
-            <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
-              Hello, I'm{' '}
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                Sahil Ali
-              </span>
-            </span>
-          </>
-        }
-        subtitle={
-          <span className="text-lg sm:text-xl md:text-2xl font-medium text-gray-600 dark:text-gray-300 mt-2 block">
-            AI Expert | Data Analyst | Inventory Specialist
-          </span>
-        }
-        description={
-          <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mt-4 max-w-3xl mx-auto leading-relaxed">
-            I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence. This portfolio, built with AI assistance, demonstrates my ability to harness technology for practical, impactful solutions in inventory management and data analysis.
-          </p>
-        }
-        primaryButton={{
-          text: "Let's Explore More!",
-          link: "/about",
-          showArrow: true,
-          className: "px-6 py-3 sm:px-8 sm:py-3.5 text-base sm:text-lg"
-        }}
-        secondaryButton={{
-          text: 'View Projects',
-          link: '/projects',
-          showArrow: true,
-          className: "px-6 py-3 sm:px-8 sm:py-3.5 text-base sm:text-lg"
-        }}
-        isHome={true}
-        containerClass="pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-16 sm:pb-20 md:pb-24"
-        contentClass="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
-        imageProps={{
-          src: `${import.meta.env.BASE_URL}profile.avif`,
-          alt: 'Sahil Ali',
-          className: 'w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 mx-auto rounded-full object-cover border-4 border-white/20 shadow-2xl',
-          srcSet: `${import.meta.env.BASE_URL}optimized-images/profile@200w.avif 200w, ${import.meta.env.BASE_URL}optimized-images/profile@400w.avif 400w, ${import.meta.env.BASE_URL}optimized-images/profile@600w.avif 600w`,
-          sizes: '(max-width: 640px) 200px, (max-width: 1024px) 300px, 400px'
-        }}
-      />
+      <section className="relative py-16 md:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/60 to-blue-50/60 dark:from-gray-900/90 dark:to-gray-800/90"></div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            {/* Text content - Full width on mobile, 1/2 on larger screens */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <motion.h1 
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Hello, I'm{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+                  Sahil Ali
+                </span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl text-gray-700 dark:text-gray-300 mb-4 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                AI Expert | Data Analyst | Inventory Specialist
+              </motion.p>
+              
+              <motion.p 
+                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-wrap justify-center lg:justify-start gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <Link
+                  to="/about"
+                  className="px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+                >
+                  Let's Explore More!
+                  <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                </Link>
+                <Link
+                  to="/projects"
+                  className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+                >
+                  View Projects
+                  <FiFileText className="w-4 h-4 sm:w-5 sm:h-5" />
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Profile Image - Below text on mobile, to the right on larger screens */}
+            <motion.div 
+              className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 mx-auto lg:mx-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
+                <img 
+                  src="/images/profile.avif" 
+                  alt="Sahil Ali"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/placeholder-profile.jpg';
+                  }}
+                />
+              </div>
+              <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-2 sm:p-3 rounded-full shadow-xl">
+                <FaUserFriends className="w-5 h-5 sm:w-6 sm:h-6" />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
       {/* About Section */}
       <section id="about" className="relative py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">

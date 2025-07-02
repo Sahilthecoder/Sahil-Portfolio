@@ -20,7 +20,9 @@ import {
   FaBookOpen,
   FaShieldAlt,
   FaChevronDown,
-  FaChevronUp
+  FaChevronUp,
+  FaMapMarkerAlt,
+  FaStar
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import HeroSection from '../components/HeroSection/HeroSection';
@@ -82,23 +84,32 @@ const Experience = () => {
     { 
       id: 'work', 
       label: 'Work Experience', 
-      icon: <FaBriefcase className="mr-2 text-indigo-500" />,
-      color: 'from-indigo-500 to-blue-500',
-      bgColor: 'bg-indigo-500/10'
+      icon: <FaBriefcase className="text-indigo-500" />,
+      color: 'from-indigo-600 to-blue-600',
+      bgColor: 'bg-indigo-100 dark:bg-indigo-900/30',
+      hoverColor: 'hover:bg-indigo-50 dark:hover:bg-indigo-900/20',
+      textColor: 'text-indigo-700 dark:text-indigo-300',
+      activeTextColor: 'text-white'
     },
     { 
       id: 'skills', 
       label: 'Skills', 
-      icon: <FaTools className="mr-2 text-emerald-500" />,
-      color: 'from-emerald-500 to-teal-500',
-      bgColor: 'bg-emerald-500/10'
+      icon: <FaTools className="text-emerald-500" />,
+      color: 'from-emerald-600 to-teal-600',
+      bgColor: 'bg-emerald-100 dark:bg-emerald-900/30',
+      hoverColor: 'hover:bg-emerald-50 dark:hover:bg-emerald-900/20',
+      textColor: 'text-emerald-700 dark:text-emerald-300',
+      activeTextColor: 'text-white'
     },
     { 
       id: 'education', 
       label: 'Education', 
-      icon: <FaGraduationCap className="mr-2 text-amber-500" />,
-      color: 'from-amber-500 to-orange-500',
-      bgColor: 'bg-amber-500/10'
+      icon: <FaGraduationCap className="text-amber-500" />,
+      color: 'from-amber-600 to-orange-600',
+      bgColor: 'bg-amber-100 dark:bg-amber-900/30',
+      hoverColor: 'hover:bg-amber-50 dark:hover:bg-amber-900/20',
+      textColor: 'text-amber-700 dark:text-amber-300',
+      activeTextColor: 'text-white'
     },
   ];
 
@@ -190,33 +201,47 @@ const Experience = () => {
   // Skills Data
   const skillsData = [
     {
-      category: 'AI & Data Expertise',
+      category: 'AI & Machine Learning',
       icon: <FaChartBar className="text-xl" />,
       skills: [
-        { name: 'AI Implementation', level: 90 },
-        { name: 'Predictive Analytics', level: 88 },
-        { name: 'Data Visualization', level: 92 },
-        { name: 'Machine Learning', level: 85 },
+        { name: 'AI Implementation', level: 92 },
+        { name: 'Predictive Analytics', level: 95 },
+        { name: 'Computer Vision', level: 88 },
+        { name: 'Natural Language Processing', level: 85 },
+        { name: 'ML Model Deployment', level: 90 },
       ]
     },
     {
-      category: 'Technical Proficiencies',
-      icon: <FaLaptopCode className="text-xl" />,
-      skills: [
-        { name: 'AI/ML Tools', level: 90 },
-        { name: 'Data Analysis', level: 95 },
-        { name: 'Process Automation', level: 92 },
-        { name: 'Business Intelligence', level: 88 },
-      ]
-    },
-    {
-      category: 'Inventory & Operations',
+      category: 'Inventory & Warehouse',
       icon: <FaBoxes className="text-xl" />,
       skills: [
-        { name: 'Inventory Optimization', level: 95 },
-        { name: 'Supply Chain Analytics', level: 90 },
-        { name: 'Operations Management', level: 92 },
-        { name: 'Process Improvement', level: 90 },
+        { name: 'Inventory Optimization', level: 98 },
+        { name: 'Warehouse Management', level: 95 },
+        { name: 'Supply Chain Analytics', level: 94 },
+        { name: 'Demand Forecasting', level: 96 },
+        { name: 'Stock Control', level: 97 },
+      ]
+    },
+    {
+      category: 'Data Analysis & BI',
+      icon: <FaLaptopCode className="text-xl" />,
+      skills: [
+        { name: 'Data Visualization', level: 94 },
+        { name: 'SQL & NoSQL', level: 93 },
+        { name: 'Python for Data Science', level: 95 },
+        { name: 'Business Intelligence', level: 92 },
+        { name: 'ETL Processes', level: 90 },
+      ]
+    },
+    {
+      category: 'Operations & Leadership',
+      icon: <FaUserFriends className="text-xl" />,
+      skills: [
+        { name: 'Team Management', level: 93 },
+        { name: 'Process Optimization', level: 96 },
+        { name: 'KPI Development', level: 94 },
+        { name: 'Cost Reduction', level: 95 },
+        { name: 'Quality Control', level: 94 },
       ]
     }
   ];
@@ -273,79 +298,80 @@ const Experience = () => {
 
   // Render work experience section
   const renderWorkExperience = () => (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6 sm:space-y-8">
       {workExperience.map((exp) => (
         <motion.div 
           key={exp.id}
           variants={item}
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg dark:hover:shadow-indigo-500/10 border-l-4 border-indigo-500"
+          className="group bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100/50 dark:border-gray-700/50"
         >
-          <div className="p-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-              <div className="flex items-center mb-4 md:mb-0">
-                <div className="p-3 rounded-xl bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-4">
-                  {getRoleIcon(exp.role)}
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.role}</h3>
+          <div className="p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  {exp.role}
+                </h3>
+                <div className="flex items-center mt-2">
                   <a 
                     href={exp.companyUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline inline-flex items-center"
+                    className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors group/company"
                   >
-                    <FaLink className="mr-1 text-xs" />
-                    {exp.company}
+                    <FaBuilding className="mr-2 group-hover/company:scale-110 transition-transform" />
+                    <span className="font-medium border-b border-transparent hover:border-current">
+                      {exp.company}
+                    </span>
                   </a>
                 </div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="inline-flex items-center">
+                    <FaCalendarAlt className="mr-1.5 flex-shrink-0" />
+                    {exp.duration}
+                  </span>
+                  <span className="hidden sm:inline-block text-gray-300 dark:text-gray-600">•</span>
+                  <span className="inline-flex items-center">
+                    <FaMapMarkerAlt className="mr-1.5 flex-shrink-0" />
+                    {exp.location}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-                <FaCalendarAlt className="mr-2" />
-                <span>{exp.duration}</span>
+              <div className="p-2.5 rounded-xl bg-indigo-100/70 dark:bg-indigo-900/30 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/40 transition-colors">
+                {getRoleIcon(exp.role)}
               </div>
             </div>
+
+            <p className="mt-5 text-gray-600 dark:text-gray-300 leading-relaxed">{exp.description}</p>
             
-            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
-              <FaBuilding className="mr-2" />
-              <span>{exp.location}</span>
-            </div>
-            
-            <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">{exp.description}</p>
-            
-            <div className="mb-6">
-              <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg flex items-center">
-                <FaChartLine className="mr-2 text-indigo-500" />
-                Key Achievements & Responsibilities:
+            <div className="mt-8 space-y-5">
+              <h4 className="font-semibold text-gray-800 dark:text-gray-100 flex items-center text-lg">
+                <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mr-3">
+                  <FaStar className="text-indigo-500 dark:text-indigo-400 text-xs" />
+                </span>
+                Key Achievements
               </h4>
-              <ul className="space-y-2">
+              <ul className="space-y-3.5">
                 {exp.highlights.map((highlight, i) => (
-                  <motion.li 
-                    key={i} 
-                    className="flex items-start bg-gray-50 dark:bg-gray-700 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                    whileHover={{ x: 5 }}
-                  >
-                    <span className="text-indigo-500 mr-3 mt-0.5">•</span>
-                    <span className="text-gray-700 dark:text-gray-300">{highlight}</span>
-                  </motion.li>
+                  <li key={i} className="flex group">
+                    <span className="flex-shrink-0 w-6 h-6 mt-0.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center mr-3 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400 group-hover:scale-125 transition-transform"></span>
+                    </span>
+                    <span className="text-gray-600 dark:text-gray-300">{highlight}</span>
+                  </li>
                 ))}
               </ul>
             </div>
-            
-            <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-              <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 text-lg flex items-center">
-                <FaTools className="mr-2 text-indigo-500" />
-                Skills Applied:
-              </h4>
-              <div className="flex flex-wrap gap-2">
+
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700/50">
+              <h5 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Technologies & Skills</h5>
+              <div className="flex flex-wrap gap-2.5">
                 {exp.skills.map((skill, i) => (
-                  <motion.span 
+                  <span 
                     key={i}
-                    className="px-3 py-1.5 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm font-medium"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    className="px-3 py-1.5 text-sm rounded-lg bg-indigo-50/80 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors border border-indigo-100 dark:border-indigo-900/50"
                   >
                     {skill}
-                  </motion.span>
+                  </span>
                 ))}
               </div>
             </div>
@@ -516,60 +542,120 @@ const Experience = () => {
   const activeTabData = navItems.find(item => item.id === activeTab);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-      <HeroSection 
-        title="My Experience & Skills"
-        subtitle="Professional journey and expertise"
-        backgroundImage="url('/images/experience-bg.jpg')"
-      />
-      
-      <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20"
-        initial="hidden"
-        animate="show"
-        variants={container}
-      >
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 overflow-x-hidden text-gray-800 dark:text-gray-100 transition-colors duration-300">
+      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col items-center">
+            <div className="text-center w-full max-w-4xl">
+              <motion.h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-300 mb-6 mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                My Professional Journey
+              </motion.h1>
+              
+              <motion.p 
+                className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                With years of experience in AI, inventory management, and data analysis, I bring a unique blend of technical expertise and business acumen to every project.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-wrap justify-center gap-4 w-full max-w-md mx-auto mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <motion.button
+                  onClick={() => window.open('https://drive.google.com/file/d/1065536789670284800/view?usp=sharing', '_blank')}
+                  className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-indigo-700 hover:to-blue-700 active:scale-95 transition duration-300 w-full sm:w-auto text-center"
+                >
+                  View Resume
+                </motion.button>
+              </motion.div>
+            </div>
+            
+            {/* Profile Image - Centered below text on mobile, to the right on larger screens */}
+            <motion.div 
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto mt-8 lg:mt-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
+                <img 
+                  src="/images/profile.avif" 
+                  alt="Sahil Ali"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/placeholder-profile.jpg';
+                  }}
+                />
+              </div>
+              <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl">
+                <FaUserFriends className="w-6 h-6" />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20">
         {/* Animated Tab Navigation */}
         <motion.div 
-          className="flex flex-wrap justify-center gap-3 mb-12 md:mb-16"
+          className="flex flex-wrap justify-center gap-3 mb-12 md:mb-16 px-2 relative"
           variants={container}
         >
-          {navItems.map((navItem) => {
-            const isActive = activeTab === navItem.id;
-            return (
+          {navItems.map((item) => (
+            <motion.div key={item.id} className="relative z-10">
               <motion.button
-                key={navItem.id}
-                onClick={() => setActiveTab(navItem.id)}
-                className={`group relative px-6 py-3 rounded-xl font-medium flex items-center transition-all duration-300 overflow-hidden ${
-                  isActive 
-                    ? `text-white shadow-lg ${navItem.bgColor}`
-                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700/90 backdrop-blur-sm'
+                onClick={() => setActiveTab(item.id)}
+                className={`relative px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-300 flex items-center ${
+                  activeTab === item.id
+                    ? `text-white shadow-lg z-20`
+                    : `dark:text-gray-300 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/50 bg-white/80 dark:bg-gray-800/80 shadow-md hover:shadow-lg`
                 }`}
-                whileHover={!isActive ? { y: -2, boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' } : {}}
-                whileTap={{ scale: 0.98 }}
-                variants={item}
+                whileHover={{ 
+                  scale: activeTab === item.id ? 1 : 1.03,
+                  transition: { duration: 0.2 }
+                }}
+                whileTap={{ 
+                  scale: 0.98,
+                  transition: { duration: 0.1 }
+                }}
               >
-                <span className="relative z-10 flex items-center">
-                  <span className={`${isActive ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
-                    {React.cloneElement(navItem.icon, { className: navItem.icon.props.className + ' transition-opacity' })}
-                  </span>
-                  <span className="ml-2">{navItem.label}</span>
+                <span className={`p-1.5 rounded-lg ${activeTab === item.id ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                  {React.cloneElement(item.icon, {
+                    className: `${activeTab === item.id ? 'text-white' : 'text-gray-600 dark:text-gray-300'} text-base sm:text-lg`
+                  })}
                 </span>
-                {isActive && (
-                  <motion.span 
-                    className="absolute inset-0 bg-gradient-to-r rounded-xl z-0"
-                    layoutId="activeTab"
-                    initial={false}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 500,
-                      damping: 30
-                    }}
-                  />
-                )}
+                <span className="ml-2.5">{item.label}</span>
               </motion.button>
-            );
-          })}
+              
+              {activeTab === item.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-xl -z-10 shadow-md"
+                  style={{
+                    background: `linear-gradient(135deg, ${item.color.split(' ')[1]}, ${item.color.split(' ')[3]})`,
+                  }}
+                  layoutId="activeTab"
+                  initial={false}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 500,
+                    damping: 30
+                  }}
+                />
+              )}
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Content Section */}
@@ -604,7 +690,7 @@ const Experience = () => {
             Thank you for reviewing my professional journey and expertise.
           </p>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 };

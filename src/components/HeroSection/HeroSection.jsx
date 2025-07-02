@@ -7,14 +7,8 @@ const HeroSection = ({
   title,
   subtitle,
   description,
-  primaryButton = { text: 'Get Started', link: '/', showArrow: true },
-  secondaryButton = { text: 'Learn More', link: '/about', showArrow: true },
-  showImage = true,
-  imageProps = {
-    src: `${import.meta.env.BASE_URL}profile.avif`,
-    alt: 'Sahil Ali',
-    className: 'w-full h-full object-cover',
-  },
+  primaryButton = { text: 'View My Work', link: '/experience', showArrow: true },
+  secondaryButton = { text: 'Contact Me', link: '/contact', showArrow: true },
   isHome = false,
   children,
 }) => {
@@ -52,9 +46,9 @@ const HeroSection = ({
       
       {/* Animated background elements - moved to a lower z-index */}
       <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/20 dark:bg-indigo-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
-        <div className="absolute -bottom-40 left-20 w-96 h-96 bg-purple-500/20 dark:bg-purple-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/20 dark:bg-pink-900/20 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob"></div>
+        <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
       </div>
 
       <div className="container mx-auto px-6 relative" style={{ zIndex: 2 }}>
@@ -65,11 +59,11 @@ const HeroSection = ({
           animate="show"
         >
           <motion.div 
-            className={`${showImage ? 'md:w-1/2' : 'w-full text-center'} mb-10 md:mb-0`}
+            className="w-full text-center mb-10 md:mb-0"
             variants={item}
           >
             <motion.h1 
-              className={`${isHome ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'} font-bold text-gray-900 dark:text-white mb-4`}
+              className={`${isHome ? 'text-5xl md:text-6xl lg:text-7xl' : 'text-4xl md:text-5xl'} font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-indigo-400 dark:to-blue-300 mb-6`}
               variants={item}
             >
               {title}
@@ -86,7 +80,7 @@ const HeroSection = ({
             
             {description && (
               <motion.p 
-                className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mb-8 leading-relaxed"
+                className="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mb-10 leading-relaxed mx-auto"
                 variants={item}
               >
                 {description}
@@ -135,31 +129,6 @@ const HeroSection = ({
             {children}
           </motion.div>
 
-          {showImage && (
-            <motion.div
-              className={`${isHome ? 'md:w-1/2' : 'md:w-2/5'} mt-10 md:mt-0`}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto">
-                <div className="absolute inset-0 rounded-full border-4 border-indigo-200 dark:border-indigo-800 p-1">
-                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
-                    <img
-                      {...imageProps}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
-                      }}
-                      loading="eager"
-                      className={imageProps.className || 'w-full h-full object-cover'}
-                    />
-                    <div className="absolute inset-0 rounded-full border-2 border-white/10"></div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
         </motion.div>
       </div>
     </section>

@@ -1,13 +1,51 @@
 /**
- * Image utilities for handling responsive images, lazy loading, and accessibility
+ * Image utilities for handling responsive images, lazy loading, and path management
  */
 
 /**
- * Generates a srcSet string for responsive images
+ * Gets the optimized image path with proper base URL handling
+ * @param {string} path - The image path (can be relative or absolute)
+ * @returns {string} - The optimized image path with correct base URL
+ */
+export const getOptimizedImagePath = (path) => {
+  if (!path) return '';
+  
+  // Remove leading slash if present
+  let processedPath = path.startsWith('/') ? path.substring(1) : path;
+  
+  // Handle different environments
+  if (import.meta.env.PROD) {
+    // In production, use the GitHub Pages base URL
+    return `/Sahil-Portfolio/${processedPath}`.replace(/\/+$/, '');
+  }
+  
+  // In development, use relative path with leading slash
+  return `/${processedPath}`.replace(/\/+$/, '');
+};
+
+/**
+ * Gets the optimized image URL with error handling
+ * @param {string} path - The image path
+ * @param {string} fallback - Fallback image path (optional)
+ * @returns {Object} - { src: string, onError: function }
+ */
+export const getImageProps = (path, fallback = '') => ({
+  src: getOptimizedImagePath(path),
+  onError: (e) => {
+    if (fallback) {
+      e.target.src = getOptimizedImagePath(fallback);
+    } else {
+      e.target.style.display = 'none';
+    }
+  }
+});
+
+/**
+ * Generates a srcSet string for responsive images with optimized paths
  * @param {string} baseUrl - The base URL of the image
  * @param {string} extension - The file extension (without dot)
  * @param {Object} sizes - Object with width as key and size descriptor as value
- * @returns {string} - The srcSet string
+ * @returns {string} - The srcSet string with optimized paths
  */
 export function generateSrcSet(baseUrl, extension, sizes) {
   return Object.entries(sizes)

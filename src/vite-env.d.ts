@@ -1,6 +1,26 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-svgr/client" />
 
+interface ImportMetaEnv {
+  readonly VITE_BASE_URL: string;
+  readonly VITE_OPENAI_API_KEY: string;
+  readonly VITE_PINECONE_API_KEY: string;
+  readonly VITE_PINECONE_ENVIRONMENT: string;
+  readonly VITE_PINECONE_INDEX: string;
+  // Add other environment variables here
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+  readonly meta: {
+    readonly env: 'development' | 'production' | 'test';
+    readonly MODE: 'development' | 'production';
+    readonly PROD: boolean;
+    readonly DEV: boolean;
+    readonly SSR: boolean;
+  };
+}
+
 declare module '*.module.css' {
   const classes: { [key: string]: string };
   export default classes;

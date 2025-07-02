@@ -7,12 +7,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="format-detection" content="telephone=no" />
     
-    <!-- Polyfills for older browsers -->
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    
+    <!-- Polyfills for older browsers - load with low priority -->
+    <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js" />
+    <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" />
+    
     <script>
-      // Ensure window.Promise is available
-      window.Promise || document.write('<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js"><\/script>');
-      // Ensure window.fetch is available
-      window.fetch || document.write('<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js"><\/script>');
+      // Load polyfills only if needed
+      if (!window.Promise) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js';
+        document.head.appendChild(script);
+      }
+      
+      if (!window.fetch) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js';
+        document.head.appendChild(script);
+      }
     </script>
     
     <!-- Page Information -->
@@ -26,15 +45,12 @@
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     <link rel="sitemap" href="sitemap.xml" type="application/xml" />
     
-    <!-- Base URL for GitHub Pages -->
-    <base href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
-    
     <!-- Favicon and Icons -->
-    <link rel="icon" href="https://sahilthecoder.github.io/Sahil-Portfolio/favicon.ico" sizes="any" />
-    <link rel="icon" href="https://sahilthecoder.github.io/Sahil-Portfolio/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="https://sahilthecoder.github.io/Sahil-Portfolio/apple-touch-icon.png" />
-    <link rel="manifest" href="https://sahilthecoder.github.io/Sahil-Portfolio/site.webmanifest" />
-    <link rel="mask-icon" href="https://sahilthecoder.github.io/Sahil-Portfolio/images/safari-pinned-tab.svg" color="#5bbad5" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#2563eb" />
     <meta name="apple-mobile-web-app-title" content="Sahil Ali" />
     

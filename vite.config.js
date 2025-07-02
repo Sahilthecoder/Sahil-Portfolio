@@ -1,45 +1,99 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { VitePWA } from 'vite-plugin-pwa';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { imagetools } from 'vite-imagetools';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
-// Disable React's Fast Refresh if needed
-const disableFastRefresh = process.env.DISABLE_FAST_REFRESH === 'true';
+// Get the directory name in ESM
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ command, mode }) => {
+// https://vitejs.dev/config/
+export default ({ mode, command }) => {
+  // Load environment variables
   const env = loadEnv(mode, process.cwd(), '');
   const isDev = mode === 'development';
   
-  // Determine base URL - default to empty string for development and '/Sahil-Portfolio/' for production
-  const base = env.VITE_BASE_URL || (command === 'serve' ? '' : '/Sahil-Portfolio/');
-  
-  // Ensure base URL always ends with a slash
+  // Base configuration - use environment variable or default to repository name for GitHub Pages
+  const base = env.VITE_BASE_URL || '/Sahil-Portfolio/';
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  
+  // Image optimization configuration
+  const imageOptimizerOptions = {
+    jpg: { 
+      quality: 80,
+      mozjpeg: true,
+    },
+    jpeg: { 
+      quality: 80,
+      mozjpeg: true,
+    },
+    png: { 
+      quality: 80,
+      compressionLevel: 9,
+    },
+    webp: { 
+      quality: 80, 
+      lossless: false,
+      effort: 6,
+    },
+    avif: { 
+      quality: 70, 
+      lossless: false,
+      speed: 8,
+    },
+    // Skip optimization for images that are already optimized
+    skipIfLarger: true,
+  };
   
   return {
     // Base URL configuration for GitHub Pages
     base: normalizedBase,
     
-    // Environment variables
+    // Environment variables exposed to the client
     define: {
-      // Remove BASE_URL from here if not used in the app
-      'process.env': {}
+      'process.env': {
+        NODE_ENV: JSON.stringify(mode),
+        VITE_BASE_URL: JSON.stringify(normalizedBase),
+        // Only expose specific environment variables with VITE_ prefix
+        ...Object.fromEntries(
+          Object.entries(env).filter(([key]) => key.startsWith('VITE_'))
+        )
+      }
     },
 
     // Server configuration
     server: {
       port: 3000,
-      open: true,
+      host: true, // Listen on all network interfaces
+      open: !process.env.CI, // Don't open in CI environment
+      strictPort: true, // Exit if port is in use
       cors: true,
       fs: {
-        allow: ['..', 'node_modules']
+        // Allow serving files from these directories
+        allow: [
+          path.resolve(__dirname, '..'),
+          path.resolve(__dirname, 'node_modules')
+        ],
+        // Cache file system operations for better performance
+        cachedChecks: false,
       },
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization, X-Custom-Header',
-        'X-Content-Type-Options': 'nosniff'
-      }
+        'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type, Accept',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block',
+      },
+      // Enable HMR (Hot Module Replacement)
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000,
+      },
     },
 
     // Preview configuration
@@ -51,14 +105,30 @@ export default defineConfig(({ command, mode }) => {
     // Build configuration
     build: {
       outDir: 'dist',
-      sourcemap: isDev ? 'inline' : false,
+      sourcemap: isDev ? 'inline' : 'hidden',
       assetsDir: 'assets',
       copyPublicDir: true,
-      minify: isDev ? false : 'terser',
+      minify: isDev ? 'esbuild' : 'terser',
       cssCodeSplit: true,
-      reportCompressedSize: true,
+      reportCompressedSize: !isDev,
       chunkSizeWarningLimit: 1000,
-      assetsInlineLimit: 0,
+      // Inline assets smaller than 4KB (base64 encoding)
+      assetsInlineLimit: 4096,
+      // Terser options for production
+      terserOptions: isDev ? undefined : {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info'],
+        },
+        format: {
+          comments: false,
+        },
+      },
+      // Enable brotli and gzip compression
+      brotliSize: true,
+      // Disable sourcemap in production
+      sourcemap: isDev,
       rollupOptions: {
         input: path.resolve(__dirname, 'index.html'),
         output: {
@@ -88,12 +158,43 @@ export default defineConfig(({ command, mode }) => {
     // Plugins
     plugins: [
       react({
-        fastRefresh: !disableFastRefresh,
+        fastRefresh: !process.env.DISABLE_FAST_REFRESH,
         jsxRuntime: 'automatic',
         babel: {
           plugins: []
         }
         // Removed include as it's not needed
+      }),
+      ViteImageOptimizer(imageOptimizerOptions),
+      imagetools({
+        defaultDirectives: (url) => {
+          const params = new URLSearchParams();
+          params.append('format', 'avif;webp');
+          params.append('quality', '80');
+          return new URLSearchParams(params);
+        },
+      }),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+        manifest: {
+          name: 'Sahil Portfolio',
+          short_name: 'Portfolio',
+          description: 'Personal portfolio of Sahil',
+          theme_color: '#ffffff',
+          icons: [
+            {
+              src: 'pwa-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'pwa-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+        },
       }),
       // Bundle analyzer
       process.env.VITE_BUNDLE_ANALYZE === 'true' && 
@@ -128,6 +229,7 @@ export default defineConfig(({ command, mode }) => {
     
     // Optimize dependencies
     optimizeDeps: {
+      // Pre-bundle these dependencies for faster dev server start
       include: [
         'react',
         'react-dom',
@@ -135,28 +237,67 @@ export default defineConfig(({ command, mode }) => {
         'react-router-dom',
         'framer-motion',
         'react-helmet',
-        'react-icons/fa',
         'react-helmet-async',
-        '@langchain/openai',
+        'react-icons/fa',
+        'react-icons/fi',
+        'react-icons/bs',
+        'react-icons/si',
+        'react-icons/io5',
+        'react-icons/md',
         '@sentry/react',
-        'plausible'
+        'plausible',
+        'date-fns',
+        'date-fns-tz',
       ],
+      // Exclude these from optimization
       exclude: ['js-big-decimal'],
-      // Removed force: command === 'build' as it causes full re-optimization
+      // Enable dependency optimization in build mode
+      disabled: false,
+      // Force dependency optimization in build mode
+      force: command === 'build',
+      // ESBuild options
       esbuildOptions: {
-        loader: { '.js': 'jsx' }
-      }
+        // Treat .js files as JSX
+        loader: { '.js': 'jsx' },
+        // Target modern browsers
+        target: 'es2020',
+        // Enable tree shaking
+        treeShaking: true,
+        // Minify the code
+        minify: true,
+      },
+      // Enable dependency optimization in watch mode
+      needsInterop: [],
     },
 
-    // Public directory
+    // Public directory configuration
     publicDir: 'public',
-
+    // Whether to log info about assets
+    logLevel: isDev ? 'info' : 'warn',
+    // Clear the screen when reporting messages
+    clearScreen: !isDev,
     // Assets to include in the build
     assetsInclude: [
       '**/*.png',
-      '**/*.ico',
-      '**/*.svg',
       '**/*.jpg',
+      '**/*.jpeg',
+      '**/*.gif',
+      '**/*.svg',
+      '**/*.ico',
+      '**/*.webp',
+      '**/*.avif',
+      '**/*.mp4',
+      '**/*.webm',
+      '**/*.ogg',
+      '**/*.mp3',
+      '**/*.wav',
+      '**/*.flac',
+      '**/*.aac',
+      '**/*.woff',
+      '**/*.woff2',
+      '**/*.eot',
+      '**/*.ttf',
+      '**/*.otf',
       '**/*.jpeg',
       '**/*.gif',
       '**/*.webp'

@@ -11,15 +11,18 @@ export default defineConfig(({ command, mode }) => {
   const isDev = mode === 'development';
   
   // Determine base URL - default to empty string for development and '/Sahil-Portfolio/' for production
-  const base = env.VITE_BASE_URL || (command === 'serve' ? '' : '/Sahil-Portfolio');
+  const base = env.VITE_BASE_URL || (command === 'serve' ? '' : '/Sahil-Portfolio/');
+  
+  // Ensure base URL always ends with a slash
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
   
   return {
     // Base URL configuration for GitHub Pages
-    base: base.endsWith('/') ? base : `${base}/`,
+    base: normalizedBase,
     
     // Environment variables
     define: {
-      'import.meta.env.BASE_URL': JSON.stringify(base.endsWith('/') ? base : `${base}/`),
+      // Remove BASE_URL from here if not used in the app
       'process.env': {}
     },
 
@@ -48,20 +51,7 @@ export default defineConfig(({ command, mode }) => {
     // Build configuration
     build: {
       outDir: 'dist',
-      // Ensure proper handling of client-side routing
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            react: ['react', 'react-dom', 'react-router-dom'],
-            framer: ['framer-motion'],
-            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si']
-          }
-        }
-      },
-      // Generate source maps for better debugging
-      sourcemap: true,
-      assetsDir: 'assets',
-      sourcemap: isDev,
+      sourcemap: isDev, // Sourcemaps in dev only
       minify: isDev ? false : 'terser',
       cssCodeSplit: true,
       reportCompressedSize: true,
@@ -72,7 +62,7 @@ export default defineConfig(({ command, mode }) => {
           manualChunks: {
             react: ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
             framer: ['framer-motion'],
-            icons: ['react-icons'],
+            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si'],
             tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands']
           },
           chunkFileNames: 'assets/[name]-[hash].js',
@@ -97,8 +87,8 @@ export default defineConfig(({ command, mode }) => {
         jsxRuntime: 'automatic',
         babel: {
           plugins: []
-        },
-        include: ['**/*.tsx', '**/*.ts', '**/*.jsx', '**/*.js']
+        }
+        // Removed include as it's not needed
       }),
       // Bundle analyzer
       process.env.VITE_BUNDLE_ANALYZE === 'true' && 
@@ -147,7 +137,7 @@ export default defineConfig(({ command, mode }) => {
         'plausible'
       ],
       exclude: ['js-big-decimal'],
-      force: command === 'build',
+      // Removed force: command === 'build' as it causes full re-optimization
       esbuildOptions: {
         loader: { '.js': 'jsx' }
       }
@@ -165,8 +155,6 @@ export default defineConfig(({ command, mode }) => {
       '**/*.jpeg',
       '**/*.gif',
       '**/*.webp'
-    ],
-
-
+    ]
   };
 });

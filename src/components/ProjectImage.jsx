@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FiImage, FiLoader, FiZoomIn } from 'react-icons/fi';
+import { transparentPixel } from '../utils/placeholder';
 
 const ProjectImage = ({
   projectId,
@@ -54,8 +55,8 @@ const ProjectImage = ({
   // Debug: Log the constructed image path
   console.log(`Loading image: ${imagePath}`);
   
-  // Fallback image in case of errors - include base path for production
-  const fallbackImage = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
+  // Fallback to transparent pixel instead of placeholder.svg
+  const fallbackImage = transparentPixel;
   
   // Calculate padding based on aspect ratio
   const [width, height] = aspectRatio.split('/').map(Number);
@@ -116,13 +117,14 @@ const ProjectImage = ({
             </div>
           )}
 
-          {/* Error state */}
+          {/* Error state - use transparent pixel to avoid layout shifts */}
           {error && (
-            <div className={`flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 text-gray-400 ${className}`}>
-              <FiImage className="w-12 h-12 mb-2" />
-              <span className="text-sm">Failed to load image</span>
-              <span className="text-xs opacity-75">{imageName}</span>
-            </div>
+            <img 
+              src={transparentPixel} 
+              alt="" 
+              className="absolute inset-0 w-full h-full"
+              aria-hidden="true"
+            />
           )}
 
           {/* Image */}

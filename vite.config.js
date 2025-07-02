@@ -48,6 +48,18 @@ export default defineConfig(({ command, mode }) => {
     // Build configuration
     build: {
       outDir: 'dist',
+      // Ensure proper handling of client-side routing
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            framer: ['framer-motion'],
+            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si']
+          }
+        }
+      },
+      // Generate source maps for better debugging
+      sourcemap: true,
       assetsDir: 'assets',
       sourcemap: isDev,
       minify: isDev ? false : 'terser',

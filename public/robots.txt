@@ -1,9 +1,19 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
+
+# Disallow non-essential directories
 Disallow: /api/
 Disallow: /private/
-Disallow: /404.html
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /dist/
+Disallow: /.github/
+Disallow: /.vscode/
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.map$
 
 # Sitemap
 Sitemap: https://sahilthecoder.github.io/Sahil-Portfolio/sitemap.xml

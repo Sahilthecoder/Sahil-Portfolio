@@ -88,16 +88,16 @@ const HeroSection = ({
             )}
 
             <motion.div 
-              className="flex flex-wrap justify-center md:justify-start gap-4"
+              className="flex flex-wrap justify-center gap-4 w-full md:w-auto"
               variants={item}
             >
               {primaryButton && (
                 <Link
                   to={primaryButton.link}
-                  className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+                  className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg text-center shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 flex-shrink-0"
                 >
                   <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    <span className="transition-transform duration-300 group-hover:translate-x-1 whitespace-nowrap">
                       {primaryButton.text}
                     </span>
                     {primaryButton.showArrow && (
@@ -111,10 +111,10 @@ const HeroSection = ({
               {secondaryButton && (
                 <Link
                   to={secondaryButton.link}
-                  className="group relative bg-white hover:bg-gray-50 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
+                  className="group relative bg-white hover:bg-gray-50 text-indigo-700 font-medium py-3 px-6 rounded-lg text-center border-2 border-indigo-700 shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700 flex-shrink-0"
                 >
                   <span className="relative z-10 flex items-center justify-center">
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                    <span className="transition-transform duration-300 group-hover:translate-x-1 whitespace-nowrap">
                       {secondaryButton.text}
                     </span>
                     {secondaryButton.showArrow && (

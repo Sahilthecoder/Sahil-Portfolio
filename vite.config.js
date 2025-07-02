@@ -11,7 +11,7 @@ import path from 'node:path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
-export default ({ mode, command }) => {
+export default defineConfig(({ mode, command }) => {
   // Load environment variables
   const env = loadEnv(mode, process.cwd(), '');
   const isDev = mode === 'development';
@@ -105,7 +105,7 @@ export default ({ mode, command }) => {
     // Build configuration
     build: {
       outDir: 'dist',
-      sourcemap: isDev ? 'inline' : 'hidden',
+      sourcemap: isDev ? 'inline' : false,
       assetsDir: 'assets',
       copyPublicDir: true,
       minify: isDev ? 'esbuild' : 'terser',
@@ -127,15 +127,14 @@ export default ({ mode, command }) => {
       },
       // Enable brotli and gzip compression
       brotliSize: true,
-      // Disable sourcemap in production
-      sourcemap: isDev,
       rollupOptions: {
         input: path.resolve(__dirname, 'index.html'),
         output: {
           manualChunks: {
             react: ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
             framer: ['framer-motion'],
-            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si']
+            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si'],
+            vendor: ['@emailjs/browser']
           },
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
@@ -251,8 +250,7 @@ export default ({ mode, command }) => {
       ],
       // Exclude these from optimization
       exclude: ['js-big-decimal'],
-      // Enable dependency optimization in build mode
-      disabled: false,
+      // Dependency optimization is enabled by default
       // Force dependency optimization in build mode
       force: command === 'build',
       // ESBuild options
@@ -302,5 +300,5 @@ export default ({ mode, command }) => {
       '**/*.gif',
       '**/*.webp'
     ]
-  };
+  }
 });

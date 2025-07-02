@@ -32,6 +32,7 @@
     "audit:all": "npm run audit:performance && npm run audit:accessibility"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@langchain/community": "^0.3.47",
     "@langchain/core": "^0.3.61",
     "@langchain/openai": "^0.5.16",
@@ -115,7 +116,7 @@
     "process": "^0.11.10",
     "rollup-plugin-visualizer": "^6.0.3",
     "sass-embedded": "^1.89.2",
-    "sharp": "^0.32.6",
+    "sharp": "^0.34.2",
     "stream-browserify": "^3.0.0",
     "svgo": "^4.0.0",
     "tailwindcss": "^3.4.17",
@@ -124,6 +125,9 @@
     "url": "^0.11.4",
     "util": "^0.12.5",
     "vite": "^6.1.6",
+    "vite-imagetools": "^7.1.0",
+    "vite-plugin-image-optimizer": "^2.0.2",
+    "vite-plugin-pwa": "^1.0.1",
     "vitest": "^3.2.4",
     "web-vitals": "^5.0.3",
     "webpack-bundle-analyzer": "^4.10.2"

@@ -15,23 +15,30 @@
     <!-- Preload critical resources -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     
-    <!-- Polyfills for older browsers - load with low priority -->
-    <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js" />
-    <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js" />
-    
-    <script>
-      // Load polyfills only if needed
+    <!-- Polyfills for older browsers -->
+    <script type="module">
+      // Polyfill Promise if needed
       if (!window.Promise) {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js';
+        script.crossOrigin = 'anonymous';
+        script.integrity = 'sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7';
+        script.onload = () => console.log('Promise polyfill loaded');
+        script.onerror = () => console.error('Failed to load Promise polyfill');
         document.head.appendChild(script);
       }
-      
+
+      // Polyfill fetch if needed
       if (!window.fetch) {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js';
+        script.crossOrigin = 'anonymous';
+        script.integrity = 'sha384-+pnlVXm9dM6eMtJsLjo4CWkCOSJXmIW72qVqfWxoIWvLGs2OS8JdM7KNifeD7Q7gY';
+        script.onload = () => console.log('Fetch polyfill loaded');
+        script.onerror = () => console.error('Failed to load Fetch polyfill');
         document.head.appendChild(script);
       }
+    </script>
     </script>
     
     <!-- Page Information -->

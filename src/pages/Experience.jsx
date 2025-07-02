@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -18,7 +18,9 @@ import {
   FaChartLine,
   FaLink,
   FaBookOpen,
-  FaShieldAlt
+  FaShieldAlt,
+  FaChevronDown,
+  FaChevronUp
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import HeroSection from '../components/HeroSection/HeroSection';
@@ -34,9 +36,10 @@ const Experience = () => {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3,
+        delayChildren: 0.2,
       },
     },
+    exit: { opacity: 0 }
   };
 
   const item = {
@@ -46,17 +49,57 @@ const Experience = () => {
       y: 0,
       transition: {
         type: 'spring',
-        stiffness: 100,
-        damping: 20
+        stiffness: 300,
+        damping: 24,
+        mass: 0.5
       }
     },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.2 } }
   };
 
-  // Navigation items
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    show: { 
+      opacity: 1,
+      transition: { duration: 0.6, ease: 'easeOut' }
+    }
+  };
+
+  const slideUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6, 
+        ease: 'easeOut' 
+      }
+    }
+  };
+
+  // Navigation items with animation variants
   const navItems = [
-    { id: 'work', label: 'Work Experience', icon: <FaBriefcase className="mr-2" /> },
-    { id: 'skills', label: 'Skills', icon: <FaTools className="mr-2" /> },
-    { id: 'education', label: 'Education', icon: <FaGraduationCap className="mr-2" /> },
+    { 
+      id: 'work', 
+      label: 'Work Experience', 
+      icon: <FaBriefcase className="mr-2 text-indigo-500" />,
+      color: 'from-indigo-500 to-blue-500',
+      bgColor: 'bg-indigo-500/10'
+    },
+    { 
+      id: 'skills', 
+      label: 'Skills', 
+      icon: <FaTools className="mr-2 text-emerald-500" />,
+      color: 'from-emerald-500 to-teal-500',
+      bgColor: 'bg-emerald-500/10'
+    },
+    { 
+      id: 'education', 
+      label: 'Education', 
+      icon: <FaGraduationCap className="mr-2 text-amber-500" />,
+      color: 'from-amber-500 to-orange-500',
+      bgColor: 'bg-amber-500/10'
+    },
   ];
 
   // Get role icon based on role name
@@ -459,79 +502,111 @@ const Experience = () => {
     </motion.div>
   );
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
-      <HeroSection
-        title={
-          <>
-            Professional{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-              Journey
-            </span>
-          </>
-        }
-        subtitle="Experience & Expertise"
-        description="My professional journey in warehouse operations, GRN management, inventory control, automation, and reporting."
-        containerClass="pt-32 pb-20 md:pt-40"
-        showImage={false}
-      >
-        <motion.div 
-          className="flex flex-wrap justify-center gap-4 mt-8"
-          variants={container}
-          initial="hidden"
-          animate="show"
-        >
-          {navItems.map((navItem) => (
-            <motion.button
-              key={navItem.id}
-              onClick={() => setActiveTab(navItem.id)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center ${
-                activeTab === navItem.id
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                  : 'bg-white/70 dark:bg-gray-800/70 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800'
-              }`}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              variants={item}
-            >
-              {navItem.icon}
-              {navItem.label}
-            </motion.button>
-          ))}
-        </motion.div>
-      </HeroSection>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-6xl mx-auto">
-          {/* Main Content */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-            <div className="p-6 md:p-8">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                {activeTab === 'work' && renderWorkExperience()}
-                {activeTab === 'skills' && renderSkills()}
-                {activeTab === 'education' && renderEducation()}
-              </motion.div>
-            </div>
-          </div>
+  const [expandedItems, setExpandedItems] = useState({});
 
-          {/* Footer Note */}
-          <motion.div 
-            className="text-center py-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+  // Toggle expanded state for work experience items
+  const toggleExpand = (id) => {
+    setExpandedItems(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
+
+  // Get active tab data
+  const activeTabData = navItems.find(item => item.id === activeTab);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-100 transition-colors duration-300">
+      <HeroSection 
+        title="My Experience & Skills"
+        subtitle="Professional journey and expertise"
+        backgroundImage="url('/images/experience-bg.jpg')"
+      />
+      
+      <motion.div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20"
+        initial="hidden"
+        animate="show"
+        variants={container}
+      >
+        {/* Animated Tab Navigation */}
+        <motion.div 
+          className="flex flex-wrap justify-center gap-3 mb-12 md:mb-16"
+          variants={container}
+        >
+          {navItems.map((navItem) => {
+            const isActive = activeTab === navItem.id;
+            return (
+              <motion.button
+                key={navItem.id}
+                onClick={() => setActiveTab(navItem.id)}
+                className={`group relative px-6 py-3 rounded-xl font-medium flex items-center transition-all duration-300 overflow-hidden ${
+                  isActive 
+                    ? `text-white shadow-lg ${navItem.bgColor}`
+                    : 'bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700/90 backdrop-blur-sm'
+                }`}
+                whileHover={!isActive ? { y: -2, boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' } : {}}
+                whileTap={{ scale: 0.98 }}
+                variants={item}
+              >
+                <span className="relative z-10 flex items-center">
+                  <span className={`${isActive ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}`}>
+                    {React.cloneElement(navItem.icon, { className: navItem.icon.props.className + ' transition-opacity' })}
+                  </span>
+                  <span className="ml-2">{navItem.label}</span>
+                </span>
+                {isActive && (
+                  <motion.span 
+                    className="absolute inset-0 bg-gradient-to-r rounded-xl z-0"
+                    layoutId="activeTab"
+                    initial={false}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 500,
+                      damping: 30
+                    }}
+                  />
+                )}
+              </motion.button>
+            );
+          })}
+        </motion.div>
+
+        {/* Content Section */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-200/50 dark:border-gray-700/50"
           >
-            <p className="text-gray-600 dark:text-gray-400">
-              Thank you for reviewing my professional journey and expertise.
-            </p>
+            {/* Animated Tab Indicator */}
+            <div className={`h-1 bg-gradient-to-r ${activeTabData?.color || 'from-indigo-500 to-blue-500'} w-full`}></div>
+            
+            <div className="p-6 md:p-8">
+              {activeTab === 'work' && renderWorkExperience()}
+              {activeTab === 'skills' && renderSkills()}
+              {activeTab === 'education' && renderEducation()}
+            </div>
           </motion.div>
-        </div>
-      </div>
-    </div>  );
+        </AnimatePresence>
+
+        {/* Footer Note */}
+        <motion.div 
+          className="text-center py-8 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
+          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
+            Thank you for reviewing my professional journey and expertise.
+          </p>
+        </motion.div>
+      </motion.div>
+    </div>
+  );
 };
 
 export default Experience;

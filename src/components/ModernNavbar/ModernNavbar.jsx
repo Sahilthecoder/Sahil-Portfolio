@@ -54,14 +54,44 @@ const BackgroundPattern = () => (
   </div>
 );
 
-// Navigation items with static text
+// Navigation items with static text - Streamlined for better focus
 const NAV_ITEMS = [
-  { name: 'Home', path: '/', section: 'home', icon: <FiHome className="w-5 h-5" /> },
-  { name: 'About', path: '/about', section: 'about', icon: <FiUser className="w-5 h-5" /> },
-  { name: 'Projects', path: '/projects', section: 'projects', icon: <FiCode className="w-5 h-5" /> },
-  { name: 'Experience', path: '/experience', section: 'experience', icon: <FiBriefcase className="w-5 h-5" /> },
-  { name: 'Resume', path: '/resume', section: 'resume', icon: <FiFileText className="w-5 h-5" /> },
-  { name: 'Contact', path: '/contact', section: 'contact', icon: <FiMail className="w-5 h-5" /> },
+  { 
+    name: 'Home', 
+    path: '/', 
+    section: 'home', 
+    icon: <FiHome className="w-5 h-5" />,
+    description: 'Back to the homepage'
+  },
+  { 
+    name: 'About', 
+    path: '/about', 
+    section: 'about', 
+    icon: <FiUser className="w-5 h-5" />,
+    description: 'Learn about me and my skills'
+  },
+  { 
+    name: 'Work', 
+    path: '/experience', 
+    section: 'experience', 
+    icon: <FiBriefcase className="w-5 h-5" />,
+    description: 'View my professional experience'
+  },
+  { 
+    name: 'Projects', 
+    path: '/projects', 
+    section: 'projects', 
+    icon: <FiCode className="w-5 h-5" />,
+    description: 'Explore my portfolio projects'
+  },
+  { 
+    name: 'Contact', 
+    path: '/contact', 
+    section: 'contact', 
+    icon: <FiMail className="w-5 h-5" />,
+    description: 'Get in touch with me'
+  },
+  // Resume is now a call-to-action button in the navigation
 ];
 
 // Theme Toggle Component

@@ -89,61 +89,57 @@ const ProjectCard = ({ project, index, onClick }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="w-full h-full"
-    >
+    <div className="w-full h-full">
       <Tilt
-        tiltMaxAngleX={5}
-        tiltMaxAngleY={5}
+        tiltMaxAngleX={3}
+        tiltMaxAngleY={3}
         scale={1.02}
         glareEnable={true}
-        glareMaxOpacity={0.2}
+        glareMaxOpacity={0.1}
         glareColor="#ffffff"
         glarePosition="all"
-        glareBorderRadius="12px"
+        glareBorderRadius="16px"
         className="h-full"
+        transitionSpeed={1000}
       >
         <motion.div 
-          className="h-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200/80 dark:border-white/10 hover:border-indigo-400/70 dark:hover:border-blue-400/50 transition-all duration-300 group relative shadow-sm hover:shadow-lg cursor-pointer"
+          className="h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200/80 dark:border-gray-700/50 hover:border-indigo-400/70 dark:hover:border-blue-400/40 transition-all duration-300 group relative shadow-sm hover:shadow-xl"
           whileHover={{ 
-            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.12), 0 15px 20px -8px rgba(0, 0, 0, 0.08)',
-            y: -5,
-            scale: 1.01,
-            backgroundColor: 'rgba(255, 255, 255, 0.98)'
+            y: -8,
+            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04)'
           }}
           onClick={handleClick}
         >
           {/* Enhanced glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
           
           {/* Project image */}
-          <div className="relative pt-[56.25%] sm:pt-[60%] overflow-hidden">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              loading="lazy"
-              width="100%"
-              height="auto"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
+          <div className="relative pt-[56.25%] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
+              <img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                width="100%"
+                height="auto"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
               <div className="w-full">
                 <div className="flex flex-wrap gap-2 justify-center">
-                  {project.techStack?.slice(0, 4).map((tech, idx) => (
+                  {project.techStack?.slice(0, 5).map((tech, idx) => (
                     <motion.span
                       key={idx}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
-                      className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm cursor-default"
+                      transition={{ delay: idx * 0.05, duration: 0.3 }}
+                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-200 shadow-sm cursor-default"
                     >
-                      {techIcons[tech] || tech}
-                      <span className="ml-1.5">{tech}</span>
+                      <span className="text-blue-500 mr-1.5">{techIcons[tech] || tech.charAt(0)}</span>
+                      <span>{tech}</span>
                     </motion.span>
                   ))}
                 </div>
@@ -152,87 +148,58 @@ const ProjectCard = ({ project, index, onClick }) => {
           </div>
           
           {/* Project info */}
-          <div 
-            className="p-4 sm:p-6 bg-white dark:bg-gray-800 cursor-pointer"
-            onClick={handleClick}
-          >
+          <div className="p-5 sm:p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
-                {techIcons[project.icon] || <BsFileEarmarkExcel className="text-emerald-600 dark:text-emerald-400" />}
+                <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                  {techIcons[project.icon] || <BsFileEarmarkExcel className="w-4 h-4" />}
+                </span>
                 <span className="text-sm font-medium text-indigo-600 dark:text-blue-400">
                   {project.category}
                 </span>
               </div>
-              <span className="text-xs text-gray-600 dark:text-gray-300">{project.year}</span>
+              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700/50 px-2.5 py-1 rounded-full">
+                {project.year}
+              </span>
             </div>
             
             <h3 
-              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer"
+              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2"
               onClick={(e) => handleDirectNavigation(e, project.id ? `/projects/${project.id}` : project.projectUrl)}
             >
-              <GlitchText>{project.title}</GlitchText>
+              {project.title}
             </h3>
             
-            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
               {project.shortDescription}
             </p>
             
-            <div className="pt-3 border-t border-gray-100 dark:border-gray-700 relative z-10">
-              <div className="flex justify-end">
-                <div className="flex items-center space-x-3">
-                  <motion.button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (onClick && typeof onClick === 'function') {
-                        onClick(project);
-                      }
-                    }}
-                    whileHover={{ 
-                      scale: 1.05,
-                      y: -2,
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    className="px-4 py-2 text-xs font-medium text-white bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 rounded-lg border border-gray-600/30 shadow-md transition-all duration-200 flex items-center group relative overflow-hidden"
-                  >
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    <span className="relative z-10 flex items-center">
-                      <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      Preview
-                    </span>
-                  </motion.button>
-                  
-                  {project.path && (
-                    <motion.button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(project.path);
-                      }}
-                      whileHover={{ 
-                        scale: 1.05,
-                        y: -2,
-                        boxShadow: '0 4px 16px rgba(79, 70, 229, 0.3)'
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      className="px-4 py-2 text-xs font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg border border-indigo-500/30 shadow-md transition-all duration-200 flex items-center group relative overflow-hidden"
-                    >
-                      <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                      <span className="relative z-10 flex items-center">
-                        <FiArrowRight className="w-3.5 h-3.5 mr-1.5 transition-transform group-hover:translate-x-0.5" />
-                        View Project
-                      </span>
-                    </motion.button>
-                  )}
-                </div>
-              </div>
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
+              <motion.button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onClick && typeof onClick === 'function') {
+                    onClick(project);
+                  }
+                }}
+                whileHover={{ 
+                  scale: 1.03,
+                  y: -2,
+                  boxShadow: '0 4px 16px rgba(79, 70, 229, 0.1)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group/button"
+              >
+                <span>View Project</span>
+                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 group-hover/button:bg-blue-50 dark:group-hover/button:bg-blue-900/30 transition-colors duration-200">
+                  <FiArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </motion.button>
             </div>
           </div>
         </motion.div>
       </Tilt>
-    </motion.div>
+    </div>
   );
 };
 
@@ -726,80 +693,122 @@ const Projects = () => {
   }, []);
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:bg-dark-bg dark:bg-gradient-to-br dark:from-dark-bg-gradient dark:to-dark-bg">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <SEO 
         title="My Projects | Data Analysis & Visualization" 
         description="Explore my portfolio of data analysis, visualization, and machine learning projects showcasing my skills in turning data into insights."
         keywords="data analysis, data visualization, machine learning, portfolio, projects, data science, AI"
       />
 
-      <HeroSection
-        title={
-          <>
-            My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
-          </>
-        }
-        subtitle="Data Analysis | Visualization | Machine Learning"
-        description="Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively."
-        containerClass="pt-32 pb-20 md:pt-40"
-        showImage={false}
-      >
-        <div className="relative max-w-2xl mx-auto mt-8">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FaSearch className="h-5 w-5 text-gray-400" />
-          </div>
-          <input
-            type="text"
-            className="block w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm"
-            placeholder="Search projects..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            aria-label="Search projects"
-          />
-        </div>
-      </HeroSection>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <motion.h2 
-          className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          {searchTerm ? 'Search Results' : 'Featured Projects'}
-        </motion.h2>
+      <div className="relative overflow-hidden">
+        {/* Background elements */}
+        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/20 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute top-0 right-0 w-full sm:w-2/3 h-64 bg-gradient-to-br from-indigo-100/60 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
         
-        <motion.div 
-          className="relative z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+        <HeroSection
+          title={
+            <>
+              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
+            </>
+          }
+          subtitle="Data Analysis | Visualization | Machine Learning"
+          description="Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively."
+          containerClass="pt-28 pb-16 md:pt-36 lg:pt-40 relative z-10"
+          showImage={false}
         >
-          {filteredProjects.length > 0 ? (
-            <div 
-              ref={projectsRef}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
-            >
-              {filteredProjects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  onClick={() => handleProjectSelect(project)}
-                />
-              ))}
+          <div className="relative max-w-2xl mx-auto mt-8">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaSearch className="h-5 w-5 text-gray-400" />
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="inline-block p-8 bg-white/70 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-lg">
-                <FaSearch className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
-                <p className="text-gray-500 dark:text-gray-400">Try adjusting your search or filter to find what you're looking for.</p>
-              </div>
-            </div>
-          )}
-        </motion.div>
+            <input
+              type="text"
+              className="block w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
+              placeholder="Search projects..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              aria-label="Search projects"
+            />
+          </div>
+        </HeroSection>
       </div>
+
+      <section className="relative py-12 sm:py-16 lg:py-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-50/50 dark:to-gray-900/30 -z-10"></div>
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white dark:from-gray-900 to-transparent -z-10"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div 
+            className="text-center mb-12 md:mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              {searchTerm ? 'Search Results' : 'Featured Projects'}
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto rounded-full"></div>
+            {!searchTerm && (
+              <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                A curated collection of my best work. Click on any project to learn more about the process and technologies used.
+              </p>
+            )}
+          </motion.div>
+          
+          <motion.div 
+            className="relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            {filteredProjects.length > 0 ? (
+              <div 
+                ref={projectsRef}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"
+              >
+                <AnimatePresence>
+                  {filteredProjects.map((project, index) => (
+                    <motion.div
+                      key={project.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      layout
+                    >
+                      <ProjectCard
+                        project={project}
+                        index={index}
+                        onClick={() => handleProjectSelect(project)}
+                      />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <motion.div 
+                className="text-center py-16"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <div className="inline-block p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/50">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 mb-4">
+                    <FaSearch className="h-10 w-10 text-blue-500 dark:text-blue-400" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No projects found</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">Try adjusting your search or filter to find what you're looking for.</p>
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  >
+                    Clear search
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        </div>
+      </section>
 
       {/* Scroll to top button */}
       <AnimatePresence>

@@ -10,8 +10,8 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const isDev = mode === 'development';
   
-  // Determine base URL
-  const base = env.VITE_BASE_URL || (command === 'serve' ? '/' : '/Sahil-Portfolio/');
+  // Determine base URL - default to empty string for development and '/Sahil-Portfolio/' for production
+  const base = env.VITE_BASE_URL || (command === 'serve' ? '' : '/Sahil-Portfolio');
   
   return {
     // Base URL configuration for GitHub Pages

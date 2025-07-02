@@ -3,3 +3,7 @@
 
 # Handle 404s
 /*    /404.html   404
+
+# Ensure all assets are accessible
+/assets/*    /Sahil-Portfolio/assets/:splat    200
+/images/*    /Sahil-Portfolio/images/:splat    200

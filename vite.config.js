@@ -51,28 +51,33 @@ export default defineConfig(({ command, mode }) => {
     // Build configuration
     build: {
       outDir: 'dist',
-      sourcemap: isDev, // Sourcemaps in dev only
+      sourcemap: isDev ? 'inline' : false,
+      assetsDir: 'assets',
+      copyPublicDir: true,
       minify: isDev ? false : 'terser',
       cssCodeSplit: true,
       reportCompressedSize: true,
       chunkSizeWarningLimit: 1000,
-      assetsInlineLimit: 0, // Ensures all asset paths are relative to the base URL
+      assetsInlineLimit: 0,
       rollupOptions: {
+        input: path.resolve(__dirname, 'index.html'),
         output: {
           manualChunks: {
             react: ['react', 'react-dom', 'react-dom/client', 'react-router-dom'],
             framer: ['framer-motion'],
-            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si'],
-            tensorflow: ['@tensorflow/tfjs', '@tensorflow-models/speech-commands']
+            icons: ['react-icons/fa', 'react-icons/fi', 'react-icons/bs', 'react-icons/si']
           },
-          chunkFileNames: 'assets/[name]-[hash].js',
-          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: (assetInfo) => {
-            if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)$/i.test(assetInfo.name)) {
+            if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp|avif)$/i.test(assetInfo.name)) {
               return 'assets/images/[name]-[hash][extname]';
             }
             if (/\.(woff|woff2|eot|ttf|otf)$/i.test(assetInfo.name)) {
               return 'assets/fonts/[name]-[hash][extname]';
+            }
+            if (/\.(css|scss)$/i.test(assetInfo.name)) {
+              return 'assets/css/[name]-[hash][extname]';
             }
             return 'assets/[name]-[hash][extname]';
           }

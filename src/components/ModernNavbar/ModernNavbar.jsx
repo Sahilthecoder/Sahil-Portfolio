@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   FiMenu, 
   FiX, 
@@ -9,13 +9,50 @@ import {
   FiCode, 
   FiBriefcase, 
   FiMail, 
-  FiGlobe,
-  FiChevronDown,
-  FiStar
+  FiFileText,
+  FiChevronRight
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+
+// Glass morphism styles
+const glassStyle = 'backdrop-blur-md bg-white/80 dark:bg-gray-900/80';
+const glassHover = 'hover:bg-white/90 dark:hover:bg-gray-800/90';
+const glassBorder = 'border border-white/20 dark:border-gray-700/50';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: -10 },
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 15,
+    }
+  },
+};
+
+// Floating background pattern
+const BackgroundPattern = () => (
+  <div className="absolute inset-0 overflow-hidden -z-10">
+    <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.02]" />
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 dark:to-gray-900/50" />
+  </div>
+);
 
 // Navigation items with static text
 const NAV_ITEMS = [
@@ -23,6 +60,7 @@ const NAV_ITEMS = [
   { name: 'About', path: '/about', section: 'about', icon: <FiUser className="w-5 h-5" /> },
   { name: 'Projects', path: '/projects', section: 'projects', icon: <FiCode className="w-5 h-5" /> },
   { name: 'Experience', path: '/experience', section: 'experience', icon: <FiBriefcase className="w-5 h-5" /> },
+  { name: 'Resume', path: '/resume', section: 'resume', icon: <FiFileText className="w-5 h-5" /> },
   { name: 'Contact', path: '/contact', section: 'contact', icon: <FiMail className="w-5 h-5" /> },
 ];
 
@@ -30,9 +68,12 @@ const NAV_ITEMS = [
 const ThemeToggle = React.memo(() => {
   const { theme, toggleTheme, autoTheme, toggleAutoTheme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
   
   const handleToggle = useCallback((e) => {
     e.stopPropagation();
+    setIsPressed(true);
+    setTimeout(() => setIsPressed(false), 200);
     toggleTheme();
   }, [toggleTheme]);
   
@@ -42,21 +83,29 @@ const ThemeToggle = React.memo(() => {
     toggleAutoTheme();
   }, [toggleAutoTheme]);
   
-  // Theme configurations
+  // Theme configurations with improved contrast and modern design
   const themes = {
     light: {
-      icon: <FiSun className="w-4 h-4" />,
-      label: 'Light',
-      color: 'text-yellow-500',
-      bg: 'bg-yellow-100',
-      hoverBg: 'hover:bg-yellow-100/80',
+      icon: <FiSun className="w-4 h-4 md:w-5 md:h-5" />,
+      label: 'Light Mode',
+      bg: 'bg-white dark:bg-gray-800',
+      ring: 'ring-1 ring-gray-200 dark:ring-gray-700',
+      hoverBg: 'hover:bg-gray-50 dark:hover:bg-gray-700',
+      activeBg: 'active:bg-gray-100 dark:active:bg-gray-600',
+      text: 'text-yellow-500 dark:text-yellow-400',
+      shadow: 'shadow-sm hover:shadow-md',
+      tooltip: 'Switch to dark mode',
     },
     dark: {
-      icon: <FiMoon className="w-4 h-4" />,
-      label: 'Dark',
-      color: 'text-indigo-500',
-      bg: 'bg-indigo-100',
-      hoverBg: 'hover:bg-indigo-100/80',
+      icon: <FiMoon className="w-4 h-4 md:w-5 md:h-5" />,
+      label: 'Dark Mode',
+      bg: 'bg-gray-900 dark:bg-gray-100',
+      ring: 'ring-1 ring-gray-800 dark:ring-gray-300',
+      hoverBg: 'hover:bg-gray-800 dark:hover:bg-gray-50',
+      activeBg: 'active:bg-gray-700 dark:active:bg-gray-100',
+      text: 'text-indigo-300 dark:text-indigo-600',
+      shadow: 'shadow-sm hover:shadow-md shadow-gray-900/20 dark:shadow-gray-100/20',
+      tooltip: 'Switch to light mode',
     }
   };
 
@@ -64,127 +113,164 @@ const ThemeToggle = React.memo(() => {
   const nextTheme = theme === 'light' ? 'dark' : 'light';
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative group">
       <motion.button
         onClick={handleToggle}
         onContextMenu={handleAutoThemeToggle}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        aria-label={`Switch to ${nextTheme} theme${autoTheme ? ' (Auto)' : ''}`}
-        className={`relative flex items-center justify-center h-9 px-3 rounded-full ${currentTheme.bg} ${currentTheme.hoverBg} ${currentTheme.color} transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900`}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+        onMouseLeave={() => setIsPressed(false)}
+        aria-label={`${currentTheme.tooltip}${autoTheme ? ' (Auto theme enabled)' : ''}`}
+        className={`relative flex items-center justify-center h-10 w-10 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 ${currentTheme.bg} ${currentTheme.ring} ${currentTheme.hoverBg} ${currentTheme.activeBg} ${currentTheme.shadow} ${isPressed ? 'scale-95' : ''}`}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <motion.span 
-          className="flex items-center space-x-2 text-sm font-medium"
-          initial={false}
-          animate={{ width: isHovered ? 'auto' : 'auto' }}
+        <motion.div 
+          className="relative flex items-center justify-center w-full h-full"
+          animate={{
+            rotate: isHovered ? (theme === 'light' ? 15 : -15) : 0,
+            scale: isPressed ? 0.9 : 1
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 500,
+            damping: 15,
+            mass: 0.5
+          }}
         >
           <motion.span
-            animate={{ rotate: isHovered ? 30 : 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            className={`${currentTheme.text} transition-colors duration-300`}
+            animate={{
+              scale: isHovered ? 1.1 : 1,
+              opacity: 1
+            }}
           >
             {currentTheme.icon}
           </motion.span>
+          
+          {/* Ripple effect on click */}
           <motion.span 
-            className="whitespace-nowrap"
-            initial={{ opacity: 0, width: 0, marginLeft: 0 }}
+            className="absolute inset-0 rounded-full bg-current opacity-0"
+            initial={false}
             animate={{
-              opacity: isHovered ? 1 : 0,
-              width: isHovered ? 'auto' : 0,
-              marginLeft: isHovered ? 8 : 0,
+              scale: isPressed ? 1.5 : 1,
+              opacity: isPressed ? 0.1 : 0
             }}
-            transition={{ duration: 0.2 }}
-          >
-            {currentTheme.label}
-          </motion.span>
-        </motion.span>
-        
+            transition={{ duration: 0.4 }}
+          />
+        </motion.div>
+
+        {/* Auto theme indicator */}
         {autoTheme && (
           <motion.span 
-            className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900"
+            className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900"
             initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
+            animate={{ 
+              scale: 1,
+              opacity: [0, 1, 1],
+              y: [10, -2, 0]
+            }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ 
+              duration: 0.3,
+              times: [0, 0.8, 1],
+              ease: "easeOut"
+            }}
           />
         )}
       </motion.button>
       
-      {/* Auto theme tooltip */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div 
-            className="absolute right-0 top-full mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-2 text-xs text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 z-50"
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 5 }}
-            transition={{ duration: 0.15 }}
-          >
-            <button
-              onClick={handleAutoThemeToggle}
-              className={`w-full text-left px-3 py-2 rounded-md flex items-center justify-between ${
-                autoTheme 
-                  ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300' 
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-700/50'
-              }`}
-            >
-              <span>Auto Theme</span>
-              {autoTheme && <span className="w-2 h-2 rounded-full bg-blue-500"></span>}
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Tooltip */}
+      <motion.div 
+        className="absolute right-0 top-full mt-2 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 dark:bg-gray-700 rounded-md shadow-lg whitespace-nowrap pointer-events-none z-50"
+        initial={{ opacity: 0, y: 5 }}
+        animate={{
+          opacity: isHovered ? 1 : 0,
+          y: isHovered ? 0 : 5
+        }}
+        transition={{ duration: 0.2 }}
+      >
+        {currentTheme.tooltip}
+        {autoTheme && ' (Auto)'}
+      </motion.div>
     </div>
   );
 });
 
 const ModernNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const navbarRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const lastScrollY = useRef(0);
+  const navRef = useRef(null);
+  const menuRef = useRef(null);
 
-  // Get active section from path
-  const activeSection = useMemo(() => {
-    const path = location.pathname;
-    if (path === '/') return 'home';
-    if (path.startsWith('/projects')) return 'projects';
-    return path.split('/')[1];
-  }, [location.pathname]);
-
-  // Close mobile menu when clicking outside
-  const handleClickOutsideMobile = useCallback((event) => {
-    if (isMenuOpen && !event.target.closest('.mobile-menu-container')) {
-      setIsMenuOpen(false);
-    }
-  }, [isMenuOpen]);
-
+  // Handle scroll effect with debounce
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutsideMobile);
-    return () => document.removeEventListener('mousedown', handleClickOutsideMobile);
-  }, [handleClickOutsideMobile]);
-
-  // Handle scroll for navbar appearance
-  useEffect(() => {
+    let timeoutId;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Auto-hide navbar on scroll down, show on scroll up
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setIsVisible(false);
-      } else if (currentScrollY < lastScrollY.current) {
-        setIsVisible(true);
-      }
-      lastScrollY.current = currentScrollY;
-
-      // Add shadow when scrolled
-      setIsScrolled(currentScrollY > 10);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setScrolled(window.scrollY > 10);
+      }, 10);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  // Close menu when route changes
+  useEffect(() => {
+    closeMenu();
+  }, [location.pathname]);
+
+  // Handle body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      // Focus trap for accessibility
+      const focusableElements = menuRef.current.querySelectorAll(
+        'button, [href], [tabindex]:not([tabindex="-1"])'
+      );
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          closeMenu();
+        }
+        
+        // Trap focus inside menu when open
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement.focus();
+            }
+          } else {
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement.focus();
+            }
+          }
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+      firstElement?.focus();
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isMenuOpen]);
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen(prev => !prev);
@@ -194,48 +280,71 @@ const ModernNavbar = () => {
     setIsMenuOpen(false);
   }, []);
 
+  // Close mobile menu when clicking outside or pressing Escape
+  const handleClickOutsideMobile = useCallback((event) => {
+    if (isMenuOpen && !event.target.closest('.mobile-menu-container')) {
+      setIsMenuOpen(false);
+    }
+  }, [isMenuOpen]);
+
   // Smooth scroll to section
   const scrollTo = useCallback((id) => {
     if (id === 'home') {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
-    } else {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
+      return;
+    }
+    
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
     }
   }, []);
 
+  // Add padding to the body when menu is open to prevent scrolling
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('menu-open');
+      return () => document.body.classList.remove('menu-open');
+    }
+  }, [isMenuOpen]);
+
   return (
-    <div ref={navbarRef} className="mobile-menu-container" style={{ position: 'relative' }}>
+    <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-[9997] transition-all duration-300 ease-in-out ${
-          isScrolled
-            ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/80 dark:border-gray-700/80 shadow-lg'
-            : 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-transparent'
-        } ${!isVisible ? '-translate-y-full' : 'translate-y-0'}`}
-        initial={{ y: 0 }}
-        animate={{ y: isVisible ? 0 : '-100%' }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        ref={navRef}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled 
+            ? `py-2 ${glassStyle} ${glassBorder} shadow-xl` 
+            : 'py-4 bg-transparent'
+        }`}
         style={{
-          WebkitBackdropFilter: 'blur(12px)',
-          backdropFilter: 'blur(12px)',
-          touchAction: 'manipulation', // Improve touch response
+          // Ensure navbar stays above other content
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
         }}
       >
+        <BackgroundPattern />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Link
+              <NavLink
                 to="/"
-                className="group flex items-center space-x-2 sm:space-x-3 active:scale-95 transform transition-transform"
+                className={({ isActive }) => `flex items-center space-x-2 ${isActive ? 'text-indigo-600 dark:text-indigo-400' : ''}`}
                 onClick={closeMenu}
               >
                 <div className="relative">
@@ -257,7 +366,7 @@ const ModernNavbar = () => {
                     DATA ANALYST
                   </span>
                 </div>
-              </Link>
+              </NavLink>
             </div>
 
             {/* Desktop Navigation */}
@@ -297,147 +406,160 @@ const ModernNavbar = () => {
             </nav>
 
             {/* Desktop Right Side */}
-            <div className="flex items-center space-x-1 sm:space-x-2">
+            <div className="hidden md:flex items-center space-x-3">
+              <div className="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
               <ThemeToggle />
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile menu button - Theme toggle removed from header */}
             <div className="md:hidden flex items-center">
-              <button
+              <motion.button
                 onClick={toggleMenu}
-                className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={`p-2.5 rounded-xl ${glassStyle} ${glassHover} ${glassBorder} shadow-sm hover:shadow-md transition-all duration-300`}
+                aria-label="Toggle menu"
                 aria-expanded={isMenuOpen}
-                aria-label={isMenuOpen ? 'Close menu' : 'Menu'}
+                aria-controls="mobile-menu"
+                whileTap={{ scale: 0.95 }}
               >
-                {isMenuOpen ? (
-                  <FiX className="block h-6 w-6" />
-                ) : (
-                  <FiMenu className="block h-6 w-6" />
-                )}
-              </button>
+                <div className="relative w-6 h-5">
+                  <motion.span 
+                    className="absolute h-0.5 w-6 bg-current block rounded-full"
+                    animate={isMenuOpen ? 'open' : 'closed'}
+                    variants={{
+                      closed: { top: '0.25rem', rotate: 0 },
+                      open: { top: '0.75rem', rotate: 45 }
+                    }}
+                  />
+                  <motion.span 
+                    className="absolute h-0.5 w-6 bg-current block rounded-full top-1/2 -translate-y-1/2"
+                    animate={isMenuOpen ? 'open' : 'closed'}
+                    variants={{
+                      closed: { opacity: 1 },
+                      open: { opacity: 0 }
+                    }}
+                  />
+                  <motion.span 
+                    className="absolute h-0.5 w-6 bg-current block rounded-full"
+                    animate={isMenuOpen ? 'open' : 'closed'}
+                    variants={{
+                      closed: { bottom: '0.25rem', rotate: 0 },
+                      open: { bottom: '0.75rem', rotate: -45 }
+                    }}
+                  />
+                </div>
+              </motion.button>
             </div>
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu with modern design */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
-              className="fixed inset-0"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={closeMenu}
-              style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 9998, // High z-index for overlay
-                overflow: 'hidden',
-                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                animation: 'fadeIn 0.2s ease-out',
-                touchAction: 'none',
-                overscrollBehavior: 'contain',
-                WebkitOverflowScrolling: 'touch',
-              }}
-            >
-              {/* Semi-transparent overlay */}
-              {/* Mobile menu panel */}
+            <div className="mobile-menu-container">
               <motion.div
-                className="fixed right-0 top-0 h-full w-11/12 sm:w-4/5 max-w-md bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: 9999, // Higher than overlay
-                  width: '90%',
-                  maxWidth: '24rem',
-                  backgroundColor: 'var(--color-bg)',
-                  boxShadow: '-4px 0 30px rgba(0, 0, 0, 0.2)',
-                  overflowY: 'auto',
-                  WebkitOverflowScrolling: 'touch',
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: 'rgba(0, 0, 0, 0.2) transparent',
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                onClick={closeMenu}
+                aria-hidden="true"
+              />
+              <motion.div
+                ref={menuRef}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                onClick={(e) => e.stopPropagation()}
+                transition={{ 
+                  type: 'spring',
+                  damping: 30,
+                  stiffness: 300,
+                  mass: 0.5
+                }}
+                className={`fixed top-0 right-0 h-screen w-80 max-w-full ${glassStyle} ${glassBorder} shadow-2xl z-50 overflow-y-auto`}
+                style={{
+                  maxHeight: '100vh',
+                  WebkitOverflowScrolling: 'touch',
+                  overscrollBehavior: 'contain'
+                }}
+                id="mobile-menu"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Mobile menu"
               >
-                <div className="h-full flex flex-col py-6 px-4 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-                  <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 dark:border-gray-800 sticky top-0 bg-white dark:bg-gray-900 z-10">
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">
-                      Menu
-                    </span>
-                    <button
-                      onClick={closeMenu}
-                      className="p-2 -mr-2 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50 transition-colors"
-                      aria-label="Close menu"
-                    >
-                      <FiX className="h-6 w-6" />
-                    </button>
+                <BackgroundPattern />
+                <div className="flex flex-col min-h-full">
+                  <div className="px-6 py-5 border-b border-white/10">
+                    <div className="flex items-center justify-between">
+                      <motion.h2 
+                        className="text-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 }}
+                      >
+                        Navigation
+                      </motion.h2>
+                      <motion.button
+                        onClick={closeMenu}
+                        className={`p-2 rounded-xl ${glassHover} text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors`}
+                        aria-label="Close menu"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <FiX className="h-5 w-5" />
+                      </motion.button>
+                    </div>
                   </div>
-                  <nav className="flex-1 px-2 py-4 space-y-1">
-                    {NAV_ITEMS.map((item) => {
-                      const isActive = location.pathname === item.path || 
-                                    (item.path !== '/' && location.pathname.startsWith(item.path));
-                      return (
-                        <button
-                          key={item.name}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            closeMenu();
-                            if (item.path === '/') {
-                              scrollTo('home');
-                              navigate(item.path);
-                            } else {
-                              navigate(item.path);
-                              // Small delay to ensure the component has mounted
-                              setTimeout(() => {
-                                scrollTo(item.section);
-                              }, 50);
+                  
+                  <motion.nav 
+                    className="flex-1 px-4 py-6 space-y-2 overflow-y-auto"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                  >
+                    {NAV_ITEMS.map((item) => (
+                      <motion.div
+                        key={item.path}
+                        variants={itemVariants}
+                        whileHover={{ x: 5 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <NavLink
+                          to={item.path}
+                          className={({ isActive }) => `
+                            flex items-center justify-between p-4 rounded-xl transition-all duration-300
+                            ${isActive 
+                              ? `${glassStyle} ${glassHover} shadow-md text-indigo-600 dark:text-indigo-300` 
+                              : `${glassHover} text-gray-700 dark:text-gray-300`
                             }
-                          }}
-                          className={`w-full text-left flex items-center px-4 py-3.5 text-base font-medium rounded-lg transition-all duration-200 ${
-                            isActive
-                              ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
-                              : 'text-gray-700 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40 active:scale-[0.98] transform transition-transform'
-                          }`}
-                          style={{
-                            WebkitTapHighlightColor: 'transparent',
-                            WebkitTouchCallout: 'none',
-                            touchAction: 'manipulation',
-                          }}
+                          `}
+                          onClick={closeMenu}
                         >
-                          <span className="mr-3">{item.icon}</span>
-                          {item.name}
-                        </button>
-                      );
-                    })}
-                  </nav>
-                  <div className="sticky bottom-0 px-4 py-4 mt-auto bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                        Theme
-                      </span>
+                          <div className="flex items-center">
+                            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mr-3">
+                              {item.icon}
+                            </span>
+                            <span className="font-medium">{item.name}</span>
+                          </div>
+                          <FiChevronRight className="text-gray-400 group-hover:translate-x-1 transition-transform" />
+                        </NavLink>
+                      </motion.div>
+                    ))}
+                  </motion.nav>
+                  
+                  <div className={`p-5 border-t border-white/10 ${glassStyle}`}>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Theme</span>
                       <ThemeToggle />
                     </div>
-                    {/* Language selector removed as per user request */}
                   </div>
                 </div>
               </motion.div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </motion.nav>
-    </div>
+    </>
   );
 };
 

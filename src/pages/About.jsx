@@ -66,36 +66,6 @@ const About = () => {
   const navItems = [
     { id: 'about', label: 'About Me', icon: <FaLaptopCode className="mr-2" /> },
     { id: 'education', label: 'Education', icon: <FaGraduationCap className="mr-2" /> },
-    { id: 'contact', label: 'Contact', icon: <FaEnvelope className="mr-2" /> },
-  ];
-
-  // Contact Information
-  const contactInfo = [
-    {
-      icon: <FaEnvelope className="text-indigo-500" />,
-      text: 'sahilkhan36985@gmail.com',
-      link: 'mailto:sahilkhan36985@gmail.com',
-    },
-    {
-      icon: <FaPhone className="text-green-500" />,
-      text: '+91 6377XXXXXX',
-      link: 'tel:+916377XXXXXX',
-    },
-    {
-      icon: <FaMapMarkerAlt className="text-red-500" />,
-      text: 'Jaipur, Rajasthan, India',
-      link: 'https://goo.gl/maps/your-location',
-    },
-    {
-      icon: <FaGithub className="text-gray-700 dark:text-gray-300" />,
-      text: 'github.com/SahilTheCoder',
-      link: 'https://github.com/SahilTheCoder',
-    },
-    {
-      icon: <FaLinkedin className="text-blue-600" />,
-      text: 'linkedin.com/in/sahil-ali-714867242',
-      link: 'https://linkedin.com/in/sahil-ali-714867242',
-    },
   ];
 
   if (!isMounted) return null;
@@ -114,15 +84,14 @@ const About = () => {
         subtitle="AI & Data Analytics Expert | Inventory Management Specialist"
         description="I combine expertise in AI, data analytics, and inventory management to create efficient, data-driven solutions. This portfolio, built with AI assistance, demonstrates my ability to leverage technology for practical business applications. My approach focuses on using data to optimize inventory systems, automate processes, and drive operational excellence."
         primaryButton={{
-          text: 'Contact Me',
-          link: '#contact',
+          text: 'View Resume',
+          link: '/resume',
           showArrow: true
         }}
         secondaryButton={{
-          text: 'Download CV',
-          link: '/resume.pdf',
-          showArrow: true,
-          download: true
+          text: 'Explore Projects',
+          link: '/projects',
+          showArrow: true
         }}
         imageProps={{
           src: `${import.meta.env.BASE_URL}profile.avif`,
@@ -178,39 +147,6 @@ const About = () => {
               </motion.div>
             </motion.section>
 
-            {/* Contact Section */}
-            <motion.section 
-              id="contact"
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-8 transition-colors duration-300 border border-gray-100/50 dark:border-gray-700/50"
-              variants={container}
-              initial="hidden"
-              animate="show"
-            >
-              <motion.div variants={item} className="space-y-6">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Get In Touch</h2>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Feel free to reach out to me for any questions or opportunities. I'll get back to you as soon as possible!
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                  {contactInfo.map((contact, index) => (
-                    <a
-                      key={index}
-                      href={contact.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center p-4 rounded-lg border border-gray-200/70 dark:border-gray-700/50 hover:bg-gray-50/70 dark:hover:bg-gray-700/50 transition-colors backdrop-blur-sm"
-                    >
-                      <div className="text-2xl text-indigo-600 mr-4">
-                        {contact.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-gray-900 dark:text-gray-200">{contact.text}</h3>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.section>
           </div>
           
           {/* Sidebar */}
@@ -249,34 +185,22 @@ const About = () => {
               </nav>
             
               <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Contact Info</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h3>
                 <div className="space-y-3">
-                  {contactInfo.slice(0, 3).map((item, index) => (
-                    <a 
-                      key={index} 
-                      href={item.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                    >
-                      <span className="mr-3">{item.icon}</span>
-                      <span className="text-sm">{item.text}</span>
-                    </a>
-                  ))}
-                </div>
-                <div className="flex space-x-4 mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  {contactInfo.slice(3).map((item, index) => (
-                    <a 
-                      key={index}
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-2xl text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                      aria-label={item.text}
-                    >
-                      {item.icon}
-                    </a>
-                  ))}
+                  <Link 
+                    to="/resume"
+                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  >
+                    <FaFilePdf className="mr-3" />
+                    <span className="text-sm">View My Resume</span>
+                  </Link>
+                  <Link 
+                    to="/projects"
+                    className="flex items-center text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                  >
+                    <FaCode className="mr-3" />
+                    <span className="text-sm">Explore My Projects</span>
+                  </Link>
                 </div>
               </div>
             </div>

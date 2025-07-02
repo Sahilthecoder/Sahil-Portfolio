@@ -41,6 +41,7 @@
     "@sentry/tracing": "^7.120.3",
     "@tensorflow-models/speech-commands": "^0.5.4",
     "@tensorflow/tfjs": "^4.16.0",
+    "@types/recharts": "^1.8.29",
     "axios": "^1.6.2",
     "framer-motion": "^10.18.0",
     "html2canvas": "^1.4.1",
@@ -50,11 +51,13 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-hot-toast": "^2.5.2",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
     "react-parallax-tilt": "^1.7.299",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "recharts": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
@@ -122,6 +125,7 @@
     "util": "^0.12.5",
     "vite": "^6.1.6",
     "vitest": "^3.2.4",
+    "web-vitals": "^5.0.3",
     "webpack-bundle-analyzer": "^4.10.2"
   }
 }

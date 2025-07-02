@@ -1,6 +1,7 @@
-import React, { StrictMode, useState, useEffect } from 'react';
+import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import './index.css';
 import './App.css';
@@ -78,17 +79,21 @@ const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
   
-  // Wrap the app with ClientOnly to prevent hydration issues
+  // Wrap the app with necessary providers
   const AppWithProviders = () => (
-    <React.StrictMode>
-      <ClientOnly>
-        <ErrorBoundary>
-          <AIAssistantProvider>
-            <App />
-          </AIAssistantProvider>
-        </ErrorBoundary>
-      </ClientOnly>
-    </React.StrictMode>
+    <ClientOnly>
+      <ErrorBoundary>
+        <StrictMode>
+          <HelmetProvider>
+            <BrowserRouter>
+              <AIAssistantProvider>
+                <App />
+              </AIAssistantProvider>
+            </BrowserRouter>
+          </HelmetProvider>
+        </StrictMode>
+      </ErrorBoundary>
+    </ClientOnly>
   );
 
   // Render the app

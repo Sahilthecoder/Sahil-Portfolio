@@ -591,7 +591,7 @@ const Experience = () => {
             >
               <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
                 <img 
-                  src="/images/profile.avif" 
+                  src="/optimized-images/profile.avif" 
                   alt="Sahil Ali"
                   className="w-full h-full object-cover"
                   onError={(e) => {

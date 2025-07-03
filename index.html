@@ -207,7 +207,7 @@
     </div>
 
     <!-- Vite will automatically inject the correct script and link tags here -->
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="./src/main.jsx"></script>
     
     <!-- Register service worker with dynamic base path -->
     <script>
@@ -225,47 +225,35 @@
         const pathSegments = window.location.pathname.split('/').filter(Boolean);
         return pathSegments.length > 0 ? `/${pathSegments[0]}/` : '/';
       };
-
       const basePath = getBasePath();
-      // Ensure the service worker path is correct for GitHub Pages
-      const swPath = `${basePath}service-worker.js`;
-
-      // Service Worker Registration
-      // Check if we're in production by looking for the Vite development server
-      const isProduction = !window.location.hostname.includes('localhost') && 
-                         !window.location.hostname.includes('127.0.0.1');
+      const swPath = `${basePath.replace(/\/$/, '')}/service-worker.js`; // Ensure no double slashes
       
-      if ('serviceWorker' in navigator && isProduction) {
-        window.addEventListener('load', () => {
-          // Get the base path from the data attribute or calculate it
-          const basePath = document.documentElement.getAttribute('data-base-url') || '/';
-          const swPath = `${basePath}service-worker.js`;
-          
-          console.log('Registering service worker at:', swPath);
-          
-          // Unregister any existing service workers first
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            const unregisterPromises = registrations.map(registration => registration.unregister());
-            return Promise.all(unregisterPromises);
-          })
-          .then(() => {
+      // Only register in production
+      if (window.location.hostname !== 'localhost' && !window.location.hostname.startsWith('127.0.0.1')) {
+        window.addEventListener('load', async () => {
+          try {
+            console.log('Registering service worker at:', swPath);
+            
+            // Unregister any existing service workers first
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map(registration => registration.unregister()));
+            
             // Register the service worker with the correct scope
-            return navigator.serviceWorker.register(swPath, { 
+            const registration = await navigator.serviceWorker.register(swPath, { 
               scope: basePath 
             });
-          })
-          .then(registration => {
+            
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            
             // Check for updates
             registration.update().then(() => {
               console.log('ServiceWorker update check complete');
             }).catch(updateError => {
               console.warn('ServiceWorker update check failed:', updateError);
             });
-          })
-          .catch(error => {
+          } catch (error) {
             console.error('ServiceWorker registration failed: ', error);
-          });
+          }
         });
       }
         // In development, unregister any existing service workers

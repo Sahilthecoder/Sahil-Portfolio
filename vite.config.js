@@ -77,7 +77,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 let base = '/';
 
 // For GitHub Pages, always use the repository name as base path with trailing slash
-if (isGitHubPages) {
+if (isGitHubPages || process.env.GITHUB_ACTIONS) {
   base = '/Sahil-Portfolio/';
 } else if (isProduction) {
   base = '/';
@@ -192,9 +192,8 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },
+    // Asset handling configuration
     assetsInlineLimit: 4096, // 4kb - inline smaller assets as base64
-    manifest: true, // Generate manifest.json
-    assetsInclude: ['**/*.avif', '**/*.webp', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
   },
   preview: {
     port: 3000,
@@ -211,6 +210,23 @@ export default defineConfig({
       load(id) {
         if (id === '\0virtual:base-url') {
           return baseUrlModule;
+        }
+      },
+    },
+    {
+      name: 'copy-service-worker',
+      apply: 'build',
+      writeBundle() {
+        const fs = require('fs');
+        const path = require('path');
+        const source = path.resolve(__dirname, 'public/service-worker.js');
+        const dest = path.resolve(__dirname, 'dist/service-worker.js');
+        
+        if (fs.existsSync(source)) {
+          fs.copyFileSync(source, dest);
+          console.log('Copied service-worker.js to dist directory');
+        } else {
+          console.warn('Warning: service-worker.js not found in public directory');
         }
       },
     },

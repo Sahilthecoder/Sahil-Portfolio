@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
+import { getImagePath } from '../utils/imagePath';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
@@ -643,10 +644,10 @@ const Experience = () => {
             >
               <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
                 <ImageWithFallback 
-                  src="/images/profile.avif"
+                  src={getImagePath('/images/profile.avif')}
                   alt="Sahil Ali"
                   className="w-full h-full object-cover rounded-2xl"
-                  fallbackSrc="/images/placeholder-profile.jpg"
+                  fallbackSrc={getImagePath('/images/placeholder-profile.jpg')}
                 />
               </div>
               {/* Decorative elements */}

@@ -77,10 +77,12 @@ const isProduction = process.env.NODE_ENV === 'production';
 let base = '/';
 
 // For GitHub Pages, always use the repository name as base path with trailing slash
-if (isGitHubPages || process.env.GITHUB_ACTIONS) {
+if (isGitHubPages || process.env.GITHUB_ACTIONS || process.env.NODE_ENV === 'production') {
   base = '/Sahil-Portfolio/';
-} else if (isProduction) {
+  console.log('Using base URL for GitHub Pages:', base);
+} else {
   base = '/';
+  console.log('Using base URL for development:', base);
 }
 
 // Ensure base URL is consistently formatted with a trailing slash
@@ -192,14 +194,14 @@ export default defineConfig({
         entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },
-    // Asset handling configuration
-    assetsInlineLimit: 4096, // 4kb - inline smaller assets as base64
+    // Asset handling configuration is now in the build.rollupOptions.output section
   },
   preview: {
     port: 3000,
     open: true
   },
   plugins: [
+    // Virtual module for base URL
     {
       name: 'virtual-base-url',
       resolveId(id) {

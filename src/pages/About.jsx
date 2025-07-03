@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
+import { getImagePath } from '../utils/imagePath';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
@@ -254,13 +255,13 @@ const About = () => {
     isHome: false,
     showProfileImage: true,
     profileImage: {
-      src: '/images/profile.avif',
+      src: getImagePath('/images/profile.avif'),
       alt: 'Sahil Ali',
       badge: {
         icon: <FaUserFriends className="w-6 h-6" />,
         text: 'Team Player'
       },
-      fallbackSrc: '/images/placeholder-profile.jpg'
+      fallbackSrc: getImagePath('/images/placeholder-profile.jpg')
     },
     customImage: (props) => (
       <ImageWithFallback 

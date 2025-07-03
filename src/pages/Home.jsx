@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
+import { getImagePath, handleImageError } from '../utils/imagePath';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import { Link } from 'react-router-dom';
@@ -519,13 +520,10 @@ const Home = () => {
                 <div className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                   <div className="relative h-48 overflow-hidden">
                     <img
-                      src={project.image}
+                      src={getImagePath(project.image)}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/images/placeholder-project.jpg';
-                      }}
+                      onError={(e) => handleImageError(e, '/images/fallback-image.jpg')}
                       loading="lazy"
                     />
                   </div>

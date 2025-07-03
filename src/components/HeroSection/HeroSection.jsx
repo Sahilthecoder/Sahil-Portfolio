@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import { FaUserFriends } from 'react-icons/fa';
-import { ImageWithFallback } from '../../utils/imageUtils.jsx';
+import { getImagePath } from '../../utils/imagePath';
 import './HeroSection.css';
 
 const HeroSection = ({
@@ -15,9 +15,10 @@ const HeroSection = ({
   isHome = true,
   showProfileImage = false,
   profileImage = {
-    src: '/images/profile.avif',
+    src: 'profile.avif',
     alt: 'Profile',
-    badge: null
+    badge: null,
+    fallbackSrc: 'placeholder-profile.jpg'
   },
   children,
 }) => {
@@ -201,11 +202,14 @@ const HeroSection = ({
                         loading: 'lazy'
                       })
                     ) : (
-                      <ImageWithFallback 
-                        src={profileImage.src} 
+                      <img 
+                        src={getImagePath(profileImage.src, 'images')}
                         alt={profileImage.alt || 'Profile'}
                         className="w-full h-full object-cover object-top"
-                        fallbackSrc={profileImage.fallbackSrc || '/images/placeholder-profile.jpg'}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = getImagePath(profileImage.fallbackSrc || 'placeholder-profile.jpg', 'images');
+                        }}
                         loading="lazy"
                       />
                     )}

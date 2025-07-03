@@ -67,7 +67,13 @@ const Home = () => {
       link: '/contact', 
       showArrow: true 
     },
-    isHome: true
+    isHome: true,
+    showProfileImage: true,
+    profileImage: {
+      src: 'profile.avif',
+      alt: 'Sahil Ali',
+      fallbackSrc: 'placeholder-profile.jpg'
+    }
   };
 
   // Featured projects to display in the Home page

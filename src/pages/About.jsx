@@ -255,22 +255,14 @@ const About = () => {
     isHome: false,
     showProfileImage: true,
     profileImage: {
-      src: getImagePath('/images/profile.avif'),
+      src: 'profile.avif',
       alt: 'Sahil Ali',
       badge: {
         icon: <FaUserFriends className="w-6 h-6" />,
         text: 'Team Player'
       },
-      fallbackSrc: getImagePath('/images/placeholder-profile.jpg')
-    },
-    customImage: (props) => (
-      <ImageWithFallback 
-        src={props.src} 
-        alt={props.alt} 
-        className={props.className}
-        fallbackSrc={props.fallbackSrc}
-      />
-    )
+      fallbackSrc: 'placeholder-profile.jpg'
+    }
   };
 
   return (

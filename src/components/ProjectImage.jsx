@@ -3,6 +3,24 @@ import PropTypes from 'prop-types';
 import { FiImage, FiLoader, FiZoomIn } from 'react-icons/fi';
 import { transparentPixel } from '../utils/placeholder';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
+import { getImagePath } from '../utils/imagePath';
+
+// Map project IDs to their corresponding folder names
+const projectFolders = {
+  'zomato': 'Project1 excel',
+  'bansal': 'Project2 tableau',
+  'bansal-supermarket': 'Project2 tableau',
+  'ekam': 'Project3 Sql+Sheets',
+  'retail': 'Project4 Power BI',
+  'ai-planner': 'Project5 Gpt+Notion',
+  'automation-suite': 'Project6 Gpt+Zapier',
+  'mahira-portfolio': 'Mahira Portfolio Web+AI',
+  'product-sales': 'Project5 Gpt+Notion',
+  'snape-sentiment-analysis': 'Project6 Gpt+Zapier',
+  'ekam-attendance': 'Project3 Sql+Sheets',
+  'retail-cash-flow': 'Project4 Power BI',
+  'zomato-analysis': 'Project1 excel'
+};
 
 const ProjectImage = ({
   projectId,
@@ -25,51 +43,42 @@ const ProjectImage = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [imagePath, setImagePath] = useState('');
+  const [currentImagePath, setCurrentImagePath] = useState('');
+  
   // Fallback transparent pixel for broken images
   const fallbackImage = transparentPixel;
   
-  // Get the base URL from environment
-  const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // Remove trailing slashes
-  
-  // Map project IDs to their corresponding folder names
-  const projectFolders = {
-    'zomato': 'Project1 excel',
-    'bansal': 'Project2 tableau',
-    'bansal-supermarket': 'Project2 tableau',
-    'ekam': 'Project3 Sql+Sheets',
-    'retail': 'Project4 Power BI',
-    'ai-planner': 'Project5 Gpt+Notion',
-    'automation-suite': 'Project6 Gpt+Zapier',
-    'mahira-portfolio': 'Mahira Portfolio Web+AI',
-    'product-sales': 'Project5 Gpt+Notion',
-    'snape-sentiment-analysis': 'Project6 Gpt+Zapier',
-    'ekam-attendance': 'Project3 Sql+Sheets',
-    'retail-cash-flow': 'Project4 Power BI',
-    'zomato-analysis': 'Project1 excel'
+  // Get the correct image path using the utility
+  const getImageSource = (projectId, imgName) => {
+    if (!imgName) return '';
+    // If it's a full URL, return as is
+    if (imgName.startsWith('http')) return imgName;
+    // If it's a path to a project image
+    if (projectId) {
+      return getImagePath(`/images/projects/${projectFolders[projectId] || projectId}/${imgName}`);
+    }
+    // For other images, just use the path as is
+    return getImagePath(imgName);
   };
+  
+  // Get the final image source
+  const finalImagePath = getImageSource(projectId, imageName);
 
+  // Set the image path when component mounts or dependencies change
   useEffect(() => {
-    if (projectId && imageName) {
+    if (imageName) {
       try {
         const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
-        let path = '';
-        
-        // Special handling for profile images
-        if (projectId === 'profile') {
-          path = `images/${cleanImageName}`;
-        } else {
-          // For project images
-          const projectFolder = projectFolders[projectId] || projectId;
-          path = `images/projects/${projectFolder}/${cleanImageName}`;
-        }
-        
         // Check if the path already has an image extension
         const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
-        setImagePath(hasExtension ? path : `${path}.avif`);
+        const path = hasExtension ? cleanImageName : `${cleanImageName}.avif`;
+        setCurrentImagePath(path);
+        setError(false);
+        setIsLoading(true);
       } catch (error) {
         console.error('Error constructing image path:', error);
         setError(true);
+        setIsLoading(false);
       }
     }
   }, [projectId, imageName]);
@@ -79,7 +88,7 @@ const ProjectImage = ({
   };
 
   const handleError = (e) => {
-    console.error(`Failed to load image: ${imagePath}`, e);
+    console.error('Failed to load image:', e.target.src);
     setError(true);
     setIsLoading(false);
     
@@ -107,92 +116,85 @@ const ProjectImage = ({
     full: 'rounded-full'
   }[rounded] || 'rounded-xl';
 
+  // Get the final image source with proper path handling
+  const imageSrc = projectId && currentImagePath 
+    ? getImagePath(`/images/projects/${projectFolders[projectId] || projectId}/${currentImagePath}`)
+    : getImagePath(currentImagePath);
+
   return (
-    <figure className={`relative ${fullWidth ? 'w-full' : 'max-w-full'} ${containerClassName}`}>
-      <div 
-        className={`relative w-full overflow-hidden transition-all duration-300 ${
+    <figure 
+      className={`relative ${fullWidth ? 'w-full' : 'max-w-full'} ${containerClassName}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Loading state */}
+      {isLoading && !error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-xl">
+          <FiLoader className="w-8 h-8 text-gray-400 dark:text-gray-600 animate-spin" />
+        </div>
+      )}
+
+      {/* Error state */}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
+          <FiImage className="w-12 h-12 text-gray-300 dark:text-gray-600" />
+        </div>
+      )}
+
+      {/* Image */}
+      <div className={`relative w-full transition-all duration-300 ${
+        isLoading || error ? 'opacity-0' : 'opacity-100'
+      } ${zoomOnHover ? 'hover:scale-105' : ''}`}>
+        <div className={`relative w-full h-full ${objectFit === 'cover' ? 'overflow-hidden' : ''} ${
           bordered ? 'border border-gray-200 dark:border-gray-700' : ''
-        } ${shadow ? 'shadow-md hover:shadow-lg' : ''} ${roundedClass} ${
-          zoomOnHover ? 'hover:scale-[1.01]' : ''
-        } bg-gray-50 dark:bg-gray-800/50`}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div 
-          className="relative w-full" 
-          style={{
-            paddingBottom: aspectRatio.includes('/') 
-              ? `${(aspectRatio.split('/')[1] / aspectRatio.split('/')[0]) * 100}%`
-              : '56.25%' // Default to 16:9 if invalid format
-          }}
-        >
-          {/* Loading state */}
-          {isLoading && !error && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800">
-              <FiLoader className="w-8 h-8 text-gray-400 dark:text-gray-600 animate-spin" />
-            </div>
-          )}
-
-          {/* Error state - use transparent pixel to avoid layout shifts */}
-          {error && (
-            <img 
-              src={transparentPixel} 
-              alt="" 
-              className="absolute inset-0 w-full h-full"
-              aria-hidden="true"
-            />
-          )}
-
-          {/* Image */}
-          <div className={`absolute inset-0 transition-all duration-500 ${
-            isLoading || error ? 'opacity-0' : 'opacity-100'
-          }`}>
-            <div className={`relative w-full h-full ${objectFit === 'cover' ? 'overflow-hidden' : ''}`}>
-              <ImageWithFallback
-                src={imagePath}
-                alt={alt}
-                className={`w-full h-full ${
-                  objectFit === 'cover' ? 'object-cover' : 
-                  objectFit === 'contain' ? 'object-contain' : 'object-scale-down'
-                } ${className}`}
-                onLoad={handleImageLoad}
-                loading={priority ? 'eager' : 'lazy'}
-                decoding="async"
-                fallbackSrc="/images/placeholder.svg"
-              />
-            </div>
-            
-            {/* Hover overlay with action buttons */}
-            <div className={`absolute inset-0 bg-black/0 transition-all duration-300 flex items-center justify-center gap-4 ${
-              isHovered && lightbox ? 'bg-black/30 opacity-100' : 'opacity-0'
-            }`}>
-              {lightbox && (
-                <button 
-                  className="p-3 bg-white/90 dark:bg-gray-800/90 rounded-full text-gray-800 dark:text-white shadow-lg transform transition-all duration-300 hover:scale-110 hover:bg-white dark:hover:bg-gray-700"
-                  onClick={() => window.open(imagePath, '_blank')}
-                  aria-label="View full size"
-                >
-                  <FiZoomIn className="w-5 h-5" />
-                </button>
-              )}
-            </div>
-            
-            {/* Gradient overlay */}
-            {showOverlay && (
-              <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10 ${
-                isHovered ? 'opacity-100' : 'opacity-80'
-              } transition-opacity duration-300`} />
-            )}
-          </div>
+        } ${shadow ? 'shadow-lg' : ''} rounded-${rounded}`}>
+          <ImageWithFallback
+            src={imageSrc}
+            alt={alt}
+            className={`w-full h-full ${
+              objectFit === 'cover' ? 'object-cover' : 
+              objectFit === 'contain' ? 'object-contain' : 'object-scale-down'
+            } ${className}`}
+            style={{ aspectRatio }}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            fallbackSrc={fallbackImage}
+          />
         </div>
         
-        {/* Caption */}
-        {caption && (
-          <figcaption className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
-            {caption}
-          </figcaption>
+        {/* Hover overlay with action buttons */}
+        {lightbox && (
+          <div className={`absolute inset-0 bg-black/0 transition-all duration-300 flex items-center justify-center gap-4 ${
+            isHovered ? 'bg-black/30 opacity-100' : 'opacity-0'
+          }`}>
+            <button 
+              className="p-3 bg-white/90 dark:bg-gray-800/90 rounded-full text-gray-800 dark:text-white shadow-lg transform transition-all duration-300 hover:scale-110 hover:bg-white dark:hover:bg-gray-700"
+              onClick={() => window.open(imageSrc, '_blank')}
+              aria-label="View full size"
+            >
+              <FiZoomIn className="w-5 h-5" />
+            </button>
+          </div>
+        )}
+        
+        {showOverlay && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div className="text-white">
+              <h3 className="text-lg font-semibold">{alt}</h3>
+              {caption && <p className="text-sm opacity-90">{caption}</p>}
+            </div>
+          </div>
         )}
       </div>
+      
+      {/* Caption */}
+      {caption && (
+        <figcaption className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 };

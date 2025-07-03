@@ -120,11 +120,14 @@ const ProjectCard = ({ project, index, onClick }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
               <ProjectImage
                 projectId={project.id}
-                imageName={project.image}
+                imageName={project.coverImage || 'cover.jpg'}
                 alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                containerClassName="absolute inset-0 w-full h-full"
-                objectFit="cover"
+                className="w-full h-full transition-transform duration-300 group-hover:scale-105"
+                aspectRatio="16/9"
+                showOverlay={true}
+                zoomOnHover={true}
+                priority={index < 3}
+                lightbox={true}
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
@@ -136,7 +139,7 @@ const ProjectCard = ({ project, index, onClick }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05, duration: 0.3 }}
-                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-200 shadow-sm cursor-default"
+                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-gray-200 dark:border-gray-600 transition-all duration-200 shadow-sm cursor-default"
                     >
                       <span className="text-blue-500 mr-1.5">{techIcons[tech] || tech.charAt(0)}</span>
                       <span>{tech}</span>
@@ -273,7 +276,7 @@ const ProjectModal = ({ project, onClose }) => {
                   >
                     <span className="relative z-10 flex items-center">
                       <span className="mr-3">View Project</span>
-                      <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                      <FiArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </Link>
@@ -451,25 +454,7 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 // Single project data
-// Project folder mapping for ProjectImage component
-const projectFolders = {
-  'zomato-analysis': 'Project1 excel',
-  'bansal-supermarket': 'Project2 tableau',
-  'ekam-attendance': 'Project3 Sql+Sheets',
-  'retail-cash-flow': 'Project4 Power BI',
-  'ai-planner': 'Project5 Gpt+Notion',
-  'automation-suite': 'Project6 Gpt+Zapier',
-  'mahira-portfolio': 'Mahira Portfolio Web+AI',
-  'product-sales': 'Project7 Product Sales',
-  'snape-sentiment-analysis': 'Project8 Snape Analysis'
-};
-
-// Helper function to get image path for ProjectImage component
-const getProjectImage = (projectId, imagePath) => {
-  if (!imagePath) return '';
-  // Extract just the filename from the path
-  return imagePath.split('/').pop();
-};
+// Project folder mapping is now handled in the ProjectImage component
 
 const projects = [
   {
@@ -481,8 +466,7 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    image: 'Project1 Cover.avif',
-    previewImage: 'zometo-ds.avif',
+    coverImage: 'Project1 Cover.avif',
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -492,8 +476,9 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
-    gallery: [
-      'zometo-ds.avif',
+    images: [
+      'Project1 Cover.avif',
+      'zomato-ds.avif',
       'zt1.avif',
       'zt2.avif'
     ]
@@ -507,8 +492,7 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    image: 'Project2 Cover.avif',
-    previewImage: 'Project2 Cover.avif',
+    coverImage: 'Project2 Cover.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -518,10 +502,13 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
-    gallery: [
+    images: [
+      'Project2 Cover.avif',
+      'bs-saleVSpft.avif',
+      'bs-stockTO.avif',
+      'bs-top10.avif',
       'bs2.avif',
-      'bs3.avif',
-      'bs-top10.avif'
+      'bs3.avif'
     ]
   },
   {
@@ -533,8 +520,7 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    image: 'Project4 Cover.avif',
-    previewImage: 'Project4 Cover.avif',
+    coverImage: 'Project4 Cover.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -544,7 +530,9 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
-    gallery: [
+    images: [
+      'Project4 Cover.avif',
+      'Store_POWERBI1.avif',
       'CashFlow1.avif',
       'CashFlow2.avif'
     ]
@@ -558,8 +546,7 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    image: 'Project3 Cover.avif',
-    previewImage: 'Project3 Cover.avif',
+    coverImage: 'Project3 Cover.avif',
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -569,9 +556,12 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
-    gallery: [
-      'Attendance_before.avif',
-      'Attendance_after.avif'
+    images: [
+      'Project3 Cover.avif',
+      'ekam-db.avif',
+      'ekam-sql.avif',
+      'Attendance_before.jpg',
+      'Attendance_after.jpg'
     ]
   },
   {
@@ -583,8 +573,7 @@ const projects = [
     tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
     path: '/projects/product-sales',
-    image: 'Project5 Cover.avif',
-    previewImage: 'Project5 Cover.avif',
+    coverImage: 'product-sales.jpg',
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -594,10 +583,10 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
-    gallery: [
-      'Project5 Cover.avif',
-      'Project5 Cover.avif',
-      'Project5 Cover.avif'
+    images: [
+      'product-sales.jpg',
+      'product-sales-1.jpg',
+      'product-sales-2.jpg'
     ]
   },
   {
@@ -609,7 +598,7 @@ const projects = [
     tags: ['AI/ML Showcase', 'Data Visualization', 'Interactive Demos', 'Technical Portfolio'],
     techStack: ['React', 'D3.js', 'Python', 'TensorFlow.js', 'Next.js'],
     path: '/projects/mahira-portfolio',
-    image: 'Project7 Cover.avif',
+    coverImage: 'mahira-portfolio.jpg',
     previewImage: 'Project7 Cover.avif',
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',

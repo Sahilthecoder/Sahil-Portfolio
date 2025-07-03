@@ -15,12 +15,14 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Set base URL based on environment
 let base = '/';
 
-// For GitHub Pages, always use the repository name as base path
+// For GitHub Pages, always use the repository name as base path with trailing slash
 if (isGitHubPages) {
-  base = '/Sahil-Portfolio';
+  base = '/Sahil-Portfolio/';
+} else if (isProduction) {
+  base = '/';
 }
 
-// Ensure base URL is consistently formatted
+// Ensure base URL is consistently formatted with a trailing slash
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
 // Ensure Vite knows to use this base URL for all assets

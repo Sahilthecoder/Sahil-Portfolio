@@ -8,8 +8,10 @@ function processHtmlFiles() {
   const htmlFiles = ['index.html'];
   
   // Get the base URL from environment variable or use default
-  const baseUrl = process.env.BASE_URL || '';
+  const baseUrl = process.env.BASE_URL || '/Sahil-Portfolio/';
   const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  
+  console.log(`Using base path: ${basePath}`);
   
   htmlFiles.forEach(file => {
     const filePath = path.join(distPath, file);
@@ -35,8 +37,12 @@ function processHtmlFiles() {
           if (p1.startsWith('http') || p1.startsWith('data:')) {
             return match;
           }
-          return `url("${basePath}${p1.startsWith('/') ? p1.substring(1) : p1}")`;
-        });
+          // Ensure path starts with base path
+          const cleanPath = p1.startsWith('/') ? p1.substring(1) : p1;
+          return `url("${basePath}${cleanPath}")`;
+        })
+        // Fix any remaining absolute paths that don't include the base
+        .replace(/(href|src)="\/([^/][^"]*\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))(?="|\?|#)/g, `$1="${basePath}$2"`);
       
       // Ensure service worker is registered with correct scope
       content = content.replace(

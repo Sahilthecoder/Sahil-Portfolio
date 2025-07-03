@@ -8,24 +8,67 @@ import basePathPlugin from './vite.base-path-plugin';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load environment variables
-const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.NODE_ENV === 'production';
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const isProduction = process.env.NODE_ENV === 'production';
 
-// Ensure base URL is correctly formatted
-const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
+// Set base URL based on environment
+let base = '/';
 
-// Ensure base URL ends with a single slash for internal use
+// Only set GitHub Pages base URL in production builds for GitHub Pages
+if (isProduction) {
+  if (isGitHubPages) {
+    base = '/Sahil-Portfolio/';
+  }
+  // For local production builds, keep the root path
+} else {
+  // For development, ensure we're using the root path
+  base = '/';
+}
+
+// Ensure base URL is consistently formatted
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
 export default defineConfig({
-  base: baseUrl,
+  base: base,
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    open: true,
+    host: 'localhost',
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 5173,
+      overlay: false // Disable HMR overlay to prevent potential issues
+    },
+    fs: {
+      // Allow serving files from one level up from the package root
+      allow: ['..']
+    },
+    // Disable file system caching during development
+    watch: {
+      usePolling: true,
+      interval: 100
+    }
+  },
   publicDir: 'public',
   
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
     minify: 'esbuild',
+    cssMinify: 'esbuild',
+    cssCodeSplit: true,
+    reportCompressedSize: false, // Disable gzip size reporting for better build performance
+    chunkSizeWarningLimit: 1000, // Increase chunk size warning limit (in kbs)
     assetsInlineLimit: 4096, // 4kb - inline smaller assets as base64
     manifest: true, // Generate manifest.json
     // Ensure assets are copied to the correct location
@@ -33,6 +76,38 @@ export default defineConfig({
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {
+        // Enable tree-shaking and reduce side effects
+        experimentalMinChunkSize: 10000, // 10kb
+        manualChunks: (id) => {
+          // Create separate chunks for vendor dependencies
+          if (id.includes('node_modules')) {
+            // Group React related dependencies
+            if (id.includes('react') || id.includes('scheduler') || id.includes('object-assign')) {
+              return 'vendor-react';
+            }
+            // Group UI related dependencies
+            if (id.includes('@headlessui') || id.includes('@heroicons') || id.includes('@tailwindcss')) {
+              return 'vendor-ui';
+            }
+            // Group animation libraries
+            if (id.includes('framer-motion') || id.includes('popmotion')) {
+              return 'vendor-animations';
+            }
+            // Group utility libraries
+            if (id.includes('date-fns') || id.includes('lodash') || id.includes('axios')) {
+              return 'vendor-utils';
+            }
+            // All other dependencies go into vendor-other
+            return 'vendor-other';
+          }
+          // Group components by feature/route for better code splitting
+          if (id.includes('src/components/')) {
+            const match = id.match(/src\/components\/([^/]+)/);
+            if (match && match[1]) {
+              return `component-${match[1].toLowerCase()}`;
+            }
+          }
+        },
         assetFileNames: (assetInfo) => {
           // Group assets by type
           const extType = assetInfo.name.split('.').at(1)?.toLowerCase();
@@ -47,7 +122,16 @@ export default defineConfig({
           }
           return 'assets/misc/[name]-[hash][extname]';
         },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
+        chunkFileNames: (chunkInfo) => {
+          // Group chunks by type
+          if (chunkInfo.name.startsWith('vendor-')) {
+            return 'assets/js/vendor/[name]-[hash].js';
+          }
+          if (chunkInfo.name.startsWith('component-')) {
+            return 'assets/js/components/[name]-[hash].js';
+          }
+          return 'assets/js/[name]-[hash].js';
+        },
         entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },

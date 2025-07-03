@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ImageWithFallback } from '../../utils/imageUtils.jsx';
+import { ImageWithFallback } from '../../utils/imageUtils';
 import { 
   FiHome, 
   FiUser, 
@@ -246,15 +246,18 @@ const ModernNavbar = () => {
   // Handle body scroll and focus trap when menu is open
   useEffect(() => {
     if (isMenuOpen) {
+      // Prevent body scroll when menu is open
+      const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
       
       // Focus trap for accessibility
       const menuElement = menuRef.current;
       if (!menuElement) return;
       
-      const focusableElements = menuElement.querySelectorAll(
-        'button, [href], [tabindex]:not([tabindex="-1"])'
-      );
+      // Get all focusable elements in the menu
+      const focusableElements = Array.from(menuElement.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )).filter(el => !el.disabled && !el.hidden && el.offsetParent !== null);
       
       if (focusableElements.length === 0) return;
       
@@ -262,22 +265,26 @@ const ModernNavbar = () => {
       const lastElement = focusableElements[focusableElements.length - 1];
       
       const handleKeyDown = (e) => {
+        // Close menu on Escape
         if (e.key === 'Escape') {
           closeMenu();
+          // Return focus to menu button
+          const menuButton = document.querySelector('[aria-label*="menu"]');
+          if (menuButton) menuButton.focus();
           return;
         }
         
         // Only handle tab key when menu is open
         if (e.key !== 'Tab') return;
         
-        // Handle shift + tab
+        // Handle shift + tab (backwards tab)
         if (e.shiftKey) {
           if (document.activeElement === firstElement) {
             e.preventDefault();
             lastElement.focus();
           }
         } 
-        // Handle tab
+        // Handle tab (forwards tab)
         else if (document.activeElement === lastElement) {
           e.preventDefault();
           firstElement.focus();
@@ -285,30 +292,35 @@ const ModernNavbar = () => {
       };
       
       // Focus first element when menu opens
-      firstElement.focus();
+      requestAnimationFrame(() => {
+        firstElement.focus();
+      });
       
       // Add event listeners
       document.addEventListener('keydown', handleKeyDown);
       
+      // Cleanup function
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = originalStyle;
       };
     }
   }, [isMenuOpen]);
 
   const toggleMenu = useCallback((e) => {
-    if (e) e.stopPropagation();
-    setIsMenuOpen(prev => {
-      const newState = !prev;
-      if (newState) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
-      return newState;
-    });
-  }, []);
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    const newIsMenuOpen = !isMenuOpen;
+    setIsMenuOpen(newIsMenuOpen);
+    
+    // Update aria-expanded for screen readers
+    const menuButton = document.querySelector('[aria-label*="menu"]');
+    if (menuButton) {
+      menuButton.setAttribute('aria-expanded', String(newIsMenuOpen));
+    }
+  }, [isMenuOpen]);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
@@ -454,9 +466,12 @@ const ModernNavbar = () => {
             <div className="relative flex items-center group-hover:scale-105 transition-transform">
               <ImageWithFallback 
                 src="/images/logo192.png"
-                alt="Sahil Ali - Data Analyst" 
+                alt="Sahil Ali - Portfolio Logo"
                 className="h-10 w-auto"
-                fallbackSrc="/images/placeholder.svg"
+                width={40}
+                height={40}
+                priority={true}
+                sizes="(max-width: 768px) 40px, 40px"
               />
               <span className="ml-2 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sahil Ali
@@ -467,10 +482,12 @@ const ModernNavbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
             onClick={toggleMenu}
             aria-expanded={isMenuOpen}
-            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-controls="mobile-menu"
+            aria-haspopup="true"
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
             {isMenuOpen ? (
               <FaTimes className="w-6 h-6 text-gray-800 dark:text-gray-100" />
@@ -548,7 +565,16 @@ const ModernNavbar = () => {
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
               {isMenuOpen && (
-                <>
+                <div 
+                  ref={menuContainerRef}
+                  id="mobile-menu"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Mobile navigation menu"
+                  className={`fixed inset-0 z-50 bg-white dark:bg-gray-900 transform transition-transform duration-300 ease-in-out ${
+                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                  } lg:hidden`}
+                >
                   <motion.div 
                     className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
                     initial={{ opacity: 0 }}
@@ -703,11 +729,11 @@ const ModernNavbar = () => {
                         </a>
                       </div>
                     </div>
-                    </div>
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>
           </div>
         </div>
       </motion.nav>

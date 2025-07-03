@@ -11,7 +11,7 @@
     "url": "https://github.com/Sahilthecoder/Sahil-Portfolio/issues"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.minimal.config.js",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",

@@ -2,22 +2,30 @@
 /* eslint-disable no-undef */
 
 const CACHE_NAME = 'sahil-portfolio-v1';
-const BASE_PATH = '/Sahil-Portfolio/';
+const BASE_PATH = self.location.pathname.includes('/Sahil-Portfolio/') ? '/Sahil-Portfolio/' : '/';
+
+// Function to get the correct asset URL
+const getAssetUrl = (path) => {
+  // Remove any duplicate base paths
+  const normalizedPath = path.startsWith(BASE_PATH) ? path : `${BASE_PATH}${path.replace(/^\/+/, '')}`;
+  return new URL(normalizedPath, self.location.origin).href;
+};
 
 const ASSETS_TO_CACHE = [
-  BASE_PATH,
-  `${BASE_PATH}index.html`,
-  `${BASE_PATH}site.webmanifest`,
-  `${BASE_PATH}favicon.ico`,
-  `${BASE_PATH}favicon.svg`,
-  `${BASE_PATH}images/logo192.png`,
-  `${BASE_PATH}images/logo512.png`,
-  `${BASE_PATH}images/logo.png`,
-  `${BASE_PATH}apple-touch-icon.png`,
-  `${BASE_PATH}favicon-32x32.png`,
-  `${BASE_PATH}favicon-16x16.png`,
-  `${BASE_PATH}assets/index-*.js`,
-  `${BASE_PATH}assets/index-*.css`,
+  getAssetUrl(''),
+  getAssetUrl('index.html'),
+  getAssetUrl('site.webmanifest'),
+  getAssetUrl('favicon.ico'),
+  getAssetUrl('favicon.svg'),
+  getAssetUrl('images/logo192.png'),
+  getAssetUrl('images/logo512.png'),
+  getAssetUrl('images/logo.png'),
+  getAssetUrl('apple-touch-icon.png'),
+  getAssetUrl('favicon-32x32.png'),
+  getAssetUrl('favicon-16x16.png'),
+  // These will be matched by the fetch handler
+  getAssetUrl('assets/index-*.js'),
+  getAssetUrl('assets/index-*.css'),
 ];
 
 // Install event - cache static assets

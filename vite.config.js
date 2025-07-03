@@ -5,6 +5,65 @@ import path from 'node:path';
 import fs from 'node:fs';
 import basePathPlugin from './vite.base-path-plugin';
 
+// Plugin to ensure all asset paths in HTML include the base URL
+function htmlAssetsPlugin() {
+  return {
+    name: 'html-assets',
+    transformIndexHtml: {
+      enforce: 'post',
+      transform(html, { path }) {
+        // Skip processing in development for non-HTML files
+        if (process.env.NODE_ENV !== 'production' && !path.endsWith('.html')) {
+          return html;
+        }
+
+        // Get the base URL from environment or use default
+        const baseUrl = process.env.BASE_URL || '/Sahil-Portfolio/';
+        const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+
+        // Function to process URLs in the HTML
+        const processUrl = (url) => {
+          // Skip if it's an external URL, data URL, or already has the base path
+          if (url.startsWith('http') || 
+              url.startsWith('//') || 
+              url.startsWith('data:') ||
+              url.startsWith(basePath) ||
+              !url.startsWith('/')) {
+            return url;
+          }
+          // Add base path if it's a root-relative path
+          return `${basePath}${url.replace(/^\//, '')}`;
+        };
+
+        // Process src, href, and content attributes
+        let result = html
+          // Handle src and href attributes
+          .replace(/(src|href)="([^"]*)"/g, (match, attr, url) => {
+            return `${attr}="${processUrl(url)}"`;
+          })
+          // Handle CSS url() paths
+          .replace(/url\(\s*['"]?([^'"#?)]+?)['"]?\s*\)/g, (match, p1) => {
+            if (p1.startsWith('http') || p1.startsWith('data:')) {
+              return match;
+            }
+            return `url("${processUrl(p1)}")`;
+          })
+          // Handle modulepreload
+          .replace(/(<link[^>]+rel=["']modulepreload["'][^>]+href=["'])([^"']+)(["'])/g, 
+            `$1${processUrl('$2')}$3`)
+          // Handle script src
+          .replace(/(<script[^>]+src=["'])([^"']+)(["'])/g, 
+            `$1${processUrl('$2')}$3`)
+          // Handle stylesheet links
+          .replace(/(<link[^>]+rel=["']stylesheet["'][^>]+href=["'])([^"']+)(["'])/g, 
+            `$1${processUrl('$2')}$3`);
+
+        return result;
+      }
+    }
+  };
+}
+
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -25,13 +84,13 @@ if (isGitHubPages) {
 // Ensure base URL is consistently formatted with a trailing slash
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
-// Ensure Vite knows to use this base URL for all assets
+// Set environment variables for base URL
 process.env.VITE_BASE_URL = baseUrl;
 process.env.BASE_URL = baseUrl;
 
-// Ensure Vite knows to use this base URL for all assets
-process.env.VITE_BASE_URL = baseUrl;
-process.env.BASE_URL = baseUrl;
+// Log the base URL for debugging
+console.log(`Using base URL: "${baseUrl}"`);
+console.log(`GitHub Pages: ${isGitHubPages}, Production: ${isProduction}`);
 
 export default defineConfig({
   base: base,
@@ -68,6 +127,10 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    // Ensure assets are built with the correct paths
+    assetsInlineLimit: 0, // Don't inline any assets
+    // Generate manifest.json for better cache control
+    manifest: true,
     sourcemap: process.env.NODE_ENV === 'production' ? false : 'inline',
     minify: 'esbuild',
     cssMinify: 'esbuild',
@@ -168,6 +231,7 @@ export default defineConfig({
       },
     }),
     basePathPlugin(),
+    htmlAssetsPlugin(),
     {
       name: 'copy-service-worker',
       apply: 'build',

@@ -59,6 +59,20 @@
     
     <!-- Polyfills for older browsers -->
     <script type="module">
+      // Function to get the base path
+      function getBasePath() {
+        // If we're on GitHub Pages, use the repository name as base path
+        if (window.location.hostname.includes('github.io')) {
+          const pathParts = window.location.pathname.split('/');
+          // The first part is empty, second part is the username, third is the repo name
+          if (pathParts.length > 2) {
+            return `/${pathParts[1]}/${pathParts[2]}/`;
+          }
+          return '/';
+        }
+        return '/';
+      }
+
       // Handle client-side routing with dynamic base path
       document.addEventListener('DOMContentLoaded', () => {
         try {
@@ -181,7 +195,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     </noscript>
   </head>
-  <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200">
+  <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200" data-base-url="/Sahil-Portfolio/">
     <!-- Skip to main content link for keyboard users -->
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:dark:bg-gray-800 focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
       Skip to main content
@@ -216,21 +230,36 @@
       // Ensure the service worker path is correct for GitHub Pages
       const swPath = `${basePath}service-worker.js`;
 
-      // Only register service worker in production
+      // Service Worker Registration
       if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
         window.addEventListener('load', () => {
-          // First unregister any existing service workers
+          // Get the base path from the data attribute or calculate it
+          const basePath = document.documentElement.getAttribute('data-base-url') || '/';
+          const swPath = `${basePath}service-worker.js`;
+          
+          console.log('Registering service worker at:', swPath);
+          
+          // Unregister any existing service workers first
           navigator.serviceWorker.getRegistrations().then(registrations => {
-            for (const registration of registrations) {
-              registration.unregister();
-            }
-            // Then register the new one
-            return navigator.serviceWorker.register(swPath, { scope: basePath });
+            const unregisterPromises = registrations.map(registration => registration.unregister());
+            return Promise.all(unregisterPromises);
           })
-          .then((registration) => {
+          .then(() => {
+            // Register the service worker with the correct scope
+            return navigator.serviceWorker.register(swPath, { 
+              scope: basePath 
+            });
+          })
+          .then(registration => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            // Check for updates
+            registration.update().then(() => {
+              console.log('ServiceWorker update check complete');
+            }).catch(updateError => {
+              console.warn('ServiceWorker update check failed:', updateError);
+            });
           })
-          .catch((error) => {
+          .catch(error => {
             console.error('ServiceWorker registration failed: ', error);
           });
         });

@@ -22,6 +22,9 @@ if (isGitHubPages) {
 // Ensure base URL is consistently formatted
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
+// Ensure Vite knows to use this base URL for all assets
+process.env.VITE_BASE_URL = baseUrl;
+
 export default defineConfig({
   base: base,
   resolve: {

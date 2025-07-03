@@ -34,14 +34,26 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 
 // Import the optimized image manifest (use empty object if not available)
 let optimizedImages = {};
-try {
-  optimizedImages = import.meta.env.DEV 
-    ? {}
-    : (await import('../../public/optimized/manifest.json')).default || {};
-} catch (error) {
-  console.warn('Could not load optimized image manifest. Using fallback image paths.');
-  optimizedImages = {};
+let isImagesLoaded = false;
+
+async function loadOptimizedImages() {
+  if (isImagesLoaded) return optimizedImages;
+  
+  try {
+    optimizedImages = import.meta.env.DEV 
+      ? {}
+      : (await import('../../public/optimized/manifest.json')).default || {};
+  } catch (error) {
+    console.warn('Could not load optimized image manifest. Using fallback image paths.');
+    optimizedImages = {};
+  }
+  
+  isImagesLoaded = true;
+  return optimizedImages;
 }
+
+// Start loading images immediately
+loadOptimizedImages();
 
 /**
  * Gets the optimized image path with responsive variants

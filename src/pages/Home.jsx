@@ -3,7 +3,7 @@ import { motion, useAnimation, useInView } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
-import { ImageWithFallback } from '../utils/imageUtils';
+import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { getProject } from '../utils/projectData';

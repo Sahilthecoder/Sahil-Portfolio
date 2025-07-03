@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ImageWithFallback } from '../utils/imageUtils';
+import { ImageWithFallback } from '../utils/imageUtils.jsx';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';

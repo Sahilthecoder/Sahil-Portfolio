@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import { FaUserFriends } from 'react-icons/fa';
-import { ImageWithFallback } from '../utils/imageUtils';
+import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import './HeroSection.css';
 
 const HeroSection = ({

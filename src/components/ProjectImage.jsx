@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FiImage, FiLoader, FiZoomIn } from 'react-icons/fi';
 import { transparentPixel } from '../utils/placeholder';
-import { ImageWithFallback } from '../utils/imageUtils';
+import { ImageWithFallback } from '../utils/imageUtils.jsx';
 
 const ProjectImage = ({
   projectId,

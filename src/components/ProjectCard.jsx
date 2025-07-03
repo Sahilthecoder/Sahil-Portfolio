@@ -1,6 +1,6 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
-import { ImageWithFallback } from '../utils/imageUtils';
+import { ImageWithFallback } from '../utils/imageUtils.jsx';
 
 const ProjectCard = ({
   title,

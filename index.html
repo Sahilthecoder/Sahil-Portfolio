@@ -17,6 +17,34 @@
     
     <!-- Polyfills for older browsers -->
     <script type="module">
+      // Handle client-side routing with dynamic base path
+      document.addEventListener('DOMContentLoaded', () => {
+        try {
+          const redirect = sessionStorage.getItem('redirect');
+          if (redirect) {
+            const { path, search, hash } = JSON.parse(redirect);
+            sessionStorage.removeItem('redirect');
+            
+            // Get the current base path
+            const fullPath = window.location.pathname;
+            const pathParts = fullPath.split('/').filter(Boolean);
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const basePath = isGitHubPages ? `/${pathParts[0] || ''}` : '';
+            
+            // Construct the target URL with the correct base path
+            const targetPath = `${basePath}${path || '/'}${search || ''}${hash || ''}`;
+            const currentPath = window.location.pathname + window.location.search + window.location.hash;
+            
+            // Only navigate if we're not already at the correct path
+            if (currentPath !== targetPath) {
+              window.history.replaceState({}, '', targetPath);
+            }
+          }
+        } catch (e) {
+          console.warn('Error handling redirect:', e);
+        }
+      });
+      
       // Polyfill Promise if needed
       if (!window.Promise) {
         const script = document.createElement('script');

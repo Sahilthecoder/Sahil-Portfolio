@@ -4,7 +4,6 @@ import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFil
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { Link } from 'react-router-dom';
-import ProjectImage from '../components/ProjectImage';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { getProject } from '../utils/projectData';
 import HeroSection from '../components/HeroSection/HeroSection';
@@ -51,12 +50,29 @@ const Home = () => {
   const controls = useScrollAnimation(heroRef);
   const [isMounted, setIsMounted] = useState(false);
 
+  // Hero section content
+  const heroContent = {
+    title: "Hi, I'm Sahil Ali",
+    subtitle: 'AI Expert | Data Analyst | Inventory Specialist',
+    description: 'I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence.',
+    primaryButton: { 
+      text: 'View My Work', 
+      link: '/projects', 
+      showArrow: true 
+    },
+    secondaryButton: { 
+      text: 'Contact Me', 
+      link: '/contact', 
+      showArrow: true 
+    },
+    isHome: true
+  };
+
   // Featured projects to display in the Home page
   const featuredIds = [
     'zomato-analysis',
     'bansal-supermarket',
     'retail-cash-flow',
-    'ekam',
     'ai-planner',
     'automation-suite'
   ];
@@ -203,90 +219,142 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 overflow-x-hidden">
-      <section className="relative py-16 md:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/60 to-blue-50/60 dark:from-gray-900/90 dark:to-gray-800/90"></div>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
         
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            {/* Text content - Full width on mobile, 1/2 on larger screens */}
+          <motion.div 
+            className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            {/* Text Content */}
             <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <motion.h1 
-                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 md:mb-6"
+              <motion.div 
+                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
               >
-                Hello, I'm{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                  Sahil Ali
-                </span>
+                Welcome to my portfolio
+              </motion.div>
+              
+              <motion.h1 
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                {heroContent.title}
               </motion.h1>
               
               <motion.p 
-                className="text-xl text-gray-700 dark:text-gray-300 mb-4 leading-relaxed"
+                className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6 leading-relaxed font-medium"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
               >
-                AI Expert | Data Analyst | Inventory Specialist
+                <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-indigo-400 dark:to-blue-400 font-semibold">
+                  {heroContent.subtitle}
+                </span>
               </motion.p>
               
               <motion.p 
-                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
               >
-                I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence.
+                {heroContent.description}
               </motion.p>
-              
+
               <motion.div 
-                className="flex flex-wrap justify-center lg:justify-start gap-4"
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
               >
                 <Link
-                  to="/about"
-                  className="px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+                  to={heroContent.primaryButton.link}
+                  className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  Let's Explore More!
-                  <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  {heroContent.primaryButton.text}
+                  {heroContent.primaryButton.showArrow && (
+                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  )}
                 </Link>
                 <Link
-                  to="/projects"
-                  className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex-shrink-0 flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
+                  to={heroContent.secondaryButton.link}
+                  className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  View Projects
-                  <FiFileText className="w-4 h-4 sm:w-5 sm:h-5" />
+                  {heroContent.secondaryButton.text}
+                  {heroContent.secondaryButton.showArrow && (
+                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  )}
                 </Link>
               </motion.div>
             </div>
 
-            {/* Profile Image - Below text on mobile, to the right on larger screens */}
+            {/* Profile Image */}
             <motion.div 
-              className="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-80 lg:h-80 mx-auto lg:mx-0"
+              className="w-full lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
-                <img 
-                  src="/images/profile.avif" 
-                  alt="Sahil Ali"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/images/placeholder-profile.jpg';
+              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70 animate-pulse"></div>
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
+                    <img 
+                      src="/images/profile.avif" 
+                      alt="Sahil Ali"
+                      className="w-full h-full object-cover object-top"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/placeholder-profile.jpg';
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+                
+                {/* Decorative Elements */}
+                <motion.div 
+                  className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"
+                  animate={{
+                    y: [0, 15, 0],
                   }}
-                />
-              </div>
-              <div className="absolute -bottom-3 -right-3 sm:-bottom-4 sm:-right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-2 sm:p-3 rounded-full shadow-xl">
-                <FaUserFriends className="w-5 h-5 sm:w-6 sm:h-6" />
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                  }}
+                ></motion.div>
+                <motion.div 
+                  className="absolute -top-4 -right-4 w-20 h-20 bg-pink-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"
+                  animate={{
+                    y: [0, -15, 0],
+                  }}
+                  transition={{
+                    duration: 7,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                    delay: 1
+                  }}
+                ></motion.div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -452,10 +520,14 @@ const Home = () => {
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl blur opacity-0 group-hover:opacity-75 transition duration-300 group-hover:duration-200"></div>
                 <div className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                   <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={project.image} 
-                      alt={project.title} 
+                    <img
+                      src={project.image}
+                      alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/placeholder-project.jpg';
+                      }}
                       loading="lazy"
                     />
                   </div>

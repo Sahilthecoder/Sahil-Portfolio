@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+// Base URL for images
+const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -22,9 +25,24 @@ import {
   FaChevronDown,
   FaChevronUp,
   FaMapMarkerAlt,
-  FaStar
+  FaStar,
+  FaTruck,
+  FaEnvelope,
+  FaGithub,
+  FaLinkedin,
+  FaDownload,
+  FaPhone,
+  FaGlobe,
+  FaDatabase,
+  FaCode,
+  FaServer,
+  FaAward,
+  FaRocket,
+  FaLightbulb,
+  FaProjectDiagram
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
+import { FiArrowRight } from 'react-icons/fi';
 import HeroSection from '../components/HeroSection/HeroSection';
 import '../components/HeroSection/HeroSection.css';
 
@@ -542,115 +560,158 @@ const Experience = () => {
   const activeTabData = navItems.find(item => item.id === activeTab);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 overflow-x-hidden text-gray-800 dark:text-gray-100 transition-colors duration-300">
-      <section className="relative pt-20 pb-16 md:pt-28 md:pb-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
+        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
         
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col items-center">
-            <div className="text-center w-full max-w-4xl">
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-300 mb-6 mx-auto"
+          <motion.div 
+            className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            {/* Text Content */}
+            <motion.div 
+              className="w-full lg:w-1/2 text-center lg:text-left"
+              variants={item}
+            >
+              <motion.div 
+                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Professional Experience
+              </motion.div>
+              
+              <motion.h1 
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
+                variants={item}
               >
                 My Professional Journey
               </motion.h1>
               
               <motion.p 
-                className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto px-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed"
+                variants={item}
               >
                 With years of experience in AI, inventory management, and data analysis, I bring a unique blend of technical expertise and business acumen to every project.
               </motion.p>
               
-              <motion.div 
-                className="flex flex-wrap justify-center gap-4 w-full max-w-md mx-auto mb-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <motion.button
-                  onClick={() => window.open('https://drive.google.com/file/d/1065536789670284800/view?usp=sharing', '_blank')}
-                  className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-gradient-to-r hover:from-indigo-700 hover:to-blue-700 active:scale-95 transition duration-300 w-full sm:w-auto text-center"
+              <motion.div className="flex flex-wrap gap-4" variants={item}>
+                <motion.a
+                  href="#experience"
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 inline-flex items-center"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  View Resume
-                </motion.button>
+                  <span>Explore My Experience</span>
+                  <FiArrowRight className="ml-2" />
+                </motion.a>
+                
+                <motion.a
+                  href="https://drive.google.com/file/d/1065536789670284800/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl active:scale-95 inline-flex items-center"
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <span>View Resume</span>
+                  <FiArrowRight className="ml-2" />
+                </motion.a>
               </motion.div>
-            </div>
+            </motion.div>
             
             {/* Profile Image - Centered below text on mobile, to the right on larger screens */}
             <motion.div 
-              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto mt-8 lg:mt-0"
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto lg:mx-0"
+              variants={item}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.5 }}
             >
-              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
+              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
                 <img 
-                  src="/optimized-images/profile.avif" 
+                  src="/images/profile.avif"
                   alt="Sahil Ali"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-2xl"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = '/images/placeholder-profile.jpg';
                   }}
                 />
               </div>
-              <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl">
+              {/* Decorative elements */}
+              <div className="absolute -bottom-3 -right-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl z-10">
                 <FaUserFriends className="w-6 h-6" />
               </div>
+              <div className="absolute -top-4 -left-4 w-16 h-16 bg-cyan-500/20 dark:bg-cyan-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-indigo-500/20 dark:bg-indigo-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
+      
+      {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20">
-        {/* Animated Tab Navigation */}
+        {/* Navigation Tabs - Enhanced */}
         <motion.div 
-          className="flex flex-wrap justify-center gap-3 mb-12 md:mb-16 px-2 relative"
-          variants={container}
+          className="flex flex-wrap justify-center gap-2 mb-12 sm:mb-16 max-w-3xl mx-auto bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-gray-100/50 dark:border-gray-700/30"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           {navItems.map((item) => (
-            <motion.div key={item.id} className="relative z-10">
-              <motion.button
+            <motion.div 
+              key={item.id} 
+              className="relative"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <button
                 onClick={() => setActiveTab(item.id)}
-                className={`relative px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-medium transition-all duration-300 flex items-center ${
+                className={`relative z-10 flex items-center px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
                   activeTab === item.id
-                    ? `text-white shadow-lg z-20`
-                    : `dark:text-gray-300 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/50 bg-white/80 dark:bg-gray-800/80 shadow-md hover:shadow-lg`
+                    ? 'text-white'
+                    : `${item.textColor} hover:bg-gray-100/60 dark:hover:bg-gray-700/40`
                 }`}
-                whileHover={{ 
-                  scale: activeTab === item.id ? 1 : 1.03,
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{ 
-                  scale: 0.98,
-                  transition: { duration: 0.1 }
-                }}
               >
-                <span className={`p-1.5 rounded-lg ${activeTab === item.id ? 'bg-white/20' : 'bg-gray-100 dark:bg-gray-700'}`}>
+                <span className={`p-1.5 rounded-lg transition-colors duration-300 ${
+                  activeTab === item.id 
+                    ? 'bg-white/20' 
+                    : 'bg-gray-100/60 dark:bg-gray-700/40'
+                }`}>
                   {React.cloneElement(item.icon, {
-                    className: `${activeTab === item.id ? 'text-white' : 'text-gray-600 dark:text-gray-300'} text-base sm:text-lg`
+                    className: `transition-colors duration-300 ${
+                      activeTab === item.id 
+                        ? 'text-white' 
+                        : 'text-gray-600 dark:text-gray-300'
+                    } text-base sm:text-lg`
                   })}
                 </span>
-                <span className="ml-2.5">{item.label}</span>
-              </motion.button>
+                <span className="ml-2.5 font-medium">{item.label}</span>
+              </button>
               
               {activeTab === item.id && (
                 <motion.div
-                  className="absolute inset-0 rounded-xl -z-10 shadow-md"
-                  style={{
-                    background: `linear-gradient(135deg, ${item.color.split(' ')[1]}, ${item.color.split(' ')[3]})`,
-                  }}
+                  className="absolute inset-0 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-500 shadow-md z-0"
                   layoutId="activeTab"
                   initial={false}
                   transition={{
                     type: 'spring',
                     stiffness: 500,
-                    damping: 30
+                    damping: 30,
+                    mass: 0.5
                   }}
                 />
               )}

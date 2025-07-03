@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+
+// Base URL for images
+const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
 import { Link } from 'react-router-dom';
 import { 
   FaGithub, 
@@ -29,23 +32,56 @@ import {
   FaChartPie,
   FaRobot,
   FaBars,
-  FaUserFriends
+  FaUserFriends,
+  FaTruck
 } from 'react-icons/fa';
 import { FaMicrosoft } from 'react-icons/fa';
 import { SiTensorflow, SiPython, SiReact, SiJavascript } from 'react-icons/si';
 import HeroSection from '../components/HeroSection/HeroSection';
 import '../components/HeroSection/HeroSection.css';
 
-// Skills data
-const skills = [
-  { name: 'Data Analysis', level: 90, icon: <FaChartLine className="text-blue-500" /> },
-  { name: 'Inventory Management', level: 95, icon: <FaDatabase className="text-purple-500" /> },
-  { name: 'ERP Systems', level: 90, icon: <FaServer className="text-green-500" /> },
-  { name: 'Excel & VBA', level: 92, icon: <FaChartBar className="text-yellow-500" /> },
-  { name: 'AI & ML', level: 80, icon: <FaRobot className="text-pink-500" /> },
-  { name: 'Power BI', level: 85, icon: <FaMicrosoft className="text-yellow-400" /> },
-  { name: 'Python', level: 88, icon: <SiPython className="text-blue-400" /> },
-  { name: 'JavaScript/React', level: 75, icon: <SiReact className="text-blue-300" /> },
+// Skills data organized by category
+const skillsByCategory = [
+  {
+    category: 'Data & Analysis',
+    icon: <FaChartLine className="text-blue-500" />,
+    skills: [
+      { name: 'Data Analysis', level: 90, icon: <FaChartLine className="text-blue-500" /> },
+      { name: 'Data Visualization', level: 88, icon: <FaChartBar className="text-purple-500" /> },
+      { name: 'Statistical Modeling', level: 85, icon: <FaChartPie className="text-green-500" /> },
+      { name: 'Excel & VBA', level: 92, icon: <FaMicrosoft className="text-yellow-500" /> }
+    ]
+  },
+  {
+    category: 'Inventory & Systems',
+    icon: <FaDatabase className="text-purple-500" />,
+    skills: [
+      { name: 'Inventory Management', level: 95, icon: <FaDatabase className="text-purple-500" /> },
+      { name: 'ERP Systems', level: 90, icon: <FaServer className="text-green-500" /> },
+      { name: 'Process Optimization', level: 88, icon: <FaProjectDiagram className="text-blue-500" /> },
+      { name: 'Supply Chain', level: 85, icon: <FaTruck className="text-indigo-500" /> }
+    ]
+  },
+  {
+    category: 'AI & Development',
+    icon: <FaRobot className="text-pink-500" />,
+    skills: [
+      { name: 'AI & ML', level: 80, icon: <FaRobot className="text-pink-500" /> },
+      { name: 'Python', level: 88, icon: <SiPython className="text-blue-400" /> },
+      { name: 'JavaScript/React', level: 75, icon: <SiReact className="text-blue-300" /> },
+      { name: 'SQL & NoSQL', level: 85, icon: <FaDatabase className="text-yellow-500" /> }
+    ]
+  },
+  {
+    category: 'Tools & Platforms',
+    icon: <FaTools className="text-yellow-500" />,
+    skills: [
+      { name: 'Power BI', level: 85, icon: <FaMicrosoft className="text-yellow-400" /> },
+      { name: 'Tableau', level: 80, icon: <FaChartBar className="text-blue-500" /> },
+      { name: 'Jupyter Notebooks', level: 85, icon: <FaCode className="text-orange-500" /> },
+      { name: 'Git & GitHub', level: 78, icon: <FaGithub className="text-gray-800 dark:text-gray-200" /> }
+    ]
+  }
 ];
 
 // Timeline data
@@ -189,123 +225,148 @@ const About = () => {
 
   if (!isMounted) return null;
 
+  // Hero content for About page
+  const heroContent = {
+    title: 'About Me',
+    subtitle: 'Get to know the person behind the code and data',
+    description: 'I\'m a passionate professional with expertise in data analysis, AI, and inventory management, dedicated to transforming complex data into actionable insights.',
+    primaryButton: { 
+      text: 'View Skills', 
+      link: '#skills',
+      showArrow: true,
+      onClick: (e) => {
+        e.preventDefault();
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+          window.scrollTo({
+            top: skillsSection.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      }
+    },
+    secondaryButton: { 
+      text: 'My Experience', 
+      link: '/experience',
+      showArrow: true
+    },
+    isHome: false,
+    showProfileImage: true,
+    profileImage: {
+      src: '/images/profile.avif',
+      alt: 'Sahil Ali',
+      badge: {
+        icon: <FaUserFriends className="w-6 h-6" />,
+        text: 'Team Player'
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-bg/90 overflow-x-hidden">
-      <section className="relative pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-16 sm:pb-20 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-blue-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/80 to-indigo-100/80 dark:from-gray-900/90 dark:to-gray-800/90"></div>
-        
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            {/* Left side - Text content */}
-            <motion.div 
-              className="text-center lg:text-left lg:w-1/2"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-                About{' '}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                  Me
-                </span>
-              </h1>
-              
-              <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
-                Get to know the person behind the code and data
-              </p>
-              
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto lg:mx-0">
-                I'm a passionate professional with expertise in data analysis, AI, and inventory management, dedicated to transforming complex data into actionable insights.
-              </p>
-              
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                <a 
-                  href="#skills" 
-                  className="px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('skills').scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <FaTools className="w-5 h-5" />
-                  View Skills
-                </a>
-                <a 
-                  href="#experience" 
-                  className="px-8 py-3.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById('experience').scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <FaBriefcase className="w-5 h-5" />
-                  My Experience
-                </a>
-              </div>
-            </motion.div>
-            
-            {/* Right side - Profile Image */}
-            <motion.div 
-              className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-200 dark:border-indigo-800 p-1">
-                <img 
-                  src="/images/profile.avif" 
-                  alt="Sahil Ali"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/images/placeholder-profile.jpg';
-                  }}
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl">
-                <FaUserFriends className="w-6 h-6" />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section */}
+      <HeroSection {...heroContent} />
       
-      {/* Fun Facts Section */}
-      <section className="py-16 md:py-20 bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              By The Numbers
+      {/* Enhanced Skills Section */}
+      <section id="skills" className="relative py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-5 dark:opacity-10 pointer-events-none">
+          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+          <div className="absolute top-1/2 -right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <motion.div 
+            className="text-center max-w-4xl mx-auto mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <span className="inline-block px-3 py-1 text-sm font-medium text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4">
+              My Expertise
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              Technical <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">Skills</span>
             </h2>
-            <div className="w-20 h-1 bg-indigo-500 mx-auto rounded-full"></div>
-            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-              Quantifying my professional journey and achievements
+            <div className="w-24 h-1.5 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto rounded-full mb-6"></div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              A comprehensive collection of my technical skills and areas of expertise
             </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {funFacts.map((fact, index) => (
-              <motion.div 
-                key={fact.id}
-                className="bg-white/90 dark:bg-gray-800/90 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100/50 dark:border-gray-700/50 hover:-translate-y-1 backdrop-blur-sm"
-                initial={{ opacity: 0, y: 20 }}
+          </motion.div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {skillsByCategory.map((category, catIndex) => (
+              <motion.div
+                key={catIndex}
+                className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100/50 dark:border-gray-700/50"
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-                viewport={{ once: true }}
+                transition={{ delay: catIndex * 0.1, duration: 0.5 }}
+                viewport={{ once: true, margin: "-50px" }}
               >
-                <div className="flex items-center mb-4">
-                  <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg mr-4">
-                    {fact.icon}
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{fact.value}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{fact.title}</p>
+                <div className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-700/80 px-6 py-4 border-b border-gray-100/50 dark:border-gray-700/50">
+                  <div className="flex items-center">
+                    <div className="p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm mr-4">
+                      {React.cloneElement(category.icon, { className: 'text-xl' })}
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      {category.category}
+                    </h3>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{fact.description}</p>
+                <div className="p-6">
+                  <div className="space-y-5">
+                    {category.skills.map((skill, skillIndex) => (
+                      <div key={skillIndex} className="group">
+                        <div className="flex justify-between items-center mb-1">
+                          <div className="flex items-center">
+                            <div className="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg mr-3">
+                              {React.cloneElement(skill.icon, { className: 'text-sm' })}
+                            </div>
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {skill.name}
+                            </span>
+                          </div>
+                          <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400">
+                            {skill.level}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                          <motion.div 
+                            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-blue-500"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${skill.level}%` }}
+                            transition={{ duration: 1, delay: 0.3 + (skillIndex * 0.05) }}
+                            viewport={{ once: true }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
+          
+          <motion.div 
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Continuously learning and expanding my skill set to stay current with the latest technologies and industry trends.
+            </p>
+            <a 
+              href="#contact" 
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+            >
+              <FaEnvelope className="mr-2" />
+              Let's Work Together
+            </a>
+          </motion.div>
         </div>
       </section>
 

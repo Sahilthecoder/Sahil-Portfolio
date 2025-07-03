@@ -4,11 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import './reset.css'; // CSS reset
-// import './index.css'; // Temporarily disabled
 import './App.css';
 import './styles/globals.css';
 import ClientOnly from './components/ClientOnly';
 import { AIAssistantProvider } from './context/AIAssistantContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
@@ -51,19 +51,6 @@ class ErrorBoundary extends React.Component {
             >
               Refresh Page
             </button>
-            <button 
-              onClick={() => window.location.reload()} 
-              style={{
-                padding: '0.5rem 1rem',
-                backgroundColor: '#2563eb',
-                color: 'white',
-                borderRadius: '0.375rem',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-            >
-              Reload Page
-            </button>
           </div>
         </div>
       );
@@ -80,21 +67,26 @@ const container = document.getElementById('root');
 if (container) {
   const root = createRoot(container);
   
+  // Base URL configuration for routing
+  const basename = ''; // Set to empty string for default routing
+  
   // Wrap the app with necessary providers
   const AppWithProviders = () => (
-    <ClientOnly>
-      <ErrorBoundary>
-        <StrictMode>
-          <HelmetProvider>
-            <BrowserRouter>
-              <AIAssistantProvider>
-                <App />
-              </AIAssistantProvider>
-            </BrowserRouter>
-          </HelmetProvider>
-        </StrictMode>
-      </ErrorBoundary>
-    </ClientOnly>
+    <StrictMode>
+      <BrowserRouter>
+        <HelmetProvider>
+          <ErrorBoundary>
+            <ClientOnly>
+              <ThemeProvider>
+                <AIAssistantProvider>
+                  <App />
+                </AIAssistantProvider>
+              </ThemeProvider>
+            </ClientOnly>
+          </ErrorBoundary>
+        </HelmetProvider>
+      </BrowserRouter>
+    </StrictMode>
   );
 
   // Render the app
@@ -103,30 +95,4 @@ if (container) {
   console.error('Failed to find the root element');
 }
 
-// Track page views for analytics
-if (typeof window !== 'undefined' && window.gtag) {
-  window.gtag('config', 'YOUR_GA_MEASUREMENT_ID', {
-    page_title: document.title,
-    page_path: window.location.pathname,
-  });
-}
-
-// Track performance metrics
-if ('performance' in window) {
-  // Report on page load time
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const timing = window.performance.timing;
-      const pageLoadTime = timing.loadEventEnd - timing.navigationStart;
-      console.log(`Page loaded in ${pageLoadTime}ms`);
-      
-      if (window.gtag) {
-        window.gtag('event', 'timing_complete', {
-          name: 'Page Load',
-          value: pageLoadTime,
-          event_category: 'Performance',
-        });
-      }
-    }, 0);
-  });
-}
+// Analytics and performance tracking can be added here when needed

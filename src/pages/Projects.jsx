@@ -8,6 +8,7 @@ import { FaMicrosoft } from 'react-icons/fa';
 import { FiFigma } from 'react-icons/fi';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
+import ProjectImage from '../components/ProjectImage';
 import SEO from '../components/SEO';
 import HeroSection from '../components/HeroSection/HeroSection';
 import '../components/HeroSection/HeroSection.css';
@@ -117,14 +118,13 @@ const ProjectCard = ({ project, index, onClick }) => {
           {/* Project image */}
           <div className="relative pt-[56.25%] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-              <img
-                src={project.image}
+              <ProjectImage
+                projectId={project.id}
+                imageName={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-                width="100%"
-                height="auto"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                containerClassName="absolute inset-0 w-full h-full"
+                objectFit="cover"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
@@ -132,7 +132,7 @@ const ProjectCard = ({ project, index, onClick }) => {
                 <div className="flex flex-wrap gap-2 justify-center">
                   {project.techStack?.slice(0, 5).map((tech, idx) => (
                     <motion.span
-                      key={idx}
+                      key={`${tech}-${idx}`}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05, duration: 0.3 }}
@@ -283,10 +283,15 @@ const ProjectModal = ({ project, onClose }) => {
             
             <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
-                <img
-                  src={project.image || '/project-placeholder.jpg'}
+                <ProjectImage
+                  projectId={project.id}
+                  imageName={project.image}
                   alt={project.title}
                   className="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105"
+                  containerClassName="w-full h-full"
+                  objectFit="contain"
+                  sm={{ objectFit: 'cover' }}
+                  fallbackImage="placeholder.jpg"
                 />
               </div>
               {/* Tech stack overlay on hover */}
@@ -345,13 +350,13 @@ const ProjectModal = ({ project, onClose }) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
                           >
-                            <img
-                              src={img}
+                            <ProjectImage
+                              projectId={project.id}
+                              imageName={img}
                               alt={`${project.title} - ${index + 1}`}
                               className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
-                              loading="lazy"
-                              width="100%"
-                              height="100%"
+                              containerClassName="w-full h-full"
+                              objectFit="contain"
                             />
                             <div className="absolute inset-0 bg-black/20 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-1 sm:space-y-2">
                               <FaExternalLinkAlt className="text-white text-lg sm:text-xl" />
@@ -426,10 +431,13 @@ const ProjectModal = ({ project, onClose }) => {
               >
                 <FaTimes className="h-6 w-6" />
               </button>
-              <img 
-                src={selectedImage} 
-                alt="Enlarged view" 
+              <ProjectImage
+                projectId={project.id}
+                imageName={selectedImage}
+                alt="Enlarged view"
                 className="max-w-full max-h-[80vh] object-contain"
+                containerClassName="w-full h-full"
+                objectFit="contain"
               />
               <div className="mt-2 text-center text-white text-sm opacity-75">
                 Click anywhere to close
@@ -443,15 +451,24 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 // Single project data
-// Helper function to prepend base URL to image paths
-import { getOptimizedImagePath } from '../utils/imageUtils';
+// Project folder mapping for ProjectImage component
+const projectFolders = {
+  'zomato-analysis': 'Project1 excel',
+  'bansal-supermarket': 'Project2 tableau',
+  'ekam-attendance': 'Project3 Sql+Sheets',
+  'retail-cash-flow': 'Project4 Power BI',
+  'ai-planner': 'Project5 Gpt+Notion',
+  'automation-suite': 'Project6 Gpt+Zapier',
+  'mahira-portfolio': 'Mahira Portfolio Web+AI',
+  'product-sales': 'Project7 Product Sales',
+  'snape-sentiment-analysis': 'Project8 Snape Analysis'
+};
 
-const withBaseUrl = (path) => {
-  // Handle both string and array inputs
-  if (Array.isArray(path)) {
-    return path.map(p => getOptimizedImagePath(p));
-  }
-  return getOptimizedImagePath(path);
+// Helper function to get image path for ProjectImage component
+const getProjectImage = (projectId, imagePath) => {
+  if (!imagePath) return '';
+  // Extract just the filename from the path
+  return imagePath.split('/').pop();
 };
 
 const projects = [
@@ -464,8 +481,8 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    image: withBaseUrl('/images/projects/Project1 excel/Project1 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Project1 excel/zometo-ds.avif'),
+    image: 'Project1 Cover.avif',
+    previewImage: 'zometo-ds.avif',
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -476,9 +493,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     gallery: [
-      withBaseUrl('/images/projects/Project1 excel/zometo-ds.avif'),
-      withBaseUrl('/images/projects/Project1 excel/zt1.avif'),
-      withBaseUrl('/images/projects/Project1 excel/zt2.avif')
+      'zometo-ds.avif',
+      'zt1.avif',
+      'zt2.avif'
     ]
   },
   {
@@ -490,8 +507,8 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    image: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Project2 tableau/Project2 Cover.avif'),
+    image: 'Project2 Cover.avif',
+    previewImage: 'Project2 Cover.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -502,9 +519,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     gallery: [
-      withBaseUrl('/images/projects/Project2 tableau/bs2.avif'),
-      withBaseUrl('/images/projects/Project2 tableau/bs3.avif'),
-      withBaseUrl('/images/projects/Project2 tableau/bs-top10.avif')
+      'bs2.avif',
+      'bs3.avif',
+      'bs-top10.avif'
     ]
   },
   {
@@ -516,8 +533,8 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    image: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Project4 Power BI/Project4 Cover.avif'),
+    image: 'Project4 Cover.avif',
+    previewImage: 'Project4 Cover.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -528,8 +545,8 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     gallery: [
-      withBaseUrl('/images/projects/Project4 Power BI/CashFlow1.avif'),
-      withBaseUrl('/images/projects/Project4 Power BI/CashFlow2.avif')
+      'CashFlow1.avif',
+      'CashFlow2.avif'
     ]
   },
   {
@@ -541,8 +558,8 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    image: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'),
+    image: 'Project3 Cover.avif',
+    previewImage: 'Project3 Cover.avif',
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -553,8 +570,8 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     gallery: [
-      withBaseUrl('/images/projects/Project3 Sql+Sheets/Attendance_before.avif'),
-      withBaseUrl('/images/projects/Project3 Sql+Sheets/Attendance_after.avif')
+      'Attendance_before.avif',
+      'Attendance_after.avif'
     ]
   },
   {
@@ -566,8 +583,8 @@ const projects = [
     tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
     path: '/projects/product-sales',
-    image: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
+    image: 'Project5 Cover.avif',
+    previewImage: 'Project5 Cover.avif',
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -578,9 +595,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     gallery: [
-      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
-      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif'),
-      withBaseUrl('/images/projects/Project5 Gpt+Notion/Project5 Cover.avif')
+      'Project5 Cover.avif',
+      'Project5 Cover.avif',
+      'Project5 Cover.avif'
     ]
   },
   {
@@ -592,8 +609,8 @@ const projects = [
     tags: ['AI/ML Showcase', 'Data Visualization', 'Interactive Demos', 'Technical Portfolio'],
     techStack: ['React', 'D3.js', 'Python', 'TensorFlow.js', 'Next.js'],
     path: '/projects/mahira-portfolio',
-    image: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
-    previewImage: withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
+    image: 'Project7 Cover.avif',
+    previewImage: 'Project7 Cover.avif',
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
     featured: true,
@@ -604,9 +621,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
     gallery: [
-      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
-      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif'),
-      withBaseUrl('/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif')
+      'Project7-1.avif',
+      'Project7-2.avif',
+      'Project7-3.avif'
     ]
   }
 ];
@@ -762,18 +779,17 @@ const Projects = () => {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"
               >
                 <AnimatePresence>
-                  {filteredProjects.map((project, index) => (
+                  {filteredProjects.map((project) => (
                     <motion.div
                       key={project.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
+                      transition={{ duration: 0.3 }}
                       layout
                     >
                       <ProjectCard
                         project={project}
-                        index={index}
                         onClick={() => handleProjectSelect(project)}
                       />
                     </motion.div>

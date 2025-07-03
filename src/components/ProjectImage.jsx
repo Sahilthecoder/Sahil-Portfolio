@@ -24,6 +24,9 @@ const ProjectImage = ({
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [imagePath, setImagePath] = useState('');
+  // Fallback transparent pixel for broken images
+  const fallbackImage = transparentPixel;
   
   // Map project IDs to their corresponding folder names
   const projectFolders = {
@@ -42,25 +45,34 @@ const ProjectImage = ({
     'zomato-analysis': 'Project1 excel'
   };
 
-  // Get the correct folder name from the mapping or use the projectId as fallback
-  const folderName = projectFolders[projectId] || projectId;
-  
-  // Clean up the image name by removing leading/trailing slashes and spaces
-  const cleanImageName = imageName ? imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '') : '';
-  
-  // Construct the image path with the correct base path for production
-  const basePath = import.meta.env.BASE_URL || '/';
-  const imagePath = `${import.meta.env.BASE_URL}optimized-images/projects/${folderName}/${cleanImageName}`.replace(/\\/g, '/').replace(/([^:])\/+/g, '$1/');
-  
-  // Debug: Log the constructed image path
-  console.log(`Loading image: ${imagePath}`);
-  
-  // Fallback to transparent pixel instead of placeholder.svg
-  const fallbackImage = transparentPixel;
-  
-  // Calculate padding based on aspect ratio
-  const [width, height] = aspectRatio.split('/').map(Number);
-  const paddingBottom = `${(height / width) * 100}%`;
+  useEffect(() => {
+    if (projectId && imageName) {
+      try {
+        const basePath = import.meta.env.BASE_URL || '/';
+        const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
+        
+        // Special handling for profile images
+        if (projectId === 'profile') {
+          const path = `${basePath}images/${cleanImageName}`.replace(/([^:])\/+/g, '$1/');
+          setImagePath(path.endsWith('.avif') || path.endsWith('.webp') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg')
+            ? path
+            : `${path}.avif`
+          );
+        } else {
+          // For project images
+          const projectFolder = projectFolders[projectId] || projectId;
+          const path = `${basePath}images/projects/${projectFolder}/${cleanImageName}`.replace(/([^:])\/+/g, '$1/');
+          setImagePath(path.endsWith('.avif') || path.endsWith('.webp') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg')
+            ? path
+            : `${path}.avif`
+          );
+        }
+      } catch (error) {
+        console.error('Error constructing image path:', error);
+        setError(true);
+      }
+    }
+  }, [projectId, imageName]);
 
   const handleImageLoad = () => {
     setIsLoading(false);
@@ -108,7 +120,11 @@ const ProjectImage = ({
       >
         <div 
           className="relative w-full" 
-          style={{ paddingBottom: paddingBottom }}
+          style={{
+            paddingBottom: aspectRatio.includes('/') 
+              ? `${(aspectRatio.split('/')[1] / aspectRatio.split('/')[0]) * 100}%`
+              : '56.25%' // Default to 16:9 if invalid format
+          }}
         >
           {/* Loading state */}
           {isLoading && !error && (

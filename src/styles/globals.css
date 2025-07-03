@@ -2,8 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Light theme (default) */
+/* ===== Theme Variables ===== */
 :root {
+  /* Color System - Light Theme */
   --color-primary: 79, 70, 229;    /* indigo-600 */
   --color-primary-hover: 67, 56, 202; /* indigo-700 */
   --color-text: 17, 24, 39;        /* gray-900 */
@@ -11,9 +12,25 @@
   --color-bg: 249, 250, 251;       /* gray-50 */
   --color-bg-elevated: 255, 255, 255; /* white */
   --color-border: 229, 231, 235;   /* gray-200 */
+  --color-accent: 167, 139, 250;   /* purple-400 */
+  --color-card: 255, 255, 255;     /* white */
+  --color-card-hover: 249, 250, 251; /* gray-50 */
+  --color-heading: 15, 23, 42;     /* slate-900 */
+  --color-paragraph: 71, 85, 105;  /* slate-600 */
+  --neon-pink: 255, 0, 255;       /* neon pink */
+  
+  /* Shadow System */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Spacing & Layout */
+  --container-padding: 1rem;
+  --section-padding: 4rem 0;
 }
 
-/* Dark theme */
 .dark {
   --color-primary: 99, 102, 241;   /* indigo-500 */
   --color-primary-hover: 129, 140, 248; /* indigo-400 */
@@ -22,13 +39,85 @@
   --color-bg: 17, 24, 39;         /* gray-900 */
   --color-bg-elevated: 31, 41, 55; /* gray-800 */
   --color-border: 55, 65, 81;     /* gray-700 */
+  --color-card: 30, 41, 59;       /* slate-800 */
+  --color-card-hover: 51, 65, 85;  /* slate-700 */
+  --color-heading: 248, 250, 252;  /* slate-50 */
+  --color-paragraph: 203, 213, 225; /* slate-300 */
+}
+
+/* ===== Base Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white dark:bg-[var(--color-bg)] text-[var(--color-text)];
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Smooth theme transitions */
-html.theme-transition,
-html.theme-transition *,
-html.theme-transition *::before,
-html.theme-transition *::after {
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+  transition-delay: 0s !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold leading-tight tracking-tight text-[var(--color-heading)];
+  margin-bottom: 0.75em;
+}
+
+h1 { @apply text-4xl md:text-5xl; }
+h2 { @apply text-3xl md:text-4xl; }
+h3 { @apply text-2xl md:text-3xl; }
+h4 { @apply text-xl md:text-2xl; }
+h5 { @apply text-lg md:text-xl; }
+
+p {
+  @apply text-[var(--color-paragraph)] leading-relaxed;
+  margin-bottom: 1rem;
+}
+
+a {
+  @apply text-[var(--color-primary)] no-underline transition-colors duration-200;
+  &:hover {
+    @apply text-[var(--color-primary-hover)];
+  }
+}
+
+/* Responsive adjustments */
+@media (min-width: 640px) {
+  :root {
+    --container-padding: 1.5rem;
+    --section-padding: 5rem 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-padding: 2rem;
+    --section-padding: 6rem 0;
+  }
+}
+
+/* Smooth theme transitions */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
   transition-delay: 0s !important;
 }

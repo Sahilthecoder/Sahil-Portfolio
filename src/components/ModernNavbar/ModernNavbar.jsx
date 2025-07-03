@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { 
-  FiMenu, 
-  FiX, 
-  FiSun, 
-  FiMoon, 
   FiHome, 
   FiUser, 
   FiCode, 
   FiBriefcase, 
   FiMail, 
-  FiFileText,
-  FiChevronRight
+  FiChevronRight,
+  FiX,
+  FiSun,
+  FiMoon
 } from 'react-icons/fi';
+import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import './ModernNavbar.css';
 
-// Glass morphism styles
-const glassStyle = 'backdrop-blur-md bg-white/80 dark:bg-gray-900/80';
-const glassHover = 'hover:bg-white/90 dark:hover:bg-gray-800/90';
-const glassBorder = 'border border-white/20 dark:border-gray-700/50';
+// CSS classes for glass morphism effect
+const glassStyle = 'glass-morph';
+const glassHover = 'glass-hover';
+const glassBorder = 'glass-border';
 
 // Animation variants
 const containerVariants = {
@@ -54,48 +54,52 @@ const BackgroundPattern = () => (
   </div>
 );
 
-// Navigation items with static text - Streamlined for better focus
+// Navigation items with static text and routing configuration
 const NAV_ITEMS = [
   { 
     name: 'Home', 
     path: '/', 
-    section: 'home', 
+    section: 'home',
     icon: <FiHome className="w-5 h-5" />,
-    description: 'Back to the homepage'
+    description: 'Back to the homepage',
+    exact: true
   },
   { 
     name: 'About', 
     path: '/about', 
-    section: 'about', 
+    section: 'about',
     icon: <FiUser className="w-5 h-5" />,
-    description: 'Learn about me and my skills'
+    description: 'Learn about me and my skills',
+    exact: false
   },
   { 
-    name: 'Work', 
+    name: 'Experience', 
     path: '/experience', 
-    section: 'experience', 
+    section: 'experience',
     icon: <FiBriefcase className="w-5 h-5" />,
-    description: 'View my professional experience'
+    description: 'View my professional experience',
+    exact: false
   },
   { 
     name: 'Projects', 
     path: '/projects', 
-    section: 'projects', 
+    section: 'projects',
     icon: <FiCode className="w-5 h-5" />,
-    description: 'Explore my portfolio projects'
+    description: 'Explore my portfolio projects',
+    exact: false
   },
   { 
     name: 'Contact', 
     path: '/contact', 
-    section: 'contact', 
+    section: 'contact',
     icon: <FiMail className="w-5 h-5" />,
-    description: 'Get in touch with me'
-  },
-  // Resume is now a call-to-action button in the navigation
+    description: 'Get in touch with me',
+    exact: false
+  }
 ];
 
 // Theme Toggle Component
-const ThemeToggle = React.memo(() => {
+const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
   const { theme, toggleTheme, autoTheme, toggleAutoTheme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -105,7 +109,8 @@ const ThemeToggle = React.memo(() => {
     setIsPressed(true);
     setTimeout(() => setIsPressed(false), 200);
     toggleTheme();
-  }, [toggleTheme]);
+    if (onThemeChange) onThemeChange();
+  }, [toggleTheme, onThemeChange]);
   
   const handleAutoThemeToggle = useCallback((e) => {
     e.preventDefault();
@@ -113,39 +118,33 @@ const ThemeToggle = React.memo(() => {
     toggleAutoTheme();
   }, [toggleAutoTheme]);
   
-  // Theme configurations with improved contrast and modern design
-  const themes = {
+  // Theme configurations with CSS classes
+  const themes = useMemo(() => ({
     light: {
-      icon: <FiSun className="w-4 h-4 md:w-5 md:h-5" />,
+      icon: <FiSun className="theme-icon" />,
       label: 'Light Mode',
-      bg: 'bg-white dark:bg-gray-800',
-      ring: 'ring-1 ring-gray-200 dark:ring-gray-700',
-      hoverBg: 'hover:bg-gray-50 dark:hover:bg-gray-700',
-      activeBg: 'active:bg-gray-100 dark:active:bg-gray-600',
-      text: 'text-yellow-500 dark:text-yellow-400',
-      shadow: 'shadow-sm hover:shadow-md',
+      className: 'theme-light',
       tooltip: 'Switch to dark mode',
     },
     dark: {
-      icon: <FiMoon className="w-4 h-4 md:w-5 md:h-5" />,
+      icon: <FiMoon className="theme-icon" />,
       label: 'Dark Mode',
-      bg: 'bg-gray-900 dark:bg-gray-100',
-      ring: 'ring-1 ring-gray-800 dark:ring-gray-300',
-      hoverBg: 'hover:bg-gray-800 dark:hover:bg-gray-50',
-      activeBg: 'active:bg-gray-700 dark:active:bg-gray-100',
-      text: 'text-indigo-300 dark:text-indigo-600',
-      shadow: 'shadow-sm hover:shadow-md shadow-gray-900/20 dark:shadow-gray-100/20',
+      className: 'theme-dark',
       tooltip: 'Switch to light mode',
     }
-  };
+  }), []);
 
   const currentTheme = themes[theme] || themes.light;
-  const nextTheme = theme === 'light' ? 'dark' : 'light';
 
   return (
-    <div className="relative group">
+    <div className="theme-toggle-container">
       <motion.button
-        onClick={handleToggle}
+        type="button"
+        className={`theme-toggle ${isHovered ? 'hovered' : ''} ${isPressed ? 'pressed' : ''} ${className}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggle(e);
+        }}
         onContextMenu={handleAutoThemeToggle}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -153,12 +152,11 @@ const ThemeToggle = React.memo(() => {
         onMouseUp={() => setIsPressed(false)}
         onMouseLeave={() => setIsPressed(false)}
         aria-label={`${currentTheme.tooltip}${autoTheme ? ' (Auto theme enabled)' : ''}`}
-        className={`relative flex items-center justify-center h-10 w-10 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900 ${currentTheme.bg} ${currentTheme.ring} ${currentTheme.hoverBg} ${currentTheme.activeBg} ${currentTheme.shadow} ${isPressed ? 'scale-95' : ''}`}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         <motion.div 
-          className="relative flex items-center justify-center w-full h-full"
+          className="theme-toggle-inner"
           animate={{
             rotate: isHovered ? (theme === 'light' ? 15 : -15) : 0,
             scale: isPressed ? 0.9 : 1
@@ -170,32 +168,15 @@ const ThemeToggle = React.memo(() => {
             mass: 0.5
           }}
         >
-          <motion.span
-            className={`${currentTheme.text} transition-colors duration-300`}
-            animate={{
-              scale: isHovered ? 1.1 : 1,
-              opacity: 1
-            }}
-          >
+          <span className="theme-icon">
             {currentTheme.icon}
-          </motion.span>
-          
-          {/* Ripple effect on click */}
-          <motion.span 
-            className="absolute inset-0 rounded-full bg-current opacity-0"
-            initial={false}
-            animate={{
-              scale: isPressed ? 1.5 : 1,
-              opacity: isPressed ? 0.1 : 0
-            }}
-            transition={{ duration: 0.4 }}
-          />
+          </span>
+          <span className="theme-ripple"></span>
         </motion.div>
 
-        {/* Auto theme indicator */}
         {autoTheme && (
           <motion.span 
-            className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white dark:border-gray-900"
+            className="theme-auto-indicator"
             initial={{ scale: 0 }}
             animate={{ 
               scale: 1,
@@ -212,9 +193,8 @@ const ThemeToggle = React.memo(() => {
         )}
       </motion.button>
       
-      {/* Tooltip */}
       <motion.div 
-        className="absolute right-0 top-full mt-2 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 dark:bg-gray-700 rounded-md shadow-lg whitespace-nowrap pointer-events-none z-50"
+        className="theme-tooltip"
         initial={{ opacity: 0, y: 5 }}
         animate={{
           opacity: isHovered ? 1 : 0,
@@ -236,6 +216,7 @@ const ModernNavbar = () => {
   const navigate = useNavigate();
   const navRef = useRef(null);
   const menuRef = useRef(null);
+  const menuContainerRef = useRef(null);
 
   // Handle scroll effect with debounce
   useEffect(() => {
@@ -257,339 +238,481 @@ const ModernNavbar = () => {
   // Close menu when route changes
   useEffect(() => {
     closeMenu();
+    // Scroll to top when path changes
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
-  // Handle body scroll when menu is open
+  // Handle body scroll and focus trap when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
+      
       // Focus trap for accessibility
-      const focusableElements = menuRef.current.querySelectorAll(
+      const menuElement = menuRef.current;
+      if (!menuElement) return;
+      
+      const focusableElements = menuElement.querySelectorAll(
         'button, [href], [tabindex]:not([tabindex="-1"])'
       );
+      
+      if (focusableElements.length === 0) return;
+      
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
       
       const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
           closeMenu();
+          return;
         }
         
-        // Trap focus inside menu when open
-        if (e.key === 'Tab') {
-          if (e.shiftKey) {
-            if (document.activeElement === firstElement) {
-              e.preventDefault();
-              lastElement.focus();
-            }
-          } else {
-            if (document.activeElement === lastElement) {
-              e.preventDefault();
-              firstElement.focus();
-            }
+        // Only handle tab key when menu is open
+        if (e.key !== 'Tab') return;
+        
+        // Handle shift + tab
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
           }
+        } 
+        // Handle tab
+        else if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
         }
       };
-
+      
+      // Focus first element when menu opens
+      firstElement.focus();
+      
+      // Add event listeners
       document.addEventListener('keydown', handleKeyDown);
-      firstElement?.focus();
       
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'auto';
       };
-    } else {
-      document.body.style.overflow = 'auto';
     }
   }, [isMenuOpen]);
 
-  const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => !prev);
+  const toggleMenu = useCallback((e) => {
+    if (e) e.stopPropagation();
+    setIsMenuOpen(prev => {
+      const newState = !prev;
+      if (newState) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
+      return newState;
+    });
   }, []);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
 
-  // Close mobile menu when clicking outside or pressing Escape
-  const handleClickOutsideMobile = useCallback((event) => {
-    if (isMenuOpen && !event.target.closest('.mobile-menu-container')) {
-      setIsMenuOpen(false);
+  // Close mobile menu when clicking outside
+  const handleClickOutside = useCallback((event) => {
+    if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+      closeMenu();
     }
   }, [isMenuOpen]);
+  
+  // Add click outside listener
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }
+  }, [isMenuOpen, handleClickOutside]);
 
-  // Smooth scroll to section
-  const scrollTo = useCallback((id) => {
-    if (id === 'home') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+  // Improved scroll to section with navigation support
+  const scrollTo = useCallback((id, path) => {
+    // If we're not on the home page, navigate first
+    if (location.pathname !== '/') {
+      navigate(path || '/');
+      // Small delay to ensure the component has mounted
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+    } else {
+      // We're already on the home page, just scroll
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [location.pathname, navigate]);
+
+  // Improved navigation with smooth scrolling to top for all page changes
+  const handleNavClick = useCallback((e, item) => {
+    e.preventDefault();
+    
+    // Close mobile menu if open
+    closeMenu();
+    
+    // If it's the same page, just scroll to top
+    if (location.pathname === item.path) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
     
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // For different page, navigate first then scroll to top
+    navigate(item.path, { state: { fromNavigation: true } });
+  }, [closeMenu, location.pathname, navigate]);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  }, []);
-
-  // Add padding to the body when menu is open to prevent scrolling
+  // Handle body class and scroll position when menu is open or path changes
   useEffect(() => {
+    // Handle menu open/close
     if (isMenuOpen) {
       document.body.classList.add('menu-open');
-      return () => document.body.classList.remove('menu-open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = 'auto';
     }
+    
+    // Cleanup
+    return () => {
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = 'auto';
+    };
   }, [isMenuOpen]);
+  
+  // Close menu on outside click, Escape key, or navigation
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && !event.target.closest('.mobile-menu-container') && !event.target.closest('.mobile-menu-button')) {
+        closeMenu();
+      }
+    };
+    
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        closeMenu();
+      }
+    };
+    
+    const handleNavigation = () => {
+      closeMenu();
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    window.addEventListener('popstate', handleNavigation);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('popstate', handleNavigation);
+    };
+  }, [isMenuOpen, closeMenu]);
 
   return (
-    <>
-      <motion.nav
-        ref={navRef}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? `py-2 ${glassStyle} ${glassBorder} shadow-xl` 
-            : 'py-4 bg-transparent'
-        }`}
-        style={{
-          // Ensure navbar stays above other content
-          transform: 'translate3d(0, 0, 0)',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden'
-        }}
-      >
-        <BackgroundPattern />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-20">
-            {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <NavLink
-                to="/"
-                className={({ isActive }) => `flex items-center space-x-2 ${isActive ? 'text-indigo-600 dark:text-indigo-400' : ''}`}
-                onClick={closeMenu}
-              >
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-300 group-hover:duration-200"></div>
-                  <div className="relative p-1 bg-white dark:bg-gray-900 rounded-full ring-1 ring-gray-900/5 dark:ring-white/10">
-                    <img 
-                      src={`${import.meta.env.BASE_URL}logo192.png`}
-                      alt="Sahil Ali"
-                      loading="lazy"
-                      className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 transition-transform duration-300 group-hover:scale-110"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col leading-tight">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-purple-400">
-                    Sahil Ali
-                  </h2>
-                  <span className="text-[9px] sm:text-[10px] text-gray-500 dark:text-gray-400 tracking-wide mt-0.5">
-                    DATA ANALYST
-                  </span>
-                </div>
-              </NavLink>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1 flex-wrap">
-              {NAV_ITEMS.map((item) => {
-                const isActive = location.pathname === item.path || 
-                              (item.path !== '/' && location.pathname.startsWith(item.path));
-                return (
-                  <button
-                    key={item.name}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      closeMenu();
-                      if (item.path === '/') {
-                        scrollTo('home');
-                        navigate(item.path);
-                      } else {
-                        navigate(item.path);
-                        // Small delay to ensure the component has mounted
-                        setTimeout(() => {
-                          scrollTo(item.section);
-                        }, 50);
-                      }
-                    }}
-                    className={`flex-shrink-0 flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-300 ${
-                      isActive
-                        ? 'text-white bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/20 dark:from-indigo-500 dark:to-purple-500'
-                        : 'text-gray-600 hover:text-indigo-700 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100/80 dark:hover:bg-gray-800/40'
-                    }`}
-                    style={{ minWidth: 'fit-content' }}
-                  >
-                    <span className="mr-1.5">{item.icon}</span>
-                    <span className="whitespace-nowrap">{item.name}</span>
-                  </button>
-                );
-              })}
-            </nav>
-
-            {/* Desktop Right Side */}
-            <div className="hidden md:flex items-center space-x-3">
-              <div className="h-6 w-px bg-gray-200 dark:bg-gray-700"></div>
-              <ThemeToggle />
-            </div>
-
-            {/* Mobile menu button - Theme toggle removed from header */}
-            <div className="md:hidden flex items-center">
-              <motion.button
-                onClick={toggleMenu}
-                className={`p-2.5 rounded-xl ${glassStyle} ${glassHover} ${glassBorder} shadow-sm hover:shadow-md transition-all duration-300`}
-                aria-label="Toggle menu"
-                aria-expanded={isMenuOpen}
-                aria-controls="mobile-menu"
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="relative w-6 h-5">
-                  <motion.span 
-                    className="absolute h-0.5 w-6 bg-current block rounded-full"
-                    animate={isMenuOpen ? 'open' : 'closed'}
-                    variants={{
-                      closed: { top: '0.25rem', rotate: 0 },
-                      open: { top: '0.75rem', rotate: 45 }
-                    }}
-                  />
-                  <motion.span 
-                    className="absolute h-0.5 w-6 bg-current block rounded-full top-1/2 -translate-y-1/2"
-                    animate={isMenuOpen ? 'open' : 'closed'}
-                    variants={{
-                      closed: { opacity: 1 },
-                      open: { opacity: 0 }
-                    }}
-                  />
-                  <motion.span 
-                    className="absolute h-0.5 w-6 bg-current block rounded-full"
-                    animate={isMenuOpen ? 'open' : 'closed'}
-                    variants={{
-                      closed: { bottom: '0.25rem', rotate: 0 },
-                      open: { bottom: '0.75rem', rotate: -45 }
-                    }}
-                  />
-                </div>
-              </motion.button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile menu with modern design */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <div className="mobile-menu-container">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
-                onClick={closeMenu}
-                aria-hidden="true"
+    <motion.nav
+      ref={navRef}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      }`}
+    >
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 md:h-20 items-center">
+          <NavLink 
+            to="/" 
+            className="flex items-center space-x-2 group"
+            aria-label="Home"
+            onClick={(e) => {
+              if (location.pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
+            <div className="relative flex items-center group-hover:scale-105 transition-transform">
+              <img 
+                src="/images/logo.png" 
+                alt="Sahil Ali - Data Analyst" 
+                className="h-10 w-auto"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/images/logo192.png';
+                }}
               />
-              <motion.div
-                ref={menuRef}
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ 
-                  type: 'spring',
-                  damping: 30,
-                  stiffness: 300,
-                  mass: 0.5
-                }}
-                className={`fixed top-0 right-0 h-screen w-80 max-w-full ${glassStyle} ${glassBorder} shadow-2xl z-50 overflow-y-auto`}
-                style={{
-                  maxHeight: '100vh',
-                  WebkitOverflowScrolling: 'touch',
-                  overscrollBehavior: 'contain'
-                }}
-                id="mobile-menu"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Mobile menu"
-              >
-                <BackgroundPattern />
-                <div className="flex flex-col min-h-full">
-                  <div className="px-6 py-5 border-b border-white/10">
-                    <div className="flex items-center justify-between">
-                      <motion.h2 
-                        className="text-xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        Navigation
-                      </motion.h2>
-                      <motion.button
-                        onClick={closeMenu}
-                        className={`p-2 rounded-xl ${glassHover} text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors`}
-                        aria-label="Close menu"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <FiX className="h-5 w-5" />
-                      </motion.button>
-                    </div>
-                  </div>
-                  
-                  <motion.nav 
-                    className="flex-1 px-4 py-6 space-y-2 overflow-y-auto"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
+              <span className="ml-2 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Sahil Ali
+                <span className="block text-xs text-gray-500 dark:text-gray-400">Data Analyst</span>
+              </span>
+            </div>
+          </NavLink>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            onClick={toggleMenu}
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? (
+              <FaTimes className="w-6 h-6 text-gray-800 dark:text-gray-100" />
+            ) : (
+              <FaBars className="w-6 h-6 text-gray-800 dark:text-gray-100" />
+            )}
+          </button>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
+            {NAV_ITEMS.map((item) => {
+              const isActive = item.exact 
+                ? location.pathname === item.path
+                : location.pathname.startsWith(item.path);
+              
+              return (
+                <div key={item.name} className="relative group">
+                  <button
+                    onClick={(e) => handleNavClick(e, item)}
+                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      isActive 
+                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                    aria-label={item.description}
                   >
-                    {NAV_ITEMS.map((item) => (
-                      <motion.div
-                        key={item.path}
-                        variants={itemVariants}
-                        whileHover={{ x: 5 }}
-                        whileTap={{ scale: 0.98 }}
+                    <span className="flex items-center space-x-2">
+                      <span className="nav-item-icon" aria-hidden="true">
+                        {item.icon}
+                      </span>
+                      <span className="nav-item-text">{item.name}</span>
+                    </span>
+                  </button>
+                  {isActive && (
+                    <motion.span 
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500"
+                      layoutId="activeNavItem"
+                      transition={{
+                        type: 'spring',
+                        stiffness: 380,
+                        damping: 30
+                      }}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+
+          <div className="hidden lg:flex items-center space-x-4">
+            <ThemeToggle />
+            <a
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="GitHub"
+            >
+              <FaGithub className="w-5 h-5" />
+            </a>
+            <a
+              href="https://linkedin.com/in/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedin className="w-5 h-5" />
+            </a>
+          </div>
+
+
+            
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <>
+                  <motion.div 
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={closeMenu}
+                    aria-hidden="true"
+                  />
+                  
+                  <motion.div 
+                    ref={menuRef}
+                    className="fixed top-0 right-0 h-screen w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col overflow-hidden"
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'tween', ease: [0.22, 1, 0.36, 1] }}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Mobile menu"
+                  >
+                    <div className="p-6 pb-4">
+                    <div className="flex justify-between items-center">
+                      <div className="hidden lg:flex items-center space-x-4">
+                        <ThemeToggle onThemeChange={closeMenu} />
+                        <a
+                          href="https://github.com/yourusername"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                          aria-label="GitHub"
+                        >
+                          <FaGithub className="h-5 w-5" />
+                        </a>
+                        <a
+                          href="https://linkedin.com/in/yourusername"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                          aria-label="LinkedIn"
+                        >
+                          <FaLinkedin className="h-5 w-5" />
+                        </a>
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>
+                      <button 
+                        onClick={closeMenu}
+                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                        aria-label="Close menu"
                       >
-                        <NavLink
-                          to={item.path}
-                          className={({ isActive }) => `
-                            flex items-center justify-between p-4 rounded-xl transition-all duration-300
-                            ${isActive 
-                              ? `${glassStyle} ${glassHover} shadow-md text-indigo-600 dark:text-indigo-300` 
-                              : `${glassHover} text-gray-700 dark:text-gray-300`
-                            }
-                          `}
+                        <FiX className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+                      </button>
+                    </div>
+                    
+                    <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
+                      <ul className="space-y-2">
+                        {NAV_ITEMS.map((item) => {
+                          const isActive = item.exact 
+                            ? location.pathname === item.path
+                            : location.pathname.startsWith(item.path);
+                            
+                          return (
+                            <li key={item.name}>
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  closeMenu();
+                                  
+                                  if (location.pathname === item.path) {
+                                    // If already on the same page, just scroll to section
+                                    if (item.path === '/') {
+                                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    } else if (item.section) {
+                                      const element = document.getElementById(item.section);
+                                      if (element) {
+                                        const headerOffset = 100;
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                        window.scrollTo({
+                                          top: offsetPosition,
+                                          behavior: 'smooth',
+                                        });
+                                      }
+                                    }
+                                  } else {
+                                    // Navigate to new page
+                                    navigate(item.path);
+                                    
+                                    // Small delay to ensure the page has loaded
+                                    setTimeout(() => {
+                                      if (item.section) {
+                                        const element = document.getElementById(item.section);
+                                        if (element) {
+                                          const headerOffset = 100;
+                                          const elementPosition = element.getBoundingClientRect().top;
+                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                          window.scrollTo({
+                                            top: offsetPosition,
+                                            behavior: 'smooth',
+                                          });
+                                        }
+                                      } else if (item.path === '/') {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }
+                                    }, 100);
+                                  }
+                                }}
+                                className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
+                                  isActive 
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                    : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                                }`}
+                                aria-current={isActive ? 'page' : undefined}
+                              >
+                                <span className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
+                                  {item.icon}
+                                </span>
+                                <span className="font-medium">{item.name}</span>
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </nav>
+                    
+                    <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                      <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
+                        <ThemeToggle onThemeChange={closeMenu} />
+                      </div>
+                      
+                      <div className="flex justify-center space-x-4 mt-4">
+                        <a
+                          href="https://github.com/yourusername"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          aria-label="GitHub"
                           onClick={closeMenu}
                         >
-                          <div className="flex items-center">
-                            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mr-3">
-                              {item.icon}
-                            </span>
-                            <span className="font-medium">{item.name}</span>
-                          </div>
-                          <FiChevronRight className="text-gray-400 group-hover:translate-x-1 transition-transform" />
-                        </NavLink>
-                      </motion.div>
-                    ))}
-                  </motion.nav>
-                  
-                  <div className={`p-5 border-t border-white/10 ${glassStyle}`}>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Theme</span>
-                      <ThemeToggle />
+                          <FaGithub className="w-5 h-5" />
+                        </a>
+                        <a
+                          href="https://linkedin.com/in/yourusername"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          aria-label="LinkedIn"
+                          onClick={closeMenu}
+                        >
+                          <FaLinkedin className="w-5 h-5" />
+                        </a>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
       </motion.nav>
-    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { ImageWithFallback } from '../utils/imageUtils.jsx';
+import { ImageWithFallback } from '../../utils/imageUtils.jsx';
 import { 
   FiHome, 
   FiUser, 

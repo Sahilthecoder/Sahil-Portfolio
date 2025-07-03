@@ -1,227 +1,107 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v8';
-const BASE_PATH = '/Sahil-Portfolio';
-const SCOPE = '/Sahil-Portfolio/';
-
-// List of URLs to cache during installation
+const CACHE_NAME = 'portfolio-cache-v13';
 const ASSETS_TO_CACHE = [
-  '/Sahil-Portfolio/',
-  '/Sahil-Portfolio/index.html',
-  '/Sahil-Portfolio/manifest.json',
-  {`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src="/Sahil-Portfolio/logo192.png" alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`},
-  '/Sahil-Portfolio/logo512.png',
-  {`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src={`<picture>
-          
-          
-          <img src="/Sahil-Portfolio/apple-touch-icon.png" alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`} alt="" loading="lazy" />
-        </picture>`},
-  // Add other assets that should be cached on install
+  './',
+  './index.html',
+  './about.html',
+  './manifest.json',
+  './images/logo192.png',
+  './images/logo512.png',
+  './images/favicon.ico',
+  './images/favicon-16x16.png',
+  './images/favicon-32x32.png',
+  './images/og-default.jpg',
+  './fonts/Roboto.woff2',
+  './fonts/Poppins.woff2',
+  'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
 ];
 
-// Cache Google Fonts
-const GOOGLE_FONTS_CACHE = 'google-fonts-cache';
-const GOOGLE_FONTS_URL = 'https://fonts.googleapis.com/css2';
-const GOOGLE_STATIC_FONTS = 'https://fonts.gstatic.com';
-
-// Cache these font files when they're requested
-const FONTS_TO_CACHE = [
-  '/fonts/Inter.var.woff2',
-  '/fonts/FiraCode.var.woff2'
-];
-
-// Install event - Cache static assets
+// Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Caching static assets', ASSETS_TO_CACHE);
-        return cache.addAll(ASSETS_TO_CACHE)
-          .catch(err => {
-            console.error('Cache addAll error:', err);
-            // If addAll fails, try to add files one by one
-            return Promise.all(
-              ASSETS_TO_CACHE.map(url => 
-                fetch(url, { credentials: 'include' })
-                  .then(response => {
-                    if (!response.ok) {
-                      console.warn(`Failed to cache ${url}: ${response.status}`);
-                      return null;
-                    }
-                    return cache.put(url, response);
-                  })
-                  .catch(err => {
-                    console.warn(`Error caching ${url}:`, err);
-                    return null;
-                  })
-              )
-            );
-          });
+        console.log('Opened cache');
+        return cache.addAll(ASSETS_TO_CACHE);
       })
-      .then(() => {
-        console.log('Service Worker installed and assets cached');
-        return self.skipWaiting();
+      .catch(error => {
+        console.error('Cache addAll error:', error);
       })
   );
+  self.skipWaiting();
 });
 
-// Activate event - Clean up old caches
+// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((cacheName) => cacheName !== CACHE_NAME)
-          .map((cacheName) => {
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
-          })
+          }
+        })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  self.clients.claim();
 });
 
-// Handle font requests
-function isFontRequest(url) {
-  return url.includes('fonts.googleapis.com') || 
-         url.includes('fonts.gstatic.com') ||
-         url.endsWith('.woff2') || 
-         url.endsWith('.woff') ||
-         url.endsWith('.ttf');
-}
-
-// Fetch event - Serve from cache, falling back to network
+// Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
-  const requestUrl = new URL(event.request.url);
-  
-  // Handle font requests
-  if (isFontRequest(requestUrl.href)) {
-    event.respondWith(
-      caches.match(event.request).then((response) => {
-        if (response) return response;
-        
-        return fetch(event.request).then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200) {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip cross-origin requests except for Google Fonts
+  if (!event.request.url.startsWith(self.location.origin) && 
+      !event.request.url.startsWith('https://fonts.googleapis.com') &&
+      !event.request.url.startsWith('https://fonts.gstatic.com')) {
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      // Return cached response if found
+      if (response) {
+        return response;
+      }
+
+      // Otherwise, fetch from network
+      return fetch(event.request)
+        .then((networkResponse) => {
+          // Only cache successful responses and same-origin requests
+          if (!networkResponse || networkResponse.status !== 200 || 
+              networkResponse.type !== 'basic' || 
+              !event.request.url.startsWith(self.location.origin)) {
             return networkResponse;
           }
-          
+
+          // Clone the response
           const responseToCache = networkResponse.clone();
-          caches.open(GOOGLE_FONTS_CACHE).then((cache) => {
+
+          // Cache the response
+          caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
           });
-          
+
           return networkResponse;
-        });
-      })
-    );
-    return;
-  }
-  // Skip non-GET requests and cross-origin requests
-  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
-  // Handle navigation requests
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => caches.match(BASE_PATH + 'index.html'))
-    );
-    return;
-  }
-
-  // Handle other requests
-  event.respondWith(
-    caches.match(event.request)
-      .then((cachedResponse) => {
-        // Return cached response if found
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Otherwise, fetch from network
-        return fetch(event.request)
-          .then((response) => {
-            // Don't cache error responses or non-GET requests
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response for caching
-            const responseToCache = response.clone();
-
-            // Cache the successful response
-            caches.open(CACHE_NAME)
-              .then((cache) => cache.put(event.request, responseToCache));
-
-            return response;
+        })
+        .catch(() => {
+          // If this is a page request, return the offline page
+          if (event.request.mode === 'navigate') {
+            return caches.match('./offline.html');
+          }
+          // Otherwise return a generic offline response
+          return new Response('You are offline and no cache is available for this page.', {
+            status: 408,
+            statusText: 'Network Error',
+            headers: new Headers({
+              'Content-Type': 'text/plain'
+            })
           });
-      })
-      .catch(() => {
-        // If both cache and network fail, return offline page for HTML requests
-        if (event.request.headers.get('accept').includes('text/html')) {
-          return caches.match(BASE_PATH + 'index.html');
-        }
-        return new Response('', { status: 404, statusText: 'Not Found' });
-      })
+        });
+    })
   );
 });

@@ -3,15 +3,15 @@
 
 const CACHE_NAME = 'sahil-portfolio-v1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/favicon.ico',
-  '/logo192.png',
-  '/logo512.png',
-  '/images/og-default.jpg',
-  '/fonts/yourfont-regular.woff2',
-  '/fonts/yourfont-bold.woff2',
+  './',
+  './index.html',
+  './manifest.json',
+  './favicon.ico',
+  './images/logo192.png',
+  './images/logo512.png',
+  './images/og-default.jpg',
+  './fonts/yourfont-regular.woff2',
+  './fonts/yourfont-bold.woff2',
 ];
 
 // Install event - cache static assets
@@ -121,8 +121,8 @@ self.addEventListener('push', (event) => {
   const title = 'Update Available';
   const options = {
     body: 'New content is available!',
-    icon: '/logo192.png',
-    badge: '/logo192.png',
+    icon: './images/logo192.png',
+    badge: './images/logo192.png',
     data: {
       url: self.location.origin,
     },

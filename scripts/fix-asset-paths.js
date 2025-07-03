@@ -13,11 +13,18 @@ function processHtmlFiles() {
       let content = fs.readFileSync(filePath, 'utf8');
       // Make sure all asset paths are relative to the base URL
       content = content
-        .replace(/(href|src)="\//g, '$1="./')
-        .replace(/url\(\//g, 'url(./');
+        // Handle src and href attributes
+        .replace(/(href|src)="\/([^"#?]+)"/g, '$1="./$2"')
+        // Handle CSS url() paths
+        .replace(/url\(\s*['"]?\/([^'"#?)]+?)['"]?\s*\)/g, 'url("./$1")')
+        // Handle manifest and other links
+        .replace(/(href|src)="\/(manifest\.json|site\.webmanifest)"/g, '$1="./$2"');
       
-      // Ensure manifest.json is referenced correctly
-      content = content.replace('href="/manifest.json"', 'href="./manifest.json"');
+      // Ensure service worker is registered with correct scope
+      content = content.replace(
+        /navigator\.serviceWorker\.register\(['"]\/([^'"]+)/g, 
+        'navigator.serviceWorker.register("./$1'
+      );
       
       fs.writeFileSync(filePath, content, 'utf8');
       console.log(`Processed ${file}`);

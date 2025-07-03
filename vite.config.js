@@ -14,15 +14,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Set base URL based on environment
 let base = '/';
 
-// Only set GitHub Pages base URL in production builds for GitHub Pages
-if (isProduction) {
-  if (isGitHubPages) {
-    base = '/Sahil-Portfolio/';
-  }
-  // For local production builds, keep the root path
-} else {
-  // For development, ensure we're using the root path
-  base = '/';
+// For GitHub Pages, always use the repository name as base path
+if (isGitHubPages) {
+  base = '/Sahil-Portfolio/';
 }
 
 // Ensure base URL is consistently formatted

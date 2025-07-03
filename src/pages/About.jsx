@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
@@ -258,8 +259,17 @@ const About = () => {
       badge: {
         icon: <FaUserFriends className="w-6 h-6" />,
         text: 'Team Player'
-      }
-    }
+      },
+      fallbackSrc: '/images/placeholder-profile.jpg'
+    },
+    customImage: (props) => (
+      <ImageWithFallback 
+        src={props.src} 
+        alt={props.alt} 
+        className={props.className}
+        fallbackSrc={props.fallbackSrc}
+      />
+    )
   };
 
   return (

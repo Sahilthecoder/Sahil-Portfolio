@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
@@ -641,14 +642,11 @@ const Experience = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
-                <img 
+                <ImageWithFallback 
                   src="/images/profile.avif"
                   alt="Sahil Ali"
                   className="w-full h-full object-cover rounded-2xl"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/images/placeholder-profile.jpg';
-                  }}
+                  fallbackSrc="/images/placeholder-profile.jpg"
                 />
               </div>
               {/* Decorative elements */}

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import { FaUserFriends } from 'react-icons/fa';
+import { ImageWithFallback } from '../utils/imageUtils';
 import './HeroSection.css';
 
 const HeroSection = ({
@@ -191,16 +192,23 @@ const HeroSection = ({
                 <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70 animate-pulse"></div>
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
-                    <img 
-                      src={profileImage.src} 
-                      alt={profileImage.alt || 'Profile'}
-                      className="w-full h-full object-cover object-top"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/images/placeholder-profile.jpg';
-                      }}
-                      loading="lazy"
-                    />
+                    {profileImage.customImage ? (
+                      profileImage.customImage({
+                        src: profileImage.src,
+                        alt: profileImage.alt || 'Profile',
+                        className: 'w-full h-full object-cover object-top',
+                        fallbackSrc: profileImage.fallbackSrc || '/images/placeholder-profile.jpg',
+                        loading: 'lazy'
+                      })
+                    ) : (
+                      <ImageWithFallback 
+                        src={profileImage.src} 
+                        alt={profileImage.alt || 'Profile'}
+                        className="w-full h-full object-cover object-top"
+                        fallbackSrc={profileImage.fallbackSrc || '/images/placeholder-profile.jpg'}
+                        loading="lazy"
+                      />
+                    )}
                   </div>
                 </div>
                 

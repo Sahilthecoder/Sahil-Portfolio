@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FiImage, FiLoader, FiZoomIn } from 'react-icons/fi';
 import { transparentPixel } from '../utils/placeholder';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 const ProjectImage = ({
   projectId,
@@ -28,6 +29,9 @@ const ProjectImage = ({
   // Fallback transparent pixel for broken images
   const fallbackImage = transparentPixel;
   
+  // Get the base URL from environment
+  const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // Remove trailing slashes
+  
   // Map project IDs to their corresponding folder names
   const projectFolders = {
     'zomato': 'Project1 excel',
@@ -48,23 +52,21 @@ const ProjectImage = ({
   useEffect(() => {
     if (projectId && imageName) {
       try {
-        const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // Remove trailing slashes
         const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
+        let path = '';
         
         // Special handling for profile images
         if (projectId === 'profile') {
-          const path = [basePath, 'images', cleanImageName].filter(Boolean).join('/');
-          // Check if the path already has an image extension
-          const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
-          setImagePath(hasExtension ? path : `${path}.avif`);
+          path = `images/${cleanImageName}`;
         } else {
           // For project images
           const projectFolder = projectFolders[projectId] || projectId;
-          const path = [basePath, 'images', 'projects', projectFolder, cleanImageName].filter(Boolean).join('/');
-          // Check if the path already has an image extension
-          const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
-          setImagePath(hasExtension ? path : `${path}.avif`);
+          path = `images/projects/${projectFolder}/${cleanImageName}`;
         }
+        
+        // Check if the path already has an image extension
+        const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
+        setImagePath(hasExtension ? path : `${path}.avif`);
       } catch (error) {
         console.error('Error constructing image path:', error);
         setError(true);
@@ -146,22 +148,17 @@ const ProjectImage = ({
             isLoading || error ? 'opacity-0' : 'opacity-100'
           }`}>
             <div className={`relative w-full h-full ${objectFit === 'cover' ? 'overflow-hidden' : ''}`}>
-              <img
+              <ImageWithFallback
                 src={imagePath}
                 alt={alt}
-                className={`w-full h-full transition-all duration-300 ${
-                  zoomOnHover ? 'group-hover:scale-105' : ''
+                className={`w-full h-full ${
+                  objectFit === 'cover' ? 'object-cover' : 
+                  objectFit === 'contain' ? 'object-contain' : 'object-scale-down'
                 } ${className}`}
-                style={{
-                  objectFit: objectFit,
-                  width: '100%',
-                  height: '100%',
-                  display: 'block'
-                }}
                 onLoad={handleImageLoad}
-                onError={handleImageError}
                 loading={priority ? 'eager' : 'lazy'}
                 decoding="async"
+                fallbackSrc="/images/placeholder.svg"
               />
             </div>
             

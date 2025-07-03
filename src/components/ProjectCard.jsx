@@ -1,5 +1,6 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
+import { ImageWithFallback } from '../utils/imageUtils';
 
 const ProjectCard = ({
   title,
@@ -29,16 +30,12 @@ const ProjectCard = ({
     >
       {cover && (
         <div className="relative h-48 overflow-hidden">
-          <img
-            src={getImagePath(cover)}
+          <ImageWithFallback
+            src={cover}
             alt={`Screenshot of ${title} project`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"
-            onError={(e) => {
-              // Fallback to a placeholder if the image fails to load
-              e.target.onerror = null;
-              e.target.src = `${baseUrl}images/placeholder.svg`;
-            }}
+            fallbackSrc="/images/placeholder.svg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
             <span className="inline-block px-3 py-1 text-sm font-medium text-white bg-indigo-600 dark:bg-dark-primary rounded-full">

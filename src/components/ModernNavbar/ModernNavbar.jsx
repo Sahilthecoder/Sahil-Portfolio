@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { ImageWithFallback } from '../utils/imageUtils';
 import { 
   FiHome, 
   FiUser, 
@@ -451,14 +452,11 @@ const ModernNavbar = () => {
             }}
           >
             <div className="relative flex items-center group-hover:scale-105 transition-transform">
-              <img 
+              <ImageWithFallback 
                 src="/images/logo.png" 
                 alt="Sahil Ali - Data Analyst" 
                 className="h-10 w-auto"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = '/images/logo192.png';
-                }}
+                fallbackSrc="/images/logo192.png"
               />
               <span className="ml-2 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sahil Ali

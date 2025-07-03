@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import basePathPlugin from './vite.base-path-plugin';
 
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -9,8 +10,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load environment variables
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 
+// Ensure base URL ends with a slash
+const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
+
 export default defineConfig({
-  base: isGitHubPages ? '/Sahil-Portfolio/' : '/',
+  base: base,
   publicDir: 'public',
   
   build: {
@@ -19,15 +23,32 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     minify: 'esbuild',
+    assetsInlineLimit: 0, // Force all assets to be emitted as files
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: (assetInfo) => {
+          // Group assets by type
+          const extType = assetInfo.name.split('.').at(1)?.toLowerCase();
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico|webp/i.test(extType)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (/css/i.test(extType)) {
+            return 'assets/css/[name]-[hash][extname]';
+          }
+          if (/js/i.test(extType)) {
+            return 'assets/js/[name]-[hash][extname]';
+          }
+          return 'assets/misc/[name]-[hash][extname]';
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
       }
     },
-    assetsInlineLimit: 4096, // 4kb
+    // Ensure all asset URLs are rewritten to include base
+    manifest: true,
+    // Copy public directory to dist
+    copyPublicDir: true,
   },
   
   server: {
@@ -45,6 +66,7 @@ export default defineConfig({
   // Build configuration is now consolidated above
 
   plugins: [
+    basePathPlugin(),
     react({
       jsxImportSource: 'react',
       jsxRuntime: 'automatic',

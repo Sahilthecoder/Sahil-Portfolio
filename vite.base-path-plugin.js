@@ -1,0 +1,47 @@
+// Custom Vite plugin to ensure all asset paths include the base URL
+export default function basePathPlugin() {
+  const basePath = '/Sahil-Portfolio';
+  
+  return {
+    name: 'base-path-plugin',
+    transformIndexHtml(html) {
+      // Function to process URLs in the HTML
+      const processUrl = (url) => {
+        // Skip if it's an external URL, data URL, or already has the base path
+        if (url.startsWith('http') || 
+            url.startsWith('//') || 
+            url.startsWith('data:') ||
+            url.startsWith(basePath) ||
+            !url.startsWith('/')) {
+          return url;
+        }
+        // Add base path if it's a root-relative path
+        return `${basePath}${url}`;
+      };
+
+      // Process src and href attributes
+      let result = html.replace(
+        /(src|href)="([^"]*)"/g, 
+        (match, attr, url) => {
+          return `${attr}="${processUrl(url)}"`;
+        }
+      );
+      
+      // Also process URLs in content attributes (like manifest)
+      result = result.replace(
+        /(content)="([^"]*)"/g, 
+        (match, attr, content) => {
+          // Only process URLs in content attributes that look like paths
+          if (content.startsWith('/') && 
+              !content.startsWith('//') && 
+              !content.startsWith(basePath)) {
+            return `${attr}="${basePath}${content}"`;
+          }
+          return match;
+        }
+      );
+      
+      return result;
+    }
+  };
+}

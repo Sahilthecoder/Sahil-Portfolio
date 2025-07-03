@@ -1,6 +1,6 @@
 {
   "index.html": {
-    "file": "assets/js/index-BynH4nsN.js",
+    "file": "assets/js/index-Cpx-czi7.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -17,7 +17,7 @@
     ]
   },
   "src/pages/projects/BansalSupermarket.jsx": {
-    "file": "assets/js/BansalSupermarket-ZYexJsfG.js",
+    "file": "assets/js/BansalSupermarket-C0G9D3X0.js",
     "name": "BansalSupermarket",
     "src": "src/pages/projects/BansalSupermarket.jsx",
     "isDynamicEntry": true,
@@ -26,7 +26,7 @@
     ]
   },
   "src/pages/projects/EkamAttendance.jsx": {
-    "file": "assets/js/EkamAttendance-BjndSzNQ.js",
+    "file": "assets/js/EkamAttendance-Cbhc1W8y.js",
     "name": "EkamAttendance",
     "src": "src/pages/projects/EkamAttendance.jsx",
     "isDynamicEntry": true,
@@ -35,7 +35,7 @@
     ]
   },
   "src/pages/projects/ProductSalesDashboard.jsx": {
-    "file": "assets/js/ProductSalesDashboard-b7YnfqpS.js",
+    "file": "assets/js/ProductSalesDashboard-B6a-TMs8.js",
     "name": "ProductSalesDashboard",
     "src": "src/pages/projects/ProductSalesDashboard.jsx",
     "isDynamicEntry": true,
@@ -44,7 +44,7 @@
     ]
   },
   "src/pages/projects/RetailCashFlow.jsx": {
-    "file": "assets/js/RetailCashFlow-DvAQlxi9.js",
+    "file": "assets/js/RetailCashFlow-BEeqoYqg.js",
     "name": "RetailCashFlow",
     "src": "src/pages/projects/RetailCashFlow.jsx",
     "isDynamicEntry": true,
@@ -53,7 +53,7 @@
     ]
   },
   "src/pages/projects/SnapeSentimentAnalysis.jsx": {
-    "file": "assets/js/SnapeSentimentAnalysis-_SIMX0mf.js",
+    "file": "assets/js/SnapeSentimentAnalysis-B3aEXd8U.js",
     "name": "SnapeSentimentAnalysis",
     "src": "src/pages/projects/SnapeSentimentAnalysis.jsx",
     "isDynamicEntry": true,
@@ -62,7 +62,7 @@
     ]
   },
   "src/pages/projects/ZomatoAnalysis.jsx": {
-    "file": "assets/js/ZomatoAnalysis-D1zBSRPV.js",
+    "file": "assets/js/ZomatoAnalysis-BcUnrj86.js",
     "name": "ZomatoAnalysis",
     "src": "src/pages/projects/ZomatoAnalysis.jsx",
     "isDynamicEntry": true,

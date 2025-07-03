@@ -14,7 +14,8 @@ export default function basePathPlugin() {
     },
     transformIndexHtml(html, { path }) {
       // Skip processing in development for non-HTML files
-      if (import.meta.env.MODE !== 'production' && !path.endsWith('.html')) {
+      const isProduction = process.env.NODE_ENV === 'production';
+      if (!isProduction && path && !path.endsWith('.html')) {
         return html;
       }
       

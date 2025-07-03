@@ -207,7 +207,7 @@
     </div>
 
     <!-- Vite will automatically inject the correct script and link tags here -->
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/Sahil-Portfolio/src/main.jsx"></script>
     
     <!-- Register service worker with dynamic base path -->
     <script>
@@ -231,7 +231,11 @@
       const swPath = `${basePath}service-worker.js`;
 
       // Service Worker Registration
-      if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      // Check if we're in production by looking for the Vite development server
+      const isProduction = !window.location.hostname.includes('localhost') && 
+                         !window.location.hostname.includes('127.0.0.1');
+      
+      if ('serviceWorker' in navigator && isProduction) {
         window.addEventListener('load', () => {
           // Get the base path from the data attribute or calculate it
           const basePath = document.documentElement.getAttribute('data-base-url') || '/';

@@ -9,6 +9,7 @@ import './styles/globals.css';
 import ClientOnly from './components/ClientOnly';
 import { AIAssistantProvider } from './context/AIAssistantContext';
 import { ThemeProvider } from './context/ThemeContext';
+import baseUrl from './config/baseUrl';
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
@@ -63,36 +64,45 @@ class ErrorBoundary extends React.Component {
 // Initialize the application
 const container = document.getElementById('root');
 
+// Set the base URL in a global variable for debugging
+window.__BASE_URL__ = baseUrl;
+console.log('Application base URL:', baseUrl);
+
 // Ensure the container exists before creating the root
 if (container) {
   const root = createRoot(container);
   
-  // Base URL configuration for routing
-  const basename = ''; // Set to empty string for default routing
-  
   // Wrap the app with necessary providers
   const AppWithProviders = () => (
     <StrictMode>
-      <BrowserRouter>
-        <HelmetProvider>
-          <ErrorBoundary>
-            <ClientOnly>
-              <ThemeProvider>
+      <ErrorBoundary>
+        <ClientOnly>
+          <ThemeProvider>
+            <HelmetProvider>
+              <BrowserRouter basename={baseUrl.replace(/\/$/, '')}>
                 <AIAssistantProvider>
                   <App />
                 </AIAssistantProvider>
-              </ThemeProvider>
-            </ClientOnly>
-          </ErrorBoundary>
-        </HelmetProvider>
-      </BrowserRouter>
+              </BrowserRouter>
+            </HelmetProvider>
+          </ThemeProvider>
+        </ClientOnly>
+      </ErrorBoundary>
     </StrictMode>
   );
 
   // Render the app
   root.render(<AppWithProviders />);
 } else {
-  console.error('Failed to find the root element');
+  const errorMsg = 'Critical Error: Failed to find the root element. Please check if public/index.html has a div with id="root"';
+  console.error(errorMsg);
+  document.body.innerHTML = `
+    <div style="font-family: Arial, sans-serif; padding: 2rem; color: #dc2626; max-width: 800px; margin: 0 auto;">
+      <h1>Application Error</h1>
+      <p>${errorMsg}</p>
+      <p>If you're the site owner, please check the browser console for more details.</p>
+    </div>
+  `;
 }
 
 // Analytics and performance tracking can be added here when needed

@@ -1,0 +1,65 @@
+const fs = require('fs');
+const path = require('path');
+
+const distPath = path.join(__dirname, '..', 'dist');
+
+// Function to process HTML files and fix asset paths
+function processHtmlFiles() {
+  const htmlFiles = ['index.html'];
+  
+  htmlFiles.forEach(file => {
+    const filePath = path.join(distPath, file);
+    if (fs.existsSync(filePath)) {
+      let content = fs.readFileSync(filePath, 'utf8');
+      // Make sure all asset paths are relative to the base URL
+      content = content
+        .replace(/(href|src)="\//g, '$1="./')
+        .replace(/url\(\//g, 'url(./');
+      
+      // Ensure manifest.json is referenced correctly
+      content = content.replace('href="/manifest.json"', 'href="./manifest.json"');
+      
+      fs.writeFileSync(filePath, content, 'utf8');
+      console.log(`Processed ${file}`);
+    }
+  });
+}
+
+// Function to ensure manifest.json exists and is valid
+function ensureManifest() {
+  const manifestPath = path.join(distPath, 'manifest.json');
+  if (!fs.existsSync(manifestPath)) {
+    const defaultManifest = {
+      "name": "Sahil's Portfolio",
+      "short_name": "Portfolio",
+      "start_url": "./",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#000000",
+      "icons": [
+        {
+          "src": "./favicon.ico",
+          "sizes": "64x64 32x32 24x24 16x16",
+          "type": "image/x-icon"
+        }
+      ]
+    };
+    fs.writeFileSync(manifestPath, JSON.stringify(defaultManifest, null, 2));
+    console.log('Created default manifest.json');
+  }
+}
+
+// Main function
+function main() {
+  try {
+    console.log('Fixing asset paths...');
+    processHtmlFiles();
+    ensureManifest();
+    console.log('Asset paths fixed successfully!');
+  } catch (error) {
+    console.error('Error fixing asset paths:', error);
+    process.exit(1);
+  }
+}
+
+main();

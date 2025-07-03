@@ -23,7 +23,8 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: true,
     minify: 'esbuild',
-    assetsInlineLimit: 0, // Force all assets to be emitted as files
+    assetsInlineLimit: 4096, // 4kb - inline smaller assets as base64
+    manifest: true, // Generate manifest.json
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {
@@ -46,7 +47,6 @@ export default defineConfig({
       }
     },
     // Ensure all asset URLs are rewritten to include base
-    manifest: true,
     // Copy public directory to dist
     copyPublicDir: true,
   },

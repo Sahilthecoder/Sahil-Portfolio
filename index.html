@@ -213,30 +213,28 @@
       };
 
       const basePath = getBasePath();
-      const swPath = `${basePath.replace(/\/+$/, '')}/service-worker.js`;
+      // Ensure the service worker path is correct for GitHub Pages
+      const swPath = `${basePath}service-worker.js`;
 
       // Only register service worker in production
-      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-        if ('serviceWorker' in navigator) {
-          // Unregister all service workers first
+      if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+        window.addEventListener('load', () => {
+          // First unregister any existing service workers
           navigator.serviceWorker.getRegistrations().then(registrations => {
             for (const registration of registrations) {
               registration.unregister();
-              console.log('ServiceWorker unregistered:', registration.scope);
             }
             // Then register the new one
-            window.addEventListener('load', () => {
-              navigator.serviceWorker.register(swPath, { scope: basePath })
-                .then(registration => {
-                  console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                })
-                .catch(error => {
-                  console.error('ServiceWorker registration failed: ', error);
-                });
-            });
+            return navigator.serviceWorker.register(swPath, { scope: basePath });
+          })
+          .then((registration) => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch((error) => {
+            console.error('ServiceWorker registration failed: ', error);
           });
-        }
-      } else {
+        });
+      }
         // In development, unregister any existing service workers
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(registrations => {

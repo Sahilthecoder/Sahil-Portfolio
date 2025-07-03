@@ -153,7 +153,6 @@ export default defineConfig({
   // Build configuration is now consolidated above
 
   plugins: [
-    basePathPlugin(),
     react({
       jsxImportSource: 'react',
       jsxRuntime: 'automatic',
@@ -161,6 +160,19 @@ export default defineConfig({
         plugins: [],
       },
     }),
+    basePathPlugin(),
+    {
+      name: 'copy-service-worker',
+      apply: 'build',
+      generateBundle() {
+        // This ensures the service worker is copied to the root of the dist directory
+        this.emitFile({
+          type: 'asset',
+          fileName: 'service-worker.js',
+          source: fs.readFileSync(path.resolve(__dirname, 'public/service-worker.js'), 'utf-8')
+        });
+      }
+    },
   ],
 
   resolve: {

@@ -8,10 +8,10 @@ import basePathPlugin from './vite.base-path-plugin';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load environment variables
-const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.NODE_ENV === 'production';
 
 // Ensure base URL is correctly formatted
-const base = isGitHubPages ? '/Sahil-Portfolio' : '/';
+const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
 
 // Ensure base URL ends with a single slash for internal use
 const baseUrl = base.endsWith('/') ? base : `${base}/`;

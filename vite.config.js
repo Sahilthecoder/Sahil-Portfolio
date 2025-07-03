@@ -13,20 +13,10 @@ export default defineConfig({
   base: isGitHubPages ? '/Sahil-Portfolio/' : '/',
   publicDir: 'public',
   
-  server: {
-    port: 5173,
-    host: 'localhost',
-    open: true,
-    strictPort: true,
-  },
-
-  preview: {
-    port: 5173,
-    open: true
-  },
-
   build: {
     outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
     sourcemap: true,
     minify: 'esbuild',
     rollupOptions: {
@@ -39,6 +29,20 @@ export default defineConfig({
     },
     assetsInlineLimit: 4096, // 4kb
   },
+  
+  server: {
+    port: 5173,
+    host: 'localhost',
+    open: true,
+    strictPort: true,
+  },
+
+  preview: {
+    port: 5173,
+    open: true
+  },
+
+  // Build configuration is now consolidated above
 
   plugins: [
     react({

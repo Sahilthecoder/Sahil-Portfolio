@@ -1,99 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" dir="ltr" itemscope itemtype="https://schema.org/WebPage">
+<html lang="en" class="scroll-smooth" dir="ltr" itemscope itemtype="https://schema.org/WebPage" xml:lang="en">
   <head>
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="format-detection" content="telephone=no" />
     
-    <!-- Polyfills for older browsers -->
-    <script>
-      // Ensure window.Promise is available
-      window.Promise || document.write('<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8.3.0/dist/polyfill.min.js"><\/script>');
-      // Ensure window.fetch is available
-      window.fetch || document.write('<script src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.6.2/dist/fetch.umd.min.js"><\/script>');
-    </script>
-    <meta name="description" content="Sahil Ali - Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
-    <meta name="author" content="Sahil Ali" />
-    <meta name="theme-color" content="#2563eb" />
-    <meta name="color-scheme" content="light dark" />
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     
-    <!-- Favicon -->
-    <!-- Favicon and Icons -->
-    <link rel="icon" href="/Sahil-Portfolio/favicon.ico" sizes="any" />
-    <link rel="icon" href="/Sahil-Portfolio/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/Sahil-Portfolio/apple-touch-icon.png" />
-    <link rel="manifest" href="/Sahil-Portfolio/site.webmanifest" />
+    <!-- Preload critical resources -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    
+    <!-- Polyfills for older browsers -->
+    
+    <!-- Page Information -->
+    <title>Sahil Ali | Inventory Specialist & Data Analyst</title>
+    <meta name="description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
+    <meta name="author" content="Sahil Ali" />
     <meta name="keywords" content="data analyst, inventory specialist, business intelligence, data visualization, dashboard design, power bi, excel, erply, system optimization, data-driven insights" />
     <meta name="robots" content="index, follow" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
-    <meta property="og:title" content="Sahil Ali | Data Analyst & Inventory Specialist" />
-    <meta property="og:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
-    <meta property="og:image" content="/Sahil-Portfolio/images/logo512.png" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@sahilthecoder" />
-    <meta name="twitter:creator" content="@sahilthecoder" />
-    <meta name="twitter:url" content="/" />
-    <meta name="twitter:title" content="Sahil Ali | Data Analyst & Inventory Specialist" />
-    <meta name="twitter:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
-    <meta name="twitter:image" content="/Sahil-Portfolio/images/logo512.png" />
-    <meta name="twitter:image:alt" content="Sahil Ali's Portfolio" />
-
+    
     <!-- Canonical URL -->
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <link rel="sitemap" href="data:text/xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjx1cmxzZXQgDQogIHhtbG5zPSJodHRwOi8vd3d3LnNpdGVtYXBzLm9yZy9zY2hlbWFzL3NpdGVtYXAvMC45Ig0KICB4bWxuczp4aHRtbD0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCINCj4NCiAgPHVybD4NCiAgICA8bG9jPmh0dHBzOi8vc2FoaWx0aGVjb2Rlci5naXRodWIuaW8vU2FoaWx0aGVjb2Rlci9pbmRleC5odG1sPC9sb2M+DQogICAgPGxhc3Rtb2Q+MjAyNS0wNi0yNjwvbGFzdG1vZD4NCiAgICA8Y2hhbmdlZnJlcT5tb250aGx5PC9jaGFuZ2VmcmVxPg0KICAgIDxwcmlvcml0eT4xLjA8L3ByaW9yaXR5Pg0KICA8L3VybD4NCiAgPHVybD4NCiAgICA8bG9jPmh0dHBzOi8vc2FoaWx0aGVjb2Rlci5naXRodWIuaW8vU2FoaWx0aGVjb2Rlci9hYm91dC5odG1sPC9sb2M+DQogICAgPGxhc3Rtb2Q+MjAyNS0wNi0yNjwvbGFzdG1vZD4NCiAgICA8Y2hhbmdlZnJlcT5tb250aGx5PC9jaGFuZ2VmcmVxPg0KICAgIDxwcmlvcml0eT4wLjg8L3ByaW9yaXR5Pg0KICA8L3VybD4NCiAgPHVybD4NCiAgICA8bG9jPmh0dHBzOi8vc2FoaWx0aGVjb2Rlci5naXRodWIuaW8vU2FoaWx0aGVjb2Rlci9wcm9qZWN0cy5odG1sPC9sb2M+DQogICAgPGxhc3Rtb2Q+MjAyNS0wNi0yNjwvbGFzdG1vZD4NCiAgICA8Y2hhbmdlZnJlcT53ZWVrbHk8L2NoYW5nZWZyZXE+DQogICAgPHByaW9yaXR5PjAuOTwvcHJpb3JpdHk+DQogIDwvdXJsPg0KICA8dXJsPg0KICAgIDxsb2M+aHR0cHM6Ly9zYWhpbHRoZWNvZGVyLmdpdGh1Yi5pby9TYWhpbHRoZWNvZGVyL3Jlc3VtZS5odG1sPC9sb2M+DQogICAgPGxhc3Rtb2Q+MjAyNS0wNi0yNjwvbGFzdG1vZD4NCiAgICA8Y2hhbmdlZnJlcT55ZWFybHk8L2NoYW5nZWZyZXE+DQogICAgPHByaW9yaXR5PjAuNzwvcHJpb3JpdHk+DQogIDwvdXJsPg0KICA8dXJsPg0KICAgIDxsb2M+aHR0cHM6Ly9zYWhpbHRoZWNvZGVyLmdpdGh1Yi5pby9TYWhpbHRoZWNvZGVyL2NvbnRhY3QuaHRtbDwvbG9jPg0KICAgIDxsYXN0bW9kPjIwMjUtMDYtMjY8L2xhc3Rtb2Q+DQogICAgPGNoYW5nZWZyZXE+bW9udGhseTwvY2hhbmdlZnJlcT4NCiAgICA8cHJpb3JpdHk+MC42PC9wcmlvcml0eT4NCiAgPC91cmw+DQo8L3VybHNldD4NCg==" type="application/xml" />
     
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+    <!-- Favicon and Icons -->
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5" />
-    <link rel="shortcut icon" href="favicon.ico" />
     <meta name="msapplication-TileColor" content="#2563eb" />
-    <meta name="theme-color" content="#2563eb" />
     <meta name="apple-mobile-web-app-title" content="Sahil Ali" />
-    <meta name="application-name" content="Sahil Ali" />
-    <meta name="msapplication-config" content="browserconfig.xml" />
-
     
-    <!-- Repo Links -->
-    <link rel="code" href="https://github.com/Sahilthecoder/Sahil-Portfolio" />
-    <link rel="source" href="https://github.com/Sahilthecoder/Sahil-Portfolio" />
-
-    <title>Sahil Ali | Inventory Specialist & Data Analyst</title>
-
-    <!-- Fonts & Preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://www.google-analytics.com" />
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-    </noscript>
+    <!-- Theme Colors -->
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     <meta property="og:title" content="Sahil Ali | Inventory Specialist & Data Analyst" />
+    <meta property="og:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
+    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/logo512.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Sahil Ali's Portfolio" />
-    <meta property="og:description" content="Experienced Inventory Specialist and Data Analyst specializing in data analysis, dashboard design, and system optimization." />
-    <meta property="og:image" content="images/profile.avif" />
 
-    <!-- Light/Dark Theme Colors -->
-    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" />
-    <script type="module" crossorigin src="/Sahil-Portfolio/assets/index-DzGOt1yt.js"></script>
-    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/react-C29sQIy9.js">
-    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/framer-Dk6w5m6M.js">
-    <link rel="modulepreload" crossorigin href="/Sahil-Portfolio/assets/icons-DM9xfc8R.js">
-    <link rel="stylesheet" crossorigin href="/Sahil-Portfolio/assets/index-2dhiPwQH.css">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@sahilthecoder" />
+    <meta name="twitter:creator" content="@sahilthecoder" />
+    <meta name="twitter:title" content="Sahil Ali | Inventory Specialist & Data Analyst" />
+    <meta name="twitter:description" content="Professional Inventory Specialist & Data Analyst with expertise in data visualization, dashboard design, and business intelligence solutions." />
+    <meta name="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/optimized-images/logo512.png" />
+    <meta name="twitter:image:alt" content="Sahil Ali's Portfolio" />
+
+    <!-- Structured Data / Schema.org -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Sahil Ali",
+      "url": "https://sahilthecoder.github.io/Sahil-Portfolio/",
+      "sameAs": [
+        "https://github.com/Sahilthecoder",
+        "https://linkedin.com/in/sahilthecoder"
+      ],
+      "jobTitle": "Inventory Specialist & Data Analyst",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance"
+      }
+    }
+    </script>
+
+    <!-- Fonts & Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+    </noscript>
+    <script type="module" crossorigin src="/Sahil-Portfolio/assets/index-BwuZvn73.js"></script>
+    <link rel="stylesheet" crossorigin href="/Sahil-Portfolio/assets/index-FlZV4vlp.css">
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200">
     <!-- Skip to main content link for keyboard users -->

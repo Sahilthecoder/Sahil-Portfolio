@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   <!-- Homepage -->
   <url>
     <loc>https://sahilthecoder.github.io/Sahil-Portfolio/</loc>
-    <lastmod>2025-06-29</lastmod>
+    <lastmod>2025-07-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link 
+      rel="alternate"
+      hreflang="en"
+      href="https://sahilthecoder.github.io/Sahil-Portfolio/"
+    />
   </url>
   
   <!-- Main Pages -->
   <url>
-    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#about</loc>
-    <lastmod>2025-06-29</lastmod>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/about</loc>
+    <lastmod>2025-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#projects</loc>
-    <lastmod>2025-06-29</lastmod>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/projects</loc>
+    <lastmod>2025-07-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/experience</loc>
+    <lastmod>2025-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#resume</loc>
-    <lastmod>2025-06-29</lastmod>
+    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/contact</loc>
+    <lastmod>2025-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://sahilthecoder.github.io/Sahil-Portfolio/#contact</loc>
-    <lastmod>2025-06-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
   
   <!-- Blog/Articles (if applicable) -->

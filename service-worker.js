@@ -2,16 +2,30 @@
 /* eslint-disable no-undef */
 
 const CACHE_NAME = 'sahil-portfolio-v1';
+const BASE_PATH = self.location.pathname.includes('/Sahil-Portfolio/') ? '/Sahil-Portfolio/' : '/';
+
+// Function to get the correct asset URL
+const getAssetUrl = (path) => {
+  // Remove any duplicate base paths
+  const normalizedPath = path.startsWith(BASE_PATH) ? path : `${BASE_PATH}${path.replace(/^\/+/, '')}`;
+  return new URL(normalizedPath, self.location.origin).href;
+};
+
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json',
-  './favicon.ico',
-  './images/logo192.png',
-  './images/logo512.png',
-  './images/og-default.jpg',
-  './fonts/yourfont-regular.woff2',
-  './fonts/yourfont-bold.woff2',
+  getAssetUrl(''),
+  getAssetUrl('index.html'),
+  getAssetUrl('site.webmanifest'),
+  getAssetUrl('favicon.ico'),
+  getAssetUrl('favicon.svg'),
+  getAssetUrl('images/logo192.png'),
+  getAssetUrl('images/logo512.png'),
+  getAssetUrl('images/logo.png'),
+  getAssetUrl('apple-touch-icon.png'),
+  getAssetUrl('favicon-32x32.png'),
+  getAssetUrl('favicon-16x16.png'),
+  // These will be matched by the fetch handler
+  getAssetUrl('assets/index-*.js'),
+  getAssetUrl('assets/index-*.css'),
 ];
 
 // Install event - cache static assets
@@ -48,6 +62,57 @@ self.addEventListener('activate', (event) => {
 });
 
 // Fetch event - serve from cache, falling back to network
+self.addEventListener('fetch', (event) => {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Handle navigation requests
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      caches.match(BASE_PATH + 'index.html')
+        .then((response) => response || fetch(event.request))
+        .catch(() => caches.match(BASE_PATH + 'offline.html'))
+    );
+    return;
+  }
+
+  // For other requests, try cache first, then network
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+
+        // Clone the request
+        const fetchRequest = event.request.clone();
+
+        return fetch(fetchRequest).then(
+          (response) => {
+            // Check if we received a valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+
+            return response;
+          }
+        ).catch(() => {
+          // If both cache and network fail, show offline page
+          if (event.request.headers.get('accept').includes('text/html')) {
+            return caches.match(BASE_PATH + 'offline.html');
+          }
+        });
+      })
+  );
+});
 self.addEventListener('fetch', (event) => {
   // Skip cross-origin requests, like those to Google Analytics
   if (!event.request.url.startsWith(self.location.origin)) {

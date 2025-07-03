@@ -3,10 +3,40 @@
   <head>
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
-    <link rel="manifest" href="./manifest.json" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="Sahil Ali - Data Analyst and Inventory Specialist. Explore my portfolio featuring data analysis projects, dashboards, and automation solutions." />
+    <meta name="keywords" content="Data Analyst, Inventory Specialist, Data Visualization, Excel, Power BI, Python, Portfolio" />
+    <meta name="author" content="Sahil Ali" />
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1e40af" media="(prefers-color-scheme: dark)" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta property="og:title" content="Sahil Ali - Data Analyst & Inventory Specialist" />
+    <meta property="og:description" content="Explore my portfolio featuring data analysis projects, dashboards, and automation solutions." />
+    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta property="twitter:title" content="Sahil Ali - Data Analyst & Inventory Specialist" />
+    <meta property="twitter:description" content="Explore my portfolio featuring data analysis projects, dashboards, and automation solutions." />
+    <meta property="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
+    
+    <!-- Manifest and Icons -->
+    <link rel="manifest" href="./Sahil-Portfolio/site.webmanifest" />
+    <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     
     <!-- Preconnect to external domains with fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -99,8 +129,16 @@
     <noscript>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     </noscript>
-    <script type="module" crossorigin src="./Sahil-Portfolio/assets/js/index-Cpx-czi7.js"></script>
-    <link rel="stylesheet" crossorigin href="./Sahil-Portfolio/assets/css/index-FlZV4vlp.css">
+    <script type="module" crossorigin src="./Sahil-Portfolio/assets/js/index-DsbfgzSQ.js"></script>
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/vendor/vendor-other-V0MNNG_m.js">
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/vendor/vendor-react-D7ITPsxk.js">
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/vendor/vendor-animations-5yMtsu09.js">
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/components/component-herosection-a6uXBx2W.js">
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/components/component-clientonly.jsx-s_w_VCXW.js">
+    <link rel="modulepreload" crossorigin href="./Sahil-Portfolio/assets/js/components/component-modernnavbar-lzZ18oEh.js">
+    <link rel="stylesheet" crossorigin href="./Sahil-Portfolio/assets/css/component-herosection-DISpK4o_.css">
+    <link rel="stylesheet" crossorigin href="./Sahil-Portfolio/assets/css/component-modernnavbar-BYzcwJ8p.css">
+    <link rel="stylesheet" crossorigin href="./Sahil-Portfolio/assets/css/index-Cjwj0er8.css">
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all duration-200">
     <!-- Skip to main content link for keyboard users -->
@@ -115,15 +153,54 @@
 
     <!-- Vite will automatically inject the correct script and link tags here -->
     
-    <!-- Unregister any existing service workers -->
+    <!-- Register service worker with dynamic base path -->
     <script>
-      // Only run in development
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      // Determine the base path dynamically
+      const getBasePath = () => {
+        // If we're on GitHub Pages, use the repository name as base path
+        if (window.location.hostname === 'sahilthecoder.github.io') {
+          return '/Sahil-Portfolio/';
+        }
+        // For local development, use root path
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          return '/';
+        }
+        // For other deployments, use the first path segment if it exists
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        return pathSegments.length > 0 ? `/${pathSegments[0]}/` : '/';
+      };
+
+      const basePath = getBasePath();
+      const swPath = `${basePath.replace(/\/+$/, '')}/service-worker.js`;
+
+      // Only register service worker in production
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
         if ('serviceWorker' in navigator) {
+          // Unregister all service workers first
           navigator.serviceWorker.getRegistrations().then(registrations => {
             for (const registration of registrations) {
               registration.unregister();
               console.log('ServiceWorker unregistered:', registration.scope);
+            }
+            // Then register the new one
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register(swPath, { scope: basePath })
+                .then(registration => {
+                  console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                })
+                .catch(error => {
+                  console.error('ServiceWorker registration failed: ', error);
+                });
+            });
+          });
+        }
+      } else {
+        // In development, unregister any existing service workers
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (const registration of registrations) {
+              registration.unregister();
+              console.log('ServiceWorker unregistered in development:', registration.scope);
             }
           });
         }

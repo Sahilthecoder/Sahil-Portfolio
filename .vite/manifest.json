@@ -1,0 +1,73 @@
+{
+  "index.html": {
+    "file": "assets/js/index-BynH4nsN.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/pages/projects/BansalSupermarket.jsx",
+      "src/pages/projects/ZomatoAnalysis.jsx",
+      "src/pages/projects/EkamAttendance.jsx",
+      "src/pages/projects/RetailCashFlow.jsx",
+      "src/pages/projects/ProductSalesDashboard.jsx",
+      "src/pages/projects/SnapeSentimentAnalysis.jsx"
+    ],
+    "css": [
+      "assets/css/index-FlZV4vlp.css"
+    ]
+  },
+  "src/pages/projects/BansalSupermarket.jsx": {
+    "file": "assets/js/BansalSupermarket-ZYexJsfG.js",
+    "name": "BansalSupermarket",
+    "src": "src/pages/projects/BansalSupermarket.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/projects/EkamAttendance.jsx": {
+    "file": "assets/js/EkamAttendance-BjndSzNQ.js",
+    "name": "EkamAttendance",
+    "src": "src/pages/projects/EkamAttendance.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/projects/ProductSalesDashboard.jsx": {
+    "file": "assets/js/ProductSalesDashboard-b7YnfqpS.js",
+    "name": "ProductSalesDashboard",
+    "src": "src/pages/projects/ProductSalesDashboard.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/projects/RetailCashFlow.jsx": {
+    "file": "assets/js/RetailCashFlow-DvAQlxi9.js",
+    "name": "RetailCashFlow",
+    "src": "src/pages/projects/RetailCashFlow.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/projects/SnapeSentimentAnalysis.jsx": {
+    "file": "assets/js/SnapeSentimentAnalysis-_SIMX0mf.js",
+    "name": "SnapeSentimentAnalysis",
+    "src": "src/pages/projects/SnapeSentimentAnalysis.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  },
+  "src/pages/projects/ZomatoAnalysis.jsx": {
+    "file": "assets/js/ZomatoAnalysis-D1zBSRPV.js",
+    "name": "ZomatoAnalysis",
+    "src": "src/pages/projects/ZomatoAnalysis.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ]
+  }
+}

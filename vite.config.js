@@ -20,37 +20,36 @@ export default defineConfig(({ mode, command }) => {
   const base = env.VITE_BASE_URL || '/Sahil-Portfolio/';
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
   
-  // Image optimization configuration
   const imageOptimizerOptions = {
-    jpg: { 
+    jpg: {
       quality: 80,
       mozjpeg: true,
     },
-    jpeg: { 
+    jpeg: {
       quality: 80,
       mozjpeg: true,
     },
-    png: { 
+    png: {
       quality: 80,
       compressionLevel: 9,
     },
-    webp: { 
+    webp: {
       quality: 80, 
       lossless: false,
       effort: 6,
     },
-    avif: { 
+    avif: {
       quality: 70, 
       lossless: false,
       speed: 8,
     },
-    // Skip optimization for images that are already optimized
-    skipIfLarger: true,
+    skipIfLarger: true
   };
-  
+
   return {
     // Base URL configuration for GitHub Pages
     base: normalizedBase,
+    publicDir: 'public',
     
     // Environment variables exposed to the client
     define: {
@@ -162,9 +161,7 @@ export default defineConfig(({ mode, command }) => {
         babel: {
           plugins: []
         }
-        // Removed include as it's not needed
       }),
-      ViteImageOptimizer(imageOptimizerOptions),
       imagetools({
         defaultDirectives: (url) => {
           const params = new URLSearchParams();
@@ -173,27 +170,30 @@ export default defineConfig(({ mode, command }) => {
           return new URLSearchParams(params);
         },
       }),
+      ViteImageOptimizer(imageOptimizerOptions),
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
         manifest: {
-          name: 'Sahil Portfolio',
+          name: 'Sahil Ali - Portfolio',
           short_name: 'Portfolio',
-          description: 'Personal portfolio of Sahil',
-          theme_color: '#ffffff',
+          description: 'Professional Portfolio of Sahil Ali',
+          theme_color: '#2563eb',
+          background_color: '#ffffff',
+          display: 'standalone',
           icons: [
             {
-              src: 'pwa-192x192.png',
+              src: '/optimized-images/apple-touch-icon.png',
               sizes: '192x192',
-              type: 'image/png',
+              type: 'image/png'
             },
             {
-              src: 'pwa-512x512.png',
+              src: '/optimized-images/logo512.png',
               sizes: '512x512',
-              type: 'image/png',
-            },
-          ],
-        },
+              type: 'image/png'
+            }
+          ]
+        }
       }),
       // Bundle analyzer
       process.env.VITE_BUNDLE_ANALYZE === 'true' && 

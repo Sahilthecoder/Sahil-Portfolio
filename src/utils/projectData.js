@@ -1,6 +1,6 @@
 // Project image helper function
 const getProjectImage = (projectId, imageName) => {
-  return `/images/projects/${projectId}/${imageName}`;
+  return `/optimized-images/projects/${projectId}/${imageName}`;
 };
 
 // Project data with image references
@@ -9,7 +9,7 @@ export const projects = {
     id: 'zomato-analysis',
     title: 'Zomato Restaurant Expansion Analysis',
     description: 'Built an interactive Excel dashboard to analyze Zomato\'s city-wise expansion strategy across India, uncovering performance trends and market insights.',
-    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    image: '/optimized-images/projects/Project1 excel/Project1 Cover.avif',
     images: {
       main: 'Project1 Cover.avif',
       gallery: ['zometo-ds.avif', 'zt1.avif', 'zt2.avif']
@@ -25,7 +25,7 @@ export const projects = {
     id: 'bansal-supermarket',
     title: 'Bansal Supermarket Sales Analysis',
     description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making.',
-    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    image: '/optimized-images/projects/Project2 tableau/Project2 Cover.avif',
     images: {
       main: 'Project2 Cover.avif',
       gallery: ['bs-saleVSpft.avif', 'bs-stockTO.avif', 'bs-top10.avif', 'bs2.avif', 'bs3.avif']
@@ -41,7 +41,7 @@ export const projects = {
     id: 'retail-cash-flow',
     title: 'Daily Cash Flow Dashboard',
     description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time.',
-    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: '/optimized-images/projects/Project4 Power BI/Project4 Cover.avif',
     images: {
       main: 'Project4 Cover.avif',
       gallery: ['Store_POWERBI1.avif', 'CashFlow1.avif', 'CashFlow2.avif']

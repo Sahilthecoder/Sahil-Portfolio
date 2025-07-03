@@ -7,19 +7,23 @@ const distPath = path.join(__dirname, '..', 'dist');
 function processHtmlFiles() {
   const htmlFiles = ['index.html'];
   
+  // Get the base URL from environment variable or use default
+  const baseUrl = process.env.BASE_URL || '';
+  const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  
   htmlFiles.forEach(file => {
     const filePath = path.join(distPath, file);
     if (fs.existsSync(filePath)) {
       let content = fs.readFileSync(filePath, 'utf8');
       
-      // Function to update paths
-      const updatePath = (match, p1, p2) => {
+      // Function to update paths in HTML attributes
+      const updatePath = (match, p1, p2, p3, p4) => {
         // Skip if it's already a full URL or data URL
-        if (p2.startsWith('http') || p2.startsWith('data:')) {
+        if (p3.startsWith('http') || p3.startsWith('data:')) {
           return match;
         }
-        // Ensure path starts with ./ for relative paths
-        return `${p1}=".${p2.startsWith('/') ? p2 : '/' + p2}"`;
+        // Ensure path starts with base path
+        return `${p1}${p2}${basePath}${p3.startsWith('/') ? p3.substring(1) : p3}${p4}`;
       };
       
       // Update all asset paths
@@ -31,20 +35,30 @@ function processHtmlFiles() {
           if (p1.startsWith('http') || p1.startsWith('data:')) {
             return match;
           }
-          return `url(".${p1.startsWith('/') ? p1 : '/' + p1}")`;
+          return `url("${basePath}${p1.startsWith('/') ? p1.substring(1) : p1}")`;
         });
       
       // Ensure service worker is registered with correct scope
       content = content.replace(
         /navigator\.serviceWorker\.register\(['"]\/([^'"]+)/g, 
-        'navigator.serviceWorker.register("./$1'
+        `navigator.serviceWorker.register("${basePath}$1`
       );
       
       // Ensure manifest links are correct
       content = content.replace(
         /(<link[^>]+rel=["']manifest["'][^>]+href=)["']\/([^"']+)["']/g,
-        '$1"./$2"'
+        `$1"${basePath}$2"`
       );
+      
+      // Update base href if it exists
+      if (!content.includes('<base href')) {
+        const headEnd = content.indexOf('</head>');
+        if (headEnd !== -1) {
+          content = content.slice(0, headEnd) + 
+                   `\n    <base href="${basePath}">` + 
+                   content.slice(headEnd);
+        }
+      }
       
       fs.writeFileSync(filePath, content, 'utf8');
       console.log(`Processed ${file}`);

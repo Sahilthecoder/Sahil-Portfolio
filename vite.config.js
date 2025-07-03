@@ -16,7 +16,7 @@ let base = '/';
 
 // For GitHub Pages, always use the repository name as base path
 if (isGitHubPages) {
-  base = '/Sahil-Portfolio/';
+  base = '/Sahil-Portfolio';
 }
 
 // Ensure base URL is consistently formatted
@@ -24,6 +24,7 @@ const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
 // Ensure Vite knows to use this base URL for all assets
 process.env.VITE_BASE_URL = baseUrl;
+process.env.BASE_URL = baseUrl;
 
 export default defineConfig({
   base: base,

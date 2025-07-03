@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { projects } from '../data/projects';
 import { FiArrowLeft, FiGithub, FiExternalLink } from 'react-icons/fi';
+import getImagePath from '../utils/imagePaths';
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -43,7 +44,7 @@ const ProjectDetails = () => {
           <div className="md:flex-shrink-0 md:w-1/2">
             <img
               className="h-full w-full object-cover md:w-full"
-              src={project.image.startsWith('http') ? project.image : `/Sahil-Portfolio${project.image}`}
+              src={project.image.startsWith('http') ? project.image : getImagePath('project', project.id, project.image.split('/').pop())}
               alt={project.title}
             />
           </div>

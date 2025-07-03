@@ -13,7 +13,6 @@ function htmlAssetsPlugin() {
       order: 'post',
       handler(html, { path: htmlPath = '' } = {}) {
         const isProduction = process.env.NODE_ENV === 'production';
-        const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.GITHUB_ACTIONS;
         
         // Skip processing in development for non-HTML files
         if (!isProduction && !htmlPath.endsWith('.html')) {
@@ -21,18 +20,15 @@ function htmlAssetsPlugin() {
         }
 
         // Get the base URL from environment or use default
-        const baseUrl = isGitHubPages || isProduction ? '/Sahil-Portfolio/' : '/';
+        const baseUrl = process.env.BASE_URL || '/Sahil-Portfolio/';
         const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 
         // Function to process URLs in the HTML
         const processUrl = (url) => {
-          // Skip if it's an external URL, data URL, anchor, or already has the base path
+          // Skip if it's an external URL, data URL, or already has the base path
           if (url.startsWith('http') || 
               url.startsWith('//') || 
               url.startsWith('data:') ||
-              url.startsWith('mailto:') ||
-              url.startsWith('tel:') ||
-              url.startsWith('#') ||
               url.startsWith(basePath) ||
               !url.startsWith('/')) {
             return url;
@@ -74,27 +70,19 @@ function htmlAssetsPlugin() {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load environment variables
-const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.GITHUB_ACTIONS;
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 const isProduction = process.env.NODE_ENV === 'production';
 
 // Set base URL based on environment
 let base = '/';
 
 // For GitHub Pages, always use the repository name as base path with trailing slash
-if (isGitHubPages || process.env.NODE_ENV === 'production') {
+if (isGitHubPages || process.env.GITHUB_ACTIONS || process.env.NODE_ENV === 'production') {
   base = '/Sahil-Portfolio/';
   console.log('Using base URL for GitHub Pages:', base);
-  
-  // Set environment variables for GitHub Pages
-  process.env.VITE_GITHUB_PAGES = 'true';
-  process.env.VITE_BASE_PATH = base;
 } else {
   base = '/';
   console.log('Using base URL for development:', base);
-  
-  // Clear GitHub Pages environment variables in development
-  process.env.VITE_GITHUB_PAGES = 'false';
-  process.env.VITE_BASE_PATH = base;
 }
 
 // Ensure base URL is consistently formatted with a trailing slash

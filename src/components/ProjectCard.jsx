@@ -1,6 +1,7 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
+import getImagePath from '../utils/imagePaths';
 
 const ProjectCard = ({
   title,
@@ -10,16 +11,12 @@ const ProjectCard = ({
   githubLink,
   projectType,
 }) => {
-  // Get the base URL from environment variables
-  const baseUrl = import.meta.env.BASE_URL || '/';
-  
-  // Helper function to get the correct image path
+  // Use the getImagePath utility for consistent path handling
   const getImagePath = (path) => {
     if (!path) return '';
     if (path.startsWith('http') || path.startsWith('data:')) return path;
-    // Remove any leading slashes to prevent double slashes
-    const cleanPath = path.replace(/^\/+/, '');
-    return `${baseUrl}${cleanPath}`;
+    // For project cards, we might not have a projectId, so we'll use a generic fallback
+    return getImagePath('project', '', path);
   };
 
   return (
@@ -35,7 +32,7 @@ const ProjectCard = ({
             alt={`Screenshot of ${title} project`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"
-            fallbackSrc="/images/placeholder.svg"
+            fallbackSrc={getImagePath('fallback', '', 'placeholder.svg')}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
             <span className="inline-block px-3 py-1 text-sm font-medium text-white bg-indigo-600 dark:bg-dark-primary rounded-full">

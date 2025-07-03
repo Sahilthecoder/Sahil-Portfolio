@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
-import { getImagePath } from '../utils/imagePath';
+import getImagePath from '../utils/imagePaths';
 
 // Base URL for images
 const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
@@ -124,20 +124,27 @@ const About = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    // Set up scroll event listener
+    let ticking = false;
+    
     const handleScroll = () => {
-      const sections = ['about', 'skills', 'experience', 'education'];
-      const scrollPosition = window.scrollY + 100;
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = ['about', 'skills', 'experience', 'education'];
+          const scrollPosition = window.scrollY + 100;
+          
+          for (const section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+              const { offsetTop, offsetHeight } = element;
+              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+                setActiveSection(section);
+                break;
+              }
+            }
           }
-        }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -148,13 +155,18 @@ const About = () => {
     };
   }, []);
 
-  // Scroll to section handler
+  // Enhanced scroll to section handler with mobile support
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+      
       window.scrollTo({
-        top: element.offsetTop - 80,
+        top: offsetPosition,
         behavior: 'smooth'
       });
     }
@@ -187,12 +199,65 @@ const About = () => {
 
   // Navigation items with smooth scrolling
   const navItems = [
-    { id: 'about', label: 'About Me', icon: <FaLaptopCode className="mr-2" /> },
-    { id: 'skills', label: 'Skills', icon: <FaTools className="mr-2" /> },
-    { id: 'experience', label: 'Experience', icon: <FaBriefcase className="mr-2" /> },
-    { id: 'education', label: 'Education', icon: <FaGraduationCap className="mr-2" /> },
+    { 
+      id: 'about', 
+      label: 'About Me', 
+      icon: <FaLaptopCode className="mr-2" />,
+      onClick: (e) => {
+        e.preventDefault();
+        scrollToSection('about');
+      }
+    },
+    { 
+      id: 'skills', 
+      label: 'Skills', 
+      icon: <FaTools className="mr-2" />,
+      onClick: (e) => {
+        e.preventDefault();
+        scrollToSection('skills');
+      }
+    },
+    { 
+      id: 'experience', 
+      label: 'Experience', 
+      icon: <FaBriefcase className="mr-2" />,
+      onClick: (e) => {
+        e.preventDefault();
+        scrollToSection('experience');
+      }
+    },
+    { 
+      id: 'education', 
+      label: 'Education', 
+      icon: <FaGraduationCap className="mr-2" />,
+      onClick: (e) => {
+        e.preventDefault();
+        scrollToSection('education');
+      }
+    },
   ];
-  
+
+  const renderNavItems = () => (
+    <div className="flex flex-col space-y-2">
+      {navItems.map((item) => (
+        <motion.button
+          key={item.id}
+          onClick={item.onClick}
+          className={`flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
+            activeSection === item.id
+              ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-200 font-medium'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50'
+          } touch-manipulation`}
+          whileTap={{ scale: 0.98 }}
+          style={{ WebkitTapHighlightColor: 'transparent' }}
+        >
+          {item.icon}
+          {item.label}
+        </motion.button>
+      ))}
+    </div>
+  );
+
   // Fun facts data
   const funFacts = [
     {
@@ -227,7 +292,7 @@ const About = () => {
 
   if (!isMounted) return null;
 
-  // Hero content for About page
+  // Hero content for About page with enhanced mobile support
   const heroContent = {
     title: 'About Me',
     subtitle: 'Get to know the person behind the code and data',
@@ -238,31 +303,33 @@ const About = () => {
       showArrow: true,
       onClick: (e) => {
         e.preventDefault();
-        const skillsSection = document.getElementById('skills');
-        if (skillsSection) {
-          window.scrollTo({
-            top: skillsSection.offsetTop - 80,
-            behavior: 'smooth'
-          });
-        }
+        scrollToSection('skills');
       }
     },
     secondaryButton: { 
       text: 'My Experience', 
-      link: '/experience',
+      link: `${import.meta.env.BASE_URL || '/'}experience`,
       showArrow: true
     },
     isHome: false,
     showProfileImage: true,
     profileImage: {
-      src: 'profile.avif',
+      src: getImagePath('profile'),
       alt: 'Sahil Ali',
       badge: {
         icon: <FaUserFriends className="w-6 h-6" />,
-        text: 'Team Player'
+        text: 'Available for freelance'
       },
-      fallbackSrc: 'placeholder-profile.jpg'
-    }
+      fallbackSrc: getImagePath('profile', '', 'placeholder-profile.jpg')
+    },
+    customImage: (props) => (
+      <ImageWithFallback 
+        src={props.src} 
+        alt={props.alt} 
+        className={props.className}
+        fallbackSrc={props.fallbackSrc}
+      />
+    )
   };
 
   return (

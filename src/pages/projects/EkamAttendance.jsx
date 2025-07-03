@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaDatabase, FaClock, FaChartLine, FaCheckCircle, FaExclamationTriangle, FaArrowLeft, FaFileExcel, FaGoogle, FaServer } from 'react-icons/fa';
 import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import getImagePath from '../../utils/imagePaths';
 
 const EkamAttendance = () => {
   return (
@@ -114,12 +115,12 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">Before: Legacy System</h3>
               </div>
               <img 
-                src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_before.avif`}
+                src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
+                  e.target.src = getImagePath('fallback', '', 'placeholder.svg');
                 }}
               />
               <div className="p-4">
@@ -144,7 +145,7 @@ const EkamAttendance = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white">After: AI-Powered Platform</h3>
               </div>
               <img 
-                src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_after.avif`}
+                src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
@@ -445,12 +446,12 @@ GROUP BY e.name;`}
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Before Automation</h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img 
-                  src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_before.avif`} 
+                  src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
                   alt="Manual attendance tracking process"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
+                    e.target.src = getImagePath('fallback', '', 'placeholder.svg');
                   }}
                 />
               </div>
@@ -464,12 +465,12 @@ GROUP BY e.name;`}
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">After Automation</h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img 
-                  src={`${import.meta.env.BASE_URL}images/projects/Project3 Sql+Sheets/Attendance_after.avif`} 
+                  src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
                   alt="Automated attendance dashboard"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
+                    e.target.src = getImagePath('fallback', '', 'placeholder.svg');
                   }}
                 />
               </div>

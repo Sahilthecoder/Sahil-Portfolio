@@ -1,10 +1,33 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiMail } from 'react-icons/fi';
 import { FaUserFriends } from 'react-icons/fa';
-import { getImagePath } from '../../utils/imagePath';
+import { ImageWithFallback } from '../../utils/imageUtils.jsx';
+import getImagePath from '../../utils/imagePaths';
 import './HeroSection.css';
+
+// Utility function for smooth scrolling with offset
+const scrollToSection = (path) => {
+  // If it's a hash link (like #about)
+  if (path.startsWith('#')) {
+    const sectionId = path.substring(1);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const header = document.querySelector('header');
+      const headerHeight = header ? header.offsetHeight : 80;
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      return true;
+    }
+  }
+  return false;
+};
 
 const HeroSection = ({
   title = "Hi, I'm Sahil Ali",
@@ -15,13 +38,37 @@ const HeroSection = ({
   isHome = true,
   showProfileImage = false,
   profileImage = {
-    src: getImagePath('images/profile.avif'),
+    src: getImagePath('profile'),
     alt: 'Profile',
     badge: null,
-    fallbackSrc: getImagePath('images/placeholder-profile.jpg')
+    fallbackSrc: getImagePath('profile', '', 'placeholder-profile.jpg')
   },
   children,
 }) => {
+  const navigate = useNavigate();
+  
+  // Handle button click with smooth scroll or navigation
+  const handleButtonClick = (e, button) => {
+    // If it's an external link or has a custom click handler, let it behave normally
+    if (button.link.startsWith('http') || button.onClick) {
+      if (button.onClick) button.onClick(e);
+      return;
+    }
+    
+    // Check if it's a hash link and handle smooth scrolling
+    if (button.link.startsWith('#')) {
+      e.preventDefault();
+      const scrolled = scrollToSection(button.link);
+      if (scrolled) return;
+    }
+    
+    // For regular internal links
+    if (button.link && !button.link.startsWith('http')) {
+      e.preventDefault();
+      navigate(button.link);
+    }
+  };
+
   // Animation variants
   const container = {
     hidden: { opacity: 0 },
@@ -123,7 +170,7 @@ const HeroSection = ({
                 <Link
                   to={primaryButton.link}
                   className="hero-button primary"
-                  onClick={primaryButton.onClick || (() => {})}
+                  onClick={(e) => handleButtonClick(e, primaryButton)}
                 >
                   <span className="flex items-center gap-2">
                     {primaryButton.text}
@@ -139,7 +186,7 @@ const HeroSection = ({
                 <Link
                   to={secondaryButton.link}
                   className="hero-button secondary"
-                  onClick={secondaryButton.onClick || (() => {})}
+                  onClick={(e) => handleButtonClick(e, secondaryButton)}
                 >
                   <span className="flex items-center gap-2">
                     {secondaryButton.text}
@@ -198,18 +245,15 @@ const HeroSection = ({
                         src: profileImage.src,
                         alt: profileImage.alt || 'Profile',
                         className: 'w-full h-full object-cover object-top',
-                        fallbackSrc: profileImage.fallbackSrc || '/images/placeholder-profile.jpg',
+                        fallbackSrc: profileImage.fallbackSrc || getImagePath('profile', '', 'placeholder-profile.jpg'),
                         loading: 'lazy'
                       })
                     ) : (
-                      <img 
-                        src={getImagePath(profileImage.src, 'images')}
+                      <ImageWithFallback 
+                        src={profileImage.src} 
                         alt={profileImage.alt || 'Profile'}
                         className="w-full h-full object-cover object-top"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = getImagePath(profileImage.fallbackSrc || 'placeholder-profile.jpg', 'images');
-                        }}
+                        fallbackSrc={profileImage.fallbackSrc || getImagePath('profile', '', 'placeholder-profile.jpg')}
                         loading="lazy"
                       />
                     )}

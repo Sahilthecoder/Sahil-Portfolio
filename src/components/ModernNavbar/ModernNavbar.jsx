@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ImageWithFallback } from '../../utils/imageUtils';
-import { getImagePath } from '../../utils/imagePath';
+import getImagePath from '../../utils/imagePaths';
 import { 
   FiHome, 
   FiUser, 
@@ -464,18 +464,20 @@ const ModernNavbar = () => {
               }
             }}
           >
-            <div className="relative flex items-center group-hover:scale-105 transition-transform">
-              <ImageWithFallback 
-                src={getImagePath('images/logo192.png')}
-                alt="Sahil Ali - Portfolio Logo"
-                className="h-10 w-auto"
-                width={40}
-                height={40}
-                priority={true}
-                sizes="(max-width: 768px) 40px, 40px"
-                fallbackSrc={getImagePath('images/placeholder-profile.jpg')}
-              />
-              <span className="ml-2 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
+              <div className="logo-gradient absolute inset-0 rounded-full opacity-70 group-hover:opacity-90 transition-opacity"></div>
+              <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
+                <ImageWithFallback 
+                  src={getImagePath('logo', '', 'logo192.png')}
+                  alt="Sahil Ali - Portfolio Logo"
+                  className="logo-img h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 group-hover:scale-110"
+                  width={36}
+                  height={36}
+                  priority={true}
+                  sizes="(max-width: 768px) 36px, 40px"
+                />
+              </div>
+              <span className="ml-3 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sahil Ali
                 <span className="block text-xs text-gray-500 dark:text-gray-400">Data Analyst</span>
               </span>

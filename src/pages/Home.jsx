@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
-import { getImagePath, handleImageError } from '../utils/imagePath';
+import getImagePath from '../utils/imagePaths';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import { Link } from 'react-router-dom';
@@ -67,13 +67,7 @@ const Home = () => {
       link: '/contact', 
       showArrow: true 
     },
-    isHome: true,
-    showProfileImage: true,
-    profileImage: {
-      src: getImagePath('images/profile.avif'),
-      alt: 'Sahil Ali',
-      fallbackSrc: getImagePath('images/placeholder-profile.jpg')
-    }
+    isHome: true
   };
 
   // Featured projects to display in the Home page
@@ -324,10 +318,10 @@ const Home = () => {
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
                     <ImageWithFallback 
-                      src={getImagePath('images/profile.avif')}
+                      src={getImagePath('profile')}
                       alt="Sahil Ali"
-                      className="w-full h-full object-cover object-top"
-                      fallbackSrc={getImagePath('images/placeholder-profile.jpg')}
+                      className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
+                      fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
                       loading="lazy"
                     />
                   </div>
@@ -560,7 +554,7 @@ const Home = () => {
                         </a>
                       )}
                       <a 
-                        href={project.path || project.demo || project.github} 
+                        href={project.path ? `${import.meta.env.BASE_URL}${project.path.replace(/^\//, '')}` : (project.demo || project.github)} 
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 group-hover:shadow-lg group-hover:shadow-indigo-500/20"
@@ -583,7 +577,7 @@ const Home = () => {
             transition={{ delay: 0.3 }}
           >
             <a 
-              href="/projects" 
+              href={`${import.meta.env.BASE_URL}projects`}
               className="group inline-flex items-center px-6 py-3.5 text-base font-medium rounded-xl text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 border border-indigo-100 dark:border-indigo-800/50 hover:shadow-md"
             >
               View All Projects

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
-import { getImagePath } from '../utils/imagePath';
+import getImagePath from '../utils/imagePaths';
 
 // Base URL for images
-const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
+const baseUrl = getImagePath('https://sahilthecoder.github.io/Sahil-Portfolio');
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -561,50 +561,125 @@ const Experience = () => {
   // Get active tab data
   const activeTabData = navItems.find(item => item.id === activeTab);
 
-  // Hero content for Experience page
-  const heroContent = {
-    title: 'My Professional Journey',
-    subtitle: 'Experience & Expertise',
-    description: 'With years of experience in AI, inventory management, and data analysis, I bring a unique blend of technical expertise and business acumen to every project.',
-    primaryButton: { 
-      text: 'Explore My Experience', 
-      link: '#experience',
-      showArrow: true,
-      onClick: (e) => {
-        e.preventDefault();
-        const experienceSection = document.getElementById('experience');
-        if (experienceSection) {
-          window.scrollTo({
-            top: experienceSection.offsetTop - 80,
-            behavior: 'smooth'
-          });
-        }
-      }
-    },
-    secondaryButton: { 
-      text: 'View Resume', 
-      link: 'https://drive.google.com/file/d/1065536789670284800/view?usp=sharing',
-      showArrow: true,
-      isExternal: true
-    },
-    isHome: false,
-    showProfileImage: true,
-    profileImage: {
-      src: 'profile.avif',
-      alt: 'Sahil Ali',
-      badge: {
-        icon: <FaUserFriends className="w-6 h-6" />,
-        text: 'Team Player'
-      },
-      fallbackSrc: 'placeholder-profile.jpg'
-    },
-    className: 'bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/10 dark:to-blue-900/10',
-    overlay: <div className="absolute inset-0 bg-grid-pattern opacity-10 dark:opacity-5"></div>
-  };
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <HeroSection {...heroContent} />
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
+        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <motion.div 
+            className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            {/* Text Content */}
+            <motion.div 
+              className="w-full lg:w-1/2 text-center lg:text-left"
+              variants={item}
+            >
+              <motion.div 
+                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                Professional Experience
+              </motion.div>
+              
+              <motion.h1 
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
+                variants={item}
+              >
+                My Professional Journey
+              </motion.h1>
+              
+              <motion.p 
+                className="text-lg text-gray-700 dark:text-gray-300 mb-8 leading-relaxed"
+                variants={item}
+              >
+                With years of experience in AI, inventory management, and data analysis, I bring a unique blend of technical expertise and business acumen to every project.
+              </motion.p>
+              
+              <motion.div className="flex flex-wrap gap-4" variants={item}>
+                <motion.button
+                onClick={() => {
+                  const experienceSection = document.getElementById('experience');
+                  if (experienceSection) {
+                    // Get the header height to offset the scroll position
+                    const header = document.querySelector('header');
+                    const headerHeight = header ? header.offsetHeight : 80;
+                    
+                    // Calculate the position to scroll to
+                    const elementPosition = experienceSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                    
+                    // Smooth scroll to the calculated position
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+                className="px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl touch-manipulation inline-flex items-center"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                <span>Explore My Experience</span>
+                <FiArrowRight className="ml-1.5 sm:ml-2 w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </motion.button>
+              
+              <motion.a
+                href="https://drive.google.com/file/d/1065536789670284800/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base rounded-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl touch-manipulation inline-flex items-center"
+                style={{ WebkitTapHighlightColor: 'transparent' }}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.96 }}
+                onMouseDown={(e) => e.preventDefault()} // Prevent focus outline on mobile
+              >
+                <span>View Resume</span>
+                <FiArrowRight className="ml-1.5 sm:ml-2 w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </motion.a>
+              </motion.div>
+            </motion.div>
+            
+            {/* Profile Image - Centered below text on mobile, to the right on larger screens */}
+            <motion.div 
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto lg:mx-0"
+              variants={item}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
+                <ImageWithFallback 
+                  src={getImagePath('profile')}
+                  alt="Sahil Ali"
+                  className="w-full h-full object-cover rounded-2xl"
+                  fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
+                />
+              </div>
+              {/* Decorative elements */}
+              <div className="absolute -bottom-3 -right-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl z-10">
+                <FaUserFriends className="w-6 h-6" />
+              </div>
+              <div className="absolute -top-4 -left-4 w-16 h-16 bg-cyan-500/20 dark:bg-cyan-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-indigo-500/20 dark:bg-indigo-500/10 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
       
       {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16 lg:py-20">

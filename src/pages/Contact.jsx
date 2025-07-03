@@ -260,31 +260,61 @@ const HeroSection = ({ heroRef, controls, container, item }) => (
             className="flex flex-col sm:flex-row gap-4 mt-8"
             variants={item}
           >
-            <motion.a
-              href="#contact-form"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                  const header = document.querySelector('header');
+                  const headerHeight = header ? header.offsetHeight : 80;
+                  const elementPosition = contactForm.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                  
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden touch-manipulation"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
               whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.96 }}
             >
               <span className="relative z-10 flex items-center">
-                <span className="mr-3 transition-all duration-300 group-hover:mr-4">Send a Message</span>
-                <FiArrowRight className="w-5 h-5 transition-transform duration-300 transform group-hover:translate-x-1" />
+                <span className="mr-2 sm:mr-3 transition-all duration-300 group-hover:mr-3 sm:group-hover:mr-4">Send a Message</span>
+                <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 transform group-hover:translate-x-1" />
               </span>
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-indigo-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </motion.a>
+            </motion.button>
             
-            <motion.a
-              href="#services"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-700 bg-white border-2 border-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                const servicesSection = document.getElementById('services');
+                if (servicesSection) {
+                  const header = document.querySelector('header');
+                  const headerHeight = header ? header.offsetHeight : 80;
+                  const elementPosition = servicesSection.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+                  
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className="group relative inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-indigo-700 bg-white border-2 border-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden touch-manipulation dark:bg-gray-800 dark:border-indigo-600 dark:text-white dark:hover:bg-gray-700"
+              style={{ WebkitTapHighlightColor: 'transparent' }}
               whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.96 }}
             >
               <span className="relative z-10 flex items-center">
-                <span className="mr-3 transition-all duration-300 group-hover:mr-4">View Services</span>
-                <FiArrowRight className="w-5 h-5 transition-transform duration-300 transform group-hover:translate-x-1" />
+                <span className="mr-2 sm:mr-3 transition-all duration-300 group-hover:mr-3 sm:group-hover:mr-4">View Services</span>
+                <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 transform group-hover:translate-x-1" />
               </span>
               <span className="absolute inset-0 w-full h-full bg-indigo-50 dark:bg-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </motion.a>
+            </motion.button>
           </motion.div>
         </motion.div>
 

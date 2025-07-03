@@ -2,60 +2,58 @@
  * Utility functions for handling image paths in the application
  */
 
-// Import the enhanced getImagePath utility
-import { getImagePath as getImagePathUtil } from './imagePath';
-
 /**
  * Gets the correct image path based on the environment
  * @param {string} path - The image path (can be relative or absolute)
  * @returns {string} The formatted image path
  */
 const getImagePath = (path) => {
-  return getImagePathUtil(path);
+  if (!path) return '';
+  
+  // Handle absolute URLs and data URIs
+  if (path.startsWith('http') || path.startsWith('data:')) {
+    return path;
+  }
+  
+  // Get base URL from Vite config (fallback to '/' if not set)
+  const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+  
+  // Remove leading slashes to prevent double slashes
+  const cleanPath = path.replace(/^[\/\\]+/, '');
+  
+  // In development, use the path as is
+  if (import.meta.env.DEV) {
+    return `/${cleanPath}`;
+  }
+  
+  // In production, prepend the base URL
+  return `${baseUrl}/${cleanPath}`.replace(/([^:]\/)\/+/g, '$1');
 };
 
-import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 // Import the optimized image manifest (use empty object if not available)
 let optimizedImages = {};
 let isImagesLoaded = false;
-let loadPromise = null;
 
 async function loadOptimizedImages() {
   if (isImagesLoaded) return optimizedImages;
   
-  // If a load is already in progress, return the promise
-  if (loadPromise) return loadPromise;
+  try {
+    optimizedImages = import.meta.env.DEV 
+      ? {}
+      : (await import('../../public/optimized/manifest.json')).default || {};
+  } catch (error) {
+    console.warn('Could not load optimized image manifest. Using fallback image paths.');
+    optimizedImages = {};
+  }
   
-  loadPromise = (async () => {
-    try {
-      // In development, use an empty manifest to avoid unnecessary requests
-      if (import.meta.env.DEV) {
-        optimizedImages = {};
-      } else {
-        // In production, try to load the manifest
-        const manifest = await import('../../public/optimized/manifest.json');
-        optimizedImages = manifest.default || {};
-      }
-      isImagesLoaded = true;
-      return optimizedImages;
-    } catch (error) {
-      console.warn('Could not load optimized image manifest. Using fallback image paths.');
-      optimizedImages = {};
-      isImagesLoaded = true;
-      return optimizedImages;
-    }
-  })();
-  
-  return loadPromise;
+  isImagesLoaded = true;
+  return optimizedImages;
 }
 
-// Start loading images immediately in production
-if (!import.meta.env.DEV) {
-  loadOptimizedImages().catch(error => {
-    console.error('Error loading optimized images:', error);
-  });
-}
+// Start loading images immediately
+loadOptimizedImages();
 
 /**
  * Gets the optimized image path with responsive variants
@@ -134,7 +132,6 @@ const getOptimizedImage = (src, { maxWidth = 1920, sizes } = {}) => {
  * @param {number} height - Image height in pixels (for layout stability)
  * @param {Array} sizes - Array of size definitions for responsive images
  * @param {boolean} priority - Whether to prioritize loading (sets loading=eager and fetchpriority=high)
- * @param {boolean} preload - Whether to preload the image
  * @param {Object} rest - Additional props to pass to the img element
  * @returns {JSX.Element} Image component with error handling and optimizations
  */
@@ -149,43 +146,10 @@ const ImageWithFallback = ({
   height,
   sizes = [],
   priority = false,
-  preload = false,
   ...rest
 }) => {
-  const [imageSrc, setImageSrc] = useState(() => getImagePath(src));
+  const [imgSrc, setImgSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
-  const imgRef = useRef(null);
-  
-  // Handle preloading if enabled
-  useEffect(() => {
-    if (preload && src) {
-      const preloadLink = document.createElement('link');
-      preloadLink.rel = 'preload';
-      preloadLink.as = 'image';
-      preloadLink.href = getImagePath(src);
-      
-      // Add the preload link to the document head
-      document.head.appendChild(preloadLink);
-      
-      // Clean up the preload link when the component unmounts
-      return () => {
-        document.head.removeChild(preloadLink);
-      };
-    }
-  }, [src, preload]);
-  
-  // Handle image source changes
-  useEffect(() => {
-    if (src) {
-      setImageSrc(getImagePath(src));
-      setHasError(false);
-    }
-    
-    // Clean up function to prevent memory leaks
-    return () => {
-      // Any cleanup if needed
-    };
-  }, [src]);
 
   // Ensure sizes is an array
   const safeSizes = Array.isArray(sizes) ? sizes : [];
@@ -193,43 +157,29 @@ const ImageWithFallback = ({
   // Get optimized image sources with error handling
   const optimizedImage = useMemo(() => {
     try {
-      return getOptimizedImage(imageSrc, { sizes: safeSizes });
+      return getOptimizedImage(imgSrc, { sizes: safeSizes });
     } catch (error) {
       console.warn('Error optimizing image:', error);
       return { 
-        src: getImagePath(imageSrc), 
+        src: getImagePath(imgSrc), 
         srcSet: '', 
         sizes: safeSizes.join(', ') 
       };
     }
-  }, [imageSrc, safeSizes]);
+  }, [imgSrc, safeSizes]);
 
-  const handleError = useCallback((e) => {
-    if (!hasError && fallbackSrc) {
+  // Reset state when src changes
+  useEffect(() => {
+    setImgSrc(src);
+    setHasError(false);
+  }, [src]);
+
+  const handleError = useCallback(() => {
+    if (!hasError && fallbackSrc && fallbackSrc !== imgSrc) {
+      setImgSrc(fallbackSrc);
       setHasError(true);
-      const fallback = getImagePath(fallbackSrc);
-      
-      // Only update if the fallback is different from the current src
-      if (fallback !== imageSrc) {
-        setImageSrc(fallback);
-      }
-      
-      // If the error persists with the fallback, log it
-      if (imgRef.current) {
-        const originalOnError = imgRef.current.onerror;
-        imgRef.current.onerror = (errorEvent) => {
-          console.error('Fallback image failed to load:', fallback, errorEvent);
-          
-          // Restore original onerror handler if it exists
-          if (typeof originalOnError === 'function') {
-            return originalOnError.call(imgRef.current, errorEvent);
-          }
-          
-          return false;
-        };
-      }
     }
-  }, [fallbackSrc, hasError, imageSrc]);
+  }, [fallbackSrc, hasError, imgSrc]);
 
   // Ensure we have a valid alt text
   const safeAlt = alt || 'Image';
@@ -240,33 +190,26 @@ const ImageWithFallback = ({
   // Add fetchpriority for critical images
   const fetchPriority = priority ? 'high' : 'auto';
 
-  // Combine all props with proper precedence
-  const imgProps = {
-    ref: imgRef,
-    src: optimizedImage.src,
-    srcSet: optimizedImage.srcSet || undefined,
-    sizes: optimizedImage.sizes,
-    alt: safeAlt,
-    className,
-    loading: loadingStrategy,
-    decoding,
-    width,
-    height,
-    onError: handleError,
-    ...(priority && { fetchPriority: 'high' }),
-    ...rest
-  };
-  
-  // Add ARIA attributes if alt is provided
-  if (alt) {
-    imgProps['aria-label'] = alt;
-    imgProps.role = 'img';
-  } else {
-    imgProps['aria-hidden'] = 'true';
-    imgProps.role = 'presentation';
-  }
-  
-  return <img {...imgProps} />;
+  return (
+    <img
+      src={optimizedImage.src}
+      srcSet={optimizedImage.srcSet || undefined}
+      sizes={optimizedImage.sizes}
+      alt={safeAlt}
+      className={className}
+      onError={handleError}
+      loading={loadingStrategy}
+      decoding={decoding}
+      width={width}
+      height={height}
+      fetchpriority={fetchPriority}
+      {...rest}
+      // Add role and aria-label if alt is provided
+      {...(alt && { 'aria-label': alt })}
+      // Add role if it's a decorative image
+      {...(alt === '' && { 'aria-hidden': 'true', role: 'presentation' })}
+    />
+  );
 };
 
 // Export components as named exports

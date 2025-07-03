@@ -3,6 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaArrowUp, FaSearch, FaFilePdf, FaLaptopCode, FaArrowRight, FaDatabase, FaChartLine } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
+
+// Utility function for smooth scrolling with offset
+const scrollToSection = (selector, offset = 80) => {
+  const element = document.querySelector(selector);
+  if (element) {
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.offsetHeight : offset;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
+    
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+    return true;
+  }
+  return false;
+};
 import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
 import { FaMicrosoft } from 'react-icons/fa';
 import { FiFigma } from 'react-icons/fi';
@@ -11,6 +29,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProjectImage from '../components/ProjectImage';
 import SEO from '../components/SEO';
 import HeroSection from '../components/HeroSection/HeroSection';
+import getImagePath from '../utils/imagePaths';
 import '../components/HeroSection/HeroSection.css';
 
 // Glitch text component
@@ -120,14 +139,11 @@ const ProjectCard = ({ project, index, onClick }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
               <ProjectImage
                 projectId={project.id}
-                imageName={project.coverImage || 'cover.jpg'}
+                imageName={project.image}
                 alt={project.title}
-                className="w-full h-full transition-transform duration-300 group-hover:scale-105"
-                aspectRatio="16/9"
-                showOverlay={true}
-                zoomOnHover={true}
-                priority={index < 3}
-                lightbox={true}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                containerClassName="absolute inset-0 w-full h-full"
+                objectFit="cover"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
@@ -139,7 +155,7 @@ const ProjectCard = ({ project, index, onClick }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.05, duration: 0.3 }}
-                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-gray-200 dark:border-gray-600 transition-all duration-200 shadow-sm cursor-default"
+                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-200 shadow-sm cursor-default"
                     >
                       <span className="text-blue-500 mr-1.5">{techIcons[tech] || tech.charAt(0)}</span>
                       <span>{tech}</span>
@@ -276,7 +292,7 @@ const ProjectModal = ({ project, onClose }) => {
                   >
                     <span className="relative z-10 flex items-center">
                       <span className="mr-3">View Project</span>
-                      <FiArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                      <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
                     </span>
                     <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </Link>
@@ -454,7 +470,26 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 // Single project data
-// Project folder mapping is now handled in the ProjectImage component
+// Project folder mapping for ProjectImage component
+const projectFolders = {
+  'zomato-analysis': 'Project1 excel',
+  'bansal-supermarket': 'Project2 tableau',
+  'ekam-attendance': 'Project3 Sql+Sheets',
+  'retail-cash-flow': 'Project4 Power BI',
+  'ai-planner': 'Project5 Gpt+Notion',
+  'automation-suite': 'Project6 Gpt+Zapier',
+  'mahira-portfolio': 'Mahira Portfolio Web+AI',
+  'product-sales': 'Project7 Product Sales',
+  'snape-sentiment-analysis': 'Project8 Snape Analysis'
+};
+
+// Helper function to get image path for ProjectImage component
+const getProjectImage = (projectId, imagePath) => {
+  if (!imagePath) return '';
+  // Use the new getImagePath utility for consistent path handling
+  const imageName = imagePath.split('/').pop();
+  return getImagePath('project', projectId, imageName);
+};
 
 const projects = [
   {
@@ -466,7 +501,8 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    coverImage: 'images/projects/Project1 excel/Project1 Cover.avif',
+    image: 'Project1 Cover.avif',
+    previewImage: 'zometo-ds.avif',
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -476,11 +512,10 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
-    images: [
-      'images/projects/Project1 excel/Project1 Cover.avif',
-      'images/projects/Project1 excel/zomato-ds.avif',
-      'images/projects/Project1 excel/zt1.avif',
-      'images/projects/Project1 excel/zt2.avif'
+    gallery: [
+      'zometo-ds.avif',
+      'zt1.avif',
+      'zt2.avif'
     ]
   },
   {
@@ -492,7 +527,8 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    coverImage: 'images/projects/Project2 tableau/Project2 Cover.avif',
+    image: 'Project2 Cover.avif',
+    previewImage: 'Project2 Cover.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -502,13 +538,10 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
-    images: [
-      'images/projects/Project2 tableau/Project2 Cover.avif',
-      'images/projects/Project2 tableau/bs-saleVSpft.avif',
-      'images/projects/Project2 tableau/bs-stockTO.avif',
-      'images/projects/Project2 tableau/bs-top10.avif',
-      'images/projects/Project2 tableau/bs2.avif',
-      'images/projects/Project2 tableau/bs3.avif'
+    gallery: [
+      'bs2.avif',
+      'bs3.avif',
+      'bs-top10.avif'
     ]
   },
   {
@@ -520,7 +553,8 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    coverImage: 'images/projects/Project4 Power BI/Project4 Cover.avif',
+    image: 'Project4 Cover.avif',
+    previewImage: 'Project4 Cover.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -530,11 +564,9 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
-    images: [
-      'images/projects/Project4 Power BI/Project4 Cover.avif',
-      'images/projects/Project4 Power BI/Store_POWERBI1.avif',
-      'images/projects/Project4 Power BI/CashFlow1.avif',
-      'images/projects/Project4 Power BI/CashFlow2.avif'
+    gallery: [
+      'CashFlow1.avif',
+      'CashFlow2.avif'
     ]
   },
   {
@@ -546,7 +578,8 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    coverImage: 'images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    image: 'Project3 Cover.avif',
+    previewImage: 'Project3 Cover.avif',
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -556,12 +589,9 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
-    images: [
-      'images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-      'images/projects/Project3 Sql+Sheets/ekam-db.avif',
-      'images/projects/Project3 Sql+Sheets/ekam-sql.avif',
-      'images/projects/Project3 Sql+Sheets/Attendance_before.jpg',
-      'images/projects/Project3 Sql+Sheets/Attendance_after.jpg'
+    gallery: [
+      'Attendance_before.avif',
+      'Attendance_after.avif'
     ]
   },
   {
@@ -573,7 +603,8 @@ const projects = [
     tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
     path: '/projects/product-sales',
-    coverImage: 'product-sales.jpg',
+    image: 'Project5 Cover.avif',
+    previewImage: 'Project5 Cover.avif',
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -583,10 +614,10 @@ const projects = [
     liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
-    images: [
-      'product-sales.jpg',
-      'product-sales-1.jpg',
-      'product-sales-2.jpg'
+    gallery: [
+      'Project5 Cover.avif',
+      'Project5 Cover.avif',
+      'Project5 Cover.avif'
     ]
   },
   {
@@ -598,7 +629,7 @@ const projects = [
     tags: ['AI/ML Showcase', 'Data Visualization', 'Interactive Demos', 'Technical Portfolio'],
     techStack: ['React', 'D3.js', 'Python', 'TensorFlow.js', 'Next.js'],
     path: '/projects/mahira-portfolio',
-    coverImage: 'mahira-portfolio.jpg',
+    image: 'Project7 Cover.avif',
     previewImage: 'Project7 Cover.avif',
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
@@ -663,25 +694,42 @@ const Projects = () => {
     );
   }, [searchTerm]);
   
-  // Download CV function
-  const handleDownloadCV = () => {
-    const cvUrl = `${import.meta.env.BASE_URL}Sahil_Resume.pdf`;
-    const link = document.createElement('a');
-    link.href = cvUrl;
-    link.download = 'Sahil_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  // Download CV function with better mobile support
+  const handleDownloadCV = useCallback((e) => {
+    e?.preventDefault();
+    try {
+      const cvUrl = `${import.meta.env.BASE_URL || '/'}Sahil_Resume.pdf`;
+      
+      // For mobile devices, open in new tab to handle downloads properly
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        window.open(cvUrl, '_blank');
+      } else {
+        // For desktop, use the download attribute
+        const link = document.createElement('a');
+        link.href = cvUrl;
+        link.download = 'Sahil_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+      // Fallback to opening in new tab if download fails
+      window.open(`${import.meta.env.BASE_URL || '/'}Sahil_Resume.pdf`, '_blank');
+    }
+  }, []);
 
   // Open project modal (alias for handleProjectSelect for backward compatibility)
   const openModal = useCallback((project) => {
     handleProjectSelect(project);
   }, [handleProjectSelect]);
   
-  // Scroll to top function
+  // Scroll to top function with offset
   const scrollTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   }, []);
 
   // Show/hide scroll to top button
@@ -818,11 +866,12 @@ const Projects = () => {
             onClick={scrollTop}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
-            className="fixed bottom-8 right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 touch-manipulation"
             aria-label="Scroll to top"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
             <FaArrowUp className="w-5 h-5" />
           </motion.button>
@@ -858,19 +907,19 @@ const Projects = () => {
           >
             Check out my resume for a comprehensive overview of my experience, skills, and achievements.
           </motion.p>
-          <motion.a
-            href="/Sahil_Resume.pdf"
-            download="Sahil_Resume.pdf"
-            className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <motion.button
+            onClick={handleDownloadCV}
+            className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 touch-manipulation"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            style={{ WebkitTapHighlightColor: 'transparent' }}
           >
-            <FaFilePdf className="mr-2 -ml-1 h-5 w-5" />
+            <FaFilePdf className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
             Download My Resume
-          </motion.a>
+          </motion.button>
         </div>
       </div>
     </div>

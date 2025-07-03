@@ -70,9 +70,9 @@ const Home = () => {
     isHome: true,
     showProfileImage: true,
     profileImage: {
-      src: 'profile.avif',
+      src: getImagePath('images/profile.avif'),
       alt: 'Sahil Ali',
-      fallbackSrc: 'placeholder-profile.jpg'
+      fallbackSrc: getImagePath('images/placeholder-profile.jpg')
     }
   };
 
@@ -324,10 +324,10 @@ const Home = () => {
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
                     <ImageWithFallback 
-                      src="/images/profile.avif" 
+                      src={getImagePath('images/profile.avif')}
                       alt="Sahil Ali"
                       className="w-full h-full object-cover object-top"
-                      fallbackSrc="/images/placeholder-profile.jpg"
+                      fallbackSrc={getImagePath('images/placeholder-profile.jpg')}
                       loading="lazy"
                     />
                   </div>

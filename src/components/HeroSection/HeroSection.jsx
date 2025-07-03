@@ -15,10 +15,10 @@ const HeroSection = ({
   isHome = true,
   showProfileImage = false,
   profileImage = {
-    src: 'profile.avif',
+    src: getImagePath('images/profile.avif'),
     alt: 'Profile',
     badge: null,
-    fallbackSrc: 'placeholder-profile.jpg'
+    fallbackSrc: getImagePath('images/placeholder-profile.jpg')
   },
   children,
 }) => {

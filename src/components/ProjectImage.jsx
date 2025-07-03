@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { FiImage, FiLoader, FiZoomIn } from 'react-icons/fi';
-import { transparentPixel } from '../utils/placeholder';
+import { FiImage, FiLoader, FiZoomIn, FiAlertCircle } from 'react-icons/fi';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
-import { getImagePath } from '../utils/imagePath';
+import { getImagePath, preloadImage } from '../utils/imagePath';
 
 // Map project IDs to their corresponding folder names
 const projectFolders = {
@@ -44,67 +43,109 @@ const ProjectImage = ({
   const [error, setError] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [currentImagePath, setCurrentImagePath] = useState('');
+  const [hasTriedFallback, setHasTriedFallback] = useState(false);
   
-  // Fallback transparent pixel for broken images
-  const fallbackImage = transparentPixel;
+  // Fallback image for broken images
+  const fallbackImage = useMemo(() => getImagePath('images/placeholder-project.jpg'), []);
+  
+  // Preload the fallback image on component mount
+  useEffect(() => {
+    preloadImage('images/placeholder-project.jpg').catch(() => {
+      console.warn('Failed to preload fallback image');
+    });
+  }, []);
   
   // Get the correct image path using the utility
-  const getImageSource = (projectId, imgName) => {
-    if (!imgName) return '';
-    // If it's a full URL, return as is
-    if (imgName.startsWith('http')) return imgName;
-    // If it's a path to a project image
-    if (projectId) {
-      return getImagePath(`/images/projects/${projectFolders[projectId] || projectId}/${imgName}`);
+  const getImageSource = useCallback(() => {
+    if (!imageName) return { path: '', isProjectImage: false };
+    
+    // If it's already a full URL or data URI, return as is
+    if (typeof imageName === 'string' && (imageName.startsWith('http') || imageName.startsWith('data:'))) {
+      return { path: imageName, isProjectImage: false };
     }
-    // For other images, just use the path as is
-    return getImagePath(imgName);
-  };
+    
+    // If it's a path to a project image
+    if (projectId && projectFolders[projectId]) {
+      const projectFolder = projectFolders[projectId];
+      const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
+      return { 
+        path: `images/projects/${projectFolder}/${cleanImageName}`,
+        isProjectImage: true
+      };
+    }
+    
+    // For other images, ensure they're in the images directory
+    if (typeof imageName === 'string') {
+      const path = imageName.startsWith('images/') ? imageName : `images/${imageName}`;
+      return { path, isProjectImage: false };
+    }
+    
+    return { path: '', isProjectImage: false };
+  }, [projectId, imageName]);
   
-  // Get the final image source
-  const finalImagePath = getImageSource(projectId, imageName);
-
   // Set the image path when component mounts or dependencies change
   useEffect(() => {
-    if (imageName) {
-      try {
-        const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
-        // Check if the path already has an image extension
-        const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
-        const path = hasExtension ? cleanImageName : `${cleanImageName}.avif`;
-        setCurrentImagePath(path);
-        setError(false);
-        setIsLoading(true);
-      } catch (error) {
-        console.error('Error constructing image path:', error);
-        setError(true);
-        setIsLoading(false);
-      }
+    const { path: source, isProjectImage } = getImageSource();
+    
+    if (source) {
+      // Reset states
+      setError(false);
+      setIsLoading(true);
+      setHasTriedFallback(false);
+      
+      // Preload the image before setting it as the source
+      const loadImage = async () => {
+        try {
+          // For project images, we'll let the ImageWithFallback handle the loading
+          if (!isProjectImage) {
+            await preloadImage(source);
+          }
+          setCurrentImagePath(getImagePath(source));
+        } catch (err) {
+          console.error('Failed to load image:', source, err);
+          handleImageError({ target: { src: source } });
+        }
+      };
+      
+      loadImage();
+    } else {
+      setError(true);
+      setIsLoading(false);
     }
-  }, [projectId, imageName]);
+  }, [getImageSource]);
 
   const handleImageLoad = () => {
     setIsLoading(false);
+    setError(false);
   };
 
-  const handleError = (e) => {
+  const handleError = useCallback((e) => {
     console.error('Failed to load image:', e.target.src);
-    setError(true);
-    setIsLoading(false);
     
-    // If there's a fallback image and we haven't already tried it
-    if (e.target.src !== fallbackImage) {
-      e.target.src = fallbackImage;
+    // If we haven't tried the fallback yet, try it
+    if (!hasTriedFallback && fallbackImage) {
+      console.log('Attempting to load fallback image...');
+      setHasTriedFallback(true);
       setError(false);
       setIsLoading(true);
+      
+      // Small delay to allow state updates before setting the fallback
+      setTimeout(() => {
+        setCurrentImagePath(fallbackImage);
+      }, 0);
+    } else {
+      // If we've already tried the fallback or don't have one, show error state
+      console.error('Fallback image also failed to load or not available');
+      setError(true);
+      setIsLoading(false);
     }
-  };
+  }, [fallbackImage, hasTriedFallback]);
 
-  const handleImageError = (e) => {
+  const handleImageError = useCallback((e) => {
     if (!error) {
       handleError(e);
     }
-  };
+  }, [error, handleError]);
 
   const roundedClass = {
     none: '',
@@ -116,10 +157,8 @@ const ProjectImage = ({
     full: 'rounded-full'
   }[rounded] || 'rounded-xl';
 
-  // Get the final image source with proper path handling
-  const imageSrc = projectId && currentImagePath 
-    ? getImagePath(`/images/projects/${projectFolders[projectId] || projectId}/${currentImagePath}`)
-    : getImagePath(currentImagePath);
+  // Use the current image path directly as it's already processed
+  const imageSrc = currentImagePath;
 
   return (
     <figure 
@@ -136,8 +175,12 @@ const ProjectImage = ({
 
       {/* Error state */}
       {error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl">
-          <FiImage className="w-12 h-12 text-gray-300 dark:text-gray-600" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-xl p-4 text-center">
+          <FiAlertCircle className="w-12 h-12 text-red-400 dark:text-red-500 mb-2" />
+          <p className="text-sm text-gray-500 dark:text-gray-400">Failed to load image</p>
+          {!hasTriedFallback && fallbackImage && (
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Loading fallback...</p>
+          )}
         </div>
       )}
 
@@ -199,22 +242,72 @@ const ProjectImage = ({
   );
 };
 
+ProjectImage.defaultProps = {
+  className: '',
+  caption: '',
+  containerClassName: '',
+  aspectRatio: '16/9',
+  showOverlay: false,
+  zoomOnHover: true,
+  priority: false,
+  fullWidth: false,
+  bordered: true,
+  shadow: true,
+  rounded: 'xl',
+  objectFit: 'cover',
+  lightbox: false
+};
+
+// Add display name for better debugging
+ProjectImage.displayName = 'ProjectImage';
+
 ProjectImage.propTypes = {
+  /** Unique identifier for the project to determine the correct image folder */
   projectId: PropTypes.string.isRequired,
+  
+  /** Name of the image file (including extension) */
   imageName: PropTypes.string.isRequired,
+  
+  /** Alternative text for the image (required for accessibility) */
   alt: PropTypes.string.isRequired,
+  
+  /** Additional CSS classes for the image element */
   className: PropTypes.string,
+  
+  /** Optional caption text displayed below the image */
   caption: PropTypes.string,
+  
+  /** Additional CSS classes for the container element */
   containerClassName: PropTypes.string,
+  
+  /** Aspect ratio of the image (e.g., '16/9', '4/3', '1/1') */
   aspectRatio: PropTypes.string,
+  
+  /** Whether to show an overlay with the image title and caption on hover */
   showOverlay: PropTypes.bool,
+  
+  /** Whether to apply a zoom effect on hover */
   zoomOnHover: PropTypes.bool,
+  
+  /** Whether to prioritize loading of this image */
   priority: PropTypes.bool,
+  
+  /** Whether the image should take up the full width of its container */
   fullWidth: PropTypes.bool,
+  
+  /** Whether to show a border around the image */
   bordered: PropTypes.bool,
+  
+  /** Whether to apply a shadow effect */
   shadow: PropTypes.bool,
+  
+  /** Border radius size */
   rounded: PropTypes.oneOf(['none', 'sm', 'md', 'lg', 'xl', '2xl', 'full']),
-  objectFit: PropTypes.oneOf(['cover', 'contain']),
+  
+  /** How the image should be resized to fit its container */
+  objectFit: PropTypes.oneOf(['cover', 'contain', 'fill', 'none', 'scale-down']),
+  
+  /** Whether to show a lightbox button that opens the image in a new tab */
   lightbox: PropTypes.bool
 };
 

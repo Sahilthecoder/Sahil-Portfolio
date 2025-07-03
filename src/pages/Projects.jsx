@@ -466,7 +466,7 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    coverImage: 'Project1 Cover.avif',
+    coverImage: 'images/projects/Project1 excel/Project1 Cover.avif',
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -477,10 +477,10 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     images: [
-      'Project1 Cover.avif',
-      'zomato-ds.avif',
-      'zt1.avif',
-      'zt2.avif'
+      'images/projects/Project1 excel/Project1 Cover.avif',
+      'images/projects/Project1 excel/zomato-ds.avif',
+      'images/projects/Project1 excel/zt1.avif',
+      'images/projects/Project1 excel/zt2.avif'
     ]
   },
   {
@@ -492,7 +492,7 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    coverImage: 'Project2 Cover.avif',
+    coverImage: 'images/projects/Project2 tableau/Project2 Cover.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -503,12 +503,12 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     images: [
-      'Project2 Cover.avif',
-      'bs-saleVSpft.avif',
-      'bs-stockTO.avif',
-      'bs-top10.avif',
-      'bs2.avif',
-      'bs3.avif'
+      'images/projects/Project2 tableau/Project2 Cover.avif',
+      'images/projects/Project2 tableau/bs-saleVSpft.avif',
+      'images/projects/Project2 tableau/bs-stockTO.avif',
+      'images/projects/Project2 tableau/bs-top10.avif',
+      'images/projects/Project2 tableau/bs2.avif',
+      'images/projects/Project2 tableau/bs3.avif'
     ]
   },
   {
@@ -520,7 +520,7 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    coverImage: 'Project4 Cover.avif',
+    coverImage: 'images/projects/Project4 Power BI/Project4 Cover.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -531,10 +531,10 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     images: [
-      'Project4 Cover.avif',
-      'Store_POWERBI1.avif',
-      'CashFlow1.avif',
-      'CashFlow2.avif'
+      'images/projects/Project4 Power BI/Project4 Cover.avif',
+      'images/projects/Project4 Power BI/Store_POWERBI1.avif',
+      'images/projects/Project4 Power BI/CashFlow1.avif',
+      'images/projects/Project4 Power BI/CashFlow2.avif'
     ]
   },
   {
@@ -546,7 +546,7 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    coverImage: 'Project3 Cover.avif',
+    coverImage: 'images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -557,11 +557,11 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     images: [
-      'Project3 Cover.avif',
-      'ekam-db.avif',
-      'ekam-sql.avif',
-      'Attendance_before.jpg',
-      'Attendance_after.jpg'
+      'images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+      'images/projects/Project3 Sql+Sheets/ekam-db.avif',
+      'images/projects/Project3 Sql+Sheets/ekam-sql.avif',
+      'images/projects/Project3 Sql+Sheets/Attendance_before.jpg',
+      'images/projects/Project3 Sql+Sheets/Attendance_after.jpg'
     ]
   },
   {

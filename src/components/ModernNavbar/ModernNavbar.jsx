@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ImageWithFallback } from '../../utils/imageUtils';
+import { getImagePath } from '../../utils/imagePath';
 import { 
   FiHome, 
   FiUser, 
@@ -465,13 +466,14 @@ const ModernNavbar = () => {
           >
             <div className="relative flex items-center group-hover:scale-105 transition-transform">
               <ImageWithFallback 
-                src="/images/logo192.png"
+                src={getImagePath('images/logo192.png')}
                 alt="Sahil Ali - Portfolio Logo"
                 className="h-10 w-auto"
                 width={40}
                 height={40}
                 priority={true}
                 sizes="(max-width: 768px) 40px, 40px"
+                fallbackSrc={getImagePath('images/placeholder-profile.jpg')}
               />
               <span className="ml-2 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Sahil Ali

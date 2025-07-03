@@ -17,7 +17,7 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",
-    "predeploy": "cross-env GITHUB_PAGES=true BASE_PATH=/Sahil-Portfolio/ vite build",
+    "predeploy": "cross-env GITHUB_PAGES=true vite build",
     "deploy": "gh-pages -d dist -t true -m 'Deploy to GitHub Pages [skip ci]'",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src --ext .js,.jsx",

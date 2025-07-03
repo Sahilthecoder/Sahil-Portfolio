@@ -6,8 +6,11 @@ import path from 'node:path';
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Load environment variables
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+
 export default defineConfig({
-  base: '/',
+  base: isGitHubPages ? '/Sahil-Portfolio/' : '/',
   publicDir: 'public',
   
   server: {
@@ -28,7 +31,13 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
+      output: {
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
+      }
     },
+    assetsInlineLimit: 4096, // 4kb
   },
 
   plugins: [

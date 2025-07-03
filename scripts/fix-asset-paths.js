@@ -5,13 +5,23 @@ const distPath = path.join(__dirname, '..', 'dist');
 
 // Function to process HTML files and fix asset paths
 function processHtmlFiles() {
-  const htmlFiles = ['index.html'];
+  const htmlFiles = ['index.html', 'about.html'];
   
   // Get the base URL from environment variable or use default
   const baseUrl = process.env.BASE_URL || '/Sahil-Portfolio/';
   const basePath = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   
   console.log(`Using base path: ${basePath}`);
+  
+  // Function to ensure path has the base URL
+  const ensureBasePath = (path) => {
+    if (path.startsWith('http') || path.startsWith('data:') || path.startsWith(basePath)) {
+      return path;
+    }
+    // Remove leading slash if present to prevent double slashes
+    const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+    return `${basePath}${cleanPath}`;
+  };
   
   htmlFiles.forEach(file => {
     const filePath = path.join(distPath, file);
@@ -31,18 +41,31 @@ function processHtmlFiles() {
       // Update all asset paths
       content = content
         // Handle src and href attributes
-        .replace(/(href|src)=(["'])([^"'#?]+)(["'])/g, updatePath)
+        .replace(/(href|src)=(["'])([^"'#?]+)(["'])/g, (match, p1, p2, p3, p4) => {
+          // Skip if it's already a full URL or data URL
+          if (p3.startsWith('http') || p3.startsWith('data:')) {
+            return match;
+          }
+          // Ensure path has the base path
+          return `${p1}=${p2}${ensureBasePath(p3)}${p4}`;
+        })
         // Handle CSS url() paths
         .replace(/url\(\s*['"]?([^'"#?)]+?)['"]?\s*\)/g, (match, p1) => {
           if (p1.startsWith('http') || p1.startsWith('data:')) {
             return match;
           }
-          // Ensure path starts with base path
-          const cleanPath = p1.startsWith('/') ? p1.substring(1) : p1;
-          return `url("${basePath}${cleanPath}")`;
+          // Ensure path has the base path
+          return `url("${ensureBasePath(p1)}")`;
         })
-        // Fix any remaining absolute paths that don't include the base
-        .replace(/(href|src)="\/([^/][^"]*\.(js|css|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot))(?="|\?|#)/g, `$1="${basePath}$2"`);
+        // Handle link[rel="modulepreload"]
+        .replace(/(<link[^>]+rel=["']modulepreload["'][^>]+href=["'])([^"']+)(["'])/g, 
+          `$1${ensureBasePath('$2')}$3`)
+        // Handle script src attributes
+        .replace(/(<script[^>]+src=["'])([^"']+)(["'])/g, 
+          `$1${ensureBasePath('$2')}$3`)
+        // Handle link[rel="stylesheet"]
+        .replace(/(<link[^>]+rel=["']stylesheet["'][^>]+href=["'])([^"']+)(["'])/g, 
+          `$1${ensureBasePath('$2')}$3`);
       
       // Ensure service worker is registered with correct scope
       content = content.replace(

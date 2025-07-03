@@ -29,6 +29,10 @@ const baseUrl = base.endsWith('/') ? base : `${base}/`;
 process.env.VITE_BASE_URL = baseUrl;
 process.env.BASE_URL = baseUrl;
 
+// Ensure Vite knows to use this base URL for all assets
+process.env.VITE_BASE_URL = baseUrl;
+process.env.BASE_URL = baseUrl;
+
 export default defineConfig({
   base: base,
   resolve: {

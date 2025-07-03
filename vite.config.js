@@ -10,11 +10,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Load environment variables
 const isGitHubPages = process.env.GITHUB_PAGES === 'true';
 
-// Ensure base URL ends with a slash
-const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
+// Ensure base URL is correctly formatted
+const base = isGitHubPages ? '/Sahil-Portfolio' : '/';
+
+// Ensure base URL ends with a single slash for internal use
+const baseUrl = base.endsWith('/') ? base : `${base}/`;
 
 export default defineConfig({
-  base: base,
+  base: baseUrl,
   publicDir: 'public',
   
   build: {
@@ -25,6 +28,8 @@ export default defineConfig({
     minify: 'esbuild',
     assetsInlineLimit: 4096, // 4kb - inline smaller assets as base64
     manifest: true, // Generate manifest.json
+    // Ensure assets are copied to the correct location
+    assetsInclude: ['**/*.avif', '**/*.webp', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
     rollupOptions: {
       input: path.resolve(__dirname, 'index.html'),
       output: {

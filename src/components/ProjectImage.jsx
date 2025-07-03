@@ -48,24 +48,22 @@ const ProjectImage = ({
   useEffect(() => {
     if (projectId && imageName) {
       try {
-        const basePath = import.meta.env.BASE_URL || '/';
+        const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, ''); // Remove trailing slashes
         const cleanImageName = imageName.trim().replace(/^[\/\\]+|[\.\/\\]+$/g, '');
         
         // Special handling for profile images
         if (projectId === 'profile') {
-          const path = `${basePath}images/${cleanImageName}`.replace(/([^:])\/+/g, '$1/');
-          setImagePath(path.endsWith('.avif') || path.endsWith('.webp') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg')
-            ? path
-            : `${path}.avif`
-          );
+          const path = [basePath, 'images', cleanImageName].filter(Boolean).join('/');
+          // Check if the path already has an image extension
+          const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
+          setImagePath(hasExtension ? path : `${path}.avif`);
         } else {
           // For project images
           const projectFolder = projectFolders[projectId] || projectId;
-          const path = `${basePath}images/projects/${projectFolder}/${cleanImageName}`.replace(/([^:])\/+/g, '$1/');
-          setImagePath(path.endsWith('.avif') || path.endsWith('.webp') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.jpeg')
-            ? path
-            : `${path}.avif`
-          );
+          const path = [basePath, 'images', 'projects', projectFolder, cleanImageName].filter(Boolean).join('/');
+          // Check if the path already has an image extension
+          const hasExtension = /\.(avif|webp|png|jpg|jpeg|gif|svg)$/i.test(cleanImageName);
+          setImagePath(hasExtension ? path : `${path}.avif`);
         }
       } catch (error) {
         console.error('Error constructing image path:', error);

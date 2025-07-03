@@ -215,6 +215,15 @@ export default defineConfig({
         }
       },
     },
+    react({
+      jsxImportSource: 'react',
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: [],
+      },
+    }),
+    basePathPlugin(),
+    htmlAssetsPlugin(),
     {
       name: 'copy-service-worker',
       apply: 'build',
@@ -231,19 +240,6 @@ export default defineConfig({
           console.warn('Warning: service-worker.js not found in public directory');
         }
       },
-    },
-    react({
-      jsxImportSource: 'react',
-      jsxRuntime: 'automatic',
-      babel: {
-        plugins: [],
-      },
-    }),
-    basePathPlugin(),
-    htmlAssetsPlugin(),
-    {
-      name: 'copy-service-worker',
-      apply: 'build',
       generateBundle() {
         this.emitFile({
           type: 'asset',

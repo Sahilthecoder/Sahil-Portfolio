@@ -225,46 +225,50 @@
         const pathSegments = window.location.pathname.split('/').filter(Boolean);
         return pathSegments.length > 0 ? `/${pathSegments[0]}/` : '/';
       };
-      const basePath = getBasePath();
-      const swPath = `${basePath.replace(/\/$/, '')}/service-worker.js`; // Ensure no double slashes
       
-      // Only register in production
-      if (window.location.hostname !== 'localhost' && !window.location.hostname.startsWith('127.0.0.1')) {
-        window.addEventListener('load', async () => {
-          try {
-            console.log('Registering service worker at:', swPath);
-            
-            // Unregister any existing service workers first
-            const registrations = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(registrations.map(registration => registration.unregister()));
-            
-            // Register the service worker with the correct scope
-            const registration = await navigator.serviceWorker.register(swPath, { 
-              scope: basePath 
-            });
-            
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            
-            // Check for updates
-            registration.update().then(() => {
-              console.log('ServiceWorker update check complete');
-            }).catch(updateError => {
-              console.warn('ServiceWorker update check failed:', updateError);
-            });
-          } catch (error) {
-            console.error('ServiceWorker registration failed: ', error);
-          }
-        });
-      }
+      const basePath = getBasePath();
+      // Always use root-relative path for service worker
+      const swPath = '/service-worker.js';
+      
+      if ('serviceWorker' in navigator) {
         // In development, unregister any existing service workers
-        if ('serviceWorker' in navigator) {
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
           navigator.serviceWorker.getRegistrations().then(registrations => {
             for (const registration of registrations) {
               registration.unregister();
               console.log('ServiceWorker unregistered in development:', registration.scope);
             }
           });
+        } 
+        // In production, register the service worker
+        else {
+          window.addEventListener('load', async () => {
+            try {
+              console.log('Registering service worker at:', swPath);
+              
+              // Unregister any existing service workers first
+              const registrations = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(registrations.map(registration => registration.unregister()));
+              
+              // Register the service worker with the correct scope
+              const registration = await navigator.serviceWorker.register(swPath, { 
+                scope: basePath 
+              });
+              
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+              
+              // Check for updates
+              registration.update().then(() => {
+                console.log('ServiceWorker update check complete');
+              }).catch(updateError => {
+                console.warn('ServiceWorker update check failed:', updateError);
+              });
+            } catch (error) {
+              console.error('ServiceWorker registration failed: ', error);
+            }
+          });
         }
+      }
     </script>
   </body>
 </html>

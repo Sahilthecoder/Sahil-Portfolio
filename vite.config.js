@@ -33,11 +33,18 @@ export default defineConfig({
     },
   },
   define: {
-    'process.env': JSON.stringify({}),
+    'import.meta.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL || '/Sahil-Portfolio/'),
     'process.platform': '"browser"',
+    'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'production'}"`,
     'process.versions.node': '"18.0.0"',
     'process.version': '"v18.0.0"',
     global: 'window',
+  },
+  esbuild: {
+    jsx: 'automatic',
+    loader: 'jsx',
+    include: /src\/.*\.jsx?$/,
+    exclude: [],
   },
   build: {
     outDir: 'dist',

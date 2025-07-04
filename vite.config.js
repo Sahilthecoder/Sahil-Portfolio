@@ -226,22 +226,25 @@ export default defineConfig({
       writeBundle() {
         const fs = require('fs');
         const path = require('path');
-        const source = path.resolve(__dirname, 'public/service-worker.js');
-        const dest = path.resolve(__dirname, 'dist/service-worker.js');
+        const source = path.resolve(__dirname, 'public/sw.js');
+        const dest = path.resolve(__dirname, 'dist/sw.js');
         
         if (fs.existsSync(source)) {
           fs.copyFileSync(source, dest);
-          console.log('Copied service-worker.js to dist directory');
+          console.log('Copied sw.js to dist directory');
         } else {
-          console.warn('Warning: service-worker.js not found in public directory');
+          console.warn('Warning: sw.js not found in public directory');
         }
       },
       generateBundle() {
-        this.emitFile({
-          type: 'asset',
-          fileName: 'service-worker.js',
-          source: fs.readFileSync(path.resolve(__dirname, 'public/service-worker.js'), 'utf-8')
-        });
+        const swPath = path.resolve(__dirname, 'public/sw.js');
+        if (fs.existsSync(swPath)) {
+          this.emitFile({
+            type: 'asset',
+            fileName: 'sw.js',
+            source: fs.readFileSync(swPath, 'utf-8')
+          });
+        }
       }
     },
   ],

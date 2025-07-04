@@ -55,6 +55,12 @@ jobs:
           echo -e "\nVite version:"
           npx vite --version
       
+      - name: Create service worker symlink
+        run: |
+          echo "Creating symbolic link from service-worker.js to sw.js"
+          ln -sf sw.js public/service-worker.js
+          ls -la public/
+          
       - name: Build
         run: |
           set -e

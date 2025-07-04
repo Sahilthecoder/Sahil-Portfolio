@@ -2,12 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock, FiExternalLink } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
-import getImagePath from '../utils/imagePaths';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
-import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
-import HeroSection from '../components/HeroSection/HeroSection';
 import { projects } from '../data/projects';
 import '../components/HeroSection/HeroSection.css';
 
@@ -70,7 +67,8 @@ const Home = () => {
       link: '/contact', 
       showArrow: true 
     },
-    isHome: true
+    isHome: true,
+    profileImage: '/images/profile.avif'
   };
 
   // Featured projects to display in the Home page
@@ -319,12 +317,15 @@ const Home = () => {
                 <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70 animate-pulse"></div>
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
-                    <ImageWithFallback 
-                      src={getImagePath('profile')}
+                    <img
+                      src={heroContent.profileImage}
                       alt="Sahil Ali - Full Stack Developer"
                       className="w-full h-full object-cover object-top"
-                      fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/placeholder-profile.jpg';
+                      }}
                     />
                   </div>
                 </div>
@@ -522,10 +523,13 @@ const Home = () => {
                 <div className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                   <div className="relative h-48 overflow-hidden">
                     <img
-                      src={project.image}
+                      src={`/images/projects/${project.id}/${project.image}`}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => handleImageError(e, '/images/fallback-image.jpg')}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/fallback-image.jpg';
+                      }}
                       loading="lazy"
                     />
                   </div>

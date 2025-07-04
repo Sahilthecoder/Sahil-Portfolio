@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ImageWithFallback } from '../utils/imageUtils.jsx';
-import getImagePath from '../utils/imagePaths';
-
 // Base URL for images
-const baseUrl = getImagePath('https://sahilthecoder.github.io/Sahil-Portfolio');
+const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
 import { 
   FaBriefcase, 
   FaGraduationCap, 
@@ -45,7 +42,6 @@ import {
 } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import { FiArrowRight } from 'react-icons/fi';
-import HeroSection from '../components/HeroSection/HeroSection';
 import '../components/HeroSection/HeroSection.css';
 
 const Experience = () => {
@@ -663,12 +659,15 @@ const Experience = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
-                <ImageWithFallback
-                  src={getImagePath('profile')}
+                <img
+                  src="/images/profile.avif"
                   alt="Sahil Ali - Full Stack Developer"
                   className="w-full h-full object-cover object-top"
-                  fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/placeholder-profile.jpg';
+                  }}
                 />
               </div>
               {/* Decorative elements */}

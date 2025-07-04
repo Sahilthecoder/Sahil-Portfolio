@@ -8,7 +8,8 @@
 const getImagePath = (type, id, imageName) => {
   // In development, use relative paths. In production, use absolute paths with base URL
   const isProduction = import.meta.env.PROD;
-  const BASE_PATH = isProduction ? (import.meta.env.BASE_URL || '/') : '/';
+  // Always use /Sahil-Portfolio/ as the base path in production
+  const BASE_PATH = isProduction ? '/Sahil-Portfolio/' : '/';
   
   // Remove any leading/trailing slashes from BASE_PATH
   const cleanBasePath = BASE_PATH.replace(/^\/+|\/+$/g, '');
@@ -28,11 +29,20 @@ const getImagePath = (type, id, imageName) => {
       return `${imagesBase}projects/${id}/${cleanImageName}`;
       
     case 'profile':
-      if (imageName) {
-        const cleanProfileImage = imageName.split('?')[0];
-        return `${imagesBase}profile/${cleanProfileImage}`;
-      }
-      return `${imagesBase}profile/profile.avif`;
+      // Use the profile.avif from the root images directory
+      return `${base}images/profile.avif`;
+      
+    case 'logo':
+      // Use logo192.png from the root images directory
+      return `${base}images/logo192.png`;
+      
+    case 'favicon':
+      // Use favicon-16x16.png from the root images directory
+      return `${base}images/favicon-16x16.png`;
+      
+    case 'apple-touch-icon':
+      // Use logo192.png as apple-touch-icon
+      return `${base}images/logo192.png`;
         
     case 'fallback':
       return `${imagesBase}fallback-image.jpg`;

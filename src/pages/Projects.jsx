@@ -501,8 +501,8 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    image: 'Project1 Cover.avif',
-    previewImage: 'zometo-ds.avif',
+    image: getProjectImage('zomato-analysis', 'Project1 Cover.avif'),
+    previewImage: getProjectImage('zomato-analysis', 'zometo-ds.avif'),
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -513,9 +513,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     gallery: [
-      'zometo-ds.avif',
-      'zt1.avif',
-      'zt2.avif'
+      getProjectImage('zomato-analysis', 'zometo-ds.avif'),
+      getProjectImage('zomato-analysis', 'zt1.avif'),
+      getProjectImage('zomato-analysis', 'zt2.avif')
     ]
   },
   {
@@ -527,8 +527,8 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    image: 'Project2 Cover.avif',
-    previewImage: 'Project2 Cover.avif',
+    image: getProjectImage('bansal-supermarket', 'Project2 Cover.avif'),
+    previewImage: getProjectImage('bansal-supermarket', 'Project2 Cover.avif'),
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -539,9 +539,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     gallery: [
-      'bs2.avif',
-      'bs3.avif',
-      'bs-top10.avif'
+      getProjectImage('bansal-supermarket', 'bs2.avif'),
+      getProjectImage('bansal-supermarket', 'bs3.avif'),
+      getProjectImage('bansal-supermarket', 'bs-top10.avif')
     ]
   },
   {
@@ -553,8 +553,8 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    image: 'Project4 Cover.avif',
-    previewImage: 'Project4 Cover.avif',
+    image: getProjectImage('retail-cash-flow', 'Project4 Cover.avif'),
+    previewImage: getProjectImage('retail-cash-flow', 'Project4 Cover.avif'),
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -565,8 +565,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     gallery: [
-      'CashFlow1.avif',
-      'CashFlow2.avif'
+      getProjectImage('retail-cash-flow', 'Store_POWERBI1.avif'),
+      getProjectImage('retail-cash-flow', 'CashFlow1.avif'),
+      getProjectImage('retail-cash-flow', 'CashFlow2.avif')
     ]
   },
   {
@@ -578,8 +579,8 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    image: 'Project3 Cover.avif',
-    previewImage: 'Project3 Cover.avif',
+    image: getProjectImage('ekam', 'Project3 Cover.avif'),
+    previewImage: getProjectImage('ekam', 'Project3 Cover.avif'),
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -590,8 +591,8 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     gallery: [
-      'Attendance_before.avif',
-      'Attendance_after.avif'
+      getProjectImage('ekam', 'ekam-db.avif'),
+      getProjectImage('ekam', 'ekam-sql.avif')
     ]
   },
   {
@@ -603,8 +604,8 @@ const projects = [
     tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
     path: '/projects/product-sales',
-    image: 'Project5 Cover.avif',
-    previewImage: 'Project5 Cover.avif',
+    image: getProjectImage('ai-planner', 'Project5 Cover.avif'),
+    previewImage: getProjectImage('ai-planner', 'Project5 Cover.avif'),
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -615,9 +616,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     gallery: [
-      'Project5 Cover.avif',
-      'Project5 Cover.avif',
-      'Project5 Cover.avif'
+      getProjectImage('ai-planner', 'Project5-1.avif'),
+      getProjectImage('ai-planner', 'Project5-2.avif'),
+      getProjectImage('ai-planner', 'Project5-3.avif')
     ]
   },
   {
@@ -629,8 +630,8 @@ const projects = [
     tags: ['AI/ML Showcase', 'Data Visualization', 'Interactive Demos', 'Technical Portfolio'],
     techStack: ['React', 'D3.js', 'Python', 'TensorFlow.js', 'Next.js'],
     path: '/projects/mahira-portfolio',
-    image: 'Project7 Cover.avif',
-    previewImage: 'Project7 Cover.avif',
+    image: getProjectImage('mahira-portfolio', 'Project7 Cover.avif'),
+    previewImage: getProjectImage('mahira-portfolio', 'Project7 Cover.avif'),
     category: 'Web Development',
     impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
     featured: true,
@@ -641,9 +642,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
     gallery: [
-      'Project7-1.avif',
-      'Project7-2.avif',
-      'Project7-3.avif'
+      getProjectImage('mahira-portfolio', 'Project7-1.avif'),
+      getProjectImage('mahira-portfolio', 'Project7-2.avif'),
+      getProjectImage('mahira-portfolio', 'Project7-3.avif')
     ]
   }
 ];

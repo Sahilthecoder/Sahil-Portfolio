@@ -110,29 +110,25 @@ jobs:
           # Handle service worker symlink in dist directory
           if [ -f "public/sw.js" ]; then
             echo -e "\n=== Setting up service worker symlink in dist/ ==="
-            echo "Current working directory: $(pwd)"
             
             # Ensure dist directory exists
             mkdir -p dist
             
             # Remove any existing service worker file or symlink
-            echo "Removing any existing service-worker.js in dist/..."
-            (cd dist && rm -f service-worker.js 2>/dev/null || true)
+            echo "Removing any existing service-worker.js..."
+            rm -f dist/service-worker.js 2>/dev/null || true
             
-            # Create the symlink with full path to be explicit
-            echo "Creating symlink from $(pwd)/public/sw.js to $(pwd)/dist/service-worker.js"
-            ln -sf "$(pwd)/public/sw.js" "$(pwd)/dist/service-worker.js"
+            # Create the symlink using relative paths
+            echo "Creating symlink from public/sw.js to dist/service-worker.js"
+            ln -s ../public/sw.js dist/service-worker.js
             
-            # Verify the symlink was created
-            echo -e "\nSymlink details:"
-            ls -la "$(pwd)/dist/service-worker.js" || echo "Failed to create symlink"
-            
-            # Additional verification
+            # Verify the symlink
             if [ -L "dist/service-worker.js" ]; then
               echo "✓ Successfully created service worker symlink"
               echo "Symlink points to: $(readlink -f dist/service-worker.js)"
             else
               echo "✗ Failed to create service worker symlink"
+              ls -la dist/ || true
               exit 1
             fi
           else

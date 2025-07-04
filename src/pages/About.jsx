@@ -34,6 +34,7 @@ import {
   FaUserFriends,
   FaTruck
 } from 'react-icons/fa';
+import { FiArrowRight } from 'react-icons/fi';
 import { FaMicrosoft } from 'react-icons/fa';
 import { SiTensorflow, SiPython, SiReact, SiJavascript } from 'react-icons/si';
 import '../components/HeroSection/HeroSection.css';

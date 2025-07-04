@@ -73,11 +73,15 @@ jobs:
           # Create service-worker.js symlink in public directory
           echo -e "\n=== Creating service-worker.js symlink in public/ ==="
           cd public
+          
+          # Remove existing service-worker.js if it exists (file or symlink)
           if [ -e "service-worker.js" ] || [ -L "service-worker.js" ]; then
             echo "Removing existing service-worker.js"
             rm -f service-worker.js
           fi
-          ln -s sw.js service-worker.js
+          
+          # Create the symlink
+          ln -sf sw.js service-worker.js
           
           # Verify the symlink
           echo -e "\n=== Verifying symlink ==="
@@ -87,16 +91,19 @@ jobs:
           echo -e "\n=== Final Public Directory Structure ==="
           ls -la
           
-          # Go back to root directory
+          # Clean up any existing service worker in dist directory
+          echo -e "\n=== Cleaning up dist directory ==="
           cd ..
+          rm -f dist/service-worker.js 2>/dev/null || true
           
       - name: Build
         run: |
           set -e
           echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
           
-          # Clean up any existing service worker files
-          echo "Cleaning up any existing service worker files..."
+          # Ensure dist directory exists and clean up any existing service worker files
+          echo "Preparing dist directory..."
+          mkdir -p dist
           rm -f dist/service-worker.js 2>/dev/null || true
           
           # Run the build

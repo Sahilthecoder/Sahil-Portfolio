@@ -57,6 +57,25 @@ export default defineConfig({
           react: ['react', 'react-dom', 'react-router-dom'],
           vendor: ['framer-motion', 'react-icons'],
         },
+        assetFileNames: (assetInfo) => {
+          // Keep the original file extension
+          const info = assetInfo.name.split('.');
+          let ext = info[info.length - 1];
+          
+          // Handle different file types
+          if (ext === 'css') {
+            return 'assets/css/[name]-[hash][extname]';
+          } else if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'].includes(ext)) {
+            return 'assets/images/[name]-[hash][extname]';
+          } else if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
+            return 'assets/fonts/[name]-[hash][extname]';
+          }
+          
+          // Default path for other assets
+          return 'assets/[name]-[hash][extname]';
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
       },
     },
   },

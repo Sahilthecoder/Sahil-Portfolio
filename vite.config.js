@@ -76,10 +76,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Set base URL based on environment
 let base = '/';
 
-// Always use '/Sahil-Portfolio/' as the base path in production
+// For GitHub Pages, always use the repository name as base path with trailing slash
 if (isGitHubPages || process.env.GITHUB_ACTIONS || process.env.NODE_ENV === 'production') {
   base = '/Sahil-Portfolio/';
-  console.log('Using base URL for production:', base);
+  console.log('Using base URL for GitHub Pages:', base);
 } else {
   base = '/';
   console.log('Using base URL for development:', base);

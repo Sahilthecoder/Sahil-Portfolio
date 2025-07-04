@@ -96,7 +96,7 @@ const ProjectImage = ({
               onError={() => setIsLoading(false)}
               loading={priority ? 'eager' : 'lazy'}
               decoding="async"
-              fallbackSrc="/images/fallback-image.jpg"
+              fallbackSrc="/Sahil-Portfolio/images/fallback-image.jpg"
             />
             
             {/* Hover overlay */}

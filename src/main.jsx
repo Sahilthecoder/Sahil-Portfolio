@@ -7,7 +7,6 @@ import './reset.css'; // CSS reset
 import './App.css';
 import './styles/globals.css';
 import ClientOnly from './components/ClientOnly';
-import { AIAssistantProvider } from './context/AIAssistantContext';
 import { ThemeProvider } from './context/ThemeContext';
 import baseUrl from './config/baseUrl';
 
@@ -93,9 +92,7 @@ if (container) {
           <ThemeProvider>
             <HelmetProvider>
               <BrowserRouter basename={baseUrl.replace(/\/$/, '')}>
-                <AIAssistantProvider>
-                  <App />
-                </AIAssistantProvider>
+                <App />
               </BrowserRouter>
             </HelmetProvider>
           </ThemeProvider>

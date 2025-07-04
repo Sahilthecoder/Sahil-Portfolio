@@ -2,6 +2,8 @@
  * Utility functions for handling image paths in the application
  */
 
+import { useState, useEffect, useRef, useCallback } from 'react';
+
 /**
  * Gets the correct image path based on the environment
  * @param {string} path - The image path (can be relative or absolute)
@@ -33,98 +35,22 @@ const getImagePath = (path) => {
   return `${cleanBase}${finalPath}`.replace(/([^:]\/)\/+/g, '$1');
 };
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-
-// Import the optimized image manifest (use empty object if not available)
-let optimizedImages = {};
-let isImagesLoaded = false;
-
-async function loadOptimizedImages() {
-  if (isImagesLoaded) return optimizedImages;
-  
-  try {
-    optimizedImages = import.meta.env.DEV 
-      ? {}
-      : (await import('../../public/optimized/manifest.json')).default || {};
-  } catch (error) {
-    console.warn('Could not load optimized image manifest. Using fallback image paths.');
-    optimizedImages = {};
-  }
-  
-  isImagesLoaded = true;
-  return optimizedImages;
-}
-
-// Start loading images immediately
-loadOptimizedImages();
-
 /**
- * Gets the optimized image path with responsive variants
- * @param {string} src - Original image path
- * @param {Object} options - Options for responsive images
- * @returns {Object} Object containing srcSet and sizes attributes
+ * Simple wrapper for getImagePath to maintain compatibility
+ * @param {string} src - Image source path
+ * @param {Object} options - Options object (ignored in this implementation)
+ * @returns {Object} Object with src and empty srcSet and sizes
  */
-const getOptimizedImage = (src, { maxWidth = 1920, sizes } = {}) => {
-  // Ensure sizes is an array
-  const safeSizes = Array.isArray(sizes) ? sizes : [];
-  if (!src) return { src: '', srcSet: '', sizes: '' };
-  
-  // Skip if it's an external URL or data URI
-  if (src.startsWith('http') || src.startsWith('data:')) {
-    return { src, srcSet: '', sizes: safeSizes.join(', ') };
-  }
-
-  // In development, just return the original source with the correct path
-  if (import.meta.env.DEV || !Object.keys(optimizedImages).length) {
-    return { 
-      src: getImagePath(src),
-      srcSet: '',
-      sizes: safeSizes.join(', ')
-    };
-  }
-
-  // Get the base path without query parameters or hashes
-  const cleanSrc = src.split('?')[0].split('#')[0];
-  const imageName = cleanSrc.split('/').pop().split('.')[0];
-  
-  // Check if the image exists in the optimized manifest
-  const optimizedVersions = optimizedImages.images?.find(img => 
-    img.original.includes(imageName)
-  );
-  
-  if (!optimizedVersions) {
-    return { 
-      src: getImagePath(src),
-      srcSet: '',
-      sizes: safeSizes.join(', ')
-    };
-  }
-
-  // In production, try to use the optimized versions
-  try {
-    // Generate srcSet for responsive images if available
-    const srcSet = optimizedVersions.sources
-      ?.map(source => `${getImagePath(source.src)} ${source.width}w`)
-      .filter(Boolean)
-      .join(', ');
-
-    return {
-      src: getImagePath(optimizedVersions.optimized || src),
-      srcSet: srcSet || '',
-      sizes: safeSizes.length ? safeSizes.join(', ') : '(max-width: 1920px) 100vw, 1920px'
-    };
-  } catch (error) {
-    console.warn('Error generating optimized image:', error);
-    return { 
-      src: getImagePath(src),
-      srcSet: '',
-      sizes: safeSizes.join(', ')
-    };
-  }
+const getOptimizedImage = (src, options = {}) => {
+  return {
+    src: getImagePath(src),
+    srcSet: '',
+    sizes: ''
+  };
 };
 
 /**
- * Creates an image with error handling, lazy loading, and responsive support
+ * Creates an image with error handling and lazy loading
  * @param {string} src - The image source path
  * @param {string} alt - Alternative text for the image (required for accessibility)
  * @param {string} className - CSS class names
@@ -133,10 +59,9 @@ const getOptimizedImage = (src, { maxWidth = 1920, sizes } = {}) => {
  * @param {string} decoding - Decoding hint ('async'|'sync'|'auto')
  * @param {number} width - Image width in pixels (for layout stability)
  * @param {number} height - Image height in pixels (for layout stability)
- * @param {Array} sizes - Array of size definitions for responsive images
  * @param {boolean} priority - Whether to prioritize loading (sets loading=eager and fetchpriority=high)
  * @param {Object} rest - Additional props to pass to the img element
- * @returns {JSX.Element} Image component with error handling and optimizations
+ * @returns {JSX.Element} Image component with error handling
  */
 const ImageWithFallback = ({
   src,
@@ -147,126 +72,148 @@ const ImageWithFallback = ({
   decoding = 'async',
   width,
   height,
-  sizes = [],
   priority = false,
   ...rest
 }) => {
-  const [imgSrc, setImgSrc] = useState('');
+  const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  // Process the image source
-  const processedSrc = useMemo(() => {
-    if (!src) return '';
-    // If src is already a full URL or data URI, use it as is
-    if (src.startsWith('http') || src.startsWith('data:')) {
-      return src;
-    }
-    // Otherwise, process it with getImagePath
-    return getImagePath(src);
-  }, [src]);
-  
-  // Process the fallback source
-  const processedFallback = useMemo(() => {
-    if (!fallbackSrc) return '';
-    // If fallbackSrc is already a full URL or data URI, use it as is
-    if (fallbackSrc.startsWith('http') || fallbackSrc.startsWith('data:')) {
-      return fallbackSrc;
-    }
-    // Otherwise, process it with getImagePath
-    return getImagePath(fallbackSrc);
-  }, [fallbackSrc]);
-  
-  // Handle image loading errors
-  const handleError = useCallback((e) => {
-    console.warn(`Failed to load image: ${processedSrc}`);
-    setError('Failed to load image');
-    if (processedFallback && processedFallback !== processedSrc) {
-      setImgSrc(processedFallback);
-      // Reset error state when fallback is set
-      setError(null);
-    } else {
-      // If no fallback, set a default image
-      setImgSrc('/images/fallback-image.jpg');
-    }
-    setIsLoading(false);
-  }, [processedSrc, processedFallback]);
-  
-  // Handle successful image load
+  const [isInView, setIsInView] = useState(false);
+  const imageRef = useRef(null);
+
+  // Handle image loading state
   const handleLoad = useCallback(() => {
     setIsLoading(false);
-    setError(null);
   }, []);
-  
-  // Reset loading state when src changes
+
+  // Handle image errors
+  const handleError = useCallback(() => {
+    console.error(`Failed to load image: ${src}`);
+    setHasError(true);
+    setIsLoading(false);
+  }, [src]);
+
+  // Set up intersection observer for lazy loading
   useEffect(() => {
-    if (processedSrc) {
-      setImgSrc(processedSrc);
-      setIsLoading(true);
-      setError(null);
-    } else if (processedFallback) {
-      setImgSrc(processedFallback);
-      setIsLoading(true);
+    if (!imageRef.current || loading === 'eager') {
+      setIsInView(true);
+      return;
     }
-  }, [processedSrc, processedFallback]);
-  
-  // If no source is provided, return null
-  if (!src && !fallbackSrc) {
-    console.warn('ImageWithFallback: No image source provided');
-    return null;
-  }
-  
-  // If we have an error and no fallback, return a placeholder
-  if (error && !processedFallback) {
-    return (
-      <div 
-        className={`image-placeholder ${className}`}
-        style={{
-          width: width ? `${width}px` : '100%',
-          height: height ? `${height}px` : '200px',
-          backgroundColor: '#f0f0f0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#666',
-          ...(rest.style || {})
-        }}
-        aria-hidden={!alt}
-      >
-        {alt || 'Image not available'}
-      </div>
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      {
+        root: null,
+        rootMargin: '200px',
+        threshold: 0.01
+      }
     );
-  }
-  
-  // Get responsive image attributes if sizes are provided
-  const responsiveAttrs = sizes.length > 0 
-    ? getOptimizedImage(processedSrc || processedFallback, { sizes })
-    : {};
-  
-  // If we have no source to display, return null
-  if (!imgSrc) {
-    return null;
-  }
-  
+
+    observer.observe(imageRef.current);
+    return () => observer.disconnect();
+  }, [loading]);
+
+  // Get the image URL
+  const imageUrl = hasError 
+    ? getImagePath(fallbackSrc) 
+    : getImagePath(src);
+
+  // Calculate aspect ratio for placeholder
+  const aspectRatio = width && height ? (height / width) * 100 : 0;
+  const paddingBottom = aspectRatio ? `${aspectRatio}%` : '0';
+
   return (
-    <img
-      src={imgSrc}
-      alt={alt}
-      className={`${className} ${isLoading ? 'loading' : ''}`}
-      loading={priority ? 'eager' : loading}
-      decoding={decoding}
-      width={width}
-      height={height}
-      onError={handleError}
-      onLoad={handleLoad}
+    <div 
+      ref={imageRef}
+      className={`image-container ${className}`}
       style={{
-        opacity: isLoading ? 0 : 1,
-        transition: 'opacity 0.3s ease-in-out',
-        ...(rest.style || {})
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: isLoading ? '#f5f5f5' : 'transparent',
+        ...(width && { width: `${width}px` }),
+        ...(height && { height: `${height}px` })
       }}
-      {...responsiveAttrs}
-      {...rest}
-    />
+    >
+      {/* Placeholder with aspect ratio */}
+      {isLoading && aspectRatio > 0 && (
+        <div 
+          style={{
+            paddingBottom,
+            backgroundColor: '#f5f5f5',
+            transition: 'opacity 0.3s ease-in-out',
+            opacity: isLoading ? 1 : 0
+          }}
+        />
+      )}
+      
+      {/* Actual image - only render when in view or eager loading */}
+      {(isInView || loading === 'eager') && (
+        <img
+          src={imageUrl}
+          alt={alt}
+          className={`image-content ${isLoading ? 'image-loading' : 'image-loaded'}`}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: isLoading ? 0 : 1,
+            transition: 'opacity 0.3s ease-in-out',
+            ...(priority && { fetchPriority: 'high' })
+          }}
+          loading={loading}
+          decoding={decoding}
+          onError={handleError}
+          onLoad={handleLoad}
+          {...rest}
+        />
+      )}
+      
+      {/* Loading indicator */}
+      {isLoading && (
+        <div 
+          className="image-loading-indicator"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: '#999',
+            fontSize: '0.8rem'
+          }}
+        >
+          Loading...
+        </div>
+      )}
+      
+      {/* Fallback for failed images */}
+      {hasError && (
+        <div 
+          className="image-fallback"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#f0f0f0',
+            color: '#666',
+            fontSize: '0.8rem'
+          }}
+        >
+          {alt || 'Image not available'}
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -26,17 +26,39 @@ export default defineConfig({
     serviceWorker()
   ],
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: true,
+    minify: 'terser',
+    // Ensure static assets are copied as-is
+    assetsInlineLimit: 0,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
         sw: path.resolve(__dirname, 'src/sw.js')
       },
       output: {
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          let ext = info[info.length - 1];
+          if (ext === 'css') {
+            return 'assets/css/[name]-[hash][extname]';
+          }
+          if (['png', 'jpe?g', 'jpe', 'webp', 'svg', 'gif'].includes(ext)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
+            return 'assets/fonts/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: (chunkInfo) => {
           return chunkInfo.name === 'sw' ? '[name].js' : 'assets/js/[name]-[hash].js';
-        }
-      }
-    }
+        },
+      },
+    },
+    copyPublicDir: true,
   },
   server: {
     port: 3000,
@@ -60,47 +82,6 @@ export default defineConfig({
     loader: 'tsx',
     include: /src\/.*\.(jsx|tsx)?$/,
     exclude: [],
-  },
-  build: {
-    outDir: 'dist',
-    assetsDir: 'assets',
-    sourcemap: true,
-    minify: 'terser',
-    // Ensure static assets are copied as-is
-    assetsInlineLimit: 0,
-    // Copy public directory to dist
-    copyPublicDir: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['framer-motion', 'react-icons'],
-        },
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          const ext = info[info.length - 1].toLowerCase();
-          
-          // Handle different file types
-          if (ext === 'css') {
-            return 'assets/css/[name]-[hash][extname]';
-          } 
-          if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico'].includes(ext)) {
-            return 'assets/images/[name]-[hash][extname]';
-          } 
-          if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
-            return 'assets/fonts/[name]-[hash][extname]';
-          }
-          if (ext === 'js' || ext === 'jsx' || ext === 'ts' || ext === 'tsx') {
-            return 'assets/js/[name]-[hash][extname]';
-          }
-          
-          // Default path for other assets
-          return 'assets/[name]-[hash][extname]';
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-      },
-    },
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],

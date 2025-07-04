@@ -1,9 +1,9 @@
 # Sahil's Portfolio
 [![GitHub stars](https://img.shields.io/github/stars/Sahilthecoder/Sahil-Portfolio?style=social)](https://github.com/Sahilthecoder/Sahil-Portfolio/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Sahilthecoder/Sahil-Portfolio)](https://github.com/Sahilthecoder/Sahil-Portfolio/blob/main/LICENSE)
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fsahil-ali.vercel.app)](https://sahil-ali.vercel.app)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fsahilthecoder.github.io%2FSahil-Portfolio%2F)](https://sahilthecoder.github.io/Sahil-Portfolio/)
 
-A modern, responsive, and performant portfolio website built with React, TypeScript, Vite, and Tailwind CSS.
+A modern, responsive, and performant portfolio website built with React, TypeScript, Vite, and Tailwind CSS. Showcase your projects, skills, and experience with a clean, accessible design.
 
 🔗 **Live Demo**: [sahil-ali.vercel.app](https://sahil-ali.vercel.app)  
 📂 **Source Code**: [github.com/Sahilthecoder/Sahil-Portfolio](https://github.com/Sahilthecoder/Sahil-Portfolio)
@@ -19,7 +19,7 @@ A modern, responsive, and performant portfolio website built with React, TypeScr
 - 🔍 SEO optimized
 - 🧪 Comprehensive test coverage with Jest and React Testing Library
 - 🛠️ Developer experience with ESLint, Prettier, and Husky
-- 🤖 AI Assistant with voice input and file uploads
+- 🎨 Modern UI/UX with smooth animations
 
 ## 🛠️ Tech Stack
 
@@ -32,8 +32,7 @@ A modern, responsive, and performant portfolio website built with React, TypeScr
 - **3D Graphics**: [Three.js](https://threejs.org/) with [React Three Fiber](https://docs.pmnd.rs/react-three-fiber/getting-started/introduction)
 - **Form Handling**: [React Hook Form](https://react-hook-form.com/)
 - **Icons**: [React Icons](https://react-icons.github.io/react-icons/)
-- **AI Integration**: [LangChain](https://js.langchain.com/), [OpenAI](https://openai.com/)
-- **Voice Recognition**: Web Speech API
+- **Performance**: Optimized for fast loading and smooth interactions
 - **Testing**: [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/)
 - **Linting**: [ESLint](https://eslint.org/) with [TypeScript](https://www.typescriptlang.org/)
 - **Code Formatting**: [Prettier](https://prettier.io/)

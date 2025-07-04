@@ -94,17 +94,30 @@ jobs:
         run: |
           set -e
           echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
+          
+          # Clean up any existing service worker files
+          echo "Cleaning up any existing service worker files..."
+          rm -f dist/service-worker.js 2>/dev/null || true
+          
+          # Run the build
           VITE_BASE_URL='/Sahil-Portfolio/' npm run build --if-present || (echo "Build failed. Check logs above for error details." && exit 1)
           
-          echo -e "\nBuild completed. Contents of dist directory:"
-          ls -la dist/
-          
-          # Create .nojekyll to bypass Jekyll processing
+          # Create necessary files
+          echo -e "\nCreating deployment files..."
           touch ./dist/.nojekyll
-          # Create _redirects for SPA routing
           echo '/* /index.html 200' > ./dist/_redirects
           
-          echo -e "\nAfter adding deployment files:"
+          # Handle service worker symlink in dist directory
+          if [ -f "public/sw.js" ]; then
+            echo -e "\nSetting up service worker symlink in dist/..."
+            cd dist
+            ln -sf ../public/sw.js service-worker.js
+            echo "Created symlink: $(ls -la service-worker.js)"
+            cd ..
+          fi
+          
+          # Show final dist directory contents
+          echo -e "\nFinal dist directory contents:"
           ls -la dist/
       
       - name: Setup Pages

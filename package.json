@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "vite --config vite.minimal.config.js",
-    "build": "vite build",
-    "preview": "vite preview",
+    "build": "vite build --base=/Sahil-Portfolio/",
+    "preview": "vite preview --base=/Sahil-Portfolio/",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",

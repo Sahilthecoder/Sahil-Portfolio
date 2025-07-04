@@ -71,22 +71,21 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL configuration
 const isProduction = process.env.NODE_ENV === 'production';
-const isGitHubPages = isProduction && process.env.VITE_APP_ENV === 'production';
-
-// Base URL - use root for development, /Sahil-Portfolio/ for production
-const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
+// Always use /Sahil-Portfolio/ as base for production builds
+const base = isProduction ? '/Sahil-Portfolio/' : '/';
 
 console.log('Environment:', isProduction ? 'Production' : 'Development');
 console.log('Using base URL: "' + base + '"');
 
-// Set environment variables for base URL
+// Ensure base URL ends with a slash
 const baseUrl = base.endsWith('/') ? base : `${base}/`;
+
+// Set environment variables for base URL
 process.env.VITE_BASE_URL = baseUrl;
 process.env.BASE_URL = baseUrl;
 
 // Log the base URL for debugging
 console.log(`Using base URL: "${baseUrl}"`);
-console.log(`GitHub Pages: ${isGitHubPages}, Production: ${isProduction}`);
 
 // Create a virtual module to expose the base URL to the client
 const baseUrlModule = `

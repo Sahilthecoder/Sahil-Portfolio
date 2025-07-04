@@ -221,26 +221,34 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
+          // Get the base path from the data attribute or use default
+          const basePath = document.body.getAttribute('data-base-url') || '/';
+          const swPath = `${basePath}service-worker-new.js`;
+          
           // Unregister any existing service workers first
           navigator.serviceWorker.getRegistrations().then(function(registrations) {
             for (const registration of registrations) {
               registration.unregister();
             }
-            // Register new service worker with a clean implementation
-            navigator.serviceWorker.register('/service-worker-new.js', { 
-              scope: '/',
-              updateViaCache: 'none'
-            })
+            
+            // Only register service worker in production
+            if (process.env.NODE_ENV === 'production') {
+              navigator.serviceWorker.register(swPath, { 
+                scope: basePath,
+                updateViaCache: 'none'
+              })
               .then(function(registration) {
                 console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                // Force update
                 return registration.update().then(() => {
                   console.log('ServiceWorker update check complete');
                 });
               })
               .catch(function(error) {
-                console.error('ServiceWorker registration failed: ', error);
+                console.warn('ServiceWorker registration failed (this is expected if the file does not exist):', error);
               });
+            } else {
+              console.log('ServiceWorker registration skipped in development mode');
+            }
           });
         });
       }

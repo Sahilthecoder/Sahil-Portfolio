@@ -74,6 +74,11 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Always use /Sahil-Portfolio/ as base for production builds
 const base = isProduction ? '/Sahil-Portfolio/' : '/';
 
+// Disable service worker in development
+if (process.env.NODE_ENV !== 'production') {
+  process.env.VITE_DISABLE_SW = 'true';
+}
+
 console.log('Environment:', isProduction ? 'Production' : 'Development');
 console.log('Using base URL: "' + base + '"');
 

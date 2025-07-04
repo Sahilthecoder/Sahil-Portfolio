@@ -29,17 +29,17 @@
     
     <!-- Manifest and Icons -->
     <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" crossorigin="use-credentials" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="images/logo192.png" />
+    <link rel="manifest" href="site.webmanifest" crossorigin="use-credentials" />
     <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-TileImage" content="/images/logo192.png">
+    <meta name="msapplication-TileImage" content="images/logo192.png">
     <meta name="theme-color" content="#2563eb">
-    <link rel="preload" href="/images/logo192.png" as="image" />
-    <link rel="preload" href="/images/logo512.png" as="image" />
+    <link rel="preload" href="images/logo192.png" as="image" />
+    <link rel="preload" href="images/logo512.png" as="image" />
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     
     <!-- Preconnect to external domains with fallback -->
@@ -211,16 +211,16 @@
       <div id="root"></div>
     </div>
 
-    <!-- Vite will automatically inject the correct script and link tags here -->
-    <script type="module" src="./src/main.jsx"></script>
+    <!-- Vite will inject the correct script and link tags here -->
+    <script type="module" src="/src/main.jsx"></script>
     
     <!-- Service Worker Registration -->
-    <script>
+    <script type="module">
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           // Get the base path from the data attribute or use default
           const basePath = document.body.getAttribute('data-base-url') || '/';
-          const swPath = `${basePath}service-worker-new.js`;
+          const swPath = `${basePath}service-worker.js`;
           
           // Unregister any existing service workers first
           navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -229,7 +229,7 @@
             }
             
             // Only register service worker in production
-            if (process.env.NODE_ENV === 'production') {
+            if (import.meta.env.PROD) {
               navigator.serviceWorker.register(swPath, { 
                 scope: basePath,
                 updateViaCache: 'none'

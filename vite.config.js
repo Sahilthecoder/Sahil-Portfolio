@@ -14,6 +14,9 @@ const base = isProduction ? '/Sahil-Portfolio/' : '/';
 // Set environment variables for base URL
 process.env.VITE_BASE_URL = base;
 
+// Ensure the public directory is properly handled
+const publicDir = path.resolve(__dirname, 'public');
+
 console.log(`Using base URL: "${base}"`);
 
 export default defineConfig({
@@ -63,7 +66,12 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    fs: {
+      // Allow serving files from one level up from the package root
+      allow: ['..']
+    }
   },
+  publicDir: 'public',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

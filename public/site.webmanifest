@@ -1,16 +1,26 @@
 {
   "name": "Sahil Ali Portfolio",
   "short_name": "SahilPortfolio",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "/Sahil-Portfolio/",
+  "scope": "/Sahil-Portfolio/",
   "display": "standalone",
   "background_color": "#f9f9f9",
   "theme_color": "#0a74da",
   "icons": [
     {
-      "src": "assets/icons/favicon.ico",
+      "src": "/Sahil-Portfolio/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/Sahil-Portfolio/images/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/Sahil-Portfolio/images/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

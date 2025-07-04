@@ -57,18 +57,40 @@ jobs:
       
       - name: Create service worker symlink
         run: |
-          echo "Creating symbolic link from service-worker.js to sw.js"
-          # Remove existing file or symlink if it exists
+          echo "=== Service Worker Symlink Setup ==="
+          echo "Current working directory:"
+          pwd
+          
+          # Handle public/service-worker.js
+          echo -e "\n=== Handling public/service-worker.js ==="
           if [ -e "public/service-worker.js" ] || [ -L "public/service-worker.js" ]; then
-            echo "Removing existing service-worker.js file or symlink"
+            echo "Removing existing public/service-worker.js"
             rm -f public/service-worker.js
           fi
-          # Create the symlink
-          ln -s sw.js public/service-worker.js
-          echo "Current directory structure:"
-          pwd
-          echo "Public directory contents:"
-          ls -la public/
+          
+          # Handle dist/service-worker.js
+          echo -e "\n=== Handling dist/service-worker.js ==="
+          if [ -e "dist/service-worker.js" ] || [ -L "dist/service-worker.js" ]; then
+            echo "Removing existing dist/service-worker.js"
+            rm -f dist/service-worker.js
+          fi
+          
+          # Create the symlink in public directory
+          echo -e "\n=== Creating symlink in public/ ==="
+          ln -s ../sw.js public/service-worker.js
+          
+          # Create the symlink in dist directory if it exists
+          if [ -d "dist" ]; then
+            echo -e "\n=== Creating symlink in dist/ ==="
+            ln -s ../sw.js dist/service-worker.js
+          fi
+          
+          # Debug output
+          echo -e "\n=== Final Directory Structure ==="
+          echo "Public directory:"
+          ls -la public/ 2>/dev/null || echo "public/ directory not found"
+          echo -e "\nDist directory:"
+          ls -la dist/ 2>/dev/null || echo "dist/ directory not found"
           
       - name: Build
         run: |

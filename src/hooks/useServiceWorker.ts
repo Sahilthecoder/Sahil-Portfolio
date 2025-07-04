@@ -60,7 +60,7 @@ const useServiceWorker = (): [ServiceWorkerState, () => void] => {
       };
 
       // Check if the browser supports service workers
-      if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+      if ('serviceWorker' in navigator && import.meta.env.PROD) {
         window.addEventListener('load', registerServiceWorker);
       }
 

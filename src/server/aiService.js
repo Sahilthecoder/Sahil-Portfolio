@@ -9,11 +9,11 @@ export class AIService {
   }
 
   async initialize() {
-    if (process.env.VITE_PINECONE_API_KEY) {
-      const environment = process.env.VITE_PINECONE_ENVIRONMENT || 'us-west1-gcp';
+    if (import.meta.env.VITE_PINECONE_API_KEY) {
+      const environment = import.meta.env.VITE_PINECONE_ENVIRONMENT || 'us-west1-gcp';
       const controllerHostUrl = `https://${environment}.pinecone.io`;
       this.pinecone = new Pinecone({
-        apiKey: process.env.VITE_PINECONE_API_KEY,
+        apiKey: import.meta.env.VITE_PINECONE_API_KEY,
         controllerHostUrl,
       });
     }

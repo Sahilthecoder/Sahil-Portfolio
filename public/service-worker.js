@@ -1,47 +1,25 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-undef */
-
+// Service Worker for Sahil's Portfolio
 const CACHE_NAME = 'sahil-portfolio-v1';
-const BASE_PATH = self.location.pathname.includes('/Sahil-Portfolio/') ? '/Sahil-Portfolio/' : '/';
-
-// Function to get the correct asset URL
-const getAssetUrl = (path) => {
-  // Handle paths that already have the base path
-  if (path.startsWith(BASE_PATH)) {
-    return path;
-  }
-  // Handle absolute paths
-  if (path.startsWith('/')) {
-    return `${BASE_PATH}${path.substring(1)}`;
-  }
-  // Handle relative paths
-  return `${BASE_PATH}${path}`;
-};
-
-const ASSETS_TO_CACHE = [
-  getAssetUrl(''),
-  getAssetUrl('index.html'),
-  getAssetUrl('site.webmanifest'),
-  getAssetUrl('favicon.ico'),
-  getAssetUrl('favicon.svg'),
-  getAssetUrl('images/logo192.png'),
-  getAssetUrl('images/logo512.png'),
-  getAssetUrl('images/logo.png'),
-  getAssetUrl('apple-touch-icon.png'),
-  getAssetUrl('favicon-32x32.png'),
-  getAssetUrl('favicon-16x16.png'),
-  // These will be matched by the fetch handler
-  getAssetUrl('assets/index-*.js'),
-  getAssetUrl('assets/index-*.css'),
+const ASSETS = [
+  '/',
+  '/index.html',
+  '/site.webmanifest',
+  '/favicon.ico',
+  '/favicon.svg',
+  '/images/logo192.png',
+  '/images/logo512.png',
+  '/images/logo.png',
+  '/apple-touch-icon.png',
+  '/manifest.json'
 ];
 
-// Install event - cache static assets
+// Install event - cache all static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        return cache.addAll(ASSETS_TO_CACHE);
+        return cache.addAll(ASSETS);
       })
       .catch(error => {
         console.error('Cache addAll error:', error);
@@ -70,88 +48,21 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') return;
+  // Skip non-GET requests and cross-origin requests
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
 
-  // Handle navigation requests
+  // For navigation requests, serve index.html
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match(BASE_PATH + 'index.html')
+      caches.match('/index.html')
         .then((response) => response || fetch(event.request))
-        .catch(() => caches.match(BASE_PATH + 'offline.html'))
     );
     return;
   }
 
   // For other requests, try cache first, then network
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-
-        // Clone the request
-        const fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(
-          (response) => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response
-            const responseToCache = response.clone();
-
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-            return response;
-          }
-        ).catch(() => {
-          // If both cache and network fail, show offline page
-          if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match(BASE_PATH + 'offline.html');
-          }
-        });
-      })
-  );
-});
-self.addEventListener('fetch', (event) => {
-  // Skip cross-origin requests, like those to Google Analytics
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
-
-  // Handle navigation requests with network-first strategy
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          // Clone the response for potential caching
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-          return response;
-        })
-        .catch(() => {
-          return caches.match('/offline.html');
-        })
-    );
-    return;
-  }
-
-  // For other requests, use cache-first strategy
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
@@ -160,69 +71,29 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        // Otherwise, fetch from network, cache and return
-        return fetch(event.request).then((response) => {
-          // Check if we received a valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+        // Otherwise, fetch from network
+        return fetch(event.request)
+          .then((response) => {
+            // Check if valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response
+            const responseToCache = response.clone();
+
+            // Add to cache
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
             return response;
-          }
-
-          // Clone the response for potential caching
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
+          })
+          .catch((error) => {
+            console.error('Fetch failed:', error);
+            throw error;
+          });
       })
   );
 });
-
-// Background sync for failed requests
-self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-failed-requests') {
-    event.waitUntil(processFailedRequests());
-  }
-});
-
-// Push notifications
-self.addEventListener('push', (event) => {
-  const title = 'Update Available';
-  const options = {
-    body: 'New content is available!',
-    icon: './images/logo192.png',
-    badge: './images/logo192.png',
-    data: {
-      url: self.location.origin,
-    },
-  };
-
-  event.waitUntil(self.registration.showNotification(title, options));
-});
-
-// Notification click handler
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.matchAll({ type: 'window' }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url === event.notification.data.url && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(event.notification.data.url);
-      }
-      return null;
-    })
-  );
-});
-
-// Helper function to process failed requests
-function processFailedRequests() {
-  // Implementation for retrying failed requests
-  return Promise.resolve();
-}

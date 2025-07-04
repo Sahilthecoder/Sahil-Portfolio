@@ -28,14 +28,14 @@
     <meta property="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
     
     <!-- Manifest and Icons -->
-    <link rel="icon" type="image/x-icon" href="/Sahil-Portfolio/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/Sahil-Portfolio/images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/Sahil-Portfolio/images/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/Sahil-Portfolio/apple-touch-icon.png" />
-    <link rel="mask-icon" href="/Sahil-Portfolio/favicon.svg" color="#2563eb">
-    <link rel="manifest" href="/Sahil-Portfolio/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="mask-icon" href="favicon.svg" color="#2563eb">
+    <link rel="manifest" href="site.webmanifest" />
     <meta name="msapplication-TileColor" content="#2563eb">
-    <meta name="msapplication-config" content="/Sahil-Portfolio/browserconfig.xml">
+    <meta name="msapplication-config" content="browserconfig.xml">
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     
     <!-- Favicon and App Icons -->
@@ -217,62 +217,33 @@
     <!-- Vite will automatically inject the correct script and link tags here -->
     <script type="module" src="./src/main.jsx"></script>
     
-    <!-- Register service worker with dynamic base path -->
+    <!-- Service Worker Registration -->
     <script>
-      // Determine the base path dynamically
-      const getBasePath = () => {
-        // If we're on GitHub Pages, use the repository name as base path
-        if (window.location.hostname === 'sahilthecoder.github.io') {
-          return '/Sahil-Portfolio/';
-        }
-        // For local development, use root path
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-          return '/';
-        }
-        // For other deployments, use the first path segment if it exists
-        const pathSegments = window.location.pathname.split('/').filter(Boolean);
-        return pathSegments.length > 0 ? `/${pathSegments[0]}/` : '/';
-      };
-      
-      const basePath = getBasePath();
-      // Use the correct path for service worker based on environment
-      const swPath = (window.location.hostname === 'sahilthecoder.github.io') 
-        ? '/Sahil-Portfolio/service-worker.js' 
-        : '/service-worker.js';
-      
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', async () => {
-          try {
-            console.log('Registering service worker at:', swPath);
-            
-            // Unregister any existing service workers first
-            const registrations = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(registrations.map(registration => registration.unregister()));
-            
-            // In development, skip service worker registration
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-              console.log('Skipping service worker registration in development');
-              return;
+        window.addEventListener('load', function() {
+          // Unregister any existing service workers first
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (const registration of registrations) {
+              registration.unregister();
             }
-            
-            // Register the service worker with the correct scope
-            const registration = await navigator.serviceWorker.register(swPath, { 
-              scope: basePath 
-            });
-            
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            
-            // Check for updates
-            registration.update().then(() => {
-              console.log('ServiceWorker update check complete');
-            }).catch(updateError => {
-              console.warn('ServiceWorker update check failed:', updateError);
-            });
-            } catch (error) {
-              console.error('ServiceWorker registration failed: ', error);
-            }
+            // Register new service worker with a clean implementation
+            navigator.serviceWorker.register('/service-worker-new.js', { 
+              scope: '/',
+              updateViaCache: 'none'
+            })
+              .then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                // Force update
+                return registration.update().then(() => {
+                  console.log('ServiceWorker update check complete');
+                });
+              })
+              .catch(function(error) {
+                console.error('ServiceWorker registration failed: ', error);
+              });
           });
-        }
+        });
+      }
     </script>
   </body>
 </html>

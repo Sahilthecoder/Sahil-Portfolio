@@ -878,17 +878,41 @@ const Projects = () => {
         <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/20 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
         <div className="absolute top-0 right-0 w-full sm:w-2/3 h-64 bg-gradient-to-br from-indigo-100/60 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
         
-        <HeroSection
-          title={
-            <>
-              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
-            </>
-          }
-          subtitle="Data Analysis | Visualization | Machine Learning"
-          description="Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively."
-          containerClass="pt-28 pb-16 md:pt-36 lg:pt-40 relative z-10"
-          showImage={false}
-        >
+        <div className="pt-28 pb-16 md:pt-36 lg:pt-40 relative z-10">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+              {/* Text Content */}
+              <div className="lg:w-1/2 text-center lg:text-left">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
+                  My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
+                </h1>
+                <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
+                  Data Analysis | Visualization | Machine Learning
+                </p>
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                  Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively.
+                </p>
+              </div>
+              
+              {/* Profile Image */}
+              <div className="lg:w-1/2 flex justify-center">
+                <div className="relative w-64 h-64 md:w-80 md:h-80">
+                  <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-2xl opacity-70"></div>
+                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
+                    <img
+                      src={getImagePath('profile')}
+                      alt="Sahil Ali - Data Analyst & Inventory Specialist"
+                      className="w-full h-full object-cover object-top"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = getImagePath('profile', '', 'placeholder-profile.jpg');
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           <div className="relative max-w-2xl mx-auto mt-8">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <FaSearch className="h-5 w-5 text-gray-400" />
@@ -902,7 +926,8 @@ const Projects = () => {
               aria-label="Search projects"
             />
           </div>
-        </HeroSection>
+        </div>
+      </div>
       </div>
 
       <section className="relative py-12 sm:py-16 lg:py-20">

@@ -24,8 +24,13 @@ const getImagePath = (path) => {
   }
   
   // In production, use the base URL from Vite config
+  // For GitHub Pages, ensure the path is correct by removing any duplicate slashes
   const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
-  return `${baseUrl}/${cleanPath.replace(/^[\/\\]+/, '')}`.replace(/([^:]\/)\/+/g, '$1');
+  const cleanBase = baseUrl.endsWith('/Sahil-Portfolio') ? baseUrl : `${baseUrl}/Sahil-Portfolio`;
+  
+  // Construct the final URL, ensuring no double slashes
+  const finalPath = `/${cleanPath.replace(/^[\/\\]+/, '')}`;
+  return `${cleanBase}${finalPath}`.replace(/([^:]\/)\/+/g, '$1');
 };
 
 import { useState, useEffect, useCallback, useMemo } from 'react';

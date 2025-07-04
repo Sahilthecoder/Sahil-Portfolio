@@ -465,7 +465,6 @@ const ModernNavbar = () => {
             }}
           >
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
-              <div className="logo-gradient absolute inset-0 rounded-full opacity-70 group-hover:opacity-90 transition-opacity"></div>
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
                 <ImageWithFallback 
                   src={getImagePath('logo', '', 'logo192.png')}

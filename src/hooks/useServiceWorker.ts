@@ -10,7 +10,9 @@ const useServiceWorker = (): [ServiceWorkerState, () => void] => {
       // Register service worker
       const registerServiceWorker = async () => {
         try {
-          const registration = await navigator.serviceWorker.register('/service-worker.js');
+          const basePath = import.meta.env.BASE_URL || '/';
+          const swPath = `${basePath}service-worker.js`.replace(/\/\//g, '/');
+          const registration = await navigator.serviceWorker.register(swPath);
           
           // Check for updates
           registration.addEventListener('updatefound', () => {

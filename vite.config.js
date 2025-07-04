@@ -200,6 +200,12 @@ export default defineConfig({
     port: 3000,
     open: true
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
   plugins: [
     // Virtual module for base URL
     {

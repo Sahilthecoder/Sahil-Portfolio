@@ -15,19 +15,17 @@ const getImagePath = (path) => {
     return path;
   }
   
-  // Get base URL from Vite config (fallback to '/' if not set)
-  const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
-  
-  // Remove leading slashes to prevent double slashes
-  const cleanPath = path.replace(/^[\/\\]+/, '');
+  // Remove any query parameters from the path
+  const cleanPath = path.split('?')[0];
   
   // In development, use the path as is
   if (import.meta.env.DEV) {
-    return `/${cleanPath}`;
+    return `/${cleanPath.replace(/^[\/\\]+/, '')}`;
   }
   
-  // In production, prepend the base URL
-  return `${baseUrl}/${cleanPath}`.replace(/([^:]\/)\/+/g, '$1');
+  // In production, use the base URL from Vite config
+  const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+  return `${baseUrl}/${cleanPath.replace(/^[\/\\]+/, '')}`.replace(/([^:]\/)\/+/g, '$1');
 };
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -139,7 +137,7 @@ const ImageWithFallback = ({
   src,
   alt = '',
   className = '',
-  fallbackSrc = '/images/placeholder.svg',
+  fallbackSrc = '/images/fallback-image.jpg',
   loading = 'lazy',
   decoding = 'async',
   width,
@@ -148,66 +146,121 @@ const ImageWithFallback = ({
   priority = false,
   ...rest
 }) => {
-  const [imgSrc, setImgSrc] = useState(src);
-  const [hasError, setHasError] = useState(false);
-
-  // Ensure sizes is an array
-  const safeSizes = Array.isArray(sizes) ? sizes : [];
+  const [imgSrc, setImgSrc] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   
-  // Get optimized image sources with error handling
-  const optimizedImage = useMemo(() => {
-    try {
-      return getOptimizedImage(imgSrc, { sizes: safeSizes });
-    } catch (error) {
-      console.warn('Error optimizing image:', error);
-      return { 
-        src: getImagePath(imgSrc), 
-        srcSet: '', 
-        sizes: safeSizes.join(', ') 
-      };
+  // Process the image source
+  const processedSrc = useMemo(() => {
+    if (!src) return '';
+    // If src is already a full URL or data URI, use it as is
+    if (src.startsWith('http') || src.startsWith('data:')) {
+      return src;
     }
-  }, [imgSrc, safeSizes]);
-
-  // Reset state when src changes
-  useEffect(() => {
-    setImgSrc(src);
-    setHasError(false);
+    // Otherwise, process it with getImagePath
+    return getImagePath(src);
   }, [src]);
-
-  const handleError = useCallback(() => {
-    if (!hasError && fallbackSrc && fallbackSrc !== imgSrc) {
-      setImgSrc(fallbackSrc);
-      setHasError(true);
+  
+  // Process the fallback source
+  const processedFallback = useMemo(() => {
+    if (!fallbackSrc) return '';
+    // If fallbackSrc is already a full URL or data URI, use it as is
+    if (fallbackSrc.startsWith('http') || fallbackSrc.startsWith('data:')) {
+      return fallbackSrc;
     }
-  }, [fallbackSrc, hasError, imgSrc]);
-
-  // Ensure we have a valid alt text
-  const safeAlt = alt || 'Image';
+    // Otherwise, process it with getImagePath
+    return getImagePath(fallbackSrc);
+  }, [fallbackSrc]);
   
-  // Determine loading strategy
-  const loadingStrategy = priority ? 'eager' : loading;
+  // Handle image loading errors
+  const handleError = useCallback((e) => {
+    console.warn(`Failed to load image: ${processedSrc}`);
+    setError('Failed to load image');
+    if (processedFallback && processedFallback !== processedSrc) {
+      setImgSrc(processedFallback);
+      // Reset error state when fallback is set
+      setError(null);
+    } else {
+      // If no fallback, set a default image
+      setImgSrc('/images/fallback-image.jpg');
+    }
+    setIsLoading(false);
+  }, [processedSrc, processedFallback]);
   
-  // Add fetchpriority for critical images
-  const fetchPriority = priority ? 'high' : 'auto';
-
+  // Handle successful image load
+  const handleLoad = useCallback(() => {
+    setIsLoading(false);
+    setError(null);
+  }, []);
+  
+  // Reset loading state when src changes
+  useEffect(() => {
+    if (processedSrc) {
+      setImgSrc(processedSrc);
+      setIsLoading(true);
+      setError(null);
+    } else if (processedFallback) {
+      setImgSrc(processedFallback);
+      setIsLoading(true);
+    }
+  }, [processedSrc, processedFallback]);
+  
+  // If no source is provided, return null
+  if (!src && !fallbackSrc) {
+    console.warn('ImageWithFallback: No image source provided');
+    return null;
+  }
+  
+  // If we have an error and no fallback, return a placeholder
+  if (error && !processedFallback) {
+    return (
+      <div 
+        className={`image-placeholder ${className}`}
+        style={{
+          width: width ? `${width}px` : '100%',
+          height: height ? `${height}px` : '200px',
+          backgroundColor: '#f0f0f0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#666',
+          ...(rest.style || {})
+        }}
+        aria-hidden={!alt}
+      >
+        {alt || 'Image not available'}
+      </div>
+    );
+  }
+  
+  // Get responsive image attributes if sizes are provided
+  const responsiveAttrs = sizes.length > 0 
+    ? getOptimizedImage(processedSrc || processedFallback, { sizes })
+    : {};
+  
+  // If we have no source to display, return null
+  if (!imgSrc) {
+    return null;
+  }
+  
   return (
     <img
-      src={optimizedImage.src}
-      srcSet={optimizedImage.srcSet || undefined}
-      sizes={optimizedImage.sizes}
-      alt={safeAlt}
-      className={className}
-      onError={handleError}
-      loading={loadingStrategy}
+      src={imgSrc}
+      alt={alt}
+      className={`${className} ${isLoading ? 'loading' : ''}`}
+      loading={priority ? 'eager' : loading}
       decoding={decoding}
       width={width}
       height={height}
-      fetchpriority={fetchPriority}
+      onError={handleError}
+      onLoad={handleLoad}
+      style={{
+        opacity: isLoading ? 0 : 1,
+        transition: 'opacity 0.3s ease-in-out',
+        ...(rest.style || {})
+      }}
+      {...responsiveAttrs}
       {...rest}
-      // Add role and aria-label if alt is provided
-      {...(alt && { 'aria-label': alt })}
-      // Add role if it's a decorative image
-      {...(alt === '' && { 'aria-hidden': 'true', role: 'presentation' })}
     />
   );
 };

@@ -107,16 +107,17 @@ jobs:
           touch ./dist/.nojekyll
           echo '/* /index.html 200' > ./dist/_redirects
           
-          # Handle service worker symlink using Node.js script
-          echo -e "\n=== Setting up service worker symlink ==="
-          node scripts/setup-service-worker.js
+          # Build application
+          echo "Building the application..."
+          npm run build
           
-          # Verify the symlink was created
-          if [ ! -L "dist/service-worker.js" ]; then
-            echo "✗ Failed to create service worker symlink"
-            ls -la dist/ 2>/dev/null || echo "dist/ directory not found"
+          # Verify the build was successful
+          if [ ! -d "dist" ]; then
+            echo "Error: Build failed - dist directory not found!"
             exit 1
           fi
+          
+          echo "Build completed successfully"
           
           # Show final dist directory contents
           echo -e "\nFinal dist directory contents:"

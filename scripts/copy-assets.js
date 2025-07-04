@@ -5,10 +5,22 @@ const path = require('path');
 const srcDir = path.join(__dirname, '../public');
 const destDir = path.join(__dirname, '../dist');
 
+// Files to exclude from copying
+const EXCLUDED_FILES = ['sw.js'];
+
 // Ensure destination directory exists
 fs.ensureDirSync(destDir);
 
-// Copy all files from public to dist
-fs.copySync(srcDir, destDir, { overwrite: true });
+// Function to filter out excluded files
+const filterFunc = (src) => {
+  const fileName = path.basename(src);
+  return !EXCLUDED_FILES.includes(fileName);
+};
 
-console.log('Static assets copied successfully!');
+// Copy files from public to dist, excluding service worker
+fs.copySync(srcDir, destDir, { 
+  overwrite: true,
+  filter: filterFunc
+});
+
+console.log('Static assets copied successfully! (Excluded service worker)');

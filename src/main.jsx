@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React, { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -10,6 +10,19 @@ import ClientOnly from './components/ClientOnly';
 import { AIAssistantProvider } from './context/AIAssistantContext';
 import { ThemeProvider } from './context/ThemeContext';
 import baseUrl from './config/baseUrl';
+
+// Register service worker in production
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(error => {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {

@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import serviceWorker from './vite-plugin-service-worker';
 
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,8 +22,22 @@ export default defineConfig({
     react({
       jsxImportSource: 'react',
       jsxRuntime: 'automatic'
-    })
+    }),
+    serviceWorker()
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        sw: path.resolve(__dirname, 'src/sw.js')
+      },
+      output: {
+        entryFileNames: (chunkInfo) => {
+          return chunkInfo.name === 'sw' ? '[name].js' : 'assets/js/[name]-[hash].js';
+        }
+      }
+    }
+  },
   server: {
     port: 3000,
     open: true,

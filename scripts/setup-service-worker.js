@@ -26,7 +26,32 @@ function setupServiceWorker() {
     // Remove existing target if it exists (file or symlink)
     if (fs.existsSync(target)) {
       console.log('Removing existing target...');
-      fs.unlinkSync(target);
+      try {
+        // Force remove read-only files if needed
+        fs.chmodSync(target, 0o666); // Ensure we have write permissions
+        fs.unlinkSync(target);
+        
+        // Verify the file was actually removed
+        if (fs.existsSync(target)) {
+          throw new Error('Failed to remove existing file - it still exists after unlink');
+        }
+        console.log('✓ Successfully removed existing target');
+      } catch (error) {
+        console.error('❌ Failed to remove existing target:');
+        console.error(error.message);
+        console.error('\nAdditional debug info:');
+        try {
+          const stats = fs.lstatSync(target);
+          console.error('File stats:', stats);
+          console.error('Is directory:', stats.isDirectory());
+          console.error('Is file:', stats.isFile());
+          console.error('Is symbolic link:', stats.isSymbolicLink());
+          console.error('Permissions:', stats.mode.toString(8));
+        } catch (e) {
+          console.error('Could not get file stats:', e.message);
+        }
+        process.exit(1);
+      }
     }
     
     // Create relative path for symlink

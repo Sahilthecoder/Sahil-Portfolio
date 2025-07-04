@@ -28,15 +28,23 @@
     <meta property="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
     
     <!-- Manifest and Icons -->
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/x-icon" href="/Sahil-Portfolio/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/Sahil-Portfolio/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/Sahil-Portfolio/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/Sahil-Portfolio/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/Sahil-Portfolio/favicon.svg" color="#2563eb">
+    <link rel="manifest" href="/Sahil-Portfolio/site.webmanifest" />
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-config" content="/Sahil-Portfolio/browserconfig.xml">
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     
     <!-- Favicon and App Icons -->
-    <link rel="icon" type="image/x-icon" href="/Sahil-Portfolio/images/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/Sahil-Portfolio/images/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/Sahil-Portfolio/images/favicon-16x16.png" />
-    <link rel="apple-touch-icon" href="/Sahil-Portfolio/images/logo192.png" />
-    <meta name="msapplication-TileImage" content="/Sahil-Portfolio/images/logo192.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/images/logo192.png" />
+    <meta name="msapplication-TileImage" content="/images/logo192.png" />
     
     <!-- Preconnect to external domains with fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -227,42 +235,39 @@
       };
       
       const basePath = getBasePath();
-      // Always use root-relative path for service worker
-      const swPath = '/service-worker.js';
+      // Use the correct path for service worker based on environment
+      const swPath = (window.location.hostname === 'sahilthecoder.github.io') 
+        ? '/Sahil-Portfolio/service-worker.js' 
+        : '/service-worker.js';
       
       if ('serviceWorker' in navigator) {
-        // In development, unregister any existing service workers
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-          navigator.serviceWorker.getRegistrations().then(registrations => {
-            for (const registration of registrations) {
-              registration.unregister();
-              console.log('ServiceWorker unregistered in development:', registration.scope);
+        window.addEventListener('load', async () => {
+          try {
+            console.log('Registering service worker at:', swPath);
+            
+            // Unregister any existing service workers first
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map(registration => registration.unregister()));
+            
+            // In development, skip service worker registration
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+              console.log('Skipping service worker registration in development');
+              return;
             }
-          });
-        } 
-        // In production, register the service worker
-        else {
-          window.addEventListener('load', async () => {
-            try {
-              console.log('Registering service worker at:', swPath);
-              
-              // Unregister any existing service workers first
-              const registrations = await navigator.serviceWorker.getRegistrations();
-              await Promise.all(registrations.map(registration => registration.unregister()));
-              
-              // Register the service worker with the correct scope
-              const registration = await navigator.serviceWorker.register(swPath, { 
-                scope: basePath 
-              });
-              
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-              
-              // Check for updates
-              registration.update().then(() => {
-                console.log('ServiceWorker update check complete');
-              }).catch(updateError => {
-                console.warn('ServiceWorker update check failed:', updateError);
-              });
+            
+            // Register the service worker with the correct scope
+            const registration = await navigator.serviceWorker.register(swPath, { 
+              scope: basePath 
+            });
+            
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            
+            // Check for updates
+            registration.update().then(() => {
+              console.log('ServiceWorker update check complete');
+            }).catch(updateError => {
+              console.warn('ServiceWorker update check failed:', updateError);
+            });
             } catch (error) {
               console.error('ServiceWorker registration failed: ', error);
             }

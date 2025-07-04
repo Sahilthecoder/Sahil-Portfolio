@@ -10,9 +10,7 @@ const GOOGLE_DRIVE_BASE_URL = 'https://drive.google.com/uc?export=view&id=';
 
 // Image IDs from Google Drive (replace these with your actual file IDs)
 const IMAGE_IDS = {
-  // Profile images
-  PROFILE: 'YOUR_PROFILE_IMAGE_ID', // Replace with your profile image ID
-  CONTACT_HERO: 'YOUR_CONTACT_HERO_IMAGE_ID', // Replace with your contact hero image ID
+    CONTACT_HERO: 'YOUR_CONTACT_HERO_IMAGE_ID', // Replace with your contact hero image ID
   
   // Project covers
   PROJECT1_COVER: 'YOUR_PROJECT1_COVER_ID', // Zomato Analysis cover

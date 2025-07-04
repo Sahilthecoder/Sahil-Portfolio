@@ -1,15 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
-import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock } from 'react-icons/fi';
+import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock, FiExternalLink } from 'react-icons/fi';
 import { FaReact, FaNodeJs, FaPython, FaUserFriends } from 'react-icons/fa';
 import getImagePath from '../utils/imagePaths';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql } from 'react-icons/si';
 import { ImageWithFallback } from '../utils/imageUtils.jsx';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
-import { getProject } from '../utils/projectData';
 import HeroSection from '../components/HeroSection/HeroSection';
+import { projects } from '../data/projects';
 import '../components/HeroSection/HeroSection.css';
+
+// Helper function to get project by ID
+const getProject = (id) => projects[id];
 
 
 // Animation variants
@@ -73,13 +76,12 @@ const Home = () => {
   // Featured projects to display in the Home page
   const featuredIds = [
     'zomato-analysis',
-    'bansal-supermarket',
+    'retail-sales-dashboard',
     'retail-cash-flow',
-    'ai-planner',
-    'automation-suite'
+    'notion-assistant'
   ];
   const featuredProjects = featuredIds
-    .map((id) => getProject(id))
+    .map((id) => projects[id])
     .filter(Boolean);
 
 
@@ -319,8 +321,8 @@ const Home = () => {
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
                     <ImageWithFallback 
                       src={getImagePath('profile')}
-                      alt="Sahil Ali"
-                      className="w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-lg"
+                      alt="Sahil Ali - Full Stack Developer"
+                      className="w-full h-full object-cover object-top"
                       fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
                       loading="lazy"
                     />
@@ -520,7 +522,7 @@ const Home = () => {
                 <div className="relative h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1">
                   <div className="relative h-48 overflow-hidden">
                     <img
-                      src={getImagePath(project.image)}
+                      src={project.image}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       onError={(e) => handleImageError(e, '/images/fallback-image.jpg')}

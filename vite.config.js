@@ -69,26 +69,18 @@ function htmlAssetsPlugin() {
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load environment variables
-const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+// Base URL configuration
 const isProduction = process.env.NODE_ENV === 'production';
+const isGitHubPages = isProduction && process.env.VITE_APP_ENV === 'production';
 
-// Set base URL based on environment
-let base = '/';
+// Base URL - use root for development, /Sahil-Portfolio/ for production
+const base = isGitHubPages ? '/Sahil-Portfolio/' : '/';
 
-// For GitHub Pages, always use the repository name as base path with trailing slash
-if (isGitHubPages || process.env.GITHUB_ACTIONS || process.env.NODE_ENV === 'production') {
-  base = '/Sahil-Portfolio/';
-  console.log('Using base URL for GitHub Pages:', base);
-} else {
-  base = '/';
-  console.log('Using base URL for development:', base);
-}
-
-// Ensure base URL is consistently formatted with a trailing slash
-const baseUrl = base.endsWith('/') ? base : `${base}/`;
+console.log('Environment:', isProduction ? 'Production' : 'Development');
+console.log('Using base URL: "' + base + '"');
 
 // Set environment variables for base URL
+const baseUrl = base.endsWith('/') ? base : `${base}/`;
 process.env.VITE_BASE_URL = baseUrl;
 process.env.BASE_URL = baseUrl;
 
@@ -105,12 +97,6 @@ const baseUrlModule = `
 
 export default defineConfig({
   base: base,
-  resolve: {
-    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
-  },
   server: {
     port: 5173,
     strictPort: true,
@@ -198,7 +184,12 @@ export default defineConfig({
   },
   preview: {
     port: 3000,
-    open: true
+    open: true,
+    host: 'localhost',
+    strictPort: true,
+    headers: {
+      'Cache-Control': 'no-store'
+    }
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],

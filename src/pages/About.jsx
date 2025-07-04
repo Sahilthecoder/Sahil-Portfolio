@@ -295,8 +295,8 @@ const About = () => {
   // Hero content for About page with enhanced mobile support
   const heroContent = {
     title: 'About Me',
-    subtitle: 'Get to know the person behind the code and data',
-    description: 'I\'m a passionate professional with expertise in data analysis, AI, and inventory management, dedicated to transforming complex data into actionable insights.',
+    subtitle: 'Get to know me better',
+    description: 'I am a passionate developer with expertise in web development and data analysis. I love creating beautiful, functional applications that solve real-world problems.',
     primaryButton: { 
       text: 'View Skills', 
       link: '#skills',
@@ -313,23 +313,7 @@ const About = () => {
     },
     isHome: false,
     showProfileImage: true,
-    profileImage: {
-      src: getImagePath('profile'),
-      alt: 'Sahil Ali',
-      badge: {
-        icon: <FaUserFriends className="w-6 h-6" />,
-        text: 'Available for freelance'
-      },
-      fallbackSrc: getImagePath('profile', '', 'placeholder-profile.jpg')
-    },
-    customImage: (props) => (
-      <ImageWithFallback 
-        src={props.src} 
-        alt={props.alt} 
-        className={props.className}
-        fallbackSrc={props.fallbackSrc}
-      />
-    )
+    profileImage: getImagePath('profile')
   };
 
   return (

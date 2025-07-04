@@ -3,12 +3,7 @@ import { motion } from 'framer-motion';
 import { FaChartLine, FaMoneyBillWave, FaCalculator, FaChartPie, FaSearchDollar, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 import { FaTable, FaFileExcel, FaExternalLinkAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import ProjectImage from '../../components/ProjectImage';
-
-// Placeholder images - replace with actual project images
-const dashboardImage = '/images/projects/Project4 Power BI/dashboard-preview.jpg';
-const dataModelImage = '/images/projects/Project4 Power BI/data-model.jpg';
-const reportImage = '/images/projects/Project4 Power BI/report-preview.jpg';
+import getImagePath from '../../utils/imagePaths';
 
 const RetailCashFlow = () => {
   return (
@@ -116,13 +111,11 @@ const RetailCashFlow = () => {
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
-                <ProjectImage
-                  projectId="retail-cash-flow"
-                  imageName="CashFlow1.avif"
+                <img
+                  src={getImagePath('project', 'retail-cash-flow', 'CashFlow1.avif')}
                   alt="Retail Cash Flow Dashboard"
-                  aspectRatio="16/9"
-                  className="rounded-xl"
-                  zoomOnHover={true}
+                  className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -132,15 +125,17 @@ const RetailCashFlow = () => {
           </div>
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="relative">
-              <ProjectImage
-                projectId="retail-cash-flow"
-                imageName="CashFlow2.avif"
+              <img
+                src={getImagePath('project', 'retail-cash-flow', 'CashFlow2.avif')}
                 alt="Daily Cash Flow Analysis"
-                aspectRatio="16/9"
-                className="rounded-t-xl"
-                showOverlay={true}
-                zoomOnHover={true}
+                className="w-full h-auto rounded-t-xl transition-transform duration-300 group-hover:scale-105"
+                loading="lazy"
               />
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                  View Details
+                </span>
+              </div>
             </div>
             <p className="p-4 text-sm text-gray-500 dark:text-gray-300 text-center border-t border-gray-100 dark:border-gray-700">
               Historical cash flow trends and detailed analysis.

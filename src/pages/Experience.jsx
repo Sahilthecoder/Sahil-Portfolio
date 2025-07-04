@@ -663,11 +663,12 @@ const Experience = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-indigo-100 dark:border-indigo-900/50 p-1 shadow-2xl">
-                <ImageWithFallback 
+                <ImageWithFallback
                   src={getImagePath('profile')}
-                  alt="Sahil Ali"
-                  className="w-full h-full object-cover rounded-2xl"
+                  alt="Sahil Ali - Full Stack Developer"
+                  className="w-full h-full object-cover object-top"
                   fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
+                  loading="lazy"
                 />
               </div>
               {/* Decorative elements */}

@@ -137,13 +137,15 @@ const ProjectCard = ({ project, index, onClick }) => {
           {/* Project image */}
           <div className="relative pt-[56.25%] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-              <ProjectImage
-                projectId={project.id}
-                imageName={project.image}
+              <img
+                src={getProjectImage(project.id, project.image)}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                containerClassName="absolute inset-0 w-full h-full"
-                objectFit="cover"
+                loading="lazy"
+                onError={(e) => {
+                  console.error(`Failed to load image: ${project.image}`);
+                  e.target.src = getProjectImage(project.id, 'cover-fallback.jpg');
+                }}
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
@@ -302,15 +304,37 @@ const ProjectModal = ({ project, onClose }) => {
             
             <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
-                <ProjectImage
-                  projectId={project.id}
-                  imageName={project.image}
+                <img
+                  src={getProjectImage(project.id, project.image)}
                   alt={project.title}
                   className="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105"
-                  containerClassName="w-full h-full"
-                  objectFit="contain"
-                  sm={{ objectFit: 'cover' }}
-                  fallbackImage="placeholder.jpg"
+                  loading="lazy"
+                  onLoad={(e) => {
+                    console.log(`✅ Successfully loaded image: ${e.target.src}`);
+                  }}
+                  onError={(e) => {
+                    const imgSrc = e.target.src;
+                    console.error(`❌ Failed to load image:`, {
+                      projectId: project.id,
+                      imagePath: project.image,
+                      resolvedPath: imgSrc,
+                      error: 'Image load failed'
+                    });
+                    
+                    // Try to load a placeholder if available
+                    const placeholderPath = getProjectImage(project.id, 'placeholder.jpg');
+                    if (placeholderPath && placeholderPath !== imgSrc) {
+                      console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
+                      e.target.src = placeholderPath;
+                    } else {
+                      // Fallback to a solid color if no placeholder
+                      e.target.style.backgroundColor = '#f0f0f0';
+                      e.target.style.display = 'flex';
+                      e.target.style.alignItems = 'center';
+                      e.target.style.justifyContent = 'center';
+                      e.target.innerHTML = '<span class="text-gray-500">Image not found</span>';
+                    }
+                  }}
                 />
               </div>
               {/* Tech stack overlay on hover */}
@@ -369,13 +393,37 @@ const ProjectModal = ({ project, onClose }) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.05 }}
                           >
-                            <ProjectImage
-                              projectId={project.id}
-                              imageName={img}
+                            <img
+                              src={getProjectImage(project.id, img)}
                               alt={`${project.title} - ${index + 1}`}
                               className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
-                              containerClassName="w-full h-full"
-                              objectFit="contain"
+                              loading="lazy"
+                              onLoad={(e) => {
+                                console.log(`✅ Successfully loaded gallery image: ${e.target.src}`);
+                              }}
+                              onError={(e) => {
+                                const imgSrc = e.target.src;
+                                console.error(`❌ Failed to load gallery image:`, {
+                                  projectId: project.id,
+                                  imagePath: img,
+                                  resolvedPath: imgSrc,
+                                  error: 'Gallery image load failed'
+                                });
+                                
+                                // Try to load a placeholder if available
+                                const placeholderPath = getProjectImage(project.id, 'placeholder.jpg');
+                                if (placeholderPath && placeholderPath !== imgSrc) {
+                                  console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
+                                  e.target.src = placeholderPath;
+                                } else {
+                                  // Fallback to a solid color if no placeholder
+                                  e.target.style.backgroundColor = '#f0f0f0';
+                                  e.target.style.display = 'flex';
+                                  e.target.style.alignItems = 'center';
+                                  e.target.style.justifyContent = 'center';
+                                  e.target.innerHTML = '<span class="text-xs text-gray-500">Image not found</span>';
+                                }
+                              }}
                             />
                             <div className="absolute inset-0 bg-black/20 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-1 sm:space-y-2">
                               <FaExternalLinkAlt className="text-white text-lg sm:text-xl" />
@@ -471,6 +519,7 @@ const ProjectModal = ({ project, onClose }) => {
 
 // Single project data
 // Project folder mapping for ProjectImage component
+// These map project IDs to their corresponding folder names in public/images/projects/
 const projectFolders = {
   'zomato-analysis': 'Project1 excel',
   'bansal-supermarket': 'Project2 tableau',
@@ -479,16 +528,91 @@ const projectFolders = {
   'ai-planner': 'Project5 Gpt+Notion',
   'automation-suite': 'Project6 Gpt+Zapier',
   'mahira-portfolio': 'Mahira Portfolio Web+AI',
-  'product-sales': 'Project7 Product Sales',
-  'snape-sentiment-analysis': 'Project8 Snape Analysis'
+  // Remove non-existent project mappings
+  // 'product-sales': 'Project7 Product Sales',  // Folder doesn't exist
+  // 'snape-sentiment-analysis': 'Project8 Snape Analysis',  // Folder doesn't exist
+  'ekam': 'Project3 Sql+Sheets' // Alias for 'ekam-attendance' to match the project data
 };
 
-// Helper function to get image path for ProjectImage component
+// Make sure the projectFolders are used in the getProjectImage function
+
+// Helper function to get image path for project images
 const getProjectImage = (projectId, imagePath) => {
-  if (!imagePath) return '';
-  // Use the new getImagePath utility for consistent path handling
+  // Log the input parameters
+  console.log(`🔄 getProjectImage called with:`, { projectId, imagePath });
+  
+  if (!imagePath) {
+    console.error(`❌ Empty image path for project: ${projectId}`);
+    return '';
+  }
+  
+  // If it's already a full URL or data URL, return as is
+  if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
+    console.log(`🌐 Using full URL/data URL: ${imagePath}`);
+    return imagePath;
+  }
+  
+  // Get the folder name from projectFolders mapping
+  const folderName = projectFolders[projectId];
+  if (!folderName) {
+    console.error(`❌ No folder mapping found for project ID: ${projectId}`);
+    console.log(`📁 Available project folders:`, Object.keys(projectFolders));
+    return '';
+  }
+  
+  // Get the base URL from environment (should be '/Sahil-Portfolio/' for GitHub Pages)
+  const base = import.meta.env.BASE_URL || '';
+  console.log(`🏠 Base URL from environment: '${base}'`);
+  
+  // Normalize the base URL - ensure it starts with a slash and doesn't end with one
+  let normalizedBase = base;
+  if (normalizedBase && !normalizedBase.startsWith('/')) {
+    normalizedBase = `/${normalizedBase}`;
+    console.log(`🔄 Adjusted base to start with slash: '${normalizedBase}'`);
+  }
+  if (normalizedBase.endsWith('/')) {
+    normalizedBase = normalizedBase.slice(0, -1);
+    console.log(`🔄 Removed trailing slash from base: '${normalizedBase}'`);
+  }
+  
+  // Get just the filename (in case a path was provided)
   const imageName = imagePath.split('/').pop();
-  return getImagePath('project', projectId, imageName);
+  console.log(`📄 Image filename: '${imageName}'`);
+  
+  // Check if the image has an extension, if not, try to find a matching file
+  const hasExtension = /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(imageName);
+  let finalPath = '';
+  
+  if (hasExtension) {
+    // If the image has an extension, use it as is
+    finalPath = `${normalizedBase}/images/projects/${folderName}/${imageName}`.replace(/\s+/g, '%20');
+  } else {
+    // Try to find a matching image with supported extensions
+    const extensions = ['.avif', '.webp', '.png', '.jpg', '.jpeg'];
+    for (const ext of extensions) {
+      const testPath = `${normalizedBase}/images/projects/${folderName}/${imageName}${ext}`.replace(/\s+/g, '%20');
+      console.log(`🔍 Testing image path: ${testPath}`);
+      // In a real app, you might want to check if the file exists
+      // For now, we'll just use the first extension and let the onError handler deal with missing files
+      if (!finalPath) {
+        finalPath = testPath;
+      }
+    }
+  }
+  
+  // Log the generated path for debugging
+  console.log(`🔍 Generated image path for ${projectId}:`, {
+    projectId,
+    folderName,
+    imageName,
+    base,
+    normalizedBase,
+    finalPath,
+    hasExtension,
+    env: import.meta.env
+  });
+  
+  return finalPath;
 };
 
 const projects = [
@@ -501,8 +625,9 @@ const projects = [
     tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
     techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
     path: '/projects/zomato-analysis',
-    image: getProjectImage('zomato-analysis', 'Project1 Cover.avif'),
-    previewImage: getProjectImage('zomato-analysis', 'zometo-ds.avif'),
+    // Use direct filenames - getProjectImage will handle the full path
+    image: 'Project1 Cover.avif',
+    previewImage: 'zometo-ds.avif',
     category: 'Data Analytics',
     impact: 'Identified key growth opportunities and optimized expansion strategy',
     featured: true,
@@ -513,9 +638,9 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
     gallery: [
-      getProjectImage('zomato-analysis', 'zometo-ds.avif'),
-      getProjectImage('zomato-analysis', 'zt1.avif'),
-      getProjectImage('zomato-analysis', 'zt2.avif')
+      'zometo-ds.avif',
+      'zt1.avif',
+      'zt2.avif'
     ]
   },
   {
@@ -527,8 +652,8 @@ const projects = [
     tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
     path: '/projects/bansal-supermarket',
-    image: getProjectImage('bansal-supermarket', 'Project2 Cover.avif'),
-    previewImage: getProjectImage('bansal-supermarket', 'Project2 Cover.avif'),
+    image: 'Project2 Cover.avif',
+    previewImage: 'bs2.avif',
     category: 'Data Visualization',
     impact: 'Drove 12% revenue growth through data-informed decisions',
     featured: true,
@@ -539,9 +664,11 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
     gallery: [
-      getProjectImage('bansal-supermarket', 'bs2.avif'),
-      getProjectImage('bansal-supermarket', 'bs3.avif'),
-      getProjectImage('bansal-supermarket', 'bs-top10.avif')
+      'bs2.avif',
+      'bs3.avif',
+      'bs-top10.avif',
+      'bs-saleVSpft.avif',
+      'bs-stockTO.avif'
     ]
   },
   {
@@ -553,8 +680,8 @@ const projects = [
     tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
     techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
     path: '/projects/retail-cash-flow',
-    image: getProjectImage('retail-cash-flow', 'Project4 Cover.avif'),
-    previewImage: getProjectImage('retail-cash-flow', 'Project4 Cover.avif'),
+    image: 'Project4 Cover.avif',
+    previewImage: 'CashFlow1.avif',
     category: 'Business Intelligence',
     impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
     featured: true,
@@ -565,9 +692,8 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
     gallery: [
-      getProjectImage('retail-cash-flow', 'Store_POWERBI1.avif'),
-      getProjectImage('retail-cash-flow', 'CashFlow1.avif'),
-      getProjectImage('retail-cash-flow', 'CashFlow2.avif')
+      'CashFlow1.avif',
+      'CashFlow2.avif'
     ]
   },
   {
@@ -579,8 +705,8 @@ const projects = [
     tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
     techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
     path: '/projects/ekam-attendance',
-    image: getProjectImage('ekam', 'Project3 Cover.avif'),
-    previewImage: getProjectImage('ekam', 'Project3 Cover.avif'),
+    image: 'Project3 Cover.avif',
+    previewImage: 'Attendance_before.avif',
     category: 'Data Automation',
     impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
     featured: true,
@@ -591,8 +717,8 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
     gallery: [
-      getProjectImage('ekam', 'ekam-db.avif'),
-      getProjectImage('ekam', 'ekam-sql.avif')
+      'Attendance_before.avif',
+      'Attendance_after.avif'
     ]
   },
   {
@@ -604,8 +730,8 @@ const projects = [
     tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
     techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
     path: '/projects/product-sales',
-    image: getProjectImage('ai-planner', 'Project5 Cover.avif'),
-    previewImage: getProjectImage('ai-planner', 'Project5 Cover.avif'),
+    image: getProjectImage('product-sales', 'Project5 Cover.avif'),
+    previewImage: getProjectImage('product-sales', 'Project5 Cover.avif'),
     category: 'Data Analytics',
     impact: 'Improved decision-making with real-time insights and predictive analytics',
     featured: true,
@@ -616,9 +742,7 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
     gallery: [
-      getProjectImage('ai-planner', 'Project5-1.avif'),
-      getProjectImage('ai-planner', 'Project5-2.avif'),
-      getProjectImage('ai-planner', 'Project5-3.avif')
+      getProjectImage('product-sales', 'Project5 Cover.avif')
     ]
   },
   {
@@ -642,9 +766,7 @@ const projects = [
     caseStudy: '#',
     projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
     gallery: [
-      getProjectImage('mahira-portfolio', 'Project7-1.avif'),
-      getProjectImage('mahira-portfolio', 'Project7-2.avif'),
-      getProjectImage('mahira-portfolio', 'Project7-3.avif')
+      getProjectImage('mahira-portfolio', 'Project7 Cover.avif')
     ]
   }
 ];

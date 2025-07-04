@@ -1,17 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaChartLine, FaUtensils, FaStar, FaGlobeAmericas, FaSearchDollar, FaTable, FaArrowLeft, FaExternalLinkAlt, FaGithub, FaFileExcel, FaCheckCircle, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import ProjectImage from '../../components/ProjectImage';
 
 const ZomatoAnalysis = () => {
+  // State for image modal
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [
-    { id: 'zometo-ds', name: 'zometo-ds.avif', alt: 'Zomato Dashboard' },
-    { id: 'zt1', name: 'zt1.avif', alt: 'Zomato Analysis 1' },
-    { id: 'zt2', name: 'zt2.avif', alt: 'Zomato Analysis 2' },
-  ];
+  
+  // Image gallery data with dimensions (width, height)
+  const basePath = import.meta.env.BASE_URL || '/';
+  const images = useMemo(() => [
+    { 
+      id: 'zomato-dashboard', 
+      name: 'zometo-ds', 
+      alt: 'Zomato Analysis Dashboard',
+      description: 'Interactive dashboard showing restaurant performance metrics',
+      insights: [
+        "Market share analysis by cuisine type",
+        "Customer rating distribution",
+        "Price range comparison"
+      ],
+      featured: true,
+      width: 1200,
+      height: 800,
+      aspectRatio: '16/9',
+      containerClass: 'h-80 md:h-96',
+      projectId: 'zomato',
+      ext: 'avif',
+      path: `${basePath}images/projects/Project1 excel/zometo-ds.avif`
+    },
+    { 
+      id: 'zomato-analysis-1', 
+      name: 'zt1', 
+      alt: 'Zomato Market Analysis',
+      description: 'Geographic distribution of restaurants and ratings',
+      insights: [
+        "Location-based performance metrics",
+        "Customer density heatmap",
+        "Competitive landscape analysis"
+      ],
+      featured: false,
+      width: 1200,
+      height: 800,
+      aspectRatio: '16/9',
+      containerClass: 'h-80 md:h-96',
+      projectId: 'zomato',
+      ext: 'avif',
+      path: `${basePath}images/projects/Project1 excel/zt1.avif`
+    },
+    { 
+      id: 'zomato-analysis-2', 
+      name: 'zt2', 
+      alt: 'Zomato Revenue Analysis',
+      description: 'Revenue and growth potential analysis',
+      insights: [
+        "Revenue by location",
+        "Growth trends analysis",
+        "Market opportunity assessment"
+      ],
+      featured: false,
+      width: 1200,
+      height: 800,
+      aspectRatio: '16/9',
+      containerClass: 'h-80 md:h-96',
+      projectId: 'zomato',
+      ext: 'avif',
+      path: `${basePath}images/projects/Project1 excel/zt2.avif`
+    },
+    { 
+      id: 'zomato-cover', 
+      name: 'Project1 Cover', 
+      alt: 'Zomato Analysis Cover',
+      description: 'Project cover image',
+      featured: true,
+      width: 1600,
+      height: 900,
+      aspectRatio: '16/9',
+      containerClass: 'h-96',
+      projectId: 'zomato',
+      ext: 'avif',
+      path: `${basePath}images/projects/Project1 excel/Project1 Cover.avif`
+    }
+  ], []);
 
   const openImage = (index) => {
     setSelectedImage(images[index]);
@@ -40,25 +111,17 @@ const ZomatoAnalysis = () => {
 
         {/* Hero Section with Cover Image */}
         <div className="relative rounded-2xl overflow-hidden mb-12 h-96">
-          <ProjectImage
-            projectId="Project1 excel"
-            imageName="Project1 Cover.avif"
+          <img
+            src={images.find(img => img.id === 'zomato-cover').path}
             alt="Zomato Analysis Dashboard"
             className="w-full h-full object-cover"
-            zoomOnHover={false}
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-transparent" />
-          <div className="absolute bottom-0 right-0 p-8 max-w-2xl">
-            <div className="text-right">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">AI-Powered Restaurant Market Analysis</h1>
-              <p className="text-xl text-gray-100 mb-6">Leveraging machine learning for data-driven expansion strategies</p>
-              <div className="flex flex-wrap justify-end gap-2">
-                {['#AIAnalytics', '#PredictiveModeling', '#MarketIntelligence', '#BusinessStrategy'].map((tag, index) => (
-                  <span key={index} className="px-3 py-1 bg-red-600 dark:bg-red-700 text-white text-sm rounded-full hover:bg-red-700 dark:hover:bg-red-600 transition-colors">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-8">
+            <div className="text-white">
+              <h1 className="text-4xl md:text-5xl font-bold mb-2">Zomato Market Analysis</h1>
+              <p className="text-lg md:text-xl text-gray-200 max-w-3xl">
+                Data-driven insights for restaurant expansion and market optimization
+              </p>
             </div>
           </div>
         </div>
@@ -177,54 +240,43 @@ const ZomatoAnalysis = () => {
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.04)] dark:shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] dark:hover:shadow-lg transition-all duration-300">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard & Analysis</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="group cursor-pointer" onClick={() => openImage(0)}>
-                <div className="relative overflow-hidden rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg">
-                  <ProjectImage
-                    projectId="Project1 excel"
-                    imageName="zometo-ds.avif"
-                    alt="Zomato Dashboard"
-                    className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
-                      Click to view
-                    </span>
+              {images.filter(img => img.id !== 'zomato-cover').map((image, index) => (
+                <div key={image.id} className="group cursor-pointer" onClick={() => openImage(index)}>
+                  <div className="relative overflow-hidden rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg">
+                    <img
+                      src={image.path}
+                      alt={image.alt}
+                      className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                      <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                        Click to view
+                      </span>
+                    </div>
                   </div>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">{image.description}</p>
                 </div>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">Interactive dashboard with key metrics</p>
-              </div>
-              <div className="group cursor-pointer" onClick={() => openImage(1)}>
-                <div className="relative overflow-hidden rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg">
-                  <ProjectImage
-                    projectId="Project1 excel"
-                    imageName="zt1.avif"
-                    alt="Zomato Analysis 1"
-                    className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
-                      Click to view
-                    </span>
-                  </div>
-                </div>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">Market analysis visualization</p>
-              </div>
+              ))}
             </div>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.04)] dark:shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] dark:hover:shadow-lg transition-all duration-300">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Key Insights</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="group">
+              <div className="group cursor-pointer" onClick={() => openImage(2)}>
                 <div className="relative overflow-hidden rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-                  <ProjectImage
-                    projectId="Project1 excel"
-                    imageName="zt2.avif"
+                  <img
+                    src={`${basePath}images/projects/Project1 excel/zt2.avif`}
                     alt="Restaurant Analysis"
-                    aspectRatio="16/9"
-                    className="w-full h-auto"
-                    zoomOnHover={true}
+                    className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
                   />
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                      Click to view
+                    </span>
+                  </div>
                 </div>
                 <p className="mt-3 text-sm text-gray-600 dark:text-gray-300 text-center">
                   Restaurant performance and customer preferences
@@ -474,52 +526,75 @@ const ZomatoAnalysis = () => {
       <AnimatePresence>
         {selectedImage && (
           <motion.div 
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeImage}
           >
-            <button 
-              className="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl p-2"
-              onClick={(e) => {
-                e.stopPropagation();
-                closeImage();
-              }}
-            >
-              <FaTimes />
-            </button>
-            
-            <button 
-              className="absolute left-4 text-white hover:text-gray-300 text-2xl p-2 bg-black/50 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigateImage(-1);
-              }}
-            >
-              <FaChevronLeft />
-            </button>
-            
-            <div className="relative max-w-4xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
-              <ProjectImage
-                projectId="Project1 excel"
-                imageName={selectedImage.name}
-                alt={selectedImage.alt}
-                className="max-w-full max-h-[90vh] mx-auto object-contain"
-                zoomOnHover={false}
-              />
-              <p className="text-white text-center mt-2">{selectedImage.alt} ({currentIndex + 1}/{images.length})</p>
+            <div className="relative max-w-5xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                className="relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl"
+              >
+                <div className="relative pt-[56.25%] bg-gray-100 dark:bg-gray-900">
+                  <img
+                    src={images[currentIndex].path}
+                    alt={images[currentIndex].alt}
+                    className="absolute inset-0 w-full h-full object-contain"
+                    loading="eager"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    {images[currentIndex].alt}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {images[currentIndex].description}
+                  </p>
+                  {images[currentIndex].insights && (
+                    <div className="mt-4">
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Key Insights:</h4>
+                      <ul className="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">
+                        {images[currentIndex].insights.map((insight, i) => (
+                          <li key={i}>{insight}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={closeImage}
+                  className="absolute top-4 right-4 p-2 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
+                  aria-label="Close modal"
+                >
+                  <FaTimes className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigateImage(-1);
+                  }}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
+                  aria-label="Previous image"
+                >
+                  <FaChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigateImage(1);
+                  }}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
+                  aria-label="Next image"
+                >
+                  <FaChevronRight className="w-5 h-5" />
+                </button>
+              </motion.div>
             </div>
-            
-            <button 
-              className="absolute right-4 text-white hover:text-gray-300 text-2xl p-2 bg-black/50 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigateImage(1);
-              }}
-            >
-              <FaChevronRight />
-            </button>
           </motion.div>
         )}
       </AnimatePresence>

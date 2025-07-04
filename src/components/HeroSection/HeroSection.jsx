@@ -37,12 +37,7 @@ const HeroSection = ({
   secondaryButton = { text: 'Contact Me', link: '/contact', showArrow: true },
   isHome = true,
   showProfileImage = false,
-  profileImage = {
-    src: getImagePath('profile'),
-    alt: 'Profile',
-    badge: null,
-    fallbackSrc: getImagePath('profile', '', 'placeholder-profile.jpg')
-  },
+  profileImage = getImagePath('profile'),
   children,
 }) => {
   const navigate = useNavigate();
@@ -240,23 +235,13 @@ const HeroSection = ({
                 <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70 animate-pulse"></div>
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
-                    {profileImage.customImage ? (
-                      profileImage.customImage({
-                        src: profileImage.src,
-                        alt: profileImage.alt || 'Profile',
-                        className: 'w-full h-full object-cover object-top',
-                        fallbackSrc: profileImage.fallbackSrc || getImagePath('profile', '', 'placeholder-profile.jpg'),
-                        loading: 'lazy'
-                      })
-                    ) : (
-                      <ImageWithFallback 
-                        src={profileImage.src} 
-                        alt={profileImage.alt || 'Profile'}
-                        className="w-full h-full object-cover object-top"
-                        fallbackSrc={profileImage.fallbackSrc || getImagePath('profile', '', 'placeholder-profile.jpg')}
-                        loading="lazy"
-                      />
-                    )}
+                    <ImageWithFallback
+                      src={profileImage} 
+                      alt="Profile"
+                      className="w-full h-full object-cover object-top"
+                      fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
+                      loading="lazy"
+                    />
                   </div>
                 </div>
                 

@@ -51,6 +51,10 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: true,
     minify: 'terser',
+    // Ensure static assets are copied as-is
+    assetsInlineLimit: 0,
+    // Copy public directory to dist
+    copyPublicDir: true,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -58,17 +62,21 @@ export default defineConfig({
           vendor: ['framer-motion', 'react-icons'],
         },
         assetFileNames: (assetInfo) => {
-          // Keep the original file extension
           const info = assetInfo.name.split('.');
-          let ext = info[info.length - 1];
+          const ext = info[info.length - 1].toLowerCase();
           
           // Handle different file types
           if (ext === 'css') {
             return 'assets/css/[name]-[hash][extname]';
-          } else if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'].includes(ext)) {
+          } 
+          if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico'].includes(ext)) {
             return 'assets/images/[name]-[hash][extname]';
-          } else if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
+          } 
+          if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
             return 'assets/fonts/[name]-[hash][extname]';
+          }
+          if (ext === 'js' || ext === 'jsx' || ext === 'ts' || ext === 'tsx') {
+            return 'assets/js/[name]-[hash][extname]';
           }
           
           // Default path for other assets

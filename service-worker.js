@@ -6,9 +6,16 @@ const BASE_PATH = self.location.pathname.includes('/Sahil-Portfolio/') ? '/Sahil
 
 // Function to get the correct asset URL
 const getAssetUrl = (path) => {
-  // Remove any duplicate base paths
-  const normalizedPath = path.startsWith(BASE_PATH) ? path : `${BASE_PATH}${path.replace(/^\/+/, '')}`;
-  return new URL(normalizedPath, self.location.origin).href;
+  // Handle paths that already have the base path
+  if (path.startsWith(BASE_PATH)) {
+    return path;
+  }
+  // Handle absolute paths
+  if (path.startsWith('/')) {
+    return `${BASE_PATH}${path.substring(1)}`;
+  }
+  // Handle relative paths
+  return `${BASE_PATH}${path}`;
 };
 
 const ASSETS_TO_CACHE = [

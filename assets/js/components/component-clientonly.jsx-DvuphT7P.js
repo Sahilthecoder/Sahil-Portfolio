@@ -1,0 +1,1 @@
+import{r as t}from"../vendor/vendor-react-CZJ12VjQ.js";const u=({children:n,fallback:r=null})=>{const[o,e]=t.useState(!1);return t.useEffect(()=>(e(!0),()=>{e(!1)}),[]),typeof window>"u"||!o?r:n};export{u as C};

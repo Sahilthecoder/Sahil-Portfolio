@@ -55,42 +55,40 @@ jobs:
           echo -e "\nVite version:"
           npx vite --version
       
-      - name: Create service worker symlink
+      - name: Setup service worker
         run: |
-          echo "=== Service Worker Symlink Setup ==="
+          echo "=== Service Worker Setup ==="
           echo "Current working directory:"
           pwd
           
-          # Handle public/service-worker.js
-          echo -e "\n=== Handling public/service-worker.js ==="
-          if [ -e "public/service-worker.js" ] || [ -L "public/service-worker.js" ]; then
-            echo "Removing existing public/service-worker.js"
-            rm -f public/service-worker.js
+          # Ensure public directory exists
+          mkdir -p public
+          
+          # Create sw.js if it doesn't exist
+          if [ ! -f "public/sw.js" ]; then
+            echo "Creating basic service worker at public/sw.js"
+            echo "// Basic service worker" > public/sw.js
           fi
           
-          # Handle dist/service-worker.js
-          echo -e "\n=== Handling dist/service-worker.js ==="
-          if [ -e "dist/service-worker.js" ] || [ -L "dist/service-worker.js" ]; then
-            echo "Removing existing dist/service-worker.js"
-            rm -f dist/service-worker.js
+          # Create service-worker.js symlink in public directory
+          echo -e "\n=== Creating service-worker.js symlink in public/ ==="
+          cd public
+          if [ -e "service-worker.js" ] || [ -L "service-worker.js" ]; then
+            echo "Removing existing service-worker.js"
+            rm -f service-worker.js
           fi
+          ln -s sw.js service-worker.js
           
-          # Create the symlink in public directory
-          echo -e "\n=== Creating symlink in public/ ==="
-          ln -s ../sw.js public/service-worker.js
+          # Verify the symlink
+          echo -e "\n=== Verifying symlink ==="
+          ls -la service-worker.js
           
-          # Create the symlink in dist directory if it exists
-          if [ -d "dist" ]; then
-            echo -e "\n=== Creating symlink in dist/ ==="
-            ln -s ../sw.js dist/service-worker.js
-          fi
+          # Show final directory structure
+          echo -e "\n=== Final Public Directory Structure ==="
+          ls -la
           
-          # Debug output
-          echo -e "\n=== Final Directory Structure ==="
-          echo "Public directory:"
-          ls -la public/ 2>/dev/null || echo "public/ directory not found"
-          echo -e "\nDist directory:"
-          ls -la dist/ 2>/dev/null || echo "dist/ directory not found"
+          # Go back to root directory
+          cd ..
           
       - name: Build
         run: |

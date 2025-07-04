@@ -11,7 +11,7 @@ const useServiceWorker = (): [ServiceWorkerState, () => void] => {
       const registerServiceWorker = async () => {
         try {
           const basePath = import.meta.env.BASE_URL || '/';
-          const swPath = `${basePath}service-worker.js`.replace(/\/\//g, '/');
+          const swPath = `${basePath}sw.js`.replace(/\/\//g, '/');
           const registration = await navigator.serviceWorker.register(swPath);
           
           // Check for updates

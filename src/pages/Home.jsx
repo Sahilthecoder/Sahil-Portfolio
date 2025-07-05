@@ -84,7 +84,6 @@ const Home = () => {
       showArrow: true 
     },
     isHome: true,
-    profileImage: getImagePath('profile'),
     socialLinks: [
       { icon: <FiGithub />, url: 'https://github.com/sahilthecoder', label: 'GitHub' },
       { icon: <FiLinkedin />, url: 'https://linkedin.com/in/sahilthecoder', label: 'LinkedIn' },
@@ -303,280 +302,110 @@ const Home = () => {
         
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob" />
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 dark:bg-cyan-900/10 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-3xl animate-blob animation-delay-4000" />
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
+          <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-purple-500/10 rounded-full filter blur-3xl animate-blob animation-delay-6000"></div>
         </div>
-
+        
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div 
-            className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24"
+            className="max-w-4xl mx-auto text-center py-20 lg:py-32"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Text Content */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <motion.div 
-                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                Welcome to my portfolio
-              </motion.div>
-              
-              <motion.h1 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                {heroContent.title}
-              </motion.h1>
-              
-              <motion.p 
-                className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6 leading-relaxed font-medium"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-blue-500 dark:from-indigo-400 dark:to-blue-400 font-semibold">
-                  {heroContent.subtitle}
-                </span>
-              </motion.p>
-              
-              <motion.p 
-                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                {heroContent.description}
-              </motion.p>
-
-              {/* Highlights */}
-              <motion.div 
-                className="flex flex-wrap gap-2 mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, staggerChildren: 0.1 }}
-              >
-                {heroContent.highlights.map((highlight, index) => (
-                  <motion.span 
-                    key={index}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + (index * 0.1) }}
-                  >
-                    {highlight}
-                  </motion.span>
-                ))}
-              </motion.div>
-
-              {/* Stats */}
-              <motion.div 
-                className="grid grid-cols-3 gap-4 mb-8 max-w-md"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-              >
-                {heroContent.stats.map((stat, index) => (
-                  <div key={index} className="text-center p-3 rounded-xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-100 dark:border-gray-700/50">
-                    <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{stat.value}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">{stat.label}</div>
-                  </div>
-                ))}
-              </motion.div>
-
-              <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                <Link
-                  to={heroContent.primaryButton.link}
-                  className="px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  {heroContent.primaryButton.text}
-                  {heroContent.primaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
-                </Link>
-                <Link
-                  to={heroContent.secondaryButton.link}
-                  className="px-8 py-3.5 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 group hover:-translate-y-0.5"
-                >
-                  {heroContent.secondaryButton.text}
-                  {heroContent.secondaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
-                </Link>
-              </motion.div>
-
-              {/* Social Links */}
-              <motion.div 
-                className="flex items-center justify-center lg:justify-start gap-4 mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 0.5 }}
-              >
-                {heroContent.socialLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300 shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-700/50"
-                    aria-label={link.label}
-                  >
-                    {React.cloneElement(link.icon, { className: 'w-5 h-5' })}
-                  </a>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Image Content */}
+            {/* Logo */}
             <motion.div 
-              className="relative w-full lg:w-1/2 flex justify-center lg:justify-end mt-12 lg:mt-0"
-              initial={{ opacity: 0, scale: 0.95 }}
+              className="mb-8 flex justify-center"
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5, duration: 0.8, type: 'spring', stiffness: 100 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <div className="relative w-full max-w-md">
-                {/* Main Image Container */}
-                <div className="relative z-10 w-full h-full aspect-square rounded-3xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700">
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    {/* Fallback SVG - always available */}
-                    <svg 
-                      className="absolute inset-0 w-full h-full" 
-                      viewBox="0 0 400 400" 
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <defs>
-                        <linearGradient id="profileGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                          <stop offset="0%" stopColor="#4f46e5" />
-                          <stop offset="100%" stopColor="#7c3aed" />
-                        </linearGradient>
-                      </defs>
-                      <rect width="100%" height="100%" fill="url(#profileGradient)" />
-                      <text 
-                        x="50%" 
-                        y="50%" 
-                        fontFamily="Arial, sans-serif" 
-                        fontSize="120" 
-                        fontWeight="bold" 
-                        textAnchor="middle" 
-                        dominantBaseline="middle" 
-                        fill="white"
-                      >
-                        SA
-                      </text>
-                    </svg>
-                    
-                    {/* Dynamic image that loads on top */}
-                    <img
-                      src={getImagePath('profile')}
-                      alt="Profile"
-                      className={`w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800 shadow-2xl z-10 transition-opacity duration-300 ${
-                        isLoading ? 'opacity-0' : 'opacity-100'
-                      }`}
-                      onLoad={() => setIsLoading(false)}
-                      onError={(e) => {
-                        // If SVG fails, the fallback is already visible
-                        e.target.style.display = 'none';
-                        setIsLoading(false);
-                      }}
-                    />
-                    
-                    {/* Loading spinner */}
-                    {isLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center z-20">
-                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
-                      </div>
-                    )}
-                  </div>
+              <img 
+                src={getImagePath('logo')}
+                alt="Logo"
+                className="h-24 w-auto"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            </motion.div>
 
-                  {/* Decorative Elements */}
-                  <motion.div 
-                    className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      y: [0, 15, 0],
-                    }}
-                    transition={{
-                      duration: 6,
-                      repeat: Infinity,
-                      repeatType: 'reverse',
-                      delay: 0.5
-                    }}
-                  />
-                  <motion.div 
-                    className="absolute -top-4 -right-4 w-20 h-20 bg-pink-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      y: [0, -15, 0],
-                    }}
-                    transition={{
-                      duration: 7,
-                      repeat: Infinity,
-                      repeatType: 'reverse',
-                      delay: 1
-                    }}
-                  />
-                
-                  {/* Floating Tech Icons */}
-                  {['React', 'Node', 'Python', 'MongoDB'].map((tech, i) => {
-                    const positions = [
-                      { top: '10%', left: '10%' },
-                      { top: '15%', right: '10%' },
-                      { bottom: '15%', left: '5%' },
-                      { bottom: '10%', right: '15%' }
-                    ];
-                    
-                    const techIcons = {
-                      'React': <FaReact className="w-6 h-6 text-blue-500" />,
-                      'Node': <FaNodeJs className="w-6 h-6 text-green-500" />,
-                      'Python': <FaPython className="w-6 h-6 text-blue-600" />,
-                      'MongoDB': <SiMongodb className="w-6 h-6 text-green-600" />
-                    };
-                    
-                    return (
-                      <motion.div
-                        key={tech}
-                        className="absolute flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700/50 z-20"
-                        style={positions[i]}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{
-                          opacity: 1,
-                          scale: 1,
-                          rotate: [0, 10, -10, 0],
-                        }}
-                        transition={{
-                          duration: 0.8,
-                          delay: 0.8 + (i * 0.2),
-                          type: 'spring',
-                          stiffness: 300,
-                          damping: 20
-                        }}
-                        whileHover={{ 
-                          scale: 1.1,
-                          rotate: 360,
-                          transition: { duration: 0.5 }
-                        }}
-                      >
-                        {techIcons[tech]}
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </div>
+            {/* Tagline */}
+            <motion.div 
+              className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Welcome to my portfolio
+            </motion.div>
+
+            {/* Main Heading */}
+            <motion.h1 
+              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              {heroContent.title}
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p 
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              {heroContent.subtitle}
+            </motion.p>
+
+            {/* Call to Action Buttons */}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              <Link
+                to={heroContent.primaryButton.link}
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                {heroContent.primaryButton.text}
+                <FiArrowRight className="ml-2 w-5 h-5" />
+              </Link>
+              <a
+                href={heroContent.secondaryButton.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-1"
+              >
+                {heroContent.secondaryButton.text}
+                <FiDownload className="ml-2 w-5 h-5" />
+              </a>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div 
+              className="flex items-center justify-center gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+            >
+              {heroContent.socialLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+                  aria-label={link.label}
+                >
+                  <span className="sr-only">{link.label}</span>
+                  {link.icon}
+                </a>
+              ))}
             </motion.div>
           </motion.div>
           
@@ -585,21 +414,14 @@ const Home = () => {
             className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.5 }}
+            transition={{ delay: 1, duration: 0.5 }}
           >
-            <span className="text-sm text-gray-500 dark:text-gray-400 mb-2">Scroll down</span>
-            <div className="w-6 h-10 border-2 border-gray-300 dark:border-gray-600 rounded-full flex justify-center p-1">
+            <span className="text-sm text-gray-500 dark:text-gray-400 mb-2">Scroll Down</span>
+            <div className="w-6 h-10 border-2 border-gray-400 dark:border-gray-500 rounded-full flex justify-center p-1">
               <motion.div
-                className="w-1 h-2 bg-indigo-500 rounded-full"
-                animate={{
-                  y: [0, 8, 0],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  repeatType: 'loop',
-                  ease: 'easeInOut',
-                }}
+                className="w-1 h-2 bg-gray-500 dark:bg-gray-400 rounded-full"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
               />
             </div>
           </motion.div>

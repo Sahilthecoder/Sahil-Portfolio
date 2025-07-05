@@ -27,7 +27,8 @@ const getImagePath = (type, id, imageName) => {
       }
 
       case 'profile':
-        return `${imagesBase}profile.avif`;
+        // Profile image is located directly in the public folder
+        return `${normalizedBase}profile.avif`;
 
       case 'logo':
         return `${imagesBase}logo192.png`;

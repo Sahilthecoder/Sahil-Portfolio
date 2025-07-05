@@ -8,6 +8,7 @@ import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { projects } from '../data/projects';
+import getImagePath from '../utils/imagePaths';
 import '../components/HeroSection/HeroSection.css';
 
 // Helper function to get project by ID
@@ -83,7 +84,7 @@ const Home = () => {
       showArrow: true 
     },
     isHome: true,
-    profileImage: '/images/profile.avif',
+    profileImage: getImagePath('profile'),
     socialLinks: [
       { icon: <FiGithub />, url: 'https://github.com/yourusername', label: 'GitHub' },
       { icon: <FiLinkedin />, url: 'https://linkedin.com/in/yourprofile', label: 'LinkedIn' },

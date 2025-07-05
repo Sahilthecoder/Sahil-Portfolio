@@ -8,7 +8,7 @@ import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { projects } from '../data/projects';
-import getImagePath from '../utils/imagePaths';
+import getImagePath, { getProjectImage } from '../utils/imagePaths';
 import '../components/HeroSection/HeroSection.css';
 
 // Helper function to get project by ID
@@ -307,7 +307,7 @@ const Home = () => {
           <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-purple-500/10 rounded-full filter blur-3xl animate-blob animation-delay-6000"></div>
         </div>
         
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="w-full px-4 sm:px-6 relative z-10">
           <motion.div 
             className="max-w-4xl mx-auto text-center py-20 lg:py-32"
             initial={{ opacity: 0, y: 20 }}
@@ -316,7 +316,7 @@ const Home = () => {
           >
             {/* Logo */}
             <motion.div 
-              className="mb-8 flex justify-center"
+              className="mb-10 flex justify-center"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -324,7 +324,7 @@ const Home = () => {
               <img 
                 src={getImagePath('logo')}
                 alt="Logo"
-                className="h-24 w-auto"
+                className="h-28 w-auto"
                 onError={(e) => {
                   e.target.style.display = 'none';
                 }}
@@ -333,17 +333,17 @@ const Home = () => {
 
             {/* Tagline */}
             <motion.div 
-              className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+              className="inline-block mb-6 px-5 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium tracking-wide"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              Welcome to my portfolio
+              {heroContent.subtitle}
             </motion.div>
 
             {/* Main Heading */}
             <motion.h1 
-              className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+              className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
@@ -351,44 +351,49 @@ const Home = () => {
               {heroContent.title}
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Description */}
             <motion.p 
-              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              {heroContent.subtitle}
+              {heroContent.description}
             </motion.p>
 
             {/* Call to Action Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+              className="flex flex-col sm:flex-row gap-5 justify-center mb-16 mt-12"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
               <Link
                 to={heroContent.primaryButton.link}
-                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
               >
-                {heroContent.primaryButton.text}
-                <FiArrowRight className="ml-2 w-5 h-5" />
+                <span className="relative z-10 flex items-center">
+                  {heroContent.primaryButton.text}
+                  <FiArrowRight className="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </Link>
               <a
                 href={heroContent.secondaryButton.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-600 dark:text-indigo-400 bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-1"
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-600 dark:text-indigo-300 bg-white dark:bg-gray-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 transform hover:-translate-y-1"
               >
-                {heroContent.secondaryButton.text}
-                <FiDownload className="ml-2 w-5 h-5" />
+                <span className="relative z-10 flex items-center">
+                  {heroContent.secondaryButton.text}
+                  <FiDownload className="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
+                </span>
               </a>
             </motion.div>
 
             {/* Social Links */}
             <motion.div 
-              className="flex items-center justify-center gap-6"
+              className="flex items-center justify-center gap-6 mt-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
@@ -399,11 +404,11 @@ const Home = () => {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
                   aria-label={link.label}
                 >
                   <span className="sr-only">{link.label}</span>
-                  {link.icon}
+                  <span className="text-2xl">{link.icon}</span>
                 </a>
               ))}
             </motion.div>
@@ -620,7 +625,7 @@ const Home = () => {
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
                     <img
-                      src={project.image || '/images/project-placeholder.jpg'}
+                      src={getProjectImage(project.id, project.image) || '/images/project-placeholder.jpg'}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       onError={(e) => {

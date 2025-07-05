@@ -39,6 +39,7 @@
     "@sentry/tracing": "^7.120.3",
     "@types/recharts": "^1.8.29",
     "axios": "^1.6.2",
+    "canvas": "^3.1.2",
     "framer-motion": "^10.18.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",

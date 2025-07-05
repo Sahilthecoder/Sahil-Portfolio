@@ -1,7 +1,7 @@
 /**
  * Helper function to generate correct image paths that work in both development and production.
- * Automatically adapts to Vite's BASE_URL for GitHub Pages deployment.
- *
+ * Uses relative paths for development and absolute paths with base URL for production.
+ * 
  * @param {string} type - Type of image ('project', 'profile', 'logo', 'favicon', 'apple-touch-icon', 'fallback')
  * @param {string} [id] - Folder/project ID (for 'project' type)
  * @param {string} [imageName] - Name of the image file (for 'project' type)
@@ -9,46 +9,69 @@
  */
 const getImagePath = (type, id, imageName) => {
   // In development, use relative paths. In production, use absolute paths with base URL
-  const base = import.meta.env.PROD ? import.meta.env.BASE_URL || '/' : '/';
+  const isProduction = import.meta.env.PROD;
+  const base = isProduction ? '/Sahil-Portfolio/' : '/';
   
   // Ensure base path has a single trailing slash
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
-  const imagesBase = `${normalizedBase}images/`;
+  
+  // Define paths for different environments
+  const paths = {
+    development: {
+      profile: '/images/profile.svg',
+      profilePng: '/images/profile-fallback.png',
+      logo: '/images/logo192.png',
+      favicon: '/images/favicon-32x32.png',
+      appleTouchIcon: '/images/apple-touch-icon.png',
+      fallback: '/images/profile-fallback.png',
+      default: '/images/fallback-image.jpg'
+    },
+    production: {
+      profile: `${normalizedBase}images/profile.svg`,
+      profilePng: `${normalizedBase}images/profile-fallback.png`,
+      logo: `${normalizedBase}images/logo192.png`,
+      favicon: `${normalizedBase}images/favicon-32x32.png`,
+      appleTouchIcon: `${normalizedBase}images/apple-touch-icon.png`,
+      fallback: `${normalizedBase}images/profile-fallback.png`,
+      default: `${normalizedBase}images/fallback-image.jpg`
+    }
+  };
+
+  const env = isProduction ? 'production' : 'development';
 
   try {
     switch (type) {
       case 'project': {
         if (!id || !imageName) {
           console.error('❌ Missing project ID or image name for project image');
-          return new URL('/images/fallback-image.jpg', import.meta.url).href;
+          return paths[env].default;
         }
         const cleanImageName = imageName.split('?')[0]; // Remove any query params
-        return `${imagesBase}projects/${id}/${cleanImageName}`.replace(/\/\//g, '/');
+        return `${paths[env].base || ''}images/projects/${id}/${cleanImageName}`.replace(/\/\//g, '/');
       }
 
       case 'profile':
-        // Profile image is located directly in the public folder
-        return `${normalizedBase}profile.avif`;
+        return paths[env].profile;
 
       case 'logo':
-        return `${imagesBase}logo192.png`;
+        return paths[env].logo;
 
       case 'favicon':
-        return `${imagesBase}favicon-32x32.png`; // Using 32x32 as it's commonly requested
+        return paths[env].favicon;
 
       case 'apple-touch-icon':
-        return `${imagesBase}apple-touch-icon.png`;
+        return paths[env].appleTouchIcon;
 
       case 'fallback':
-        return `${imagesBase}fallback-image.jpg`;
+        return paths[env].fallback;
 
       default:
         console.error(`❌ Unknown image type: "${type}"`);
-        return `${imagesBase}fallback-image.jpg`;
+        return paths[env].default;
     }
   } catch (error) {
     console.error('❌ Error generating image path:', error);
-    return `${imagesBase}fallback-image.jpg`;
+    return paths[env].default;
   }
 };
 

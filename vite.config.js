@@ -35,6 +35,10 @@ export default defineConfig({
     minify: 'terser',
     // Ensure static assets are copied as-is
     assetsInlineLimit: 0,
+    // Copy all files from public directory to dist
+    copyPublicDir: true,
+    // Ensure public directory is properly handled
+    publicDir: 'public',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
@@ -69,7 +73,9 @@ export default defineConfig({
     fs: {
       // Allow serving files from one level up from the package root
       allow: ['..']
-    }
+    },
+    // Enable CORS for development
+    cors: true
   },
   publicDir: 'public',
   resolve: {

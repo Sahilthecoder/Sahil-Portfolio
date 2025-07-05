@@ -86,9 +86,9 @@ const Home = () => {
     isHome: true,
     profileImage: getImagePath('profile'),
     socialLinks: [
-      { icon: <FiGithub />, url: 'https://github.com/yourusername', label: 'GitHub' },
-      { icon: <FiLinkedin />, url: 'https://linkedin.com/in/yourprofile', label: 'LinkedIn' },
-      { icon: <FiMail />, url: 'mailto:your.email@example.com', label: 'Email' }
+      { icon: <FiGithub />, url: 'https://github.com/sahilthecoder', label: 'GitHub' },
+      { icon: <FiLinkedin />, url: 'https://linkedin.com/in/sahilthecoder', label: 'LinkedIn' },
+      { icon: <FiMail />, url: 'mailto:contact@sahilthecoder.me', label: 'Email' }
     ]
   };
 
@@ -447,21 +447,54 @@ const Home = () => {
             >
               <div className="relative w-full max-w-md">
                 {/* Main Image Container */}
-                <div className="relative z-10 w-full h-full aspect-square rounded-3xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800 bg-white dark:bg-gray-800">
+                <div className="relative z-10 w-full h-full aspect-square rounded-3xl overflow-hidden shadow-2xl border-8 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700">
                   <div className="relative w-full h-full flex items-center justify-center">
+                    {/* Fallback SVG - always available */}
+                    <svg 
+                      className="absolute inset-0 w-full h-full" 
+                      viewBox="0 0 400 400" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <defs>
+                        <linearGradient id="profileGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#4f46e5" />
+                          <stop offset="100%" stopColor="#7c3aed" />
+                        </linearGradient>
+                      </defs>
+                      <rect width="100%" height="100%" fill="url(#profileGradient)" />
+                      <text 
+                        x="50%" 
+                        y="50%" 
+                        fontFamily="Arial, sans-serif" 
+                        fontSize="120" 
+                        fontWeight="bold" 
+                        textAnchor="middle" 
+                        dominantBaseline="middle" 
+                        fill="white"
+                      >
+                        SA
+                      </text>
+                    </svg>
+                    
+                    {/* Dynamic image that loads on top */}
                     <img
-                      src={heroContent.profileImage}
+                      src={getImagePath('profile')}
                       alt="Profile"
-                      className="w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800 shadow-2xl z-10"
+                      className={`w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800 shadow-2xl z-10 transition-opacity duration-300 ${
+                        isLoading ? 'opacity-0' : 'opacity-100'
+                      }`}
                       onLoad={() => setIsLoading(false)}
                       onError={(e) => {
-                        e.target.src = '/images/fallback-profile.jpg';
+                        // If SVG fails, the fallback is already visible
+                        e.target.style.display = 'none';
                         setIsLoading(false);
                       }}
                     />
+                    
+                    {/* Loading spinner */}
                     {isLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                      <div className="absolute inset-0 flex items-center justify-center z-20">
+                        <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
                       </div>
                     )}
                   </div>

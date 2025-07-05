@@ -1,7 +1,7 @@
 {
   "short_name": "Sahil's Portfolio",
   "name": "Sahil Ali - Portfolio",
-  "start_url": "/Sahil-Portfolio/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#3b82f6",

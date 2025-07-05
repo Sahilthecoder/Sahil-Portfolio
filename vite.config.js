@@ -9,7 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL configuration
 const isProduction = process.env.NODE_ENV === 'production';
-const base = isProduction ? '/Sahil-Portfolio/' : '/';
+const base = isProduction ? '/Sahil-Portfolio' : '/';
 
 // Set environment variables for base URL
 process.env.VITE_BASE_URL = base;
@@ -35,8 +35,6 @@ export default defineConfig({
     minify: 'terser',
     // Ensure static assets are copied as-is
     assetsInlineLimit: 0,
-    // Copy all files from public directory to dist
-    copyPublicDir: true,
     // Ensure public directory is properly handled
     publicDir: 'public',
     rollupOptions: {

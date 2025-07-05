@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
+import Typewriter from 'typewriter-effect';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock, FiExternalLink } from 'react-icons/fi';
-import { FaReact, FaNodeJs, FaPython, FaUserFriends, FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaPython, FaUserFriends, FaGithub, FaExternalLinkAlt, FaBoxes, FaLaptopCode, FaChartLine } from 'react-icons/fa';
 import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql, SiTableau, SiPython, SiHtml5, SiCss3, SiGit, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { H1, H2, H3, P, Lead } from '../components/Typography';
 import { projects } from '../data/projects';
-import getImagePath, { getProjectImage } from '../utils/imagePaths';
+import getImagePath from '../utils/imagePaths';
 import '../components/HeroSection/HeroSection.css';
 
 // Helper function to get project by ID
@@ -56,44 +57,45 @@ const Home = () => {
   const controls = useScrollAnimation(heroRef);
   const [isMounted, setIsMounted] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Hero section content
   const heroContent = {
-    title: "Hi, I'm Sahil Ali",
-    subtitle: 'AI Expert | Data Analyst | Inventory Specialist',
-    description: 'I leverage cutting-edge AI tools and data analytics to optimize inventory systems and drive business intelligence.',
+    title: "Sahil Ali",
+    subtitle: 'Inventory & Warehouse Expert | AI Solutions Specialist',
+    description: 'Transforming inventory management through AI-driven solutions and data analytics to optimize warehouse operations and reduce costs.',
     highlights: [
       'Inventory Optimization',
-      'Data Analytics',
-      'AI Solutions',
-      'Process Automation'
+      'Warehouse Management',
+      'AI-Powered Analytics',
+      'Process Automation',
+      'Cost Reduction'
     ],
     stats: [
-      { value: '4+', label: 'Years Experience' },
-      { value: '50+', label: 'Projects Completed' },
-      { value: '30%', label: 'Efficiency Boost' }
+      { value: '4+', label: 'Years in Inventory' },
+      { value: '30%', label: 'Cost Savings' },
+      { value: '50%', label: 'Faster Operations' }
     ],
     primaryButton: { 
-      text: 'View My Work', 
-      link: '/projects', 
+      text: 'My Experience', 
+      link: '/experience', 
       showArrow: true 
     },
     secondaryButton: { 
-      text: 'Contact Me', 
+      text: 'Get in Touch', 
       link: '/contact', 
       showArrow: true 
     },
     isHome: true,
     socialLinks: [
-      { icon: <FiGithub />, url: 'https://github.com/sahilthecoder', label: 'GitHub' },
       { icon: <FiLinkedin />, url: 'https://linkedin.com/in/sahilthecoder', label: 'LinkedIn' },
-      { icon: <FiMail />, url: 'mailto:contact@sahilthecoder.me', label: 'Email' }
+      { icon: <FiMail />, url: 'mailto:sahilkhan36985@gmail.com', label: 'Email' },
+      { icon: <FiFileText />, url: '/resume', label: 'Resume' }
     ]
   };
 
   // Project categories and featured projects
   const [activeFilter, setActiveFilter] = useState('All');
-  const [filteredProjects, setFilteredProjects] = useState([]);
   
   // Get all unique categories from projects
   const projectCategories = ['All', ...new Set(
@@ -102,115 +104,137 @@ const Home = () => {
 
   // Featured projects to display in the Home page
   const featuredIds = [
-    'zomato-analysis',
-    'retail-sales-dashboard',
-    'retail-cash-flow',
-    'notion-assistant'
+    'inventory-optimization',
+    'warehouse-automation',
+    'supply-chain-analytics',
+    'erp-implementation'
   ];
   
   const featuredProjects = featuredIds
     .map((id) => projects[id])
     .filter(Boolean);
     
-  // Filter projects based on active filter
-  useEffect(() => {
+  // Memoize filtered projects to prevent unnecessary recalculations
+  const filteredProjects = React.useMemo(() => {
     if (activeFilter === 'All') {
-      setFilteredProjects(featuredProjects);
-    } else {
-      setFilteredProjects(
-        featuredProjects.filter(project => 
-          project.categories?.includes(activeFilter)
-        )
-      );
+      return featuredProjects;
     }
+    return featuredProjects.filter(project => 
+      project.categories?.includes(activeFilter)
+    );
   }, [activeFilter, featuredProjects]);
-
 
   // Handle scroll effect for navbar and animations
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrolled = window.scrollY > 50;
+      if (scrolled !== isScrolled) {
+        setIsScrolled(scrolled);
+      }
     };
     
     // Set mounted state for animations
     const timer = setTimeout(() => setIsMounted(true), 100);
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(timer);
     };
-  }, []);
+  }, [isScrolled]); // Add isScrolled to dependency array
 
   // Smooth scroll function
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Skills data with proficiency levels (0-100)
+  // Core Expertise Areas with Skills
   const skills = [
+    // Inventory Management Skills
     { 
-      name: 'React', 
-      icon: <FaReact className="w-6 h-6" />, 
-      category: 'Frontend',
+      name: 'Inventory Optimization', 
+      icon: <FaBoxes className="w-6 h-6" />, 
+      category: 'Inventory Management',
+      level: 95,
+      color: 'from-indigo-500 to-purple-400',
+      iconColor: 'text-indigo-600',
+      bgColor: 'bg-indigo-100 dark:bg-indigo-900/30'
+    },
+    { 
+      name: 'Demand Forecasting', 
+      icon: <FaChartLine className="w-6 h-6" />, 
+      category: 'Inventory Management',
       level: 90,
       color: 'from-blue-500 to-cyan-400',
-      iconColor: 'text-blue-500',
+      iconColor: 'text-blue-600',
       bgColor: 'bg-blue-100 dark:bg-blue-900/30'
     },
     { 
-      name: 'Node.js', 
-      icon: <FaNodeJs className="w-6 h-6" />, 
-      category: 'Backend',
-      level: 85,
+      name: 'ERP Systems', 
+      icon: <FaBoxes className="w-6 h-6" />, 
+      category: 'Inventory Management',
+      level: 88,
       color: 'from-green-500 to-emerald-400',
-      iconColor: 'text-green-500',
+      iconColor: 'text-green-600',
       bgColor: 'bg-green-100 dark:bg-green-900/30'
     },
+    
+    // Warehouse Operations Skills
     { 
-      name: 'Python', 
-      icon: <FaPython className="w-6 h-6" />, 
-      category: 'Backend',
+      name: 'WMS Implementation', 
+      icon: <FaBoxes className="w-6 h-6" />, 
+      category: 'Warehouse Operations',
+      level: 92,
+      color: 'from-orange-500 to-amber-400',
+      iconColor: 'text-orange-600',
+      bgColor: 'bg-orange-100 dark:bg-orange-900/30'
+    },
+    { 
+      name: 'Process Automation', 
+      icon: <SiZapier className="w-6 h-6" />, 
+      category: 'Warehouse Operations',
+      level: 90,
+      color: 'from-yellow-500 to-amber-400',
+      iconColor: 'text-yellow-600',
+      bgColor: 'bg-yellow-100 dark:bg-yellow-900/30'
+    },
+    { 
+      name: 'Safety Compliance', 
+      icon: <FaUserFriends className="w-6 h-6" />, 
+      category: 'Warehouse Operations',
+      level: 94,
+      color: 'from-red-500 to-pink-400',
+      iconColor: 'text-red-600',
+      bgColor: 'bg-red-100 dark:bg-red-900/30'
+    },
+    
+    // AI & Analytics Skills
+    { 
+      name: 'AI Solutions', 
+      icon: <SiOpenai className="w-6 h-6" />, 
+      category: 'AI & Analytics',
       level: 88,
+      color: 'from-purple-500 to-pink-400',
+      iconColor: 'text-purple-600',
+      bgColor: 'bg-purple-100 dark:bg-purple-900/30'
+    },
+    { 
+      name: 'Data Analytics', 
+      icon: <SiTableau className="w-6 h-6" />, 
+      category: 'AI & Analytics',
+      level: 92,
       color: 'from-blue-600 to-indigo-400',
       iconColor: 'text-blue-600',
       bgColor: 'bg-blue-100 dark:bg-blue-900/30'
     },
     { 
-      name: 'JavaScript', 
-      icon: <SiJavascript className="w-6 h-6" />, 
-      category: 'Frontend',
-      level: 92,
-      color: 'from-yellow-400 to-yellow-600',
-      iconColor: 'text-yellow-500',
-      bgColor: 'bg-yellow-100 dark:bg-yellow-900/30'
-    },
-    { 
-      name: 'TypeScript', 
-      icon: <SiTypescript className="w-6 h-6" />, 
-      category: 'Frontend',
+      name: 'Process Mining', 
+      icon: <SiStreamlit className="w-6 h-6" />, 
+      category: 'AI & Analytics',
       level: 85,
-      color: 'from-blue-600 to-blue-400',
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-100 dark:bg-blue-900/30'
-    },
-    { 
-      name: 'MongoDB', 
-      icon: <SiMongodb className="w-6 h-6" />, 
-      category: 'Database',
-      level: 80,
-      color: 'from-green-600 to-emerald-400',
+      color: 'from-green-500 to-emerald-400',
       iconColor: 'text-green-600',
       bgColor: 'bg-green-100 dark:bg-green-900/30'
-    },
-    { 
-      name: 'PostgreSQL', 
-      icon: <SiPostgresql className="w-6 h-6" />, 
-      category: 'Database',
-      level: 78,
-      color: 'from-blue-700 to-blue-400',
-      iconColor: 'text-blue-700',
-      bgColor: 'bg-blue-100 dark:bg-blue-900/30'
     },
   ];
 
@@ -295,141 +319,311 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-bg/90 overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }} />
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+        {/* Grid Pattern Background */}
+        <div className="absolute inset-0" style={{ 
+          zIndex: 1,
+          backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}></div>
+        
+        {/* Dark mode grid pattern */}
+        <div className="absolute inset-0 dark:hidden" style={{
+          backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          zIndex: 1
+        }}></div>
+        
+        <div className="hidden dark:block absolute inset-0" style={{
+          backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+          zIndex: 1
+        }}></div>
         
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
-          <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-purple-500/10 rounded-full filter blur-3xl animate-blob animation-delay-6000"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
         
-        <div className="w-full px-4 sm:px-6 relative z-10">
-          <motion.div 
-            className="max-w-4xl mx-auto text-center py-20 lg:py-32"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            {/* Logo */}
+        {/* Content Container */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col lg:flex-row items-center">
             <motion.div 
-              className="mb-10 flex justify-center"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              variants={container}
+              initial="hidden"
+              animate={isMounted ? "show" : "hidden"}
+              className="lg:w-1/2 lg:pr-16 relative z-10"
             >
-              <img 
-                src={getImagePath('logo')}
-                alt="Logo"
-                className="h-28 w-auto"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
-            </motion.div>
-
-            {/* Tagline */}
-            <motion.div 
-              className="inline-block mb-6 px-5 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium tracking-wide"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              {heroContent.subtitle}
-            </motion.div>
-
-            {/* Main Heading */}
-            <motion.h1 
-              className="text-5xl sm:text-6xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              {heroContent.title}
-            </motion.h1>
-
-            {/* Description */}
-            <motion.p 
-              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              {heroContent.description}
-            </motion.p>
-
-            {/* Call to Action Buttons */}
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-5 justify-center mb-16 mt-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              <Link
-                to={heroContent.primaryButton.link}
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+              <motion.div 
+                variants={item}
+                className="inline-flex items-center mb-8 relative group"
               >
-                <span className="relative z-10 flex items-center">
-                  {heroContent.primaryButton.text}
-                  <FiArrowRight className="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/20 text-indigo-700 dark:text-indigo-300 text-xs font-medium px-4 py-2.5 rounded-full uppercase tracking-wider border border-indigo-100/50 dark:border-indigo-800/30 shadow-sm backdrop-blur-sm">
+                  <span className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-2.5 animate-pulse"></span>
+                  <span className="relative">
+                    Welcome to my portfolio
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
+                  </span>
                 </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              </Link>
-              <a
-                href={heroContent.secondaryButton.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-indigo-600 dark:text-indigo-300 bg-white dark:bg-gray-800 border-2 border-indigo-200 dark:border-indigo-800 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <span className="relative z-10 flex items-center">
-                  {heroContent.secondaryButton.text}
-                  <FiDownload className="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
-                </span>
-              </a>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div 
-              className="flex items-center justify-center gap-6 mt-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-            >
-              {heroContent.socialLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
-                  aria-label={link.label}
+                <span className="absolute -inset-1 bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur opacity-0 group-hover:opacity-100 -z-10 transition-all duration-300"></span>
+              </motion.div>
+              
+              <motion.div variants={item} className="mb-4">
+                <motion.span 
+                  className="text-lg sm:text-xl font-semibold text-indigo-600 dark:text-indigo-400 block mb-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
                 >
-                  <span className="sr-only">{link.label}</span>
-                  <span className="text-2xl">{link.icon}</span>
-                </a>
-              ))}
+                  {heroContent.title}
+                </motion.span>
+                <motion.h1 
+                  className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.7 }}
+                >
+                  Sahil Khan
+                </motion.h1>
+                <div className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 dark:text-white leading-tight">
+                  <span className="relative inline-block mr-2">
+                    <span className="relative z-10">I'm a </span>
+                    <div className="absolute bottom-1 left-0 w-full h-3 bg-cyan-400/30 dark:bg-cyan-500/30 -rotate-1 -z-0"></div>
+                  </span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 font-bold">
+                    Data Analyst & Full-Stack Developer
+                  </span>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                variants={item}
+                className="mb-10 max-w-2xl relative"
+              >
+                <div className="absolute -left-1 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-400 to-blue-500 rounded-full"></div>
+                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed pl-6 relative">
+                  <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mt-1">"</span>
+                  {heroContent.description}
+                  <span className="absolute right-0 bottom-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mb-4">"</span>
+                </p>
+              </motion.div>
+              
+              <motion.div variants={item} className="flex flex-col sm:flex-row gap-6 mb-12">
+                <div className="space-y-4">
+                  <Link 
+                    to={heroContent.primaryButton.link}
+                    className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg hover:shadow-xl overflow-hidden"
+                  >
+                    <span className="relative z-10 flex items-center">
+                      <span className="transition-all duration-300 group-hover:translate-x-1">
+                        {heroContent.primaryButton.text}
+                      </span>
+                      <FiArrowRight className="ml-3 h-5 w-5 transition-all duration-300 transform -translate-x-1 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                  </Link>
+                  
+                  <div className="flex items-center space-x-4">
+                    <div className="flex -space-x-3">
+                      {[1, 2, 3].map((i) => (
+                        <div 
+                          key={i}
+                          className="relative w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-800 dark:to-blue-900 shadow-md transition-transform duration-300 hover:-translate-y-1"
+                          style={{ zIndex: 3 - i }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <svg key={star} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mt-1">5.0 (120+ reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <Link 
+                  to={heroContent.secondaryButton.link}
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700 text-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl overflow-hidden"
+                >
+                  <span className="relative z-10 flex items-center">
+                    <span className="transition-all duration-300 group-hover:translate-x-1">
+                      {heroContent.secondaryButton.text}
+                    </span>
+                    {heroContent.secondaryButton.showArrow && (
+                      <FiArrowRight className="ml-3 h-5 w-5 transition-all duration-300 transform -translate-x-1 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
+                    )}
+                  </span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-800/50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+                </Link>
+              </motion.div>
+              
+              <motion.div 
+                variants={item}
+                className="flex items-center space-x-4 bg-white/50 dark:bg-gray-900/30 backdrop-blur-sm p-4 rounded-xl border border-gray-100 dark:border-gray-800/50 shadow-sm"
+              >
+                <div className="flex-shrink-0 flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <div 
+                      key={i}
+                      className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-800 dark:to-blue-900 shadow-md transition-transform duration-300 hover:-translate-y-1"
+                      style={{ zIndex: 3 - i }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
+                    </div>
+                  ))}
+                </div>
+                <div className="ml-2">
+                  <div className="font-medium text-gray-900 dark:text-white">Trusted by professionals</div>
+                  <div className="flex items-center">
+                    <div className="flex">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg key={star} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">5.0 (120+ reviews)</span>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-          
-          {/* Scroll Indicator */}
-          <motion.div 
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.5 }}
-          >
-            <span className="text-sm text-gray-500 dark:text-gray-400 mb-2">Scroll Down</span>
-            <div className="w-6 h-10 border-2 border-gray-400 dark:border-gray-500 rounded-full flex justify-center p-1">
-              <motion.div
-                className="w-1 h-2 bg-gray-500 dark:bg-gray-400 rounded-full"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-          </motion.div>
+            
+            {/* Right content - Expertise card */}
+            <motion.div 
+              variants={item}
+              className="lg:w-1/2 mt-16 lg:mt-0 lg:pl-12 relative group"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            >
+              {/* Decorative elements */}
+              <div className="absolute -top-6 -right-6 w-32 h-32 bg-indigo-500/10 rounded-full filter blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-500/10 rounded-full filter blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 lg:p-10 border border-white/20 dark:border-gray-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-indigo-500/5 to-transparent rounded-full animate-spin-slow"></div>
+                  <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tl from-purple-500/5 to-transparent rounded-full animate-spin-slow animation-delay-3000"></div>
+                </div>
+                
+                <div className="relative z-10">
+                  {/* Card header */}
+                  <motion.div 
+                    className="flex items-center mb-8"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-3 animate-pulse"></div>
+                    <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+                      My Expertise
+                    </h3>
+                  </motion.div>
+                  
+                  {/* Card description */}
+                  <motion.p 
+                    className="text-lg text-gray-600 dark:text-gray-300 mb-10 leading-relaxed relative pl-6 border-l-2 border-indigo-500/20 dark:border-indigo-400/20"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    Specializing in data analysis, inventory management, and full-stack development to deliver impactful solutions that drive business growth and efficiency.
+                  </motion.p>
+                  
+                  {/* Expertise items */}
+                  <div className="space-y-6 mb-10">
+                    {[
+                      { 
+                        icon: <FaChartLine className="text-2xl" />, 
+                        title: 'Data Analysis', 
+                        description: 'Transforming raw data into actionable insights',
+                        color: 'from-indigo-500 to-blue-500',
+                        bgColor: 'bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30',
+                        delay: 0.4
+                      },
+                      { 
+                        icon: <FaBoxes className="text-2xl" />, 
+                        title: 'Inventory Management', 
+                        description: 'Optimizing stock levels and reducing waste',
+                        color: 'from-purple-500 to-pink-500',
+                        bgColor: 'bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30',
+                        delay: 0.5
+                      },
+                      { 
+                        icon: <FaLaptopCode className="text-2xl" />, 
+                        title: 'Automation', 
+                        description: 'Streamlining processes with custom solutions',
+                        color: 'from-blue-500 to-cyan-500',
+                        bgColor: 'bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30',
+                        delay: 0.6
+                      }
+                    ].map((item, index) => (
+                      <motion.div 
+                        key={index} 
+                        className="flex items-start space-x-4 group"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: item.delay }}
+                      >
+                        <div className={`p-3 ${item.bgColor} rounded-xl group-hover:scale-110 transition-all duration-300 relative overflow-hidden`}>
+                          <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
+                          <div className={`bg-clip-text text-transparent bg-gradient-to-br ${item.color} relative z-10`}>
+                            {item.icon}
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">{item.title}</h4>
+                          <p className="text-gray-600 dark:text-gray-400 text-sm">{item.description}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                  
+                  {/* Technologies */}
+                  <motion.div 
+                    className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-700/50"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.7 }}
+                  >
+                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center">
+                      <span className="w-3 h-0.5 bg-indigo-500 mr-2"></span>
+                      Technologies I Work With
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {['Data Analytics', 'AI/ML', 'Inventory', 'Automation', 'Excel', 'SQL', 'Python', 'React'].map((tag, i) => (
+                        <motion.span 
+                          key={i} 
+                          className="px-3 py-1.5 text-xs font-medium text-indigo-700 dark:text-indigo-200 bg-indigo-50/80 dark:bg-indigo-900/40 rounded-full border border-indigo-100 dark:border-indigo-800/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-1/4 -left-10 w-96 h-96 bg-indigo-100/60 dark:bg-indigo-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+          <div className="absolute top-1/2 -right-10 w-96 h-96 bg-purple-100/60 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-blue-100/60 dark:bg-blue-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
         </div>
       </section>
 
@@ -572,48 +766,142 @@ const Home = () => {
               visible: { 
                 opacity: 1, 
                 y: 0,
-                transition: { duration: 0.6 }
+                transition: { 
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1]
+                }
               }
             }}
           >
-            <motion.span 
-              className="inline-block px-4 py-1.5 text-xs font-semibold tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-4 uppercase"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
+            {/* Text Content */}
+          <div className="w-full lg:w-1/2 text-center lg:text-left relative z-10 px-4 sm:px-6">
+            {/* Welcome Badge */}
+            <motion.div 
+              className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6 shadow-sm border border-indigo-100/50 dark:border-indigo-800/30 backdrop-blur-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  duration: 0.6,
+                  ease: [0.16, 1, 0.3, 1]
+                }
+              }}
             >
-              Featured Work
-            </motion.span>
-            <motion.h2 
-              className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400 mb-6"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              Project Showcase
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              Explore my portfolio of cutting-edge projects, where data meets design and innovation drives results.
-            </motion.p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
-            {projects.filter(p => p.featured).map((project, index) => (
-              <motion.div 
-                key={project.id}
-                className="group relative h-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-200/80 dark:border-gray-700/50 hover:border-indigo-400/70 dark:hover:border-blue-400/40 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
+              <span className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-2.5 animate-pulse"></span>
+              <span className="relative">
+                Welcome to my portfolio
+                <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </motion.div>
+            
+            {/* Main Heading */}
+            <motion.div className="mb-4">
+              <motion.span 
+                className="text-lg sm:text-xl font-semibold text-indigo-600 dark:text-indigo-400 block mb-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: { 
+                    delay: 0.2,
+                    duration: 0.6,
+                    ease: [0.16, 1, 0.3, 1]
+                  }
+                }}
               >
-                {/* Enhanced glow effect */}
+                Hello, I'm
+              </motion.span>
+              <motion.h1 
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: { 
+                    delay: 0.3,
+                    duration: 0.7,
+                    ease: [0.16, 1, 0.3, 1]
+                  }
+                }}
+              >
+                Sahil Khan
+              </motion.h1>
+            </motion.div>
+            
+            {/* Animated Text */}
+            <motion.div 
+              className="mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  delay: 0.4,
+                  duration: 0.7,
+                  ease: [0.16, 1, 0.3, 1]
+                }
+              }}
+            >
+              <div className="inline-block">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 dark:text-white leading-tight">
+                  <span className="relative inline-block mr-2">
+                    <span className="relative z-10">I'm a </span>
+                    <div className="absolute bottom-1 left-0 w-full h-3 bg-cyan-400/30 dark:bg-cyan-500/30 -rotate-1 -z-0"></div>
+                  </span>
+                  <Typewriter
+                    options={{
+                      strings: ['Data Analyst', 'Full-Stack Developer', 'Problem Solver', 'Tech Enthusiast'],
+                      autoStart: true,
+                      loop: true,
+                      deleteSpeed: 30,
+                      delay: 50,
+                      cursor: '|',
+                      wrapperClassName: 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 font-bold',
+                      cursorClassName: 'text-cyan-500 dark:text-cyan-300'
+                    }}
+                  />
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Description */}
+            <motion.div 
+              className="mb-10 max-w-2xl mx-auto lg:mx-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  delay: 0.5,
+                  duration: 0.7,
+                  ease: [0.16, 1, 0.3, 1]
+                }
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -left-1 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-400 to-blue-500 rounded-full"></div>
+                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed pl-6 relative">
+                  <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mt-1">"</span>
+                  Transforming complex data into actionable insights and building scalable web applications. With expertise in data analysis, inventory management, and full-stack development, I help businesses make data-driven decisions that drive growth and efficiency.
+                  <span className="absolute right-0 bottom-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mb-4">"</span>
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* Projects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+              {filteredProjects.map((project, index) => (
+                <motion.div
+                  key={project.id}
+                  className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
+                >
+                  {/* Enhanced glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
                 
@@ -625,7 +913,7 @@ const Home = () => {
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
                     <img
-                      src={getProjectImage(project.id, project.image) || '/images/project-placeholder.jpg'}
+                      src={project.image ? getImagePath('project', project.id, project.image) : '/images/project-placeholder.jpg'}
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       onError={(e) => {
@@ -738,7 +1026,9 @@ const Home = () => {
             </Link>
           </motion.div>
         </div>
-      </section>
+      </motion.div>
+    </div>
+  </section>
 
       {/* Testimonials Section */}
       <section className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">

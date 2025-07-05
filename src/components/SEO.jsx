@@ -5,7 +5,7 @@ const SEO = ({
   title, 
   description, 
   type = 'website', 
-  image = '/images/og-default.jpg',
+  image = '/images/logo512.png',
   structuredData = null,
   children 
 }) => {

@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/Sahil-Portfolio/",
-    "preview": "vite preview --base=/Sahil-Portfolio/",
+    "build": "vite build --base=/Sahil-Portfolio",
+    "preview": "vite preview --base=/Sahil-Portfolio",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:ui": "vitest --ui",

@@ -28,9 +28,7 @@ import { BsFileEarmarkExcel } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import ProjectImage from '../components/ProjectImage';
 import SEO from '../components/SEO';
-import HeroSection from '../components/HeroSection/HeroSection';
 import getImagePath from '../utils/imagePaths';
-import '../components/HeroSection/HeroSection.css';
 
 // Glitch text component
 const GlitchText = ({ children }) => {
@@ -882,35 +880,16 @@ const Projects = () => {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               {/* Text Content */}
-              <div className="lg:w-1/2 text-center lg:text-left">
+              <div className="w-full text-center lg:text-left">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
                   My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
                 </h1>
                 <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
                   Data Analysis | Visualization | Machine Learning
                 </p>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto lg:mx-0">
                   Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively.
                 </p>
-              </div>
-              
-              {/* Profile Image */}
-              <div className="lg:w-1/2 flex justify-center">
-                <div className="relative w-64 h-64 md:w-80 md:h-80">
-                  <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-2xl opacity-70"></div>
-                  <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
-                    <img
-                      src={getImagePath('profile')}
-                      alt="Sahil Ali - Data Analyst & Inventory Specialist"
-                      className="w-full h-full object-cover object-top"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = getImagePath('profile', '', 'placeholder-profile.jpg');
-                      }}
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           <div className="relative max-w-2xl mx-auto mt-8">

@@ -307,8 +307,7 @@ const About = () => {
       text: 'My Experience', 
       link: `${import.meta.env.BASE_URL || '/'}experience`,
       showArrow: true
-    },
-    profileImage: '/images/profile.avif'
+    }
   };
 
   return (
@@ -381,61 +380,36 @@ const About = () => {
               </motion.div>
             </div>
 
-            {/* Profile Image */}
-            <motion.div 
-              className="w-full lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                <div className="absolute inset-0 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70 animate-pulse"></div>
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
-                    <img
-                      src={heroContent.profileImage}
-                      alt="Sahil Ali - Full Stack Developer"
-                      className="w-full h-full object-cover object-top"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/images/placeholder-profile.jpg';
-                      }}
-                    />
+            {/* Content placeholder - Removed profile image */}
+            <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
+              <div className="relative w-full h-full flex items-center justify-center">
+                <div className="text-center p-8 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">My Expertise</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    Specializing in data analysis, inventory management, and full-stack development to deliver impactful solutions.
+                  </p>
+                  <div className="flex justify-center gap-4 mt-6">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">4+</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Years Exp</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">50+</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Projects</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">30+</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Clients</div>
+                    </div>
                   </div>
                 </div>
-                
-                {/* Decorative Elements */}
-                <motion.div 
-                  className="absolute -bottom-4 -left-4 w-24 h-24 bg-yellow-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob"
-                  animate={{
-                    y: [0, 15, 0],
-                  }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                  }}
-                ></motion.div>
-                <motion.div 
-                  className="absolute -top-4 -right-4 w-20 h-20 bg-pink-400/20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"
-                  animate={{
-                    y: [0, -15, 0],
-                  }}
-                  transition={{
-                    duration: 7,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                    delay: 1
-                  }}
-                ></motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
-      
-      {/* Enhanced Skills Section */}
+
+      {/* Skills Section */}
       <section id="skills" className="relative py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-5 dark:opacity-10 pointer-events-none">

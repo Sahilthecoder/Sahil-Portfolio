@@ -36,7 +36,7 @@ const HeroSection = ({
   primaryButton = { text: 'View My Work', link: '/projects', showArrow: true },
   secondaryButton = { text: 'Contact Me', link: '/contact', showArrow: true },
   isHome = true,
-  showProfileImage = false,
+  showProfileImage = false, // Set to true only on the About page
   profileImage = getImagePath('profile'),
   children,
 }) => {
@@ -223,8 +223,8 @@ const HeroSection = ({
             {children}
           </motion.div>
 
-          {/* Right Column - Image */}
-          {(isHome || showProfileImage) && (
+          {/* Right Column - Image - Only shown when explicitly requested */}
+          {showProfileImage && (
             <motion.div 
               className="w-full lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end"
               initial={{ opacity: 0, scale: 0.9 }}

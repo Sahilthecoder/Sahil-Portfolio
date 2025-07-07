@@ -24,22 +24,45 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     base: base,
+    publicDir: 'public',
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          entryFileNames: `assets/[name]-[hash].js`,
+          chunkFileNames: `assets/[name]-[hash].js`,
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name.split('.');
+            const ext = info[info.length - 1];
+            if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'avif'].includes(ext)) {
+              return 'assets/images/[name]-[hash][extname]';
+            }
+            if (ext === 'css') {
+              return 'assets/css/[name]-[hash][extname]';
+            }
+            return 'assets/[name]-[hash][extname]';
+          },
+        },
+      },
+    },
     plugins: [
       react(),
       VitePWA({
         registerType: 'autoUpdate',
         srcDir: 'src',
-        filename: 'sw.js',
+        filename: 'service-worker.js',
         strategies: 'injectManifest',
-        manifest: false, // We're using a separate manifest file
+        injectRegister: 'auto',
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+          globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,webp}'],
           runtimeCaching: [
             {
-              urlPattern: /^https:\/\/sahilthecoder\.github\.io\/Sahil-Portfolio\//,
+              urlPattern: new RegExp('^https://sahilthecoder\.github\.io/Sahil-Portfolio/'),
               handler: 'StaleWhileRevalidate',
               options: {
-                cacheName: 'portfolio-assets',
+                cacheName: 'portfolio-cache',
                 expiration: {
                   maxEntries: 50,
                   maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
@@ -48,6 +71,29 @@ export default defineConfig(({ command, mode }) => {
                   statuses: [0, 200]
                 }
               }
+            }
+          ]
+        },
+        manifest: {
+          name: 'Sahil Ali Portfolio',
+          short_name: 'SahilPortfolio',
+          start_url: base,
+          scope: base,
+          display: 'standalone',
+          background_color: '#ffffff',
+          theme_color: '#2563eb',
+          icons: [
+            {
+              src: 'logo192.png',
+              sizes: '192x192',
+              type: 'image/png',
+              purpose: 'any maskable'
+            },
+            {
+              src: 'logo512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable'
             }
           ]
         },

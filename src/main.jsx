@@ -44,15 +44,26 @@ console.log('Application base URL:', window.__BASE_URL__);
 // Register service worker in production
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {
-    const swUrl = `${window.__BASE_URL__}sw.js`;
+    // Use the base URL from the environment or fallback to the current path
+    const swPath = `${window.__BASE_URL__}sw.js`;
     
-    navigator.serviceWorker.register(swUrl)
-      .then(registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch(error => {
-        console.error('ServiceWorker registration failed: ', error);
-      });
+    navigator.serviceWorker.register(swPath, {
+      scope: window.__BASE_URL__
+    })
+    .then(registration => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    })
+    .catch(error => {
+      console.error('ServiceWorker registration failed: ', error);
+      // Fallback to unregister if registration fails
+      if (navigator.serviceWorker.getRegistrations) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
+        });
+      }
+    });
   });
 }
 

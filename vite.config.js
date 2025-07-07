@@ -56,6 +56,7 @@ export default defineConfig(({ command, mode }) => {
         strategies: 'injectManifest',
         injectRegister: 'auto',
         base: base,
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg', 'logo192.png', 'logo512.png'],
         devOptions: {
           enabled: false
         },

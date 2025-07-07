@@ -23,15 +23,35 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === 'build';
 
   return {
+    base: base,
     plugins: [
       react(),
       VitePWA({
         registerType: 'autoUpdate',
-        base: base,
         srcDir: 'src',
         filename: 'sw.js',
         strategies: 'injectManifest',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg'],
+        manifest: false, // We're using a separate manifest file
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,json}'],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/sahilthecoder\.github\.io\/Sahil-Portfolio\//,
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'portfolio-assets',
+                expiration: {
+                  maxEntries: 50,
+                  maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            }
+          ]
+        },
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg', 'logo192.png', 'logo512.png'],
         manifest: {
           name: 'Sahil Ali Portfolio',
           short_name: 'SahilPortfolio',

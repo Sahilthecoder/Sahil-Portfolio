@@ -1,27 +1,54 @@
-import React, { StrictMode, useEffect } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
-import './reset.css'; // CSS reset
+import './reset.css';
 import './App.css';
 import './styles/globals.css';
-import ClientOnly from './components/ClientOnly';
-import { ThemeProvider } from './context/ThemeContext';
-import baseUrl from './config/baseUrl';
 
-// Register service worker in production
-if (import.meta.env.PROD && 'serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => {
-        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-      })
-      .catch(error => {
-        console.log('ServiceWorker registration failed: ', error);
-      });
-  });
+// Get the root element
+const container = document.getElementById('root');
+
+// Error handling for missing root element
+if (!container) {
+  const errorMsg = 'Critical Error: Failed to find the root element. Please check if public/index.html has a div with id="root"';
+  console.error(errorMsg);
+  
+  // Create a visible error message in the DOM if root element is missing
+  const errorDiv = document.createElement('div');
+  errorDiv.style.position = 'fixed';
+  errorDiv.style.top = '0';
+  errorDiv.style.left = '0';
+  errorDiv.style.right = '0';
+  errorDiv.style.padding = '1rem';
+  errorDiv.style.backgroundColor = '#fef2f2';
+  errorDiv.style.color = '#b91c1c';
+  errorDiv.style.borderBottom = '1px solid #fecaca';
+  errorDiv.style.zIndex = '9999';
+  errorDiv.style.fontFamily = 'monospace';
+  errorDiv.style.whiteSpace = 'pre';
+  errorDiv.style.overflow = 'auto';
+  errorDiv.style.maxHeight = '50vh';
+  errorDiv.textContent = errorMsg;
+  
+  document.body.prepend(errorDiv);
+  
+  throw new Error(errorMsg);
 }
+
+// Create a root and render the app
+const root = createRoot(container);
+
+// Set the base URL for the application
+const baseUrl = import.meta.env.BASE_URL || '/';
+window.__BASE_URL__ = baseUrl;
+console.log('Application base URL:', baseUrl);
+
+// Initial render with the App component
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
@@ -73,46 +100,6 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-// Initialize the application
-const container = document.getElementById('root');
-
 // Set the base URL in a global variable for debugging
 window.__BASE_URL__ = baseUrl;
 console.log('Application base URL:', baseUrl);
-
-// Ensure the container exists before creating the root
-if (container) {
-  const root = createRoot(container);
-  
-  // Wrap the app with necessary providers
-  const AppWithProviders = () => (
-    <StrictMode>
-      <ErrorBoundary>
-        <ClientOnly>
-          <ThemeProvider>
-            <HelmetProvider>
-              <BrowserRouter basename={baseUrl.replace(/\/$/, '')}>
-                <App />
-              </BrowserRouter>
-            </HelmetProvider>
-          </ThemeProvider>
-        </ClientOnly>
-      </ErrorBoundary>
-    </StrictMode>
-  );
-
-  // Render the app
-  root.render(<AppWithProviders />);
-} else {
-  const errorMsg = 'Critical Error: Failed to find the root element. Please check if public/index.html has a div with id="root"';
-  console.error(errorMsg);
-  document.body.innerHTML = `
-    <div style="font-family: Arial, sans-serif; padding: 2rem; color: #dc2626; max-width: 800px; margin: 0 auto;">
-      <h1>Application Error</h1>
-      <p>${errorMsg}</p>
-      <p>If you're the site owner, please check the browser console for more details.</p>
-    </div>
-  `;
-}
-
-// Analytics and performance tracking can be added here when needed

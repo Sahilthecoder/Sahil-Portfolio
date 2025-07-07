@@ -1,602 +1,356 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-// Base URL for images
-const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
-import { Link } from 'react-router-dom';
 import { 
-  FaGithub, 
-  FaLinkedin, 
-  FaEnvelope, 
-  FaMapMarkerAlt,
-  FaDownload,
-  FaPhone,
-  FaGlobe,
-  FaDatabase,
-  FaChartLine,
-  FaCode,
-  FaServer,
-  FaTools,
-  FaGraduationCap,
-  FaAward,
-  FaBriefcase,
-  FaLaptopCode,
-  FaFilePdf,
-  FaChartBar,
-  FaDesktop,
-  FaArrowRight,
-  FaRocket,
-  FaLightbulb,
-  FaProjectDiagram,
-  FaUsers,
-  FaChartPie,
-  FaRobot,
-  FaBars,
-  FaUserFriends,
-  FaTruck
+  FaGithub, FaLinkedin, FaEnvelope, FaFilePdf, FaExternalLinkAlt, FaArrowRight,
+  FaBriefcase, FaLaptopCode, FaChartLine, FaTools, FaCheck, FaUserTie, FaWarehouse,
+  FaChartBar, FaClipboardCheck, FaTruck, FaBoxOpen, FaSearchDollar, FaMicrosoft,
+  FaBrain, FaRobot, FaCogs, FaShieldAlt, FaDatabase, FaFileAlt
 } from 'react-icons/fa';
-import { FiArrowRight } from 'react-icons/fi';
-import { FaMicrosoft } from 'react-icons/fa';
-import { SiTensorflow, SiPython, SiReact, SiJavascript } from 'react-icons/si';
-import '../components/HeroSection/HeroSection.css';
-
-// Skills data organized by category
-const skillsByCategory = [
-  {
-    category: 'Data & Analysis',
-    icon: <FaChartLine className="text-blue-500" />,
-    skills: [
-      { name: 'Data Analysis', level: 90, icon: <FaChartLine className="text-blue-500" /> },
-      { name: 'Data Visualization', level: 88, icon: <FaChartBar className="text-purple-500" /> },
-      { name: 'Statistical Modeling', level: 85, icon: <FaChartPie className="text-green-500" /> },
-      { name: 'Excel & VBA', level: 92, icon: <FaMicrosoft className="text-yellow-500" /> }
-    ]
-  },
-  {
-    category: 'Inventory & Systems',
-    icon: <FaDatabase className="text-purple-500" />,
-    skills: [
-      { name: 'Inventory Management', level: 95, icon: <FaDatabase className="text-purple-500" /> },
-      { name: 'ERP Systems', level: 90, icon: <FaServer className="text-green-500" /> },
-      { name: 'Process Optimization', level: 88, icon: <FaProjectDiagram className="text-blue-500" /> },
-      { name: 'Supply Chain', level: 85, icon: <FaTruck className="text-indigo-500" /> }
-    ]
-  },
-  {
-    category: 'AI & Development',
-    icon: <FaRobot className="text-pink-500" />,
-    skills: [
-      { name: 'AI & ML', level: 80, icon: <FaRobot className="text-pink-500" /> },
-      { name: 'Python', level: 88, icon: <SiPython className="text-blue-400" /> },
-      { name: 'JavaScript/React', level: 75, icon: <SiReact className="text-blue-300" /> },
-      { name: 'SQL & NoSQL', level: 85, icon: <FaDatabase className="text-yellow-500" /> }
-    ]
-  },
-  {
-    category: 'Tools & Platforms',
-    icon: <FaTools className="text-yellow-500" />,
-    skills: [
-      { name: 'Power BI', level: 85, icon: <FaMicrosoft className="text-yellow-400" /> },
-      { name: 'Tableau', level: 80, icon: <FaChartBar className="text-blue-500" /> },
-      { name: 'Jupyter Notebooks', level: 85, icon: <FaCode className="text-orange-500" /> },
-      { name: 'Git & GitHub', level: 78, icon: <FaGithub className="text-gray-800 dark:text-gray-200" /> }
-    ]
-  }
-];
-
-// Timeline data
-const timeline = [
-  {
-    id: 1,
-    role: 'Inventory Specialist',
-    company: 'Ekam Indian Groceries, Australia',
-    duration: '2021 - Present',
-    description: 'Optimized inventory management, reduced stock discrepancies, and implemented data-driven purchasing strategies.',
-    icon: <FaBriefcase className="text-blue-500" />
-  },
-  {
-    id: 2,
-    role: 'Data Analyst',
-    company: 'Bansal Supermarket',
-    duration: '2019 - 2021',
-    description: 'Developed automated reporting systems and improved data accuracy for inventory management.',
-    icon: <FaChartLine className="text-purple-500" />
-  },
-  {
-    id: 3,
-    role: 'B.Sc. Computer Science',
-    company: 'MDSU University',
-    duration: '2018 - 2021',
-    description: 'Graduated with focus on data structures, algorithms, and database management.',
-    icon: <FaGraduationCap className="text-green-500" />
-  }
-];
-
-// Fun facts data
+import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import Footer from '../components/Footer';
+import { NavLink } from 'react-router-dom';
+import { FiTrendingUp } from 'react-icons/fi';
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
-  const aboutRef = useRef(null);
-  const [showMore, setShowMore] = useState(false);
-
+  
   useEffect(() => {
     setIsMounted(true);
-    let ticking = false;
-    
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const sections = ['about', 'skills', 'experience', 'education'];
-          const scrollPosition = window.scrollY + 100;
-          
-          for (const section of sections) {
-            const element = document.getElementById(section);
-            if (element) {
-              const { offsetTop, offsetHeight } = element;
-              if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-                setActiveSection(section);
-                break;
-              }
-            }
-          }
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      setIsMounted(false);
-    };
   }, []);
-
-  // Enhanced scroll to section handler with mobile support
-  const scrollToSection = (sectionId) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const header = document.querySelector('header');
-      const headerHeight = header ? header.offsetHeight : 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-      
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
-  // Animation variants
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 20
-      }
-    },
-  };
-
-  // Navigation items with smooth scrolling
-  const navItems = [
-    { 
-      id: 'about', 
-      label: 'About Me', 
-      icon: <FaLaptopCode className="mr-2" />,
-      onClick: (e) => {
-        e.preventDefault();
-        scrollToSection('about');
-      }
-    },
-    { 
-      id: 'skills', 
-      label: 'Skills', 
-      icon: <FaTools className="mr-2" />,
-      onClick: (e) => {
-        e.preventDefault();
-        scrollToSection('skills');
-      }
-    },
-    { 
-      id: 'experience', 
-      label: 'Experience', 
-      icon: <FaBriefcase className="mr-2" />,
-      onClick: (e) => {
-        e.preventDefault();
-        scrollToSection('experience');
-      }
-    },
-    { 
-      id: 'education', 
-      label: 'Education', 
-      icon: <FaGraduationCap className="mr-2" />,
-      onClick: (e) => {
-        e.preventDefault();
-        scrollToSection('education');
-      }
-    },
-  ];
-
-  const renderNavItems = () => (
-    <div className="flex flex-col space-y-2">
-      {navItems.map((item) => (
-        <motion.button
-          key={item.id}
-          onClick={item.onClick}
-          className={`flex items-center px-4 py-3 rounded-lg transition-all duration-200 ${
-            activeSection === item.id
-              ? 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-200 font-medium'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50'
-          } touch-manipulation`}
-          whileTap={{ scale: 0.98 }}
-          style={{ WebkitTapHighlightColor: 'transparent' }}
-        >
-          {item.icon}
-          {item.label}
-        </motion.button>
-      ))}
-    </div>
-  );
-
-  // Fun facts data
-  const funFacts = [
-    {
-      id: 1,
-      icon: <FaRocket className="text-indigo-600 dark:text-indigo-400 text-xl" />,
-      value: '4+',
-      title: 'Years Experience',
-      description: 'Delivering data-driven solutions'
-    },
-    {
-      id: 2,
-      icon: <FaLightbulb className="text-yellow-500 dark:text-yellow-400 text-xl" />,
-      value: '50+',
-      title: 'Projects Completed',
-      description: 'Across various industries'
-    },
-    {
-      id: 3,
-      icon: <FaChartLine className="text-green-500 dark:text-green-400 text-xl" />,
-      value: '90%',
-      title: 'Success Rate',
-      description: 'Project delivery success'
-    },
-    {
-      id: 4,
-      icon: <FaUsers className="text-blue-500 dark:text-blue-400 text-xl" />,
-      value: '30+',
-      title: 'Happy Clients',
-      description: 'Satisfied with my work'
-    }
-  ];
 
   if (!isMounted) return null;
 
-  // Hero content for About page with enhanced mobile support
-  const heroContent = {
-    title: 'About Me',
-    subtitle: 'Get to know me better',
-    description: 'I am a passionate developer with expertise in web development and data analysis. I love creating beautiful, functional applications that solve real-world problems.',
-    primaryButton: { 
-      text: 'View Skills', 
-      link: '#skills',
-      showArrow: true,
-      onClick: (e) => {
-        e.preventDefault();
-        scrollToSection('skills');
-      }
+  const expertise = [
+    {
+      title: 'Inventory Mastery',
+      icon: <FaClipboardCheck className="text-3xl text-indigo-600" />,
+      items: ['Stock Reconciliation', 'Vendor Relations', 'Demand Forecasting', 'Inventory Auditing']
     },
-    secondaryButton: { 
-      text: 'My Experience', 
-      link: `${import.meta.env.BASE_URL || '/'}experience`,
-      showArrow: true
+    {
+      title: 'Warehouse Management',
+      icon: <FaWarehouse className="text-3xl text-blue-600" />,
+      items: ['SOPs Implementation', 'Team Supervision', 'Logistics', 'Space Optimization']
+    },
+    {
+      title: 'AI Automation',
+      icon: <FaRobot className="text-3xl text-purple-600" />,
+      items: ['GPT-4 Workflows', 'Notion AI', 'Python Scripting', 'Process Automation']
     }
-  };
+  ];
+
+  const tools = [
+    { name: 'Excel', icon: <FaMicrosoft className="text-2xl" /> },
+    { name: 'Power BI', icon: <FaMicrosoft className="text-2xl" /> },
+    { name: 'Python', icon: <FaLaptopCode className="text-2xl" /> },
+    { name: 'SQL', icon: <FaDatabase className="text-2xl" /> },
+    { name: 'ChatGPT', icon: <FaBrain className="text-2xl" /> },
+    { name: 'Notion AI', icon: <FaFileAlt className="text-2xl" /> },
+  ];
+
+  const values = [
+    { text: 'Accuracy Over Assumptions', icon: <FaShieldAlt className="text-indigo-500" /> },
+    { text: 'Systematic & Organized', icon: <FaCogs className="text-blue-500" /> },
+    { text: 'Obsessed with Optimization', icon: <FaChartLine className="text-purple-500" /> },
+    { text: 'Always Learning New Tools', icon: <FaTools className="text-green-500" /> }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-bg/90 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      <ModernNavbar activeSection={activeSection} />
+      
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
+        {/* Data-themed background pattern from Hero Patterns */}
+        <div 
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm63 31c1.657 0 3-1.343 3-3s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM34 90c1.657 0 3-1.343 3-3s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm56-76c1.657 0 3-1.343 3-3s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundSize: '150px',
+            zIndex: 0
+          }}
+        ></div>
         
-        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24">
-            {/* Text Content */}
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
               <motion.div 
-                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                {heroContent.subtitle}
+                <FiTrendingUp className="w-4 h-4" />
+                <span>Data Analyst & Business Intelligence</span>
               </motion.div>
               
               <motion.h1 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                Hi, I'm <span className="block">Sahil Ali</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto lg:mx-0"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation Enthusiast.
+              </motion.p>
+              
+              <motion.p 
+                className="text-lg italic text-gray-500 dark:text-gray-400 mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                {heroContent.title}
-              </motion.h1>
-              
-              <motion.p 
-                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                {heroContent.description}
+                "I simplify chaos, optimize systems, and use AI to make work smarter."
               </motion.p>
 
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
               >
-                <button
-                  onClick={heroContent.primaryButton.onClick}
-                  className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 group"
+                <a
+                  href="/assets/Sahil_Ali_Cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full"
                 >
-                  {heroContent.primaryButton.text}
-                  {heroContent.primaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
-                </button>
-                <Link
-                  to={heroContent.secondaryButton.link}
-                  className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  <span className="relative z-10">View Resume</span>
+                  <FaExternalLinkAlt className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </a>
+                <a
+                  href="/assets/Sahil_Ali_Cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full"
                 >
-                  {heroContent.secondaryButton.text}
-                  {heroContent.secondaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
-                </Link>
+                  <span className="relative z-10">Preview Resume</span>
+                  <FaFileAlt className="w-4 h-4" />
+                </a>
               </motion.div>
             </div>
 
-            {/* Content placeholder - Removed profile image */}
             <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="text-center p-8 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">My Expertise</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    Specializing in data analysis, inventory management, and full-stack development to deliver impactful solutions.
-                  </p>
-                  <div className="flex justify-center gap-4 mt-6">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">4+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Years Exp</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">50+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Projects</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">30+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Clients</div>
+              <motion.div 
+                className="relative w-full h-full flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 transform rotate-6"></div>
+                    <div className="absolute inset-1 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+                      <img 
+                        src="/images/profile/profile.avif" 
+                        alt="Sahil Ali - Professional Photo"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/images/profile-fallback.png";
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Career Summary */}
+      <section className="py-16 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <motion.h2 
+              className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              My Journey
+            </motion.h2>
+            <motion.p 
+              className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              I began my career optimizing inventory systems in fast-paced retail environments. 
+              Over the past 4+ years, I've supervised warehouse operations, streamlined vendor coordination, 
+              and processed thousands of purchase invoices with precision. Today, I combine that practical 
+              experience with the power of AI tools like ChatGPT, Python, and Notion AI to build automated 
+              workflows that save time and reduce errors.
+            </motion.p>
+          </div>
+        </div>
+      </section>
+
+      {/* Expertise */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <motion.h2 
+            className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            What I Bring to the Table
+          </motion.h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {expertise.map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="text-center mb-4">
+                  {item.icon}
+                  <h3 className="text-xl font-bold mt-4">{item.title}</h3>
+                </div>
+                <ul className="space-y-2">
+                  {item.items.map((skill, i) => (
+                    <li key={i} className="flex items-center">
+                      <FaCheck className="text-green-500 mr-2" />
+                      <span>{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tools & Technologies */}
+      <section className="py-16 bg-white dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">Tools & Technologies I Love</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 max-w-4xl mx-auto">
+            {tools.map((tool, index) => (
+              <motion.div 
+                key={index}
+                className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg flex flex-col items-center justify-center h-24 hover:shadow-lg transition-shadow duration-300"
+                whileHover={{ y: -5 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <div className="text-3xl mb-2">{tool.icon}</div>
+                <span className="text-sm font-medium text-center">{tool.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-4">My Work Ethic</h2>
+            <p className="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">
+              "Every problem has a pattern. I find it, fix it, and automate it."
+            </p>
+            <div className="grid md:grid-cols-2 gap-8">
+              {values.map((value, index) => (
+                <motion.div 
+                  key={index}
+                  className="flex items-start gap-4 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="text-2xl">{value.icon}</div>
+                  <span className="text-lg">{value.text}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Work With Me */}
+      <section className="py-16 bg-white dark:bg-gray-800">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6">Why Work With Me?</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+              I understand how real-world operations work — and I build digital tools that make those systems smarter. 
+              Whether it's reconciling stock across multiple vendors or setting up an AI assistant to plan your daily tasks, 
+              I can bridge manual effort with modern automation.
+            </p>
+            <div className="mt-8">
+              <div className="text-gray-500 dark:text-gray-400 text-sm mb-2">Based in Rajasthan, India</div>
+              <div className="text-gray-500 dark:text-gray-400 text-sm">
+                Passionate about clean systems & smart tech | Currently working on a full body transformation 💪
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="relative py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-5 dark:opacity-10 pointer-events-none">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-          <div className="absolute top-1/2 -right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      {/* Let's Work Together Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        <div className="container mx-auto px-4 text-center">
           <motion.div 
-            className="text-center max-w-4xl mx-auto mb-16"
+            className="max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
           >
-            <span className="inline-block px-3 py-1 text-sm font-medium text-indigo-700 dark:text-indigo-300 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4">
-              My Expertise
-            </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Technical <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600">Skills</span>
-            </h2>
-            <div className="w-24 h-1.5 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto rounded-full mb-6"></div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              A comprehensive collection of my technical skills and areas of expertise
-            </p>
-          </motion.div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {skillsByCategory.map((category, catIndex) => (
-              <motion.div
-                key={catIndex}
-                className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100/50 dark:border-gray-700/50"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: catIndex * 0.1, duration: 0.5 }}
-                viewport={{ once: true, margin: "-50px" }}
-              >
-                <div className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-700/80 px-6 py-4 border-b border-gray-100/50 dark:border-gray-700/50">
-                  <div className="flex items-center">
-                    <div className="p-2 bg-white dark:bg-gray-700 rounded-lg shadow-sm mr-4">
-                      {React.cloneElement(category.icon, { className: 'text-xl' })}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {category.category}
-                    </h3>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="space-y-5">
-                    {category.skills.map((skill, skillIndex) => (
-                      <div key={skillIndex} className="group">
-                        <div className="flex justify-between items-center mb-1">
-                          <div className="flex items-center">
-                            <div className="p-1.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg mr-3">
-                              {React.cloneElement(skill.icon, { className: 'text-sm' })}
-                            </div>
-                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                              {skill.name}
-                            </span>
-                          </div>
-                          <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400">
-                            {skill.level}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                          <motion.div 
-                            className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-blue-500"
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1, delay: 0.3 + (skillIndex * 0.05) }}
-                            viewport={{ once: true }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          <motion.div 
-            className="mt-16 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Continuously learning and expanding my skill set to stay current with the latest technologies and industry trends.
-            </p>
-            <a 
-              href="#contact" 
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-medium rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
-            >
-              <FaEnvelope className="mr-2" />
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
               Let's Work Together
-            </a>
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+              Open to freelance projects, remote jobs, or automation consulting
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <NavLink
+                to="/contact"
+                className="group relative px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <span>Contact Me</span>
+                <FaEnvelope className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </NavLink>
+              <a
+                href="/assets/Sahil_Ali_Cv.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <span>View Resume</span>
+                <FaExternalLinkAlt className="w-4 h-4" />
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 relative z-10">
-        <div className="max-w-4xl mx-auto space-y-12">
-            {/* About Section */}
-            <motion.section 
-              id="about"
-              ref={aboutRef}
-              className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-10 transition-all duration-300 border border-gray-100/50 dark:border-gray-700/50 hover:shadow-3xl hover:-translate-y-1.5"
-            >
-              <motion.div
-                variants={container}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <motion.div variants={item} className="text-center mb-10">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white mb-4">
-                    <FaLaptopCode className="text-2xl" />
-                  </div>
-                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">About Me</h2>
-                  <div className="w-16 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mt-4 rounded-full"></div>
-
-                </motion.div>
-              
-              <motion.div variants={item} className="prose prose-sm sm:prose-base prose-indigo dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  Hello! I am <strong className="text-indigo-700 dark:text-indigo-400 font-semibold">Sahil Ali</strong>, an Inventory Specialist, Data Analyst, and System Optimizer based in Rajasthan, India. With over 4 years of hands-on experience, I specialize in managing stock levels, streamlining purchasing processes, and ensuring data accuracy for operational excellence.
-                </p>
-
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  My expertise lies in leveraging ERP systems like Erply, advanced Excel functions such as VLOOKUP and Pivot Tables, and data-driven decision-making to optimize inventory and reporting processes. I am passionate about turning raw data into actionable insights that drive business success.
-                </p>
-
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  Beyond my technical skills, I am a detail-oriented team player who thrives on collaboration and continuous improvement. I believe that accuracy and efficiency are the backbone of any successful supply chain.
-                </p>
-
-                <div className="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/10 rounded-2xl p-6 sm:p-8 my-8 sm:my-12 border-l-4 border-indigo-500 shadow-inner">
-                  <div className="flex">
-                    <FaLightbulb className="text-yellow-500 text-2xl mr-3 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Did You Know?</h4>
-                      <p className="text-gray-700 dark:text-gray-300 text-sm">
-                        I've helped businesses reduce inventory costs by up to 30% through data-driven optimization strategies and process improvements.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                  Throughout my career, I have successfully implemented automation techniques that reduce manual work and improve data integrity. I have experience in creating dashboards and reports that provide real-time insights to stakeholders, helping guide strategic decisions and improve inventory turnover rates.
-                </p>
-
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-                  My passion for learning keeps me updated with the latest tools and technologies in data analytics, including AI-driven platforms such as ChatGPT and Perplexity, which I use to enhance data processing and problem-solving capabilities.
-                </p>
-
-                <div className="bg-white/95 dark:bg-gray-800/95 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100/50 dark:border-gray-700/50 backdrop-blur-sm">
-                  <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-r from-indigo-500 to-blue-500 text-white mb-4">
-                      <FaGraduationCap className="text-xl" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Education</h3>
-                    <div className="w-12 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mt-3 rounded-full"></div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-start">
-                      <div className="bg-indigo-100 dark:bg-indigo-900/30 p-3 rounded-lg mr-4 flex-shrink-0">
-                        <FaGraduationCap className="text-indigo-600 dark:text-indigo-400 text-xl" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-indigo-700 dark:text-indigo-400">Bachelor of Science (B.Sc.) in Computer Science</h4>
-                        <p className="text-gray-600 dark:text-gray-300">MDSU University, Rajasthan</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">2018 – 2021</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </motion.div>
-              </motion.div>
-            </motion.section>
-        </div>
-      </div>
+      
+      <Footer />
     </div>
   );
 };

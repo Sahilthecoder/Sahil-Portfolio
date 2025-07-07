@@ -1,34 +1,59 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
-import { FaGithub, FaExternalLinkAlt, FaTimes, FaArrowUp, FaSearch, FaFilePdf, FaLaptopCode, FaArrowRight, FaDatabase, FaChartLine } from 'react-icons/fa';
-import { FiArrowRight } from 'react-icons/fi';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
+import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import Footer from '../components/Footer';
 
-// Utility function for smooth scrolling with offset
-const scrollToSection = (selector, offset = 80) => {
-  const element = document.querySelector(selector);
-  if (element) {
-    const header = document.querySelector('header');
-    const headerHeight = header ? header.offsetHeight : offset;
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-    
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
-    return true;
-  }
-  return false;
-};
-import { SiTableau, SiPython, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit, SiGithub, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
-import { FaMicrosoft } from 'react-icons/fa';
-import { FiFigma } from 'react-icons/fi';
+// Icons
+import { 
+  FaGithub, 
+  FaExternalLinkAlt, 
+  FaTimes, 
+  FaArrowUp, 
+  FaSearch, 
+  FaFilePdf, 
+  FaLaptopCode, 
+  FaArrowRight, 
+  FaDatabase, 
+  FaChartLine,
+  FaMicrosoft 
+} from 'react-icons/fa';
+
+import { 
+  FiArrowRight,
+  FiFigma,
+  FiArrowDown,
+  FiTrendingUp
+} from 'react-icons/fi';
+
+import { 
+  SiTableau, 
+  SiPython, 
+  SiReact, 
+  SiJavascript, 
+  SiHtml5, 
+  SiCss3, 
+  SiGit, 
+  SiGithub, 
+  SiNotion, 
+  SiZapier, 
+  SiOpenai, 
+  SiDocker, 
+  SiStreamlit, 
+  SiD3Dotjs, 
+  SiTensorflow, 
+  SiNextdotjs 
+} from 'react-icons/si';
+
 import { BsFileEarmarkExcel } from 'react-icons/bs';
-import { Link, useNavigate } from 'react-router-dom';
+
+// Components
 import ProjectImage from '../components/ProjectImage';
 import SEO from '../components/SEO';
-import getImagePath from '../utils/imagePaths';
+
+// Utils
+import { scrollToSection } from '../utils/scrollUtils';
 
 // Glitch text component
 const GlitchText = ({ children }) => {
@@ -136,17 +161,17 @@ const ProjectCard = ({ project, index, onClick }) => {
           <div className="relative pt-[56.25%] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
               <img
-                src={getProjectImage(project.id, project.image)}
+                src={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 onError={(e) => {
                   console.error(`Failed to load image: ${project.image}`);
-                  e.target.src = getProjectImage(project.id, 'cover-fallback.jpg');
+                  e.target.src = project.previewImage || project.image;
                 }}
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 sm:p-6">
               <div className="w-full">
                 <div className="flex flex-wrap gap-2 justify-center">
                   {project.techStack?.slice(0, 5).map((tech, idx) => (
@@ -303,7 +328,7 @@ const ProjectModal = ({ project, onClose }) => {
             <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
                 <img
-                  src={getProjectImage(project.id, project.image)}
+                  src={project.image}
                   alt={project.title}
                   className="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
@@ -320,7 +345,7 @@ const ProjectModal = ({ project, onClose }) => {
                     });
                     
                     // Try to load a placeholder if available
-                    const placeholderPath = getProjectImage(project.id, 'placeholder.jpg');
+                    const placeholderPath = project.previewImage || project.image;
                     if (placeholderPath && placeholderPath !== imgSrc) {
                       console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
                       e.target.src = placeholderPath;
@@ -392,7 +417,7 @@ const ProjectModal = ({ project, onClose }) => {
                             transition={{ delay: index * 0.05 }}
                           >
                             <img
-                              src={getProjectImage(project.id, img)}
+                              src={img}
                               alt={`${project.title} - ${index + 1}`}
                               className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
                               loading="lazy"
@@ -409,7 +434,7 @@ const ProjectModal = ({ project, onClose }) => {
                                 });
                                 
                                 // Try to load a placeholder if available
-                                const placeholderPath = getProjectImage(project.id, 'placeholder.jpg');
+                                const placeholderPath = project.previewImage || project.image;
                                 if (placeholderPath && placeholderPath !== imgSrc) {
                                   console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
                                   e.target.src = placeholderPath;
@@ -460,7 +485,7 @@ const ProjectModal = ({ project, onClose }) => {
                 </div>
               </div>
 
-{project.features && (
+              {project.features && (
                 <div className="mt-8">
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Key Features</h3>
                   <ul className="space-y-2">
@@ -516,539 +541,344 @@ const ProjectModal = ({ project, onClose }) => {
 };
 
 // Single project data
-// Project folder mapping for ProjectImage component
-// These map project IDs to their corresponding folder names in public/images/projects/
-const projectFolders = {
-  'zomato-analysis': 'Project1 excel',
-  'bansal-supermarket': 'Project2 tableau',
-  'ekam-attendance': 'Project3 Sql+Sheets',
-  'retail-cash-flow': 'Project4 Power BI',
-  'ai-planner': 'Project5 Gpt+Notion',
-  'automation-suite': 'Project6 Gpt+Zapier',
-  'mahira-portfolio': 'Mahira Portfolio Web+AI',
-  // Remove non-existent project mappings
-  // 'product-sales': 'Project7 Product Sales',  // Folder doesn't exist
-  // 'snape-sentiment-analysis': 'Project8 Snape Analysis',  // Folder doesn't exist
-  'ekam': 'Project3 Sql+Sheets' // Alias for 'ekam-attendance' to match the project data
-};
-
-// Make sure the projectFolders are used in the getProjectImage function
-
-// Helper function to get image path for project images
-const getProjectImage = (projectId, imagePath) => {
-  // Log the input parameters
-  console.log(`🔄 getProjectImage called with:`, { projectId, imagePath });
-  
-  if (!imagePath) {
-    console.error(`❌ Empty image path for project: ${projectId}`);
-    return '';
-  }
-  
-  // If it's already a full URL or data URL, return as is
-  if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
-    console.log(`🌐 Using full URL/data URL: ${imagePath}`);
-    return imagePath;
-  }
-  
-  // Get the folder name from projectFolders mapping
-  const folderName = projectFolders[projectId];
-  if (!folderName) {
-    console.error(`❌ No folder mapping found for project ID: ${projectId}`);
-    console.log(`📁 Available project folders:`, Object.keys(projectFolders));
-    return '';
-  }
-  
-  // Get the base URL from environment (should be '/Sahil-Portfolio/' for GitHub Pages)
-  const base = import.meta.env.BASE_URL || '';
-  console.log(`🏠 Base URL from environment: '${base}'`);
-  
-  // Normalize the base URL - ensure it starts with a slash and doesn't end with one
-  let normalizedBase = base;
-  if (normalizedBase && !normalizedBase.startsWith('/')) {
-    normalizedBase = `/${normalizedBase}`;
-    console.log(`🔄 Adjusted base to start with slash: '${normalizedBase}'`);
-  }
-  if (normalizedBase.endsWith('/')) {
-    normalizedBase = normalizedBase.slice(0, -1);
-    console.log(`🔄 Removed trailing slash from base: '${normalizedBase}'`);
-  }
-  
-  // Get just the filename (in case a path was provided)
-  const imageName = imagePath.split('/').pop();
-  console.log(`📄 Image filename: '${imageName}'`);
-  
-  // Check if the image has an extension, if not, try to find a matching file
-  const hasExtension = /\.(jpg|jpeg|png|gif|webp|avif)$/i.test(imageName);
-  let finalPath = '';
-  
-  if (hasExtension) {
-    // If the image has an extension, use it as is
-    finalPath = `${normalizedBase}/images/projects/${folderName}/${imageName}`.replace(/\s+/g, '%20');
-  } else {
-    // Try to find a matching image with supported extensions
-    const extensions = ['.avif', '.webp', '.png', '.jpg', '.jpeg'];
-    for (const ext of extensions) {
-      const testPath = `${normalizedBase}/images/projects/${folderName}/${imageName}${ext}`.replace(/\s+/g, '%20');
-      console.log(`🔍 Testing image path: ${testPath}`);
-      // In a real app, you might want to check if the file exists
-      // For now, we'll just use the first extension and let the onError handler deal with missing files
-      if (!finalPath) {
-        finalPath = testPath;
-      }
-    }
-  }
-  
-  // Log the generated path for debugging
-  console.log(`🔍 Generated image path for ${projectId}:`, {
-    projectId,
-    folderName,
-    imageName,
-    base,
-    normalizedBase,
-    finalPath,
-    hasExtension,
-    env: import.meta.env
-  });
-  
-  return finalPath;
-};
 
 const projects = [
   {
-    id: 'zomato-analysis',
-    title: 'AI-Powered Market Expansion Analytics',
-    shortDescription: 'ML-driven market analysis platform predicting optimal city expansion with 92% accuracy',
-    description: 'Developed a sophisticated machine learning model that analyzes 50+ demographic, economic, and competitive factors to predict city viability for Zomato expansion. The AI system processes real-time market data, customer behavior patterns, and competitive landscapes to generate actionable expansion recommendations, reducing market entry risks by 40%.',
-    icon: 'Python',
-    tags: ['Machine Learning', 'Predictive Analytics', 'Market Intelligence', 'AI Modeling'],
-    techStack: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'Tableau'],
-    path: '/projects/zomato-analysis',
-    // Use direct filenames - getProjectImage will handle the full path
-    image: 'Project1 Cover.avif',
-    previewImage: 'zometo-ds.avif',
-    category: 'Data Analytics',
-    impact: 'Identified key growth opportunities and optimized expansion strategy',
-    featured: true,
-    role: 'Data Analyst',
-    year: '2024',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/zomato-analysis',
-    gallery: [
-      'zometo-ds.avif',
-      'zt1.avif',
-      'zt2.avif'
-    ]
+    id: 'zomato-expansion',
+    title: 'Zomato Restaurant Expansion Analysis',
+    shortDescription: 'Market Strategy Dashboard in Excel',
+    description: 'Built an interactive Excel dashboard to analyze Zomato\'s city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.',
+    techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+    icon: 'Excel',
+    image: '/images/projects/Project1 excel/Project1 Cover.avif',
+    previewImage: '/images/projects/Project1 excel/Project1 Cover.avif',
+    link: 'project1.html',
+    githubLink: '',
+    featured: true
   },
   {
     id: 'bansal-supermarket',
-    title: 'AI-Powered Retail Intelligence Platform',
-    shortDescription: 'ML-driven inventory optimization and sales forecasting system reducing stockouts by 35%',
-    description: 'Engineered an end-to-end retail intelligence solution that leverages machine learning to predict demand, optimize inventory levels, and automate replenishment. The system processes millions of data points to deliver 94% forecast accuracy, reducing carrying costs by 28% while maintaining 99% service levels. Integrated with existing ERP systems to provide real-time, actionable insights for store managers.',
-    icon: 'Python',
-    tags: ['Machine Learning', 'Inventory Optimization', 'Time Series Forecasting', 'Retail AI'],
-    techStack: ['Python', 'TensorFlow', 'Prophet', 'Tableau', 'SQL'],
-    path: '/projects/bansal-supermarket',
-    image: 'Project2 Cover.avif',
-    previewImage: 'bs2.avif',
-    category: 'Data Visualization',
-    impact: 'Drove 12% revenue growth through data-informed decisions',
-    featured: true,
-    role: 'BI Developer',
-    year: '2023',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/bansal-supermarket',
-    gallery: [
-      'bs2.avif',
-      'bs3.avif',
-      'bs-top10.avif',
-      'bs-saleVSpft.avif',
-      'bs-stockTO.avif'
-    ]
-  },
-  {
-    id: 'retail-cash-flow',
-    title: 'AI-Powered Financial Intelligence System',
-    shortDescription: 'Real-time cash flow forecasting and anomaly detection with 96% accuracy',
-    description: 'Designed and implemented an AI-driven financial intelligence platform that processes transactional data from 50+ retail locations to predict cash flow trends and detect anomalies in real-time. The system employs advanced machine learning algorithms to identify potential financial risks 14 days in advance, reducing financial discrepancies by 80%. Features include automated alerts, predictive analytics, and scenario modeling for strategic financial planning.',
-    icon: 'Python',
-    tags: ['AI Forecasting', 'Financial Analytics', 'Anomaly Detection', 'Risk Management'],
-    techStack: ['Python', 'PyTorch', 'Power BI', 'Azure ML', 'SQL'],
-    path: '/projects/retail-cash-flow',
-    image: 'Project4 Cover.avif',
-    previewImage: 'CashFlow1.avif',
-    category: 'Business Intelligence',
-    impact: 'Reduced financial discrepancies by 80% through real-time monitoring and automated alerts',
-    featured: true,
-    role: 'Data Analyst',
-    year: '2023',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/retail-cash-flow',
-    gallery: [
-      'CashFlow1.avif',
-      'CashFlow2.avif'
-    ]
+    title: 'Bansal Supermarket Sales Analysis',
+    shortDescription: 'Sales Performance Insights in Tableau',
+    description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
+    techStack: ['Tableau', 'Data Analysis', 'Sales Analytics'],
+    icon: 'Tableau',
+    image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
+    link: 'project2.html',
+    githubLink: '',
+    featured: true
   },
   {
     id: 'ekam-attendance',
-    title: 'AI-Driven Workforce Intelligence Platform',
-    shortDescription: 'Computer vision and ML system reducing payroll processing time by 70%',
-    description: 'Architected an advanced workforce management system that combines computer vision for attendance tracking with machine learning for workforce optimization. The platform processes facial recognition data, analyzes work patterns, and predicts staffing needs with 92% accuracy. Automated payroll processing and compliance reporting reduced administrative workload by 65% while improving accuracy to 99.9%. The system also provides real-time analytics on workforce productivity and engagement.',
-    icon: 'Python',
-    tags: ['Computer Vision', 'ML Automation', 'HR Analytics', 'Process Optimization'],
-    techStack: ['Python', 'OpenCV', 'TensorFlow', 'FastAPI', 'React'],
-    path: '/projects/ekam-attendance',
-    image: 'Project3 Cover.avif',
-    previewImage: 'Attendance_before.avif',
-    category: 'Data Automation',
-    impact: 'Reduced payroll processing time by 70% and improved compliance with labor regulations',
-    featured: true,
-    role: 'Data Analyst',
-    year: '2024',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/ekam-attendance',
-    gallery: [
-      'Attendance_before.avif',
-      'Attendance_after.avif'
-    ]
+    title: 'Ekam Attendance Tracker',
+    shortDescription: 'HR & Finance Automation with SQL + Sheets',
+    description: 'Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia. Reduced manual reporting time by 80% monthly for HR and accounts.',
+    techStack: ['SQL', 'Google Sheets', 'Automation'],
+    icon: 'SQL',
+    image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    link: 'project3.html',
+    githubLink: '',
+    featured: true
   },
   {
-    id: 'product-sales-dashboard',
-    title: 'AI-Powered Sales Forecasting Engine',
-    shortDescription: 'Deep learning model achieving 94% accuracy in sales predictions',
-    description: 'Developed a state-of-the-art sales forecasting engine using deep learning to analyze historical sales data, market trends, and external factors. The system processes 5+ million daily transactions across multiple sales channels, providing 4-week demand forecasts with 94% accuracy. Integrated with inventory management to automate reorder points and optimize stock levels, resulting in a 28% reduction in carrying costs and 35% fewer stockouts. Features include anomaly detection, automated reporting, and scenario planning.',
-    icon: 'Python',
-    tags: ['Deep Learning', 'Time Series', 'Inventory AI', 'Predictive Analytics'],
-    techStack: ['Python', 'TensorFlow', 'Prophet', 'Streamlit', 'Docker'],
-    path: '/projects/product-sales',
-    image: getProjectImage('product-sales', 'Project5 Cover.avif'),
-    previewImage: getProjectImage('product-sales', 'Project5 Cover.avif'),
-    category: 'Data Analytics',
-    impact: 'Improved decision-making with real-time insights and predictive analytics',
-    featured: true,
-    role: 'Data Engineer',
-    year: '2023',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/product-sales',
-    gallery: [
-      getProjectImage('product-sales', 'Project5 Cover.avif')
-    ]
+    id: 'cash-flow-dashboard',
+    title: 'Daily Cash Flow Dashboard',
+    shortDescription: 'Retail Finance Tracker in Power BI',
+    description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
+    techStack: ['Power BI', 'Finance', 'Data Visualization'],
+    icon: 'Power BI',
+    image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    previewImage: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+    additionalImages: [
+      '/images/projects/Project4 Power BI/CashFlow1.avif',
+      '/images/projects/Project4 Power BI/CashFlow2.avif'
+    ],
+    link: 'project4.html',
+    githubLink: '',
+    featured: true
+  },
+  {
+    id: 'ai-daily-planner',
+    title: 'AI Daily Decision System',
+    shortDescription: 'AI-Powered Planning with GPT + Notion',
+    description: 'Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking. Saved 2+ hours daily by automating decisions and personal workflows.',
+    techStack: ['GPT', 'Notion', 'Automation'],
+    icon: 'Notion',
+    image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    previewImage: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
+    link: 'project5.html',
+    githubLink: '',
+    featured: true
+  },
+  {
+    id: 'smart-automation',
+    title: 'Smart Automation Suite',
+    shortDescription: 'Business Workflow Automation with GPT + Zapier',
+    description: 'Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use. Saved 15+ hours/month by eliminating repetitive manual work.',
+    techStack: ['Zapier', 'GPT', 'Automation'],
+    icon: 'Zapier',
+    image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
+    previewImage: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
+    link: 'project6.html',
+    githubLink: '',
+    featured: true
   },
   {
     id: 'mahira-portfolio',
-    title: 'AI-Powered Data Science Portfolio',
-    shortDescription: 'Interactive showcase of AI/ML projects and data analytics expertise',
-    description: 'A technically sophisticated portfolio platform that demonstrates expertise in AI, machine learning, and data analytics. Built with modern web technologies and enhanced with AI-powered features including natural language processing for project search, interactive data visualizations, and automated content optimization. The portfolio highlights complex data science projects with detailed case studies, code samples, and interactive demos that showcase the full data analysis pipeline from problem definition to model deployment.',
-    icon: 'AI',
-    tags: ['AI/ML Showcase', 'Data Visualization', 'Interactive Demos', 'Technical Portfolio'],
-    techStack: ['React', 'D3.js', 'Python', 'TensorFlow.js', 'Next.js'],
-    path: '/projects/mahira-portfolio',
-    image: getProjectImage('mahira-portfolio', 'Project7 Cover.avif'),
-    previewImage: getProjectImage('mahira-portfolio', 'Project7 Cover.avif'),
-    category: 'Web Development',
-    impact: 'Enhanced professional visibility and client acquisition through an engaging digital presence',
+    title: 'Mahira\'s GitHub Portfolio',
+    shortDescription: 'AI-Enhanced Personal Website',
+    description: 'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
+    techStack: ['Web Development', 'AI Integration', 'UI/UX Design'],
+    icon: 'GitHub',
+    image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    previewImage: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
+    link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
+    githubLink: '',
     featured: true,
-    role: 'Full-stack Developer',
-    year: '2024',
-    github: '#',
-    liveDemo: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
-    caseStudy: '#',
-    projectUrl: 'https://sahilthecoder.github.io/projects/#/projects/mahira-portfolio',
-    gallery: [
-      getProjectImage('mahira-portfolio', 'Project7 Cover.avif')
-    ]
+    external: true
   }
 ];
 
 const Projects = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [showScroll, setShowScroll] = useState(false);
-  const projectsRef = useRef(null);
-  
-  // Handle project selection for preview
-  const handleProjectSelect = useCallback((project) => {
-    setSelectedProject(project);
-    setIsModalOpen(true);
-    document.body.style.overflow = 'hidden';
-  }, []);
-  
-  // Close modal
-  const closeModal = useCallback(() => {
-    setIsModalOpen(false);
-    document.body.style.overflow = 'auto';
-    // Small delay to allow the modal close animation to complete
-    setTimeout(() => setSelectedProject(null), 300);
-  }, []);
-  
-  // Handle escape key to close modal
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        closeModal();
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [closeModal]);
-  
-  // Filter projects based on search term
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+
+  // Filter projects based on search term and active filter
   const filteredProjects = useMemo(() => {
-    if (!searchTerm.trim()) return projects;
-    const term = searchTerm.toLowerCase();
-    return projects.filter(project => 
-      project.title.toLowerCase().includes(term) ||
-      project.description.toLowerCase().includes(term) ||
-      project.techStack.some(tech => tech.toLowerCase().includes(term))
-    );
-  }, [searchTerm]);
-  
-  // Download CV function with better mobile support
-  const handleDownloadCV = useCallback((e) => {
-    e?.preventDefault();
-    try {
-      const cvUrl = `${import.meta.env.BASE_URL || '/'}Sahil_Resume.pdf`;
-      
-      // For mobile devices, open in new tab to handle downloads properly
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        window.open(cvUrl, '_blank');
-      } else {
-        // For desktop, use the download attribute
-        const link = document.createElement('a');
-        link.href = cvUrl;
-        link.download = 'Sahil_Resume.pdf';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      }
-    } catch (error) {
-      console.error('Error downloading resume:', error);
-      // Fallback to opening in new tab if download fails
-      window.open(`${import.meta.env.BASE_URL || '/'}Sahil_Resume.pdf`, '_blank');
+    let result = [...projects];
+    
+    // Apply search term filter
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(project => 
+        project.title.toLowerCase().includes(term) ||
+        project.description.toLowerCase().includes(term) ||
+        project.techStack.some(tech => tech.toLowerCase().includes(term))
+      );
     }
-  }, []);
+    
+    // Apply category filter
+    if (activeFilter !== 'all') {
+      result = result.filter(project => 
+        project.categories?.includes(activeFilter) ||
+        project.techStack?.some(tech => 
+          tech.toLowerCase() === activeFilter.toLowerCase()
+        )
+      );
+    }
+    
+    return result;
+  }, [searchTerm, activeFilter]);
 
-  // Open project modal (alias for handleProjectSelect for backward compatibility)
-  const openModal = useCallback((project) => {
-    handleProjectSelect(project);
-  }, [handleProjectSelect]);
-  
-  // Scroll to top function with offset
-  const scrollTop = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []);
-
-  // Show/hide scroll to top button
+  // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
-    const checkScroll = () => {
-      setShowScroll(window.scrollY > 300);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 300);
+      setShowScrollToTop(window.scrollY > 1000);
     };
 
-    window.addEventListener('scroll', checkScroll);
-    return () => window.removeEventListener('scroll', checkScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
+
+  // Simulate loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Add data pattern background and animations
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <SEO 
-        title="My Projects | Data Analysis & Visualization" 
-        description="Explore my portfolio of data analysis, visualization, and machine learning projects showcasing my skills in turning data into insights."
-        keywords="data analysis, data visualization, machine learning, portfolio, projects, data science, AI"
+        title="Projects | Sahil Ali"
+        description="Explore my portfolio of data analysis, visualization, and automation projects."
       />
-
-      <div className="relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/20 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute top-0 right-0 w-full sm:w-2/3 h-64 bg-gradient-to-br from-indigo-100/60 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
+      
+      <ModernNavbar />
+      
+      {/* Hero Section */}
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+        {/* Data-themed background pattern */}
+        <div 
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundSize: '150px',
+            zIndex: 0
+          }}
+        ></div>
         
-        <div className="pt-28 pb-16 md:pt-36 lg:pt-40 relative z-10">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
-              {/* Text Content */}
-              <div className="w-full text-center lg:text-left">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
-                  My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span>
-                </h1>
-                <p className="text-xl text-gray-700 dark:text-gray-300 mb-6">
-                  Data Analysis | Visualization | Machine Learning
-                </p>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto lg:mx-0">
-                  Explore my portfolio of data analysis, visualization, and machine learning projects. Each project demonstrates my ability to extract insights from data and present them effectively.
-                </p>
-              </div>
-            </div>
-          <div className="relative max-w-2xl mx-auto mt-8">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FaSearch className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              className="block w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 shadow-sm hover:shadow-md"
-              placeholder="Search projects..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              aria-label="Search projects"
-            />
-          </div>
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
-      </div>
-      </div>
 
-      <section className="relative py-12 sm:py-16 lg:py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-50/50 dark:to-gray-900/30 -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white dark:from-gray-900 to-transparent -z-10"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="text-center mb-12 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              {searchTerm ? 'Search Results' : 'Featured Projects'}
-            </h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto rounded-full"></div>
-            {!searchTerm && (
-              <p className="mt-4 text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                A curated collection of my best work. Click on any project to learn more about the process and technologies used.
-              </p>
-            )}
-          </motion.div>
-          
-          <motion.div 
-            className="relative z-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            {filteredProjects.length > 0 ? (
-              <div 
-                ref={projectsRef}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 md:gap-8"
-              >
-                <AnimatePresence>
-                  {filteredProjects.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                      transition={{ duration: 0.3 }}
-                      layout
-                    >
-                      <ProjectCard
-                        project={project}
-                        onClick={() => handleProjectSelect(project)}
-                      />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <motion.div 
-                className="text-center py-16"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="inline-block p-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/50">
-                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 dark:bg-blue-900/20 mb-4">
-                    <FaSearch className="h-10 w-10 text-blue-500 dark:text-blue-400" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No projects found</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">Try adjusting your search or filter to find what you're looking for.</p>
-                  <button
-                    onClick={() => setSearchTerm('')}
-                    className="px-6 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    Clear search
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div 
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              <FiTrendingUp className="w-4 h-4" />
+              <span>Portfolio Showcase</span>
+            </motion.div>
+
+            <motion.h1 
+              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              My Projects
+            </motion.h1>
+
+            <motion.p 
+              className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              A collection of my work showcasing data analysis, visualization, and automation projects.
+            </motion.p>
+          </div>
         </div>
       </section>
 
-      {/* Scroll to top button */}
+      {/* Projects Grid */}
+      <section className="py-12 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
+          {/* Search and Filter */}
+          <motion.div 
+            className="max-w-4xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="relative flex-1">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FaSearch className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="Search projects..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="flex-shrink-0">
+                <select
+                  className="block w-full pl-3 pr-10 py-3 text-base border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  value={activeFilter}
+                  onChange={(e) => setActiveFilter(e.target.value)}
+                >
+                  <option value="all">All Projects</option>
+                  <option value="data-analysis">Data Analysis</option>
+                  <option value="visualization">Visualization</option>
+                  <option value="automation">Automation</option>
+                </select>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Projects Grid */}
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            </div>
+          ) : (
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={container}
+              initial="hidden"
+              animate="show"
+            >
+              {filteredProjects.map((project, index) => (
+                <motion.div 
+                  key={project.id} 
+                  variants={item}
+                  className="h-full"
+                >
+                  <ProjectCard 
+                    project={project} 
+                    index={index}
+                    onClick={(project) => setSelectedProject(project)}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+          
+          {filteredProjects.length === 0 && !isLoading && (
+            <motion.div 
+              className="text-center py-16"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400">No projects found</h3>
+              <p className="mt-2 text-gray-500 dark:text-gray-500">Try adjusting your search or filter criteria</p>
+            </motion.div>
+          )}
+        </div>
+      </section>
+
+      {/* Project Modal */}
       <AnimatePresence>
-        {showScroll && (
+        {selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Scroll to Top Button */}
+      <AnimatePresence>
+        {showScrollToTop && (
           <motion.button
-            onClick={scrollTop}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 p-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 touch-manipulation"
-            aria-label="Scroll to top"
+            className="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 z-50"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            style={{ WebkitTapHighlightColor: 'transparent' }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Scroll to top"
           >
             <FaArrowUp className="w-5 h-5" />
           </motion.button>
         )}
       </AnimatePresence>
-      
-      {/* Project Modal */}
-      <AnimatePresence>
-        {isModalOpen && selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={closeModal} 
-          />
-        )}
-      </AnimatePresence>
-      
-      {/* Resume Download Section */}
-      <div className="mt-24 py-16 bg-gradient-to-r from-indigo-700 to-blue-700">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h2 
-            className="text-3xl font-bold text-white mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Looking for more details?
-          </motion.h2>
-          <motion.p 
-            className="text-indigo-100 mb-8 max-w-2xl mx-auto text-lg"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            Check out my resume for a comprehensive overview of my experience, skills, and achievements.
-          </motion.p>
-          <motion.button
-            onClick={handleDownloadCV}
-            className="inline-flex items-center px-6 py-3 sm:px-8 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md shadow-sm text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 touch-manipulation"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
-            style={{ WebkitTapHighlightColor: 'transparent' }}
-          >
-            <FaFilePdf className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
-            Download My Resume
-          </motion.button>
-        </div>
-      </div>
+
+      <Footer />
     </div>
   );
 };

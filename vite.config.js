@@ -2,41 +2,67 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import serviceWorker from './vite-plugin-service-worker';
 
 // Get the directory name in ESM
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL configuration
 const isProduction = process.env.NODE_ENV === 'production';
-const base = isProduction ? '/Sahil-Portfolio' : '/';
+const base = isProduction ? '/Sahil-Portfolio/' : '/';
 
 // Set environment variables for base URL
 process.env.VITE_BASE_URL = base;
-
-// Ensure the public directory is properly handled
-const publicDir = path.resolve(__dirname, 'public');
+process.env.BASE_URL = base;
 
 console.log(`Using base URL: "${base}"`);
 
 export default defineConfig({
   base: base,
+  publicDir: 'public',
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.ico', '**/*.webp', '**/*.avif'],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  },
   plugins: [
     react({
       jsxImportSource: 'react',
-      jsxRuntime: 'automatic'
-    }),
-    serviceWorker()
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { 
+            runtime: 'automatic',
+            importSource: 'react'
+          }]
+        ]
+      }
+    })
   ],
+  server: {
+    port: 3000,
+    strictPort: true,
+    open: true,
+    cors: true,
+    host: '0.0.0.0',
+    hmr: {
+      overlay: true
+    },
+    fs: {
+      strict: true,
+      allow: ['..']
+    },
+    watch: {
+      usePolling: true,
+      interval: 100
+    }
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
     minify: 'terser',
-    // Ensure static assets are copied as-is
     assetsInlineLimit: 0,
-    // Ensure public directory is properly handled
-    publicDir: 'public',
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
@@ -64,22 +90,6 @@ export default defineConfig({
       },
     },
     copyPublicDir: true,
-  },
-  server: {
-    port: 3000,
-    open: true,
-    fs: {
-      // Allow serving files from one level up from the package root
-      allow: ['..']
-    },
-    // Enable CORS for development
-    cors: true
-  },
-  publicDir: 'public',
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
   },
   define: {
     'import.meta.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL || '/Sahil-Portfolio/'),

@@ -1,20 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
-import Typewriter from 'typewriter-effect';
-import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiDownload, FiMapPin, FiFileText, FiClock, FiExternalLink } from 'react-icons/fi';
-import { FaReact, FaNodeJs, FaPython, FaUserFriends, FaGithub, FaExternalLinkAlt, FaBoxes, FaLaptopCode, FaChartLine } from 'react-icons/fa';
-import { SiJavascript, SiTypescript, SiMongodb, SiPostgresql, SiTableau, SiPython, SiHtml5, SiCss3, SiGit, SiNotion, SiZapier, SiOpenai, SiDocker, SiStreamlit, SiD3Dotjs, SiTensorflow, SiNextdotjs } from 'react-icons/si';
-import { BsFileEarmarkExcel } from 'react-icons/bs';
+import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiTwitter, FiMail, FiArrowDown, FiChevronUp, FiChevronDown, FiPackage, FiLayers, FiTrendingUp, FiCpu, FiExternalLink } from 'react-icons/fi';
+import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
-import { H1, H2, H3, P, Lead } from '../components/Typography';
-import { projects } from '../data/projects';
-import getImagePath from '../utils/imagePaths';
-import '../components/HeroSection/HeroSection.css';
 
-// Helper function to get project by ID
-const getProject = (id) => projects[id];
-
+// Using placeholder images from a public CDN
+const HeroImage = 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
+const Project1 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project2 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project3 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
 
 // Animation variants
 const container = {
@@ -29,1179 +24,1031 @@ const container = {
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-};
-
-// Intersection Observer hook
-const useScrollAnimation = (ref, threshold = 0.2) => {
-  const controls = useAnimation();
-  const isInView = useInView(ref, { once: true, amount: threshold });
-
-  useEffect(() => {
-    if (isInView) {
-      controls.start('show');
+  show: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.5
     }
-  }, [controls, isInView]);
-
-  return controls;
+  }
 };
 
+const ProjectCard = ({ project }) => {
+  return (
+    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+      <div className="relative h-48 overflow-hidden">
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          onError={(e) => {
+            console.error('Failed to load image:', project.image);
+            e.target.src = project.previewImage || project.image;
+          }}
+        />
+      </div>
+      <div className="p-4">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{project.title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{project.shortDescription}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {project.techStack.slice(0, 3).map((tech, idx) => (
+            <span key={idx} className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Home = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [activeSkill, setActiveSkill] = useState('All');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const heroRef = useRef(null);
-  const projectsRef = useRef(null);
-  const controls = useScrollAnimation(heroRef);
-  const [isMounted, setIsMounted] = useState(false);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Success message display
+  useEffect(() => {
+    if (submitSuccess) {
+      const timer = setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitSuccess]);
 
-  // Hero section content
-  const heroContent = {
-    title: "Sahil Ali",
-    subtitle: 'Inventory & Warehouse Expert | AI Solutions Specialist',
-    description: 'Transforming inventory management through AI-driven solutions and data analytics to optimize warehouse operations and reduce costs.',
-    highlights: [
-      'Inventory Optimization',
-      'Warehouse Management',
-      'AI-Powered Analytics',
-      'Process Automation',
-      'Cost Reduction'
-    ],
-    stats: [
-      { value: '4+', label: 'Years in Inventory' },
-      { value: '30%', label: 'Cost Savings' },
-      { value: '50%', label: 'Faster Operations' }
-    ],
-    primaryButton: { 
-      text: 'My Experience', 
-      link: '/experience', 
-      showArrow: true 
-    },
-    secondaryButton: { 
-      text: 'Get in Touch', 
-      link: '/contact', 
-      showArrow: true 
-    },
-    isHome: true,
-    socialLinks: [
-      { icon: <FiLinkedin />, url: 'https://linkedin.com/in/sahilthecoder', label: 'LinkedIn' },
-      { icon: <FiMail />, url: 'mailto:sahilkhan36985@gmail.com', label: 'Email' },
-      { icon: <FiFileText />, url: '/resume', label: 'Resume' }
-    ]
+  // Form handlers
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: null
+      }));
+    }
   };
 
-  // Project categories and featured projects
-  const [activeFilter, setActiveFilter] = useState('All');
-  
-  // Get all unique categories from projects
-  const projectCategories = ['All', ...new Set(
-    Object.values(projects).flatMap(project => project.categories || [])
-  )];
-
-  // Featured projects to display in the Home page
-  const featuredIds = [
-    'inventory-optimization',
-    'warehouse-automation',
-    'supply-chain-analytics',
-    'erp-implementation'
-  ];
-  
-  const featuredProjects = featuredIds
-    .map((id) => projects[id])
-    .filter(Boolean);
-    
-  // Memoize filtered projects to prevent unnecessary recalculations
-  const filteredProjects = React.useMemo(() => {
-    if (activeFilter === 'All') {
-      return featuredProjects;
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
     }
-    return featuredProjects.filter(project => 
-      project.categories?.includes(activeFilter)
-    );
-  }, [activeFilter, featuredProjects]);
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  // Handle scroll effect for navbar and animations
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('https://formspree.io/f/xpwrjjqj', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || 'No subject',
+          message: formData.message
+        })
+      });
+
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+        
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        const error = await response.json();
+        throw new Error(error.message || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('Failed to send message. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  // Refs for all sections
+  const homeRef = useRef(null);
+  const aboutRef = useRef(null);
+  const experienceRef = useRef(null);
+  const projectsRef = useRef(null);
+  const contactRef = useRef(null);
+  
+  const [isVisible, setIsVisible] = useState(false);
+  const controls = useAnimation();
+  
+  // Simple scroll to next section
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Handle scroll to show/hide floating nav and set active section
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY > 50;
-      if (scrolled !== isScrolled) {
-        setIsScrolled(scrolled);
+      setIsScrolled(window.scrollY > 100);
+      
+      // Determine active section
+      const scrollPosition = window.scrollY + 200;
+      
+      const sectionOffsets = [
+        { id: 'home', ref: homeRef },
+        { id: 'about', ref: aboutRef },
+        { id: 'experience', ref: experienceRef },
+        { id: 'projects', ref: projectsRef },
+        { id: 'contact', ref: contactRef },
+      ];
+      
+      for (const section of sectionOffsets) {
+        const element = section.ref.current;
+        if (element) {
+          const { top, bottom } = element.getBoundingClientRect();
+          const elementTop = top + window.scrollY;
+          const elementBottom = bottom + window.scrollY;
+          
+          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
       }
     };
-    
-    // Set mounted state for animations
-    const timer = setTimeout(() => setIsMounted(true), 100);
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timer);
-    };
-  }, [isScrolled]); // Add isScrolled to dependency array
 
-  // Smooth scroll function
-  const scrollToSection = (ref) => {
-    ref.current?.scrollIntoView({ behavior: 'smooth' });
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Fade in effect for scroll button
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
-  // Core Expertise Areas with Skills
-  const skills = [
-    // Inventory Management Skills
-    { 
-      name: 'Inventory Optimization', 
-      icon: <FaBoxes className="w-6 h-6" />, 
-      category: 'Inventory Management',
-      level: 95,
-      color: 'from-indigo-500 to-purple-400',
-      iconColor: 'text-indigo-600',
-      bgColor: 'bg-indigo-100 dark:bg-indigo-900/30'
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            controls.start('show');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (aboutRef.current) {
+      observer.observe(aboutRef.current);
+    }
+    if (projectsRef.current) {
+      observer.observe(projectsRef.current);
+    }
+    if (contactRef.current) {
+      observer.observe(contactRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [controls]);
+
+  // Sample projects data
+  const featuredProjects = [
+    {
+      id: 'zomato-expansion',
+      title: 'Zomato Restaurant Expansion',
+      shortDescription: 'Market Strategy Dashboard in Excel',
+      techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+      image: '/images/projects/Project1 excel/Project1 Cover.avif',
+      previewImage: '/images/projects/Project1 excel/Project1 Cover.avif'
     },
-    { 
-      name: 'Demand Forecasting', 
-      icon: <FaChartLine className="w-6 h-6" />, 
-      category: 'Inventory Management',
-      level: 90,
-      color: 'from-blue-500 to-cyan-400',
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-100 dark:bg-blue-900/30'
+    {
+      id: 'bansal-supermarket',
+      title: 'Bansal Supermarket',
+      shortDescription: 'Sales Performance Insights in Tableau',
+      techStack: ['Tableau', 'Data Analysis', 'Sales'],
+      image: '/images/projects/Project2 tableau/Project2 Cover.avif',
+      previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif'
     },
-    { 
-      name: 'ERP Systems', 
-      icon: <FaBoxes className="w-6 h-6" />, 
-      category: 'Inventory Management',
-      level: 88,
-      color: 'from-green-500 to-emerald-400',
-      iconColor: 'text-green-600',
-      bgColor: 'bg-green-100 dark:bg-green-900/30'
-    },
-    
-    // Warehouse Operations Skills
-    { 
-      name: 'WMS Implementation', 
-      icon: <FaBoxes className="w-6 h-6" />, 
-      category: 'Warehouse Operations',
-      level: 92,
-      color: 'from-orange-500 to-amber-400',
-      iconColor: 'text-orange-600',
-      bgColor: 'bg-orange-100 dark:bg-orange-900/30'
-    },
-    { 
-      name: 'Process Automation', 
-      icon: <SiZapier className="w-6 h-6" />, 
-      category: 'Warehouse Operations',
-      level: 90,
-      color: 'from-yellow-500 to-amber-400',
-      iconColor: 'text-yellow-600',
-      bgColor: 'bg-yellow-100 dark:bg-yellow-900/30'
-    },
-    { 
-      name: 'Safety Compliance', 
-      icon: <FaUserFriends className="w-6 h-6" />, 
-      category: 'Warehouse Operations',
-      level: 94,
-      color: 'from-red-500 to-pink-400',
-      iconColor: 'text-red-600',
-      bgColor: 'bg-red-100 dark:bg-red-900/30'
-    },
-    
-    // AI & Analytics Skills
-    { 
-      name: 'AI Solutions', 
-      icon: <SiOpenai className="w-6 h-6" />, 
-      category: 'AI & Analytics',
-      level: 88,
-      color: 'from-purple-500 to-pink-400',
-      iconColor: 'text-purple-600',
-      bgColor: 'bg-purple-100 dark:bg-purple-900/30'
-    },
-    { 
-      name: 'Data Analytics', 
-      icon: <SiTableau className="w-6 h-6" />, 
-      category: 'AI & Analytics',
-      level: 92,
-      color: 'from-blue-600 to-indigo-400',
-      iconColor: 'text-blue-600',
-      bgColor: 'bg-blue-100 dark:bg-blue-900/30'
-    },
-    { 
-      name: 'Process Mining', 
-      icon: <SiStreamlit className="w-6 h-6" />, 
-      category: 'AI & Analytics',
-      level: 85,
-      color: 'from-green-500 to-emerald-400',
-      iconColor: 'text-green-600',
-      bgColor: 'bg-green-100 dark:bg-green-900/30'
-    },
+    {
+      id: 'ekam-attendance',
+      title: 'Ekam Attendance Tracker',
+      shortDescription: 'SQL + Google Sheets Automation',
+      techStack: ['SQL', 'Google Sheets', 'Automation'],
+      image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+      previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'
+    }
   ];
 
-  // Filter skills based on active category
-  const filteredSkills = activeSkill === 'All' 
-    ? skills 
-    : skills.filter(skill => skill.category === activeSkill);
-    
-  // Skill categories for filtering
-  const categories = ['All', ...new Set(skills.map(skill => skill.category))];
+  // Scroll to section with offset
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      const headerOffset = 80; // Adjust based on your header height
+      const elementPosition = ref.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-  // Tech stack icons mapping
-  const techIcons = {
-    'Tableau': <SiTableau />,
-    'Python': <SiPython />,
-    'React': <FaReact />,
-    'JavaScript': <SiJavascript />,
-    'TypeScript': <SiTypescript />,
-    'HTML5': <SiHtml5 />,
-    'CSS3': <SiCss3 />,
-    'Git': <SiGit />,
-    'GitHub': <FaGithub />,
-    'Notion': <SiNotion />,
-    'Zapier': <SiZapier />,
-    'OpenAI': <SiOpenai />,
-    'Docker': <SiDocker />,
-    'Streamlit': <SiStreamlit />,
-    'D3.js': <SiD3Dotjs />,
-    'TensorFlow': <SiTensorflow />,
-    'Next.js': <SiNextdotjs />,
-    'Node.js': <FaNodeJs />,
-    'MongoDB': <SiMongodb />,
-    'PostgreSQL': <SiPostgresql />,
-    'Excel': <BsFileEarmarkExcel />
-  };
-
-  // Animation variants for project cards
-  const projectsContainer = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const projectItem = {
-    hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 25
-      }
-    }
-  };
-
-  // Animation variants for section headers
-  const headerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  // Add smooth scroll behavior
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
       window.scrollTo({
-        top: 0,
+        top: offsetPosition,
         behavior: 'smooth'
       });
     }
-  }, []);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-bg/90 overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
+      {/* Scroll Down Button (Only in Hero Section) */}
+      <motion.div 
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
+      >
+        <button
+          onClick={scrollToAbout}
+          className="flex flex-col items-center group"
+          aria-label="Scroll down to next section"
+        >
+          <span className="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+            Scroll Down
+          </span>
+          <div className="w-8 h-12 rounded-full border-2 border-gray-300 dark:border-gray-600 flex justify-center items-start p-1 group-hover:border-indigo-500 transition-colors">
+            <motion.div
+              className="w-1 h-3 bg-gray-400 dark:bg-gray-500 rounded-full"
+              animate={{
+                y: [0, 12, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "loop",
+              }}
+            />
+          </div>
+        </button>
+      </motion.div>
+      <ModernNavbar />
+      
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        {/* Grid Pattern Background */}
-        <div className="absolute inset-0" style={{ 
-          zIndex: 1,
-          backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}></div>
-        
-        {/* Dark mode grid pattern */}
-        <div className="absolute inset-0 dark:hidden" style={{
-          backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          zIndex: 1
-        }}></div>
-        
-        <div className="hidden dark:block absolute inset-0" style={{
-          backgroundImage: 'linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          zIndex: 1
-        }}></div>
+        {/* Data-themed background pattern from Hero Patterns */}
+        <div 
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundSize: '150px',
+            zIndex: 0
+          }}
+        ></div>
         
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
-        
-        {/* Content Container */}
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center">
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            {/* Role Badge */}
             <motion.div 
-              variants={container}
-              initial="hidden"
-              animate={isMounted ? "show" : "hidden"}
-              className="lg:w-1/2 lg:pr-16 relative z-10"
+              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <motion.div 
-                variants={item}
-                className="inline-flex items-center mb-8 relative group"
-              >
-                <span className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/20 text-indigo-700 dark:text-indigo-300 text-xs font-medium px-4 py-2.5 rounded-full uppercase tracking-wider border border-indigo-100/50 dark:border-indigo-800/30 shadow-sm backdrop-blur-sm">
-                  <span className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-2.5 animate-pulse"></span>
-                  <span className="relative">
-                    Welcome to my portfolio
-                    <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-                  </span>
-                </span>
-                <span className="absolute -inset-1 bg-indigo-200/30 dark:bg-indigo-900/20 rounded-full blur opacity-0 group-hover:opacity-100 -z-10 transition-all duration-300"></span>
-              </motion.div>
-              
-              <motion.div variants={item} className="mb-4">
-                <motion.span 
-                  className="text-lg sm:text-xl font-semibold text-indigo-600 dark:text-indigo-400 block mb-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.6 }}
-                >
-                  {heroContent.title}
-                </motion.span>
-                <motion.h1 
-                  className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.7 }}
-                >
-                  Sahil Khan
-                </motion.h1>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 dark:text-white leading-tight">
-                  <span className="relative inline-block mr-2">
-                    <span className="relative z-10">I'm a </span>
-                    <div className="absolute bottom-1 left-0 w-full h-3 bg-cyan-400/30 dark:bg-cyan-500/30 -rotate-1 -z-0"></div>
-                  </span>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 font-bold">
-                    Data Analyst & Full-Stack Developer
-                  </span>
-                </div>
-              </motion.div>
-              
-              <motion.div 
-                variants={item}
-                className="mb-10 max-w-2xl relative"
-              >
-                <div className="absolute -left-1 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-400 to-blue-500 rounded-full"></div>
-                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed pl-6 relative">
-                  <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mt-1">"</span>
-                  {heroContent.description}
-                  <span className="absolute right-0 bottom-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mb-4">"</span>
-                </p>
-              </motion.div>
-              
-              <motion.div variants={item} className="flex flex-col sm:flex-row gap-6 mb-12">
-                <div className="space-y-4">
-                  <Link 
-                    to={heroContent.primaryButton.link}
-                    className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 shadow-lg hover:shadow-xl overflow-hidden"
-                  >
-                    <span className="relative z-10 flex items-center">
-                      <span className="transition-all duration-300 group-hover:translate-x-1">
-                        {heroContent.primaryButton.text}
-                      </span>
-                      <FiArrowRight className="ml-3 h-5 w-5 transition-all duration-300 transform -translate-x-1 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                    </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-                  </Link>
-                  
-                  <div className="flex items-center space-x-4">
-                    <div className="flex -space-x-3">
-                      {[1, 2, 3].map((i) => (
-                        <div 
-                          key={i}
-                          className="relative w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-800 dark:to-blue-900 shadow-md transition-transform duration-300 hover:-translate-y-1"
-                          style={{ zIndex: 3 - i }}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="flex items-center">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <svg key={star} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mt-1">5.0 (120+ reviews)</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <Link 
-                  to={heroContent.secondaryButton.link}
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-base font-medium transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded-xl bg-white/80 dark:bg-gray-800/80 hover:bg-white dark:hover:bg-gray-700 text-gray-800 dark:text-white border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl overflow-hidden"
-                >
-                  <span className="relative z-10 flex items-center">
-                    <span className="transition-all duration-300 group-hover:translate-x-1">
-                      {heroContent.secondaryButton.text}
-                    </span>
-                    {heroContent.secondaryButton.showArrow && (
-                      <FiArrowRight className="ml-3 h-5 w-5 transition-all duration-300 transform -translate-x-1 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                    )}
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-800/50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-                </Link>
-              </motion.div>
-              
-              <motion.div 
-                variants={item}
-                className="flex items-center space-x-4 bg-white/50 dark:bg-gray-900/30 backdrop-blur-sm p-4 rounded-xl border border-gray-100 dark:border-gray-800/50 shadow-sm"
-              >
-                <div className="flex-shrink-0 flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
-                    <div 
-                      key={i}
-                      className="w-10 h-10 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-800 dark:to-blue-900 shadow-md transition-transform duration-300 hover:-translate-y-1"
-                      style={{ zIndex: 3 - i }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-full"></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="ml-2">
-                  <div className="font-medium text-gray-900 dark:text-white">Trusted by professionals</div>
-                  <div className="flex items-center">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <span className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">5.0 (120+ reviews)</span>
-                  </div>
-                </div>
-              </motion.div>
+              <FiTrendingUp className="w-4 h-4" />
+              <span>Data Analyst & Business Intelligence</span>
             </motion.div>
             
-            {/* Right content - Expertise card */}
-            <motion.div 
-              variants={item}
-              className="lg:w-1/2 mt-16 lg:mt-0 lg:pl-12 relative group"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            {/* Main Heading */}
+            <motion.h1 
+              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
             >
-              {/* Decorative elements */}
-              <div className="absolute -top-6 -right-6 w-32 h-32 bg-indigo-500/10 rounded-full filter blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-purple-500/10 rounded-full filter blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+              Sahil Ali
+            </motion.h1>
+            
+            {/* Description */}
+            <motion.p 
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              Transforming complex data into actionable insights and building intelligent solutions that drive operational excellence and business growth.
+            </motion.p>
+
+            {/* CTA Buttons */}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <a
+                href="#contact"
+                className="group relative px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:shadow-indigo-500/20 w-full sm:w-auto"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  Get in Touch
+                  <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              </a>
               
-              <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 lg:p-10 border border-white/20 dark:border-gray-700/50 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 overflow-hidden">
-                {/* Animated background elements */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-indigo-500/5 to-transparent rounded-full animate-spin-slow"></div>
-                  <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tl from-purple-500/5 to-transparent rounded-full animate-spin-slow animation-delay-3000"></div>
-                </div>
-                
-                <div className="relative z-10">
-                  {/* Card header */}
-                  <motion.div 
-                    className="flex items-center mb-8"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <div className="w-3 h-3 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-3 animate-pulse"></div>
-                    <h3 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                      My Expertise
-                    </h3>
-                  </motion.div>
-                  
-                  {/* Card description */}
-                  <motion.p 
-                    className="text-lg text-gray-600 dark:text-gray-300 mb-10 leading-relaxed relative pl-6 border-l-2 border-indigo-500/20 dark:border-indigo-400/20"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    Specializing in data analysis, inventory management, and full-stack development to deliver impactful solutions that drive business growth and efficiency.
-                  </motion.p>
-                  
-                  {/* Expertise items */}
-                  <div className="space-y-6 mb-10">
-                    {[
-                      { 
-                        icon: <FaChartLine className="text-2xl" />, 
-                        title: 'Data Analysis', 
-                        description: 'Transforming raw data into actionable insights',
-                        color: 'from-indigo-500 to-blue-500',
-                        bgColor: 'bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30',
-                        delay: 0.4
-                      },
-                      { 
-                        icon: <FaBoxes className="text-2xl" />, 
-                        title: 'Inventory Management', 
-                        description: 'Optimizing stock levels and reducing waste',
-                        color: 'from-purple-500 to-pink-500',
-                        bgColor: 'bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30',
-                        delay: 0.5
-                      },
-                      { 
-                        icon: <FaLaptopCode className="text-2xl" />, 
-                        title: 'Automation', 
-                        description: 'Streamlining processes with custom solutions',
-                        color: 'from-blue-500 to-cyan-500',
-                        bgColor: 'bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30',
-                        delay: 0.6
-                      }
-                    ].map((item, index) => (
-                      <motion.div 
-                        key={index} 
-                        className="flex items-start space-x-4 group"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: item.delay }}
-                      >
-                        <div className={`p-3 ${item.bgColor} rounded-xl group-hover:scale-110 transition-all duration-300 relative overflow-hidden`}>
-                          <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300`}></div>
-                          <div className={`bg-clip-text text-transparent bg-gradient-to-br ${item.color} relative z-10`}>
-                            {item.icon}
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900 dark:text-white text-lg mb-1">{item.title}</h4>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">{item.description}</p>
-                        </div>
-                      </motion.div>
-                    ))}
+              <div className="relative group w-full sm:w-auto">
+                <button
+                  className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group-hover:bg-indigo-50 dark:group-hover:bg-gray-700/50 w-full"
+                >
+                  <span className="relative z-10">View Resume</span>
+                  <FiChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+                </button>
+                <div className="absolute right-0 mt-2 w-full sm:w-56 origin-top-right bg-white dark:bg-gray-800 rounded-lg shadow-xl ring-1 ring-gray-200 dark:ring-gray-700 focus:outline-none z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
+                  <div className="py-1">
+                    <a
+                      href="/assets/Sahil_Ali_Cv.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors group-hover/item:translate-x-1"
+                    >
+                      <FiExternalLink className="mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-400 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-300 transition-colors" />
+                      <span>View in New Tab</span>
+                    </a>
+                    <a
+                      href="/assets/Sahil_Ali_Cv.pdf"
+                      download="Sahil_Ali_Resume.pdf"
+                      className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors group-hover/item:translate-x-1"
+                    >
+                      <FiDownload className="mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-400 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-300 transition-colors" />
+                      <span>Download PDF</span>
+                    </a>
                   </div>
-                  
-                  {/* Technologies */}
-                  <motion.div 
-                    className="mt-10 pt-6 border-t border-gray-100 dark:border-gray-700/50"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.7 }}
-                  >
-                    <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 flex items-center">
-                      <span className="w-3 h-0.5 bg-indigo-500 mr-2"></span>
-                      Technologies I Work With
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {['Data Analytics', 'AI/ML', 'Inventory', 'Automation', 'Excel', 'SQL', 'Python', 'React'].map((tag, i) => (
-                        <motion.span 
-                          key={i} 
-                          className="px-3 py-1.5 text-xs font-medium text-indigo-700 dark:text-indigo-200 bg-indigo-50/80 dark:bg-indigo-900/40 rounded-full border border-indigo-100 dark:border-indigo-800/50 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5"
-                          whileHover={{ scale: 1.05 }}
-                          transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-                        >
-                          {tag}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </motion.div>
                 </div>
               </div>
             </motion.div>
+
+            {/* Social Links */}
+            <motion.div 
+              className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8 sm:mt-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              {[
+                { icon: <FiGithub className="w-5 h-5" />, href: "https://github.com/yourusername", label: "GitHub" },
+                { icon: <FiLinkedin className="w-5 h-5" />, href: "https://linkedin.com/in/yourusername", label: "LinkedIn" },
+                { icon: <FiTwitter className="w-5 h-5" />, href: "https://twitter.com/yourusername", label: "Twitter" },
+                { icon: <FiMail className="w-5 h-5" />, href: "mailto:your.email@example.com", label: "Email" }
+              ].map((social, index) => (
+                <a 
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </motion.div>
           </div>
         </div>
-        
-        {/* Animated background elements */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-1/4 -left-10 w-96 h-96 bg-indigo-100/60 dark:bg-indigo-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-          <div className="absolute top-1/2 -right-10 w-96 h-96 bg-purple-100/60 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-blue-100/60 dark:bg-blue-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
-        </div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+        >
+          <button
+            onClick={scrollToAbout}
+            className="flex flex-col items-center group"
+            aria-label="Scroll down to next section"
+          >
+            <span className="text-sm text-gray-500 dark:text-gray-400 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+              Explore More
+            </span>
+            <div className="w-10 h-14 rounded-full border-2 border-gray-200 dark:border-gray-700 flex justify-center p-1 group-hover:border-indigo-500 transition-colors">
+              <div className="w-1 h-4 bg-gradient-to-b from-indigo-500 to-blue-500 dark:from-indigo-400 dark:to-cyan-400 rounded-full animate-bounce"></div>
+            </div>
+          </button>
+        </motion.div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative py-16 sm:py-20 md:py-24 lg:py-28 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute top-0 right-0 w-full sm:w-2/3 md:w-1/2 h-64 bg-gradient-to-bl from-purple-100/60 to-transparent dark:from-purple-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <H2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center">
-              <span className="mr-3">🙋‍♂️</span> About Me
-            </H2>
-            <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto rounded-full"></div>
-          </div>
+      <section 
+        ref={aboutRef} 
+        className="py-16 sm:py-20 bg-white dark:bg-gray-900"
+      >
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              About Me
+            </h2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+          </motion.div>
 
-          <div className="relative z-10 max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-            <H3 className="text-2xl sm:text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-              Professional Profile
-            </H3>
-            
-            <div className="space-y-5">
-              <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-base sm:text-lg">
-                I am <span className="font-semibold text-indigo-700 dark:text-indigo-400">Sahil Ali</span>, 
-                a results-driven professional with 4+ years of expertise in inventory management and data analysis. 
-                My career has been dedicated to optimizing supply chain operations, enhancing data accuracy, 
-                and implementing automation solutions that drive business efficiency.
-              </p>
-              
-              <p className="text-gray-700 dark:text-gray-200 leading-relaxed text-base sm:text-lg">
-                Specializing in transforming complex datasets into actionable business intelligence, 
-                I leverage cutting-edge tools and methodologies to deliver data-driven insights. 
-                My approach combines technical proficiency with operational knowledge to create 
-                sustainable improvements in business processes and decision-making.
-              </p>
-            </div>
-            
-            <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-8">
-              <Link
-                to="/about"
-                className="group relative bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-2.5 px-6 sm:py-3 sm:px-7 rounded-lg shadow-md overflow-hidden inline-flex items-center transition-all duration-300 transform hover:-translate-y-0.5"
+          <div className="max-w-6xl mx-auto">
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-8 items-center"
+            >
+              {/* Image Section */}
+              <motion.div 
+                variants={item}
+                className="relative order-2 md:order-1"
               >
-                <span className="relative z-10 flex items-center">
-                  <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm sm:text-base">
-                    Learn More About Me
-                  </span>
-                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-blue-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-              </Link>
-              
-              <Link
-                to="/experience"
-                className="group relative border-2 border-indigo-700 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-gray-700/50 font-medium py-2.5 px-6 sm:py-3 sm:px-7 rounded-lg shadow-sm overflow-hidden inline-flex items-center transition-all duration-300 transform hover:-translate-y-0.5"
+                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
+                  <img 
+                    src={HeroImage}
+                    alt="Professional Headshot"
+                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
+              </motion.div>
+
+              {/* Content Section */}
+              <motion.div 
+                variants={item}
+                className="space-y-6 order-1 md:order-2"
               >
-                <span className="relative z-10 flex items-center">
-                  <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm sm:text-base">
-                    See My Experience
-                  </span>
-                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                </span>
-                <span className="absolute inset-0 bg-indigo-50 dark:bg-gray-700/30 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-              </Link>
-            </div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                    Professional Profile
+                  </h3>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    As a <span className="font-medium text-indigo-600 dark:text-indigo-400">Certified Inventory Specialist</span> with extensive experience in warehouse operations, I specialize in optimizing inventory management systems and streamlining supply chain processes. My expertise lies in implementing efficient stock control measures and reducing operational costs through data-driven strategies.
+                  </p>
+                  
+                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
+                    <p className="text-gray-700 dark:text-gray-300 italic">
+                      "Transforming inventory challenges into efficient, cost-effective solutions through systematic controls and process optimization."
+                    </p>
+                  </div>
+                  
+                  <div className="pt-4">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Core Competencies:</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <p className="ml-3 text-gray-700 dark:text-gray-300">
+                          Inventory Management & Optimization
+                        </p>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <p className="ml-3 text-gray-700 dark:text-gray-300">
+                          Warehouse Operations & Process Improvement
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                  <motion.a
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    href="/about"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
+                  >
+                    View Full Profile
+                    <FiArrowRight className="ml-2" />
+                  </motion.a>
+                  <div className="flex flex-wrap gap-3 mt-2 sm:mt-0">
+                    <span className="px-4 py-2 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      Inventory Specialist
+                    </span>
+                    <span className="px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      Warehouse Supervisor
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="relative py-16 sm:py-20 md:py-24 lg:py-28 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute top-0 left-0 w-full sm:w-2/3 md:w-1/2 h-64 bg-gradient-to-br from-blue-100/60 to-transparent dark:from-blue-900/20 dark:to-transparent rounded-full filter blur-3xl -ml-40 -mt-40"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <H2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center">
-              <span className="mr-3">👨‍💼</span> Professional Experience
-            </H2>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto rounded-full"></div>
-            <p className="mt-4 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              My professional journey and key achievements in the field of data analysis and inventory management
-            </p>
-          </div>
+      <section ref={experienceRef} className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Professional Journey
+            </h2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+          </motion.div>
 
-          <div className="relative z-10 max-w-4xl mx-auto bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-gray-100/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-            <H3 className="dark:text-white bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Professional Experience</H3>
-            <p className="text-gray-700 dark:text-gray-200 mb-6 leading-relaxed">
-              My professional journey spans across international retail and supply chain management, 
-              with key roles at Ekam Indian Groceries (Australia), Bansal Supermarket, and Arzt Health. 
-              This diverse experience has equipped me with a comprehensive understanding of 
-              end-to-end inventory management and operational excellence.
-            </p>
-            <p className="text-gray-700 dark:text-gray-200 mb-8 leading-relaxed">
-              I specialize in implementing data-driven solutions that enhance operational efficiency, 
-              from developing AI-powered reporting tools to optimizing inventory control systems. 
-              My track record includes significant improvements in process accuracy, 
-              cost reduction, and workflow automation across multiple business functions.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                to="/experience"
-                className="group relative bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow-md overflow-hidden inline-flex items-center"
+          <div className="max-w-6xl mx-auto">
+            <motion.div 
+              variants={container}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-8 items-center"
+            >
+              {/* Image Section */}
+              <motion.div 
+                variants={item}
+                className="relative order-2 md:order-1"
               >
-                <span className="relative z-10 flex items-center">
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">View My Journey</span>
-                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                </span>
-                <span className="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-              </Link>
-              <Link
-                to="/projects"
-                className="group relative border-2 border-indigo-700 text-indigo-700 font-medium py-2 px-6 rounded-lg shadow-sm overflow-hidden inline-flex items-center"
+                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
+                  <img 
+                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="Warehouse and Inventory Management"
+                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                    }}
+                  />
+                </div>
+                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
+              </motion.div>
+
+              {/* Content Section */}
+              <motion.div 
+                variants={item}
+                className="space-y-6 order-1 md:order-2"
               >
-                <span className="relative z-10 flex items-center">
-                  <span className="transition-transform duration-300 group-hover:translate-x-1">Check Out the Projects</span>
-                  <FiArrowRight className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100" />
-                </span>
-                <span className="absolute inset-0 bg-indigo-50 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
-              </Link>
-            </div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                    Industry Experience
+                  </h3>
+                  
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    With a career spanning multiple sectors, I've brought operational excellence to diverse environments including retail, supermarket chains, and warehouse operations. My journey includes impactful roles at <span className="font-medium text-indigo-600 dark:text-indigo-400">Ekam Indian Groceries (Australia)</span>, <span className="font-medium text-blue-600 dark:text-blue-400">Bansal Supermarket</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">Arzt Health</span>.
+                  </p>
+                  
+                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
+                    <p className="text-gray-700 dark:text-gray-300 italic">
+                      "From GRNs and invoice accuracy to inventory audits and AI-powered reporting tools, my focus has always been on driving efficiency, reducing errors, and delivering measurable business value."
+                    </p>
+                  </div>
+                  
+                  <div className="pt-4">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Key Achievements:</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <p className="ml-3 text-gray-700 dark:text-gray-300">
+                          Developed and implemented inventory management systems that reduced stock discrepancies by 37%
+                        </p>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0 mt-1">
+                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </div>
+                        <p className="ml-3 text-gray-700 dark:text-gray-300">
+                          Automated reporting processes using AI tools, saving 15+ hours per week in manual work
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="pt-4">
+                  <motion.a
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    href="/experience"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
+                  >
+                    View Full Work History
+                    <FiArrowRight className="ml-2" />
+                  </motion.a>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Futuristic Projects Showcase */}
-      <section ref={projectsRef} className="py-20 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-30 dark:opacity-10">
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlNWU1ZTUiIGZpbGwtb3BhY2l0eT0iMC4zIj48cGF0aCBkPSJNMzYuMzQgMThjLS43Ny0xLjM5My0yLjY0OS0xLjM5My0zLjQyIDBsLTQuNTggOC4yNDRjLS43NyAxLjM5My4xOTIgMy4xMDkgMS42MSAzLjEwOWg5LjE2YzEuNDE4IDAgMi4zOC0xLjcxNiAxLjYxLTMuMTA5TDM2LjM0IDE4ek0yNCAzMGMtLjc3LTEuMzkzLTIuNjQ5LTEuMzkzLTMuNDIgMGwtNC41OCA4LjI0NGMtLjc3IDEuMzkzLjE5MiAzLjEwOSAxLjYxIDMuMTA5aDkuMTZjMS40MTggMCAyLjM4LTEuNzE2IDEuNjEtMy4xMDlMMjQgMzB6TTQ4IDM2Yy0uNzctMS4zOTMtMi42NDktMS4zOTMtMy40MiAwbC00LjU4IDguMjQ0Yy0uNzcgMS4zOTMuMTkyIDMuMTA5IDEuNjEgMy4xMDloOS4xNmMxLjQxOCAwIDIuMzgtMS43MTYgMS42MS0zLjEwOUw0OCAzNnoiLz48L2c+PC9nPjwvc3ZnPg==')] dark:opacity-10"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      {/* Featured Projects Section */}
+      <section ref={projectsRef} className="py-16 bg-white dark:bg-gray-800">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div 
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { 
-                opacity: 1, 
-                y: 0,
-                transition: { 
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1]
-                }
-              }
-            }}
+            transition={{ duration: 0.5 }}
           >
-            {/* Text Content */}
-          <div className="w-full lg:w-1/2 text-center lg:text-left relative z-10 px-4 sm:px-6">
-            {/* Welcome Badge */}
-            <motion.div 
-              className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-6 shadow-sm border border-indigo-100/50 dark:border-indigo-800/30 backdrop-blur-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: { 
-                  duration: 0.6,
-                  ease: [0.16, 1, 0.3, 1]
-                }
-              }}
-            >
-              <span className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mr-2.5 animate-pulse"></span>
-              <span className="relative">
-                Welcome to my portfolio
-                <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300 group-hover:w-full"></span>
-              </span>
-            </motion.div>
-            
-            {/* Main Heading */}
-            <motion.div className="mb-4">
-              <motion.span 
-                className="text-lg sm:text-xl font-semibold text-indigo-600 dark:text-indigo-400 block mb-2"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  transition: { 
-                    delay: 0.2,
-                    duration: 0.6,
-                    ease: [0.16, 1, 0.3, 1]
-                  }
-                }}
-              >
-                Hello, I'm
-              </motion.span>
-              <motion.h1 
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-none tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300"
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              A showcase of my projects that demonstrate my skills and expertise in data analysis and AI-powered solutions.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {featuredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                className="bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: 1, 
-                  y: 0,
-                  transition: { 
-                    delay: 0.3,
-                    duration: 0.7,
-                    ease: [0.16, 1, 0.3, 1]
-                  }
-                }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                Sahil Khan
-              </motion.h1>
-            </motion.div>
-            
-            {/* Animated Text */}
-            <motion.div 
-              className="mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: { 
-                  delay: 0.4,
-                  duration: 0.7,
-                  ease: [0.16, 1, 0.3, 1]
-                }
-              }}
-            >
-              <div className="inline-block">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-800 dark:text-white leading-tight">
-                  <span className="relative inline-block mr-2">
-                    <span className="relative z-10">I'm a </span>
-                    <div className="absolute bottom-1 left-0 w-full h-3 bg-cyan-400/30 dark:bg-cyan-500/30 -rotate-1 -z-0"></div>
-                  </span>
-                  <Typewriter
-                    options={{
-                      strings: ['Data Analyst', 'Full-Stack Developer', 'Problem Solver', 'Tech Enthusiast'],
-                      autoStart: true,
-                      loop: true,
-                      deleteSpeed: 30,
-                      delay: 50,
-                      cursor: '|',
-                      wrapperClassName: 'text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300 font-bold',
-                      cursorClassName: 'text-cyan-500 dark:text-cyan-300'
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://via.placeholder.com/600x400?text=Project+Image';
                     }}
                   />
                 </div>
-              </div>
-            </motion.div>
-            
-            {/* Description */}
-            <motion.div 
-              className="mb-10 max-w-2xl mx-auto lg:mx-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0,
-                transition: { 
-                  delay: 0.5,
-                  duration: 0.7,
-                  ease: [0.16, 1, 0.3, 1]
-                }
-              }}
-            >
-              <div className="relative">
-                <div className="absolute -left-1 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-400 to-blue-500 rounded-full"></div>
-                <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed pl-6 relative">
-                  <span className="absolute left-0 top-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mt-1">"</span>
-                  Transforming complex data into actionable insights and building scalable web applications. With expertise in data analysis, inventory management, and full-stack development, I help businesses make data-driven decisions that drive growth and efficiency.
-                  <span className="absolute right-0 bottom-0 text-3xl text-indigo-500 dark:text-indigo-400 font-serif leading-none -mb-4">"</span>
-                </p>
-              </div>
-            </motion.div>
-            
-            {/* Projects Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-              {filteredProjects.map((project, index) => (
-                <motion.div
-                  key={project.id}
-                  className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700/50"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                >
-                  {/* Enhanced glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
-                
-                {/* Project image - Wrapped in Link */}
-                <Link 
-                  to={`/projects/${project.id}`}
-                  className="relative pt-[56.25%] overflow-hidden block group-hover:opacity-95 transition-opacity"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-                    <img
-                      src={project.image ? getImagePath('project', project.id, project.image) : '/images/project-placeholder.jpg'}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/images/fallback-image.jpg';
-                      }}
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4 sm:p-6">
-                    <div className="w-full">
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {project.technologies?.slice(0, 5).map((tech, idx) => (
-                          <motion.span
-                            key={`${tech}-${idx}`}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.05, duration: 0.3 }}
-                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-200 shadow-sm cursor-default"
-                          >
-                            <span className="text-blue-500 mr-1.5">{tech.charAt(0)}</span>
-                            <span>{tech}</span>
-                          </motion.span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-                
-                {/* Project info */}
-                <div className="p-5 sm:p-6 bg-white dark:bg-gray-800 flex-1 flex flex-col">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm font-medium text-indigo-600 dark:text-blue-400">
-                        {project.role || project.category || 'Project'}
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">{project.shortDescription}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.techStack.map((tech, idx) => (
+                      <span 
+                        key={idx}
+                        className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
+                      >
+                        {tech}
                       </span>
-                    </div>
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700/50 px-2.5 py-1 rounded-full whitespace-nowrap">
-                      {project.year}
-                    </span>
+                    ))}
                   </div>
-                  
-                  <Link 
-                    to={`/projects/${project.id}`}
-                    className="block group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                      {project.title}
-                    </h3>
-                  </Link>
-                  
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2 flex-grow">
-                    {project.shortDescription || project.description}
-                  </p>
-                  
-                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50 flex flex-wrap gap-2 mt-auto">
-                    {project.github && (
-                      <motion.a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <FiGithub className="mr-1.5" />
-                        Code
-                      </motion.a>
-                    )}
-                    {project.demo && (
-                      <motion.a
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <FiExternalLink className="mr-1.5" />
-                        Live Demo
-                      </motion.a>
-                    )}
-                    <Link
-                      to={`/projects/${project.id}`}
-                      className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors ml-auto"
+                  <div className="flex gap-3">
+                    <a 
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
                     >
-                      View Details
-                      <FiArrowRight className="ml-1.5 h-3 w-3" />
-                    </Link>
+                      Live Demo
+                    </a>
+                    <a 
+                      href={project.githubLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                    >
+                      View Code
+                    </a>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
-          
+
           <motion.div 
-            className="text-center mt-16"
+            className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ delay: 0.3 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Link 
+            <Link
               to="/projects"
-              className="group inline-flex items-center px-6 py-3.5 text-base font-medium rounded-xl text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200 border border-indigo-100 dark:border-indigo-800/50 hover:shadow-md"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
             >
-              Explore All Projects
-              <FiArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+              View All Projects
+              <FiArrowRight className="ml-2" />
             </Link>
           </motion.div>
         </div>
-      </motion.div>
-    </div>
-  </section>
+      </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+      {/* Call to Action */}
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
+        <div className="absolute inset-0 overflow-hidden opacity-20 dark:opacity-10">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200 dark:bg-indigo-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        </div>
         
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={headerVariants}
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto"
           >
-            <span className="inline-block px-4 py-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4">
-              Testimonials
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              What People Say
+            <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+              Ready to Start a Project?
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Here's what colleagues and clients have to say about working with me.
+            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
+              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+              Let's create something amazing together!
             </p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <Link
+                to="/contact"
+                className="px-6 sm:px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+              >
+                Get In Touch
+              </Link>
+              <a
+                href="#work"
+                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+              >
+                View My Work
+              </a>
+            </motion.div>
           </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <motion.div 
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-xl transition-shadow duration-300"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-xl font-bold mr-4">JD</div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">John Doe</h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">CEO, TechCorp</p>
-                </div>
-              </div>
-              <p className="text-gray-600 dark:text-gray-300">"Sahil's expertise in data analysis transformed our inventory management system, resulting in a 30% reduction in stockouts."</p>
-            </motion.div>
-
-            {/* Testimonial 2 */}
-            <motion.div 
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-xl transition-shadow duration-300"
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xl font-bold mr-4">AS</div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">Alex Smith</h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Operations Manager, RetailPlus</p>
-                </div>
-              </div>
-              <p className="text-gray-600 dark:text-gray-300">"Working with Sahil was a game-changer for our data analytics. His attention to detail and problem-solving skills are exceptional."</p>
-            </motion.div>
-
-            {/* Testimonial Form */}
-            <motion.div 
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border-2 border-dashed border-indigo-200 dark:border-indigo-900/50 hover:shadow-xl transition-all duration-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Share Your Experience</h3>
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Role</label>
-                  <input 
-                    type="text" 
-                    id="role" 
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-                    placeholder="Your position/company"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="testimonial" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Testimonial</label>
-                  <textarea 
-                    id="testimonial" 
-                    rows="3" 
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
-                    placeholder="Share your experience working with me..."
-                  ></textarea>
-                </div>
-                <button 
-                  type="submit" 
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center"
-                >
-                  <span>Submit Testimonial</span>
-                  <FiArrowRight className="ml-2" />
-                </button>
-              </form>
-            </motion.div>
-          </div>
         </div>
       </section>
 
-      {/* Resume Section */}
-      <section id="resume" className="relative py-16 bg-gray-50/80 dark:bg-gray-900/80 backdrop-blur-sm overflow-hidden">
-        <div className="absolute inset-0 bg-grid-gray-200/40 dark:bg-grid-gray-800/40 [mask-image:linear-gradient(0deg,transparent,white,darkgray,transparent)] dark:[mask-image:linear-gradient(0deg,transparent,rgba(0,0,0,0.2),rgba(0,0,0,0.8),transparent)]"></div>
-        <div className="absolute top-0 right-0 w-1/3 h-64 bg-gradient-to-tr from-indigo-100/60 to-transparent dark:from-indigo-900/20 dark:to-transparent rounded-full filter blur-3xl -mr-40 -mt-40"></div>
-        
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <H2 className="text-3xl sm:text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">My Resume</span>
-            </H2>
-            <p className="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-              Download my detailed resume to explore my professional background
-            </p>
-            <div className="w-20 h-1 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto mt-4 rounded-full"></div>
-          </div>
+      {/* Contact Section */}
+      <section 
+        ref={contactRef} 
+        id="contact" 
+        className="py-20 bg-gray-50 dark:bg-gray-800"
+      >
+        <div className="container mx-auto px-6">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate={controls}
+            className="max-w-4xl mx-auto"
+          >
+            <motion.div variants={item} className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4">Get In Touch</h2>
+              <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6"></div>
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Have a project in mind or want to collaborate? Feel free to reach out!
+              </p>
+            </motion.div>
 
-          <div className="max-w-2xl mx-auto">
-            <div className="relative h-full overflow-hidden group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-gray-100/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-blue-600/5 dark:from-indigo-400/5 dark:to-blue-400/5 rounded-xl transition-all duration-500 group-hover:scale-105"></div>
-              <div className="relative">
-                <div className="flex flex-col sm:flex-row sm:items-center mb-6">
-                  <div className="bg-indigo-100 dark:bg-indigo-900/50 p-3 rounded-xl shadow-inner w-16 h-16 flex items-center justify-center mb-4 sm:mb-0 sm:mr-6">
-                    <FiFileText className="text-indigo-600 dark:text-indigo-400 text-3xl" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sahil Ali</h3>
-                    <p className="text-indigo-600 dark:text-indigo-400 font-medium">AI Expert | Data Analyst | Inventory Specialist</p>
-                  </div>
-                </div>
-                
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  Download my comprehensive resume to explore my professional journey, technical expertise, and career achievements in detail.
-                </p>
-                
-                <div className="space-y-4">
-                  <a
-                    href="/assets/Sahil_Ali_Resume.pdf"
-                    download="Sahil_Ali_Resume.pdf"
-                    className="group relative inline-flex items-center justify-center w-full px-6 py-3.5 text-base font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 overflow-hidden"
-                  >
-                    <span className="relative z-10 flex items-center">
-                      <span className="mr-2">Download CV</span>
-                      <FiDownload className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5" />
-                    </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  </a>
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
+              <motion.div variants={item} className="space-y-6">
+                <div>
+                  <h3 className="text-2xl font-semibold mb-4">Contact Information</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                  </p>
                   
-                  <div className="flex items-center justify-center text-sm text-gray-500 dark:text-gray-400">
-                    <FiClock className="mr-1.5" />
-                    <span>Last updated: July 2024</span>
-                    <span className="mx-2">•</span>
-                    <span>PDF • 2.4 MB</span>
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
+                        <FiMail size={20} />
+                      </div>
+                      <div className="ml-4">
+                        <h4 className="font-medium">Email Me</h4>
+                        <a 
+                          href="mailto:your.email@example.com" 
+                          className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          your.email@example.com
+                        </a>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
+                        <FiLinkedin size={20} />
+                      </div>
+                      <div className="ml-4">
+                        <h4 className="font-medium">LinkedIn</h4>
+                        <a 
+                          href="https://linkedin.com/in/yourprofile" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          linkedin.com/in/yourprofile
+                        </a>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start">
+                      <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
+                        <FiGithub size={20} />
+                      </div>
+                      <div className="ml-4">
+                        <h4 className="font-medium">GitHub</h4>
+                        <a 
+                          href="https://github.com/yourusername" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        >
+                          github.com/yourusername
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+                
+                <div className="pt-4">
+                  <h4 className="font-medium mb-3">Follow Me</h4>
+                  <div className="flex space-x-4">
+                    {[
+                      { icon: <FiGithub size={20} />, url: 'https://github.com/yourusername' },
+                      { icon: <FiLinkedin size={20} />, url: 'https://linkedin.com/in/yourprofile' },
+                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/yourhandle' }
+                    ].map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-white dark:bg-gray-700 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                      >
+                        {social.icon}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div variants={item} className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg">
+                <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Your Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-2 border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white`}
+                      placeholder="John Doe"
+                    />
+                    {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Email Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white`}
+                      placeholder="you@example.com"
+                    />
+                    {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Subject
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                      placeholder="How can I help you?"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Your Message <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows="4"
+                      value={formData.message}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white`}
+                      placeholder="Hi there, I'd like to talk about..."
+                    ></textarea>
+                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+                  </div>
+                  
+                  <div className="pt-2">
+                    <motion.button
+                      type="submit"
+                      disabled={isSubmitting}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    >
+                      {isSubmitting ? (
+                        <div className="flex items-center justify-center">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Sending...
+                        </div>
+                      ) : 'Send Message'}
+                    </motion.button>
+                  </div>
+                </form>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

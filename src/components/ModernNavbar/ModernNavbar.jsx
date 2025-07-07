@@ -62,6 +62,7 @@ const NAV_ITEMS = [
     name: 'Home', 
     path: '/', 
     section: 'home',
+    ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
     description: 'Back to the homepage',
     exact: true
@@ -70,6 +71,7 @@ const NAV_ITEMS = [
     name: 'About', 
     path: '/about', 
     section: 'about',
+    ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
     description: 'Learn about me and my skills',
     exact: false
@@ -78,6 +80,7 @@ const NAV_ITEMS = [
     name: 'Experience', 
     path: '/experience', 
     section: 'experience',
+    ref: 'experienceRef',
     icon: <FiBriefcase className="w-5 h-5" />,
     description: 'View my professional experience',
     exact: false
@@ -86,6 +89,7 @@ const NAV_ITEMS = [
     name: 'Projects', 
     path: '/projects', 
     section: 'projects',
+    ref: 'projectsRef',
     icon: <FiCode className="w-5 h-5" />,
     description: 'Explore my portfolio projects',
     exact: false
@@ -94,6 +98,7 @@ const NAV_ITEMS = [
     name: 'Contact', 
     path: '/contact', 
     section: 'contact',
+    ref: 'contactRef',
     icon: <FiMail className="w-5 h-5" />,
     description: 'Get in touch with me',
     exact: false
@@ -211,9 +216,12 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
   );
 });
 
-const ModernNavbar = () => {
+const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  // Use activeSection from props if available, otherwise default to 'home'
+  const [activeItem, setActiveItem] = useState(activeSection || 'home');
   const location = useLocation();
   const navigate = useNavigate();
   const navRef = useRef(null);
@@ -226,7 +234,7 @@ const ModernNavbar = () => {
     const handleScroll = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        setScrolled(window.scrollY > 10);
+        setIsScrolled(window.scrollY > 10);
       }, 10);
     };
 
@@ -236,6 +244,13 @@ const ModernNavbar = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Update active item when activeSection prop changes
+  useEffect(() => {
+    if (activeSection) {
+      setActiveItem(activeSection);
+    }
+  }, [activeSection]);
 
   // Close menu when route changes
   useEffect(() => {
@@ -377,22 +392,50 @@ const ModernNavbar = () => {
     }
   }, [location.pathname, navigate]);
 
-  // Improved navigation with smooth scrolling to top for all page changes
-  const handleNavClick = useCallback((e, item) => {
-    e.preventDefault();
-    
-    // Close mobile menu if open
-    closeMenu();
-    
-    // If it's the same page, just scroll to top
-    if (location.pathname === item.path) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Handle navigation with support for both page navigation and section scrolling
+  const handleNavClick = useCallback((e, path, section) => {
+    // If it's the home page link
+    if (path === '/') {
+      if (location.pathname === '/') {
+        // If already on home page, scroll to top
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Navigate to home page
+        navigate('/');
+      }
       return;
     }
     
-    // For different page, navigate first then scroll to top
-    navigate(item.path, { state: { fromNavigation: true } });
-  }, [closeMenu, location.pathname, navigate]);
+    // If it's a different page
+    if (path.startsWith('/')) {
+      navigate(path);
+      // Scroll to top when navigating to a new page
+      window.scrollTo(0, 0);
+      return;
+    }
+    
+    // If it's a hash link and we're on the home page
+    if (path.startsWith('#') && location.pathname === '/') {
+      const element = document.getElementById(path.substring(1));
+      if (element) {
+        e.preventDefault();
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+      }
+      return;
+    }
+    
+    // If we're not on the home page and it's a section link
+    if (path.startsWith('#')) {
+      navigate('/' + path);
+    }
+  }, [navigate, location.pathname]);
 
   // Handle body class and scroll position when menu is open or path changes
   useEffect(() => {
@@ -411,35 +454,6 @@ const ModernNavbar = () => {
       document.body.style.overflow = 'auto';
     };
   }, [isMenuOpen]);
-  
-  // Close menu on outside click, Escape key, or navigation
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (isMenuOpen && !event.target.closest('.mobile-menu-container') && !event.target.closest('.mobile-menu-button')) {
-        closeMenu();
-      }
-    };
-    
-    const handleEscape = (event) => {
-      if (event.key === 'Escape' && isMenuOpen) {
-        closeMenu();
-      }
-    };
-    
-    const handleNavigation = () => {
-      closeMenu();
-    };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    window.addEventListener('popstate', handleNavigation);
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      window.removeEventListener('popstate', handleNavigation);
-    };
-  }, [isMenuOpen, closeMenu]);
 
   return (
     <motion.nav
@@ -448,7 +462,7 @@ const ModernNavbar = () => {
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+        isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
       }`}
     >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -468,6 +482,7 @@ const ModernNavbar = () => {
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
                 <ImageWithFallback 
                   src={getImagePath('logo', '', 'logo192.png')}
+                  fallbackSrc="/logo192.png"
                   alt="Sahil Ali - Portfolio Logo"
                   className="logo-img h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 group-hover:scale-110"
                   width={36}
@@ -501,44 +516,26 @@ const ModernNavbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
-            {NAV_ITEMS.map((item) => {
-              const isActive = item.exact 
-                ? location.pathname === item.path
-                : location.pathname.startsWith(item.path);
-              
-              return (
-                <div key={item.name} className="relative group">
-                  <button
-                    onClick={(e) => handleNavClick(e, item)}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive 
-                        ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                    }`}
-                    aria-current={isActive ? 'page' : undefined}
-                    aria-label={item.description}
-                  >
-                    <span className="flex items-center space-x-2">
-                      <span className="nav-item-icon" aria-hidden="true">
-                        {item.icon}
-                      </span>
-                      <span className="nav-item-text">{item.name}</span>
-                    </span>
-                  </button>
-                  {isActive && (
-                    <motion.span 
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500"
-                      layoutId="activeNavItem"
-                      transition={{
-                        type: 'spring',
-                        stiffness: 380,
-                        damping: 30
-                      }}
-                    />
-                  )}
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                onClick={(e) => handleNavClick(e, item.path, item.section)}
+                className={({ isActive }) => 
+                  `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive 
+                      ? 'text-blue-600 dark:text-blue-400' 
+                      : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
+                  }`
+                }
+                end={item.exact}
+              >
+                <div className="flex items-center">
+                  <span className="mr-2">{item.icon}</span>
+                  {item.name}
                 </div>
-              );
-            })}
+              </NavLink>
+            ))}
           </nav>
 
           <div className="hidden lg:flex items-center space-x-4">
@@ -737,9 +734,9 @@ const ModernNavbar = () => {
               </div>
             )}
           </AnimatePresence>
-          </div>
         </div>
-      </motion.nav>
+      </div>
+    </motion.nav>
   );
 };
 

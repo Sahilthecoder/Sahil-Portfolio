@@ -1,400 +1,450 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowRight } from 'react-icons/fi';
-import { FaBriefcase, FaGraduationCap, FaTools, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
-import '../components/HeroSection/HeroSection.css';
-
-// Base URL for images
-const baseUrl = 'https://sahilthecoder.github.io/Sahil-Portfolio';
+import { FaBriefcase, FaGraduationCap, FaChartLine, FaTools, FaUserTie, FaDownload, FaExternalLinkAlt, FaEnvelope, FaArrowDown } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
+import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import Footer from '../components/Footer';
+import { FiTrendingUp } from 'react-icons/fi';
 
 const Experience = () => {
-  const [activeTab, setActiveTab] = useState('work');
-  const [expandedItems, setExpandedItems] = useState({});
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  // Hero content for Experience page
-  const heroContent = {
-    title: 'My Journey',
-    subtitle: 'Professional Experience & Education',
-    description: 'A detailed look at my professional journey, including work experience, education, and key achievements throughout my career.',
-    primaryButton: { 
-      text: 'View Work History', 
-      showArrow: true,
-      onClick: (e) => {
-        e.preventDefault();
-        const workSection = document.getElementById('work-experience');
-        if (workSection) {
-          workSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    },
-    secondaryButton: { 
-      text: 'Download Resume', 
-      link: `${baseUrl}/resume.pdf`,
-      showArrow: true
+  const scrollToContent = () => {
+    const content = document.getElementById('content-start');
+    if (content) {
+      content.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // Work Experience Data
-  const workExperience = [
+  const experiences = [
     {
       id: 1,
       role: 'Inventory Specialist & Cash Flow',
       company: 'Ekam Indian Groceries',
-      duration: 'Dec 2023 - June 2025',
-      location: 'Adelaide, Australia',
-      companyUrl: 'https://www.facebook.com/ekamindiangroceries/',
-      description: 'Managed daily purchase entries, invoice verification, attendance tracking, and supplier coordination across dual store locations. Automated reporting processes and supported cash flow documentation.',
-      highlights: [
-        'Handled purchase data and fruit/vegetable invoices using ERP software and advanced Excel functions',
-        'Cross-checked supplier invoices and reconciled statements to prevent overbilling, ensuring financial accuracy',
-        'Maintained staff attendance and created daily cash reports',
-        'Collaborated with the team to support inventory accuracy and operational flow',
-        'Reduced billing errors and improved invoice match accuracy by 95%',
-        'Saved over 4 hours per week through structured Excel logs and automation'
+      duration: 'Dec 2023 – June 2025',
+      achievements: [
+        'Reduced billing errors by 95% through meticulous invoice verification',
+        'Saved 4+ hours weekly with automated reporting systems',
+        'Enhanced inventory accuracy across dual store locations'
       ],
-      skills: ['Inventory Management', 'Excel', 'Invoice Verification', 'Cash Flow Analysis', 'ERP Systems']
+      tags: ['Inventory Management', 'Excel Automation', 'Financial Reporting']
     },
     {
       id: 2,
       role: 'GRN Officer',
       company: 'Bansal Supermarket',
-      duration: 'Dec 2022 - Nov 2023',
-      location: 'Surat, India',
-      companyUrl: 'https://www.bansalsupermarket.com/',
-      description: 'Responsible for goods receipt entries, invoice cross-checking, offer updates, and FIFO-based inventory flow. Maintained operational registers including Top 100/200 item reports.',
-      highlights: [
-        'Managed GRNs, MRP/offer changes, and 10-item register maintenance with precision',
-        'Conducted regular floor walks and enforced FIFO practices across departments to reduce waste',
-        'Handled PI management, rate updates, and price accuracy for fast-moving items',
-        'Reduced stock discrepancies by 30% through enhanced GRN practices',
-        'Improved offer accuracy and register organization across 500+ SKUs'
+      duration: 'Jan 2022 – Nov 2023',
+      achievements: [
+        'Managed goods receipt and quality control processes',
+        'Implemented vendor performance tracking system',
+        'Reduced stock discrepancies by 30%'
       ],
-      skills: ['Goods Receipt', 'Inventory Control', 'FIFO', 'Vendor Management', 'Stock Reconciliation']
+      tags: ['Vendor Management', 'Quality Control', 'Process Optimization']
     },
     {
       id: 3,
       role: 'Warehouse Supervisor',
-      company: 'Arzt Health & Private Limited',
-      duration: 'June 2022 - Nov 2022',
-      location: 'Jaipur, India',
-      companyUrl: 'https://www.indiamart.com/arzt-and-health-private-limited/',
-      description: 'Oversaw stock control, warehouse documentation, and physical inventory across training material storage. Ensured FIFO handling, audits, and timely replenishment.',
-      highlights: [
-        'Led day-to-day warehouse operations and staff coordination with a strong focus on efficiency',
-        'Maintained accurate bin cards, stock logs, and conducted warehouse audits',
-        'Implemented FIFO principles and organized material flow for training batches',
-        'Achieved 100% stock availability across training cycles',
-        'Streamlined warehouse layout and improved stock handling speed'
+      company: 'Arzt Health & Pvt Ltd',
+      duration: 'Mar 2020 – Dec 2021',
+      achievements: [
+        'Led a team of 15+ warehouse staff',
+        'Optimized storage layout, increasing capacity by 25%',
+        'Implemented safety protocols reducing workplace incidents by 40%'
       ],
-      skills: ['Warehouse Management', 'Stock Control', 'FIFO', 'Inventory Auditing', 'Team Leadership']
-    },
-    {
-      id: 4,
-      role: 'Data Analyst & Automation Specialist',
-      company: 'Personal Portfolio & Projects',
-      duration: '2024 - Present',
-      location: 'Self-Employed',
-      description: 'Designed and developed a professional portfolio website to showcase data analytics, automation, and inventory management expertise. Utilized cutting-edge AI and creative tools to enhance productivity.',
-      highlights: [
-        'Leveraged ChatGPT for code generation, SQL query optimization, and automating routine analysis tasks',
-        'Incorporated Perplexity AI for real-time data insights and refining data narratives',
-        'Used advanced Google Sheets formulas and Apps Script to automate dashboards and KPI tracking',
-        'Implemented dynamic data visualizations and streamlined reporting',
-        'Created a fully automated portfolio site and project dashboards',
-        'Enhanced productivity through AI-driven research and process automation'
-      ],
-      skills: ['Data Analysis', 'Automation', 'Google Sheets', 'AI Tools', 'Data Visualization']
+      tags: ['Team Leadership', 'Warehouse Operations', 'Safety Compliance']
     }
   ];
 
-  // Education Data
-  const education = [
-    {
-      id: 1,
-      degree: 'Bachelor of Science (B.Sc.) in Computer Science',
-      institution: 'MDSU University',
-      duration: 'Jan 2018 - Jan 2021',
-      location: 'Rajasthan, India',
-      achievements: [
-        'Specialized in Computer Applications',
-        'Developed strong foundation in programming and data structures',
-        'Completed coursework in database management and software development'
-      ]
-    },
-    {
-      id: 2,
-      degree: 'Higher Secondary Education (XII)',
-      institution: 'Kendriya Vidyalaya',
-      duration: '2014 - 2016',
-      location: 'New Delhi, India',
-      achievements: [
-        'Scored 92% in Computer Science',
-        'Participated in National Science Exhibition',
-        'Member of School Tech Club'
-      ]
-    }
+  const stats = [
+    { value: '3+', label: 'Years Experience' },
+    { value: '95%', label: 'Billing Accuracy' },
+    { value: '30%', label: 'Cost Reduction' },
+    { value: '99.5%', label: 'Inventory Accuracy' }
   ];
 
-  // Toggle expanded state for items
-  const toggleExpand = (id) => {
-    setExpandedItems(prev => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
+  const coreCompetencies = {
+    'Inventory & Supply Chain': [
+      'Inventory Management',
+      'Demand Forecasting',
+      'Vendor Management',
+      'Warehouse Operations'
+    ],
+    'Analytics & Tools': [
+      'Excel (Advanced)',
+      'Data Analysis',
+      'Process Automation',
+      'ERP Systems'
+    ],
+    'Soft Skills': [
+      'Problem Solving',
+      'Team Leadership',
+      'Attention to Detail',
+      'Process Improvement'
+    ]
   };
 
-  // Get icon based on role
-  const getRoleIcon = (role) => {
-    if (role.toLowerCase().includes('ai') || role.toLowerCase().includes('machine learning')) {
-      return <FaTools className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />;
-    }
-    return <FaBriefcase className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />;
+  const education = {
+    degree: 'Bachelor of Science (B.Sc.) in Computer Science',
+    institution: 'MDSU University, Rajasthan',
+    duration: 'Jan 2018 – Jan 2021',
+    details: [
+      'Specialized in Data Structures and Database Management',
+      'Developed strong analytical and problem-solving skills',
+      'Graduated with Distinction'
+    ]
   };
+
+  const languages = [
+    { name: 'English', level: 'Professional' },
+    { name: 'Hindi', level: 'Native' }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-dark-bg dark:to-dark-bg/90 overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+      <ModernNavbar />
+      
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
+        {/* Data-themed background pattern from Hero Patterns */}
+        <div 
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundSize: '150px',
+            zIndex: 0
+          }}
+        ></div>
         
-        {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/10 dark:bg-blue-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24">
-            {/* Text Content */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
+        
+        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <motion.div 
-                className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
               >
-                {heroContent.subtitle}
+                <FiTrendingUp className="w-4 h-4" />
+                <span>Professional Journey</span>
               </motion.div>
               
               <motion.h1 
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
               >
-                {heroContent.title}
+                Work Experience
               </motion.h1>
-              
               <motion.p 
-                className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+                className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
+                transition={{ delay: 0.1, duration: 0.6 }}
               >
-                {heroContent.description}
+                A timeline of my professional journey, highlighting key roles, achievements, and the skills I've developed along the way.
               </motion.p>
-
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                className="flex flex-col sm:flex-row gap-4 justify-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
               >
-                <button
-                  onClick={heroContent.primaryButton.onClick}
-                  className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 group"
-                >
-                  {heroContent.primaryButton.text}
-                  {heroContent.primaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
-                </button>
                 <a
-                  href={heroContent.secondaryButton.link}
+                  href="/assets/Sahil_Ali_Cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 >
-                  {heroContent.secondaryButton.text}
-                  {heroContent.secondaryButton.showArrow && (
-                    <FiArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  )}
+                  <FaDownload className="w-4 h-4" />
+                  Download Resume
                 </a>
+                <NavLink
+                  to="/contact"
+                  className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <FaEnvelope className="w-4 h-4" />
+                  Contact Me
+                </NavLink>
               </motion.div>
-            </div>
-
-            {/* Experience Highlights */}
-            <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="text-center p-8 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">Career Highlights</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Key achievements and milestones throughout my professional journey
-                  </p>
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">4+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Years Experience</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">10+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Projects</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">5+</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Technologies</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">100%</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Client Satisfaction</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              
+              <motion.button
+                onClick={scrollToContent}
+                className="mt-12 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300 flex flex-col items-center mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                aria-label="Scroll down"
+              >
+                <span className="text-sm mb-1">Explore My Journey</span>
+                <FaArrowDown className="w-5 h-5 animate-bounce" />
+              </motion.button>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 relative z-10">
-        {/* Work Experience Section */}
-        <section id="work-experience" className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-8 flex items-center">
-            <FaBriefcase className="mr-3 text-indigo-600 dark:text-indigo-400" />
-            Work Experience
-          </h2>
-          
-          <div className="space-y-8">
-            {workExperience.map((exp) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-              >
-                <div className="p-6 md:p-8">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.role}</h3>
-                      <p className="text-lg text-indigo-600 dark:text-indigo-400">{exp.company}</p>
-                      <div className="flex items-center mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        <FaCalendarAlt className="mr-2" />
-                        {exp.duration}
-                        <span className="mx-2">•</span>
-                        <FaMapMarkerAlt className="mr-2" />
-                        {exp.location}
+      {/* Content starts here with an ID for smooth scrolling */}
+      <div id="content-start" className="pt-4"></div>
+      
+      <main className="flex-grow">
+        {/* Timeline Section */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <motion.h2 
+              className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              Professional Timeline
+            </motion.h2>
+            <div className="relative max-w-3xl mx-auto">
+              {/* Timeline line */}
+              <div className="absolute left-1/2 w-0.5 h-full bg-gray-200 dark:bg-gray-700 transform -translate-x-1/2"></div>
+              
+              {experiences.map((exp, index) => (
+                <motion.div 
+                  key={exp.id}
+                  className={`relative mb-12 ${index % 2 === 0 ? 'pr-8 sm:pr-0 sm:pl-8' : 'pl-8 sm:pl-0 sm:pr-8'}`}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className={`p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg ${index % 2 === 0 ? 'sm:mr-auto sm:ml-0' : 'sm:ml-auto sm:mr-0'}`} style={{ maxWidth: 'calc(50% - 2rem)' }}>
+                    <div className="flex items-center mb-2">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-3">
+                        <FaBriefcase className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold">{exp.role}</h3>
+                        <p className="text-gray-600 dark:text-gray-300">{exp.company}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{exp.duration}</p>
                       </div>
                     </div>
-                    <div className="mt-4 md:mt-0">
-                      <button
-                        onClick={() => toggleExpand(exp.id)}
-                        className="px-4 py-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors flex items-center gap-2"
-                      >
-                        {expandedItems[exp.id] ? 'Show Less' : 'Show More'}
-                        {expandedItems[exp.id] ? (
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                          </svg>
-                        ) : (
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        )}
-                      </button>
+                    <ul className="mt-4 space-y-2">
+                      {exp.achievements.map((achievement, i) => (
+                        <li key={i} className="flex items-start">
+                          <span className="text-indigo-500 mr-2">•</span>
+                          <span>{achievement}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {exp.tags.map((tag, i) => (
+                        <span key={i} className="px-3 py-1 text-xs font-medium bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                  
-                  {expandedItems[exp.id] && (
-                    <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Key Responsibilities:</h4>
-                      <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                        {exp.responsibilities.map((item, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className="text-indigo-500 mr-2">•</span>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Education Section */}
-        <section id="education" className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-8 flex items-center">
-            <FaGraduationCap className="mr-3 text-indigo-600 dark:text-indigo-400" />
-            Education
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {education.map((edu) => (
-              <motion.div
-                key={edu.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-              >
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{edu.degree}</h3>
-                <p className="text-lg text-indigo-600 dark:text-indigo-400 mt-1">{edu.institution}</p>
-                <div className="flex items-center mt-3 text-sm text-gray-500 dark:text-gray-400">
-                  <FaCalendarAlt className="mr-2" />
-                  {edu.duration}
-                  <span className="mx-2">•</span>
-                  <FaMapMarkerAlt className="mr-2" />
-                  {edu.location}
-                  {edu.companyUrl && (
-                    <>
-                      <span className="mx-2">•</span>
-                      <a 
-                        href={edu.companyUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-indigo-600 dark:text-indigo-400 hover:underline"
-                      >
-                        Visit Website
-                      </a>
-                    </>
-                  )}
-                </div>
-                {edu.achievements && (
-                  <div className="mt-3 text-sm text-gray-600 dark:text-gray-300">
-                    <h4 className="font-medium text-gray-700 dark:text-gray-200">Achievements:</h4>
-                    <div className="mt-3">
-                      <h4 className="font-medium text-gray-700 dark:text-gray-200">Key Achievements:</h4>
-                      <ul className="list-disc list-inside mt-2 space-y-1 text-sm text-gray-600 dark:text-gray-300">
-                        {edu.highlights?.map((item, idx) => (
-                          <li key={idx}>{item}</li>
-                        )) || <li>No highlights available</li>}
-                      </ul>
-                    </div>
-                    {edu.skills && (
-                      <div className="mt-3">
-                        <h4 className="font-medium text-gray-700 dark:text-gray-200">Key Skills:</h4>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {edu.skills.map((skill, idx) => (
-                            <span key={idx} className="px-2 py-1 text-xs bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 rounded-full">
-                              {skill}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </motion.div>
-            ))}
+        {/* Stats Section */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-4">
+            <motion.div 
+              className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              {stats.map((stat, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                >
+                  <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">{stat.value}</div>
+                  <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
+            
+            <div className="grid md:grid-cols-3 gap-6 mt-12 max-w-4xl mx-auto">
+              {[
+                { icon: <FaTools className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400" />, title: 'Process Automation', description: 'Saved 15+ hours weekly' },
+                { icon: <FaChartLine className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400" />, title: 'Cost Reduction', description: 'Cut costs by 30% via optimization' },
+                { icon: <FaUserTie className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400" />, title: 'Accuracy Boost', description: 'Achieved 99.5% inventory accuracy' }
+              ].map((item, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + (index * 0.1), duration: 0.5 }}
+                >
+                  {item.icon}
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
-      </div>
+
+        {/* Core Competencies */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-4">
+            <motion.h2 
+              className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              Core Competencies
+            </motion.h2>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {Object.entries(coreCompetencies).map(([category, skills], index) => (
+                <motion.div 
+                  key={category}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.5 }}
+                >
+                  <h3 className="text-xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">{category}</h3>
+                  <ul className="space-y-2">
+                    {skills.map((skill, i) => (
+                      <li key={i} className="flex items-center">
+                        <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>
+                        <span>{skill}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Education & Languages */}
+        <section className="py-16 bg-white dark:bg-gray-800">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12">
+                {/* Education */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6">Education</h2>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
+                    <div className="flex items-start">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 mr-4 flex-shrink-0">
+                        <FaGraduationCap className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-semibold">{education.degree}</h3>
+                        <p className="text-gray-600 dark:text-gray-300">{education.institution}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{education.duration}</p>
+                        <ul className="space-y-2">
+                          {education.details.map((detail, i) => (
+                            <li key={i} className="flex items-start">
+                              <span className="text-indigo-500 mr-2">•</span>
+                              <span className="text-gray-700 dark:text-gray-300">{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Languages */}
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <h2 className="text-3xl font-bold mb-6">Languages</h2>
+                  <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl">
+                    <div className="space-y-4">
+                      {languages.map((lang, i) => (
+                        <div key={i}>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="font-medium">{lang.name}</span>
+                            <span className="text-sm text-gray-500 dark:text-gray-400">{lang.level}</span>
+                          </div>
+                          <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div 
+                              className="bg-indigo-600 h-2 rounded-full" 
+                              style={{ width: lang.level === 'Native' ? '100%' : '85%' }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 bg-indigo-600 text-white">
+          <div className="container mx-auto px-4 text-center">
+            <motion.div 
+              className="max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work Together?</h2>
+              <p className="text-xl text-indigo-100 mb-8">
+                Have a project in mind or want to discuss potential opportunities? Let's connect!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="/assets/Sahil_Ali_Cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                >
+                  <FaDownload className="w-4 h-4" />
+                  Download Resume
+                </a>
+                <NavLink
+                  to="/contact"
+                  className="px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <FaEnvelope className="w-4 h-4" />
+                  Contact Me
+                </NavLink>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
     </div>
   );
 };

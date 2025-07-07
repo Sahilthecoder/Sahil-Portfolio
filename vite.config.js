@@ -91,6 +91,13 @@ export default defineConfig({
     }
   },
   
+  // Define global constants and environment variables
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    'process.env': {}
+  },
+  
   // Build configuration
   build: {
     outDir: 'dist',
@@ -165,8 +172,5 @@ export default defineConfig({
     exclude: ['@babel/runtime']
   },
   
-  // Environment variables
-  define: {
-    'process.env': {}
-  }
+  // Environment variables are now defined in the define section above
 });

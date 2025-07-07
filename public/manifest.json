@@ -1,8 +1,8 @@
 {
   "short_name": "Sahil's Portfolio",
   "name": "Sahil Ali - Portfolio",
-  "start_url": "/Sahil-Portfolio/",
-  "scope": "/Sahil-Portfolio/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
@@ -10,24 +10,24 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/Sahil-Portfolio/android-chrome-192x192.png",
+      "src": "logo192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/android-chrome-512x512.png",
+      "src": "logo512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/apple-touch-icon.png",
-      "sizes": "180x180",
+      "src": "logo192.png",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Sahil-Portfolio/favicon.ico",
+      "src": "favicon.ico",
       "sizes": "48x48",
       "type": "image/x-icon"
     },

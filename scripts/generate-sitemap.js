@@ -1,3 +1,4 @@
+
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
@@ -10,11 +11,20 @@ const getCurrentDate = () => {
 
 // Get the last commit date for a file
 const getLastModifiedDate = (filePath) => {
+  // Check if file exists before trying to get Git history
+  if (!fs.existsSync(filePath)) {
+    console.log(`File not found: ${filePath}`);
+    return getCurrentDate();
+  }
+
   try {
-    const output = execSync(`git log -1 --pretty=format:%cd --date=short "${filePath}"`).toString().trim();
+    // Try to get Git history
+    const output = execSync(`git log -1 --pretty=format:%cd --date=short "${filePath}"`, 
+      { cwd: process.cwd(), timeout: 5000 }).toString().trim();
     return output || getCurrentDate();
   } catch (error) {
-    console.warn(`Could not get last modified date for ${filePath}:`, error.message);
+    // Log error but don't fail
+    console.log(`Skipping Git history check for ${filePath}: ${error.message}`);
     return getCurrentDate();
   }
 };
@@ -24,6 +34,7 @@ const SITE_URL = 'https://sahilthecoder.github.io/Sahil-Portfolio';
 const PAGES = [
   { url: '/', changefreq: 'daily', priority: 1.0 },
   { url: '/about', changefreq: 'weekly', priority: 0.8 },
+  { url: '/experience', changefreq: 'weekly', priority: 0.8 },
   { url: '/projects', changefreq: 'weekly', priority: 0.8 },
   { url: '/contact', changefreq: 'monthly', priority: 0.5 },
 ];
@@ -36,7 +47,9 @@ const generateSitemap = () => {
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   ${PAGES.map(page => {
-    const lastmod = getLastModifiedDate(path.join(process.cwd(), 'dist', page.url === '/' ? 'index.html' : `${page.url}/index.html`));
+    // For React apps, we don't need to check for individual HTML files
+    // since all routes are handled by index.html
+    const lastmod = getLastModifiedDate(path.join(process.cwd(), 'dist', 'index.html'));
     return `
   <url>
     <loc>${SITE_URL}${page.url}</loc>

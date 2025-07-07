@@ -1,13 +1,22 @@
-# Handle client-side routing - return index.html for all routes
+# Single Page Apps - Redirect all requests to index.html
 /*    /index.html   200
 
-# Handle 404s
-/*    /404.html   404
+# Handle 404s - This is handled by the SPA router
+# /*    /404.html   404
 
 # Ensure all assets are accessible with the correct base path
 /assets/*    /Sahil-Portfolio/assets/:splat    200
 /images/*    /Sahil-Portfolio/images/:splat    200
 /js/*        /Sahil-Portfolio/js/:splat        200
+/css/*       /Sahil-Portfolio/css/:splat       200
+/fonts/*     /Sahil-Portfolio/fonts/:splat     200
+
+# Ensure service worker is loaded from the correct location
+/sw.js      /Sahil-Portfolio/sw.js     200
+/workbox-*.js /Sahil-Portfolio/workbox-:splat.js 200
+
+# Handle deep linking
+/*  /index.html  200
 /css/*       /Sahil-Portfolio/css/:splat       200
 /fonts/*     /Sahil-Portfolio/fonts/:splat     200
 

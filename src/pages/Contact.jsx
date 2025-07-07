@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
 import Footer from '../components/Footer';
-import { 
-  FaPaperPlane, 
-  FaFileUpload, 
-  FaLinkedin, 
+import {
+  FaPaperPlane,
+  FaFileUpload,
+  FaLinkedin,
   FaGithub,
   FaWhatsapp,
   FaPhoneAlt,
@@ -18,7 +18,7 @@ import {
   FaSync,
   FaTools,
   FaArrowRight,
-  FaArrowUp
+  FaArrowUp,
 } from 'react-icons/fa';
 import { SiMinutemailer } from 'react-icons/si';
 import { FiTrendingUp } from 'react-icons/fi';
@@ -30,7 +30,7 @@ const Contact = () => {
     phone: '',
     service: '',
     message: '',
-    file: null
+    file: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -55,52 +55,52 @@ const Contact = () => {
       id: 'inventory',
       title: 'Inventory Management',
       description: 'Stock optimization, FIFO, vendor coordination, auditing',
-      icon: <FaBoxes className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      icon: <FaBoxes className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     },
     {
       id: 'data-analysis',
       title: 'Data Analysis & Reporting',
       description: 'Dashboards, reports, trend analysis, KPI metrics',
-      icon: <FaChartLine className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      icon: <FaChartLine className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     },
     {
       id: 'automation',
       title: 'Process Automation',
       description: 'Workflow automation, email triggers, data entry bots',
-      icon: <FaSync className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      icon: <FaSync className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     },
     {
       id: 'erp',
       title: 'ERP Implementation',
       description: 'System selection, migration, user training, support',
-      icon: <FaTools className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      icon: <FaTools className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     },
     {
       id: 'excel',
       title: 'Excel/Sheets Solutions',
       description: 'Advanced formulas, macros, pivot tables, visual reports',
-      icon: <SiMinutemailer className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+      icon: <SiMinutemailer className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
     },
     {
       id: 'optimization',
       title: 'Business Process Optimization',
       description: 'Bottleneck detection, SOP creation, efficiency improvement',
-      icon: <FaCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
-    }
+      icon: <FaCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+    },
   ];
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: files ? files[0] : value
+      [name]: files ? files[0] : value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: null
+        [name]: null,
       }));
     }
   };
@@ -114,18 +114,18 @@ const Contact = () => {
       newErrors.email = 'Email is invalid';
     }
     if (!formData.message.trim()) newErrors.message = 'Message is required';
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
@@ -133,7 +133,7 @@ const Contact = () => {
       formDataToSend.append('phone', formData.phone || 'Not provided');
       formDataToSend.append('service', formData.service || 'Not specified');
       formDataToSend.append('message', formData.message);
-      
+
       if (formData.file) {
         formDataToSend.append('file', formData.file);
       }
@@ -142,8 +142,8 @@ const Contact = () => {
         method: 'POST',
         body: formDataToSend,
         headers: {
-          'Accept': 'application/json'
-        }
+          Accept: 'application/json',
+        },
       });
 
       if (response.ok) {
@@ -154,7 +154,7 @@ const Contact = () => {
           phone: '',
           service: '',
           message: '',
-          file: null
+          file: null,
         });
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
@@ -178,19 +178,20 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <ModernNavbar />
-      
+
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Data-themed background pattern */}
-        <div 
-          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+        <div
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]"
           style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
             backgroundSize: '150px',
-            zIndex: 0
+            zIndex: 0,
           }}
         ></div>
-        
+
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
           <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -198,7 +199,7 @@ const Contact = () => {
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div 
+            <motion.div
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -208,7 +209,7 @@ const Contact = () => {
               <span>Get In Touch</span>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -217,13 +218,14 @@ const Contact = () => {
               Let's Work Together
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              Have a project in mind or want to discuss potential opportunities? I'd love to hear from you. 
+              Have a project in mind or want to discuss potential opportunities? I'd love to hear
+              from you.
             </motion.p>
           </div>
         </div>
@@ -235,22 +237,28 @@ const Contact = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Contact Form */}
-              <motion.div 
+              <motion.div
                 className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700/50"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Send Me a Message</h2>
-                
+                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                  Send Me a Message
+                </h2>
+
                 {submitSuccess ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
                       <FaCheck className="w-8 h-8 text-green-600 dark:text-green-400" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Message Sent!</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-6">Thank you for reaching out. I'll get back to you soon.</p>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      Message Sent!
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6">
+                      Thank you for reaching out. I'll get back to you soon.
+                    </p>
                     <button
                       onClick={() => setSubmitSuccess(false)}
                       className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-200 flex items-center mx-auto"
@@ -262,7 +270,12 @@ const Contact = () => {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Name
+                        </label>
                         <input
                           type="text"
                           id="name"
@@ -275,7 +288,12 @@ const Contact = () => {
                         {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
                       </div>
                       <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        >
+                          Email
+                        </label>
                         <input
                           type="email"
                           id="email"
@@ -285,12 +303,19 @@ const Contact = () => {
                           className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                           placeholder="your.email@example.com"
                         />
-                        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                        {errors.email && (
+                          <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                        )}
                       </div>
                     </div>
 
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone (Optional)</label>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      >
+                        Phone (Optional)
+                      </label>
                       <input
                         type="tel"
                         id="phone"
@@ -303,7 +328,12 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Service (Optional)</label>
+                      <label
+                        htmlFor="service"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      >
+                        Service (Optional)
+                      </label>
                       <select
                         id="service"
                         name="service"
@@ -321,7 +351,12 @@ const Contact = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                      >
+                        Message
+                      </label>
                       <textarea
                         id="message"
                         name="message"
@@ -331,7 +366,9 @@ const Contact = () => {
                         className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                         placeholder="How can I help you?"
                       ></textarea>
-                      {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
+                      {errors.message && (
+                        <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                      )}
                     </div>
 
                     <div>
@@ -353,9 +390,9 @@ const Contact = () => {
                                   className="sr-only"
                                   ref={fileInputRef}
                                   onChange={(e) => {
-                                    setFormData(prev => ({
+                                    setFormData((prev) => ({
                                       ...prev,
-                                      file: e.target.files[0]
+                                      file: e.target.files[0],
                                     }));
                                   }}
                                 />
@@ -383,9 +420,25 @@ const Contact = () => {
                       >
                         {isSubmitting ? (
                           <>
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            <svg
+                              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
                             </svg>
                             Sending...
                           </>
@@ -402,7 +455,7 @@ const Contact = () => {
               </motion.div>
 
               {/* Contact Info */}
-              <motion.div 
+              <motion.div
                 className="space-y-8"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -410,9 +463,13 @@ const Contact = () => {
                 viewport={{ once: true }}
               >
                 <div>
-                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Contact Information</h2>
+                  <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                    Contact Information
+                  </h2>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Feel free to reach out to me through any of these channels. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+                    Feel free to reach out to me through any of these channels. I'm always open to
+                    discussing new projects, creative ideas, or opportunities to be part of your
+                    visions.
                   </p>
                 </div>
 
@@ -422,8 +479,13 @@ const Contact = () => {
                       <FaEnvelope className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</h3>
-                      <a href="mailto:your.email@example.com" className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Email
+                      </h3>
+                      <a
+                        href="mailto:your.email@example.com"
+                        className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                      >
                         your.email@example.com
                       </a>
                     </div>
@@ -434,8 +496,13 @@ const Contact = () => {
                       <FaPhoneAlt className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</h3>
-                      <a href="tel:+1234567890" className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Phone
+                      </h3>
+                      <a
+                        href="tel:+1234567890"
+                        className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                      >
                         +1 (234) 567-890
                       </a>
                     </div>
@@ -446,26 +513,43 @@ const Contact = () => {
                       <FaMapMarkerAlt className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">Location</h3>
-                      <p className="text-base text-gray-900 dark:text-white">
-                        City, Country
-                      </p>
+                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        Location
+                      </h3>
+                      <p className="text-base text-gray-900 dark:text-white">City, Country</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="pt-4">
-                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">Connect with me</h3>
+                  <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
+                    Connect with me
+                  </h3>
                   <div className="flex space-x-4">
-                    <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                    <a
+                      href="https://linkedin.com/in/yourprofile"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                    >
                       <span className="sr-only">LinkedIn</span>
                       <FaLinkedin className="h-6 w-6" />
                     </a>
-                    <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                    <a
+                      href="https://github.com/yourusername"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                    >
                       <span className="sr-only">GitHub</span>
                       <FaGithub className="h-6 w-6" />
                     </a>
-                    <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
+                    <a
+                      href="https://wa.me/1234567890"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                    >
                       <span className="sr-only">WhatsApp</span>
                       <FaWhatsapp className="h-6 w-6" />
                     </a>
@@ -474,16 +558,23 @@ const Contact = () => {
 
                 {/* Services Section */}
                 <div className="pt-8">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">My Services</h3>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    My Services
+                  </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {services.map((service) => (
-                      <div key={service.id} className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200">
-                        <div className="flex-shrink-0">
-                          {service.icon}
-                        </div>
+                      <div
+                        key={service.id}
+                        className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200"
+                      >
+                        <div className="flex-shrink-0">{service.icon}</div>
                         <div className="ml-4">
-                          <h4 className="text-base font-medium text-gray-900 dark:text-white">{service.title}</h4>
-                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{service.description}</p>
+                          <h4 className="text-base font-medium text-gray-900 dark:text-white">
+                            {service.title}
+                          </h4>
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                            {service.description}
+                          </p>
                         </div>
                       </div>
                     ))}

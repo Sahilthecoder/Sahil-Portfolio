@@ -11,25 +11,25 @@ import { useState, useEffect, useRef, useCallback } from 'react';
  */
 const getImagePath = (path) => {
   if (!path) return '';
-  
+
   // Handle absolute URLs and data URIs
   if (path.startsWith('http') || path.startsWith('data:')) {
     return path;
   }
-  
+
   // Remove any query parameters from the path
   const cleanPath = path.split('?')[0];
-  
+
   // In development, use the path as is
   if (import.meta.env.DEV) {
     return `/${cleanPath.replace(/^[\/\\]+/, '')}`;
   }
-  
+
   // In production, use the base URL from Vite config
   // For GitHub Pages, ensure the path is correct by removing any duplicate slashes
   const baseUrl = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
   const cleanBase = baseUrl.endsWith('/Sahil-Portfolio') ? baseUrl : `${baseUrl}/Sahil-Portfolio`;
-  
+
   // Construct the final URL, ensuring no double slashes
   const finalPath = `/${cleanPath.replace(/^[\/\\]+/, '')}`;
   return `${cleanBase}${finalPath}`.replace(/([^:]\/)\/+/g, '$1');
@@ -45,7 +45,7 @@ const getOptimizedImage = (src, options = {}) => {
   return {
     src: getImagePath(src),
     srcSet: '',
-    sizes: ''
+    sizes: '',
   };
 };
 
@@ -109,7 +109,7 @@ const ImageWithFallback = ({
       {
         root: null,
         rootMargin: '200px',
-        threshold: 0.01
+        threshold: 0.01,
       }
     );
 
@@ -118,16 +118,14 @@ const ImageWithFallback = ({
   }, [loading]);
 
   // Get the image URL
-  const imageUrl = hasError 
-    ? getImagePath(fallbackSrc) 
-    : getImagePath(src);
+  const imageUrl = hasError ? getImagePath(fallbackSrc) : getImagePath(src);
 
   // Calculate aspect ratio for placeholder
   const aspectRatio = width && height ? (height / width) * 100 : 0;
   const paddingBottom = aspectRatio ? `${aspectRatio}%` : '0';
 
   return (
-    <div 
+    <div
       ref={imageRef}
       className={`image-container ${className}`}
       style={{
@@ -135,21 +133,21 @@ const ImageWithFallback = ({
         overflow: 'hidden',
         backgroundColor: isLoading ? '#f5f5f5' : 'transparent',
         ...(width && { width: `${width}px` }),
-        ...(height && { height: `${height}px` })
+        ...(height && { height: `${height}px` }),
       }}
     >
       {/* Placeholder with aspect ratio */}
       {isLoading && aspectRatio > 0 && (
-        <div 
+        <div
           style={{
             paddingBottom,
             backgroundColor: '#f5f5f5',
             transition: 'opacity 0.3s ease-in-out',
-            opacity: isLoading ? 1 : 0
+            opacity: isLoading ? 1 : 0,
           }}
         />
       )}
-      
+
       {/* Actual image - only render when in view or eager loading */}
       {(isInView || loading === 'eager') && (
         <img
@@ -165,7 +163,7 @@ const ImageWithFallback = ({
             objectFit: 'cover',
             opacity: isLoading ? 0 : 1,
             transition: 'opacity 0.3s ease-in-out',
-            ...(priority && { fetchPriority: 'high' })
+            ...(priority && { fetchPriority: 'high' }),
           }}
           loading={loading}
           decoding={decoding}
@@ -174,10 +172,10 @@ const ImageWithFallback = ({
           {...rest}
         />
       )}
-      
+
       {/* Loading indicator */}
       {isLoading && (
-        <div 
+        <div
           className="image-loading-indicator"
           style={{
             position: 'absolute',
@@ -185,16 +183,16 @@ const ImageWithFallback = ({
             left: '50%',
             transform: 'translate(-50%, -50%)',
             color: '#999',
-            fontSize: '0.8rem'
+            fontSize: '0.8rem',
           }}
         >
           Loading...
         </div>
       )}
-      
+
       {/* Fallback for failed images */}
       {hasError && (
-        <div 
+        <div
           className="image-fallback"
           style={{
             position: 'absolute',
@@ -207,7 +205,7 @@ const ImageWithFallback = ({
             justifyContent: 'center',
             backgroundColor: '#f0f0f0',
             color: '#666',
-            fontSize: '0.8rem'
+            fontSize: '0.8rem',
           }}
         >
           {alt || 'Image not available'}

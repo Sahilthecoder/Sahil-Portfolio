@@ -1,6 +1,6 @@
 /**
  * Accessibility Utilities
- * 
+ *
  * This file contains helper functions to improve accessibility,
  * including focus management and ARIA attributes.
  */
@@ -25,7 +25,10 @@ export function initializeFocusVisible() {
  * @param {HTMLElement} container - The container element
  * @param {string} selector - Selector for focusable elements
  */
-export function setupKeyboardNavigation(container, selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') {
+export function setupKeyboardNavigation(
+  container,
+  selector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+) {
   if (!container) return;
 
   const focusableElements = container.querySelectorAll(selector);
@@ -56,7 +59,7 @@ export function setupKeyboardNavigation(container, selector = 'button, [href], i
  */
 export function setAriaAttributes(element, attributes) {
   if (!element || !attributes) return;
-  
+
   Object.entries(attributes).forEach(([key, value]) => {
     if (value === null || value === undefined) {
       element.removeAttribute(`aria-${key}`);

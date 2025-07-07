@@ -6,7 +6,7 @@ const ClientOnly = ({ children, fallback = null }) => {
   useEffect(() => {
     // Only set mounted to true after the component mounts on the client
     setMounted(true);
-    
+
     // Cleanup function
     return () => {
       setMounted(false);

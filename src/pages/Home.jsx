@@ -1,15 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiTwitter, FiMail, FiArrowDown, FiChevronUp, FiChevronDown, FiPackage, FiLayers, FiTrendingUp, FiCpu, FiExternalLink } from 'react-icons/fi';
+import {
+  FiArrowRight,
+  FiDownload,
+  FiGithub,
+  FiLinkedin,
+  FiTwitter,
+  FiMail,
+  FiArrowDown,
+  FiChevronUp,
+  FiChevronDown,
+  FiPackage,
+  FiLayers,
+  FiTrendingUp,
+  FiCpu,
+  FiExternalLink,
+} from 'react-icons/fi';
 import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
 // Using placeholder images from a public CDN
-const HeroImage = 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
-const Project1 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project2 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project3 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const HeroImage =
+  'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
+const Project1 =
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project2 =
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project3 =
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
 
 // Animation variants
 const container = {
@@ -17,20 +36,20 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 const item = {
   hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
+  show: {
+    opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5
-    }
-  }
+      duration: 0.5,
+    },
+  },
 };
 
 const ProjectCard = ({ project }) => {
@@ -52,7 +71,10 @@ const ProjectCard = ({ project }) => {
         <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{project.shortDescription}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {project.techStack.slice(0, 3).map((tech, idx) => (
-            <span key={idx} className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
+            <span
+              key={idx}
+              className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
+            >
               {tech}
             </span>
           ))}
@@ -68,14 +90,14 @@ const Home = () => {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errors, setErrors] = useState({});
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   // Success message display
   useEffect(() => {
     if (submitSuccess) {
@@ -89,16 +111,16 @@ const Home = () => {
   // Form handlers
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: null
+        [name]: null,
       }));
     }
   };
@@ -112,31 +134,31 @@ const Home = () => {
       newErrors.email = 'Email is invalid';
     }
     if (!formData.message.trim()) newErrors.message = 'Message is required';
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       const response = await fetch('https://formspree.io/f/xpwrjjqj', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           subject: formData.subject || 'No subject',
-          message: formData.message
-        })
+          message: formData.message,
+        }),
       });
 
       if (response.ok) {
@@ -145,9 +167,9 @@ const Home = () => {
           name: '',
           email: '',
           subject: '',
-          message: ''
+          message: '',
         });
-        
+
         // Reset success message after 5 seconds
         setTimeout(() => setSubmitSuccess(false), 5000);
       } else {
@@ -167,10 +189,10 @@ const Home = () => {
   const experienceRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
-  
+
   const [isVisible, setIsVisible] = useState(false);
   const controls = useAnimation();
-  
+
   // Simple scroll to next section
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -180,10 +202,10 @@ const Home = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
-      
+
       // Determine active section
       const scrollPosition = window.scrollY + 200;
-      
+
       const sectionOffsets = [
         { id: 'home', ref: homeRef },
         { id: 'about', ref: aboutRef },
@@ -191,14 +213,14 @@ const Home = () => {
         { id: 'projects', ref: projectsRef },
         { id: 'contact', ref: contactRef },
       ];
-      
+
       for (const section of sectionOffsets) {
         const element = section.ref.current;
         if (element) {
           const { top, bottom } = element.getBoundingClientRect();
           const elementTop = top + window.scrollY;
           const elementBottom = bottom + window.scrollY;
-          
+
           if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
             setActiveSection(section.id);
             break;
@@ -231,7 +253,7 @@ const Home = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             controls.start('show');
           }
@@ -261,7 +283,7 @@ const Home = () => {
       shortDescription: 'Market Strategy Dashboard in Excel',
       techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
       image: '/images/projects/Project1 excel/Project1 Cover.avif',
-      previewImage: '/images/projects/Project1 excel/Project1 Cover.avif'
+      previewImage: '/images/projects/Project1 excel/Project1 Cover.avif',
     },
     {
       id: 'bansal-supermarket',
@@ -269,7 +291,7 @@ const Home = () => {
       shortDescription: 'Sales Performance Insights in Tableau',
       techStack: ['Tableau', 'Data Analysis', 'Sales'],
       image: '/images/projects/Project2 tableau/Project2 Cover.avif',
-      previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif'
+      previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
     },
     {
       id: 'ekam-attendance',
@@ -277,8 +299,8 @@ const Home = () => {
       shortDescription: 'SQL + Google Sheets Automation',
       techStack: ['SQL', 'Google Sheets', 'Automation'],
       image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-      previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif'
-    }
+      previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+    },
   ];
 
   // Scroll to section with offset
@@ -290,7 +312,7 @@ const Home = () => {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
@@ -298,7 +320,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
       {/* Scroll Down Button (Only in Hero Section) */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
@@ -321,26 +343,27 @@ const Home = () => {
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                repeatType: "loop",
+                repeatType: 'loop',
               }}
             />
           </div>
         </button>
       </motion.div>
       <ModernNavbar />
-      
+
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Data-themed background pattern from Hero Patterns */}
-        <div 
-          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+        <div
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]"
           style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
             backgroundSize: '150px',
-            zIndex: 0
+            zIndex: 0,
           }}
         ></div>
-        
+
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
@@ -350,7 +373,7 @@ const Home = () => {
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
             {/* Role Badge */}
-            <motion.div 
+            <motion.div
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -359,9 +382,9 @@ const Home = () => {
               <FiTrendingUp className="w-4 h-4" />
               <span>Data Analyst & Business Intelligence</span>
             </motion.div>
-            
+
             {/* Main Heading */}
-            <motion.h1 
+            <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -369,19 +392,20 @@ const Home = () => {
             >
               Sahil Ali
             </motion.h1>
-            
+
             {/* Description */}
-            <motion.p 
+            <motion.p
               className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              Transforming complex data into actionable insights and building intelligent solutions that drive operational excellence and business growth.
+              Transforming complex data into actionable insights and building intelligent solutions
+              that drive operational excellence and business growth.
             </motion.p>
 
             {/* CTA Buttons */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -397,11 +421,9 @@ const Home = () => {
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               </a>
-              
+
               <div className="relative group w-full sm:w-auto">
-                <button
-                  className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group-hover:bg-indigo-50 dark:group-hover:bg-gray-700/50 w-full"
-                >
+                <button className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group-hover:bg-indigo-50 dark:group-hover:bg-gray-700/50 w-full">
                   <span className="relative z-10">View Resume</span>
                   <FiChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
                 </button>
@@ -430,19 +452,35 @@ const Home = () => {
             </motion.div>
 
             {/* Social Links */}
-            <motion.div 
+            <motion.div
               className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8 sm:mt-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
               {[
-                { icon: <FiGithub className="w-5 h-5" />, href: "https://github.com/yourusername", label: "GitHub" },
-                { icon: <FiLinkedin className="w-5 h-5" />, href: "https://linkedin.com/in/yourusername", label: "LinkedIn" },
-                { icon: <FiTwitter className="w-5 h-5" />, href: "https://twitter.com/yourusername", label: "Twitter" },
-                { icon: <FiMail className="w-5 h-5" />, href: "mailto:your.email@example.com", label: "Email" }
+                {
+                  icon: <FiGithub className="w-5 h-5" />,
+                  href: 'https://github.com/yourusername',
+                  label: 'GitHub',
+                },
+                {
+                  icon: <FiLinkedin className="w-5 h-5" />,
+                  href: 'https://linkedin.com/in/yourusername',
+                  label: 'LinkedIn',
+                },
+                {
+                  icon: <FiTwitter className="w-5 h-5" />,
+                  href: 'https://twitter.com/yourusername',
+                  label: 'Twitter',
+                },
+                {
+                  icon: <FiMail className="w-5 h-5" />,
+                  href: 'mailto:your.email@example.com',
+                  label: 'Email',
+                },
               ].map((social, index) => (
-                <a 
+                <a
                   key={index}
                   href={social.href}
                   target="_blank"
@@ -458,7 +496,7 @@ const Home = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
@@ -480,10 +518,7 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section 
-        ref={aboutRef} 
-        className="py-16 sm:py-20 bg-white dark:bg-gray-900"
-      >
+      <section ref={aboutRef} className="py-16 sm:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -499,7 +534,7 @@ const Home = () => {
           </motion.div>
 
           <div className="max-w-6xl mx-auto">
-            <motion.div 
+            <motion.div
               variants={container}
               initial="hidden"
               whileInView="show"
@@ -507,12 +542,9 @@ const Home = () => {
               className="grid md:grid-cols-2 gap-8 items-center"
             >
               {/* Image Section */}
-              <motion.div 
-                variants={item}
-                className="relative order-2 md:order-1"
-              >
+              <motion.div variants={item} className="relative order-2 md:order-1">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img 
+                  <img
                     src={HeroImage}
                     alt="Professional Headshot"
                     className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
@@ -522,33 +554,44 @@ const Home = () => {
               </motion.div>
 
               {/* Content Section */}
-              <motion.div 
-                variants={item}
-                className="space-y-6 order-1 md:order-2"
-              >
+              <motion.div variants={item} className="space-y-6 order-1 md:order-2">
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
                     Professional Profile
                   </h3>
-                  
+
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    As a <span className="font-medium text-indigo-600 dark:text-indigo-400">Certified Inventory Specialist</span> with extensive experience in warehouse operations, I specialize in optimizing inventory management systems and streamlining supply chain processes. My expertise lies in implementing efficient stock control measures and reducing operational costs through data-driven strategies.
+                    As a{' '}
+                    <span className="font-medium text-indigo-600 dark:text-indigo-400">
+                      Certified Inventory Specialist
+                    </span>{' '}
+                    with extensive experience in warehouse operations, I specialize in optimizing
+                    inventory management systems and streamlining supply chain processes. My
+                    expertise lies in implementing efficient stock control measures and reducing
+                    operational costs through data-driven strategies.
                   </p>
-                  
+
                   <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
                     <p className="text-gray-700 dark:text-gray-300 italic">
-                      "Transforming inventory challenges into efficient, cost-effective solutions through systematic controls and process optimization."
+                      "Transforming inventory challenges into efficient, cost-effective solutions
+                      through systematic controls and process optimization."
                     </p>
                   </div>
-                  
+
                   <div className="pt-4">
-                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Core Competencies:</h4>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                      Core Competencies:
+                    </h4>
                     <div className="space-y-3">
                       <div className="flex items-start">
                         <div className="flex-shrink-0 mt-1">
                           <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
                             <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </div>
                         </div>
@@ -560,7 +603,11 @@ const Home = () => {
                         <div className="flex-shrink-0 mt-1">
                           <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
                             <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </div>
                         </div>
@@ -571,7 +618,7 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="pt-4 flex flex-col sm:flex-row gap-4">
                   <motion.a
                     whileHover={{ scale: 1.03 }}
@@ -584,14 +631,34 @@ const Home = () => {
                   </motion.a>
                   <div className="flex flex-wrap gap-3 mt-2 sm:mt-0">
                     <span className="px-4 py-2 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      <svg
+                        className="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
                       </svg>
                       Inventory Specialist
                     </span>
                     <span className="px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
-                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      <svg
+                        className="w-4 h-4 mr-2"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                        />
                       </svg>
                       Warehouse Supervisor
                     </span>
@@ -620,7 +687,7 @@ const Home = () => {
           </motion.div>
 
           <div className="max-w-6xl mx-auto">
-            <motion.div 
+            <motion.div
               variants={container}
               initial="hidden"
               whileInView="show"
@@ -628,18 +695,16 @@ const Home = () => {
               className="grid md:grid-cols-2 gap-8 items-center"
             >
               {/* Image Section */}
-              <motion.div 
-                variants={item}
-                className="relative order-2 md:order-1"
-              >
+              <motion.div variants={item} className="relative order-2 md:order-1">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img 
+                  <img
                     src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
                     alt="Warehouse and Inventory Management"
                     className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                      e.target.src =
+                        'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
                     }}
                   />
                 </div>
@@ -647,56 +712,81 @@ const Home = () => {
               </motion.div>
 
               {/* Content Section */}
-              <motion.div 
-                variants={item}
-                className="space-y-6 order-1 md:order-2"
-              >
+              <motion.div variants={item} className="space-y-6 order-1 md:order-2">
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
                     Industry Experience
                   </h3>
-                  
+
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    With a career spanning multiple sectors, I've brought operational excellence to diverse environments including retail, supermarket chains, and warehouse operations. My journey includes impactful roles at <span className="font-medium text-indigo-600 dark:text-indigo-400">Ekam Indian Groceries (Australia)</span>, <span className="font-medium text-blue-600 dark:text-blue-400">Bansal Supermarket</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">Arzt Health</span>.
+                    With a career spanning multiple sectors, I've brought operational excellence to
+                    diverse environments including retail, supermarket chains, and warehouse
+                    operations. My journey includes impactful roles at{' '}
+                    <span className="font-medium text-indigo-600 dark:text-indigo-400">
+                      Ekam Indian Groceries (Australia)
+                    </span>
+                    ,{' '}
+                    <span className="font-medium text-blue-600 dark:text-blue-400">
+                      Bansal Supermarket
+                    </span>
+                    , and{' '}
+                    <span className="font-medium text-purple-600 dark:text-purple-400">
+                      Arzt Health
+                    </span>
+                    .
                   </p>
-                  
+
                   <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
                     <p className="text-gray-700 dark:text-gray-300 italic">
-                      "From GRNs and invoice accuracy to inventory audits and AI-powered reporting tools, my focus has always been on driving efficiency, reducing errors, and delivering measurable business value."
+                      "From GRNs and invoice accuracy to inventory audits and AI-powered reporting
+                      tools, my focus has always been on driving efficiency, reducing errors, and
+                      delivering measurable business value."
                     </p>
                   </div>
-                  
+
                   <div className="pt-4">
-                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Key Achievements:</h4>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                      Key Achievements:
+                    </h4>
                     <div className="space-y-3">
                       <div className="flex items-start">
                         <div className="flex-shrink-0 mt-1">
                           <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
                             <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </div>
                         </div>
                         <p className="ml-3 text-gray-700 dark:text-gray-300">
-                          Developed and implemented inventory management systems that reduced stock discrepancies by 37%
+                          Developed and implemented inventory management systems that reduced stock
+                          discrepancies by 37%
                         </p>
                       </div>
                       <div className="flex items-start">
                         <div className="flex-shrink-0 mt-1">
                           <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
                             <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
                             </svg>
                           </div>
                         </div>
                         <p className="ml-3 text-gray-700 dark:text-gray-300">
-                          Automated reporting processes using AI tools, saving 15+ hours per week in manual work
+                          Automated reporting processes using AI tools, saving 15+ hours per week in
+                          manual work
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="pt-4">
                   <motion.a
                     whileHover={{ scale: 1.03 }}
@@ -717,7 +807,7 @@ const Home = () => {
       {/* Featured Projects Section */}
       <section ref={projectsRef} className="py-16 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4 sm:px-6">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -727,7 +817,8 @@ const Home = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
             <div className="w-20 h-1 bg-indigo-600 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              A showcase of my projects that demonstrate my skills and expertise in data analysis and AI-powered solutions.
+              A showcase of my projects that demonstrate my skills and expertise in data analysis
+              and AI-powered solutions.
             </p>
           </motion.div>
 
@@ -742,8 +833,8 @@ const Home = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <div className="h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
+                  <img
+                    src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     onError={(e) => {
@@ -754,10 +845,12 @@ const Home = () => {
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">{project.shortDescription}</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    {project.shortDescription}
+                  </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.techStack.map((tech, idx) => (
-                      <span 
+                      <span
                         key={idx}
                         className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
                       >
@@ -766,7 +859,7 @@ const Home = () => {
                     ))}
                   </div>
                   <div className="flex gap-3">
-                    <a 
+                    <a
                       href={project.liveLink}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -774,7 +867,7 @@ const Home = () => {
                     >
                       Live Demo
                     </a>
-                    <a 
+                    <a
                       href={project.githubLink}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -788,7 +881,7 @@ const Home = () => {
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             className="text-center mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -813,7 +906,7 @@ const Home = () => {
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200 dark:bg-indigo-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
           <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -826,10 +919,10 @@ const Home = () => {
               Ready to Start a Project?
             </h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
-              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-              Let's create something amazing together!
+              I'm always open to discussing new projects, creative ideas, or opportunities to be
+              part of your vision. Let's create something amazing together!
             </p>
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -854,11 +947,7 @@ const Home = () => {
       </section>
 
       {/* Contact Section */}
-      <section 
-        ref={contactRef} 
-        id="contact" 
-        className="py-20 bg-gray-50 dark:bg-gray-800"
-      >
+      <section ref={contactRef} id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-6">
           <motion.div
             variants={container}
@@ -879,9 +968,10 @@ const Home = () => {
                 <div>
                   <h3 className="text-2xl font-semibold mb-4">Contact Information</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                    I'm always open to discussing new projects, creative ideas, or opportunities to
+                    be part of your vision.
                   </p>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-start">
                       <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
@@ -889,24 +979,24 @@ const Home = () => {
                       </div>
                       <div className="ml-4">
                         <h4 className="font-medium">Email Me</h4>
-                        <a 
-                          href="mailto:your.email@example.com" 
+                        <a
+                          href="mailto:your.email@example.com"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
                           your.email@example.com
                         </a>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-start">
                       <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
                         <FiLinkedin size={20} />
                       </div>
                       <div className="ml-4">
                         <h4 className="font-medium">LinkedIn</h4>
-                        <a 
-                          href="https://linkedin.com/in/yourprofile" 
-                          target="_blank" 
+                        <a
+                          href="https://linkedin.com/in/yourprofile"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
@@ -914,16 +1004,16 @@ const Home = () => {
                         </a>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-start">
                       <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
                         <FiGithub size={20} />
                       </div>
                       <div className="ml-4">
                         <h4 className="font-medium">GitHub</h4>
-                        <a 
-                          href="https://github.com/yourusername" 
-                          target="_blank" 
+                        <a
+                          href="https://github.com/yourusername"
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
@@ -933,14 +1023,17 @@ const Home = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="pt-4">
                   <h4 className="font-medium mb-3">Follow Me</h4>
                   <div className="flex space-x-4">
                     {[
                       { icon: <FiGithub size={20} />, url: 'https://github.com/yourusername' },
-                      { icon: <FiLinkedin size={20} />, url: 'https://linkedin.com/in/yourprofile' },
-                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/yourhandle' }
+                      {
+                        icon: <FiLinkedin size={20} />,
+                        url: 'https://linkedin.com/in/yourprofile',
+                      },
+                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/yourhandle' },
                     ].map((social, index) => (
                       <a
                         key={index}
@@ -955,12 +1048,18 @@ const Home = () => {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div variants={item} className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg">
+
+              <motion.div
+                variants={item}
+                className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg"
+              >
                 <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    >
                       Your Name <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -974,9 +1073,12 @@ const Home = () => {
                     />
                     {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    >
                       Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
@@ -990,9 +1092,12 @@ const Home = () => {
                     />
                     {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    >
                       Subject
                     </label>
                     <input
@@ -1005,9 +1110,12 @@ const Home = () => {
                       placeholder="How can I help you?"
                     />
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    >
                       Your Message <span className="text-red-500">*</span>
                     </label>
                     <textarea
@@ -1019,9 +1127,11 @@ const Home = () => {
                       className={`w-full px-4 py-2 border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white`}
                       placeholder="Hi there, I'd like to talk about..."
                     ></textarea>
-                    {errors.message && <p className="mt-1 text-sm text-red-600">{errors.message}</p>}
+                    {errors.message && (
+                      <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+                    )}
                   </div>
-                  
+
                   <div className="pt-2">
                     <motion.button
                       type="submit"
@@ -1032,13 +1142,31 @@ const Home = () => {
                     >
                       {isSubmitting ? (
                         <div className="flex items-center justify-center">
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          <svg
+                            className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
                           </svg>
                           Sending...
                         </div>
-                      ) : 'Send Message'}
+                      ) : (
+                        'Send Message'
+                      )}
                     </motion.button>
                   </div>
                 </form>

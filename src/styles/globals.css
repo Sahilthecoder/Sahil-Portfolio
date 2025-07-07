@@ -5,43 +5,43 @@
 /* ===== Theme Variables ===== */
 :root {
   /* Color System - Light Theme */
-  --color-primary: 79, 70, 229;    /* indigo-600 */
+  --color-primary: 79, 70, 229; /* indigo-600 */
   --color-primary-hover: 67, 56, 202; /* indigo-700 */
-  --color-text: 17, 24, 39;        /* gray-900 */
-  --color-text-muted: 75, 85, 99;   /* gray-600 */
-  --color-bg: 249, 250, 251;       /* gray-50 */
+  --color-text: 17, 24, 39; /* gray-900 */
+  --color-text-muted: 75, 85, 99; /* gray-600 */
+  --color-bg: 249, 250, 251; /* gray-50 */
   --color-bg-elevated: 255, 255, 255; /* white */
-  --color-border: 229, 231, 235;   /* gray-200 */
-  --color-accent: 167, 139, 250;   /* purple-400 */
-  --color-card: 255, 255, 255;     /* white */
+  --color-border: 229, 231, 235; /* gray-200 */
+  --color-accent: 167, 139, 250; /* purple-400 */
+  --color-card: 255, 255, 255; /* white */
   --color-card-hover: 249, 250, 251; /* gray-50 */
-  --color-heading: 15, 23, 42;     /* slate-900 */
-  --color-paragraph: 71, 85, 105;  /* slate-600 */
-  --neon-pink: 255, 0, 255;       /* neon pink */
-  
+  --color-heading: 15, 23, 42; /* slate-900 */
+  --color-paragraph: 71, 85, 105; /* slate-600 */
+  --neon-pink: 255, 0, 255; /* neon pink */
+
   /* Shadow System */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  
+
   /* Spacing & Layout */
   --container-padding: 1rem;
   --section-padding: 4rem 0;
 }
 
 .dark {
-  --color-primary: 99, 102, 241;   /* indigo-500 */
+  --color-primary: 99, 102, 241; /* indigo-500 */
   --color-primary-hover: 129, 140, 248; /* indigo-400 */
-  --color-text: 243, 244, 246;    /* gray-100 */
+  --color-text: 243, 244, 246; /* gray-100 */
   --color-text-muted: 156, 163, 175; /* gray-400 */
-  --color-bg: 17, 24, 39;         /* gray-900 */
+  --color-bg: 17, 24, 39; /* gray-900 */
   --color-bg-elevated: 31, 41, 55; /* gray-800 */
-  --color-border: 55, 65, 81;     /* gray-700 */
-  --color-card: 30, 41, 59;       /* slate-800 */
-  --color-card-hover: 51, 65, 85;  /* slate-700 */
-  --color-heading: 248, 250, 252;  /* slate-50 */
+  --color-border: 55, 65, 81; /* gray-700 */
+  --color-card: 30, 41, 59; /* slate-800 */
+  --color-card-hover: 51, 65, 85; /* slate-700 */
+  --color-heading: 248, 250, 252; /* slate-50 */
   --color-paragraph: 203, 213, 225; /* slate-300 */
 }
 
@@ -58,11 +58,14 @@ html {
 
 body {
   @apply bg-white dark:bg-[var(--color-bg)] text-[var(--color-text)];
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Smooth theme transitions */
@@ -70,21 +73,39 @@ body {
 .theme-transition *,
 .theme-transition *::before,
 .theme-transition *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease !important;
   transition-delay: 0s !important;
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-bold leading-tight tracking-tight text-[var(--color-heading)];
   margin-bottom: 0.75em;
 }
 
-h1 { @apply text-4xl md:text-5xl; }
-h2 { @apply text-3xl md:text-4xl; }
-h3 { @apply text-2xl md:text-3xl; }
-h4 { @apply text-xl md:text-2xl; }
-h5 { @apply text-lg md:text-xl; }
+h1 {
+  @apply text-4xl md:text-5xl;
+}
+h2 {
+  @apply text-3xl md:text-4xl;
+}
+h3 {
+  @apply text-2xl md:text-3xl;
+}
+h4 {
+  @apply text-xl md:text-2xl;
+}
+h5 {
+  @apply text-lg md:text-xl;
+}
 
 p {
   @apply text-[var(--color-paragraph)] leading-relaxed;
@@ -118,14 +139,19 @@ a {
 .theme-transition *,
 .theme-transition *::before,
 .theme-transition *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease !important;
   transition-delay: 0s !important;
 }
 
 /* Base styles */
 body {
   @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Install Prompt Styles */
@@ -142,7 +168,10 @@ body {
   pointer-events: none;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease, background-color 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    background-color 0.5s ease;
 }
 
 #install-screen.show {
@@ -185,7 +214,9 @@ body {
   transform-origin: bottom left !important;
   margin: 0 !important;
   max-width: 300px !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -246,15 +277,28 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-bold text-slate-900 dark:text-white;
   line-height: 1.2;
 }
 
-h1 { @apply text-4xl sm:text-5xl lg:text-6xl; }
-h2 { @apply text-3xl sm:text-4xl; }
-h3 { @apply text-2xl sm:text-3xl; }
-h4 { @apply text-xl sm:text-2xl; }
+h1 {
+  @apply text-4xl sm:text-5xl lg:text-6xl;
+}
+h2 {
+  @apply text-3xl sm:text-4xl;
+}
+h3 {
+  @apply text-2xl sm:text-3xl;
+}
+h4 {
+  @apply text-xl sm:text-2xl;
+}
 
 /* Buttons */
 .btn {
@@ -305,7 +349,9 @@ h4 { @apply text-xl sm:text-2xl; }
 .page-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }
 
 .page-transition-exit {
@@ -316,5 +362,7 @@ h4 { @apply text-xl sm:text-2xl; }
 .page-transition-exit-active {
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 300ms, transform 300ms;
+  transition:
+    opacity 300ms,
+    transform 300ms;
 }

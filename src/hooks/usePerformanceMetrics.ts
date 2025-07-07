@@ -78,7 +78,7 @@ const usePerformanceMetrics = (): WebVitals => {
     const fcpObserver = new PerformanceObserver((entryList) => {
       const entries = entryList.getEntriesByName('first-contentful-paint');
       const fcp = entries[entries.length - 1];
-      
+
       if (fcp) {
         const value = Math.round(fcp.startTime);
         const metric: Metric = {
@@ -89,12 +89,12 @@ const usePerformanceMetrics = (): WebVitals => {
           delta: 0, // Not used in this context
           id: `fcp-${Date.now()}`,
         };
-        
+
         setMetrics((prev) => ({
           ...prev,
           FCP: metric,
         }));
-        
+
         // Log to analytics
         logMetric('FCP', value);
       }
@@ -104,9 +104,9 @@ const usePerformanceMetrics = (): WebVitals => {
     const lcpObserver = new PerformanceObserver((entryList) => {
       const entries = entryList.getEntries() as PerformanceEntryLargestContentfulPaint[];
       const lastEntry = entries[entries.length - 1];
-      
+
       if (lastEntry) {
-        const lcpEntry = lastEntry as unknown as { renderTime?: number, loadTime?: number };
+        const lcpEntry = lastEntry as unknown as { renderTime?: number; loadTime?: number };
         const value = Math.round(lcpEntry.renderTime || lcpEntry.loadTime || 0);
         const metric: Metric = {
           name: 'LCP',
@@ -116,12 +116,12 @@ const usePerformanceMetrics = (): WebVitals => {
           delta: 0, // Not used in this context
           id: `lcp-${Date.now()}`,
         };
-        
+
         setMetrics((prev) => ({
           ...prev,
           LCP: metric,
         }));
-        
+
         // Log to analytics
         logMetric('LCP', value);
       }
@@ -130,7 +130,7 @@ const usePerformanceMetrics = (): WebVitals => {
     // Track First Input Delay (FID)
     const fidObserver = new PerformanceObserver((entryList) => {
       const entries = entryList.getEntries() as PerformanceEventTiming[];
-      
+
       for (const entry of entries) {
         if (entry.entryType === 'first-input') {
           const value = Math.round(entry.processingStart - entry.startTime);
@@ -142,12 +142,12 @@ const usePerformanceMetrics = (): WebVitals => {
             delta: 0, // Not used in this context
             id: `fid-${Date.now()}`,
           };
-          
+
           setMetrics((prev) => ({
             ...prev,
             FID: metric,
           }));
-          
+
           // Log to analytics
           logMetric('FID', value);
           break;
@@ -160,16 +160,16 @@ const usePerformanceMetrics = (): WebVitals => {
     let clsEntries: LayoutShift[] = [];
     let sessionValue = 0;
     let sessionEntries: LayoutShift[] = [];
-    
+
     const clsObserver = new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
         // Type assertion for LayoutShift
         const layoutShift = entry as unknown as LayoutShift;
-        
+
         // Only count layout shifts without recent user input
         if (!layoutShift.hadRecentInput) {
           const lastSessionEntry = sessionEntries[sessionEntries.length - 1];
-          
+
           // If this is the first entry or the entry occurred more than 1 second after the last entry,
           // create a new session.
           if (
@@ -182,58 +182,62 @@ const usePerformanceMetrics = (): WebVitals => {
             sessionValue += layoutShift.value;
             sessionEntries.push(layoutShift);
           }
-          
+
           // If the current session value is larger than the current CLS value,
           // update CLS and the entries contributing to it.
           if (sessionValue > clsValue) {
             clsValue = sessionValue;
             clsEntries = [...sessionEntries];
-            
+
             const metric: Metric = {
               name: 'CLS',
               value: Math.round(clsValue * 1000) / 1000,
               rating: getRating('CLS', clsValue),
-              entries: clsEntries.map(ls => ({
+              entries: clsEntries.map((ls) => ({
                 ...ls,
                 toJSON: () => ({
                   ...ls,
                   // Convert any non-serializable values
-                  sources: ls.sources?.map(s => ({
+                  sources: ls.sources?.map((s) => ({
                     node: s.node?.nodeName || '',
-                    previousRect: s.previousRect ? {
-                      x: s.previousRect.x,
-                      y: s.previousRect.y,
-                      width: s.previousRect.width,
-                      height: s.previousRect.height,
-                      top: s.previousRect.top,
-                      right: s.previousRect.right,
-                      bottom: s.previousRect.bottom,
-                      left: s.previousRect.left,
-                      toJSON: () => ({}),
-                    } : null,
-                    currentRect: s.currentRect ? {
-                      x: s.currentRect.x,
-                      y: s.currentRect.y,
-                      width: s.currentRect.width,
-                      height: s.currentRect.height,
-                      top: s.currentRect.top,
-                      right: s.currentRect.right,
-                      bottom: s.currentRect.bottom,
-                      left: s.currentRect.left,
-                      toJSON: () => ({}),
-                    } : null,
+                    previousRect: s.previousRect
+                      ? {
+                          x: s.previousRect.x,
+                          y: s.previousRect.y,
+                          width: s.previousRect.width,
+                          height: s.previousRect.height,
+                          top: s.previousRect.top,
+                          right: s.previousRect.right,
+                          bottom: s.previousRect.bottom,
+                          left: s.previousRect.left,
+                          toJSON: () => ({}),
+                        }
+                      : null,
+                    currentRect: s.currentRect
+                      ? {
+                          x: s.currentRect.x,
+                          y: s.currentRect.y,
+                          width: s.currentRect.width,
+                          height: s.currentRect.height,
+                          top: s.currentRect.top,
+                          right: s.currentRect.right,
+                          bottom: s.currentRect.bottom,
+                          left: s.currentRect.left,
+                          toJSON: () => ({}),
+                        }
+                      : null,
                   })),
                 }),
               })) as unknown as PerformanceEntry[],
               delta: 0, // Not used in this context
               id: `cls-${Date.now()}`,
             };
-            
+
             setMetrics((prev) => ({
               ...prev,
               CLS: metric,
             }));
-            
+
             // Log to analytics
             logMetric('CLS', clsValue);
           }
@@ -254,12 +258,12 @@ const usePerformanceMetrics = (): WebVitals => {
         delta: 0, // Not used in this context
         id: `ttfb-${Date.now()}`,
       };
-      
+
       setMetrics((prev) => ({
         ...prev,
         TTFB: metric,
       }));
-      
+
       // Log to analytics
       logMetric('TTFB', value);
     }
@@ -299,7 +303,7 @@ const usePerformanceMetrics = (): WebVitals => {
   const logMetric = (metricName: string, value: number) => {
     // Replace with your analytics implementation
     console.log(`[Performance] ${metricName}:`, value);
-    
+
     // Example: Send to analytics service
     // analytics.track('performance_metric', {
     //   name: metricName,

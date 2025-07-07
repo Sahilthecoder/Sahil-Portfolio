@@ -8,6 +8,43 @@ A modern, responsive, and performant portfolio website built with React, TypeScr
 🔗 **Live Demo**: [sahil-ali.vercel.app](https://sahil-ali.vercel.app)  
 📂 **Source Code**: [github.com/Sahilthecoder/Sahil-Portfolio](https://github.com/Sahilthecoder/Sahil-Portfolio)
 
+## 🎨 Favicon and PWA Assets
+
+This project includes a comprehensive favicon and PWA (Progressive Web App) setup with support for various platforms and devices. The favicon system includes:
+
+- **Standard Favicon** (favicon.ico, favicon-16x16.png, favicon-32x32.png)
+- **Apple Touch Icons** (various sizes for different Apple devices)
+- **Android Chrome Icons** (192x192 and 512x512 for PWA)
+- **Microsoft Tiles** (various sizes for Windows tiles)
+- **Safari Pinned Tab** (SVG for Safari)
+- **Web App Manifest** (for PWA installation)
+- **Browser Config** (for Microsoft applications)
+
+### Updating the Favicon
+
+1. **Replace the main logo**: Place your high-quality logo (minimum 512x512px) as `public/logo512.png`
+2. **Generate favicon files**: Run the following command to generate all necessary favicon files:
+   ```bash
+   npm run generate-favicons
+   ```
+3. **Verify the files**: Check that all files in the `public/` directory have been updated
+4. **Test the favicon**: Open the website in various browsers and devices to ensure proper display
+
+### How It Works
+
+- The favicon generation script (`scripts/generate-favicons.js`) creates all necessary favicon files from the main logo
+- The `browserconfig.xml` and `site.webmanifest` files provide metadata for different platforms
+- The `index.html` includes all necessary meta tags and links for proper favicon display
+- The build process automatically copies all favicon files to the `dist/` directory
+
+### Testing Favicon Display
+
+- **Browser Tabs**: Check in Chrome, Firefox, Safari, and Edge
+- **Mobile Devices**: Test on iOS and Android devices
+- **Desktop Shortcuts**: Pin the site to your desktop and check the icon
+- **Windows Tiles**: Pin to Start menu in Windows
+- **Apple Touch Icons**: Add to home screen on iOS devices
+
 ## 🚀 Features
 
 - ⚡ Blazing fast performance with Vite

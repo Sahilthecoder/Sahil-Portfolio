@@ -19,15 +19,15 @@ export const getCloudinaryUrl = (imagePath: string, options: Record<string, any>
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
-    
+
     // Ensure the path starts with a slash
     const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    
+
     // If the path already includes /images, return as is
     if (normalizedPath.startsWith('/images/')) {
       return normalizedPath;
     }
-    
+
     // Otherwise, prepend /optimized-images/projects/ for local development
     return `/optimized-images/projects${normalizedPath}`;
   }
@@ -40,18 +40,18 @@ export const getCloudinaryUrl = (imagePath: string, options: Record<string, any>
 
   // Remove leading slash if present and ensure proper path for Cloudinary
   let cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
-  
+
   // If the path already includes images/, use it as is, otherwise prepend images/projects/
   if (!cleanPath.startsWith('optimized-images/')) {
     cleanPath = `optimized-images/projects/${cleanPath.replace(/^images\//, '')}`;
   }
-  
+
   // Default Cloudinary transformations
   const defaultOptions = {
     quality: 'auto',
     fetch_format: 'auto',
     dpr: 'auto',
-    ...options
+    ...options,
   };
 
   // Convert options to Cloudinary transformation string

@@ -12,7 +12,7 @@ export function lazyLoad<T extends ComponentType<any>>(
   fallback: ReactNode = <LoadingSpinner />
 ) {
   const LazyComponent = lazy(importFn);
-  
+
   return function LazyWrapper(props: React.ComponentProps<T>) {
     return (
       <ErrorBoundary>
@@ -34,19 +34,19 @@ export function preloadComponent<T>(
 ): () => Promise<{ default: T }> {
   let loaded: { default: T } | null = null;
   let loadingPromise: Promise<{ default: T }> | null = null;
-  
+
   return () => {
     if (loaded) {
       return Promise.resolve(loaded);
     }
-    
+
     if (!loadingPromise) {
-      loadingPromise = importFn().then(module => {
+      loadingPromise = importFn().then((module) => {
         loaded = module;
         return module;
       });
     }
-    
+
     return loadingPromise;
   };
 }
@@ -59,10 +59,10 @@ export function prefetchRoute(path: string): void {
   // This function will be enhanced with route-specific prefetching logic
   // For now, it's a placeholder for future implementation
   console.log(`Prefetching resources for route: ${path}`);
-  
+
   // Example: Prefetch data for the route
   // prefetchDataForRoute(path);
-  
+
   // Example: Prefetch images for the route
   // prefetchImagesForRoute(path);
 }
@@ -84,11 +84,11 @@ export function usePrefetchOnHover(href: string) {
       const timeoutId = setTimeout(() => {
         prefetchRoute(href);
       }, 200);
-      
+
       return () => clearTimeout(timeoutId);
     }
   };
-  
+
   return { onMouseEnter: handleMouseEnter, onTouchStart: handleMouseEnter };
 }
 
@@ -97,14 +97,24 @@ export function usePrefetchOnHover(href: string) {
  */
 export function preloadCriticalResources() {
   if (typeof document === 'undefined') return;
-  
+
   // Preload critical fonts
   const fontLinks = [
-    { href: '/fonts/yourfont-regular.woff2', as: 'font', type: 'font/woff2', crossorigin: 'anonymous' },
-    { href: '/fonts/yourfont-bold.woff2', as: 'font', type: 'font/woff2', crossorigin: 'anonymous' },
+    {
+      href: '/fonts/yourfont-regular.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossorigin: 'anonymous',
+    },
+    {
+      href: '/fonts/yourfont-bold.woff2',
+      as: 'font',
+      type: 'font/woff2',
+      crossorigin: 'anonymous',
+    },
   ];
-  
-  fontLinks.forEach(font => {
+
+  fontLinks.forEach((font) => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.href = font.href;
@@ -113,14 +123,14 @@ export function preloadCriticalResources() {
     link.setAttribute('crossorigin', font.crossorigin);
     document.head.appendChild(link);
   });
-  
+
   // Preload critical images
   const imageUrls = [
     '/images/og-default.jpg',
     // Add other critical image paths here
   ];
-  
-  imageUrls.forEach(src => {
+
+  imageUrls.forEach((src) => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.href = src;
@@ -134,7 +144,7 @@ export function preloadCriticalResources() {
  */
 export function prefetchLikelyRoutes() {
   if (typeof window === 'undefined') return;
-  
+
   // Prefetch routes based on user behavior
   const likelyRoutes = [
     '/about',
@@ -142,19 +152,19 @@ export function prefetchLikelyRoutes() {
     '/contact',
     // Add other likely routes here
   ];
-  
+
   // Use requestIdleCallback to avoid blocking the main thread
   if ('requestIdleCallback' in window) {
     requestIdleCallback(
       () => {
-        likelyRoutes.forEach(route => prefetchRoute(route));
+        likelyRoutes.forEach((route) => prefetchRoute(route));
       },
       { timeout: 1000 }
     );
   } else {
     // Fallback for browsers that don't support requestIdleCallback
     setTimeout(() => {
-      likelyRoutes.forEach(route => prefetchRoute(route));
+      likelyRoutes.forEach((route) => prefetchRoute(route));
     }, 1000);
   }
 }
@@ -167,7 +177,7 @@ if (typeof window !== 'undefined') {
   } else {
     preloadCriticalResources();
   }
-  
+
   // Prefetch likely routes when the browser is idle
   if ('requestIdleCallback' in window) {
     window.requestIdleCallback(prefetchLikelyRoutes, { timeout: 2000 });

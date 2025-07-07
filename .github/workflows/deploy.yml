@@ -99,21 +99,35 @@ jobs:
       - name: Build
         run: |
           set -e
-          echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
           
-          # Ensure dist directory exists and clean up any existing service worker files
+          # Set environment variables for GitHub Pages
+          echo "VITE_IS_GITHUB_PAGES=true" >> $GITHUB_ENV
+          echo "VITE_BASE_URL=/Sahil-Portfolio/" >> $GITHUB_ENV
+          
+          # Ensure dist directory exists and clean up any existing files
           echo "Preparing dist directory..."
+          rm -rf dist
           mkdir -p dist
-          rm -f dist/service-worker.js 2>/dev/null || true
           
           # Create necessary files
           echo -e "\nCreating deployment files..."
           touch ./dist/.nojekyll
-          echo '/* /index.html 200' > ./dist/_redirects
+          
+          # Create _redirects file for SPA routing
+          cat > ./dist/_redirects << 'EOL'
+          /*    /index.html   200
+          /assets/*    /Sahil-Portfolio/assets/:splat    200
+          /images/*    /Sahil-Portfolio/images/:splat    200
+          /js/*        /Sahil-Portfolio/js/:splat        200
+          /css/*       /Sahil-Portfolio/css/:splat       200
+          /fonts/*     /Sahil-Portfolio/fonts/:splat     200
+          /sw.js      /Sahil-Portfolio/sw.js     200
+          /workbox-*.js /Sahil-Portfolio/workbox-:splat.js 200
+          EOL
           
           # Run the build with proper environment variables
           echo "Building the application..."
-          VITE_BASE_URL='/Sahil-Portfolio/' npm run build
+          VITE_IS_GITHUB_PAGES=true VITE_BASE_URL='/Sahil-Portfolio/' npm run build
           
           # Verify the build was successful
           if [ ! -d "dist" ]; then

@@ -30,17 +30,17 @@ export class ErrorBoundary extends Component<Props, State> {
 
   static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI
-    return { 
-      hasError: true, 
+    return {
+      hasError: true,
       error,
-      errorInfo: null 
+      errorInfo: null,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log the error to an error reporting service
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
     // Update state with error details
     this.setState({
       error,
@@ -104,9 +104,10 @@ export class ErrorBoundary extends Component<Props, State> {
                 Something went wrong
               </h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                We're sorry, but an unexpected error occurred. Please try refreshing the page or contact support if the problem persists.
+                We're sorry, but an unexpected error occurred. Please try refreshing the page or
+                contact support if the problem persists.
               </p>
-              
+
               <div className="mt-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-md text-left">
                 <h3 className="text-sm font-medium text-gray-900 dark:text-gray-200">
                   Error Details
@@ -123,7 +124,7 @@ export class ErrorBoundary extends Component<Props, State> {
                   </details>
                 </div>
               </div>
-              
+
               <div className="mt-6 flex justify-center space-x-4">
                 <Button
                   onClick={this.resetErrorBoundary}
@@ -139,21 +140,16 @@ export class ErrorBoundary extends Component<Props, State> {
                 >
                   Refresh page
                 </Button>
-                <Button
-                  as="a"
-                  href="/"
-                  variant="ghost"
-                  className="inline-flex items-center"
-                >
+                <Button as="a" href="/" variant="ghost" className="inline-flex items-center">
                   Go to home
                 </Button>
               </div>
-              
+
               <div className="mt-8 text-center">
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   If the problem persists, please contact support at{' '}
-                  <a 
-                    href="mailto:support@example.com" 
+                  <a
+                    href="mailto:support@example.com"
                     className="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline"
                   >
                     support@example.com
@@ -224,7 +220,7 @@ export const ErrorBoundaryProvider: React.FC<{
         </ErrorBoundaryContext.Provider>
       );
     }
-    
+
     return (
       <ErrorBoundaryContext.Provider
         value={{
@@ -235,12 +231,8 @@ export const ErrorBoundaryProvider: React.FC<{
         }}
       >
         <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-          <h3 className="text-red-800 dark:text-red-200 font-medium">
-            Something went wrong
-          </h3>
-          <p className="text-red-700 dark:text-red-300 text-sm mt-1">
-            {errorState.error.message}
-          </p>
+          <h3 className="text-red-800 dark:text-red-200 font-medium">Something went wrong</h3>
+          <p className="text-red-700 dark:text-red-300 text-sm mt-1">{errorState.error.message}</p>
           <button
             onClick={resetErrorBoundary}
             className="mt-2 text-sm text-red-600 dark:text-red-400 hover:underline"

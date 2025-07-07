@@ -22,44 +22,44 @@ const LazyImage = ({
   // Handle image loading and error states
   useEffect(() => {
     let isMounted = true;
-    
+
     const loadImage = async () => {
       if (!src) return;
-      
+
       const image = new Image();
-      
+
       const handleLoad = () => {
         if (!isMounted) return;
         setIsLoaded(true);
         onLoad?.();
       };
-      
+
       const handleError = () => {
         if (!isMounted) return;
         console.warn(`Failed to load image: ${src}`);
         setImgError(true);
         onError?.();
       };
-      
+
       image.onload = handleLoad;
       image.onerror = handleError;
-      
+
       // Start loading the image
       image.src = src;
-      
+
       return () => {
         isMounted = false;
         image.onload = null;
         image.onerror = null;
       };
     };
-    
+
     loadImage();
   }, [src, onLoad, onError]);
 
   // Determine which source to use
-  const source = imgError ? (fallbackSrc || src) : src;
-  
+  const source = imgError ? fallbackSrc || src : src;
+
   // Only show the image when it's loaded
   if (!isLoaded && !imgError) {
     return null;
@@ -68,14 +68,8 @@ const LazyImage = ({
   return (
     <picture>
       {/* WebP format with fallback to original if not supported */}
-      {webpSrc && !imgError && (
-        <source 
-          srcSet={webpSrc} 
-          type="image/webp"
-          sizes={sizes}
-        />
-      )}
-      
+      {webpSrc && !imgError && <source srcSet={webpSrc} type="image/webp" sizes={sizes} />}
+
       {/* Fallback image */}
       <img
         src={source}
@@ -105,7 +99,7 @@ const LazyImage = ({
 
 LazyImage.propTypes = {
   src: PropTypes.string.isRequired,
-    webpSrc: PropTypes.string,
+  webpSrc: PropTypes.string,
   fallbackSrc: PropTypes.string,
   alt: PropTypes.string.isRequired,
   className: PropTypes.string,

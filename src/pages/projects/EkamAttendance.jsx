@@ -1,13 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaDatabase, FaClock, FaChartLine, FaCheckCircle, FaExclamationTriangle, FaArrowLeft, FaFileExcel, FaGoogle, FaServer } from 'react-icons/fa';
+import {
+  FaDatabase,
+  FaClock,
+  FaChartLine,
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaArrowLeft,
+  FaFileExcel,
+  FaGoogle,
+  FaServer,
+} from 'react-icons/fa';
 import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import getImagePath from '../../utils/imagePaths';
 
 const EkamAttendance = () => {
   return (
-    <motion.div 
+    <motion.div
       className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -15,8 +25,8 @@ const EkamAttendance = () => {
     >
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
-        <Link 
-          to="/projects" 
+        <Link
+          to="/projects"
           className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-8 transition-colors group"
         >
           <FaArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
@@ -28,26 +38,39 @@ const EkamAttendance = () => {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <div className="flex items-center mb-4">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">AI-Powered Workforce Intelligence System</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  AI-Powered Workforce Intelligence System
+                </h1>
                 <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
                   AI + Automation + Workforce Analytics
                 </span>
               </div>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                An intelligent workforce management platform leveraging computer vision and machine learning to automate time tracking, predict staffing needs, and optimize labor costs with 97% accuracy.
+                An intelligent workforce management platform leveraging computer vision and machine
+                learning to automate time tracking, predict staffing needs, and optimize labor costs
+                with 97% accuracy.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
-                {['#AIAutomation', '#ComputerVision', '#PredictiveAnalytics', '#WorkforceAI', '#HRTech'].map((tag, index) => (
-                  <span key={index} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full">
+                {[
+                  '#AIAutomation',
+                  '#ComputerVision',
+                  '#PredictiveAnalytics',
+                  '#WorkforceAI',
+                  '#HRTech',
+                ].map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm rounded-full"
+                  >
                     {tag}
                   </span>
                 ))}
               </div>
             </div>
             <div className="flex space-x-4">
-              <a 
-                href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit?usp=sharing" 
-                target="_blank" 
+              <a
+                href="https://docs.google.com/spreadsheets/d/your-sheet-id/edit?usp=sharing"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
@@ -108,13 +131,17 @@ const EkamAttendance = () => {
 
         {/* Before & After Section */}
         <div className="max-w-7xl mx-auto mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">AI Transformation Impact</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+            AI Transformation Impact
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
               <div className="p-4 bg-gray-50 dark:bg-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Before: Legacy System</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  Before: Legacy System
+                </h3>
               </div>
-              <img 
+              <img
                 src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
@@ -142,9 +169,11 @@ const EkamAttendance = () => {
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
               <div className="p-4 bg-gray-50 dark:bg-gray-700">
-                <h3 className="font-semibold text-gray-900 dark:text-white">After: AI-Powered Platform</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white">
+                  After: AI-Powered Platform
+                </h3>
               </div>
-              <img 
+              <img
                 src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
@@ -188,8 +217,14 @@ const EkamAttendance = () => {
                     <span className="text-red-600 dark:text-red-400 text-sm font-bold">1</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">AI-Powered Recognition</h3>
-                    <p>Implemented computer vision and facial recognition to automate attendance tracking with 97% accuracy, eliminating manual entry errors and buddy punching.</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                      AI-Powered Recognition
+                    </h3>
+                    <p>
+                      Implemented computer vision and facial recognition to automate attendance
+                      tracking with 97% accuracy, eliminating manual entry errors and buddy
+                      punching.
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
@@ -197,8 +232,13 @@ const EkamAttendance = () => {
                     <span className="text-red-600 dark:text-red-400 text-sm font-bold">2</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Predictive Analytics</h3>
-                    <p>Developed ML models that analyze historical data to predict staffing needs and prevent overtime, reducing labor costs by 22%.</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                      Predictive Analytics
+                    </h3>
+                    <p>
+                      Developed ML models that analyze historical data to predict staffing needs and
+                      prevent overtime, reducing labor costs by 22%.
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
@@ -206,7 +246,9 @@ const EkamAttendance = () => {
                     <span className="text-red-600 dark:text-red-400 text-sm font-bold">3</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Payroll Inaccuracies</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                      Payroll Inaccuracies
+                    </h3>
                     <p>Incorrect attendance data led to payroll errors and processing delays.</p>
                   </div>
                 </div>
@@ -219,7 +261,7 @@ const EkamAttendance = () => {
                 <FaCheckCircle className="text-green-500 mr-2" />
                 Solution Developed
               </h2>
-              
+
               <div className="space-y-6">
                 <div className="bg-blue-50 dark:bg-blue-900/10 p-5 rounded-xl">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
@@ -249,7 +291,7 @@ const EkamAttendance = () => {
                   </h3>
                   <div className="bg-gray-800 rounded-lg p-4 overflow-x-auto">
                     <pre className="text-sm text-gray-100 font-mono">
-{`-- Database Schema
+                      {`-- Database Schema
 CREATE TABLE stores (
   store_id INT PRIMARY KEY,
   store_name VARCHAR(100) NOT NULL,
@@ -290,15 +332,24 @@ CREATE TABLE attendance (
                   <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                     <li className="flex items-start">
                       <div className="w-2 h-2 rounded-full bg-green-500 mt-2 mr-2 flex-shrink-0"></div>
-                      <span><strong>Enterprise limit:</strong> 4000 total hours/month enforced via database checks and spreadsheet formulas</span>
+                      <span>
+                        <strong>Enterprise limit:</strong> 4000 total hours/month enforced via
+                        database checks and spreadsheet formulas
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 rounded-full bg-green-500 mt-2 mr-2 flex-shrink-0"></div>
-                      <span><strong>Anomaly detection:</strong> SQL alerts and sheet conditional formatting for high usage</span>
+                      <span>
+                        <strong>Anomaly detection:</strong> SQL alerts and sheet conditional
+                        formatting for high usage
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <div className="w-2 h-2 rounded-full bg-green-500 mt-2 mr-2 flex-shrink-0"></div>
-                      <span><strong>Overtime tracking:</strong> Automatic calculation and flagging of overtime hours</span>
+                      <span>
+                        <strong>Overtime tracking:</strong> Automatic calculation and flagging of
+                        overtime hours
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -308,52 +359,80 @@ CREATE TABLE attendance (
 
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Time Management Controls</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Time Management Controls
+              </h2>
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                    <h4 className="font-semibold text-indigo-800 dark:text-indigo-300">Enterprise Limits</h4>
-                    <p className="text-gray-600 dark:text-gray-300">4000 total hours/month enforced with automated alerts</p>
+                    <h4 className="font-semibold text-indigo-800 dark:text-indigo-300">
+                      Enterprise Limits
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      4000 total hours/month enforced with automated alerts
+                    </p>
                   </div>
                   <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <h4 className="font-semibold text-green-800 dark:text-green-300">Automated Alerts</h4>
-                    <p className="text-gray-600 dark:text-gray-300">Real-time notifications for limit breaches</p>
+                    <h4 className="font-semibold text-green-800 dark:text-green-300">
+                      Automated Alerts
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Real-time notifications for limit breaches
+                    </p>
                   </div>
                   <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <h4 className="font-semibold text-purple-800 dark:text-purple-300">Validation</h4>
-                    <p className="text-gray-600 dark:text-gray-300">Real-time validation of working hours</p>
+                    <h4 className="font-semibold text-purple-800 dark:text-purple-300">
+                      Validation
+                    </h4>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Real-time validation of working hours
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Impact and Benefits</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Impact and Benefits
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
                   <h4 className="font-semibold text-green-800 dark:text-green-300 flex items-center">
                     <FaCheckCircle className="mr-2" /> Error Reduction
                   </h4>
                   <p className="text-green-700 dark:text-green-200 text-3xl font-bold mt-2">70%</p>
-                  <p className="text-sm text-green-600 dark:text-green-300 mt-1">Reduction in manual errors</p>
+                  <p className="text-sm text-green-600 dark:text-green-300 mt-1">
+                    Reduction in manual errors
+                  </p>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                   <h4 className="font-semibold text-blue-800 dark:text-blue-300 flex items-center">
                     <FaClock className="mr-2" /> Time Saved
                   </h4>
-                  <p className="text-blue-700 dark:text-blue-200 text-3xl font-bold mt-2">8+ hours</p>
-                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">Monthly admin time saved</p>
+                  <p className="text-blue-700 dark:text-blue-200 text-3xl font-bold mt-2">
+                    8+ hours
+                  </p>
+                  <p className="text-sm text-blue-600 dark:text-blue-300 mt-1">
+                    Monthly admin time saved
+                  </p>
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
                   <h4 className="font-semibold text-purple-800 dark:text-purple-300 flex items-center">
                     <FaChartLine className="mr-2" /> Cost Savings
                   </h4>
-                  <p className="text-purple-700 dark:text-purple-200 text-3xl font-bold mt-2">15%</p>
-                  <p className="text-sm text-purple-600 dark:text-purple-300 mt-1">Reduction in overtime costs</p>
+                  <p className="text-purple-700 dark:text-purple-200 text-3xl font-bold mt-2">
+                    15%
+                  </p>
+                  <p className="text-sm text-purple-600 dark:text-purple-300 mt-1">
+                    Reduction in overtime costs
+                  </p>
                 </div>
               </div>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Future Enhancements</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Future Enhancements
+              </h2>
               <ul className="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300 mb-6">
                 <li>Integration with payroll and HR systems for end-to-end automation</li>
                 <li>Real-time anomaly alerts via email/SMS notifications</li>
@@ -366,28 +445,40 @@ CREATE TABLE attendance (
 
         <div className="lg:col-span-1">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 sticky top-6">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Technology Stack</h3>
-              <div className="space-y-4">
-                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200">Google Sheets</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Data entry, validation, and collaboration</p>
-                </div>
-                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200">SQL</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Data storage, querying, and reporting</p>
-                </div>
-                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Validation</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">Automated rules and conditional formatting</p>
-                </div>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+              Technology Stack
+            </h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Google Sheets</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Data entry, validation, and collaboration
+                </p>
               </div>
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">SQL</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Data storage, querying, and reporting
+                </p>
+              </div>
+              <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                <h4 className="font-medium text-gray-800 dark:text-gray-200">Data Validation</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  Automated rules and conditional formatting
+                </p>
+              </div>
+            </div>
 
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-8 mb-3">Key SQL Queries</h3>
-              <div className="space-y-4">
-                <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                  <h4 className="text-sm font-medium text-indigo-700 dark:text-indigo-300">Invalid Entries</h4>
-                  <pre className="text-xs mt-2 text-gray-700 dark:text-gray-300 overflow-x-auto">
-{`-- Find all invalid attendance entries
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-8 mb-3">
+              Key SQL Queries
+            </h3>
+            <div className="space-y-4">
+              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
+                <h4 className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                  Invalid Entries
+                </h4>
+                <pre className="text-xs mt-2 text-gray-700 dark:text-gray-300 overflow-x-auto">
+                  {`-- Find all invalid attendance entries
 SELECT 
   e.name as employee_name,
   a.date,
@@ -398,12 +489,14 @@ JOIN employees e ON a.employee_id = e.employee_id
 WHERE a.is_valid = FALSE
 ORDER BY a.date DESC
 LIMIT 10;`}
-                  </pre>
-                </div>
-                <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
-                  <h4 className="text-sm font-medium text-indigo-700 dark:text-indigo-300">Monthly Hours</h4>
-                  <pre className="text-xs mt-2 text-gray-700 dark:text-gray-300 overflow-x-auto">
-{`SELECT 
+                </pre>
+              </div>
+              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
+                <h4 className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                  Monthly Hours
+                </h4>
+                <pre className="text-xs mt-2 text-gray-700 dark:text-gray-300 overflow-x-auto">
+                  {`SELECT 
   e.name,
   SUM(a.hours_worked) as total_hours,
   CASE 
@@ -415,27 +508,29 @@ JOIN employees e ON a.employee_id = e.employee_id
 WHERE EXTRACT(MONTH FROM a.date) = 6
   AND EXTRACT(YEAR FROM a.date) = 2023
 GROUP BY e.name;`}
-                  </pre>
-                </div>
+                </pre>
               </div>
+            </div>
 
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Business Impact</h3>
-                <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
-                  <li className="flex items-start">
-                    <span className="text-indigo-500 mr-2">•</span>
-                    <span>Streamlined payroll processing with accurate data</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-indigo-500 mr-2">•</span>
-                    <span>Better compliance with labor regulations</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-indigo-500 mr-2">•</span>
-                    <span>Improved workforce planning and budgeting</span>
-                  </li>
-                </ul>
-              </div>
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                Business Impact
+              </h3>
+              <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                <li className="flex items-start">
+                  <span className="text-indigo-500 mr-2">•</span>
+                  <span>Streamlined payroll processing with accurate data</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-indigo-500 mr-2">•</span>
+                  <span>Better compliance with labor regulations</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-indigo-500 mr-2">•</span>
+                  <span>Improved workforce planning and budgeting</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -443,9 +538,11 @@ GROUP BY e.name;`}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Before Automation</h3>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                Before Automation
+              </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                <img 
+                <img
                   src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
                   alt="Manual attendance tracking process"
                   className="w-full h-full object-contain p-4"
@@ -462,9 +559,11 @@ GROUP BY e.name;`}
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">After Automation</h3>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                After Automation
+              </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                <img 
+                <img
                   src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
                   alt="Automated attendance dashboard"
                   className="w-full h-full object-contain p-4"

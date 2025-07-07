@@ -18,7 +18,8 @@ const colorClasses = {
   primary: 'border-t-blue-500 border-r-blue-500 border-b-transparent border-l-transparent',
   secondary: 'border-t-purple-500 border-r-purple-500 border-b-transparent border-l-transparent',
   white: 'border-t-white border-r-white border-b-transparent border-l-transparent',
-  black: 'border-t-gray-900 border-r-gray-900 border-b-transparent border-l-transparent dark:border-t-gray-100 dark:border-r-gray-100',
+  black:
+    'border-t-gray-900 border-r-gray-900 border-b-transparent border-l-transparent dark:border-t-gray-100 dark:border-r-gray-100',
 };
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
@@ -29,7 +30,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   label = 'Loading...',
 }) => {
   const spinner = (
-    <div 
+    <div
       className={`inline-block animate-spin rounded-full ${sizeClasses[size]} ${colorClasses[color]} ${className}`}
       role="status"
       aria-label={label}
@@ -40,7 +41,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
   if (fullScreen) {
     return (
-      <div 
+      <div
         className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
         role="status"
         aria-busy="true"
@@ -48,9 +49,7 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       >
         {spinner}
         {label && (
-          <p className="mt-4 text-sm font-medium text-gray-700 dark:text-gray-300">
-            {label}
-          </p>
+          <p className="mt-4 text-sm font-medium text-gray-700 dark:text-gray-300">{label}</p>
         )}
       </div>
     );

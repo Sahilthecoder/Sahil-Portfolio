@@ -1,7 +1,7 @@
 /**
  * Helper function to generate correct image paths that work in both development and production.
  * Uses relative paths for development and absolute paths with base URL for production.
- * 
+ *
  * @param {string} type - Type of image ('project', 'profile', 'logo', 'favicon', 'apple-touch-icon', 'fallback')
  * @param {string} [id] - Folder/project ID (for 'project' type)
  * @param {string} [imageName] - Name of the image file (for 'project' type)
@@ -11,10 +11,10 @@ const getImagePath = (type, id, imageName) => {
   // In development, use relative paths. In production, use absolute paths with base URL
   const isProduction = import.meta.env.PROD;
   const base = isProduction ? '/Sahil-Portfolio/' : '/';
-  
+
   // Ensure base path has a single trailing slash
   const normalizedBase = base.endsWith('/') ? base : `${base}/`;
-  
+
   // Define paths for different environments
   const paths = {
     development: {
@@ -24,7 +24,7 @@ const getImagePath = (type, id, imageName) => {
       favicon: '/images/favicon-32x32.png',
       appleTouchIcon: '/images/apple-touch-icon.png',
       fallback: '/images/profile-fallback.png',
-      default: '/images/fallback-image.jpg'
+      default: '/images/fallback-image.jpg',
     },
     production: {
       profile: `${normalizedBase}images/profile.svg`,
@@ -33,8 +33,8 @@ const getImagePath = (type, id, imageName) => {
       favicon: `${normalizedBase}images/favicon-32x32.png`,
       appleTouchIcon: `${normalizedBase}images/apple-touch-icon.png`,
       fallback: `${normalizedBase}images/profile-fallback.png`,
-      default: `${normalizedBase}images/fallback-image.jpg`
-    }
+      default: `${normalizedBase}images/fallback-image.jpg`,
+    },
   };
 
   const env = isProduction ? 'production' : 'development';
@@ -47,7 +47,10 @@ const getImagePath = (type, id, imageName) => {
           return paths[env].default;
         }
         const cleanImageName = imageName.split('?')[0]; // Remove any query params
-        return `${paths[env].base || ''}images/projects/${id}/${cleanImageName}`.replace(/\/\//g, '/');
+        return `${paths[env].base || ''}images/projects/${id}/${cleanImageName}`.replace(
+          /\/\//g,
+          '/'
+        );
       }
 
       case 'profile':

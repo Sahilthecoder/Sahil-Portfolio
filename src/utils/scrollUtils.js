@@ -11,10 +11,10 @@ export const scrollToSection = (selector, offset = 80) => {
     const headerHeight = header ? header.offsetHeight : offset;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-    
+
     window.scrollTo({
       top: offsetPosition,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
     return true;
   }
@@ -28,6 +28,6 @@ export const scrollToSection = (selector, offset = 80) => {
 export const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth'
+    behavior: 'smooth',
   });
 };

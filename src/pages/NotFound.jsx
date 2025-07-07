@@ -48,17 +48,21 @@ const NotFound = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center px-4 text-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center px-4 text-center ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}
+    >
       <motion.div
         initial="hidden"
         animate="visible"
         variants={containerVariants}
         className="max-w-2xl w-full p-8 rounded-2xl shadow-2xl"
         style={{
-          background: isDarkMode 
-            ? 'linear-gradient(145deg, #1f2937, #111827)' 
+          background: isDarkMode
+            ? 'linear-gradient(145deg, #1f2937, #111827)'
             : 'linear-gradient(145deg, #ffffff, #f3f4f6)',
-          border: isDarkMode ? '1px solid rgba(75, 85, 99, 0.3)' : '1px solid rgba(209, 213, 219, 0.5)'
+          border: isDarkMode
+            ? '1px solid rgba(75, 85, 99, 0.3)'
+            : '1px solid rgba(209, 213, 219, 0.5)',
         }}
       >
         {/* 404 Text */}
@@ -72,18 +76,16 @@ const NotFound = () => {
         </motion.div>
 
         {/* Message */}
-        <motion.p 
+        <motion.p
           variants={itemVariants}
           className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg mx-auto"
         >
-          The page you're looking for might have been removed, had its name changed, or is temporarily unavailable.
+          The page you're looking for might have been removed, had its name changed, or is
+          temporarily unavailable.
         </motion.p>
 
         {/* Search Bar */}
-        <motion.div 
-          variants={itemVariants}
-          className="mb-8 max-w-md mx-auto"
-        >
+        <motion.div variants={itemVariants} className="mb-8 max-w-md mx-auto">
           <div className="relative">
             <input
               type="text"
@@ -95,7 +97,7 @@ const NotFound = () => {
         </motion.div>
 
         {/* Action Buttons */}
-        <motion.div 
+        <motion.div
           variants={itemVariants}
           className="flex flex-col sm:flex-row justify-center gap-4 mt-8"
         >
@@ -109,7 +111,7 @@ const NotFound = () => {
             <FaArrowLeft />
             Go Back
           </motion.button>
-          
+
           <Link to={withBasePath('/')}>
             <motion.div
               variants={buttonVariants}
@@ -124,23 +126,17 @@ const NotFound = () => {
         </motion.div>
 
         {/* Additional Help */}
-        <motion.div 
+        <motion.div
           variants={itemVariants}
           className="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700"
         >
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Need help?</p>
           <div className="flex justify-center gap-4">
-            <a 
-              href="mailto:contact@sahilali.dev" 
-              className="text-blue-500 hover:underline text-sm"
-            >
+            <a href="mailto:contact@sahilali.dev" className="text-blue-500 hover:underline text-sm">
               Contact Support
             </a>
             <span className="text-gray-400">|</span>
-            <Link 
-              to={withBasePath('/sitemap')} 
-              className="text-blue-500 hover:underline text-sm"
-            >
+            <Link to={withBasePath('/sitemap')} className="text-blue-500 hover:underline text-sm">
               View Sitemap
             </Link>
           </div>

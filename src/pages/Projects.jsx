@@ -6,44 +6,39 @@ import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
 import Footer from '../components/Footer';
 
 // Icons
-import { 
-  FaGithub, 
-  FaExternalLinkAlt, 
-  FaTimes, 
-  FaArrowUp, 
-  FaSearch, 
-  FaFilePdf, 
-  FaLaptopCode, 
-  FaArrowRight, 
-  FaDatabase, 
+import {
+  FaGithub,
+  FaExternalLinkAlt,
+  FaTimes,
+  FaArrowUp,
+  FaSearch,
+  FaFilePdf,
+  FaLaptopCode,
+  FaArrowRight,
+  FaDatabase,
   FaChartLine,
-  FaMicrosoft 
+  FaMicrosoft,
 } from 'react-icons/fa';
 
-import { 
-  FiArrowRight,
-  FiFigma,
-  FiArrowDown,
-  FiTrendingUp
-} from 'react-icons/fi';
+import { FiArrowRight, FiFigma, FiArrowDown, FiTrendingUp } from 'react-icons/fi';
 
-import { 
-  SiTableau, 
-  SiPython, 
-  SiReact, 
-  SiJavascript, 
-  SiHtml5, 
-  SiCss3, 
-  SiGit, 
-  SiGithub, 
-  SiNotion, 
-  SiZapier, 
-  SiOpenai, 
-  SiDocker, 
-  SiStreamlit, 
-  SiD3Dotjs, 
-  SiTensorflow, 
-  SiNextdotjs 
+import {
+  SiTableau,
+  SiPython,
+  SiReact,
+  SiJavascript,
+  SiHtml5,
+  SiCss3,
+  SiGit,
+  SiGithub,
+  SiNotion,
+  SiZapier,
+  SiOpenai,
+  SiDocker,
+  SiStreamlit,
+  SiD3Dotjs,
+  SiTensorflow,
+  SiNextdotjs,
 } from 'react-icons/si';
 
 import { BsFileEarmarkExcel } from 'react-icons/bs';
@@ -66,50 +61,50 @@ const GlitchText = ({ children }) => {
 
 // Tech stack icons mapping
 const techIcons = {
-  'Tableau': <SiTableau />,
+  Tableau: <SiTableau />,
   'Power BI': <FaChartLine />,
-  'Python': <SiPython />,
-  'React': <SiReact />,
-  'JavaScript': <SiJavascript />,
-  'HTML5': <SiHtml5 />,
-  'CSS3': <SiCss3 />,
-  'Git': <SiGit />,
-  'GitHub': <SiGithub />,
-  'Notion': <SiNotion />,
-  'Zapier': <SiZapier />,
-  'OpenAI': <SiOpenai />,
-  'Figma': <FiFigma />,
-  'Excel': <BsFileEarmarkExcel />,
+  Python: <SiPython />,
+  React: <SiReact />,
+  JavaScript: <SiJavascript />,
+  HTML5: <SiHtml5 />,
+  CSS3: <SiCss3 />,
+  Git: <SiGit />,
+  GitHub: <SiGithub />,
+  Notion: <SiNotion />,
+  Zapier: <SiZapier />,
+  OpenAI: <SiOpenai />,
+  Figma: <FiFigma />,
+  Excel: <BsFileEarmarkExcel />,
   'Data Analysis': <FaChartLine />,
   'Market Strategy': <FaChartLine />,
   'Scikit-learn': <SiPython />,
-  'Pandas': <SiPython />,
-  'XGBoost': <SiPython />,
-  'TensorFlow': <SiPython />,
-  'Prophet': <SiPython />,
-  'SQL': <FaDatabase />,
-  'PyTorch': <SiPython />,
+  Pandas: <SiPython />,
+  XGBoost: <SiPython />,
+  TensorFlow: <SiPython />,
+  Prophet: <SiPython />,
+  SQL: <FaDatabase />,
+  PyTorch: <SiPython />,
   'Azure ML': <FaMicrosoft />,
-  'OpenCV': <SiPython />,
-  'FastAPI': <SiPython />,
-  'Docker': <SiDocker />,
-  'Streamlit': <SiStreamlit />,
+  OpenCV: <SiPython />,
+  FastAPI: <SiPython />,
+  Docker: <SiDocker />,
+  Streamlit: <SiStreamlit />,
   'D3.js': <SiD3Dotjs />,
   'TensorFlow.js': <SiTensorflow />,
-  'Next.js': <SiNextdotjs />
+  'Next.js': <SiNextdotjs />,
 };
 
 // Project card component
 const ProjectCard = ({ project, index, onClick }) => {
   // Use React Router's useNavigate for client-side navigation
   const navigate = useNavigate();
-  
+
   // Handle click to show project preview
   const handleClick = (e) => {
     // Prevent default action and stop propagation
     e.preventDefault();
     e.stopPropagation();
-    
+
     // Only proceed if the click is not on a link or button
     if (!e.target.closest('a, button, h3')) {
       // Call the onClick handler from parent to show the modal
@@ -118,12 +113,12 @@ const ProjectCard = ({ project, index, onClick }) => {
       }
     }
   };
-  
+
   // Handle direct navigation for title and other interactive elements
   const handleDirectNavigation = (e, path) => {
     e.stopPropagation();
     if (!path) return;
-    
+
     if (path.startsWith('http')) {
       window.open(path, '_blank');
     } else {
@@ -145,18 +140,18 @@ const ProjectCard = ({ project, index, onClick }) => {
         className="h-full"
         transitionSpeed={1000}
       >
-        <motion.div 
+        <motion.div
           className="h-full bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200/80 dark:border-gray-700/50 hover:border-indigo-400/70 dark:hover:border-blue-400/40 transition-all duration-300 group relative shadow-sm hover:shadow-xl"
-          whileHover={{ 
+          whileHover={{
             y: -8,
-            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04)'
+            boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04)',
           }}
           onClick={handleClick}
         >
           {/* Enhanced glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
-          
+
           {/* Project image */}
           <div className="relative pt-[56.25%] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
@@ -182,7 +177,9 @@ const ProjectCard = ({ project, index, onClick }) => {
                       transition={{ delay: idx * 0.05, duration: 0.3 }}
                       className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-200 shadow-sm cursor-default"
                     >
-                      <span className="text-blue-500 mr-1.5">{techIcons[tech] || tech.charAt(0)}</span>
+                      <span className="text-blue-500 mr-1.5">
+                        {techIcons[tech] || tech.charAt(0)}
+                      </span>
                       <span>{tech}</span>
                     </motion.span>
                   ))}
@@ -190,7 +187,7 @@ const ProjectCard = ({ project, index, onClick }) => {
               </div>
             </div>
           </div>
-          
+
           {/* Project info */}
           <div className="p-5 sm:p-6 bg-white dark:bg-gray-800">
             <div className="flex items-center justify-between mb-3">
@@ -206,18 +203,23 @@ const ProjectCard = ({ project, index, onClick }) => {
                 {project.year}
               </span>
             </div>
-            
-            <h3 
+
+            <h3
               className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2"
-              onClick={(e) => handleDirectNavigation(e, project.id ? `/projects/${project.id}` : project.projectUrl)}
+              onClick={(e) =>
+                handleDirectNavigation(
+                  e,
+                  project.id ? `/projects/${project.id}` : project.projectUrl
+                )
+              }
             >
               {project.title}
             </h3>
-            
+
             <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
               {project.shortDescription}
             </p>
-            
+
             <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
               <motion.button
                 onClick={(e) => {
@@ -226,10 +228,10 @@ const ProjectCard = ({ project, index, onClick }) => {
                     onClick(project);
                   }
                 }}
-                whileHover={{ 
+                whileHover={{
                   scale: 1.03,
                   y: -2,
-                  boxShadow: '0 4px 16px rgba(79, 70, 229, 0.1)'
+                  boxShadow: '0 4px 16px rgba(79, 70, 229, 0.1)',
                 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group/button"
@@ -250,7 +252,7 @@ const ProjectCard = ({ project, index, onClick }) => {
 // Project modal component
 const ProjectModal = ({ project, onClose }) => {
   const [selectedImage, setSelectedImage] = useState(null);
-  
+
   const openImage = (img) => setSelectedImage(img);
   const closeImage = () => setSelectedImage(null);
   if (!project) return null;
@@ -269,7 +271,7 @@ const ProjectModal = ({ project, onClose }) => {
           aria-hidden="true"
           onClick={onClose}
         />
-        
+
         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
           &#8203;
         </span>
@@ -283,7 +285,7 @@ const ProjectModal = ({ project, onClose }) => {
           style={{
             maxHeight: '90vh',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
           }}
         >
           <div className="relative flex-shrink-0">
@@ -297,7 +299,7 @@ const ProjectModal = ({ project, onClose }) => {
                 <FaTimes className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
             </div>
-            
+
             {/* View Project button in bottom right */}
             {project.path && (
               <div className="absolute bottom-6 right-6 z-10">
@@ -324,7 +326,7 @@ const ProjectModal = ({ project, onClose }) => {
                 </motion.div>
               </div>
             )}
-            
+
             <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
               <div className="w-full h-full flex items-center justify-center p-0">
                 <img
@@ -341,9 +343,9 @@ const ProjectModal = ({ project, onClose }) => {
                       projectId: project.id,
                       imagePath: project.image,
                       resolvedPath: imgSrc,
-                      error: 'Image load failed'
+                      error: 'Image load failed',
                     });
-                    
+
                     // Try to load a placeholder if available
                     const placeholderPath = project.previewImage || project.image;
                     if (placeholderPath && placeholderPath !== imgSrc) {
@@ -372,7 +374,9 @@ const ProjectModal = ({ project, onClose }) => {
                         transition={{ delay: idx * 0.05 }}
                         className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm select-none"
                       >
-                        <span className="text-xs sm:text-sm">{techIcons[tech] || techIcons['Data Analysis']}</span>
+                        <span className="text-xs sm:text-sm">
+                          {techIcons[tech] || techIcons['Data Analysis']}
+                        </span>
                         <span className="ml-1 sm:ml-1.5">{tech}</span>
                       </motion.span>
                     ))}
@@ -400,15 +404,17 @@ const ProjectModal = ({ project, onClose }) => {
                   <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                     {project.description}
                   </p>
-                  
+
                   {/* Gallery Section */}
                   {project.gallery && project.gallery.length > 0 && (
                     <div className="mt-4 sm:mt-6">
-                      <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2 sm:mb-3">Project Gallery</h3>
+                      <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2 sm:mb-3">
+                        Project Gallery
+                      </h3>
                       <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 gap-1.5 sm:gap-2">
                         {project.gallery.map((img, index) => (
-                          <motion.div 
-                            key={index} 
+                          <motion.div
+                            key={index}
                             className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 aspect-square cursor-pointer touch-pan-y"
                             onClick={() => openImage(img)}
                             whileTap={{ scale: 0.98 }}
@@ -422,7 +428,9 @@ const ProjectModal = ({ project, onClose }) => {
                               className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
                               loading="lazy"
                               onLoad={(e) => {
-                                console.log(`✅ Successfully loaded gallery image: ${e.target.src}`);
+                                console.log(
+                                  `✅ Successfully loaded gallery image: ${e.target.src}`
+                                );
                               }}
                               onError={(e) => {
                                 const imgSrc = e.target.src;
@@ -430,13 +438,15 @@ const ProjectModal = ({ project, onClose }) => {
                                   projectId: project.id,
                                   imagePath: img,
                                   resolvedPath: imgSrc,
-                                  error: 'Gallery image load failed'
+                                  error: 'Gallery image load failed',
                                 });
-                                
+
                                 // Try to load a placeholder if available
                                 const placeholderPath = project.previewImage || project.image;
                                 if (placeholderPath && placeholderPath !== imgSrc) {
-                                  console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
+                                  console.log(
+                                    `🔄 Attempting to load placeholder: ${placeholderPath}`
+                                  );
                                   e.target.src = placeholderPath;
                                 } else {
                                   // Fallback to a solid color if no placeholder
@@ -444,13 +454,16 @@ const ProjectModal = ({ project, onClose }) => {
                                   e.target.style.display = 'flex';
                                   e.target.style.alignItems = 'center';
                                   e.target.style.justifyContent = 'center';
-                                  e.target.innerHTML = '<span class="text-xs text-gray-500">Image not found</span>';
+                                  e.target.innerHTML =
+                                    '<span class="text-xs text-gray-500">Image not found</span>';
                                 }
                               }}
                             />
                             <div className="absolute inset-0 bg-black/20 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-1 sm:space-y-2">
                               <FaExternalLinkAlt className="text-white text-lg sm:text-xl" />
-                              <span className="text-white text-xs sm:text-sm font-medium text-center px-1">View Full Size</span>
+                              <span className="text-white text-xs sm:text-sm font-medium text-center px-1">
+                                View Full Size
+                              </span>
                             </div>
                           </motion.div>
                         ))}
@@ -458,7 +471,7 @@ const ProjectModal = ({ project, onClose }) => {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="mt-6 md:mt-0 flex space-x-4">
                   {project.githubUrl && (
                     <a
@@ -487,7 +500,9 @@ const ProjectModal = ({ project, onClose }) => {
 
               {project.features && (
                 <div className="mt-8">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Key Features</h3>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                    Key Features
+                  </h3>
                   <ul className="space-y-2">
                     {project.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
@@ -506,15 +521,18 @@ const ProjectModal = ({ project, onClose }) => {
       {/* Image Lightbox */}
       <AnimatePresence>
         {selectedImage && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
             onClick={closeImage}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="relative max-w-4xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
-              <button 
+            <div
+              className="relative max-w-4xl w-full max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
                 onClick={closeImage}
                 className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
                 aria-label="Close"
@@ -547,89 +565,96 @@ const projects = [
     id: 'zomato-expansion',
     title: 'Zomato Restaurant Expansion Analysis',
     shortDescription: 'Market Strategy Dashboard in Excel',
-    description: 'Built an interactive Excel dashboard to analyze Zomato\'s city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.',
+    description:
+      "Built an interactive Excel dashboard to analyze Zomato's city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.",
     techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
     icon: 'Excel',
     image: '/images/projects/Project1 excel/Project1 Cover.avif',
     previewImage: '/images/projects/Project1 excel/Project1 Cover.avif',
     link: 'project1.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'bansal-supermarket',
     title: 'Bansal Supermarket Sales Analysis',
     shortDescription: 'Sales Performance Insights in Tableau',
-    description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
+    description:
+      'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
     techStack: ['Tableau', 'Data Analysis', 'Sales Analytics'],
     icon: 'Tableau',
     image: '/images/projects/Project2 tableau/Project2 Cover.avif',
     previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
     link: 'project2.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'ekam-attendance',
     title: 'Ekam Attendance Tracker',
     shortDescription: 'HR & Finance Automation with SQL + Sheets',
-    description: 'Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia. Reduced manual reporting time by 80% monthly for HR and accounts.',
+    description:
+      'Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia. Reduced manual reporting time by 80% monthly for HR and accounts.',
     techStack: ['SQL', 'Google Sheets', 'Automation'],
     icon: 'SQL',
     image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     link: 'project3.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'cash-flow-dashboard',
     title: 'Daily Cash Flow Dashboard',
     shortDescription: 'Retail Finance Tracker in Power BI',
-    description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
+    description:
+      'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
     techStack: ['Power BI', 'Finance', 'Data Visualization'],
     icon: 'Power BI',
     image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
     previewImage: '/images/projects/Project4 Power BI/Project4 Cover.avif',
     additionalImages: [
       '/images/projects/Project4 Power BI/CashFlow1.avif',
-      '/images/projects/Project4 Power BI/CashFlow2.avif'
+      '/images/projects/Project4 Power BI/CashFlow2.avif',
     ],
     link: 'project4.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'ai-daily-planner',
     title: 'AI Daily Decision System',
     shortDescription: 'AI-Powered Planning with GPT + Notion',
-    description: 'Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking. Saved 2+ hours daily by automating decisions and personal workflows.',
+    description:
+      'Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking. Saved 2+ hours daily by automating decisions and personal workflows.',
     techStack: ['GPT', 'Notion', 'Automation'],
     icon: 'Notion',
     image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     previewImage: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     link: 'project5.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'smart-automation',
     title: 'Smart Automation Suite',
     shortDescription: 'Business Workflow Automation with GPT + Zapier',
-    description: 'Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use. Saved 15+ hours/month by eliminating repetitive manual work.',
+    description:
+      'Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use. Saved 15+ hours/month by eliminating repetitive manual work.',
     techStack: ['Zapier', 'GPT', 'Automation'],
     icon: 'Zapier',
     image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
     previewImage: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
     link: 'project6.html',
     githubLink: '',
-    featured: true
+    featured: true,
   },
   {
     id: 'mahira-portfolio',
-    title: 'Mahira\'s GitHub Portfolio',
+    title: "Mahira's GitHub Portfolio",
     shortDescription: 'AI-Enhanced Personal Website',
-    description: 'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
+    description:
+      'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['Web Development', 'AI Integration', 'UI/UX Design'],
     icon: 'GitHub',
     image: '/images/projects/Mahira Portfolio Web+AI/Project7 Cover.avif',
@@ -637,8 +662,8 @@ const projects = [
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: '',
     featured: true,
-    external: true
-  }
+    external: true,
+  },
 ];
 
 const Projects = () => {
@@ -652,27 +677,27 @@ const Projects = () => {
   // Filter projects based on search term and active filter
   const filteredProjects = useMemo(() => {
     let result = [...projects];
-    
+
     // Apply search term filter
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
-      result = result.filter(project => 
-        project.title.toLowerCase().includes(term) ||
-        project.description.toLowerCase().includes(term) ||
-        project.techStack.some(tech => tech.toLowerCase().includes(term))
+      result = result.filter(
+        (project) =>
+          project.title.toLowerCase().includes(term) ||
+          project.description.toLowerCase().includes(term) ||
+          project.techStack.some((tech) => tech.toLowerCase().includes(term))
       );
     }
-    
+
     // Apply category filter
     if (activeFilter !== 'all') {
-      result = result.filter(project => 
-        project.categories?.includes(activeFilter) ||
-        project.techStack?.some(tech => 
-          tech.toLowerCase() === activeFilter.toLowerCase()
-        )
+      result = result.filter(
+        (project) =>
+          project.categories?.includes(activeFilter) ||
+          project.techStack?.some((tech) => tech.toLowerCase() === activeFilter.toLowerCase())
       );
     }
-    
+
     return result;
   }, [searchTerm, activeFilter]);
 
@@ -713,25 +738,26 @@ const Projects = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-      <SEO 
+      <SEO
         title="Projects | Sahil Ali"
         description="Explore my portfolio of data analysis, visualization, and automation projects."
       />
-      
+
       <ModernNavbar />
-      
+
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
         {/* Data-themed background pattern */}
-        <div 
-          className="absolute inset-0 opacity-10 dark:opacity-[0.03]" 
+        <div
+          className="absolute inset-0 opacity-10 dark:opacity-[0.03]"
           style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%233b82f6\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")',
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
             backgroundSize: '150px',
-            zIndex: 0
+            zIndex: 0,
           }}
         ></div>
-        
+
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
           <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
@@ -739,7 +765,7 @@ const Projects = () => {
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div 
+            <motion.div
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -749,7 +775,7 @@ const Projects = () => {
               <span>Portfolio Showcase</span>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -758,13 +784,14 @@ const Projects = () => {
               My Projects
             </motion.h1>
 
-            <motion.p 
+            <motion.p
               className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              A collection of my work showcasing data analysis, visualization, and automation projects.
+              A collection of my work showcasing data analysis, visualization, and automation
+              projects.
             </motion.p>
           </div>
         </div>
@@ -774,7 +801,7 @@ const Projects = () => {
       <section className="py-12 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           {/* Search and Filter */}
-          <motion.div 
+          <motion.div
             className="max-w-4xl mx-auto mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -814,20 +841,16 @@ const Projects = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
             </div>
           ) : (
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
               variants={container}
               initial="hidden"
               animate="show"
             >
               {filteredProjects.map((project, index) => (
-                <motion.div 
-                  key={project.id} 
-                  variants={item}
-                  className="h-full"
-                >
-                  <ProjectCard 
-                    project={project} 
+                <motion.div key={project.id} variants={item} className="h-full">
+                  <ProjectCard
+                    project={project}
                     index={index}
                     onClick={(project) => setSelectedProject(project)}
                   />
@@ -835,16 +858,20 @@ const Projects = () => {
               ))}
             </motion.div>
           )}
-          
+
           {filteredProjects.length === 0 && !isLoading && (
-            <motion.div 
+            <motion.div
               className="text-center py-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400">No projects found</h3>
-              <p className="mt-2 text-gray-500 dark:text-gray-500">Try adjusting your search or filter criteria</p>
+              <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400">
+                No projects found
+              </h3>
+              <p className="mt-2 text-gray-500 dark:text-gray-500">
+                Try adjusting your search or filter criteria
+              </p>
             </motion.div>
           )}
         </div>
@@ -853,10 +880,7 @@ const Projects = () => {
       {/* Project Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
-          />
+          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
         )}
       </AnimatePresence>
 

@@ -18,10 +18,10 @@ const scrollToSection = (path) => {
       const headerHeight = header ? header.offsetHeight : 80;
       const elementPosition = section.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerHeight - 20;
-      
+
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
       return true;
     }
@@ -41,7 +41,7 @@ const HeroSection = ({
   children,
 }) => {
   const navigate = useNavigate();
-  
+
   // Handle button click with smooth scroll or navigation
   const handleButtonClick = (e, button) => {
     // If it's an external link or has a custom click handler, let it behave normally
@@ -49,14 +49,14 @@ const HeroSection = ({
       if (button.onClick) button.onClick(e);
       return;
     }
-    
+
     // Check if it's a hash link and handle smooth scrolling
     if (button.link.startsWith('#')) {
       e.preventDefault();
       const scrolled = scrollToSection(button.link);
       if (scrolled) return;
     }
-    
+
     // For regular internal links
     if (button.link && !button.link.startsWith('http')) {
       e.preventDefault();
@@ -78,8 +78,8 @@ const HeroSection = ({
 
   const item = {
     hidden: { opacity: 0, y: 20 },
-    show: { 
-      opacity: 1, 
+    show: {
+      opacity: 1,
       y: 0,
       transition: {
         type: 'spring',
@@ -100,7 +100,7 @@ const HeroSection = ({
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Grid background */}
       <div className="absolute inset-0 bg-grid-pattern" style={{ zIndex: 1 }}></div>
-      
+
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-900/10 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
@@ -109,18 +109,15 @@ const HeroSection = ({
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div 
+        <motion.div
           className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 xl:gap-24"
           variants={container}
           initial="hidden"
           animate="show"
         >
           {/* Text Content */}
-          <motion.div 
-            className="w-full lg:w-1/2 text-center lg:text-left"
-            variants={item}
-          >
-            <motion.div 
+          <motion.div className="w-full lg:w-1/2 text-center lg:text-left" variants={item}>
+            <motion.div
               className="inline-block mb-6 px-4 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -128,16 +125,16 @@ const HeroSection = ({
             >
               Welcome to my portfolio
             </motion.div>
-            
-            <motion.h1 
+
+            <motion.h1
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:to-cyan-300"
               variants={item}
             >
               {title}
             </motion.h1>
-            
+
             {subtitle && (
-              <motion.p 
+              <motion.p
                 className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-6 leading-relaxed font-medium"
                 variants={item}
               >
@@ -146,9 +143,9 @@ const HeroSection = ({
                 </span>
               </motion.p>
             )}
-            
+
             {description && (
-              <motion.p 
+              <motion.p
                 className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
                 variants={item}
               >
@@ -156,10 +153,7 @@ const HeroSection = ({
               </motion.p>
             )}
 
-            <motion.div 
-              className="hero-buttons"
-              variants={item}
-            >
+            <motion.div className="hero-buttons" variants={item}>
               {/* Primary CTA Button */}
               {primaryButton && (
                 <Link
@@ -194,15 +188,19 @@ const HeroSection = ({
             </motion.div>
 
             {/* Social Links */}
-            <motion.div 
+            <motion.div
               className="flex justify-center lg:justify-start items-center gap-4 mt-8"
               variants={item}
             >
               {socialLinks.map((social, index) => {
-                const platform = social.url.includes('github') ? 'GitHub' : 
-                                social.url.includes('linkedin') ? 'LinkedIn' :
-                                social.url.includes('twitter') ? 'Twitter' : 'Link';
-                
+                const platform = social.url.includes('github')
+                  ? 'GitHub'
+                  : social.url.includes('linkedin')
+                    ? 'LinkedIn'
+                    : social.url.includes('twitter')
+                      ? 'Twitter'
+                      : 'Link';
+
                 return (
                   <motion.a
                     key={index}
@@ -225,7 +223,7 @@ const HeroSection = ({
 
           {/* Right Column - Image - Only shown when explicitly requested */}
           {showProfileImage && (
-            <motion.div 
+            <motion.div
               className="w-full lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -236,7 +234,7 @@ const HeroSection = ({
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="w-full h-full rounded-full overflow-hidden border-4 border-white/20 dark:border-gray-800/50 shadow-2xl">
                     <ImageWithFallback
-                      src={profileImage} 
+                      src={profileImage}
                       alt="Profile"
                       className="w-full h-full object-cover object-top"
                       fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
@@ -244,9 +242,9 @@ const HeroSection = ({
                     />
                   </div>
                 </div>
-                
+
                 {/* Decorative Elements */}
-                <motion.div 
+                <motion.div
                   className="absolute -bottom-4 -right-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-3 rounded-full shadow-xl z-10"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -254,8 +252,8 @@ const HeroSection = ({
                 >
                   <FaUserFriends className="w-6 h-6" />
                 </motion.div>
-                
-                <motion.div 
+
+                <motion.div
                   className="absolute -top-6 -left-6 w-16 h-16 bg-yellow-400 rounded-full opacity-20 dark:opacity-10"
                   animate={{
                     y: [0, -15, 0],

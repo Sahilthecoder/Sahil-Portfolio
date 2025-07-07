@@ -7,13 +7,15 @@ import getImagePath from '../utils/imagePaths';
 const ProjectDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const project = projects.find(p => p.id === id);
+  const project = projects.find((p) => p.id === id);
 
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Project not found</h2>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+            Project not found
+          </h2>
           <button
             onClick={() => navigate('/projects')}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -44,7 +46,11 @@ const ProjectDetails = () => {
           <div className="md:flex-shrink-0 md:w-1/2">
             <img
               className="h-full w-full object-cover md:w-full"
-              src={project.image.startsWith('http') ? project.image : getImagePath('project', project.id, project.image.split('/').pop())}
+              src={
+                project.image.startsWith('http')
+                  ? project.image
+                  : getImagePath('project', project.id, project.image.split('/').pop())
+              }
               alt={project.title}
             />
           </div>
@@ -55,10 +61,8 @@ const ProjectDetails = () => {
             <h1 className="mt-2 text-3xl font-extrabold text-gray-900 dark:text-white">
               {project.title}
             </h1>
-            <p className="mt-4 text-gray-600 dark:text-gray-300">
-              {project.description}
-            </p>
-            
+            <p className="mt-4 text-gray-600 dark:text-gray-300">{project.description}</p>
+
             <div className="mt-6">
               <h3 className="text-sm font-medium text-gray-900 dark:text-white">Technologies</h3>
               <div className="mt-2 flex flex-wrap gap-2">

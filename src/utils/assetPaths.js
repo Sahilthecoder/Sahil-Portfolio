@@ -8,12 +8,12 @@ const projectFolders = {
   'ai-planner': 'Project5 Gpt+Notion',
   'automation-suite': 'Project6 Gpt+Zapier',
   'mahira-portfolio': 'Mahira Portfolio Web+AI',
-  'ekam': 'Project3 Sql+Sheets', // Alias for 'ekam-attendance'
+  ekam: 'Project3 Sql+Sheets', // Alias for 'ekam-attendance'
   'inventory-optimization-ai': 'inventory-ai',
   'warehouse-automation': 'warehouse-automation',
   'supply-chain-visibility': 'supply-chain',
   'retail-inventory-analytics': 'retail-analytics',
-  'inventory-accuracy-audit': 'inventory-audit'
+  'inventory-accuracy-audit': 'inventory-audit',
 };
 
 /**
@@ -24,20 +24,20 @@ const projectFolders = {
  */
 export const getAssetPath = (path) => {
   if (!path) return '';
-  
+
   // If it's already a full URL or data URL, return as is
   if (path.startsWith('http') || path.startsWith('data:')) {
     return path;
   }
-  
+
   // Remove leading slash if present
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
-  
+
   // In development, assets are served from the root
   if (import.meta.env.DEV) {
     return `/${cleanPath}`;
   }
-  
+
   // In production, prepend the base URL
   return `/Sahil-Portfolio/${cleanPath}`;
 };
@@ -50,18 +50,18 @@ export const getAssetPath = (path) => {
  */
 export const getProjectImage = (projectId, imageName) => {
   if (!projectId || !imageName) return '';
-  
+
   // Get the folder name from projectFolders mapping, fallback to projectId
   const folderName = projectFolders[projectId] || projectId;
-  
+
   // Handle different image name formats
   let finalImageName = imageName;
-  
+
   // If imageName is a full path, extract just the filename
   if (imageName.includes('/')) {
     finalImageName = imageName.split('/').pop();
   }
-  
+
   // If no extension is provided, try to find a matching file
   if (!/\.(jpg|jpeg|png|gif|webp|avif)$/i.test(finalImageName)) {
     // Try to find a matching image with supported extensions
@@ -76,16 +76,16 @@ export const getProjectImage = (projectId, imageName) => {
         console.warn(`Image not found: ${testPath}`);
       }
     }
-    
+
     // If no image found, return the fallback path for the specific project
     if (projectId === 'zomato' || projectId === 'zomato-analysis') {
       return '/images/projects/Project1 excel/cover-fallback.jpg';
     }
-    
+
     // Default fallback
     return `/images/projects/${folderName}/cover-fallback.jpg`;
   }
-  
+
   // If we have a valid extension, return the full path
   return `/images/projects/${folderName}/${finalImageName}`;
 };

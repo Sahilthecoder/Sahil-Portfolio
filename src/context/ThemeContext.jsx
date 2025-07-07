@@ -12,21 +12,21 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     const savedAutoTheme = localStorage.getItem('autoTheme') === 'true';
-    
+
     if (savedTheme) {
       setTheme(savedTheme);
     } else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setTheme(prefersDark ? 'dark' : 'light');
     }
-    
+
     setAutoTheme(savedAutoTheme);
     setIsMounted(true);
   }, []);
 
   // Toggle between light and dark themes
   const toggleTheme = useCallback(() => {
-    setTheme(prevTheme => {
+    setTheme((prevTheme) => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
       return newTheme;
@@ -35,7 +35,7 @@ export const ThemeProvider = ({ children }) => {
 
   // Toggle auto theme
   const toggleAutoTheme = useCallback(() => {
-    setAutoTheme(prev => {
+    setAutoTheme((prev) => {
       const newValue = !prev;
       localStorage.setItem('autoTheme', newValue);
       return newValue;
@@ -45,16 +45,16 @@ export const ThemeProvider = ({ children }) => {
   // Apply theme classes to document
   useEffect(() => {
     if (!isMounted) return;
-    
+
     const root = document.documentElement;
-    
+
     // Remove all theme classes
     root.classList.remove('light', 'dark');
-    
+
     // Add current theme class
     root.classList.add(theme);
     root.setAttribute('data-theme', theme);
-    
+
     // Update CSS variables
     updateCSSVariables(theme);
   }, [theme, isMounted]);
@@ -62,36 +62,36 @@ export const ThemeProvider = ({ children }) => {
   // Update theme based on time of day when autoTheme is enabled
   useEffect(() => {
     if (!autoTheme) return;
-    
+
     const updateThemeBasedOnTime = () => {
       const hours = new Date().getHours();
       const isNightTime = hours < 6 || hours >= 18; // 6 PM to 6 AM
       const newTheme = isNightTime ? 'dark' : 'light';
-      
+
       if (theme !== newTheme) {
         setTheme(newTheme);
       }
     };
-    
+
     // Initial update
     updateThemeBasedOnTime();
-    
+
     // Set up interval for auto theme updates
     const intervalId = setInterval(updateThemeBasedOnTime, 300000); // Check every 5 minutes
-    
+
     return () => clearInterval(intervalId);
   }, [autoTheme, theme]);
 
   // Listen for system theme changes when autoTheme is enabled
   useEffect(() => {
     if (!autoTheme) return;
-    
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
       const newTheme = mediaQuery.matches ? 'dark' : 'light';
       setTheme(newTheme);
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, [autoTheme]);
@@ -99,7 +99,7 @@ export const ThemeProvider = ({ children }) => {
   // Update CSS variables based on theme
   const updateCSSVariables = (currentTheme) => {
     const root = document.documentElement;
-    
+
     if (currentTheme === 'dark') {
       // Dark theme variables
       root.style.setProperty('--bg-primary', '#0f172a'); // Slate 900
@@ -118,7 +118,8 @@ export const ThemeProvider = ({ children }) => {
       root.style.setProperty('--accent', '#3b82f6'); // Blue 500
       root.style.setProperty('--accent-hover', '#2563eb'); // Blue 600
       root.style.setProperty('--border-color', '#e2e8f0'); // Slate 200
-    } else { // futuristic
+    } else {
+      // futuristic
       // Futuristic theme with better contrast
       root.style.setProperty('--bg-primary', '#0f172a'); // Slate 900
       root.style.setProperty('--bg-secondary', '#1e1b4b'); // Indigo 950
@@ -146,14 +147,10 @@ export const ThemeProvider = ({ children }) => {
     toggleTheme,
     autoTheme,
     toggleAutoTheme,
-    isDark: theme === 'dark' || theme === 'futuristic'
+    isDark: theme === 'dark' || theme === 'futuristic',
   };
 
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;
 };
 
 // Custom hook for using the theme context

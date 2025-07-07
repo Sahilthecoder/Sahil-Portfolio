@@ -18,7 +18,7 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
   const [metrics, setMetrics] = useState<MetricData[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  
+
   const performanceData = usePerformanceMetrics();
 
   useEffect(() => {
@@ -129,9 +129,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
 
   const getOverallRating = () => {
     if (metrics.length === 0) return 'loading';
-    
-    const ratings = metrics.map(m => m.rating);
-    
+
+    const ratings = metrics.map((m) => m.rating);
+
     if (ratings.includes('poor')) return 'poor';
     if (ratings.includes('needs-improvement')) return 'needs-improvement';
     return 'good';
@@ -154,7 +154,7 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
     ) : null;
   }
 
-  const chartData = metrics.map(metric => ({
+  const chartData = metrics.map((metric) => ({
     name: metric.name,
     value: metric.value,
     thresholdGood: metric.thresholdGood,
@@ -167,7 +167,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
       {showDetails ? (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white">Performance Metrics</h3>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+              Performance Metrics
+            </h3>
             <div className="flex items-center">
               {lastUpdated && (
                 <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mr-3">
@@ -188,7 +190,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-gray-50 dark:bg-gray-900/30 p-4 rounded-lg">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Overall Performance</h4>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Overall Performance
+                </h4>
                 <div className={`flex items-center ${overallRatingColor}`}>
                   {overallRatingIcon}
                   <span className="ml-1 text-sm font-medium capitalize">
@@ -201,8 +205,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                   {metrics.length > 0 ? (
                     <>
                       {Math.round(
-                        (metrics.filter(m => m.rating === 'good').length / metrics.length) * 100
-                      )}%
+                        (metrics.filter((m) => m.rating === 'good').length / metrics.length) * 100
+                      )}
+                      %
                       <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-1">
                         metrics passed
                       </span>
@@ -215,7 +220,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
             </div>
 
             <div className="bg-gray-50 dark:bg-gray-900/30 p-4 rounded-lg">
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">Key Metrics</h4>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                Key Metrics
+              </h4>
               <div className="space-y-2">
                 {metrics.map((metric) => (
                   <div key={metric.name} className="flex items-center justify-between">
@@ -226,9 +233,7 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                       <span className={`text-sm font-mono ${getRatingColor(metric.rating)}`}>
                         {formatValue(metric.value, metric.unit)}
                       </span>
-                      <span className="ml-1">
-                        {getRatingIcon(metric.rating)}
-                      </span>
+                      <span className="ml-1">{getRatingIcon(metric.rating)}</span>
                     </div>
                   </div>
                 ))}
@@ -238,17 +243,21 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
 
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={chartData}
+                layout="vertical"
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
                 <XAxis type="number" hide />
-                <YAxis 
-                  dataKey="name" 
-                  type="category" 
-                  axisLine={false} 
-                  tickLine={false} 
+                <YAxis
+                  dataKey="name"
+                  type="category"
+                  axisLine={false}
+                  tickLine={false}
                   tick={{ fontSize: 12 }}
                   width={80}
                 />
-                <Tooltip 
+                <Tooltip
                   formatter={(value: number, name: string, props: any) => [
                     `${value.toLocaleString()}${props.payload.unit || ''}`,
                     props.payload.name,
@@ -256,29 +265,32 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                 />
                 <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={16}>
                   {chartData.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
+                    <Cell
+                      key={`cell-${index}`}
                       fill={
-                        entry.rating === 'good' ? '#10B981' : 
-                        entry.rating === 'needs-improvement' ? '#F59E0B' : '#EF4444'
-                      } 
+                        entry.rating === 'good'
+                          ? '#10B981'
+                          : entry.rating === 'needs-improvement'
+                            ? '#F59E0B'
+                            : '#EF4444'
+                      }
                     />
                   ))}
                 </Bar>
                 {chartData[0]?.thresholdGood && (
-                  <Bar 
-                    dataKey="thresholdGood" 
-                    fill="transparent" 
-                    stroke="#10B981" 
+                  <Bar
+                    dataKey="thresholdGood"
+                    fill="transparent"
+                    stroke="#10B981"
                     strokeDasharray="3 3"
                     activeBar={undefined}
                   />
                 )}
                 {chartData[0]?.thresholdNeedsImprovement && (
-                  <Bar 
-                    dataKey="thresholdNeedsImprovement" 
-                    fill="transparent" 
-                    stroke="#F59E0B" 
+                  <Bar
+                    dataKey="thresholdNeedsImprovement"
+                    fill="transparent"
+                    stroke="#F59E0B"
                     strokeDasharray="3 3"
                     activeBar={undefined}
                   />
@@ -309,11 +321,11 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg ${
-              overallRating === 'good' 
-                ? 'bg-green-500 hover:bg-green-600' 
+              overallRating === 'good'
+                ? 'bg-green-500 hover:bg-green-600'
                 : overallRating === 'needs-improvement'
-                ? 'bg-yellow-500 hover:bg-yellow-600'
-                : 'bg-red-500 hover:bg-red-600'
+                  ? 'bg-yellow-500 hover:bg-yellow-600'
+                  : 'bg-red-500 hover:bg-red-600'
             } text-white transition-colors duration-200`}
             aria-label="Toggle performance monitor"
           >
@@ -337,7 +349,9 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                 className="fixed bottom-20 right-4 z-50 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 p-4"
               >
                 <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">Performance Summary</h3>
+                  <h3 className="text-sm font-medium text-gray-900 dark:text-white">
+                    Performance Summary
+                  </h3>
                   <div className="flex items-center">
                     <div className={`flex items-center ${overallRatingColor} mr-2`}>
                       {overallRatingIcon}
@@ -350,13 +364,23 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                       className="text-gray-400 hover:text-gray-500"
                       aria-label="Close"
                     >
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </button>
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   {metrics.map((metric) => (
                     <div key={metric.name} className="text-sm">
@@ -369,20 +393,23 @@ const PerformanceMonitor: React.FC<{ showDetails?: boolean }> = ({ showDetails =
                         </span>
                       </div>
                       <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                        <div 
+                        <div
                           className={`h-1.5 rounded-full ${
-                            metric.rating === 'good' ? 'bg-green-500' :
-                            metric.rating === 'needs-improvement' ? 'bg-yellow-500' : 'bg-red-500'
+                            metric.rating === 'good'
+                              ? 'bg-green-500'
+                              : metric.rating === 'needs-improvement'
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
                           }`}
                           style={{
-                            width: `${Math.min(100, (metric.value / (metric.thresholdNeedsImprovement * 1.5)) * 100)}%`
+                            width: `${Math.min(100, (metric.value / (metric.thresholdNeedsImprovement * 1.5)) * 100)}%`,
                           }}
                         ></div>
                       </div>
                     </div>
                   ))}
                 </div>
-                
+
                 <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
                   <button
                     onClick={() => window.location.reload()}

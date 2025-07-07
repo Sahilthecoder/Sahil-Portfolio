@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router-dom';
 import App from './App';
+import { BASE_PATH } from './utils/paths';
 import './reset.css';
 import './App.css';
 import './styles/globals.css';
@@ -14,9 +15,10 @@ const container = document.getElementById('root');
 
 // Error handling for missing root element
 if (!container) {
-  const errorMsg = 'Critical Error: Failed to find the root element. Please check if public/index.html has a div with id="root"';
+  const errorMsg =
+    'Critical Error: Failed to find the root element. Please check if public/index.html has a div with id="root"';
   console.error(errorMsg);
-  
+
   // Create a visible error message in the DOM if root element is missing
   const errorDiv = document.createElement('div');
   errorDiv.style.position = 'fixed';
@@ -37,41 +39,91 @@ if (!container) {
   throw new Error(errorMsg);
 }
 
-// Set the base URL in a global variable for debugging
-window.__BASE_URL__ = baseUrl || '/';
-console.log('Application base URL:', window.__BASE_URL__);
+// Function to get the correct service worker URL and scope
+const getSwConfig = () => {
+  if (import.meta.env.DEV) {
+    // In development, don't register service worker by default
+    return null;
+  }
+
+  // In production, use the full URL with the correct base path
+  const base = BASE_PATH.endsWith('/') ? BASE_PATH : `${BASE_PATH}/`;
+  const swUrl = `${window.location.origin}${base}sw.js`;
+
+  return {
+    url: swUrl,
+    scope: base,
+  };
+};
 
 // Register service worker in production
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => {
-    // Use the base URL from the environment or fallback to the current path
-    const swPath = `${window.__BASE_URL__}sw.js`;
-    
-    navigator.serviceWorker.register(swPath, {
-      scope: window.__BASE_URL__
-    })
-    .then(registration => {
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    })
-    .catch(error => {
-      console.error('ServiceWorker registration failed: ', error);
-      // Fallback to unregister if registration fails
-      if (navigator.serviceWorker.getRegistrations) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          for (let registration of registrations) {
-            registration.unregister();
-          }
+if ('serviceWorker' in navigator) {
+  const swConfig = getSwConfig();
+
+  if (swConfig) {
+    const { url: swUrl, scope } = swConfig;
+
+    console.log('Service Worker URL:', swUrl);
+    console.log('Service Worker Scope:', scope);
+
+    const registerServiceWorker = () => {
+      if (!swUrl) return;
+
+      navigator.serviceWorker
+        .register(swUrl, { scope })
+        .then((registration) => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+          // Check for updates every hour
+          setInterval(
+            () => {
+              registration.update().catch((err) => {
+                console.log('ServiceWorker update check failed:', err);
+              });
+            },
+            60 * 60 * 1000
+          );
+        })
+        .catch((error) => {
+          console.error('ServiceWorker registration failed: ', error);
         });
+    };
+
+    // Unregister any existing service workers first
+    const unregisterServiceWorkers = () => {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+          console.log('ServiceWorker unregistered:', registration);
+        }
+      });
+    };
+
+    // Start with a clean slate
+    window.addEventListener('load', () => {
+      if (import.meta.env.PROD) {
+        unregisterServiceWorkers();
+        registerServiceWorker();
+      } else {
+        // In development, unregister any existing service workers
+        unregisterServiceWorkers();
       }
     });
-  });
+  } else if (import.meta.env.DEV) {
+    // In development, ensure no service workers are registered
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        for (const registration of registrations) {
+          registration.unregister();
+          console.log('Development: ServiceWorker unregistered:', registration);
+        }
+      });
+    });
+  }
 }
 
-// Create the root and render the app with HashRouter for GitHub Pages
-const root = createRoot(container);
-
 // Enhanced Error Boundary with better error handling
-class ErrorBoundary extends React.Component {
+export class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -99,9 +151,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg">
           <div className="text-center p-8 max-w-2xl">
-            <h1 className="text-2xl font-bold text-red-600 mb-4">
-              Something went wrong
-            </h1>
+            <h1 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h1>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               We're sorry, but an unexpected error occurred. The team has been notified.
             </p>
@@ -110,17 +160,86 @@ class ErrorBoundary extends React.Component {
               onClick={() => window.location.reload()}
             >
               Reload Page
-              Refresh Page
             </button>
           </div>
         </div>
       );
     }
 
-    return this.props.children; 
+    return this.props.children;
   }
 }
 
 // Set the base URL in a global variable for debugging
 window.__BASE_URL__ = baseUrl || '/';
 console.log('Application base URL:', window.__BASE_URL__);
+
+// Import ErrorBoundary from Sentry service
+import { ErrorBoundary } from './services/sentry';
+
+// Create a root and render the app
+const root = createRoot(container);
+
+try {
+  root.render(
+    <React.StrictMode>
+      <HashRouter basename={baseUrl}>
+        <ErrorBoundary 
+          fallback={({ error, componentStack }) => {
+            console.error('Error in App:', error, componentStack);
+            return (
+              <div style={{
+                padding: '20px', 
+                color: 'red',
+                maxWidth: '800px',
+                margin: '0 auto',
+                fontFamily: 'monospace',
+                whiteSpace: 'pre-wrap'
+              }}>
+                <h1>⚠️ Something went wrong</h1>
+                <p>{error?.toString()}</p>
+                <details style={{ marginTop: '20px' }}>
+                  <summary>Component Stack</summary>
+                  <pre style={{ 
+                    background: '#f5f5f5', 
+                    padding: '10px', 
+                    borderRadius: '4px',
+                    overflowX: 'auto'
+                  }}>
+                    {componentStack}
+                  </pre>
+                </details>
+              </div>
+            );
+          }}
+        >
+          <App />
+        </ErrorBoundary>
+      </HashRouter>
+    </React.StrictMode>
+  );
+  console.log('React application mounted successfully');
+} catch (error) {
+  console.error('Fatal error rendering app:', error);
+  root.render(
+    <div style={{
+      padding: '40px', 
+      color: 'white',
+      backgroundColor: '#dc2626',
+      minHeight: '100vh',
+      fontFamily: 'sans-serif',
+      lineHeight: '1.6'
+    }}>
+      <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>🚨 Critical Error</h1>
+      <p style={{ 
+        padding: '15px', 
+        backgroundColor: 'rgba(0,0,0,0.2)', 
+        borderRadius: '4px',
+        marginBottom: '20px'
+      }}>
+        {error?.toString()}
+      </p>
+      <p>Please check the browser console for more details.</p>
+    </div>
+  );
+}

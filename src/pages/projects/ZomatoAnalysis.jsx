@@ -1,88 +1,106 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChartLine, FaUtensils, FaStar, FaGlobeAmericas, FaSearchDollar, FaTable, FaArrowLeft, FaExternalLinkAlt, FaGithub, FaFileExcel, FaCheckCircle, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import {
+  FaChartLine,
+  FaUtensils,
+  FaStar,
+  FaGlobeAmericas,
+  FaSearchDollar,
+  FaTable,
+  FaArrowLeft,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaFileExcel,
+  FaCheckCircle,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const ZomatoAnalysis = () => {
   // State for image modal
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   // Image gallery data with dimensions (width, height)
   const basePath = import.meta.env.BASE_URL || '/';
-  const images = useMemo(() => [
-    { 
-      id: 'zomato-dashboard', 
-      name: 'zometo-ds', 
-      alt: 'Zomato Analysis Dashboard',
-      description: 'Interactive dashboard showing restaurant performance metrics',
-      insights: [
-        "Market share analysis by cuisine type",
-        "Customer rating distribution",
-        "Price range comparison"
-      ],
-      featured: true,
-      width: 1200,
-      height: 800,
-      aspectRatio: '16/9',
-      containerClass: 'h-80 md:h-96',
-      projectId: 'zomato',
-      ext: 'avif',
-      path: `${basePath}images/projects/Project1 excel/zometo-ds.avif`
-    },
-    { 
-      id: 'zomato-analysis-1', 
-      name: 'zt1', 
-      alt: 'Zomato Market Analysis',
-      description: 'Geographic distribution of restaurants and ratings',
-      insights: [
-        "Location-based performance metrics",
-        "Customer density heatmap",
-        "Competitive landscape analysis"
-      ],
-      featured: false,
-      width: 1200,
-      height: 800,
-      aspectRatio: '16/9',
-      containerClass: 'h-80 md:h-96',
-      projectId: 'zomato',
-      ext: 'avif',
-      path: `${basePath}images/projects/Project1 excel/zt1.avif`
-    },
-    { 
-      id: 'zomato-analysis-2', 
-      name: 'zt2', 
-      alt: 'Zomato Revenue Analysis',
-      description: 'Revenue and growth potential analysis',
-      insights: [
-        "Revenue by location",
-        "Growth trends analysis",
-        "Market opportunity assessment"
-      ],
-      featured: false,
-      width: 1200,
-      height: 800,
-      aspectRatio: '16/9',
-      containerClass: 'h-80 md:h-96',
-      projectId: 'zomato',
-      ext: 'avif',
-      path: `${basePath}images/projects/Project1 excel/zt2.avif`
-    },
-    { 
-      id: 'zomato-cover', 
-      name: 'Project1 Cover', 
-      alt: 'Zomato Analysis Cover',
-      description: 'Project cover image',
-      featured: true,
-      width: 1600,
-      height: 900,
-      aspectRatio: '16/9',
-      containerClass: 'h-96',
-      projectId: 'zomato',
-      ext: 'avif',
-      path: `${basePath}images/projects/Project1 excel/Project1 Cover.avif`
-    }
-  ], []);
+  const images = useMemo(
+    () => [
+      {
+        id: 'zomato-dashboard',
+        name: 'zometo-ds',
+        alt: 'Zomato Analysis Dashboard',
+        description: 'Interactive dashboard showing restaurant performance metrics',
+        insights: [
+          'Market share analysis by cuisine type',
+          'Customer rating distribution',
+          'Price range comparison',
+        ],
+        featured: true,
+        width: 1200,
+        height: 800,
+        aspectRatio: '16/9',
+        containerClass: 'h-80 md:h-96',
+        projectId: 'zomato',
+        ext: 'avif',
+        path: `${basePath}images/projects/Project1 excel/zometo-ds.avif`,
+      },
+      {
+        id: 'zomato-analysis-1',
+        name: 'zt1',
+        alt: 'Zomato Market Analysis',
+        description: 'Geographic distribution of restaurants and ratings',
+        insights: [
+          'Location-based performance metrics',
+          'Customer density heatmap',
+          'Competitive landscape analysis',
+        ],
+        featured: false,
+        width: 1200,
+        height: 800,
+        aspectRatio: '16/9',
+        containerClass: 'h-80 md:h-96',
+        projectId: 'zomato',
+        ext: 'avif',
+        path: `${basePath}images/projects/Project1 excel/zt1.avif`,
+      },
+      {
+        id: 'zomato-analysis-2',
+        name: 'zt2',
+        alt: 'Zomato Revenue Analysis',
+        description: 'Revenue and growth potential analysis',
+        insights: [
+          'Revenue by location',
+          'Growth trends analysis',
+          'Market opportunity assessment',
+        ],
+        featured: false,
+        width: 1200,
+        height: 800,
+        aspectRatio: '16/9',
+        containerClass: 'h-80 md:h-96',
+        projectId: 'zomato',
+        ext: 'avif',
+        path: `${basePath}images/projects/Project1 excel/zt2.avif`,
+      },
+      {
+        id: 'zomato-cover',
+        name: 'Project1 Cover',
+        alt: 'Zomato Analysis Cover',
+        description: 'Project cover image',
+        featured: true,
+        width: 1600,
+        height: 900,
+        aspectRatio: '16/9',
+        containerClass: 'h-96',
+        projectId: 'zomato',
+        ext: 'avif',
+        path: `${basePath}images/projects/Project1 excel/Project1 Cover.avif`,
+      },
+    ],
+    []
+  );
 
   const openImage = (index) => {
     setSelectedImage(images[index]);
@@ -101,18 +119,17 @@ const ZomatoAnalysis = () => {
     setCurrentIndex(newIndex);
   };
   return (
-    <motion.div 
+    <motion.div
       className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-200"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <div className="max-w-7xl mx-auto">
-
         {/* Hero Section with Cover Image */}
         <div className="relative rounded-2xl overflow-hidden mb-12 h-96">
           <img
-            src={images.find(img => img.id === 'zomato-cover').path}
+            src={images.find((img) => img.id === 'zomato-cover').path}
             alt="Zomato Analysis Dashboard"
             className="w-full h-full object-cover"
           />
@@ -131,11 +148,14 @@ const ZomatoAnalysis = () => {
           <div className="space-y-8">
             {/* Project Title and Description */}
             <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">AI-Enhanced Market Intelligence</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+                AI-Enhanced Market Intelligence
+              </h2>
               <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl">
-                Developed an advanced analytics platform using machine learning to analyze Zomato's restaurant data, 
-                identifying high-potential markets through predictive modeling of customer behavior, competitive analysis, 
-                and revenue potential across diverse geographic regions.
+                Developed an advanced analytics platform using machine learning to analyze Zomato's
+                restaurant data, identifying high-potential markets through predictive modeling of
+                customer behavior, competitive analysis, and revenue potential across diverse
+                geographic regions.
               </p>
             </div>
 
@@ -143,45 +163,51 @@ const ZomatoAnalysis = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 {
-                  icon: <FaGlobeAmericas className="w-5 h-5" />, 
-                  label: 'Markets Analyzed', 
+                  icon: <FaGlobeAmericas className="w-5 h-5" />,
+                  label: 'Markets Analyzed',
                   value: '15+',
                   color: 'red',
-                  darkColor: 'red-700'
+                  darkColor: 'red-700',
                 },
-                { 
-                  icon: <FaUtensils className="w-5 h-5" />, 
-                  label: 'AI Models', 
+                {
+                  icon: <FaUtensils className="w-5 h-5" />,
+                  label: 'AI Models',
                   value: '5+',
                   color: 'orange',
-                  darkColor: 'orange-700'
+                  darkColor: 'orange-700',
                 },
-                { 
-                  icon: <FaTable className="w-5 h-5" />, 
-                  label: 'Data Points', 
+                {
+                  icon: <FaTable className="w-5 h-5" />,
+                  label: 'Data Points',
                   value: '500K+',
                   color: 'amber',
-                  darkColor: 'amber-700'
+                  darkColor: 'amber-700',
                 },
-                { 
-                  icon: <FaStar className="w-5 h-5" />, 
-                  label: 'Accuracy', 
+                {
+                  icon: <FaStar className="w-5 h-5" />,
+                  label: 'Accuracy',
                   value: '92%',
                   color: 'yellow',
-                  darkColor: 'yellow-600'
-                }
+                  darkColor: 'yellow-600',
+                },
               ].map((stat, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`bg-${stat.color}-50 dark:bg-gray-800 p-4 rounded-lg border border-${stat.color}-100 dark:border-gray-700 transition-colors duration-200 hover:shadow-md`}
                 >
                   <div className="flex items-center space-x-3">
-                    <div className={`p-2 rounded-lg bg-${stat.color}-100 dark:bg-opacity-20 text-${stat.color}-600 dark:text-${stat.color}-400`}>
+                    <div
+                      className={`p-2 rounded-lg bg-${stat.color}-100 dark:bg-opacity-20 text-${stat.color}-600 dark:text-${stat.color}-400`}
+                    >
                       {stat.icon}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.label}</p>
-                      <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">{stat.value}</p>
+                      <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                        {stat.label}
+                      </p>
+                      <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                        {stat.value}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -193,9 +219,14 @@ const ZomatoAnalysis = () => {
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {['#AIAnalytics', '#PredictiveModeling', '#MarketIntelligence', '#DataScience'].map((tag, index) => (
-                    <span 
-                      key={index} 
+                  {[
+                    '#AIAnalytics',
+                    '#PredictiveModeling',
+                    '#MarketIntelligence',
+                    '#DataScience',
+                  ].map((tag, index) => (
+                    <span
+                      key={index}
                       className="px-3 py-1.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium rounded-full border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                     >
                       {tag}
@@ -205,26 +236,30 @@ const ZomatoAnalysis = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-4">
-                  <a 
-                    href="https://github.com/Sahilthecoder/Sahil-Portfolio" 
-                    target="_blank" 
+                  <a
+                    href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="group relative bg-transparent hover:bg-indigo-50 dark:hover:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 font-medium py-2.5 px-6 rounded-lg text-center border-2 border-indigo-700 dark:border-indigo-600 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                   >
                     <span className="relative z-10 flex items-center justify-center">
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">View Code</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">
+                        View Code
+                      </span>
                       <FaGithub className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100 w-4 h-4" />
                     </span>
                     <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
                   </a>
-                  <a 
-                    href="https://sahilthecoder.github.io/Zomato-Data-Analysis-Excel-Dashboard/" 
-                    target="_blank" 
+                  <a
+                    href="https://sahilthecoder.github.io/Zomato-Data-Analysis-Excel-Dashboard/"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="group relative bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-medium py-2.5 px-6 rounded-lg text-center border-2 border-red-600 dark:border-red-500 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                   >
                     <span className="relative z-10 flex items-center">
-                      <span className="transition-transform duration-300 group-hover:translate-x-1">View Dashboard</span>
+                      <span className="transition-transform duration-300 group-hover:translate-x-1">
+                        View Dashboard
+                      </span>
                       <FaExternalLinkAlt className="ml-2 transition-transform duration-300 transform -translate-x-2 opacity-0 group-hover:translate-x-1 group-hover:opacity-100 w-3.5 h-3.5" />
                     </span>
                     <span className="absolute inset-0 bg-red-50/80 dark:bg-red-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
@@ -238,26 +273,36 @@ const ZomatoAnalysis = () => {
         {/* Project Images */}
         <div className="space-y-12">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.04)] dark:shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] dark:hover:shadow-lg transition-all duration-300">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard & Analysis</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Dashboard & Analysis
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {images.filter(img => img.id !== 'zomato-cover').map((image, index) => (
-                <div key={image.id} className="group cursor-pointer" onClick={() => openImage(index)}>
-                  <div className="relative overflow-hidden rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg">
-                    <img
-                      src={image.path}
-                      alt={image.alt}
-                      className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                      <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
-                        Click to view
-                      </span>
+              {images
+                .filter((img) => img.id !== 'zomato-cover')
+                .map((image, index) => (
+                  <div
+                    key={image.id}
+                    className="group cursor-pointer"
+                    onClick={() => openImage(index)}
+                  >
+                    <div className="relative overflow-hidden rounded-xl shadow-md transition-all duration-300 group-hover:shadow-lg">
+                      <img
+                        src={image.path}
+                        alt={image.alt}
+                        className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                        <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
+                          Click to view
+                        </span>
+                      </div>
                     </div>
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">
+                      {image.description}
+                    </p>
                   </div>
-                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 text-center">{image.description}</p>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 
@@ -283,7 +328,9 @@ const ZomatoAnalysis = () => {
                 </p>
               </div>
               <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl flex flex-col items-center justify-center">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Key Findings</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  Key Findings
+                </h3>
                 <ul className="space-y-3 text-gray-700 dark:text-gray-300">
                   <li className="flex items-start">
                     <FaCheckCircle className="text-green-500 mt-1 mr-2 flex-shrink-0" />
@@ -312,10 +359,13 @@ const ZomatoAnalysis = () => {
                 <div className="p-2 rounded-full bg-red-200 dark:bg-red-900/30 mr-3">
                   <FaGlobeAmericas className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Market Expansion</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  Market Expansion
+                </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Identified top 3 high-potential markets for Zomato's expansion with detailed entry strategies and growth potential analysis.
+                Identified top 3 high-potential markets for Zomato's expansion with detailed entry
+                strategies and growth potential analysis.
               </p>
             </div>
             <div className="bg-orange-50 dark:bg-gray-700/50 p-6 rounded-xl">
@@ -323,10 +373,13 @@ const ZomatoAnalysis = () => {
                 <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/20 mr-3">
                   <FaChartLine className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Revenue Growth</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  Revenue Growth
+                </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Provided data-backed recommendations that could increase market penetration by up to 30% in target regions.
+                Provided data-backed recommendations that could increase market penetration by up to
+                30% in target regions.
               </p>
             </div>
             <div className="bg-amber-50 dark:bg-gray-700/50 p-6 rounded-xl">
@@ -334,10 +387,13 @@ const ZomatoAnalysis = () => {
                 <div className="p-2 rounded-full bg-amber-100 dark:bg-amber-900/20 mr-3">
                   <FaSearchDollar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Competitive Edge</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                  Competitive Edge
+                </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Delivered insights that help Zomato stay ahead of competitors in key markets through data-driven decision making.
+                Delivered insights that help Zomato stay ahead of competitors in key markets through
+                data-driven decision making.
               </p>
             </div>
           </div>
@@ -348,63 +404,113 @@ const ZomatoAnalysis = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Overview Section */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Project Overview</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                Project Overview
+              </h2>
               <div className="space-y-6">
                 <p className="text-gray-600 dark:text-gray-300">
-                  This comprehensive analysis of Zomato's restaurant data across multiple countries provides valuable insights for strategic market expansion. The project involved extensive data cleaning, exploratory analysis, and visualization of restaurant metrics to identify high-potential markets and growth opportunities.
+                  This comprehensive analysis of Zomato's restaurant data across multiple countries
+                  provides valuable insights for strategic market expansion. The project involved
+                  extensive data cleaning, exploratory analysis, and visualization of restaurant
+                  metrics to identify high-potential markets and growth opportunities.
                 </p>
-                
+
                 <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl border border-red-100 dark:border-red-900/20">
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Key Features</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                    Key Features
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
                       <FaCheckCircle className="text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                      <span>Analyzed 9,000+ restaurants across 15 countries and 80+ cuisines to identify market trends</span>
+                      <span>
+                        Analyzed 9,000+ restaurants across 15 countries and 80+ cuisines to identify
+                        market trends
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <FaCheckCircle className="text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                      <span>Developed a scoring system to evaluate market potential based on multiple factors</span>
+                      <span>
+                        Developed a scoring system to evaluate market potential based on multiple
+                        factors
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <FaCheckCircle className="text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                      <span>Created interactive dashboards for real-time data visualization and decision making</span>
+                      <span>
+                        Created interactive dashboards for real-time data visualization and decision
+                        making
+                      </span>
                     </li>
                     <li className="flex items-start">
                       <FaCheckCircle className="text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                      <span>Provided actionable recommendations for market entry and expansion strategies</span>
+                      <span>
+                        Provided actionable recommendations for market entry and expansion
+                        strategies
+                      </span>
                     </li>
                   </ul>
                 </div>
               </div>
 
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-12 mb-6">Technical Implementation</h2>
-              
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-12 mb-6">
+                Technical Implementation
+              </h2>
+
               <div className="space-y-6">
                 <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05)] dark:shadow-none hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05),0_4px_6px_-2px_rgba(0,0,0,0.05)] dark:hover:shadow-none transition-all duration-300">
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Data Analysis</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+                    Data Analysis
+                  </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    The analysis involved processing and cleaning a comprehensive dataset containing restaurant information, including ratings, cuisines, price ranges, and geographical data. Advanced Excel functions, pivot tables, and data visualization tools were used to extract meaningful insights and identify patterns across different markets.
+                    The analysis involved processing and cleaning a comprehensive dataset containing
+                    restaurant information, including ratings, cuisines, price ranges, and
+                    geographical data. Advanced Excel functions, pivot tables, and data
+                    visualization tools were used to extract meaningful insights and identify
+                    patterns across different markets.
                   </p>
                 </div>
 
                 <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05)] dark:shadow-none hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.05),0_4px_6px_-2px_rgba(0,0,0,0.05)] dark:hover:shadow-none transition-all duration-300">
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">Key Insights</h3>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+                    Key Insights
+                  </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start">
-                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">1</span>
-                      <span>Identified three high-potential markets with optimal conditions for Zomato's expansion, considering factors like market saturation, consumer spending power, and digital adoption rates.</span>
+                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">
+                        1
+                      </span>
+                      <span>
+                        Identified three high-potential markets with optimal conditions for Zomato's
+                        expansion, considering factors like market saturation, consumer spending
+                        power, and digital adoption rates.
+                      </span>
                     </li>
                     <li className="flex items-start">
-                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">2</span>
-                      <span>Analyzed cuisine preferences across regions, revealing opportunities for localized restaurant partnerships and menu adaptations.</span>
+                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">
+                        2
+                      </span>
+                      <span>
+                        Analyzed cuisine preferences across regions, revealing opportunities for
+                        localized restaurant partnerships and menu adaptations.
+                      </span>
                     </li>
                     <li className="flex items-start">
-                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">3</span>
-                      <span>Developed a pricing strategy framework based on local market conditions and competitive landscape analysis.</span>
+                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">
+                        3
+                      </span>
+                      <span>
+                        Developed a pricing strategy framework based on local market conditions and
+                        competitive landscape analysis.
+                      </span>
                     </li>
                     <li className="flex items-start">
-                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">4</span>
-                      <span>Created a comprehensive market entry playbook with phased implementation recommendations and success metrics.</span>
+                      <span className="inline-flex items-center justify-center w-5 h-5 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-full text-xs font-medium mr-3 mt-0.5">
+                        4
+                      </span>
+                      <span>
+                        Created a comprehensive market entry playbook with phased implementation
+                        recommendations and success metrics.
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -413,8 +519,10 @@ const ZomatoAnalysis = () => {
           </div>
 
           <div>
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">Business Value</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+                Business Value
+              </h3>
               <ul className="space-y-4">
                 <li className="p-4 bg-red-50 dark:bg-gray-800/50 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition-all duration-200">
                   <div className="flex items-center">
@@ -422,8 +530,12 @@ const ZomatoAnalysis = () => {
                       <FaGlobeAmericas className="w-5 h-5 text-red-600 dark:text-red-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Market Expansion</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Identified top 3 high-potential markets for Zomato's growth</p>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Market Expansion
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                        Identified top 3 high-potential markets for Zomato's growth
+                      </p>
                     </div>
                   </div>
                 </li>
@@ -434,7 +546,9 @@ const ZomatoAnalysis = () => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-white">Data Insights</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Analyzed 9,000+ restaurants across 80+ cuisines</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                        Analyzed 9,000+ restaurants across 80+ cuisines
+                      </p>
                     </div>
                   </div>
                 </li>
@@ -444,15 +558,21 @@ const ZomatoAnalysis = () => {
                       <FaSearchDollar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Strategic Impact</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Delivered actionable recommendations for market entry</p>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                        Strategic Impact
+                      </h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                        Delivered actionable recommendations for market entry
+                      </p>
                     </div>
                   </div>
                 </li>
               </ul>
 
               <div className="mt-8 pt-5 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Tech Stack</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  Tech Stack
+                </h3>
                 <div className="space-y-3">
                   <div className="p-4 bg-white dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200">
                     <div className="flex items-center">
@@ -460,8 +580,12 @@ const ZomatoAnalysis = () => {
                         <FaFileExcel className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-900 dark:text-white">Microsoft Excel</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Data analysis & visualization</p>
+                        <h4 className="font-medium text-gray-900 dark:text-white">
+                          Microsoft Excel
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Data analysis & visualization
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -472,7 +596,9 @@ const ZomatoAnalysis = () => {
                       </div>
                       <div>
                         <h4 className="font-medium text-gray-900 dark:text-white">Pivot Tables</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Data summarization & analysis</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Data summarization & analysis
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -482,8 +608,12 @@ const ZomatoAnalysis = () => {
                         <FaChartLine className="w-5 h-5" />
                       </div>
                       <div>
-                        <h4 className="font-medium text-gray-900 dark:text-white">Data Visualization</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Interactive charts & dashboards</p>
+                        <h4 className="font-medium text-gray-900 dark:text-white">
+                          Data Visualization
+                        </h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Interactive charts & dashboards
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -491,7 +621,9 @@ const ZomatoAnalysis = () => {
               </div>
 
               <div className="mt-8 pt-5 border-t border-gray-200 dark:border-gray-700">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Project Links</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  Project Links
+                </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
                   Explore the interactive dashboard and access the project files.
                 </p>
@@ -512,8 +644,8 @@ const ZomatoAnalysis = () => {
         </div>
         {/* Back to Projects Button */}
         <div className="mt-12 mb-8 text-center">
-          <Link 
-            to="/projects" 
+          <Link
+            to="/projects"
             className="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-full shadow-md hover:shadow-lg transition-all duration-300 group"
           >
             <FaArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
@@ -525,14 +657,17 @@ const ZomatoAnalysis = () => {
       {/* Image Modal */}
       <AnimatePresence>
         {selectedImage && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeImage}
           >
-            <div className="relative max-w-5xl w-full max-h-[90vh]" onClick={e => e.stopPropagation()}>
+            <div
+              className="relative max-w-5xl w-full max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -557,7 +692,9 @@ const ZomatoAnalysis = () => {
                   </p>
                   {images[currentIndex].insights && (
                     <div className="mt-4">
-                      <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Key Insights:</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                        Key Insights:
+                      </h4>
                       <ul className="list-disc pl-5 space-y-1 text-gray-600 dark:text-gray-300">
                         {images[currentIndex].insights.map((insight, i) => (
                           <li key={i}>{insight}</li>

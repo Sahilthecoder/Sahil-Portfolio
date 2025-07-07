@@ -14,7 +14,10 @@ declare global {
       div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
       h2: React.DetailedHTMLProps<React.HTMLAttributes<HTMLHeadingElement>, HTMLHeadingElement>;
       p: React.DetailedHTMLProps<React.HTMLAttributes<HTMLParagraphElement>, HTMLParagraphElement>;
-      button: React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+      button: React.DetailedHTMLProps<
+        React.ButtonHTMLAttributes<HTMLButtonElement>,
+        HTMLButtonElement
+      >;
     }
   }
 }
@@ -28,21 +31,11 @@ declare global {
 // Initialize Sentry
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
-  integrations: [
-    new BrowserTracing(),
-    new Replay(),
-  ],
+  integrations: [new BrowserTracing(), new Replay()],
   tracesSampleRate: 1.0,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
   tracesSampler: (samplingContext: any) => {
-    const environment = import.meta.env.MODE;
-    if (environment === 'development') {
-      return 1.0;
-    }
-    return 0.1;
-  },
-  replaysSampler: (samplingContext: any) => {
     const environment = import.meta.env.MODE;
     if (environment === 'development') {
       return 1.0;
@@ -56,7 +49,10 @@ interface ErrorBoundaryProps {
   children: ReactNode;
 }
 
-export class SentryErrorBoundary extends React.Component<ErrorBoundaryProps, { hasError: boolean }> {
+export class SentryErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  { hasError: boolean }
+> {
   state: any;
   constructor(props: ErrorBoundaryProps) {
     super(props);
@@ -81,22 +77,39 @@ export class SentryErrorBoundary extends React.Component<ErrorBoundaryProps, { h
   render() {
     if (this.state.hasError) {
       const container = createElement('div', {
-        className: 'min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg'
+        className: 'min-h-screen flex items-center justify-center bg-light-bg dark:bg-dark-bg',
       });
-      const content = createElement('div', {
-        className: 'text-center p-8'
-      }, [
-        createElement('h2', {
-          className: 'text-2xl font-bold mb-4'
-        }, 'Something went wrong'),
-        createElement('p', {
-          className: 'mb-4'
-        }, 'Please try refreshing the page or contact support if the problem persists.'),
-        createElement('button', {
-          onClick: () => window.location.reload(),
-          className: 'px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md transition-colors'
-        }, 'Refresh Page')
-      ]);
+      const content = createElement(
+        'div',
+        {
+          className: 'text-center p-8',
+        },
+        [
+          createElement(
+            'h2',
+            {
+              className: 'text-2xl font-bold mb-4',
+            },
+            'Something went wrong'
+          ),
+          createElement(
+            'p',
+            {
+              className: 'mb-4',
+            },
+            'Please try refreshing the page or contact support if the problem persists.'
+          ),
+          createElement(
+            'button',
+            {
+              onClick: () => window.location.reload(),
+              className:
+                'px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md transition-colors',
+            },
+            'Refresh Page'
+          ),
+        ]
+      );
       return createElement(Fragment, null, container, content);
     }
 

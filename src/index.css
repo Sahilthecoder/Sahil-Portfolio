@@ -50,14 +50,26 @@
 
 /* ===== Animations ===== */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .animate-float {
@@ -81,7 +93,7 @@
   .section {
     @apply py-12;
   }
-  
+
   .section-title {
     @apply text-2xl;
   }
@@ -108,7 +120,12 @@ section {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-bold leading-tight tracking-tight;
   margin-bottom: 1em;
 }
@@ -129,12 +146,15 @@ a:hover {
 }
 
 /* Buttons */
-button, .btn {
+button,
+.btn {
   @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)];
 }
 
 /* Forms */
-input, textarea, select {
+input,
+textarea,
+select {
   @apply w-full px-4 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent;
 }
 
@@ -161,8 +181,14 @@ input, textarea, select {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -170,7 +196,17 @@ input, textarea, select {
 
   line-height: 1.7;
   padding-top: 80px;
-  font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    'Inter',
+    'Poppins',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -195,12 +231,12 @@ body.menu-open {
   body {
     padding-top: 72px; /* Slightly less padding on mobile */
   }
-  
+
   /* Ensure mobile menu appears above all content */
   .mobile-menu-container {
     z-index: 9999 !important;
   }
-  
+
   /* Prevent content shift when menu is open */
   html {
     scroll-padding-top: 72px;
@@ -208,9 +244,18 @@ body.menu-open {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply font-bold leading-tight tracking-tight text-[var(--color-heading)];
-  font-family: 'Poppins', 'Inter', -apple-system, sans-serif;
+  font-family:
+    'Poppins',
+    'Inter',
+    -apple-system,
+    sans-serif;
 }
 
 h1 {
@@ -228,7 +273,8 @@ h3 {
   line-height: 1.3;
 }
 
-p, li {
+p,
+li {
   @apply text-base md:text-lg leading-relaxed text-[var(--color-paragraph)];
   font-weight: 400;
   max-width: 65ch;
@@ -302,11 +348,13 @@ a:not(.no-underline):hover::after {
 
 /* Better touch targets for mobile */
 @media (max-width: 640px) {
-  button, a, [role="button"] {
+  button,
+  a,
+  [role='button'] {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Prevent text size adjustments on orientation change */
   html {
     -webkit-text-size-adjust: 100%;
@@ -320,7 +368,10 @@ a {
   text-decoration: none;
 }
 
-button, input, textarea, select {
+button,
+input,
+textarea,
+select {
   color: var(--color-text);
 }
 
@@ -483,8 +534,14 @@ section {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .scale-in {
@@ -492,8 +549,14 @@ section {
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Responsive Spacing */
@@ -544,15 +607,15 @@ section {
     background: white !important;
     color: black !important;
   }
-  
+
   .no-print {
     display: none !important;
   }
-  
+
   a {
     text-decoration: none !important;
   }
-  
+
   .break-inside-avoid {
     break-inside: avoid;
   }
@@ -560,25 +623,28 @@ section {
 
 /* Neon Text Effect */
 .neon-text {
-  text-shadow: 0 0 5px var(--neon-blue), 
-               0 0 10px var(--neon-blue), 
-               0 0 20px var(--neon-blue), 
-               0 0 30px var(--neon-blue), 
-               0 0 40px var(--neon-pink);
+  text-shadow:
+    0 0 5px var(--neon-blue),
+    0 0 10px var(--neon-blue),
+    0 0 20px var(--neon-blue),
+    0 0 30px var(--neon-blue),
+    0 0 40px var(--neon-pink);
   animation: neonGlow 1.5s ease-in-out infinite alternate;
 }
 
 @keyframes neonGlow {
   from {
-    text-shadow: 0 0 5px var(--neon-blue), 
-                 0 0 10px var(--neon-blue), 
-                 0 0 20px var(--neon-blue);
+    text-shadow:
+      0 0 5px var(--neon-blue),
+      0 0 10px var(--neon-blue),
+      0 0 20px var(--neon-blue);
   }
   to {
-    text-shadow: 0 0 10px var(--neon-blue), 
-                 0 0 20px var(--neon-blue), 
-                 0 0 30px var(--neon-blue), 
-                 0 0 40px var(--neon-pink);
+    text-shadow:
+      0 0 10px var(--neon-blue),
+      0 0 20px var(--neon-blue),
+      0 0 30px var(--neon-blue),
+      0 0 40px var(--neon-pink);
   }
 }
 
@@ -589,14 +655,23 @@ section {
 }
 
 @keyframes gradient-xy {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Theme Transition */
 .theme-transition * {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Custom Components */
@@ -606,19 +681,19 @@ section {
            focus:outline-none focus:ring-2 focus:ring-offset-2
            hover:shadow-lg active:scale-95;
   }
-  
+
   .btn-primary {
     @apply bg-[var(--color-primary)] text-white 
            hover:bg-[color-mix(in_srgb,var(--color-primary),black_15%)]
            focus:ring-[var(--color-primary)] focus:ring-opacity-50;
   }
-  
+
   .btn-secondary {
     @apply bg-[var(--color-secondary)] text-white 
            hover:bg-[color-mix(in_srgb,var(--color-secondary),black_15%)]
            focus:ring-[var(--color-secondary)] focus:ring-opacity-50;
   }
-  
+
   .container {
     @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl w-full;
   }
@@ -629,11 +704,11 @@ section {
   h1 {
     @apply text-4xl;
   }
-  
+
   h2 {
     @apply text-3xl;
   }
-  
+
   p {
     @apply text-base;
   }
@@ -659,8 +734,13 @@ section {
 }
 /* Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .float {
@@ -678,7 +758,9 @@ section {
 
 /* Hover Effects */
 .hover-scale {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .hover-scale:hover {
@@ -699,25 +781,30 @@ section {
     --tw-ring-offset-shadow: 0 0 #0000;
     --tw-ring-shadow: 0 0 #0000;
     --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-shadow-colored:
+      0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
   .btn-primary:hover {
     --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-    --tw-shadow-colored: 0 20px 25px -5px var(--color-primary, 0 0 0 / 0.2), 0 8px 10px -6px var(--color-primary, 0 0 0 / 0.2);
-    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    --tw-shadow-colored:
+      0 20px 25px -5px var(--color-primary, 0 0 0 / 0.2),
+      0 8px 10px -6px var(--color-primary, 0 0 0 / 0.2);
+    box-shadow:
+      var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
   .btn-outline {
     @apply border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 focus:ring-[var(--color-primary)];
   }
-  
+
   .section-title {
     @apply text-3xl md:text-4xl font-bold mb-4 text-center;
     color: var(--color-text);
   }
-  
+
   .section-subtitle {
     @apply text-lg md:text-xl text-center max-w-3xl mx-auto mb-12;
     color: var(--color-muted);
@@ -729,11 +816,11 @@ section {
   h1 {
     @apply text-4xl;
   }
-  
+
   h2 {
     @apply text-3xl;
   }
-  
+
   p {
     @apply text-base;
   }

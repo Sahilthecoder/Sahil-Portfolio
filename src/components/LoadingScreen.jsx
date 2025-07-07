@@ -31,7 +31,7 @@ const LoadingScreen = () => {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: 'easeInOut'
+            ease: 'easeInOut',
           }}
         />
         <motion.div
@@ -44,7 +44,7 @@ const LoadingScreen = () => {
             duration: 2.2,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: 0.3
+            delay: 0.3,
           }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
@@ -52,32 +52,32 @@ const LoadingScreen = () => {
             className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-2xl font-bold"
             animate={{
               scale: [0.9, 1.1, 0.9],
-              rotate: [0, 180, 360]
+              rotate: [0, 180, 360],
             }}
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: 'easeInOut'
+              ease: 'easeInOut',
             }}
           >
             {Math.round(progress)}%
           </motion.div>
         </div>
       </div>
-      <motion.div 
+      <motion.div
         className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <motion.div 
+        <motion.div
           className="h-full bg-gradient-to-r from-indigo-500 to-purple-600"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.3 }}
         />
       </motion.div>
-      <motion.p 
+      <motion.p
         className="mt-4 text-gray-600 text-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

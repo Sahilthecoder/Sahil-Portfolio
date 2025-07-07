@@ -13,15 +13,15 @@ const useServiceWorker = (): [ServiceWorkerState, () => void] => {
           const basePath = import.meta.env.BASE_URL || '/';
           const swPath = `${basePath}sw.js`.replace(/\/\//g, '/');
           const registration = await navigator.serviceWorker.register(swPath);
-          
+
           // Check for updates
           registration.addEventListener('updatefound', () => {
             const newWorker = registration.installing;
-            
+
             if (!newWorker) return;
-            
+
             setState('installing');
-            
+
             newWorker.addEventListener('statechange', () => {
               switch (newWorker.state) {
                 case 'installed':
@@ -43,9 +43,12 @@ const useServiceWorker = (): [ServiceWorkerState, () => void] => {
           });
 
           // Check for updates every hour
-          const updateInterval = setInterval(() => {
-            registration.update().catch(console.error);
-          }, 60 * 60 * 1000);
+          const updateInterval = setInterval(
+            () => {
+              registration.update().catch(console.error);
+            },
+            60 * 60 * 1000
+          );
 
           // Listen for controller change (page refresh after update)
           navigator.serviceWorker.addEventListener('controllerchange', () => {

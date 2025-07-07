@@ -27,6 +27,10 @@ export default defineConfig(({ command, mode }) => {
       react(),
       VitePWA({
         registerType: 'autoUpdate',
+        base: base,
+        srcDir: 'src',
+        filename: 'sw.js',
+        strategies: 'injectManifest',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg'],
         manifest: {
           name: 'Sahil Ali Portfolio',

@@ -6,21 +6,25 @@
   "display": "standalone",
   "background_color": "#f9f9f9",
   "theme_color": "#0a74da",
+  "description": "Portfolio of Sahil Ali - Inventory Specialist & Data Analyst",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/Sahil-Portfolio/favicon.ico",
+      "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "/Sahil-Portfolio/images/logo192.png",
+      "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/images/logo512.png",
+      "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ]
 }

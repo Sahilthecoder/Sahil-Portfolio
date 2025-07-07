@@ -59,7 +59,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-[500px] md:h-[600px] lg:h-[700px]',
       projectId: 'bansal',
       ext: 'avif',
-      path: '/images/projects/Project2/bs2.avif',
+      path: '/images/projects/Project2 tableau/bs2.avif',
     },
     {
       id: 'bansal-category',
@@ -78,7 +78,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
       ext: 'avif',
-      path: '/images/projects/Project2%20tableau/bs3.avif',
+      path: '/images/projects/Project2 tableau/bs3.avif',
     },
     {
       id: 'bansal-top-products',
@@ -97,7 +97,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
       ext: 'avif',
-      path: '/images/projects/Project2%20tableau/bs-top10.avif',
+      path: '/images/projects/Project2 tableau/bs-top10.avif',
     },
     {
       id: 'bansal-stock-turnover',
@@ -116,7 +116,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
       ext: 'avif',
-      path: '/images/projects/Project2%20tableau/bs-stockTO.avif',
+      path: '/images/projects/Project2 tableau/bs-stockTO.avif',
     },
     {
       id: 'bansal-sales-profit',
@@ -135,7 +135,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
       ext: 'avif',
-      path: '/images/projects/Project2%20tableau/bs-saleVSpft.avif',
+      path: '/images/projects/Project2 tableau/bs-saleVSpft.avif',
     },
     {
       id: 'bansal-customer-segments',

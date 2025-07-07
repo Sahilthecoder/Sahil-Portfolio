@@ -2,12 +2,23 @@
 <browserconfig>
   <msapplication>
     <tile>
-      <square70x70logo src="./mstile-70x70.png"/>
-      <square150x150logo src="./mstile-150x150.png"/>
-      <square310x150logo src="./mstile-310x150.png"/>
-      <square310x310logo src="./mstile-310x310.png"/>
+      <square70x70logo src="/Sahil-Portfolio/images/mstile-70x70.png"/>
+      <square150x150logo src="/Sahil-Portfolio/images/mstile-150x150.png"/>
+      <square310x310logo src="/Sahil-Portfolio/images/mstile-310x310.png"/>
       <TileColor>#2563eb</TileColor>
-      <TileImage src="./mstile-144x144.png" />
+      <TileImage src="/Sahil-Portfolio/images/mstile-144x144.png" />
     </tile>
+    <!-- Notification settings removed as they require server-side implementation -->
+    <!-- 
+    <notification>
+      <polling-uri src="/push/notifications" />
+      <frequency>
+        <minimum>30</minimum>
+        <desired>60</desired>
+      </frequency>
+    </notification>
+    -->
+      <cycle>1</cycle>
+    </notification>
   </msapplication>
 </browserconfig>

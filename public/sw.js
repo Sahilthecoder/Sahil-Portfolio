@@ -1,35 +1,35 @@
-// Service Worker for Sahil's Portfolio
-const CACHE_NAME = 'sahil-portfolio-v1';
-const BASE_PATH = '/Sahil-Portfolio/';
-
-// Files to cache
-const ASSETS = [
-  BASE_PATH,
-  `${BASE_PATH}index.html`,
-  `${BASE_PATH}assets/index-*.js`,
-  `${BASE_PATH}assets/index-*.css`,
-  `${BASE_PATH}assets/logo192.png`,
-  `${BASE_PATH}assets/logo512.png`,
-  `${BASE_PATH}favicon.ico`,
-  `${BASE_PATH}favicon-16x16.png`,
-  `${BASE_PATH}favicon-32x32.png`,
-  `${BASE_PATH}apple-touch-icon.png`,
-  `${BASE_PATH}android-chrome-192x192.png`,
-  `${BASE_PATH}android-chrome-512x512.png`,
-  `${BASE_PATH}safari-pinned-tab.svg`,
-  `${BASE_PATH}site.webmanifest`,
-  `${BASE_PATH}browserconfig.xml`
+// Service Worker for Portfolio PWA
+const CACHE_NAME = 'portfolio-cache-v13';
+const ASSETS_TO_CACHE = [
+  './',
+  './index.html',
+  './about.html',
+  './manifest.json',
+  './images/logo192.png',
+  './images/logo512.png',
+  './images/favicon.ico',
+  './images/favicon-16x16.png',
+  './images/favicon-32x32.png',
+  './images/og-default.jpg',
+  './fonts/Roboto.woff2',
+  './fonts/Poppins.woff2',
+  'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
 ];
 
-// Install event - cache all static assets
+// Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        return cache.addAll(ASSETS);
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
+      .catch(error => {
+        console.error('Cache addAll error:', error);
       })
   );
+  self.skipWaiting();
 });
 
 // Activate event - clean up old caches
@@ -46,86 +46,62 @@ self.addEventListener('activate', (event) => {
       );
     })
   );
+  self.clients.claim();
 });
-
-// Helper function to get the cache key for a request
-const getCacheKey = (request) => {
-  const url = new URL(request.url);
-  
-  // If this is a request from our origin, ensure it includes the base path
-  if (url.origin === self.location.origin) {
-    // If the path doesn't start with the base path, add it
-    if (!url.pathname.startsWith(BASE_PATH)) {
-      const newPath = BASE_PATH + url.pathname.replace(/^\//, '');
-      return new Request(new URL(newPath, self.location.origin).toString(), request);
-    }
-  }
-  
-  return request;
-};
 
 // Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests and chrome-extension requests
-  if (event.request.method !== 'GET' || 
-      event.request.url.startsWith('chrome-extension://') ||
-      event.request.url.includes('browser-sync')) {
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // Skip cross-origin requests except for Google Fonts
+  if (!event.request.url.startsWith(self.location.origin) && 
+      !event.request.url.startsWith('https://fonts.googleapis.com') &&
+      !event.request.url.startsWith('https://fonts.gstatic.com')) {
     return;
   }
 
-  // Handle navigation requests (HTML pages)
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      caches.match(BASE_PATH + 'index.html')
-        .then((response) => {
-          return response || fetch(event.request);
-        })
-    );
-    return;
-  }
-
-  // Handle other requests (assets, etc.)
   event.respondWith(
-    caches.match(event.request, { ignoreSearch: true })
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
+    caches.match(event.request).then((response) => {
+      // Return cached response if found
+      if (response) {
+        return response;
+      }
 
-        // Clone the request
-        const fetchRequest = event.request.clone();
-        const requestUrl = new URL(event.request.url);
-        
-        // Skip non-http/https requests
-        if (!requestUrl.protocol.startsWith('http')) {
-          return fetch(fetchRequest);
-        }
-
-        // Handle different types of requests
-        return fetch(fetchRequest).then(
-          (response) => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            // Clone the response
-            const responseToCache = response.clone();
-
-            // Cache the response for future use
-            caches.open(CACHE_NAME).then((cache) => {
-              // Only cache GET requests and same-origin responses
-              if (event.request.method === 'GET' && 
-                  response.type === 'basic' && 
-                  requestUrl.origin === self.location.origin) {
-                cache.put(event.request, responseToCache);
-              }
-            });
-
-            return response;
+      // Otherwise, fetch from network
+      return fetch(event.request)
+        .then((networkResponse) => {
+          // Only cache successful responses and same-origin requests
+          if (!networkResponse || networkResponse.status !== 200 || 
+              networkResponse.type !== 'basic' || 
+              !event.request.url.startsWith(self.location.origin)) {
+            return networkResponse;
           }
-        );
-      })
+
+          // Clone the response
+          const responseToCache = networkResponse.clone();
+
+          // Cache the response
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+
+          return networkResponse;
+        })
+        .catch(() => {
+          // If this is a page request, return the offline page
+          if (event.request.mode === 'navigate') {
+            return caches.match('./offline.html');
+          }
+          // Otherwise return a generic offline response
+          return new Response('You are offline and no cache is available for this page.', {
+            status: 408,
+            statusText: 'Network Error',
+            headers: new Headers({
+              'Content-Type': 'text/plain'
+            })
+          });
+        });
+    })
   );
 });

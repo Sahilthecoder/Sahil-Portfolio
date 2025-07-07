@@ -15,8 +15,8 @@ import { Link } from 'react-router-dom';
 import ProjectImage from '../../components/ProjectImage';
 
 // Image paths
-const dashboardImage = '/images/projects/Project5 SQL/dashboard-preview.jpg';
-const productAnalysisImage = '/images/projects/Project5 SQL/product-analysis.jpg';
+const dashboardImage = '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif';
+const productAnalysisImage = '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif';
 
 const ProductSalesDashboard = () => {
   return (

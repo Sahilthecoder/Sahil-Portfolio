@@ -2,81 +2,68 @@
   "short_name": "Sahil's Portfolio",
   "name": "Sahil Ali - Portfolio",
   "start_url": "./",
-  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#3b82f6",
   "description": "Sahil Ali's Portfolio - Inventory Specialist & Data Analyst",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "logo192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo192.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "favicon.ico",
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
       "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "/Sahil-Portfolio/safari-pinned-tab.svg",
+      "src": "/safari-pinned-tab.svg",
+      "sizes": "any",
       "type": "image/svg+xml"
-    },
-    {
-      "src": "/Sahil-Portfolio/favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/Sahil-Portfolio/favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
     }
   ],
   "shortcuts": [
     {
-      "name": "Home",
-      "short_name": "Home",
-      "description": "Go to home page",
-      "url": "/Sahil-Portfolio/",
-      "icons": [{ "src": "/Sahil-Portfolio/android-chrome-192x192.png", "sizes": "192x192" }]
+      "name": "About Me",
+      "short_name": "About",
+      "description": "View my professional background and skills",
+      "url": "/#/about"
     },
     {
-      "name": "Projects",
+      "name": "My Projects",
       "short_name": "Projects",
-      "description": "View my projects",
-      "url": "/Sahil-Portfolio/#/projects"
+      "description": "Explore my portfolio projects",
+      "url": "/#/projects"
     },
     {
-      "name": "Contact",
+      "name": "Contact Me",
       "short_name": "Contact",
-      "description": "Get in touch",
-      "url": "/Sahil-Portfolio/#/contact"
+      "description": "Get in touch with me",
+      "url": "/#/contact"
     }
   ],
   "categories": ["portfolio", "personal", "developer"],
   "screenshots": [
     {
-      "src": "/Sahil-Portfolio/screenshot-desktop.png",
+      "src": "screenshot-desktop.png",
       "sizes": "1280x800",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "/Sahil-Portfolio/screenshot-mobile.png",
+      "src": "screenshot-mobile.png",
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow"
@@ -84,6 +71,7 @@
   ],
   "prefer_related_applications": false,
   "related_applications": [],
+  "scope": "/",
   "dir": "ltr",
   "lang": "en-US",
   "display_override": ["window-control-overlay", "standalone", "browser"],

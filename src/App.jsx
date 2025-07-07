@@ -1,16 +1,25 @@
-import React from 'react';
-import { Routes, Route, useLocation, Navigate, useNavigate } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
+import './styles/backgrounds.css';
 
-// Import components
+// Import components directly instead of using lazy loading
 import Home from './pages/Home';
 import About from './pages/About';
 import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import Projects from './pages/Projects';
 import NotFound from './pages/NotFound';
+
+// Import project detail pages
+import ZomatoAnalysis from './pages/projects/ZomatoAnalysis';
+import BansalSupermarket from './pages/projects/BansalSupermarket';
+import EkamAttendance from './pages/projects/EkamAttendance';
+import RetailCashFlow from './pages/projects/RetailCashFlow';
+import SnapeSentimentAnalysis from './pages/projects/SnapeSentimentAnalysis';
+import ProductSalesDashboard from './pages/projects/ProductSalesDashboard';
 
 // Loading component
 const LoadingFallback = () => (
@@ -22,69 +31,130 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Router wrapper component for handling page transitions
-function RouterWrapper() {
-  const location = useLocation();
-  const navigate = useNavigate();
+// Error Boundary
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <Routes location={location} key={location.pathname}>
-        <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="experience" element={<Experience />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="contact" element={<Contact />} />
-        {/* Redirect any unmatched paths to the home page */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </AnimatePresence>
-  );
-}
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
 
-function AppRoutes() {
-  return <RouterWrapper />;
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by ErrorBoundary:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 p-4">
+          <div className="text-center max-w-md">
+            <h1 className="text-2xl font-bold text-red-600 dark:text-red-400 mb-4">
+              Something went wrong
+            </h1>
+            <p className="text-gray-700 dark:text-gray-300 mb-6">
+              We're having trouble loading this page. Please try refreshing the page or come back later.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
 }
 
 function App() {
   console.log('App component rendering...');
-
-  // Test function to trigger an error
-  const triggerError = () => {
-    // This will be caught by the ErrorBoundary and reported to Sentry
-    throw new Error('Test error from button click');
-  };
-
+  
   return (
-    <HelmetProvider>
-      <ThemeProvider>
-        {/* Add test button in development only */}
-        {import.meta.env.DEV && (
-          <button 
-            onClick={triggerError}
-            style={{
-              position: 'fixed',
-              bottom: '20px',
-              right: '20px',
-              padding: '10px 20px',
-              backgroundColor: '#ff4757',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              zIndex: 9999,
-              fontSize: '14px',
-              fontWeight: 'bold',
-              boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+    <ErrorBoundary>
+      <HelmetProvider>
+        <ThemeProvider>
+          <Router 
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true
             }}
-            title="Test Error Boundary (Dev only)"
           >
-            Test Error
-          </button>
-        )}
-        <AppRoutes />
-      </ThemeProvider>
-    </HelmetProvider>
+            <ErrorBoundary>
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={
+                    <ErrorBoundary>
+                      <Home />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/about" element={
+                    <ErrorBoundary>
+                      <About />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/experience" element={
+                    <ErrorBoundary>
+                      <Experience />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects" element={
+                    <ErrorBoundary>
+                      <Projects />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/zomato-expansion" element={
+                    <ErrorBoundary>
+                      <ZomatoAnalysis />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/bansal-supermarket" element={
+                    <ErrorBoundary>
+                      <BansalSupermarket />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/ekam-attendance" element={
+                    <ErrorBoundary>
+                      <EkamAttendance />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/cash-flow-dashboard" element={
+                    <ErrorBoundary>
+                      <RetailCashFlow />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/ai-daily-planner" element={
+                    <ErrorBoundary>
+                      <SnapeSentimentAnalysis />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/projects/smart-automation" element={
+                    <ErrorBoundary>
+                      <ProductSalesDashboard />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="/contact" element={
+                    <ErrorBoundary>
+                      <Contact />
+                    </ErrorBoundary>
+                  } />
+                  <Route path="*" element={
+                    <ErrorBoundary>
+                      <NotFound />
+                    </ErrorBoundary>
+                  } />
+                </Routes>
+              </AnimatePresence>
+            </ErrorBoundary>
+          </Router>
+        </ThemeProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

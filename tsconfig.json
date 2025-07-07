@@ -17,17 +17,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src",
-    "src/env.d.ts"
-  ],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

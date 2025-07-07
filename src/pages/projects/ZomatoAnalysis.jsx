@@ -44,7 +44,7 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
         ext: 'avif',
-        path: `${basePath}images/projects/Project1 excel/zometo-ds.avif`,
+        path: '/images/projects/Project1 excel/zometo-ds.avif',
       },
       {
         id: 'zomato-analysis-1',

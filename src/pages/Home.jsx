@@ -15,6 +15,7 @@ import {
   FiTrendingUp,
   FiCpu,
   FiExternalLink,
+  FiCalendar,
 } from 'react-icons/fi';
 import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
 import Footer from '../components/Footer';
@@ -53,34 +54,133 @@ const item = {
 };
 
 const ProjectCard = ({ project }) => {
+  const navigate = useNavigate();
+
+  const handleCardClick = (e) => {
+    // Don't navigate if clicking on a link or button inside the card
+    if (e.target.closest('a, button, .no-navigate')) {
+      return;
+    }
+    
+    if (project.link) {
+      // Use React Router's navigate for SPA navigation
+      navigate(project.link);
+    } else if (project.githubLink) {
+      window.open(project.githubLink, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  // Handle image error with fallback to preview image
+  const handleImageError = (e) => {
+    const target = e.target;
+    if (target.src !== (project.previewImage || '')) {
+      target.src = project.previewImage || '/images/project-placeholder.jpg';
+      target.onerror = null; // Prevent infinite loop if fallback also fails
+    } else if (target.src !== '/images/project-placeholder.jpg') {
+      target.src = '/images/project-placeholder.jpg';
+    }
+  };
+
+  // Handle external link clicks
+  const handleExternalLink = (e, url) => {
+    e.stopPropagation();
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
-      <div className="relative h-48 overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          onError={(e) => {
-            console.error('Failed to load image:', project.image);
-            e.target.src = project.previewImage || project.image;
-          }}
-        />
+    <motion.div
+      className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
+      {/* Thumbnail Container with Fixed Aspect Ratio (16:9) */}
+      <div className="relative w-full pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-700">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onError={handleImageError}
+            loading="lazy"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              minWidth: '100%',
+              minHeight: '100%',
+              objectFit: 'cover'
+            }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 pointer-events-none">
+          <span className="text-white font-medium flex items-center">
+            View Project <FiArrowRight className="ml-1" />
+          </span>
+        </div>
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{project.title}</h3>
-        <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{project.shortDescription}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {project.techStack.slice(0, 3).map((tech, idx) => (
+      
+      {/* Card Content */}
+      <div className="p-5 flex-1 flex flex-col">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
+            {project.title}
+          </h3>
+          
+          {/* Project Links */}
+          <div className="flex space-x-2 ml-2 flex-shrink-0">
+            {project.githubLink && (
+              <button 
+                onClick={(e) => handleExternalLink(e, project.githubLink)}
+                className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors no-navigate"
+                aria-label="View on GitHub"
+              >
+                <FiGithub className="w-5 h-5" />
+              </button>
+            )}
+            {project.link && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(project.link);
+                }}
+                className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors no-navigate"
+                aria-label="View Project Details"
+              >
+                <FiExternalLink className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <p className="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+          {project.shortDescription}
+        </p>
+        
+        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
+          <FiCalendar className="mr-1.5 flex-shrink-0" />
+          <span className="truncate">{project.date}</span>
+        </div>
+        
+        <div className="flex flex-wrap gap-2 mt-auto">
+          {project.techStack?.slice(0, 3).map((tech, index) => (
             <span
-              key={idx}
-              className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
+              key={`${project.id}-tech-${index}`}
+              className="px-2.5 py-1 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 rounded-full whitespace-nowrap"
             >
               {tech}
             </span>
           ))}
+          {project.techStack?.length > 3 && (
+            <span className="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-full">
+              +{project.techStack.length - 3}
+            </span>
+          )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -275,31 +375,55 @@ const Home = () => {
     return () => observer.disconnect();
   }, [controls]);
 
-  // Sample projects data
+  // Sample projects data with proper links matching App.jsx routes
   const featuredProjects = [
     {
       id: 'zomato-expansion',
-      title: 'Zomato Restaurant Expansion',
+      title: 'Zomato Restaurant Expansion Analysis',
       shortDescription: 'Market Strategy Dashboard in Excel',
+      description: "Built an interactive Excel dashboard to analyze Zomato's city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.",
       techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+      icon: 'Excel',
       image: '/images/projects/Project1 excel/Project1 Cover.avif',
       previewImage: '/images/projects/Project1 excel/Project1 Cover.avif',
+      link: '/projects/zomato-expansion',
+      githubLink: '',
+      featured: true,
+      date: 'June 2024',
+      categories: ['data-analysis', 'excel'],
+      component: 'ZomatoAnalysis'
     },
     {
       id: 'bansal-supermarket',
-      title: 'Bansal Supermarket',
+      title: 'Bansal Supermarket Sales Analysis',
       shortDescription: 'Sales Performance Insights in Tableau',
-      techStack: ['Tableau', 'Data Analysis', 'Sales'],
+      description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
+      techStack: ['Tableau', 'Data Analysis', 'Sales Analytics'],
+      icon: 'Tableau',
       image: '/images/projects/Project2 tableau/Project2 Cover.avif',
       previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
+      link: '/projects/bansal-supermarket',
+      githubLink: '',
+      featured: true,
+      date: 'May 2024',
+      categories: ['data-visualization', 'tableau'],
+      component: 'BansalSupermarket'
     },
     {
       id: 'ekam-attendance',
       title: 'Ekam Attendance Tracker',
-      shortDescription: 'SQL + Google Sheets Automation',
+      shortDescription: 'HR & Finance Automation with SQL + Sheets',
+      description: 'Developed an automated attendance tracking system using SQL and Google Sheets that streamlined HR processes and reduced manual work by 80%. Integrated with existing payroll systems for seamless operations.',
       techStack: ['SQL', 'Google Sheets', 'Automation'],
+      icon: 'SQL',
       image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
       previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
+      link: '/projects/ekam-attendance',
+      githubLink: '',
+      featured: true,
+      date: 'April 2024',
+      categories: ['automation', 'sql'],
+      component: 'EkamAttendance'
     },
   ];
 
@@ -353,22 +477,50 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        {/* Data-themed background pattern from Hero Patterns */}
-        <div
-          className="absolute inset-0 opacity-10 dark:opacity-[0.03]"
+        {/* Graph Paper Background */}
+        <div 
+          className="absolute inset-0 bg-white dark:bg-gray-900"
           style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
-            backgroundSize: '150px',
+            backgroundImage: `
+              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+              linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
+            backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
             zIndex: 0,
           }}
-        ></div>
-
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        >
+          {/* Animated grid lines */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, transparent 98%, rgba(79, 70, 229, 0.15) 100%),
+                linear-gradient(transparent 98%, rgba(79, 70, 229, 0.15) 100%)
+              `,
+              backgroundSize: '40px 40px',
+              animation: 'pan 30s linear infinite',
+              zIndex: 1,
+            }}
+          />
+          
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-50 dark:opacity-10" />
         </div>
+
+        {/* Add the animation keyframes to the document */}
+        <style jsx global>{`
+          @keyframes pan {
+            0% {
+              background-position: 0% 0%;
+            }
+            100% {
+              background-position: 100% 100%;
+            }
+          }
+        `}</style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -518,8 +670,13 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section ref={aboutRef} className="py-16 sm:py-20 bg-white dark:bg-gray-900">
-        <div className="container mx-auto px-6">
+      <section ref={aboutRef} className="relative py-16 sm:py-20 bg-white dark:bg-gray-900">
+        {/* Subtle pattern background */}
+        <div className="absolute inset-0 bg-pattern"></div>
+        {/* Decorative elements */}
+        <div className="absolute -left-20 -top-20 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -671,8 +828,13 @@ const Home = () => {
       </section>
 
       {/* Experience Section */}
-      <section ref={experienceRef} className="py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
-        <div className="container mx-auto px-6">
+      <section ref={experienceRef} className="relative py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+        {/* Subtle pattern background */}
+        <div className="absolute inset-0 bg-pattern"></div>
+        {/* Decorative elements */}
+        <div className="absolute -right-20 top-1/3 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="absolute -left-20 bottom-1/4 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -805,108 +967,136 @@ const Home = () => {
       </section>
 
       {/* Featured Projects Section */}
-      <section ref={projectsRef} className="py-16 bg-white dark:bg-gray-800">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section ref={projectsRef} className="relative py-16 sm:py-20 bg-white dark:bg-gray-900">
+        {/* Subtle pattern background */}
+        <div className="absolute inset-0 bg-pattern"></div>
+        {/* Decorative elements */}
+        <div className="absolute left-1/4 -top-20 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="absolute right-1/4 -bottom-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
+        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
           <motion.div
-            className="text-center mb-12"
+            className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              A showcase of my projects that demonstrate my skills and expertise in data analysis
-              and AI-powered solutions.
+            <span className="inline-block px-4 py-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-4">
+              My Work
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400 mb-4">
+              Featured Projects
+            </h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-6 rounded-full"></div>
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+              Here are some of my recent projects that showcase my expertise in data analysis, visualization, and automation.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {featuredProjects.map((project, index) => (
-              <motion.div
+              <motion.article
                 key={project.id}
-                className="bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-                initial={{ opacity: 0, y: 20 }}
+                className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
               >
-                <div className="h-48 overflow-hidden">
+                <div className="relative h-60 overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = 'https://via.placeholder.com/600x400?text=Project+Image';
+                      e.target.src = 'https://via.placeholder.com/800x500?text=Project+Image';
                     }}
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {project.techStack.map((tech, idx) => (
+                          <span
+                            key={idx}
+                            className="inline-flex items-center px-3 py-1 text-xs font-medium bg-indigo-100/90 dark:bg-indigo-900/80 text-indigo-800 dark:text-indigo-200 rounded-full"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+                
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {project.title}
+                    </h3>
+                    <div className="flex space-x-2">
+                      {project.liveLink && (
+                        <a
+                          href={project.liveLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label="Live Demo"
+                        >
+                          <FiExternalLink className="w-5 h-5" />
+                        </a>
+                      )}
+                      {project.githubLink && (
+                        <a
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                          aria-label="View Code"
+                        >
+                          <FiGithub className="w-5 h-5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                     {project.shortDescription}
                   </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.techStack.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex gap-3">
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
+                  
+                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <span className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <FiCalendar className="mr-1.5 h-4 w-4" />
+                      {project.date || 'Recent'}
+                    </span>
+                    <button
+                      onClick={() => window.open(project.liveLink || project.githubLink, '_blank')}
+                      className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors group"
                     >
-                      Live Demo
-                    </a>
-                    <a
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-                    >
-                      View Code
-                    </a>
+                      View Project
+                      <FiArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </button>
                   </div>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <Link
-              to="/projects"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
-            >
-              View All Projects
-              <FiArrowRight className="ml-2" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 relative overflow-hidden">
+      <section className="relative py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+        {/* Subtle pattern background */}
+        <div className="absolute inset-0 bg-pattern"></div>
         {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-20 dark:opacity-10">
+        <div className="absolute inset-0 overflow-hidden opacity-30 dark:opacity-10">
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200 dark:bg-indigo-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-        </div>
-
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-200 dark:bg-purple-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>  
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -947,8 +1137,13 @@ const Home = () => {
       </section>
 
       {/* Contact Section */}
-      <section ref={contactRef} id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
-        <div className="container mx-auto px-6">
+      <section ref={contactRef} id="contact" className="relative py-16 sm:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+        {/* Subtle pattern background */}
+        <div className="absolute inset-0 bg-pattern"></div>
+        {/* Decorative elements */}
+        <div className="absolute -left-20 top-1/4 w-96 h-96 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"></div>
+        <div className="absolute -right-20 bottom-1/4 w-96 h-96 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"></div>
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             variants={container}
             initial="hidden"

@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ImageWithFallback } from '../../utils/imageUtils';
 import getImagePath from '../../utils/imagePaths';
-import {
-  FiHome,
-  FiUser,
-  FiCode,
-  FiBriefcase,
-  FiMail,
+import { 
+  FiHome, 
+  FiUser, 
+  FiCode, 
+  FiBriefcase, 
+  FiMail, 
   FiChevronRight,
   FiX,
   FiSun,
-  FiMoon,
+  FiMoon
 } from 'react-icons/fi';
 import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { withBasePath } from '../../utils/paths';
-import { isHomePage, getNavigationPath, scrollToSection } from '../../utils/navigation';
 import { useTheme } from '../../context/ThemeContext';
 import './ModernNavbar.css';
 
@@ -39,14 +37,14 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: -10 },
-  show: {
-    opacity: 1,
+  show: { 
+    opacity: 1, 
     y: 0,
     transition: {
       type: 'spring',
       stiffness: 100,
       damping: 15,
-    },
+    }
   },
 };
 
@@ -60,51 +58,51 @@ const BackgroundPattern = () => (
 
 // Navigation items with static text and routing configuration
 const NAV_ITEMS = [
-  {
-    name: 'Home',
-    path: withBasePath('/'),
+  { 
+    name: 'Home', 
+    path: '/', 
     section: 'home',
     ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
     description: 'Back to the homepage',
-    exact: true,
+    exact: true
   },
-  {
-    name: 'About',
-    path: withBasePath('/about'),
+  { 
+    name: 'About', 
+    path: '/about', 
     section: 'about',
     ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
     description: 'Learn about me and my skills',
-    exact: false,
+    exact: false
   },
-  {
-    name: 'Experience',
-    path: withBasePath('/experience'),
+  { 
+    name: 'Experience', 
+    path: '/experience', 
     section: 'experience',
     ref: 'experienceRef',
     icon: <FiBriefcase className="w-5 h-5" />,
     description: 'View my professional experience',
-    exact: false,
+    exact: false
   },
-  {
-    name: 'Projects',
-    path: withBasePath('/projects'),
+  { 
+    name: 'Projects', 
+    path: '/projects', 
     section: 'projects',
     ref: 'projectsRef',
     icon: <FiCode className="w-5 h-5" />,
     description: 'Explore my portfolio projects',
-    exact: false,
+    exact: false
   },
-  {
-    name: 'Contact',
-    path: withBasePath('/contact'),
+  { 
+    name: 'Contact', 
+    path: '/contact', 
     section: 'contact',
     ref: 'contactRef',
     icon: <FiMail className="w-5 h-5" />,
     description: 'Get in touch with me',
-    exact: false,
-  },
+    exact: false
+  }
 ];
 
 // Theme Toggle Component
@@ -112,45 +110,36 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
   const { theme, toggleTheme, autoTheme, toggleAutoTheme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-
-  const handleToggle = useCallback(
-    (e) => {
-      e.stopPropagation();
-      setIsPressed(true);
-      setTimeout(() => setIsPressed(false), 200);
-      toggleTheme();
-      if (onThemeChange) onThemeChange();
-    },
-    [toggleTheme, onThemeChange]
-  );
-
-  const handleAutoThemeToggle = useCallback(
-    (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      toggleAutoTheme();
-    },
-    [toggleAutoTheme]
-  );
-
+  
+  const handleToggle = useCallback((e) => {
+    e.stopPropagation();
+    setIsPressed(true);
+    setTimeout(() => setIsPressed(false), 200);
+    toggleTheme();
+    if (onThemeChange) onThemeChange();
+  }, [toggleTheme, onThemeChange]);
+  
+  const handleAutoThemeToggle = useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleAutoTheme();
+  }, [toggleAutoTheme]);
+  
   // Theme configurations with CSS classes
-  const themes = useMemo(
-    () => ({
-      light: {
-        icon: <FiSun className="theme-icon" />,
-        label: 'Light Mode',
-        className: 'theme-light',
-        tooltip: 'Switch to dark mode',
-      },
-      dark: {
-        icon: <FiMoon className="theme-icon" />,
-        label: 'Dark Mode',
-        className: 'theme-dark',
-        tooltip: 'Switch to light mode',
-      },
-    }),
-    []
-  );
+  const themes = useMemo(() => ({
+    light: {
+      icon: <FiSun className="theme-icon" />,
+      label: 'Light Mode',
+      className: 'theme-light',
+      tooltip: 'Switch to dark mode',
+    },
+    dark: {
+      icon: <FiMoon className="theme-icon" />,
+      label: 'Dark Mode',
+      className: 'theme-dark',
+      tooltip: 'Switch to light mode',
+    }
+  }), []);
 
   const currentTheme = themes[theme] || themes.light;
 
@@ -173,48 +162,50 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <motion.div
+        <motion.div 
           className="theme-toggle-inner"
           animate={{
             rotate: isHovered ? (theme === 'light' ? 15 : -15) : 0,
-            scale: isPressed ? 0.9 : 1,
+            scale: isPressed ? 0.9 : 1
           }}
           transition={{
             type: 'spring',
             stiffness: 500,
             damping: 15,
-            mass: 0.5,
+            mass: 0.5
           }}
         >
-          <span className="theme-icon">{currentTheme.icon}</span>
+          <span className="theme-icon">
+            {currentTheme.icon}
+          </span>
           <span className="theme-ripple"></span>
         </motion.div>
 
         {autoTheme && (
-          <motion.span
+          <motion.span 
             className="theme-auto-indicator"
             initial={{ scale: 0 }}
-            animate={{
+            animate={{ 
               scale: 1,
               opacity: [0, 1, 1],
-              y: [10, -2, 0],
+              y: [10, -2, 0]
             }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{
+            transition={{ 
               duration: 0.3,
               times: [0, 0.8, 1],
-              ease: 'easeOut',
+              ease: "easeOut"
             }}
           />
         )}
       </motion.button>
-
-      <motion.div
+      
+      <motion.div 
         className="theme-tooltip"
         initial={{ opacity: 0, y: 5 }}
         animate={{
           opacity: isHovered ? 1 : 0,
-          y: isHovered ? 0 : 5,
+          y: isHovered ? 0 : 5
         }}
         transition={{ duration: 0.2 }}
       >
@@ -274,23 +265,21 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       // Prevent body scroll when menu is open
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
-
+      
       // Focus trap for accessibility
       const menuElement = menuRef.current;
       if (!menuElement) return;
-
+      
       // Get all focusable elements in the menu
-      const focusableElements = Array.from(
-        menuElement.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        )
-      ).filter((el) => !el.disabled && !el.hidden && el.offsetParent !== null);
-
+      const focusableElements = Array.from(menuElement.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )).filter(el => !el.disabled && !el.hidden && el.offsetParent !== null);
+      
       if (focusableElements.length === 0) return;
-
+      
       const firstElement = focusableElements[0];
       const lastElement = focusableElements[focusableElements.length - 1];
-
+      
       const handleKeyDown = (e) => {
         // Close menu on Escape
         if (e.key === 'Escape') {
@@ -300,32 +289,32 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
           if (menuButton) menuButton.focus();
           return;
         }
-
+        
         // Only handle tab key when menu is open
         if (e.key !== 'Tab') return;
-
+        
         // Handle shift + tab (backwards tab)
         if (e.shiftKey) {
           if (document.activeElement === firstElement) {
             e.preventDefault();
             lastElement.focus();
           }
-        }
+        } 
         // Handle tab (forwards tab)
         else if (document.activeElement === lastElement) {
           e.preventDefault();
           firstElement.focus();
         }
       };
-
+      
       // Focus first element when menu opens
       requestAnimationFrame(() => {
         firstElement.focus();
       });
-
+      
       // Add event listeners
       document.addEventListener('keydown', handleKeyDown);
-
+      
       // Cleanup function
       return () => {
         document.removeEventListener('keydown', handleKeyDown);
@@ -334,38 +323,32 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     }
   }, [isMenuOpen]);
 
-  const toggleMenu = useCallback(
-    (e) => {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-      const newIsMenuOpen = !isMenuOpen;
-      setIsMenuOpen(newIsMenuOpen);
-
-      // Update aria-expanded for screen readers
-      const menuButton = document.querySelector('[aria-label*="menu"]');
-      if (menuButton) {
-        menuButton.setAttribute('aria-expanded', String(newIsMenuOpen));
-      }
-    },
-    [isMenuOpen]
-  );
+  const toggleMenu = useCallback((e) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    const newIsMenuOpen = !isMenuOpen;
+    setIsMenuOpen(newIsMenuOpen);
+    
+    // Update aria-expanded for screen readers
+    const menuButton = document.querySelector('[aria-label*="menu"]');
+    if (menuButton) {
+      menuButton.setAttribute('aria-expanded', String(newIsMenuOpen));
+    }
+  }, [isMenuOpen]);
 
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
 
   // Close mobile menu when clicking outside
-  const handleClickOutside = useCallback(
-    (event) => {
-      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
-        closeMenu();
-      }
-    },
-    [isMenuOpen]
-  );
-
+  const handleClickOutside = useCallback((event) => {
+    if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+      closeMenu();
+    }
+  }, [isMenuOpen]);
+  
   // Add click outside listener
   useEffect(() => {
     if (isMenuOpen) {
@@ -377,68 +360,82 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   }, [isMenuOpen, handleClickOutside]);
 
   // Improved scroll to section with navigation support
-  const scrollTo = useCallback(
-    (id, path) => {
-      const currentPath = location.pathname;
-
-      // If we have a section ID, use the scrollToSection utility
-      if (id) {
-        scrollToSection(id, navigate, currentPath);
-        setIsMenuOpen(false);
-        return;
+  const scrollTo = useCallback((id, path) => {
+    // If we're not on the home page, navigate first
+    if (location.pathname !== '/') {
+      navigate(path || '/');
+      // Small delay to ensure the component has mounted
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+        }
+      }, 100);
+    } else {
+      // We're already on the home page, just scroll
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
       }
-
-      // If we have a path, navigate to it
-      if (path) {
-        const navPath = getNavigationPath(path);
-        navigate(navPath);
-      }
-
-      // Close mobile menu if open
-      setIsMenuOpen(false);
-    },
-    [location.pathname, navigate]
-  );
+    }
+  }, [location.pathname, navigate]);
 
   // Handle navigation with support for both page navigation and section scrolling
-  const handleNavClick = useCallback(
-    (e, path, section) => {
-      const currentPath = location.pathname;
-
-      // If it's a section link (starts with #)
-      if (path.startsWith('#')) {
+  const handleNavClick = useCallback((e, path, section) => {
+    // If it's the home page link
+    if (path === '/') {
+      if (location.pathname === '/') {
+        // If already on home page, scroll to top
         e.preventDefault();
-        const sectionId = path.substring(1);
-        scrollToSection(sectionId, navigate, currentPath);
-        return;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Navigate to home page
+        navigate('/');
       }
-
-      // Get the full navigation path
-      const navPath = getNavigationPath(path);
-
-      // If it's the home page link
-      if (navPath === withBasePath('/') || navPath === `${withBasePath('/')}/`) {
-        if (isHomePage(currentPath)) {
-          // If already on home page, scroll to top
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          // Navigate to home page
-          navigate(navPath);
-        }
-        return;
+      return;
+    }
+    
+    // If it's a different page
+    if (path.startsWith('/')) {
+      navigate(path);
+      // Scroll to top when navigating to a new page
+      window.scrollTo(0, 0);
+      return;
+    }
+    
+    // If it's a hash link and we're on the home page
+    if (path.startsWith('#') && location.pathname === '/') {
+      const element = document.getElementById(path.substring(1));
+      if (element) {
+        e.preventDefault();
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
       }
-
-      // For all other navigation
-      navigate(navPath);
-
-      // If it's not a section link, scroll to top
-      if (!path.includes('#')) {
-        window.scrollTo(0, 0);
-      }
-    },
-    [navigate, location.pathname]
-  );
+      return;
+    }
+    
+    // If we're not on the home page and it's a section link
+    if (path.startsWith('#')) {
+      navigate('/' + path);
+    }
+  }, [navigate, location.pathname]);
 
   // Handle body class and scroll position when menu is open or path changes
   useEffect(() => {
@@ -450,7 +447,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       document.body.classList.remove('menu-open');
       document.body.style.overflow = 'auto';
     }
-
+    
     // Cleanup
     return () => {
       document.body.classList.remove('menu-open');
@@ -470,14 +467,12 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">
-          <NavLink
-            to={withBasePath('/')}
+          <NavLink 
+            to="/" 
             className="flex items-center space-x-2 group"
             aria-label="Home"
             onClick={(e) => {
-              const currentPath = location.pathname;
-              const basePath = withBasePath('/');
-              if (currentPath === basePath || currentPath === `${basePath}/`) {
+              if (location.pathname === '/') {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
@@ -485,7 +480,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
           >
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
-                <ImageWithFallback
+                <ImageWithFallback 
                   src={getImagePath('logo', '', 'logo192.png')}
                   fallbackSrc="/logo192.png"
                   alt="Sahil Ali - Portfolio Logo"
@@ -526,10 +521,10 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                 key={item.name}
                 to={item.path}
                 onClick={(e) => handleNavClick(e, item.path, item.section)}
-                className={({ isActive }) =>
+                className={({ isActive }) => 
                   `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'text-blue-600 dark:text-blue-400'
+                    isActive 
+                      ? 'text-blue-600 dark:text-blue-400' 
                       : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
                   }`
                 }
@@ -546,7 +541,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
           <div className="hidden lg:flex items-center space-x-4">
             <ThemeToggle />
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/SahilTheCoder"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -555,7 +550,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               <FaGithub className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/sahil-ali-714867242/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -565,73 +560,67 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
             </a>
           </div>
 
-          {/* Mobile Menu Overlay */}
-          <AnimatePresence>
-            {isMenuOpen && (
-              <div
-                ref={menuContainerRef}
-                id="mobile-menu"
-                role="dialog"
-                aria-modal="true"
-                aria-label="Mobile navigation menu"
-                className={`fixed inset-0 z-50 bg-white dark:bg-gray-900 transform transition-transform duration-300 ease-in-out ${
-                  isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                } lg:hidden`}
-              >
-                <motion.div
-                  className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={closeMenu}
-                  aria-hidden="true"
-                />
 
-                <motion.div
-                  ref={menuRef}
-                  className="fixed top-0 right-0 h-screen w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col overflow-hidden"
-                  initial={{ x: '100%' }}
-                  animate={{ x: 0 }}
-                  exit={{ x: '100%' }}
-                  transition={{ type: 'tween', ease: [0.22, 1, 0.36, 1] }}
+            
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <div 
+                  ref={menuContainerRef}
+                  id="mobile-menu"
                   role="dialog"
                   aria-modal="true"
-                  aria-label="Mobile menu"
+                  aria-label="Mobile navigation menu"
+                  className={`fixed inset-0 z-50 bg-white dark:bg-gray-900 transform transition-transform duration-300 ease-in-out ${
+                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+                  } lg:hidden`}
                 >
-                  <div className="p-6 pb-4">
+                  <motion.div 
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    onClick={closeMenu}
+                    aria-hidden="true"
+                  />
+                  
+                  <motion.div 
+                    ref={menuRef}
+                    className="fixed top-0 right-0 h-screen w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col overflow-hidden"
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'tween', ease: [0.22, 1, 0.36, 1] }}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Mobile menu"
+                  >
+                    <div className="p-6 pb-4">
                     <div className="flex justify-between items-center">
-                      <div className="flex justify-center space-x-4 mt-4">
+                      <div className="hidden lg:flex items-center space-x-4">
+                        <ThemeToggle onThemeChange={closeMenu} />
                         <a
-                          href="https://github.com/Sahilthecoder"
+                          href="https://github.com/SahilTheCoder"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
                           aria-label="GitHub"
                         >
-                          <FaGithub className="w-5 h-5" />
+                          <FaGithub className="h-5 w-5" />
                         </a>
                         <a
-                          href="https://linkedin.com/in/sahil-ali-4b2b3b1b0"
+                          href="https://www.linkedin.com/in/sahil-ali-714867242/"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
+                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
                           aria-label="LinkedIn"
                         >
-                          <FaLinkedin className="w-5 h-5" />
-                        </a>
-                        <a
-                          href="https://twitter.com/SahilAli_Dev"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-500 hover:text-blue-400 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
-                          aria-label="Twitter"
-                        >
-                          <FaTwitter className="w-5 h-5" />
+                          <FaLinkedin className="h-5 w-5" />
                         </a>
                       </div>
                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>
-                      <button
+                      <button 
                         onClick={closeMenu}
                         className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                         aria-label="Close menu"
@@ -639,47 +628,68 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                         <FiX className="w-6 h-6 text-gray-600 dark:text-gray-300" />
                       </button>
                     </div>
-
+                    
                     <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
                       <ul className="space-y-2">
                         {NAV_ITEMS.map((item) => {
-                          const isActive = item.exact
+                          const isActive = item.exact 
                             ? location.pathname === item.path
                             : location.pathname.startsWith(item.path);
-
+                            
                           return (
                             <li key={item.name}>
                               <button
                                 onClick={(e) => {
                                   e.preventDefault();
                                   closeMenu();
-
-                                  // Use our navigation utilities for consistent behavior
-                                  if (item.path.startsWith('#')) {
-                                    // Handle section links
-                                    const sectionId = item.path.substring(1);
-                                    scrollToSection(sectionId, navigate, location.pathname);
-                                  } else {
-                                    // Handle page navigation
-                                    const navPath = getNavigationPath(item.path);
-                                    navigate(navPath);
-
-                                    // If it's a link to the current page, scroll to top
-                                    if (location.pathname === navPath) {
+                                  
+                                  if (location.pathname === item.path) {
+                                    // If already on the same page, just scroll to section
+                                    if (item.path === '/') {
                                       window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    } else if (item.section) {
+                                      const element = document.getElementById(item.section);
+                                      if (element) {
+                                        const headerOffset = 100;
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                        window.scrollTo({
+                                          top: offsetPosition,
+                                          behavior: 'smooth',
+                                        });
+                                      }
                                     }
+                                  } else {
+                                    // Navigate to new page
+                                    navigate(item.path);
+                                    
+                                    // Small delay to ensure the page has loaded
+                                    setTimeout(() => {
+                                      if (item.section) {
+                                        const element = document.getElementById(item.section);
+                                        if (element) {
+                                          const headerOffset = 100;
+                                          const elementPosition = element.getBoundingClientRect().top;
+                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                          window.scrollTo({
+                                            top: offsetPosition,
+                                            behavior: 'smooth',
+                                          });
+                                        }
+                                      } else if (item.path === '/') {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }
+                                    }, 100);
                                   }
                                 }}
                                 className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
-                                  isActive
+                                  isActive 
                                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                                 }`}
                                 aria-current={isActive ? 'page' : undefined}
                               >
-                                <span
-                                  className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}
-                                >
+                                <span className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
                                   {item.icon}
                                 </span>
                                 <span className="font-medium">{item.name}</span>
@@ -689,18 +699,16 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                         })}
                       </ul>
                     </nav>
-
+                    
                     <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
                       <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                          Dark Mode
-                        </span>
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
                         <ThemeToggle onThemeChange={closeMenu} />
                       </div>
-
+                      
                       <div className="flex justify-center space-x-4 mt-4">
                         <a
-                          href="https://github.com/Sahilthecoder"
+                          href="https://github.com/SahilTheCoder"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -710,7 +718,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           <FaGithub className="w-5 h-5" />
                         </a>
                         <a
-                          href="https://linkedin.com/in/sahil-ali-4b2b3b1b0"
+                          href="https://www.linkedin.com/in/sahil-ali-714867242/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -718,16 +726,6 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           onClick={closeMenu}
                         >
                           <FaLinkedin className="w-5 h-5" />
-                        </a>
-                        <a
-                          href="https://twitter.com/SahilAli_Dev"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                          aria-label="Twitter"
-                          onClick={closeMenu}
-                        >
-                          <FaTwitter className="w-5 h-5" />
                         </a>
                       </div>
                     </div>

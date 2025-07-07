@@ -9,7 +9,6 @@ import Footer from '../components/Footer';
 import {
   FaGithub,
   FaExternalLinkAlt,
-  FaTimes,
   FaArrowUp,
   FaSearch,
   FaFilePdf,
@@ -18,9 +17,25 @@ import {
   FaDatabase,
   FaChartLine,
   FaMicrosoft,
+  FaTimes,
 } from 'react-icons/fa';
 
-import { FiArrowRight, FiFigma, FiArrowDown, FiTrendingUp } from 'react-icons/fi';
+import {
+  FiArrowRight,
+  FiFigma,
+  FiArrowDown,
+  FiTrendingUp,
+  FiExternalLink,
+  FiGithub,
+  FiX,
+  FiChevronRight,
+  FiChevronLeft,
+  FiMaximize2,
+  FiMinimize,
+  FiMinimize2,
+  FiMaximize,
+  FiMinimize as FiMinimizeIcon,
+} from 'react-icons/fi';
 
 import {
   SiTableau,
@@ -99,15 +114,28 @@ const ProjectCard = ({ project, index, onClick }) => {
   // Use React Router's useNavigate for client-side navigation
   const navigate = useNavigate();
 
-  // Handle click to show project preview
-  const handleClick = (e) => {
-    // Prevent default action and stop propagation
-    e.preventDefault();
-    e.stopPropagation();
+  // Handle card clicks - only for the card itself, not its children
+  const handleCardClick = (e) => {
+    // Don't handle click if it came from a button or link
+    if (e.target.closest('button, a')) {
+      return;
+    }
+    
+    // Only handle click if the target is the card itself or its direct children
+    if (e.target === e.currentTarget || e.target.closest('.project-card')) {
+      // If it's an external link, open in new tab
+      if (project.external) {
+        window.open(project.link, '_blank', 'noopener,noreferrer');
+        return;
+      }
 
-    // Only proceed if the click is not on a link or button
-    if (!e.target.closest('a, button, h3')) {
-      // Call the onClick handler from parent to show the modal
+      // If it's an internal link, navigate to the page
+      if (project.link) {
+        navigate(project.link);
+        return;
+      }
+
+      // If there's an onClick handler, call it (for modal)
       if (onClick && typeof onClick === 'function') {
         onClick(project);
       }
@@ -146,7 +174,8 @@ const ProjectCard = ({ project, index, onClick }) => {
             y: -8,
             boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04)',
           }}
-          onClick={handleClick}
+          onClick={handleCardClick}
+          style={{ position: 'relative', zIndex: 1 }}
         >
           {/* Enhanced glow effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -189,7 +218,11 @@ const ProjectCard = ({ project, index, onClick }) => {
           </div>
 
           {/* Project info */}
-          <div className="p-5 sm:p-6 bg-white dark:bg-gray-800">
+          <div 
+            className="p-5 sm:p-6 bg-white dark:bg-gray-800 relative z-10"
+            onClick={handleCardClick}
+            style={{ pointerEvents: 'auto' }}
+          >
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
@@ -204,43 +237,72 @@ const ProjectCard = ({ project, index, onClick }) => {
               </span>
             </div>
 
-            <h3
-              className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2"
-              onClick={(e) =>
-                handleDirectNavigation(
-                  e,
-                  project.id ? `/projects/${project.id}` : project.projectUrl
-                )
-              }
+            <div
+              className="project-card group cursor-pointer"
+              onClick={handleCardClick}
             >
-              {project.title}
-            </h3>
+              <h3
+                className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2"
+              >
+                {project.title}
+              </h3>
 
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
-              {project.shortDescription}
-            </p>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+                {project.shortDescription}
+              </p>
+            </div>
 
-            <div className="pt-4 border-t border-gray-100 dark:border-gray-700/50">
+            <div 
+              className="pt-4 border-t border-gray-100 dark:border-gray-700/50 flex flex-col sm:flex-row gap-3 relative z-20"
+              style={{ pointerEvents: 'auto' }}
+              onClick={(e) => e.stopPropagation()}
+            >
               <motion.button
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (onClick && typeof onClick === 'function') {
-                    onClick(project);
-                  }
+                  // Add a small delay to ensure the modal state is updated
+                  setTimeout(() => {
+                    if (onClick && typeof onClick === 'function') {
+                      onClick(project);
+                    }
+                  }, 10);
                 }}
+                aria-label="Quick Preview"
                 whileHover={{
                   scale: 1.03,
                   y: -2,
                   boxShadow: '0 4px 16px rgba(79, 70, 229, 0.1)',
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group/button"
+                className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group/button"
               >
-                <span>View Project</span>
-                <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-white dark:bg-gray-600 text-blue-600 dark:text-blue-300 group-hover/button:bg-blue-50 dark:group-hover/button:bg-blue-900/30 transition-colors duration-200">
-                  <FiArrowRight className="w-3.5 h-3.5" />
-                </span>
+                <span>Quick Preview</span>
               </motion.button>
+              
+              {project.link && (
+                <motion.button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (project.external) {
+                      window.open(project.link, '_blank', 'noopener,noreferrer');
+                    } else {
+                      navigate(project.link);
+                    }
+                  }}
+                  whileHover={{
+                    scale: 1.03,
+                    y: -2,
+                    boxShadow: '0 4px 16px rgba(37, 99, 235, 0.2)',
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex-1 flex items-center justify-center px-4 py-2.5 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg transition-all duration-200 group/button"
+                >
+                  <span>View Details</span>
+                  <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/20 group-hover/button:bg-white/30 transition-colors duration-200">
+                    <FiArrowRight className="w-3 h-3" />
+                  </span>
+                </motion.button>
+              )}
             </div>
           </div>
         </motion.div>
@@ -251,11 +313,27 @@ const ProjectCard = ({ project, index, onClick }) => {
 
 // Project modal component
 const ProjectModal = ({ project, onClose }) => {
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const openImage = (img) => setSelectedImage(img);
-  const closeImage = () => setSelectedImage(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  
   if (!project) return null;
+  
+  // Initialize images array from project.gallery or use project as single image
+  const images = project.gallery?.length ? project.gallery : [project];
+  const currentImage = images[selectedImageIndex] || project;
+  
+  // Navigation functions
+  const nextImage = () => {
+    setSelectedImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
 
   return (
     <motion.div
@@ -277,7 +355,7 @@ const ProjectModal = ({ project, onClose }) => {
         </span>
 
         <motion.div
-          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl text-left overflow-hidden shadow-xl transform transition-all w-full max-w-full sm:max-w-4xl sm:my-8 sm:align-middle"
+          className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl text-left overflow-hidden shadow-xl transform transition-all w-full max-w-full sm:max-w-5xl sm:my-8 sm:align-middle"
           onClick={(e) => e.stopPropagation()}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -288,272 +366,199 @@ const ProjectModal = ({ project, onClose }) => {
             flexDirection: 'column',
           }}
         >
-          <div className="relative flex-shrink-0">
-            {/* Close button in top right */}
-            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
-              <button
-                onClick={onClose}
-                className="p-2 sm:p-2.5 rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-lg hover:scale-110"
-                aria-label="Close"
-              >
-                <FaTimes className="h-4 w-4 sm:h-5 sm:w-5" />
-              </button>
-            </div>
-
-            {/* View Project button in bottom right */}
-            {project.path && (
-              <div className="absolute bottom-6 right-6 z-10">
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative group"
-                >
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg blur-sm opacity-0 group-hover:opacity-75 transition duration-300 group-hover:duration-200"></div>
-                  <Link
-                    to={project.path}
-                    className="relative flex items-center px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg leading-none overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl border border-indigo-500/20"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onClose();
-                    }}
+          <div className="relative w-full" style={{ height: '50vh', minHeight: '300px' }}>
+            {/* Main Image Container */}
+            <div className="relative w-full h-full bg-gray-100 dark:bg-gray-900">
+              {/* Navigation Arrows */}
+              {images.length > 1 && (
+                <>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors duration-200"
+                    aria-label="Previous image"
                   >
-                    <span className="relative z-10 flex items-center">
-                      <span className="mr-3">View Project</span>
-                      <FiArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                    </span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  </Link>
-                </motion.div>
-              </div>
-            )}
-
-            <div className="h-[180px] sm:h-[20rem] md:h-[28rem] w-full bg-gray-100 dark:bg-gray-900 relative overflow-hidden group">
-              <div className="w-full h-full flex items-center justify-center p-0">
+                    <FiChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors duration-200"
+                    aria-label="Next image"
+                  >
+                    <FiChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+              
+              {/* Main Project Image */}
+              <div className="w-full h-full">
                 <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                  onLoad={(e) => {
-                    console.log(`✅ Successfully loaded image: ${e.target.src}`);
+                  src={currentImage.image || project.image}
+                  alt={currentImage.alt || project.title}
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition: 'center center'
                   }}
                   onError={(e) => {
-                    const imgSrc = e.target.src;
-                    console.error(`❌ Failed to load image:`, {
-                      projectId: project.id,
-                      imagePath: project.image,
-                      resolvedPath: imgSrc,
-                      error: 'Image load failed',
-                    });
-
-                    // Try to load a placeholder if available
-                    const placeholderPath = project.previewImage || project.image;
-                    if (placeholderPath && placeholderPath !== imgSrc) {
-                      console.log(`🔄 Attempting to load placeholder: ${placeholderPath}`);
-                      e.target.src = placeholderPath;
-                    } else {
-                      // Fallback to a solid color if no placeholder
-                      e.target.style.backgroundColor = '#f0f0f0';
-                      e.target.style.display = 'flex';
-                      e.target.style.alignItems = 'center';
-                      e.target.style.justifyContent = 'center';
-                      e.target.innerHTML = '<span class="text-gray-500">Image not found</span>';
-                    }
+                    e.target.onerror = null;
+                    e.target.src = project.previewImage || '/images/placeholder.png';
                   }}
                 />
               </div>
-              {/* Tech stack overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                <div className="w-full">
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {project.techStack?.map((tech, idx) => (
-                      <motion.span
-                        key={idx}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className="inline-flex items-center px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-black/70 text-gray-800 dark:text-gray-100 backdrop-blur-md border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transition-all duration-200 shadow-sm select-none"
-                      >
-                        <span className="text-xs sm:text-sm">
-                          {techIcons[tech] || techIcons['Data Analysis']}
-                        </span>
-                        <span className="ml-1 sm:ml-1.5">{tech}</span>
-                      </motion.span>
-                    ))}
-                  </div>
+              
+              {/* Image Counter */}
+              {images.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
+                  {selectedImageIndex + 1} / {images.length}
                 </div>
+              )}
+              
+              {/* View Project Button */}
+              {project.link && (
+                <div className="absolute bottom-6 right-6 z-10">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-md transition-colors duration-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span>View Project</span>
+                    <FiExternalLink className="ml-2 h-4 w-4" />
+                  </a>
+                </div>
+              )}
+              
+              {/* Navigation and close buttons */}
+              <div className="absolute top-2 right-2 z-20 flex gap-2">
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleFullscreen(); }}
+                  className="p-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-lg hover:scale-110"
+                  aria-label={isFullscreen ? 'Exit fullscreen' : 'View fullscreen'}
+                >
+                  {isFullscreen ? (
+                    <FiMinimize className="h-4 w-4" />
+                  ) : (
+                    <FiMaximize2 className="h-4 w-4" />
+                  )}
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); onClose(); }}
+                  className="p-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-all duration-300 shadow-lg hover:scale-110"
+                  aria-label="Close"
+                >
+                  <FiX className="h-4 w-4" />
+                </button>
               </div>
             </div>
-
-            <div className="overflow-y-auto flex-1 p-4 sm:p-6 md:p-8 custom-scrollbar">
-              <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between lg:space-x-6 space-y-4 lg:space-y-0">
-                <div className="flex-1">
-                  <Link
-                    to={project.path}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onClose();
-                    }}
-                    className="group inline-block"
-                  >
-                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 inline-flex items-center">
-                      {project.title}
-                      <FiArrowRight className="ml-2 h-5 w-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                    </h2>
-                  </Link>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
-                    {project.description}
-                  </p>
-
-                  {/* Gallery Section */}
-                  {project.gallery && project.gallery.length > 0 && (
-                    <div className="mt-4 sm:mt-6">
-                      <h3 className="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-2 sm:mb-3">
-                        Project Gallery
-                      </h3>
-                      <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-4 gap-1.5 sm:gap-2">
-                        {project.gallery.map((img, index) => (
-                          <motion.div
-                            key={index}
-                            className="relative group rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 aspect-square cursor-pointer touch-pan-y"
-                            onClick={() => openImage(img)}
-                            whileTap={{ scale: 0.98 }}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.05 }}
-                          >
-                            <img
-                              src={img}
-                              alt={`${project.title} - ${index + 1}`}
-                              className="w-full h-full object-contain p-2 bg-white dark:bg-gray-800 transition-transform duration-300 group-hover:scale-105"
-                              loading="lazy"
-                              onLoad={(e) => {
-                                console.log(
-                                  `✅ Successfully loaded gallery image: ${e.target.src}`
-                                );
-                              }}
-                              onError={(e) => {
-                                const imgSrc = e.target.src;
-                                console.error(`❌ Failed to load gallery image:`, {
-                                  projectId: project.id,
-                                  imagePath: img,
-                                  resolvedPath: imgSrc,
-                                  error: 'Gallery image load failed',
-                                });
-
-                                // Try to load a placeholder if available
-                                const placeholderPath = project.previewImage || project.image;
-                                if (placeholderPath && placeholderPath !== imgSrc) {
-                                  console.log(
-                                    `🔄 Attempting to load placeholder: ${placeholderPath}`
-                                  );
-                                  e.target.src = placeholderPath;
-                                } else {
-                                  // Fallback to a solid color if no placeholder
-                                  e.target.style.backgroundColor = '#f0f0f0';
-                                  e.target.style.display = 'flex';
-                                  e.target.style.alignItems = 'center';
-                                  e.target.style.justifyContent = 'center';
-                                  e.target.innerHTML =
-                                    '<span class="text-xs text-gray-500">Image not found</span>';
-                                }
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-black/20 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-2 space-y-1 sm:space-y-2">
-                              <FaExternalLinkAlt className="text-white text-lg sm:text-xl" />
-                              <span className="text-white text-xs sm:text-sm font-medium text-center px-1">
-                                View Full Size
-                              </span>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-6 md:mt-0 flex space-x-4">
-                  {project.githubUrl && (
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            
+            {/* Gallery Thumbnails */}
+            {images.length > 1 && (
+              <div className="bg-gray-50 dark:bg-gray-800 p-3 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex space-x-2 overflow-x-auto pb-1">
+                  {images.map((img, index) => (
+                    <button
+                      key={index}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImageIndex(index);
+                      }}
+                      className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                        selectedImageIndex === index
+                          ? 'border-indigo-500 ring-2 ring-indigo-300 dark:ring-indigo-600'
+                          : 'border-transparent hover:border-gray-300 dark:hover:border-gray-600'
+                      }`}
+                      aria-label={`View image ${index + 1}`}
                     >
-                      <FaGithub className="mr-2 h-4 w-4" />
-                      View Code
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                      <FaExternalLinkAlt className="mr-2 h-3 w-3" />
-                      Live Demo
-                    </a>
-                  )}
+                      <img
+                        src={img.thumbnail || img.image || project.image}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = project.previewImage || '/images/placeholder.png';
+                        }}
+                      />
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {project.features && (
-                <div className="mt-8">
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    Key Features
-                  </h3>
-                  <ul className="space-y-2">
-                    {project.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+            )}
+          </div>
+          
+          {/* Project Details */}
+          <div className="p-4 sm:p-6 overflow-y-auto">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+              {project.title}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              {project.description}
+            </p>
+            
+            {/* Tech Stack */}
+            {project.techStack && (
+              <div className="mt-4">
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                  Tech Stack
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.techStack.map((tech, idx) => (
+                    <span 
+                      key={idx}
+                      className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+                    >
+                      {techIcons[tech] || ''}
+                      <span className="ml-1">{tech}</span>
+                    </span>
+                  ))}
                 </div>
+              </div>
+            )}
+            
+            {/* Features */}
+            {project.features && (
+              <div className="mt-4">
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
+                  Key Features
+                </h3>
+                <ul className="space-y-2">
+                  {project.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="text-green-500 mr-2">•</span>
+                      <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {/* Project Links */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                  <FaGithub className="mr-2 h-4 w-4" />
+                  View Code
+                </a>
+              )}
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <FiExternalLink className="mr-2 h-4 w-4" />
+                  Live Demo
+                </a>
               )}
             </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Image Lightbox */}
-      <AnimatePresence>
-        {selectedImage && (
-          <motion.div
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
-            onClick={closeImage}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <div
-              className="relative max-w-4xl w-full max-h-[90vh]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={closeImage}
-                className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
-                aria-label="Close"
-              >
-                <FaTimes className="h-6 w-6" />
-              </button>
-              <ProjectImage
-                projectId={project.id}
-                imageName={selectedImage}
-                alt="Enlarged view"
-                className="max-w-full max-h-[80vh] object-contain"
-                containerClassName="w-full h-full"
-                objectFit="contain"
-              />
-              <div className="mt-2 text-center text-white text-sm opacity-75">
-                Click anywhere to close
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 };
@@ -571,7 +576,7 @@ const projects = [
     icon: 'Excel',
     image: '/images/projects/Project1 excel/Project1 Cover.avif',
     previewImage: '/images/projects/Project1 excel/Project1 Cover.avif',
-    link: 'project1.html',
+    link: '/projects/zomato-expansion',
     githubLink: '',
     featured: true,
   },
@@ -585,7 +590,7 @@ const projects = [
     icon: 'Tableau',
     image: '/images/projects/Project2 tableau/Project2 Cover.avif',
     previewImage: '/images/projects/Project2 tableau/Project2 Cover.avif',
-    link: 'project2.html',
+    link: '/projects/bansal-supermarket',
     githubLink: '',
     featured: true,
   },
@@ -599,7 +604,7 @@ const projects = [
     icon: 'SQL',
     image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
     previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-    link: 'project3.html',
+    link: '/projects/ekam-attendance',
     githubLink: '',
     featured: true,
   },
@@ -617,7 +622,7 @@ const projects = [
       '/images/projects/Project4 Power BI/CashFlow1.avif',
       '/images/projects/Project4 Power BI/CashFlow2.avif',
     ],
-    link: 'project4.html',
+    link: '/projects/cash-flow-dashboard',
     githubLink: '',
     featured: true,
   },
@@ -631,7 +636,7 @@ const projects = [
     icon: 'Notion',
     image: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
     previewImage: '/images/projects/Project5 Gpt+Notion/Project5 Cover.avif',
-    link: 'project5.html',
+    link: '/projects/ai-daily-planner',
     githubLink: '',
     featured: true,
   },
@@ -645,7 +650,7 @@ const projects = [
     icon: 'Zapier',
     image: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
     previewImage: '/images/projects/Project6 Gpt+Zapier/Project6 Cover.avif',
-    link: 'project6.html',
+    link: '/projects/smart-automation',
     githubLink: '',
     featured: true,
   },
@@ -667,12 +672,14 @@ const projects = [
 ];
 
 const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Filter projects based on search term and active filter
   const filteredProjects = useMemo(() => {
@@ -711,6 +718,20 @@ const Projects = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Handle project selection for modal
+  const handleProjectSelect = (project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  };
+
+  // Handle modal close
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProject(null);
+    document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+  };
 
   // Simulate loading
   useEffect(() => {
@@ -852,7 +873,7 @@ const Projects = () => {
                   <ProjectCard
                     project={project}
                     index={index}
-                    onClick={(project) => setSelectedProject(project)}
+                    onClick={handleProjectSelect}
                   />
                 </motion.div>
               ))}
@@ -879,8 +900,12 @@ const Projects = () => {
 
       {/* Project Modal */}
       <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+        {isModalOpen && selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={handleCloseModal} 
+            key={selectedProject.id}
+          />
         )}
       </AnimatePresence>
 

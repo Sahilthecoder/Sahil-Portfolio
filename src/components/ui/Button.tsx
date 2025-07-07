@@ -16,19 +16,16 @@ interface BaseButtonProps {
   isDisabled?: boolean;
   className?: string;
   children?: React.ReactNode;
-  as?: React.ElementType;
+  as?: 'button' | 'a' | typeof Link;
   href?: string;
   to?: string;
   target?: string;
   rel?: string;
-  [key: string]: any; // Allow any other props
 }
 
 type ButtonProps = BaseButtonProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof BaseButtonProps> &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps> & {
-    [key: string]: any; // Allow any other props
-  };
+  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseButtonProps>;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-500 border-transparent',
@@ -78,54 +75,25 @@ export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonPr
     const widthStyles = isFullWidth ? 'w-full' : '';
 
     // Handle different element types
-    // Ensure variant and size have valid values
-    const safeVariant = variant || 'primary';
-    const safeSize = size || 'md';
-    
-    const elementProps: Record<string, any> = {
+    const elementProps = {
       className: clsx(
         baseStyles,
-        variantStyles[safeVariant as keyof typeof variantStyles],
-        sizeStyles[safeSize as keyof typeof sizeStyles],
+        variantStyles[variant],
+        sizeStyles[size],
         widthStyles,
-        safeVariant === 'outline' && 'border',
+        variant === 'outline' && 'border',
         className
       ),
       disabled: isDisabled || isLoading,
       'aria-disabled': isDisabled || isLoading || undefined,
+      ...(isButton && { type }),
+      ...(isLink && {
+        href: to || href,
+        target: isExternal ? '_blank' : undefined,
+        rel: isExternal ? 'noopener noreferrer' : undefined,
+      }),
+      ...props,
     };
-
-    // Add type for buttons
-    if (isButton) {
-      elementProps.type = type;
-    }
-
-    // Handle link-specific props
-    if (isLink) {
-      if (Component === Link) {
-        // For React Router Link
-        elementProps.to = to;
-      } else {
-        // For regular anchor tags
-        elementProps.href = to || href;
-        if (isExternal) {
-          elementProps.target = '_blank';
-          elementProps.rel = 'noopener noreferrer';
-        } else if (props.target) {
-          elementProps.target = props.target;
-        }
-        if (props.rel) {
-          elementProps.rel = props.rel;
-        }
-      }
-    }
-
-    // Add all other props
-    Object.keys(props).forEach(key => {
-      if (key !== 'to' && key !== 'href' && key !== 'target' && key !== 'rel') {
-        elementProps[key] = props[key as keyof typeof props];
-      }
-    });
 
     // If loading, show loading state
     if (isLoading) {

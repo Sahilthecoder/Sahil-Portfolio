@@ -13,6 +13,7 @@ const base = isProduction ? '/Sahil-Portfolio/' : '/';
 // Set environment variables for base URL
 process.env.VITE_BASE_URL = base;
 process.env.BASE_URL = base;
+process.env.VITE_IS_GITHUB_PAGES = 'true';
 process.env.VITE_APP_VERSION = process.env.npm_package_version;
 
 console.log(`Using base URL: "${base}"`);

@@ -1,17 +1,16 @@
 import React from 'react';
-import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
 
-// Import components directly for better reliability in GitHub Pages
+// Import components
 import Home from './pages/Home';
 import About from './pages/About';
 import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import Projects from './pages/Projects';
 import NotFound from './pages/NotFound';
-import { BASE_PATH } from './utils/paths';
 
 // Loading component
 const LoadingFallback = () => (
@@ -64,6 +63,23 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+function AppRoutes() {
+  const location = useLocation();
+  
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="experience" element={<Experience />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
 function App() {
   console.log('App component rendering...');
   
@@ -71,50 +87,9 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <ThemeProvider>
-          <Router 
-            basename={process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : ''}
-            future={{
-              v7_startTransition: true,
-              v7_relativeSplatPath: true
-            }}
-          >
-            <ErrorBoundary>
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route index element={
-                    <ErrorBoundary>
-                      <Home />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="about" element={
-                    <ErrorBoundary>
-                      <About />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="experience" element={
-                    <ErrorBoundary>
-                      <Experience />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="projects" element={
-                    <ErrorBoundary>
-                      <Projects />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="contact" element={
-                    <ErrorBoundary>
-                      <Contact />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="*" element={
-                    <ErrorBoundary>
-                      <NotFound />
-                    </ErrorBoundary>
-                  } />
-                </Routes>
-              </AnimatePresence>
-            </ErrorBoundary>
-          </Router>
+          <ErrorBoundary>
+            <AppRoutes />
+          </ErrorBoundary>
         </ThemeProvider>
       </HelmetProvider>
     </ErrorBoundary>

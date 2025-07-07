@@ -1,9 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { HashRouter } from 'react-router-dom';
 import App from './App';
 import './reset.css';
 import './App.css';
 import './styles/globals.css';
+
+// Set the base URL for GitHub Pages
+const baseUrl = import.meta.env.VITE_IS_GITHUB_PAGES === 'true' ? '/Sahil-Portfolio' : '';
 
 // Get the root element
 const container = document.getElementById('root');
@@ -29,26 +33,16 @@ if (!container) {
   errorDiv.style.overflow = 'auto';
   errorDiv.style.maxHeight = '50vh';
   errorDiv.textContent = errorMsg;
-  
-  document.body.prepend(errorDiv);
-  
+  document.body.appendChild(errorDiv);
   throw new Error(errorMsg);
 }
 
-// Create a root and render the app
+// Set the base URL in a global variable for debugging
+window.__BASE_URL__ = baseUrl || '/';
+console.log('Application base URL:', window.__BASE_URL__);
+
+// Create the root and render the app with HashRouter for GitHub Pages
 const root = createRoot(container);
-
-// Set the base URL for the application
-const baseUrl = import.meta.env.BASE_URL || '/';
-window.__BASE_URL__ = baseUrl;
-console.log('Application base URL:', baseUrl);
-
-// Initial render with the App component
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
@@ -82,13 +76,14 @@ class ErrorBoundary extends React.Component {
             <h1 className="text-2xl font-bold text-red-600 mb-4">
               Something went wrong
             </h1>
-            <p className="mb-4">
-              Please try refreshing the page or contact support if the problem persists.
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              We're sorry, but an unexpected error occurred. The team has been notified.
             </p>
             <button
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-md transition-colors"
             >
+              Reload Page
               Refresh Page
             </button>
           </div>
@@ -101,5 +96,5 @@ class ErrorBoundary extends React.Component {
 }
 
 // Set the base URL in a global variable for debugging
-window.__BASE_URL__ = process.env.VITE_BASE_URL || '/';
+window.__BASE_URL__ = baseUrl || '/';
 console.log('Application base URL:', window.__BASE_URL__);

@@ -23,6 +23,10 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     base: base,
+    define: {
+      'import.meta.env.PROD': JSON.stringify(process.env.NODE_ENV === 'production'),
+      'import.meta.env.VITE_BASE_URL': JSON.stringify(base)
+    },
     publicDir: 'public',
     assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.ico', '**/*.webp', '**/*.avif'],
     assetsDir: 'assets',
@@ -70,7 +74,8 @@ export default defineConfig(({ command, mode }) => {
       minify: isProduction ? 'esbuild' : false,
       cssMinify: isProduction,
       chunkSizeWarningLimit: 1000, // in KB
-      assetsInlineLimit: 0,
+      assetsInlineLimit: 4096, // 4kb
+      emptyOutDir: true,
       rollupOptions: {
         output: {
           manualChunks: (id) => {

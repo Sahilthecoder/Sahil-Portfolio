@@ -52,9 +52,13 @@ export default defineConfig(({ command, mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         srcDir: 'src',
-        filename: 'service-worker.js',
+        filename: 'sw.js',
         strategies: 'injectManifest',
         injectRegister: 'auto',
+        base: base,
+        devOptions: {
+          enabled: false
+        },
         workbox: {
           globPatterns: ['**/*.{js,css,html,png,jpg,jpeg,svg,ico,webp}'],
           runtimeCaching: [

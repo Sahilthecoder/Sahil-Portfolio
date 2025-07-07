@@ -41,6 +41,21 @@ if (!container) {
 window.__BASE_URL__ = baseUrl || '/';
 console.log('Application base URL:', window.__BASE_URL__);
 
+// Register service worker in production
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    const swUrl = `${window.__BASE_URL__}sw.js`;
+    
+    navigator.serviceWorker.register(swUrl)
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(error => {
+        console.error('ServiceWorker registration failed: ', error);
+      });
+  });
+}
+
 // Create the root and render the app with HashRouter for GitHub Pages
 const root = createRoot(container);
 

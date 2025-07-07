@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -22,6 +23,72 @@ export default defineConfig(({ command, mode }) => {
   const isBuild = command === 'build';
 
   return {
+    plugins: [
+      react(),
+      VitePWA({
+        registerType: 'autoUpdate',
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg'],
+        manifest: {
+          name: 'Sahil Ali Portfolio',
+          short_name: 'SahilPortfolio',
+          description: 'Portfolio of Sahil Ali - Inventory Specialist & Data Analyst',
+          theme_color: '#2563eb',
+          background_color: '#ffffff',
+          display: 'standalone',
+          start_url: base,
+          icons: [
+            {
+              src: 'images/logo192.png',
+              sizes: '192x192',
+              type: 'image/png',
+              purpose: 'any maskable'
+            },
+            {
+              src: 'images/logo512.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any maskable'
+            }
+          ]
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'google-fonts-cache',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'gstatic-fonts-cache',
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200]
+                }
+              }
+            }
+          ]
+        },
+        devOptions: {
+          enabled: false
+        }
+      })
+    ],
     base: base,
     define: {
       'import.meta.env.PROD': JSON.stringify(process.env.NODE_ENV === 'production'),
@@ -30,6 +97,35 @@ export default defineConfig(({ command, mode }) => {
     publicDir: 'public',
     assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.ico', '**/*.webp', '**/*.avif'],
     assetsDir: 'assets',
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            vendor: ['framer-motion', 'react-icons']
+          },
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name.split('.');
+            const ext = info[info.length - 1];
+            if (ext === 'css') {
+              return 'assets/css/[name]-[hash][extname]';
+            }
+            if (['png', 'jpg', 'jpeg', 'svg', 'webp', 'avif'].includes(ext)) {
+              return 'assets/images/[name]-[hash][extname]';
+            }
+            return 'assets/[name]-[hash][extname]';
+          },
+        },
+      },
+      minify: isProduction ? 'esbuild' : false,
+      sourcemap: !isProduction,
+      target: 'esnext',
+    },
     server: {
       port: 3000,
       open: true,

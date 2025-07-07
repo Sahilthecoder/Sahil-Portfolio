@@ -24,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
     base: base,
     publicDir: 'public',
     assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.ico', '**/*.webp', '**/*.avif'],
+    assetsDir: 'assets',
     server: {
       port: 3000,
       open: true,

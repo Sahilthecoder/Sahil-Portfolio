@@ -106,17 +106,14 @@ jobs:
           mkdir -p dist
           rm -f dist/service-worker.js 2>/dev/null || true
           
-          # Run the build
-          VITE_BASE_URL='/Sahil-Portfolio/' npm run build --if-present || (echo "Build failed. Check logs above for error details." && exit 1)
-          
           # Create necessary files
           echo -e "\nCreating deployment files..."
           touch ./dist/.nojekyll
           echo '/* /index.html 200' > ./dist/_redirects
           
-          # Build application
+          # Run the build with proper environment variables
           echo "Building the application..."
-          npm run build
+          VITE_BASE_URL='/Sahil-Portfolio/' npm run build
           
           # Verify the build was successful
           if [ ! -d "dist" ]; then

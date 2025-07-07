@@ -101,5 +101,5 @@ class ErrorBoundary extends React.Component {
 }
 
 // Set the base URL in a global variable for debugging
-window.__BASE_URL__ = baseUrl;
-console.log('Application base URL:', baseUrl);
+window.__BASE_URL__ = process.env.VITE_BASE_URL || '/';
+console.log('Application base URL:', window.__BASE_URL__);

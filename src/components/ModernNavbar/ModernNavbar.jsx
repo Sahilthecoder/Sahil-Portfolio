@@ -15,6 +15,8 @@ import {
 import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { withBasePath } from '../../utils/paths';
+import { isHomePage, getNavigationPath, scrollToSection } from '../../utils/navigation';
 import { useTheme } from '../../context/ThemeContext';
 import './ModernNavbar.css';
 
@@ -60,7 +62,7 @@ const BackgroundPattern = () => (
 const NAV_ITEMS = [
   { 
     name: 'Home', 
-    path: '/', 
+    path: withBasePath('/'), 
     section: 'home',
     ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
@@ -69,7 +71,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'About', 
-    path: '/about', 
+    path: withBasePath('/about'), 
     section: 'about',
     ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
@@ -78,7 +80,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Experience', 
-    path: '/experience', 
+    path: withBasePath('/experience'), 
     section: 'experience',
     ref: 'experienceRef',
     icon: <FiBriefcase className="w-5 h-5" />,
@@ -87,7 +89,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Projects', 
-    path: '/projects', 
+    path: withBasePath('/projects'), 
     section: 'projects',
     ref: 'projectsRef',
     icon: <FiCode className="w-5 h-5" />,
@@ -96,7 +98,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Contact', 
-    path: '/contact', 
+    path: withBasePath('/contact'), 
     section: 'contact',
     ref: 'contactRef',
     icon: <FiMail className="w-5 h-5" />,
@@ -361,79 +363,59 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
 
   // Improved scroll to section with navigation support
   const scrollTo = useCallback((id, path) => {
-    // If we're not on the home page, navigate first
-    if (location.pathname !== '/') {
-      navigate(path || '/');
-      // Small delay to ensure the component has mounted
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-          });
-        }
-      }, 100);
-    } else {
-      // We're already on the home page, just scroll
-      const element = document.getElementById(id);
-      if (element) {
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
+    const currentPath = location.pathname;
+    
+    // If we have a section ID, use the scrollToSection utility
+    if (id) {
+      scrollToSection(id, navigate, currentPath);
+      setIsMenuOpen(false);
+      return;
     }
+    
+    // If we have a path, navigate to it
+    if (path) {
+      const navPath = getNavigationPath(path);
+      navigate(navPath);
+    }
+    
+    // Close mobile menu if open
+    setIsMenuOpen(false);
   }, [location.pathname, navigate]);
 
   // Handle navigation with support for both page navigation and section scrolling
   const handleNavClick = useCallback((e, path, section) => {
+    const currentPath = location.pathname;
+    
+    // If it's a section link (starts with #)
+    if (path.startsWith('#')) {
+      e.preventDefault();
+      const sectionId = path.substring(1);
+      scrollToSection(sectionId, navigate, currentPath);
+      return;
+    }
+    
+    // Get the full navigation path
+    const navPath = getNavigationPath(path);
+    
     // If it's the home page link
-    if (path === '/') {
-      if (location.pathname === '/') {
+    if (navPath === withBasePath('/') || navPath === `${withBasePath('/')}/`) {
+      if (isHomePage(currentPath)) {
         // If already on home page, scroll to top
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Navigate to home page
-        navigate('/');
+        navigate(navPath);
       }
       return;
     }
     
-    // If it's a different page
-    if (path.startsWith('/')) {
-      navigate(path);
-      // Scroll to top when navigating to a new page
+    // For all other navigation
+    navigate(navPath);
+    
+    // If it's not a section link, scroll to top
+    if (!path.includes('#')) {
       window.scrollTo(0, 0);
-      return;
-    }
-    
-    // If it's a hash link and we're on the home page
-    if (path.startsWith('#') && location.pathname === '/') {
-      const element = document.getElementById(path.substring(1));
-      if (element) {
-        e.preventDefault();
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-      return;
-    }
-    
-    // If we're not on the home page and it's a section link
-    if (path.startsWith('#')) {
-      navigate('/' + path);
     }
   }, [navigate, location.pathname]);
 
@@ -468,11 +450,13 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">
           <NavLink 
-            to="/" 
+            to={withBasePath('/')} 
             className="flex items-center space-x-2 group"
             aria-label="Home"
             onClick={(e) => {
-              if (location.pathname === '/') {
+              const currentPath = location.pathname;
+              const basePath = withBasePath('/');
+              if (currentPath === basePath || currentPath === `${basePath}/`) {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
@@ -598,25 +582,33 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                   >
                     <div className="p-6 pb-4">
                     <div className="flex justify-between items-center">
-                      <div className="hidden lg:flex items-center space-x-4">
-                        <ThemeToggle onThemeChange={closeMenu} />
+                      <div className="flex justify-center space-x-4 mt-4">
                         <a
-                          href="https://github.com/yourusername"
+                          href="https://github.com/Sahilthecoder"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                          className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
                           aria-label="GitHub"
                         >
-                          <FaGithub className="h-5 w-5" />
+                          <FaGithub className="w-5 h-5" />
                         </a>
                         <a
-                          href="https://linkedin.com/in/yourusername"
+                          href="https://linkedin.com/in/sahil-ali-4b2b3b1b0"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                          className="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
                           aria-label="LinkedIn"
                         >
-                          <FaLinkedin className="h-5 w-5" />
+                          <FaLinkedin className="w-5 h-5" />
+                        </a>
+                        <a
+                          href="https://twitter.com/SahilAli_Dev"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-500 hover:text-blue-400 dark:text-gray-400 dark:hover:text-blue-400 transition-colors"
+                          aria-label="Twitter"
+                        >
+                          <FaTwitter className="w-5 h-5" />
                         </a>
                       </div>
                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>
@@ -643,43 +635,20 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                                   e.preventDefault();
                                   closeMenu();
                                   
-                                  if (location.pathname === item.path) {
-                                    // If already on the same page, just scroll to section
-                                    if (item.path === '/') {
-                                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    } else if (item.section) {
-                                      const element = document.getElementById(item.section);
-                                      if (element) {
-                                        const headerOffset = 100;
-                                        const elementPosition = element.getBoundingClientRect().top;
-                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                        window.scrollTo({
-                                          top: offsetPosition,
-                                          behavior: 'smooth',
-                                        });
-                                      }
-                                    }
+                                  // Use our navigation utilities for consistent behavior
+                                  if (item.path.startsWith('#')) {
+                                    // Handle section links
+                                    const sectionId = item.path.substring(1);
+                                    scrollToSection(sectionId, navigate, location.pathname);
                                   } else {
-                                    // Navigate to new page
-                                    navigate(item.path);
+                                    // Handle page navigation
+                                    const navPath = getNavigationPath(item.path);
+                                    navigate(navPath);
                                     
-                                    // Small delay to ensure the page has loaded
-                                    setTimeout(() => {
-                                      if (item.section) {
-                                        const element = document.getElementById(item.section);
-                                        if (element) {
-                                          const headerOffset = 100;
-                                          const elementPosition = element.getBoundingClientRect().top;
-                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                          window.scrollTo({
-                                            top: offsetPosition,
-                                            behavior: 'smooth',
-                                          });
-                                        }
-                                      } else if (item.path === '/') {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                      }
-                                    }, 100);
+                                    // If it's a link to the current page, scroll to top
+                                    if (location.pathname === navPath) {
+                                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
                                   }
                                 }}
                                 className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
@@ -708,7 +677,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                       
                       <div className="flex justify-center space-x-4 mt-4">
                         <a
-                          href="https://github.com/yourusername"
+                          href="https://github.com/Sahilthecoder"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -718,7 +687,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           <FaGithub className="w-5 h-5" />
                         </a>
                         <a
-                          href="https://linkedin.com/in/yourusername"
+                          href="https://linkedin.com/in/sahil-ali-4b2b3b1b0"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
@@ -726,6 +695,16 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           onClick={closeMenu}
                         >
                           <FaLinkedin className="w-5 h-5" />
+                        </a>
+                        <a
+                          href="https://twitter.com/SahilAli_Dev"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                          aria-label="Twitter"
+                          onClick={closeMenu}
+                        >
+                          <FaTwitter className="w-5 h-5" />
                         </a>
                       </div>
                     </div>

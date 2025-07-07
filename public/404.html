@@ -14,9 +14,20 @@
         const redirect = () => {
           // Get the path without the base path
           let path = window.location.pathname;
-          if (isGitHubPages && path.startsWith(`/${repoName}/`)) {
-            path = path.substring(repoName.length + 1);
+          
+          // Handle GitHub Pages base path
+          if (isGitHubPages) {
+            // Remove the repo name from the path if present
+            if (path.startsWith(`/${repoName}/`)) {
+              path = path.substring(repoName.length + 1);
+            } else if (path === `/${repoName}`) {
+              path = '/';
+            }
           }
+          
+          // Preserve query parameters and hash
+          const search = window.location.search || '';
+          const hash = window.location.hash || '';
           
           // Store the full URL for the app to handle
           const redirectUrl = `${window.location.origin}${isGitHubPages ? `/${repoName}` : ''}/#${path}${window.location.search}${window.location.hash}`;

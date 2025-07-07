@@ -1,16 +1,17 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
 
-// Import components directly instead of using lazy loading
+// Import components directly for better reliability in GitHub Pages
 import Home from './pages/Home';
 import About from './pages/About';
 import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import Projects from './pages/Projects';
 import NotFound from './pages/NotFound';
+import { BASE_PATH } from './utils/paths';
 
 // Loading component
 const LoadingFallback = () => (
@@ -71,6 +72,7 @@ function App() {
       <HelmetProvider>
         <ThemeProvider>
           <Router 
+            basename={process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : ''}
             future={{
               v7_startTransition: true,
               v7_relativeSplatPath: true
@@ -79,27 +81,27 @@ function App() {
             <ErrorBoundary>
               <AnimatePresence mode="wait">
                 <Routes>
-                  <Route path="/" element={
+                  <Route index element={
                     <ErrorBoundary>
                       <Home />
                     </ErrorBoundary>
                   } />
-                  <Route path="/about" element={
+                  <Route path="about" element={
                     <ErrorBoundary>
                       <About />
                     </ErrorBoundary>
                   } />
-                  <Route path="/experience" element={
+                  <Route path="experience" element={
                     <ErrorBoundary>
                       <Experience />
                     </ErrorBoundary>
                   } />
-                  <Route path="/projects" element={
+                  <Route path="projects" element={
                     <ErrorBoundary>
                       <Projects />
                     </ErrorBoundary>
                   } />
-                  <Route path="/contact" element={
+                  <Route path="contact" element={
                     <ErrorBoundary>
                       <Contact />
                     </ErrorBoundary>

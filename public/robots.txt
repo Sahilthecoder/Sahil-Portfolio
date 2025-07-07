@@ -2,30 +2,4 @@
 User-agent: *
 Allow: /
 
-# Disallow non-essential directories and files
-Disallow: /api/
-Disallow: /private/
-Disallow: /node_modules/
-Disallow: /src/
-Disallow: /dist/
-Disallow: /.github/
-Disallow: /.vscode/
-Disallow: /_next/
-Disallow: /__next__/
-Disallow: /*.json$
-Disallow: /*.js$
-Disallow: /*.css$
-Disallow: /*.map$
-Disallow: /*.txt$
-Disallow: /*.xml$
-
-# Crawl-delay: 10  # Uncomment if needed to limit crawl rate
-
-# Sitemap location
 Sitemap: https://sahilthecoder.github.io/Sahil-Portfolio/sitemap.xml
-
-# Host
-Host: https://sahilthecoder.github.io
-
-# Crawl-delay: 10
-# Uncomment above and set delay if needed to prevent server overload

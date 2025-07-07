@@ -44,6 +44,23 @@ console.log('Application base URL:', window.__BASE_URL__);
 // Create the root and render the app with HashRouter for GitHub Pages
 const root = createRoot(container);
 
+// Register service worker in production
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    const swPath = `${window.__BASE_URL__}sw.js`;
+    
+    navigator.serviceWorker.register(swPath, { 
+      scope: window.__BASE_URL__ 
+    })
+    .then(registration => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    })
+    .catch(error => {
+      console.error('ServiceWorker registration failed: ', error);
+    });
+  });
+}
+
 // Enhanced Error Boundary with better error handling
 class ErrorBoundary extends React.Component {
   constructor(props) {

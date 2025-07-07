@@ -1,18 +1,15 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v13';
+const CACHE_NAME = 'portfolio-cache-v14';
+const BASE_PATH = '/Sahil-Portfolio';
 const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './about.html',
-  './manifest.json',
-  './images/logo192.png',
-  './images/logo512.png',
-  './images/favicon.ico',
-  './images/favicon-16x16.png',
-  './images/favicon-32x32.png',
-  './images/og-default.jpg',
-  './fonts/Roboto.woff2',
-  './fonts/Poppins.woff2',
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/site.webmanifest`,
+  `${BASE_PATH}/images/logo192.png`,
+  `${BASE_PATH}/images/logo512.png`,
+  `${BASE_PATH}/favicon.ico`,
+  `${BASE_PATH}/images/favicon-16x16.png`,
+  `${BASE_PATH}/images/favicon-32x32.png`,
   'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
 ];

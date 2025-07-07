@@ -49,7 +49,7 @@ interface ErrorBoundaryProps {
   children: ReactNode;
 }
 
-export class SentryErrorBoundary extends React.Component<
+export class ErrorBoundary extends React.Component<
   ErrorBoundaryProps,
   { hasError: boolean }
 > {
@@ -118,25 +118,20 @@ export class SentryErrorBoundary extends React.Component<
 }
 
 // HOC: Add error boundary with proper typing
-export const withSentry = <P extends object>(Component: ComponentType<P>) => {
-  return class SentryBoundary extends React.Component<P> {
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-      Sentry.captureException(error, {
-        extra: {
-          componentStack: errorInfo.componentStack,
-        },
-        contexts: {
-          react: {
-            component: Component.name || 'AnonymousComponent',
-            props: this.props as P,
-          },
-        },
-      });
-    }
-
-    render() {
-      const props = this.props as P;
-      return React.createElement(SentryErrorBoundary, null, React.createElement(Component, props));
-    }
+export function withSentry<P extends object>(
+  Component: ComponentType<P>
+): React.FC<P> {
+  const WrappedComponent: React.FC<P> = (props) => {
+    return React.createElement(
+      ErrorBoundary,
+      null,
+      React.createElement(Component, props)
+    );
   };
-};
+
+  // Set display name for better debugging
+  const displayName = Component.displayName || Component.name || 'Component';
+  WrappedComponent.displayName = `withSentry(${displayName})`;
+
+  return WrappedComponent;
+}

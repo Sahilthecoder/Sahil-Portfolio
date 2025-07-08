@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting... - Sahil Ali's Portfolio</title>
+    <title>Sahil Ali's Portfolio</title>
     <script>
       // Single Page Apps for GitHub Pages
       (function() {
@@ -11,12 +11,30 @@
         const isGitHubPages = window.location.hostname.includes('github.io');
         const basePath = isGitHubPages ? `/${repoName}` : '';
         
-        // Store the current path in session storage for the app to handle
+        // Get the current path and redirect to index.html with the path as a hash
         const path = window.location.pathname.replace(new RegExp(`^${basePath}`), '');
-        const redirectPath = `${basePath}/#${path}${window.location.search}${window.location.hash}`;
+        const search = window.location.search;
+        const hash = window.location.hash;
         
-        // Redirect to the app with the correct path
-        window.location.replace(redirectPath);
+        // If this is a direct access to a route, redirect to index.html with the path as a hash
+        if (path !== '/' && !path.includes('index.html')) {
+          window.history.replaceState(
+            null,
+            null,
+            `${basePath}/#${path.replace(/^\/+/, '')}${search}${hash}`
+          );
+        }
+        
+        // Load the main app
+        const script = document.createElement('script');
+        script.src = `${basePath}/assets/index-${'[hash]'}.js`;
+        script.integrity = '${sri}';
+        script.crossOrigin = 'anonymous';
+        script.onerror = function() {
+          // If the script fails to load, redirect to the base URL
+          window.location.href = basePath || '/';
+        };
+        document.head.appendChild(script);
       })();
     </script>
     <style>

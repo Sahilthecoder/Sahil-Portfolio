@@ -1032,12 +1032,10 @@ const Home = () => {
                 Get In Touch
               </Link>
               <a
-                href="https://sahilthecoder.github.io/Sahil-Portfolio/projects"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#work"
                 className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
               >
-                View My Projects
+                View My Work
               </a>
             </motion.div>
           </motion.div>

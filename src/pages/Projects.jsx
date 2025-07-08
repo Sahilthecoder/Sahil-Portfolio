@@ -129,9 +129,18 @@ const ProjectCard = ({ project, index, onClick }) => {
         return;
       }
 
-      // For internal links, use the full URL with base path
-      const fullUrl = getProjectUrl(project.id);
-      window.location.href = fullUrl;
+      // If it's an internal link, navigate to the page
+      if (project.link) {
+        // Ensure the link is treated as a path relative to the base URL
+        const path = project.link.startsWith('/') ? project.link : `/${project.link}`;
+        navigate(path);
+        return;
+      }
+
+      // If there's an onClick handler, call it (for modal)
+      if (onClick && typeof onClick === 'function') {
+        onClick(project);
+      }
     }
   };
 
@@ -139,13 +148,6 @@ const ProjectCard = ({ project, index, onClick }) => {
   const handleDirectNavigation = (e, path) => {
     e.stopPropagation();
     if (!path) return;
-    
-    // For internal project links, use the full URL with base path
-    if (path.startsWith('/projects/')) {
-      const projectId = path.split('/').pop();
-      window.location.href = getProjectUrl(projectId);
-      return;
-    }
 
     if (path.startsWith('http') || path.startsWith('mailto:')) {
       window.open(path, '_blank', 'noopener,noreferrer');
@@ -546,13 +548,16 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     <div className="flex flex-wrap gap-3">
                       {project.link && (
                         <a
-                          href={getProjectUrl(project.id)}
+                          href={project.external ? project.link : `${window.location.origin}${project.link}`}
                           target={project.external ? "_blank" : "_self"}
                           rel={project.external ? "noopener noreferrer" : undefined}
                           onClick={(e) => {
                             if (project.external) {
                               e.preventDefault();
                               window.open(project.link, '_blank', 'noopener,noreferrer');
+                            } else {
+                              // For internal links, close the modal and let React Router handle the navigation
+                              onClose();
                             }
                           }}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
@@ -561,9 +566,9 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                           {project.external ? 'View Live' : 'View Details'}
                         </a>
                       )}
-                      {project.github && (
+                      {project.githubLink && (
                         <a
-                          href={project.github}
+                          href={project.githubLink}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
@@ -596,7 +601,7 @@ const projects = [
     image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     link: '/projects/zomato-expansion',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis',
     featured: true,
   },
   {
@@ -610,7 +615,7 @@ const projects = [
     image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     link: '/projects/bansal-supermarket',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/BansalSupermarket',
     featured: true,
   },
   {
@@ -624,7 +629,7 @@ const projects = [
     image: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
     link: '/projects/ekam-attendance',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/EkamAttendance',
     featured: true,
   },
   {
@@ -642,7 +647,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp',
     ],
     link: '/projects/cash-flow-dashboard',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/RetailCashFlow',
     featured: true,
   },
   {
@@ -656,7 +661,7 @@ const projects = [
     image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     link: '/projects/ai-daily-planner',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/SnapeSentimentAnalysis',
     featured: true,
   },
   {
@@ -670,7 +675,7 @@ const projects = [
     image: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     link: '/projects/smart-automation',
-    githubLink: '',
+    githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ProductSalesDashboard',
     featured: true,
   },
   {
@@ -684,7 +689,7 @@ const projects = [
     image: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     previewImage: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
-    githubLink: '',
+    githubLink: 'https://github.com/mahiradesignhub/mahira-portfolio',
     featured: true,
     external: true,
   },
@@ -696,14 +701,6 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-  // Get base URL for GitHub Pages
-  const baseUrl = import.meta.env.BASE_URL || '/Sahil-Portfolio/';
-  
-  // Function to get project URL with base path
-  const getProjectUrl = (projectId) => {
-    return `${baseUrl}#/projects/${projectId}`;
-  };
   const [isScrolled, setIsScrolled] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

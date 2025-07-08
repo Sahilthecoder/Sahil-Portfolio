@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
@@ -75,12 +75,24 @@ function App() {
   // Get the base URL from environment variables or use an empty string for development
   const basename = import.meta.env.BASE_URL || '';
   
+  // Handle initial page load with hash-based routing
+  useEffect(() => {
+    const handleInitialLoad = () => {
+      const path = window.location.hash.replace(/^#\/?/, '/');
+      if (path && path !== '/') {
+        window.location.href = `${basename}${path}`;
+      }
+    };
+    
+    handleInitialLoad();
+  }, [basename]);
+  
   return (
     <ErrorBoundary>
       <HelmetProvider>
         <ThemeProvider>
           <FaviconManager />
-          <Router basename={basename}>
+          <Router basename={basename} hashType="noslash">
             <AnimatePresence mode="wait">
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>

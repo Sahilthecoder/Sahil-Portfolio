@@ -487,7 +487,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                   className="logo-img h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 group-hover:scale-110"
                   width={36}
                   height={36}
-                  priority={true}
+                  loading="eager"
                   sizes="(max-width: 768px) 36px, 40px"
                 />
               </div>

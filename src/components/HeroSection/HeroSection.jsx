@@ -75,10 +75,24 @@ const HeroSection = ({
   };
 
   const socialLinks = [
-    { icon: <FiGithub />, url: 'https://github.com/sahilthecoder' },
-    { icon: <FiLinkedin />, url: 'https://linkedin.com/in/sahilthecoder' },
-    { icon: <FiTwitter />, url: 'https://twitter.com/sahilthecoder' },
-    { icon: <FiMail />, url: 'mailto:contact@sahilthecoder.me' },
+    { 
+      icon: <FiGithub className="w-5 h-5" />, 
+      url: 'https://github.com/SahilTheCoder',
+      text: 'github.com/SahilTheCoder',
+      label: 'GitHub'
+    },
+    { 
+      icon: <FiLinkedin className="w-5 h-5" />, 
+      url: 'https://www.linkedin.com/in/sahil-ali-714867242/',
+      text: 'linkedin.com/in/sahil-ali-714867242/',
+      label: 'LinkedIn'
+    },
+    { 
+      icon: <FiMail className="w-5 h-5" />, 
+      url: 'mailto:sahilkhan36985@gmail.com',
+      text: 'sahilkhan36985@gmail.com',
+      label: 'Email'
+    },
   ];
   
   // Add keyframe animation for gradient background
@@ -185,47 +199,64 @@ const HeroSection = ({
                 )}
               </div>
 
-              {/* Social Links */}
-              <motion.div
-                className="flex justify-center lg:justify-start items-center gap-4 mt-8"
-                variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  show: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      type: 'spring',
-                      stiffness: 100,
-                      damping: 20,
-                    },
-                  },
-                }}
-              >
-                {socialLinks.map((social, index) => {
-                  const platform = social.url.includes('github')
-                    ? 'GitHub'
-                    : social.url.includes('linkedin')
-                      ? 'LinkedIn'
-                      : social.url.includes('twitter')
-                        ? 'Twitter'
-                        : 'Link';
-
-                  return (
-                    <motion.a
-                      key={index}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="social-icon"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
-                      aria-label={`${platform} profile`}
-                    >
-                      {social.icon}
-                    </motion.a>
-                  );
-                })}
-              </motion.div>
+              {/* Contact Section */}
+              <div className="mt-12">
+                <motion.div 
+                  className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 dark:border-gray-700/50"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Get in touch with Me</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Let's connect! Your data and my expertise can create impactful solutions.<br />
+                    Find more <strong>About Me</strong> on these platforms:
+                  </p>
+                  
+                  <ul className="space-y-4">
+                    <li className="flex items-center space-x-3 text-gray-700 dark:text-gray-300">
+                      <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                      </span>
+                      <span>Rajasthan, India (Open for Relocation)</span>
+                    </li>
+                    
+                    {socialLinks.map((link, index) => (
+                      <motion.li 
+                        key={index}
+                        className="group flex items-center space-x-3"
+                        whileHover={{ x: 5 }}
+                        transition={{ type: 'spring', stiffness: 300 }}
+                      >
+                        <a 
+                          href={link.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center space-x-3 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors w-full"
+                          aria-label={link.label}
+                        >
+                          <span className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-300 group-hover:bg-indigo-200 dark:group-hover:bg-indigo-800/50 transition-colors">
+                            {link.icon}
+                          </span>
+                          <span className="truncate">{link.text}</span>
+                        </a>
+                      </motion.li>
+                    ))}
+                  </ul>
+                  
+                  <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      &copy; {new Date().getFullYear()} sahilthecoder (Sahil Ali) Portfolio. All rights reserved.
+                      <span className="block mt-1">
+                        Design: <a href="http://html5up.net" target="_blank" rel="noopener noreferrer" className="text-indigo-600 dark:text-indigo-400 hover:underline">HTML5 UP</a>
+                      </span>
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
               
               {children}
             </motion.div>

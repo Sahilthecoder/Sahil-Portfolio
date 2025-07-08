@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import '../styles/responsive.css';
 import {
   FiArrowRight,
   FiDownload,
@@ -15,9 +16,9 @@ import {
   FiTrendingUp,
   FiCpu,
   FiExternalLink,
-  FiCalendar,
 } from 'react-icons/fi';
 import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import ProjectsSection from '../components/ProjectsSection/ProjectsSectionEnhanced';
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
@@ -70,6 +71,16 @@ const ProjectCard = ({ project }) => {
     }
   };
 
+  // Handle view project button click
+  const handleViewProject = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (project.link) {
+      // Use React Router's navigate for SPA navigation
+      navigate(project.link);
+    }
+  };
+
   // Handle image error with fallback to preview image
   const handleImageError = (e) => {
     const target = e.target;
@@ -83,29 +94,31 @@ const ProjectCard = ({ project }) => {
 
   // Handle external link clicks
   const handleExternalLink = (e, url) => {
+    e.preventDefault();
     e.stopPropagation();
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <motion.div
-      className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={handleCardClick}
-      style={{ cursor: 'pointer' }}
-    >
-      {/* Thumbnail Container with Fixed Aspect Ratio (16:9) */}
-      <div className="relative w-full pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-700">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={handleImageError}
-            loading="lazy"
-            style={{
-              position: 'absolute',
+    <div className="h-full">
+      <motion.div
+        className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={handleCardClick}
+        style={{ cursor: 'pointer' }}
+      >
+        {/* Thumbnail Container with Fixed Aspect Ratio (16:9) */}
+        <div className="relative w-full pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-700">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={handleImageError}
+              loading="lazy"
+              style={{
+                position: 'absolute',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
@@ -142,10 +155,7 @@ const ProjectCard = ({ project }) => {
             )}
             {project.link && (
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(project.link);
-                }}
+                onClick={handleViewProject}
                 className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors no-navigate"
                 aria-label="View Project Details"
               >
@@ -181,6 +191,7 @@ const ProjectCard = ({ project }) => {
         </div>
       </div>
     </motion.div>
+  </div>
   );
 };
 
@@ -197,6 +208,7 @@ const Home = () => {
   const [errors, setErrors] = useState({});
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeSection, setActiveSection] = useState('home');
 
   // Success message display
   useEffect(() => {
@@ -291,6 +303,7 @@ const Home = () => {
   const contactRef = useRef(null);
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const controls = useAnimation();
 
   // Simple scroll to next section
@@ -410,20 +423,24 @@ const Home = () => {
       component: 'BansalSupermarket'
     },
     {
-      id: 'ekam-attendance',
-      title: 'Ekam Attendance Tracker',
-      shortDescription: 'HR & Finance Automation with SQL + Sheets',
-      description: 'Developed an automated attendance tracking system using SQL and Google Sheets that streamlined HR processes and reduced manual work by 80%. Integrated with existing payroll systems for seamless operations.',
-      techStack: ['SQL', 'Google Sheets', 'Automation'],
-      icon: 'SQL',
-      image: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-      previewImage: '/images/projects/Project3 Sql+Sheets/Project3 Cover.avif',
-      link: '/projects/ekam-attendance',
+      id: 'cash-flow-dashboard',
+      title: 'Daily Cash Flow Dashboard',
+      shortDescription: 'Retail Finance Tracker in Power BI',
+      description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
+      techStack: ['Power BI', 'Finance', 'Data Visualization'],
+      icon: 'Power BI',
+      image: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+      previewImage: '/images/projects/Project4 Power BI/Project4 Cover.avif',
+      additionalImages: [
+        '/images/projects/Project4 Power BI/CashFlow1.avif',
+        '/images/projects/Project4 Power BI/CashFlow2.avif',
+      ],
+      link: '/projects/cash-flow-dashboard',
       githubLink: '',
       featured: true,
       date: 'April 2024',
-      categories: ['automation', 'sql'],
-      component: 'EkamAttendance'
+      categories: ['finance', 'powerbi'],
+      component: 'RetailCashFlow'
     },
   ];
 
@@ -442,7 +459,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
       {/* Scroll Down Button (Only in Hero Section) */}
       <motion.div
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
@@ -476,7 +493,7 @@ const Home = () => {
       <ModernNavbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+      <section ref={homeRef} className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden px-4 md:px-6">
         {/* Graph Paper Background */}
         <div 
           className="absolute inset-0 bg-white dark:bg-gray-900"
@@ -511,16 +528,18 @@ const Home = () => {
         </div>
 
         {/* Add the animation keyframes to the document */}
-        <style jsx global>{`
-          @keyframes pan {
-            0% {
-              background-position: 0% 0%;
+        <style>
+          {`
+            @keyframes pan {
+              0% {
+                background-position: 0% 0%;
+              }
+              100% {
+                background-position: 100% 100%;
+              }
             }
-            100% {
-              background-position: 100% 100%;
-            }
-          }
-        `}</style>
+          `}
+        </style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -670,7 +689,7 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section ref={aboutRef} className="relative py-16 sm:py-20 bg-white dark:bg-gray-900">
+      <section ref={aboutRef} className="py-16 md:py-24 bg-white dark:bg-gray-800 px-4 md:px-6">
         {/* Subtle pattern background */}
         <div className="absolute inset-0 bg-pattern"></div>
         {/* Decorative elements */}
@@ -776,49 +795,51 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 flex flex-col sm:flex-row gap-4">
-                  <motion.a
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    href="/about"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
-                  >
-                    View Full Profile
-                    <FiArrowRight className="ml-2" />
-                  </motion.a>
-                  <div className="flex flex-wrap gap-3 mt-2 sm:mt-0">
-                    <span className="px-4 py-2 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                      </svg>
-                      Inventory Specialist
-                    </span>
-                    <span className="px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                        />
-                      </svg>
-                      Warehouse Supervisor
-                    </span>
+                <div className="pt-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="flex flex-col gap-2">
+                      <span className="px-4 py-2 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
+                        <svg
+                          className="w-4 h-4 mr-2 flex-shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                        Inventory Specialist
+                      </span>
+                      <span className="px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
+                        <svg
+                          className="w-4 h-4 mr-2 flex-shrink-0"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                          />
+                        </svg>
+                        Warehouse Supervisor
+                      </span>
+                    </div>
+                    <motion.a
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      href="/about"
+                      className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 whitespace-nowrap self-center sm:self-auto mt-4 sm:mt-0"
+                    >
+                      View Full Profile
+                      <FiArrowRight className="ml-2" />
+                    </motion.a>
                   </div>
                 </div>
               </motion.div>
@@ -828,7 +849,7 @@ const Home = () => {
       </section>
 
       {/* Experience Section */}
-      <section ref={experienceRef} className="relative py-16 sm:py-20 bg-gray-50 dark:bg-gray-900">
+      <section ref={experienceRef} className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900 px-4 md:px-6">
         {/* Subtle pattern background */}
         <div className="absolute inset-0 bg-pattern"></div>
         {/* Decorative elements */}
@@ -856,25 +877,8 @@ const Home = () => {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 gap-8 items-center"
             >
-              {/* Image Section */}
-              <motion.div variants={item} className="relative order-2 md:order-1">
-                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                    alt="Warehouse and Inventory Management"
-                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src =
-                        'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
-                    }}
-                  />
-                </div>
-                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
-              </motion.div>
-
-              {/* Content Section */}
-              <motion.div variants={item} className="space-y-6 order-1 md:order-2">
+              {/* Content Section - Moved to left side */}
+              <motion.div variants={item} className="space-y-6">
                 <div className="space-y-4">
                   <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
                     Industry Experience
@@ -961,131 +965,33 @@ const Home = () => {
                   </motion.a>
                 </div>
               </motion.div>
+              
+              {/* Image Section - Moved to right side */}
+              <motion.div variants={item} className="relative">
+                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    alt="Warehouse and Inventory Management"
+                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                    }}
+                  />
+                </div>
+                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Featured Projects Section */}
-      <section ref={projectsRef} className="relative py-16 sm:py-20 bg-white dark:bg-gray-900">
-        {/* Subtle pattern background */}
-        <div className="absolute inset-0 bg-pattern"></div>
-        {/* Decorative elements */}
-        <div className="absolute left-1/4 -top-20 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="absolute right-1/4 -bottom-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-4">
-              My Work
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400 mb-4">
-              Featured Projects
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-6 rounded-full"></div>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              Here are some of my recent projects that showcase my expertise in data analysis, visualization, and automation.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {featuredProjects.map((project, index) => (
-              <motion.article
-                key={project.id}
-                className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="relative h-60 overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://via.placeholder.com/800x500?text=Project+Image';
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {project.techStack.map((tech, idx) => (
-                          <span
-                            key={idx}
-                            className="inline-flex items-center px-3 py-1 text-xs font-medium bg-indigo-100/90 dark:bg-indigo-900/80 text-indigo-800 dark:text-indigo-200 rounded-full"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                      {project.title}
-                    </h3>
-                    <div className="flex space-x-2">
-                      {project.liveLink && (
-                        <a
-                          href={project.liveLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label="Live Demo"
-                        >
-                          <FiExternalLink className="w-5 h-5" />
-                        </a>
-                      )}
-                      {project.githubLink && (
-                        <a
-                          href={project.githubLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                          aria-label="View Code"
-                        >
-                          <FiGithub className="w-5 h-5" />
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                    {project.shortDescription}
-                  </p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <span className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400">
-                      <FiCalendar className="mr-1.5 h-4 w-4" />
-                      {project.date || 'Recent'}
-                    </span>
-                    <button
-                      onClick={() => window.open(project.liveLink || project.githubLink, '_blank')}
-                      className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors group"
-                    >
-                      View Project
-                      <FiArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Projects Section - Moved all styling to the ProjectsSection component */}
+      <div ref={projectsRef}>
+        <ProjectsSection />
+      </div>
 
       {/* Call to Action */}
       <section className="relative py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">

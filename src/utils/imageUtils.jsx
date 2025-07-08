@@ -68,7 +68,7 @@ const ImageWithFallback = ({
   alt = '',
   className = '',
   fallbackSrc = '/images/fallback-image.jpg',
-  loading = 'lazy',
+  loading: loadingProp = 'lazy',
   decoding = 'async',
   width,
   height,
@@ -124,6 +124,10 @@ const ImageWithFallback = ({
   const aspectRatio = width && height ? (height / width) * 100 : 0;
   const paddingBottom = aspectRatio ? `${aspectRatio}%` : '0';
 
+  // Handle priority loading
+  const loading = priority ? 'eager' : loadingProp;
+  const fetchPriority = priority ? 'high' : undefined;
+
   return (
     <div
       ref={imageRef}
@@ -163,9 +167,9 @@ const ImageWithFallback = ({
             objectFit: 'cover',
             opacity: isLoading ? 0 : 1,
             transition: 'opacity 0.3s ease-in-out',
-            ...(priority && { fetchPriority: 'high' }),
           }}
           loading={loading}
+          fetchPriority={fetchPriority}
           decoding={decoding}
           onError={handleError}
           onLoad={handleLoad}

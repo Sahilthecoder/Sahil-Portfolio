@@ -2,13 +2,62 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <title>Sahil Ali - Portfolio</title>
     <meta name="description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
-    <link rel="icon" href="/favicon.ico" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#2563eb" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/images/logo512.png" as="image" type="image/png" />
+    <link rel="preload" href="/images/logo192.png" as="image" type="image/png" />
+    
+    <!-- Additional meta tags -->
+    <meta name="author" content="Sahil Ali" />
+    <meta name="keywords" content="portfolio, web developer, full stack, data analyst, Sahil Ali" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta property="og:title" content="Sahil Ali - Portfolio" />
+    <meta property="og:description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
+    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta name="twitter:title" content="Sahil Ali - Portfolio" />
+    <meta name="twitter:description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
+    <meta name="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/twitter-card.jpg" />
+    
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="/src/styles/globals.css" as="style" />
+    <link rel="stylesheet" href="/src/styles/globals.css" />
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Load main script with module type -->
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Fallback for browsers that don't support modules -->
+    <script nomodule>
+      document.body.innerHTML = `
+        <div style="font-family: Arial, sans-serif; text-align: center; padding: 2rem;">
+          <h1>Browser Not Supported</h1>
+          <p>Your browser doesn't support modern JavaScript features required by this application.</p>
+          <p>Please use a modern browser like <a href="https://www.google.com/chrome/">Chrome</a>, 
+          <a href="https://www.mozilla.org/firefox/">Firefox</a>, or 
+          <a href="https://www.microsoft.com/edge">Edge</a>.</p>
+        </div>
+      `;
+    </script>
   </body>
 </html>

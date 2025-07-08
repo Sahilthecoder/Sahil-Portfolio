@@ -32,34 +32,28 @@ const config = {
 // Ensure output directory exists
 fs.ensureDirSync(config.outputDir);
 
-// Generate favicon.ico with multiple sizes
+// Generate favicon.ico with a single size (32x32) since Sharp doesn't support multi-size ICO
 async function generateFaviconIco() {
-  const icoSizes = config.faviconIcoSizes;
-  const buffers = await Promise.all(
-    icoSizes.map(size => 
-      sharp(config.input)
-        .resize(size, size)
-        .toBuffer()
-    )
-  );
-  
-  const icoPath = path.join(config.outputDir, 'favicon.ico');
-  await sharp({
-    create: {
-      width: icoSizes[icoSizes.length - 1],
-      height: icoSizes[icoSizes.length - 1],
-      channels: 4,
-      background: config.background,
-    },
-  })
-    .composite(buffers.map((buffer, i) => ({
-      input: buffer,
-      top: 0,
-      left: 0,
-    })))
-    .toFile(icoPath);
-  
-  console.log(`✅ Generated: ${icoPath}`);
+  try {
+    const icoPath = path.join(config.outputDir, 'favicon.ico');
+    
+    // Create a simple 32x32 favicon.ico
+    await sharp(config.input)
+      .resize(32, 32)
+      .toFile(icoPath);
+    
+    console.log(`✅ Generated: ${icoPath}`);
+  } catch (error) {
+    console.warn('⚠️ Could not generate favicon.ico. Using a fallback approach.');
+    // Copy a pre-generated favicon.ico if available
+    const fallbackFavicon = path.join('public', 'favicon.ico');
+    if (fs.existsSync(fallbackFavicon)) {
+      fs.copyFileSync(fallbackFavicon, path.join(config.outputDir, 'favicon.ico'));
+      console.log('✅ Copied fallback favicon.ico');
+    } else {
+      console.warn('⚠️ No fallback favicon.ico found. Some browsers may show a 404 for favicon.ico');
+    }
+  }
 }
 
 // Generate PNG icons

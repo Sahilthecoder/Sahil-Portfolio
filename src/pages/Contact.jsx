@@ -176,28 +176,59 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
       <ModernNavbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
-        {/* Data-themed background pattern */}
-        <div
-          className="absolute inset-0 opacity-10 dark:opacity-[0.03]"
+      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
+        {/* Graph Paper Background */}
+        <div 
+          className="absolute inset-0 bg-white dark:bg-gray-900"
           style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%233b82f6' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E\")",
-            backgroundSize: '150px',
+            backgroundImage: `
+              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+              linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
+            backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
             zIndex: 0,
           }}
-        ></div>
-
-        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 1 }}>
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-500/5 dark:bg-indigo-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 left-20 w-96 h-96 bg-blue-500/5 dark:bg-blue-900/5 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        >
+          {/* Animated grid lines */}
+          <div 
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, transparent 98%, rgba(79, 70, 229, 0.15) 100%),
+                linear-gradient(transparent 98%, rgba(79, 70, 229, 0.15) 100%)
+              `,
+              backgroundSize: '40px 40px',
+              animation: 'pan 30s linear infinite',
+              zIndex: 1,
+            }}
+          />
+          
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-50 dark:opacity-10" />
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Add the animation keyframes to the document */}
+        <style>
+          {`
+            @keyframes pan {
+              0% {
+                background-position: 0% 0%;
+              }
+              100% {
+                background-position: 100% 100%;
+              }
+            }
+          `}
+        </style>
+
+        <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
@@ -219,7 +250,7 @@ const Contact = () => {
             </motion.h1>
 
             <motion.p
-              className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+              className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto px-4 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -232,17 +263,17 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-12 bg-white dark:bg-gray-900">
+      <section className="py-8 sm:py-12 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
               {/* Contact Form */}
               <motion.div
-                className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700/50"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 dark:border-gray-700/50"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
               >
                 <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
                   Send Me a Message
@@ -268,7 +299,7 @@ const Contact = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                       <div>
                         <label
                           htmlFor="name"
@@ -322,7 +353,7 @@ const Contact = () => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
@@ -339,7 +370,7 @@ const Contact = () => {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                       >
                         <option value="">Select a service</option>
                         {services.map((service) => (
@@ -363,7 +394,7 @@ const Contact = () => {
                         rows="4"
                         value={formData.message}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
+                        className={`w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                         placeholder="How can I help you?"
                       ></textarea>
                       {errors.message && (
@@ -374,10 +405,10 @@ const Contact = () => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         <span>Attachment (Optional)</span>
-                        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg">
+                        <div className="mt-1 flex justify-center px-4 sm:px-6 pt-4 pb-5 sm:pt-5 sm:pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg">
                           <div className="space-y-1 text-center">
-                            <FaFileUpload className="mx-auto h-12 w-12 text-gray-400" />
-                            <div className="flex text-sm text-gray-600 dark:text-gray-400">
+                            <FaFileUpload className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
+                            <div className="flex flex-col sm:flex-row items-center text-sm text-gray-600 dark:text-gray-400">
                               <label
                                 htmlFor="file-upload"
                                 className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 focus-within:outline-none"
@@ -397,7 +428,8 @@ const Contact = () => {
                                   }}
                                 />
                               </label>
-                              <p className="pl-1">or drag and drop</p>
+                              <span className="hidden sm:inline px-1">or</span>
+                              <p className="text-center sm:text-left">drag and drop</p>
                             </div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">
                               PDF, DOC, XLS up to 10MB
@@ -405,7 +437,7 @@ const Contact = () => {
                           </div>
                         </div>
                         {formData.file && (
-                          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 truncate">
                             Selected: {formData.file.name}
                           </p>
                         )}
@@ -416,7 +448,7 @@ const Contact = () => {
                       <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-lg shadow-sm text-sm sm:text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isSubmitting ? (
                           <>
@@ -456,11 +488,11 @@ const Contact = () => {
 
               {/* Contact Info */}
               <motion.div
-                className="space-y-8"
+                className="space-y-6 sm:space-y-8"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-100px" }}
               >
                 <div>
                   <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -473,18 +505,18 @@ const Contact = () => {
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-3">
-                      <FaEnvelope className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-2 sm:p-3">
+                      <FaEnvelope className="h-5 w-5 sm:h-6 sm:w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <div className="ml-3 sm:ml-4">
+                      <h3 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
                         Email
                       </h3>
                       <a
                         href="mailto:your.email@example.com"
-                        className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                        className="text-sm sm:text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 break-words"
                       >
                         your.email@example.com
                       </a>
@@ -492,16 +524,16 @@ const Contact = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-3">
-                      <FaPhoneAlt className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-2 sm:p-3">
+                      <FaPhoneAlt className="h-5 w-5 sm:h-6 sm:w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <div className="ml-3 sm:ml-4">
+                      <h3 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
                         Phone
                       </h3>
                       <a
                         href="tel:+1234567890"
-                        className="text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                        className="text-sm sm:text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
                       >
                         +1 (234) 567-890
                       </a>
@@ -509,14 +541,14 @@ const Contact = () => {
                   </div>
 
                   <div className="flex items-start">
-                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-3">
-                      <FaMapMarkerAlt className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                    <div className="flex-shrink-0 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg p-2 sm:p-3">
+                      <FaMapMarkerAlt className="h-5 w-5 sm:h-6 sm:w-6 text-indigo-600 dark:text-indigo-400" />
                     </div>
-                    <div className="ml-4">
-                      <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <div className="ml-3 sm:ml-4">
+                      <h3 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400">
                         Location
                       </h3>
-                      <p className="text-base text-gray-900 dark:text-white">City, Country</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white">City, Country</p>
                     </div>
                   </div>
                 </div>
@@ -525,33 +557,33 @@ const Contact = () => {
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
                     Connect with me
                   </h3>
-                  <div className="flex space-x-4">
+                  <div className="flex flex-wrap gap-3 sm:gap-4">
                     <a
                       href="https://linkedin.com/in/yourprofile"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                      aria-label="LinkedIn"
                     >
-                      <span className="sr-only">LinkedIn</span>
-                      <FaLinkedin className="h-6 w-6" />
+                      <FaLinkedin className="h-5 w-5 sm:h-6 sm:w-6" />
                     </a>
                     <a
                       href="https://github.com/yourusername"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                      aria-label="GitHub"
                     >
-                      <span className="sr-only">GitHub</span>
-                      <FaGithub className="h-6 w-6" />
+                      <FaGithub className="h-5 w-5 sm:h-6 sm:w-6" />
                     </a>
                     <a
                       href="https://wa.me/1234567890"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
+                      aria-label="WhatsApp"
                     >
-                      <span className="sr-only">WhatsApp</span>
-                      <FaWhatsapp className="h-6 w-6" />
+                      <FaWhatsapp className="h-5 w-5 sm:h-6 sm:w-6" />
                     </a>
                   </div>
                 </div>
@@ -561,11 +593,11 @@ const Contact = () => {
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
                     My Services
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     {services.map((service) => (
                       <div
                         key={service.id}
-                        className="flex items-start p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200"
+                        className="flex items-start p-3 sm:p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700/50 hover:shadow-md transition-shadow duration-200"
                       >
                         <div className="flex-shrink-0">{service.icon}</div>
                         <div className="ml-4">

@@ -31,9 +31,6 @@ import {
   FiChevronRight,
   FiChevronLeft,
   FiMaximize2,
-  FiMinimize,
-  FiMinimize2,
-  FiMaximize,
   FiMinimize as FiMinimizeIcon,
 } from 'react-icons/fi';
 
@@ -116,8 +113,11 @@ const ProjectCard = ({ project, index, onClick }) => {
 
   // Handle card clicks - only for the card itself, not its children
   const handleCardClick = (e) => {
+    // Prevent default to avoid any unwanted behavior
+    e.preventDefault();
+    
     // Don't handle click if it came from a button or link
-    if (e.target.closest('button, a')) {
+    if (e.target.closest('button, a, [role="button"]')) {
       return;
     }
     
@@ -259,13 +259,20 @@ const ProjectCard = ({ project, index, onClick }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <motion.button
+                type="button"
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
-                  setTimeout(() => {
-                    if (onClick && typeof onClick === 'function') {
-                      onClick(project);
-                    }
-                  }, 10);
+                  e.nativeEvent.stopImmediatePropagation();
+                  console.log('Preview button clicked', project.id);
+                  if (onClick && typeof onClick === 'function') {
+                    onClick(project);
+                  }
+                  return false;
+                }}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                 }}
                 aria-label="Quick Preview"
                 whileHover={{
@@ -311,15 +318,37 @@ const ProjectCard = ({ project, index, onClick }) => {
   );
 };
 
-// Project modal component
+  // Project modal component
 const ProjectModal = ({ project, isOpen, onClose }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   
-  console.log('ProjectModal render:', { isOpen, project });
+  // Set mounted state to handle animations
+  useEffect(() => {
+    if (isOpen) {
+      setIsMounted(true);
+    }
+    return () => {
+      setIsMounted(false);
+    };
+  }, [isOpen]);
   
-  if (!project || !isOpen) {
-    console.log('ProjectModal not rendering - missing project or not open');
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+      return () => document.removeEventListener('keydown', handleEscape);
+    }
+  }, [isOpen, onClose]);
+  
+  if (!project || !isOpen || !isMounted) {
     return null;
   }
   
@@ -331,6 +360,17 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   const currentImage = images[selectedImageIndex] || (project.image ? 
     (project.image.startsWith('/') ? project.image : `/${project.image}`) : 
     '');
+    
+  // Function to ensure correct image path
+  const getImagePath = (imgPath) => {
+    if (!imgPath) return '';
+    // If it's already an absolute path, return as is
+    if (imgPath.startsWith('http') || imgPath.startsWith('//') || imgPath.startsWith('data:')) {
+      return imgPath;
+    }
+    // If it's a relative path, ensure it starts with a slash
+    return imgPath.startsWith('/') ? imgPath : `/${imgPath}`;
+  };
   
   console.log('Project images:', { images, currentImage, selectedImageIndex });
   
@@ -378,7 +418,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               exit={{ opacity: 0, y: 20, scale: 0.98 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              layoutId={`project-${selectedProject.id}`}
+              layoutId={`project-${project.id}`}
             >
               {/* Close Button */}
               <button
@@ -386,7 +426,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                 className="absolute right-3 top-3 sm:right-4 sm:top-4 z-20 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-gray-700/80 backdrop-blur-sm text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-label="Close modal"
               >
-                <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                <FiX className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
 
               {/* Project Image Gallery */}
@@ -401,10 +441,14 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
                     <img
-                      src={currentImage}
+                      src={getImagePath(currentImage)}
                       alt={`${project.title} - ${selectedImageIndex + 1}`}
                       className="w-full h-full object-cover"
                       onDoubleClick={toggleFullscreen}
+                      onError={(e) => {
+                        console.error('Failed to load image:', currentImage);
+                        e.target.src = '/images/placeholder-project.png'; // Fallback image
+                      }}
                     />
                   </motion.div>
                 </AnimatePresence>
@@ -428,28 +472,33 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   </>
                 )}
 
-                <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-1.5 sm:space-x-2 z-10">
-                  {images.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full transition-all ${
-                        index === currentImageIndex
-                          ? 'bg-white scale-125 w-4 sm:w-6'
-                          : 'bg-white/50 hover:bg-white/75 w-1.5 sm:w-2'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
+                {images.length > 1 && (
+                  <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-1.5 sm:space-x-2 z-10">
+                    {images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedImageIndex(index);
+                        }}
+                        className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full transition-all ${
+                          index === selectedImageIndex
+                            ? 'bg-white scale-125 w-4 sm:w-6'
+                            : 'bg-white/50 hover:bg-white/75 w-1.5 sm:w-2'
+                        }`}
+                        aria-label={`Go to image ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
 
                 <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 z-10">
                   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                    {selectedProject.title}
+                    {project.title}
                   </h2>
                   <p className="text-xs sm:text-sm text-gray-200">
-                    {selectedProject.category} • {selectedProject.year}
+                    {project.category} • {project.year}
                   </p>
                 </div>
               </div>
@@ -457,126 +506,84 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
               {/* Project Content */}
               <div className="flex-1 overflow-y-auto">
                 <div className="p-4 sm:p-6 md:p-8">
-                  <div className="flex flex-col lg:flex-row gap-6 md:gap-8">
-                    <div className="lg:w-2/3">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                        Project Overview
-                      </h3>
-                      <div className="prose dark:prose-invert prose-sm sm:prose-base max-w-none">
-                        {selectedProject.description}
-                      </div>
+                  <div className="space-y-3 sm:space-y-4">
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+                      About {project.title}
+                    </h3>
+                    <div className="prose dark:prose-invert prose-sm sm:prose-base max-w-none">
+                      {project.description}
+                    </div>
 
-                      {selectedProject.features && selectedProject.features.length > 0 && (
+                      {project.features && project.features.length > 0 && (
                         <div className="mt-6 sm:mt-8">
                           <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                             Key Features
                           </h4>
                           <ul className="space-y-1.5 sm:space-y-2">
-                            {selectedProject.features.map((feature, index) => (
+                            {project.features.map((feature, index) => (
                               <li key={index} className="flex items-start">
                                 <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-500 mt-0.5 flex-shrink-0 mr-1.5 sm:mr-2" />
-                                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                                   {feature}
-                                </span>
+                                </p>
                               </li>
                             ))}
                           </ul>
                         </div>
                       )}
-
-                      {selectedProject.lessonsLearned && (
+                      {project.techStack && project.techStack.length > 0 && (
                         <div className="mt-6 sm:mt-8">
-                          <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
-                            Lessons Learned
-                          </h4>
-                          <div className="prose dark:prose-invert prose-sm sm:prose-base max-w-none">
-                            {selectedProject.lessonsLearned}
+                          <h5 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 sm:mb-1.5">
+                            Technologies Used
+                          </h5>
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {project.techStack.map((tech, index) => (
+                              <span
+                                key={index}
+                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+                              >
+                                {techIcons[tech] && (
+                                  <span className="mr-1.5">{techIcons[tech]}</span>
+                                )}
+                                {tech}
+                              </span>
+                            ))}
                           </div>
                         </div>
                       )}
-                    </div>
 
-                    <div className="lg:w-1/3 mt-6 sm:mt-8 lg:mt-0">
-                      <div className="bg-gray-50 dark:bg-gray-700/30 rounded-lg sm:rounded-xl p-4 sm:p-6">
-                        <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                          Project Details
-                        </h4>
-
-                        <div className="space-y-3 sm:space-y-4">
-                          <div>
-                            <h5 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1">
-                              Role
-                            </h5>
-                            <p className="text-sm sm:text-base text-gray-900 dark:text-white">
-                              {selectedProject.role || 'Not specified'}
-                            </p>
-                          </div>
-
-                          <div>
-                            <h5 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-1">
-                              Timeline
-                            </h5>
-                            <p className="text-sm sm:text-base text-gray-900 dark:text-white">
-                              {selectedProject.timeline || 'Not specified'}
-                            </p>
-                          </div>
-
-                          <div>
-                            <h5 className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-1 sm:mb-1.5">
-                              Technologies Used
-                            </h5>
-                            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                              {selectedProject.techStack?.map((tech, index) => (
-                                <span
-                                  key={index}
-                                  className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 border border-indigo-200 dark:border-indigo-800/50"
-                                >
-                                  {techIcons[tech] && (
-                                    <span className="mr-1">{techIcons[tech]}</span>
-                                  )}
-                                  <span className="truncate max-w-[100px] sm:max-w-none">
-                                    {tech}
-                                  </span>
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-
-                          <div className="pt-2">
-                            <div className="flex flex-wrap gap-2 sm:gap-3">
-                              {selectedProject.link && (
-                                <a
-                                  href={selectedProject.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors flex-1 sm:flex-none justify-center"
-                                >
-                                  <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
-                                  View Project
-                                </a>
-                              )}
-                              {selectedProject.github && (
-                                <a
-                                  href={selectedProject.github}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 border border-gray-300 dark:border-gray-600 text-xs sm:text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors flex-1 sm:flex-none justify-center"
-                                >
-                                  <Github className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
-                                  View Code
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  <div className="pt-6">
+                    <div className="flex flex-wrap gap-3">
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                        >
+                          <FiExternalLink className="h-4 w-4 mr-2" />
+                          View Project
+                        </a>
+                      )}
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md shadow-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                        >
+                          <Github className="h-4 w-4 mr-2" />
+                          View Code
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
-        </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
       )}
     </AnimatePresence>
   );
@@ -736,18 +743,28 @@ const Projects = () => {
   }, []);
 
   // Handle project selection for modal
-  const handleProjectSelect = (project) => {
-    setSelectedProject(project);
+  const handleProjectSelect = useCallback((project) => {
+    console.log('Setting selected project:', project?.id);
+    // Create a deep copy of the project to avoid potential reference issues
+    const projectCopy = JSON.parse(JSON.stringify(project));
+    setSelectedProject(projectCopy);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-  };
+    return false; // Prevent any default behavior
+  }, []);
 
   // Handle modal close
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback((e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    console.log('Closing modal');
     setIsModalOpen(false);
     setSelectedProject(null);
     document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
-  };
+    return false;
+  }, []);
 
   // Simulate loading
   useEffect(() => {
@@ -953,14 +970,16 @@ const Projects = () => {
       </section>
 
       {/* Project Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            isOpen={isModalOpen}
-            onClose={handleCloseModal} 
-            key={selectedProject.id}
-          />
+      <AnimatePresence mode="wait">
+        {isModalOpen && selectedProject && (
+          <div className="fixed inset-0 z-50">
+            <ProjectModal 
+              project={selectedProject} 
+              isOpen={isModalOpen}
+              onClose={handleCloseModal} 
+              key={selectedProject.id}
+            />
+          </div>
         )}
       </AnimatePresence>
 

@@ -129,18 +129,9 @@ const ProjectCard = ({ project, index, onClick }) => {
         return;
       }
 
-      // If it's an internal link, navigate to the page
-      if (project.link) {
-        // Ensure the link is treated as a path relative to the base URL
-        const path = project.link.startsWith('/') ? project.link : `/${project.link}`;
-        navigate(path);
-        return;
-      }
-
-      // If there's an onClick handler, call it (for modal)
-      if (onClick && typeof onClick === 'function') {
-        onClick(project);
-      }
+      // For internal links, use the full URL with base path
+      const fullUrl = getProjectUrl(project.id);
+      window.location.href = fullUrl;
     }
   };
 
@@ -148,6 +139,13 @@ const ProjectCard = ({ project, index, onClick }) => {
   const handleDirectNavigation = (e, path) => {
     e.stopPropagation();
     if (!path) return;
+    
+    // For internal project links, use the full URL with base path
+    if (path.startsWith('/projects/')) {
+      const projectId = path.split('/').pop();
+      window.location.href = getProjectUrl(projectId);
+      return;
+    }
 
     if (path.startsWith('http') || path.startsWith('mailto:')) {
       window.open(path, '_blank', 'noopener,noreferrer');
@@ -548,7 +546,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     <div className="flex flex-wrap gap-3">
                       {project.link && (
                         <a
-                          href={project.link}
+                          href={getProjectUrl(project.id)}
                           target={project.external ? "_blank" : "_self"}
                           rel={project.external ? "noopener noreferrer" : undefined}
                           onClick={(e) => {
@@ -698,6 +696,14 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Get base URL for GitHub Pages
+  const baseUrl = import.meta.env.BASE_URL || '/Sahil-Portfolio/';
+  
+  // Function to get project URL with base path
+  const getProjectUrl = (projectId) => {
+    return `${baseUrl}#/projects/${projectId}`;
+  };
   const [isScrolled, setIsScrolled] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

@@ -49,11 +49,22 @@ const ProjectCard = ({ project, isMobile = false }) => {
             }}
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-4 transition-opacity duration-300">
-            <span className="inline-flex items-center text-white text-sm font-medium bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition-colors duration-200">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-4 transition-opacity duration-300">
+            <button 
+              className="inline-flex items-center text-white text-sm font-medium bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (isExternalLink) {
+                  window.open(project.link, '_blank', 'noopener,noreferrer');
+                } else if (project.link) {
+                  window.location.href = project.link;
+                }
+              }}
+            >
               {isExternalLink ? 'Visit Project' : 'View Details'}
               <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-            </span>
+            </button>
           </div>
         </div>
         

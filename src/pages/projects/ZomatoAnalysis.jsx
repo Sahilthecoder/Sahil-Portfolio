@@ -307,26 +307,8 @@ const ZomatoAnalysis = () => {
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.04)] dark:shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] dark:hover:shadow-lg transition-all duration-300">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Key Insights</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="group cursor-pointer" onClick={() => openImage(2)}>
-                <div className="relative overflow-hidden rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-                  <img
-                    src="sahil-portfolio/images/projects/Project1_excel/zt2.webp"
-                    alt="Restaurant Analysis"
-                    className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
-                    <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">
-                      Click to view
-                    </span>
-                  </div>
-                </div>
-                <p className="mt-3 text-sm text-gray-600 dark:text-gray-300 text-center">
-                  Restaurant performance and customer preferences
-                </p>
-              </div>
+              
               <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl flex flex-col items-center justify-center">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   Key Findings

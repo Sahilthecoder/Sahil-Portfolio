@@ -1,19 +1,18 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
 import './styles/backgrounds.css';
+import FaviconManager from './components/FaviconManager';
 
-// Import components directly instead of using lazy loading
+// Import components
 import Home from './pages/Home';
 import About from './pages/About';
 import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import Projects from './pages/Projects';
 import NotFound from './pages/NotFound';
-
-// Import project detail pages
 import ZomatoAnalysis from './pages/projects/ZomatoAnalysis';
 import BansalSupermarket from './pages/projects/BansalSupermarket';
 import EkamAttendance from './pages/projects/EkamAttendance';
@@ -38,7 +37,7 @@ class ErrorBoundary extends React.Component {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -73,84 +72,30 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
-  console.log('App component rendering...');
-  
   return (
     <ErrorBoundary>
-      <HelmetProvider>
+<HelmetProvider>
         <ThemeProvider>
-          <Router 
-            future={{
-              v7_startTransition: true,
-              v7_relativeSplatPath: true
-            }}
-          >
-            <ErrorBoundary>
-              <AnimatePresence mode="wait">
+          <FaviconManager />
+          <Router>
+            <AnimatePresence mode="wait">
+              <Suspense fallback={<LoadingFallback />}>
                 <Routes>
-                  <Route path="/" element={
-                    <ErrorBoundary>
-                      <Home />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/about" element={
-                    <ErrorBoundary>
-                      <About />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/experience" element={
-                    <ErrorBoundary>
-                      <Experience />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects" element={
-                    <ErrorBoundary>
-                      <Projects />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/zomato-expansion" element={
-                    <ErrorBoundary>
-                      <ZomatoAnalysis />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/bansal-supermarket" element={
-                    <ErrorBoundary>
-                      <BansalSupermarket />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/ekam-attendance" element={
-                    <ErrorBoundary>
-                      <EkamAttendance />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/cash-flow-dashboard" element={
-                    <ErrorBoundary>
-                      <RetailCashFlow />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/ai-daily-planner" element={
-                    <ErrorBoundary>
-                      <SnapeSentimentAnalysis />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/projects/smart-automation" element={
-                    <ErrorBoundary>
-                      <ProductSalesDashboard />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="/contact" element={
-                    <ErrorBoundary>
-                      <Contact />
-                    </ErrorBoundary>
-                  } />
-                  <Route path="*" element={
-                    <ErrorBoundary>
-                      <NotFound />
-                    </ErrorBoundary>
-                  } />
+                  <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
+                  <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
+                  <Route path="/experience" element={<ErrorBoundary><Experience /></ErrorBoundary>} />
+                  <Route path="/projects" element={<ErrorBoundary><Projects /></ErrorBoundary>} />
+                  <Route path="/projects/zomato-expansion" element={<ErrorBoundary><ZomatoAnalysis /></ErrorBoundary>} />
+                  <Route path="/projects/bansal-supermarket" element={<ErrorBoundary><BansalSupermarket /></ErrorBoundary>} />
+                  <Route path="/projects/ekam-attendance" element={<ErrorBoundary><EkamAttendance /></ErrorBoundary>} />
+                  <Route path="/projects/cash-flow-dashboard" element={<ErrorBoundary><RetailCashFlow /></ErrorBoundary>} />
+                  <Route path="/projects/ai-daily-planner" element={<ErrorBoundary><SnapeSentimentAnalysis /></ErrorBoundary>} />
+                  <Route path="/projects/smart-automation" element={<ErrorBoundary><ProductSalesDashboard /></ErrorBoundary>} />
+                  <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
+                  <Route path="*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                 </Routes>
-              </AnimatePresence>
-            </ErrorBoundary>
+              </Suspense>
+            </AnimatePresence>
           </Router>
         </ThemeProvider>
       </HelmetProvider>

@@ -70,26 +70,28 @@ export default defineConfig({
       },
       output: {
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          let ext = info[info.length - 1];
-          if (ext === 'css') {
-            return 'assets/css/[name]-[hash][extname]';
+          let extType = assetInfo.name.split('.').at(1);
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+            extType = 'images';
+            return `assets/${extType}/[name][extname]`; // Keep original filename for better caching
           }
-          if (['png', 'jpe?g', 'jpe', 'webp', 'svg', 'gif'].includes(ext)) {
-            return 'assets/images/[name]-[hash][extname]';
-          }
-          if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
-            return 'assets/fonts/[name]-[hash][extname]';
-          }
-          return 'assets/[name]-[hash][extname]';
+          return `assets/${extType}/[name]-[hash][extname]`;
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: (chunkInfo) => {
-          return chunkInfo.name === 'sw' ? '[name].js' : 'assets/js/[name]-[hash].js';
+          return `assets/js/${chunkInfo.name}-[hash].js`;
         },
       },
     },
     copyPublicDir: true,
+    assetsInlineLimit: 4096, // 4kb
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
   },
   define: {
     'import.meta.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL || '/Sahil-Portfolio/'),

@@ -1,15 +1,14 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
-import { ImageWithFallback } from '../utils/imageUtils.jsx';
-import getImagePath from '../utils/imagePaths';
+import ImageWithFallback from './ImageWithFallback';
+import { getImagePath } from '../utils/imageUtils';
 
 const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectType }) => {
-  // Use the getImagePath utility for consistent path handling
-  const getImagePath = (path) => {
+  // Format the image source URL
+  const formatImageSrc = (path) => {
     if (!path) return '';
     if (path.startsWith('http') || path.startsWith('data:')) return path;
-    // For project cards, we might not have a projectId, so we'll use a generic fallback
-    return getImagePath('project', '', path);
+    return getImagePath('projects', '', path);
   };
 
   return (
@@ -21,11 +20,11 @@ const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectT
       {cover && (
         <div className="relative h-48 overflow-hidden">
           <ImageWithFallback
-            src={cover}
+            src={formatImageSrc(cover)}
             alt={`Screenshot of ${title} project`}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
             loading="lazy"
-            fallbackSrc={getImagePath('fallback', '', 'placeholder.svg')}
+            fallbackSrc={getImagePath('', 'fallback', 'placeholder.svg')}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
             <span className="inline-block px-3 py-1 text-sm font-medium text-white bg-indigo-600 dark:bg-dark-primary rounded-full">

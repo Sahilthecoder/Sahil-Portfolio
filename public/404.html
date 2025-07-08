@@ -11,24 +11,53 @@
         const isGitHubPages = window.location.hostname.includes('github.io');
         const basePath = isGitHubPages ? `/${repoName}` : '';
         
-        // Get the current path and redirect to index.html with the path as a hash
-        const path = window.location.pathname.replace(new RegExp(`^${basePath}`), '');
+        // Get the current path and clean it up
+        const currentPath = window.location.pathname;
         const search = window.location.search;
         const hash = window.location.hash;
         
-        // If this is a direct access to a route, redirect to index.html with the path as a hash
-        if (path !== '/' && !path.includes('index.html')) {
-          window.history.replaceState(
-            null,
-            null,
-            `${basePath}/#${path.replace(/^\/+/, '')}${search}${hash}`
-          );
+        // Check if we need to handle a client-side route
+        const isClientRoute = !currentPath.endsWith('.js') && 
+                             !currentPath.endsWith('.css') && 
+                             !currentPath.endsWith('.png') && 
+                             !currentPath.endsWith('.jpg') && 
+                             !currentPath.endsWith('.jpeg') && 
+                             !currentPath.endsWith('.gif') && 
+                             !currentPath.endsWith('.svg') &&
+                             !currentPath.endsWith('.ico');
+        
+        if (isClientRoute) {
+          // Handle client-side routing
+          let pathToRedirect = currentPath;
+          
+          // Remove basePath if we're on GitHub Pages
+          if (isGitHubPages && pathToRedirect.startsWith(basePath)) {
+            pathToRedirect = pathToRedirect.substring(basePath.length);
+          }
+          
+          // Clean up the path
+          pathToRedirect = pathToRedirect
+            .replace(/^\/+/, '')  // Remove leading slashes
+            .replace(/\/+$/, '')  // Remove trailing slashes
+            .replace(/\.html$/, ''); // Remove .html extension
+          
+          // Only redirect if not already on the root
+          if (pathToRedirect && pathToRedirect !== 'index') {
+            const newPath = `${basePath}/#/${pathToRedirect}${search}${hash}`;
+            window.location.replace(newPath);
+            return; // Stop execution to prevent loading the app twice
+          } else if (window.location.hash) {
+            // If we have a hash but no path, ensure it starts with #/
+            if (!window.location.hash.startsWith('#/') && window.location.hash !== '#') {
+              window.location.replace(`${basePath}/#/${window.location.hash.substring(1)}`);
+              return;
+            }
+          }
         }
         
-        // Load the main app
+        // Load the main app if we haven't redirected
         const script = document.createElement('script');
-        script.src = `${basePath}/assets/index-${'[hash]'}.js`;
-        script.integrity = '${sri}';
+        script.src = `${basePath}/assets/index.js`; // Remove the hash for simplicity
         script.crossOrigin = 'anonymous';
         script.onerror = function() {
           // If the script fails to load, redirect to the base URL

@@ -18,6 +18,7 @@ import {
   FaChartLine,
   FaMicrosoft,
   FaTimes,
+  FaImage
 } from 'react-icons/fa';
 
 import {
@@ -31,7 +32,7 @@ import {
   FiChevronRight,
   FiChevronLeft,
   FiMaximize2,
-  FiMinimize as FiMinimizeIcon,
+  FiMinimize as FiMinimizeIcon
 } from 'react-icons/fi';
 
 import {
@@ -110,11 +111,50 @@ const techIcons = {
 const ProjectCard = ({ project, index, onClick }) => {
   // Use React Router's useNavigate for client-side navigation
   const navigate = useNavigate();
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageError, setIsImageError] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const imageRef = useRef(null);
+  const cardRef = useRef(null);
+
+  // Handle image load and error states
+  useEffect(() => {
+    if (!project) return;
+    
+    const img = new Image();
+    const imageUrl = project.previewImage || project.image;
+    
+    // Skip if no image URL
+    if (!imageUrl) {
+      setIsImageError(true);
+      return;
+    }
+    
+    img.src = imageUrl;
+    
+    img.onload = () => {
+      setIsImageLoaded(true);
+      if (imageRef.current) {
+        imageRef.current.src = img.src;
+      }
+    };
+    
+    img.onerror = () => {
+      console.error(`Failed to load image: ${imageUrl}`);
+      setIsImageError(true);
+    };
+    
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [project]);
 
   // Handle card clicks - only for the card itself, not its children
   const handleCardClick = (e) => {
     // Prevent default to avoid any unwanted behavior
     e.preventDefault();
+    e.stopPropagation();
     
     // Don't handle click if it came from a button or link
     if (e.target.closest('button, a, [role="button"]')) {
@@ -122,18 +162,10 @@ const ProjectCard = ({ project, index, onClick }) => {
     }
     
     // Only handle click if the target is the card itself or its direct children
-    if (e.target === e.currentTarget || e.target.closest('.project-card')) {
+    if (e.target === cardRef.current || e.target.closest('.project-card')) {
       // If it's an external link, open in new tab
-      if (project.external) {
+      if (project.external && project.link) {
         window.open(project.link, '_blank', 'noopener,noreferrer');
-        return;
-      }
-
-      // If it's an internal link, navigate to the page
-      if (project.link) {
-        // Ensure the link is treated as a path relative to the base URL
-        const path = project.link.startsWith('/') ? project.link : `/${project.link}`;
-        navigate(path);
         return;
       }
 
@@ -143,23 +175,63 @@ const ProjectCard = ({ project, index, onClick }) => {
       }
     }
   };
-
-  // Handle direct navigation for title and other interactive elements
-  const handleDirectNavigation = (e, path) => {
+  
+  // Handle preview button click
+  const handlePreviewClick = (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    if (!path) return;
-
-    if (path.startsWith('http') || path.startsWith('mailto:')) {
-      window.open(path, '_blank', 'noopener,noreferrer');
-    } else {
-      // Ensure the path is treated as relative to the base URL
-      const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-      navigate(normalizedPath);
+    if (onClick && typeof onClick === 'function') {
+      onClick(project);
     }
   };
+  
+  // Handle direct navigation to project link
+  const handleDirectNavigation = (e, link) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!link) return;
+    
+    // If it's an external link, open in new tab
+    if (project.external || link.startsWith('http')) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    
+    // For internal links, use React Router navigation
+    const path = link.startsWith('/') ? link : `/${link}`;
+    navigate(path);
+  };
+  
+  // Handle keyboard navigation
+  const handleKeyDown = (e) => {
+    // Handle Enter or Space key
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleCardClick(e);
+    }
+  };
+  
+  // Add hover state for better interaction feedback
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
+
+  if (!project) return null;
 
   return (
-    <div className="w-full h-full">
+    <div 
+      className="w-full h-full"
+      ref={cardRef}
+      role="button"
+      tabIndex={0}
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
+      aria-label={`View ${project.title} project`}
+    >
       <Tilt
         tiltMaxAngleX={2}
         tiltMaxAngleY={2}
@@ -173,41 +245,79 @@ const ProjectCard = ({ project, index, onClick }) => {
         transitionSpeed={800}
       >
         <motion.div
-          className="h-full bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden border border-gray-200/80 dark:border-gray-700/50 hover:border-indigo-400/70 dark:hover:border-blue-400/40 transition-all duration-300 group relative shadow-sm hover:shadow-md sm:hover:shadow-xl"
-          whileHover={{
-            y: -4,
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          className={`h-full bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden border transition-all duration-300 group relative shadow-sm hover:shadow-md sm:hover:shadow-xl ${
+            isHovered 
+              ? 'border-indigo-400/70 dark:border-blue-400/40 shadow-lg' 
+              : 'border-gray-200/80 dark:border-gray-700/50'
+          }`}
+          initial={false}
+          animate={{
+            y: isHovered ? -4 : 0,
+            boxShadow: isHovered 
+              ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' 
+              : '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
           }}
-          onClick={handleCardClick}
+          transition={{ type: 'spring', stiffness: 400, damping: 15 }}
           style={{ position: 'relative', zIndex: 1 }}
         >
           {/* Enhanced glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5 opacity-100 group-hover:opacity-100 transition-opacity duration-200" />
+          <div 
+            className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 transition-opacity duration-300"
+            style={{ opacity: isHovered ? 1 : 0 }}
+          />
+          <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5" />
 
           {/* Project image */}
           <div className="relative pt-[56.25%] overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
               <img
-                src={project.image}
+                ref={imageRef}
+                src={project.previewImage || project.image}
                 alt={project.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-105' : 'scale-100'} ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
                 loading="lazy"
                 onError={(e) => {
-                  console.error(`Failed to load image: ${project.image}`);
-                  e.target.src = project.previewImage || project.image;
+                  console.error(`Failed to load image: ${project.previewImage || project.image}`);
+                  setIsImageError(true);
+                  e.target.style.display = 'none';
                 }}
+                onLoad={() => setIsImageLoaded(true)}
+                decoding="async"
               />
+              {!isImageLoaded && !isImageError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                  <div className="w-8 h-8 border-4 border-gray-300 border-t-indigo-500 rounded-full animate-spin"></div>
+                </div>
+              )}
+              {isImageError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                  <div className="text-center p-4">
+                    <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                    <p className="text-xs text-gray-500">Image not available</p>
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4 md:p-6">
+            
+            {/* Tech stack overlay */}
+            <div 
+              className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 flex items-end p-3 sm:p-4 md:p-6"
+              style={{ opacity: isHovered ? 1 : 0 }}
+            >
               <div className="w-full">
                 <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
                   {project.techStack?.slice(0, 5).map((tech, idx) => (
                     <motion.span
                       key={`${tech}-${idx}`}
                       initial={{ opacity: 0, y: 5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.03, duration: 0.2 }}
+                      animate={{ 
+                        opacity: isHovered ? 1 : 0, 
+                        y: isHovered ? 0 : 5 
+                      }}
+                      transition={{ 
+                        delay: isHovered ? idx * 0.03 : 0,
+                        duration: 0.2 
+                      }}
                       className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-150 shadow-sm cursor-default"
                     >
                       <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm">
@@ -225,84 +335,103 @@ const ProjectCard = ({ project, index, onClick }) => {
           {/* Project info */}
           <div 
             className="p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 relative z-10"
-            onClick={handleCardClick}
             style={{ pointerEvents: 'auto' }}
           >
-            <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="flex items-start justify-between mb-2 sm:mb-3">
               <div className="flex items-center space-x-1.5 sm:space-x-2">
                 <span className="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm sm:text-base">
                   {techIcons[project.icon] || <BsFileEarmarkExcel className="w-3 h-3 sm:w-4 sm:h-4" />}
                 </span>
-                <span className="text-xs sm:text-sm font-medium text-indigo-600 dark:text-blue-400">
-                  {project.category}
-                </span>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white line-clamp-1">
+                  {project.title}
+                </h3>
               </div>
-              <span className="text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700/50 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">
-                {project.year}
-              </span>
+              
+              {/* Project links */}
+              <div className="flex items-center space-x-1.5">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                    aria-label="View on GitHub"
+                  >
+                    <FiGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </a>
+                )}
+                
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="p-1.5 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                    aria-label="View live project"
+                  >
+                    <FiExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  </a>
+                )}
+              </div>
             </div>
-
-            <div
-              className="project-card group cursor-pointer"
-              onClick={handleCardClick}
-            >
-              <h3
-                className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2 group-hover:text-indigo-700 dark:group-hover:text-blue-400 transition-colors cursor-pointer line-clamp-2"
-              >
-                {project.title}
-              </h3>
-
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
-                {project.shortDescription}
-              </p>
+            
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+              {project.shortDescription}
+            </p>
+            
+            {/* Tech stack */}
+            <div className="flex flex-wrap gap-1.5 mb-3">
+              {project.techStack?.slice(0, 3).map((tech, idx) => (
+                <motion.span
+                  key={`${project.id}-tech-${idx}`}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      delay: isHovered ? idx * 0.03 : 0,
+                      duration: 0.2 
+                    }
+                  }}
+                  className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-150 shadow-sm cursor-default"
+                >
+                  <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm">
+                    {techIcons[tech] || tech.charAt(0)}
+                  </span>
+                  <span className="hidden xs:inline">{tech}</span>
+                  <span className="xs:hidden">{tech.split(' ')[0]}</span>
+                </motion.span>
+              ))}
+              
+              {project.techStack?.length > 3 && (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300">
+                  +{project.techStack.length - 3} more
+                </span>
+              )}
             </div>
-
-            <div 
-              className="pt-3 sm:pt-4 border-t border-gray-100 dark:border-gray-700/50 flex flex-col xs:flex-row gap-2 sm:gap-3 relative z-20"
-              style={{ pointerEvents: 'auto' }}
-              onClick={(e) => e.stopPropagation()}
-            >
+            
+            {/* Action buttons */}
+            <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
               <motion.button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  e.nativeEvent.stopImmediatePropagation();
-                  console.log('Preview button clicked', project.id);
-                  if (onClick && typeof onClick === 'function') {
-                    onClick(project);
-                  }
-                  return false;
-                }}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-                aria-label="Quick Preview"
-                whileHover={{
-                  scale: 1.03,
-                  y: -1,
-                  boxShadow: '0 4px 12px rgba(79, 70, 229, 0.1)',
-                }}
+                onClick={handlePreviewClick}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex-1 flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700/50 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 group/button"
+                className="flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg group/button"
               >
                 <span>Preview</span>
+                <span className="ml-1.5 sm:ml-2 inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-gray-200 dark:bg-gray-600 group-hover/button:bg-indigo-100 dark:group-hover/button:bg-indigo-900/30 transition-colors duration-200">
+                  <FiChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                </span>
               </motion.button>
               
               {project.link && (
                 <motion.button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDirectNavigation(e, project.link);
-                  }}
-                  whileHover={{
-                    scale: 1.03,
-                    y: -1,
-                    boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)',
-                  }}
+                  onClick={(e) => handleDirectNavigation(e, project.link)}
+                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg transition-all duration-200 group/button"
+                  className="flex-1 flex items-center justify-center px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg transition-all duration-200 group/button ml-2"
                 >
                   <span>View Details</span>
                   <span className="ml-1.5 sm:ml-2 inline-flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white/20 group-hover/button:bg-white/30 transition-colors duration-200">
@@ -320,47 +449,116 @@ const ProjectCard = ({ project, index, onClick }) => {
 
   // Project modal component
 const ProjectModal = ({ project, isOpen, onClose }) => {
+  // Image path helper function is already defined above
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [images, setImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState('');
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isImageError, setIsImageError] = useState(false);
+  const modalRef = useRef(null);
   
-  // Set mounted state to handle animations
+  // Set mounted state to handle animations and initialize images
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && project) {
       setIsMounted(true);
+      setIsImageLoaded(false);
+      setIsImageError(false);
+      
+      // Initialize images array from project.images or use project.image as single image
+      const projectImages = project.images 
+        ? project.images.map(img => getImagePath(img))
+        : project.image 
+          ? [getImagePath(project.image)]
+          : [];
+      
+      setImages(projectImages);
+      setSelectedImageIndex(0);
+      setCurrentImage(projectImages[0] || '');
+      
+      // Focus the modal when it opens for better keyboard navigation
+      if (modalRef.current) {
+        modalRef.current.focus();
+      }
     }
+    
     return () => {
       setIsMounted(false);
     };
-  }, [isOpen]);
+  }, [isOpen, project]);
   
-  // Close modal on Escape key
+  // Close modal on Escape key or click outside
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowLeft' && images.length > 1) {
+        // Navigate to previous image with left arrow
+        setSelectedImageIndex(prev => (prev - 1 + images.length) % images.length);
+      } else if (e.key === 'ArrowRight' && images.length > 1) {
+        // Navigate to next image with right arrow
+        setSelectedImageIndex(prev => (prev + 1) % images.length);
+      }
+    };
+    
+    const handleClickOutside = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
         onClose();
       }
     };
     
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('mousedown', handleClickOutside);
+        document.body.style.overflow = 'auto';
+      };
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, images.length]);
+  
+  // Update current image when selected index changes
+  useEffect(() => {
+    if (images.length > 0 && selectedImageIndex >= 0 && selectedImageIndex < images.length) {
+      setIsImageLoaded(false);
+      setIsImageError(false);
+      setCurrentImage(images[selectedImageIndex]);
+    }
+  }, [selectedImageIndex, images]);
+  
+  // Handle image load and error states
+  useEffect(() => {
+    if (!currentImage) return;
+    
+    const img = new Image();
+    img.src = currentImage;
+    
+    img.onload = () => {
+      setIsImageLoaded(true);
+      setIsImageError(false);
+    };
+    
+    img.onerror = () => {
+      console.error(`Failed to load image: ${currentImage}`);
+      setIsImageError(true);
+      setIsImageLoaded(true); // Still mark as loaded to show error state
+    };
+    
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [currentImage]);
   
   if (!project || !isOpen || !isMounted) {
     return null;
   }
   
-  // Initialize images array from project.images or use project.image as single image
-  const images = project.images ? 
-    project.images.map(img => img.startsWith('/') ? img : `/${img}`) : 
-    [project.image ? (project.image.startsWith('/') ? project.image : `/${project.image}`) : ''];
-  
-  const currentImage = images[selectedImageIndex] || (project.image ? 
-    (project.image.startsWith('/') ? project.image : `/${project.image}`) : 
-    '');
-    
   // Function to ensure correct image path
   const getImagePath = (imgPath) => {
     if (!imgPath) return '';
@@ -372,21 +570,19 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
     return imgPath.startsWith('/') ? imgPath : `/${imgPath}`;
   };
   
-  console.log('Project images:', { images, currentImage, selectedImageIndex });
-  
   // Navigation functions
   const nextImage = (e) => {
-    e.stopPropagation();
-    setSelectedImageIndex((prev) => (prev + 1) % images.length);
+    e?.stopPropagation();
+    setSelectedImageIndex(prev => (prev + 1) % images.length);
   };
 
   const prevImage = (e) => {
-    e.stopPropagation();
-    setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
+    e?.stopPropagation();
+    setSelectedImageIndex(prev => (prev - 1 + images.length) % images.length);
   };
-
+  
   const toggleFullscreen = (e) => {
-    e.stopPropagation();
+    e?.stopPropagation();
     setIsFullscreen(!isFullscreen);
   };
 
@@ -704,6 +900,7 @@ const Projects = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const initialized = useRef(false);
 
   // Filter projects based on search term and active filter
   const filteredProjects = useMemo(() => {
@@ -745,12 +942,26 @@ const Projects = () => {
 
   // Handle project selection for modal
   const handleProjectSelect = useCallback((project) => {
-    console.log('Setting selected project:', project?.id);
+    if (!project) return false;
+    
+    console.log('Setting selected project:', project.id);
+    
     // Create a deep copy of the project to avoid potential reference issues
     const projectCopy = JSON.parse(JSON.stringify(project));
+    
+    // Update URL with project ID
+    const newUrl = `${window.location.pathname}#project-${project.id}`;
+    
+    // Only push state if the URL is different to avoid duplicate history entries
+    if (window.location.hash !== `#project-${project.id}`) {
+      window.history.pushState({ projectId: project.id }, '', newUrl);
+    }
+    
     setSelectedProject(projectCopy);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+    
     return false; // Prevent any default behavior
   }, []);
 
@@ -760,12 +971,83 @@ const Projects = () => {
       e.preventDefault();
       e.stopPropagation();
     }
+    
     console.log('Closing modal');
+    
+    // Only update URL if we have a project hash
+    if (window.location.hash.startsWith('#project-')) {
+      window.history.pushState(null, '', window.location.pathname);
+    }
+    
     setIsModalOpen(false);
     setSelectedProject(null);
     document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
+    document.documentElement.style.paddingRight = '';
+    
     return false;
   }, []);
+  
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = (event) => {
+      const hash = window.location.hash;
+      
+      // If we have a project hash in the URL
+      if (hash && hash.startsWith('#project-')) {
+        const projectId = hash.replace('#project-', '');
+        const project = projects.find(p => p.id === projectId);
+        
+        if (project) {
+          // Only update if we're not already showing this project
+          if (!selectedProject || selectedProject.id !== projectId) {
+            const projectCopy = JSON.parse(JSON.stringify(project));
+            setSelectedProject(projectCopy);
+            setIsModalOpen(true);
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+          }
+        } else {
+          // Project not found, close modal if open
+          if (isModalOpen) {
+            setIsModalOpen(false);
+            setSelectedProject(null);
+            document.body.style.overflow = 'auto';
+            document.documentElement.style.paddingRight = '';
+          }
+        }
+      } else if (isModalOpen) {
+        // No project hash but modal is open, close it
+        handleCloseModal();
+      }
+    };
+    
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isModalOpen, selectedProject, projects, handleCloseModal]);
+  
+  // Initialize from URL on first load
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#project-')) {
+        const projectId = hash.replace('#project-', '');
+        const project = projects.find(p => p.id === projectId);
+        
+        if (project) {
+          // Use setTimeout to ensure the modal opens after the component is mounted
+          setTimeout(() => {
+            const projectCopy = JSON.parse(JSON.stringify(project));
+            setSelectedProject(projectCopy);
+            setIsModalOpen(true);
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+          }, 100);
+        }
+      }
+    }
+  }, [projects]);
 
   // Simulate loading
   useEffect(() => {

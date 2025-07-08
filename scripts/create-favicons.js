@@ -4,7 +4,7 @@ const path = require('path');
 
 // Configuration
 const config = {
-  input: path.join('public', 'images', 'logo512.png'),
+  input: path.join('public', 'images', 'logo', 'logo512.png'),
   outputDir: path.join('public', 'favicons'),
   sizes: [16, 32, 48, 64, 96, 128, 192, 256, 384, 512],
   appleIconSizes: [57, 60, 72, 76, 114, 120, 144, 152, 180],

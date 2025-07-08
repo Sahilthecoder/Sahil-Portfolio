@@ -492,15 +492,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   </div>
                 )}
 
-                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 z-10">
-                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                    {project.title}
-                  </h2>
-                  <p className="text-xs sm:text-sm text-gray-200">
-                    {project.category} • {project.year}
-                  </p>
-                </div>
+
               </div>
 
               {/* Project Content */}
@@ -557,12 +549,18 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       {project.link && (
                         <a
                           href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          target={project.external ? "_blank" : "_self"}
+                          rel={project.external ? "noopener noreferrer" : undefined}
+                          onClick={(e) => {
+                            if (project.external) {
+                              e.preventDefault();
+                              window.open(project.link, '_blank', 'noopener,noreferrer');
+                            }
+                          }}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
                         >
                           <FiExternalLink className="h-4 w-4 mr-2" />
-                          View Project
+                          {project.external ? 'View Live' : 'View Details'}
                         </a>
                       )}
                       {project.github && (

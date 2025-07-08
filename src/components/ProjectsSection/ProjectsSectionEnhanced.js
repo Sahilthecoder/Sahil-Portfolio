@@ -27,95 +27,67 @@ const ProjectCard = ({ project, isMobile = false }) => {
   };
 
   return (
-    <motion.div 
-      className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5"
-      whileHover={!isMobile ? { y: -8, scale: 1.02 } : {}}
-      whileTap={{ scale: 0.98 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-    >
-      {/* Project Image */}
-      <div className="h-48 sm:h-52 md:h-56 overflow-hidden relative group">
-        <motion.img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover"
-          initial={{ scale: 1 }}
-          whileHover={!isMobile ? { scale: 1.1 } : {}}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/images/fallback-image.jpg';
-          }}
-          loading="lazy"
-        />
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-4"
-          initial={{ opacity: 0, y: 10 }}
-          whileHover={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        >
-          <motion.span 
-            className="inline-flex items-center text-white text-sm font-medium bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition-colors duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isExternalLink ? 'Visit Project' : 'View Details'}
-            <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-          </motion.span>
-        </motion.div>
-      </div>
-      
-      {/* Project Info */}
-      <div className="p-5 flex-1 flex flex-col">
-        <motion.h3 
-          className="text-lg font-bold text-gray-900 dark:text-white mb-2"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          {project.title}
-        </motion.h3>
-        <motion.p 
-          className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-        >
-          {project.description}
-        </motion.p>
+    <div className="relative h-full group">
+      <motion.div 
+        className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5"
+        whileHover={!isMobile ? { y: -8, scale: 1.02 } : {}}
+        whileTap={{ scale: 0.98 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      >
+        {/* Project Image */}
+        <div className="h-48 sm:h-52 md:h-56 overflow-hidden relative">
+          <motion.img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            initial={{ scale: 1 }}
+            whileHover={!isMobile ? { scale: 1.1 } : {}}
+            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/images/fallback-image.jpg';
+            }}
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-4 transition-opacity duration-300">
+            <span className="inline-flex items-center text-white text-sm font-medium bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition-colors duration-200">
+              {isExternalLink ? 'Visit Project' : 'View Details'}
+              <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+            </span>
+          </div>
+        </div>
         
-        {/* Tags */}
-        {project.tags && project.tags.length > 0 && (
-          <motion.div 
-            className="mt-auto flex flex-wrap gap-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.2, staggerChildren: 0.1 }}
-          >
-            {project.tags.slice(0, 3).map((tag, index) => (
-              <motion.span 
-                key={index}
-                className="text-xs px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-800/50 transition-colors duration-200"
-                whileHover={{ y: -2, scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {tag}
-              </motion.span>
-            ))}
-            {project.tags.length > 3 && (
-              <motion.span 
-                className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400"
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                +{project.tags.length - 3}
-              </motion.span>
-            )}
-          </motion.div>
-        )}
-      </div>
+        {/* Project Info */}
+        <div className="p-5 flex-1 flex flex-col">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+            {project.title}
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+            {project.description}
+          </p>
+          
+          {/* Tags */}
+          {project.tags && project.tags.length > 0 && (
+            <div className="mt-auto flex flex-wrap gap-2">
+              {project.tags.slice(0, 3).map((tag, index) => (
+                <span 
+                  key={index}
+                  className="text-xs px-2.5 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-800/50 transition-colors duration-200"
+                >
+                  {tag}
+                </span>
+              ))}
+              {project.tags.length > 3 && (
+                <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                  +{project.tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
       
-      {/* Project Link - Invisible overlay for the entire card */}
+      {/* Clickable overlay - must be the last element to be on top */}
       <a 
         href={project.link}
         onClick={handleClick}
@@ -124,7 +96,7 @@ const ProjectCard = ({ project, isMobile = false }) => {
         className="absolute inset-0 z-10"
         aria-label={`View ${project.title} project`}
       />
-    </motion.div>
+    </div>
   );
 };
 
@@ -191,11 +163,8 @@ const ProjectsSectionEnhanced = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <span className="inline-block text-sm font-medium text-indigo-600 dark:text-indigo-400 mb-2">
-            My Work
-          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Featured <span className="text-indigo-600 dark:text-indigo-400">Projects</span>
+            Featured Projects
           </h2>
           <div className="w-20 h-1 bg-indigo-600 dark:bg-indigo-400 mx-auto mb-6"></div>
           <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
@@ -333,25 +302,6 @@ const ProjectsSectionEnhanced = () => {
             </motion.div>
           )}
         </AnimatePresence>
-        
-        {/* View All Projects Button */}
-        {filteredProjects.length > 0 && (
-          <motion.div 
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-          >
-            <a 
-              href="/projects" 
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50 transition-colors duration-200"
-            >
-              View All Projects
-              <FiArrowRight className="ml-2" />
-            </a>
-          </motion.div>
-        )}
       </div>
     </section>
   );

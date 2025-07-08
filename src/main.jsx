@@ -39,9 +39,11 @@ if (!container) {
 const root = createRoot(container);
 
 // Set the base URL for the application
-const baseUrl = import.meta.env.BASE_URL || '/';
+const envBaseUrl = import.meta.env.BASE_URL || '';
+const baseUrl = envBaseUrl.endsWith('/') ? envBaseUrl : `${envBaseUrl}/`;
 window.__BASE_URL__ = baseUrl;
 console.log('Application base URL:', baseUrl);
+console.log('Environment:', import.meta.env.MODE);
 
 // Initial render with the App component
 root.render(

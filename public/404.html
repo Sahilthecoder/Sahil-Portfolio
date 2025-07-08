@@ -3,41 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading... - Sahil Ali's Portfolio</title>
+    <title>Redirecting... - Sahil Ali's Portfolio</title>
     <script>
       // Single Page Apps for GitHub Pages
       (function() {
         const repoName = 'Sahil-Portfolio';
         const isGitHubPages = window.location.hostname.includes('github.io');
+        const basePath = isGitHubPages ? `/${repoName}` : '';
         
-        // Redirect to index.html with the correct base path
-        const redirect = () => {
-          // Get the path without the base path
-          let path = window.location.pathname;
-          if (isGitHubPages && path.startsWith(`/${repoName}/`)) {
-            path = path.substring(repoName.length + 1);
-          }
-          
-          // Store the full URL for the app to handle
-          const redirectUrl = `${window.location.origin}${isGitHubPages ? `/${repoName}` : ''}/#${path}${window.location.search}${window.location.hash}`;
-          window.history.replaceState({}, '', redirectUrl);
-          
-          // Force reload to ensure React Router picks up the new URL
-          window.location.reload();
-        };
+        // Store the current path in session storage for the app to handle
+        const path = window.location.pathname.replace(new RegExp(`^${basePath}`), '');
+        const redirectPath = `${basePath}/#${path}${window.location.search}${window.location.hash}`;
         
-        // Handle both hash and non-hash routing
-        if (window.location.hash) {
-          // If there's already a hash, just reload
-          window.location.reload();
-        } else {
-          // Otherwise, redirect to the hash-based URL
-          redirect();
-        }
+        // Redirect to the app with the correct path
+        window.location.replace(redirectPath);
       })();
-      
-      // Redirect to the root of the app with the correct base path
-      window.location.replace(`${basePath}/`);
     </script>
     <style>
         body {

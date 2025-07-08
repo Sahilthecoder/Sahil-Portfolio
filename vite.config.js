@@ -14,7 +14,10 @@ const base = isProduction ? '/Sahil-Portfolio/' : '/';
 process.env.VITE_BASE_URL = base;
 process.env.BASE_URL = base;
 
+// Log environment info
+console.log(`Environment: ${process.env.NODE_ENV}`);
 console.log(`Using base URL: "${base}"`);
+console.log('Vite config loaded with base:', base);
 
 export default defineConfig({
   base: base,

@@ -80,6 +80,10 @@ const ImageWithFallback = ({
   const [isInView, setIsInView] = useState(false);
   const imageRef = useRef(null);
 
+  // Calculate loading strategy and priority
+  const loading = priority ? 'eager' : loadingProp;
+  const fetchPriority = priority ? 'high' : undefined;
+
   // Handle image loading state
   const handleLoad = useCallback(() => {
     setIsLoading(false);
@@ -124,9 +128,7 @@ const ImageWithFallback = ({
   const aspectRatio = width && height ? (height / width) * 100 : 0;
   const paddingBottom = aspectRatio ? `${aspectRatio}%` : '0';
 
-  // Handle priority loading
-  const loading = priority ? 'eager' : loadingProp;
-  const fetchPriority = priority ? 'high' : undefined;
+  // Loading and fetch priority already declared above
 
   return (
     <div

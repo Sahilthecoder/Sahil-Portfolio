@@ -44,7 +44,7 @@ const BansalSupermarket = () => {
   const images = [
     {
       id: 'bansal-dashboard',
-      name: 'Project2 Cover',
+      name: 'Project2_Cover',
       alt: 'Bansal Supermarket Dashboard',
       description: 'Interactive dashboard showing sales performance and key metrics',
       insights: [
@@ -59,7 +59,7 @@ const BansalSupermarket = () => {
       containerClass: 'h-[500px] md:h-[600px] lg:h-[700px]',
       projectId: 'bansal',
       ext: 'webp',
-      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     },
     {
       id: 'bansal-category',

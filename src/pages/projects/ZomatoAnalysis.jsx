@@ -44,7 +44,7 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
         ext: 'webp',
-        path: 'sahil-portfolio/images/projects/Project1_excel/zometo-ds.webp',
+        path: '/Sahil-Portfolio/images/projects/Project1_excel/zometo-ds.webp',
       },
       {
         id: 'zomato-analysis-1',
@@ -63,7 +63,7 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
         ext: 'webp',
-        path: 'sahil-portfolio/images/projects/Project1_excel/zt1.webp',
+        path: '/Sahil-Portfolio/images/projects/Project1_excel/zt1.webp',
       },
       {
         id: 'zomato-analysis-2',
@@ -82,7 +82,7 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
         ext: 'webp',
-        path: 'sahil-portfolio/images/projects/Project1_excel/zt2.webp',
+        path: '/Sahil-Portfolio/images/projects/Project1_excel/zt2.webp',
       },
       {
         id: 'zomato-cover',
@@ -96,7 +96,7 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-96',
         projectId: 'zomato',
         ext: 'webp',
-        path: 'sahil-portfolio/images/projects/Project1_excel/Project1_Cover.webp',
+        path: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
       },
     ],
     []

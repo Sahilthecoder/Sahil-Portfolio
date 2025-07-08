@@ -131,7 +131,9 @@ const ProjectCard = ({ project, index, onClick }) => {
 
       // If it's an internal link, navigate to the page
       if (project.link) {
-        navigate(project.link);
+        // Ensure the link is treated as a path relative to the base URL
+        const path = project.link.startsWith('/') ? project.link : `/${project.link}`;
+        navigate(path);
         return;
       }
 
@@ -147,10 +149,12 @@ const ProjectCard = ({ project, index, onClick }) => {
     e.stopPropagation();
     if (!path) return;
 
-    if (path.startsWith('http')) {
-      window.open(path, '_blank');
+    if (path.startsWith('http') || path.startsWith('mailto:')) {
+      window.open(path, '_blank', 'noopener,noreferrer');
     } else {
-      navigate(path);
+      // Ensure the path is treated as relative to the base URL
+      const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+      navigate(normalizedPath);
     }
   };
 
@@ -290,11 +294,7 @@ const ProjectCard = ({ project, index, onClick }) => {
                 <motion.button
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (project.external) {
-                      window.open(project.link, '_blank', 'noopener,noreferrer');
-                    } else {
-                      navigate(project.link);
-                    }
+                    handleDirectNavigation(e, project.link);
                   }}
                   whileHover={{
                     scale: 1.03,

@@ -33,11 +33,16 @@
     
     <!-- Manifest and Icons -->
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#2563eb">
+    
     <!-- Preload critical above-the-fold images with proper as attributes -->
-    <link rel="preload" href="sahil-portfolio/images/logo192.png" as="image" type="image/png" />
-    <link rel="preload" href="sahil-portfolio/images/logo512.png" as="image" type="image/png" />
+    <link rel="preload" href="/images/logo192.png" as="image" type="image/png" />
+    <link rel="preload" href="/images/logo512.png" as="image" type="image/png" />
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     
     <!-- Preconnect to external domains with fallback -->
@@ -61,7 +66,28 @@
     
     <!-- Polyfills for older browsers -->
     <script type="module">
-      // Function to get the base path
+      // Determine if we're in development or production
+      const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      
+      // Set the base URL - empty for development, '/Sahil-Portfolio' for production
+      const basePath = isDev ? '' : '/Sahil-Portfolio';
+      
+      // Store the base URL for use in the application
+      window.__BASE_URL__ = basePath;
+      
+      // Create a script element to set the base URL before Vite loads
+      const baseScript = document.createElement('script');
+      baseScript.type = 'module';
+      baseScript.text = `
+        // Set the base URL for Vite
+        import.meta.env.BASE_URL = '${basePath}';
+        console.log('Base URL set to:', '${basePath}');
+      `;
+      document.head.appendChild(baseScript);
+    </script>
+    
+    <!-- Function to get the base path -->
+    <script type="module">
       function getBasePath() {
         // If we're on GitHub Pages, use the repository name as base path
         if (window.location.hostname.includes('github.io')) {
@@ -87,7 +113,7 @@
             const fullPath = window.location.pathname;
             const pathParts = fullPath.split('/').filter(Boolean);
             const isGitHubPages = window.location.hostname.includes('github.io');
-            const basePath = isGitHubPages ? `/${pathParts[0] || ''}` : '';
+            const basePath = isGitHubPages ? `/${pathParts[0] || ''}` : '/';
             
             // Construct the target URL with the correct base path
             const targetPath = `${basePath}${path || '/'}${search || ''}${hash || ''}`;

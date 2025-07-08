@@ -1,8 +1,5 @@
 # Handle client-side routing - return index.html for all routes
-/*    /index.html   200
-
-# Handle 404s
-/*    /404.html   404
+/*    /Sahil-Portfolio/index.html   200
 
 # Ensure all assets are accessible with the correct base path
 /assets/*    /Sahil-Portfolio/assets/:splat    200
@@ -10,6 +7,9 @@
 /js/*        /Sahil-Portfolio/js/:splat        200
 /css/*       /Sahil-Portfolio/css/:splat       200
 /fonts/*     /Sahil-Portfolio/fonts/:splat     200
+
+# Handle deep links for project routes
+/projects/*  /Sahil-Portfolio/index.html       200
 
 # Redirect root to index with proper base path
 /            /Sahil-Portfolio/                 301

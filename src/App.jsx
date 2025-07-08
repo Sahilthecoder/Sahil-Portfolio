@@ -72,12 +72,15 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
+  // Get the base URL from environment variables or use an empty string for development
+  const basename = import.meta.env.BASE_URL || '';
+  
   return (
     <ErrorBoundary>
-<HelmetProvider>
+      <HelmetProvider>
         <ThemeProvider>
           <FaviconManager />
-          <Router>
+          <Router basename={basename}>
             <AnimatePresence mode="wait">
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
@@ -85,12 +88,16 @@ function App() {
                   <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
                   <Route path="/experience" element={<ErrorBoundary><Experience /></ErrorBoundary>} />
                   <Route path="/projects" element={<ErrorBoundary><Projects /></ErrorBoundary>} />
+                  {/* Project routes */}
                   <Route path="/projects/zomato-expansion" element={<ErrorBoundary><ZomatoAnalysis /></ErrorBoundary>} />
                   <Route path="/projects/bansal-supermarket" element={<ErrorBoundary><BansalSupermarket /></ErrorBoundary>} />
                   <Route path="/projects/ekam-attendance" element={<ErrorBoundary><EkamAttendance /></ErrorBoundary>} />
                   <Route path="/projects/cash-flow-dashboard" element={<ErrorBoundary><RetailCashFlow /></ErrorBoundary>} />
                   <Route path="/projects/ai-daily-planner" element={<ErrorBoundary><SnapeSentimentAnalysis /></ErrorBoundary>} />
                   <Route path="/projects/smart-automation" element={<ErrorBoundary><ProductSalesDashboard /></ErrorBoundary>} />
+                  
+                  {/* Catch-all route for any other project paths */}
+                  <Route path="/projects/*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                   <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
                   <Route path="*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                 </Routes>

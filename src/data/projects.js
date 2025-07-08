@@ -51,7 +51,7 @@ const projects = [
     id: 7,
     title: 'Mahira Portfolio',
     description: 'Professional portfolio website showcasing projects and skills.',
-    image: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     tags: ['Web Development', 'UI/UX', 'Portfolio', 'Responsive Design', 'React'],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     github: 'https://github.com/yourusername/mahira-portfolio',

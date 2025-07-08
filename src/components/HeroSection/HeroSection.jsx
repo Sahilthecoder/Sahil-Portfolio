@@ -37,7 +37,7 @@ const HeroSection = ({
   secondaryButton = { text: 'Contact Me', link: '/contact', showArrow: true },
   isHome = true,
   showProfileImage = false,
-  profileImage = getImagePath('profile'),
+  profileImage = '/Sahil-Portfolio/images/profile/profile.avif',
   children,
 }) => {
   const navigate = useNavigate();
@@ -277,7 +277,7 @@ const HeroSection = ({
                       src={profileImage}
                       alt="Profile"
                       className="w-full h-full object-cover object-top"
-                      fallbackSrc={getImagePath('profile', '', 'placeholder-profile.jpg')}
+                      fallbackSrc="/Sahil-Portfolio/images/profile-fallback.png"
                       loading="lazy"
                     />
                   </div>

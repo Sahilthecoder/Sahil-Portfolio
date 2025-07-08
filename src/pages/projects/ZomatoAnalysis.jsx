@@ -43,8 +43,8 @@ const ZomatoAnalysis = () => {
         aspectRatio: '16/9',
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
-        ext: 'avif',
-        path: '/images/projects/Project1 excel/zometo-ds.avif',
+        ext: 'webp',
+        path: 'sahil-portfolio/images/projects/Project1_excel/zometo-ds.webp',
       },
       {
         id: 'zomato-analysis-1',
@@ -62,8 +62,8 @@ const ZomatoAnalysis = () => {
         aspectRatio: '16/9',
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
-        ext: 'avif',
-        path: `${basePath}images/projects/Project1 excel/zt1.avif`,
+        ext: 'webp',
+        path: 'sahil-portfolio/images/projects/Project1_excel/zt1.webp',
       },
       {
         id: 'zomato-analysis-2',
@@ -81,8 +81,8 @@ const ZomatoAnalysis = () => {
         aspectRatio: '16/9',
         containerClass: 'h-80 md:h-96',
         projectId: 'zomato',
-        ext: 'avif',
-        path: `${basePath}images/projects/Project1 excel/zt2.avif`,
+        ext: 'webp',
+        path: 'sahil-portfolio/images/projects/Project1_excel/zt2.webp',
       },
       {
         id: 'zomato-cover',
@@ -95,8 +95,8 @@ const ZomatoAnalysis = () => {
         aspectRatio: '16/9',
         containerClass: 'h-96',
         projectId: 'zomato',
-        ext: 'avif',
-        path: `${basePath}images/projects/Project1 excel/Project1 Cover.avif`,
+        ext: 'webp',
+        path: 'sahil-portfolio/images/projects/Project1_excel/Project1_Cover.webp',
       },
     ],
     []
@@ -312,7 +312,7 @@ const ZomatoAnalysis = () => {
               <div className="group cursor-pointer" onClick={() => openImage(2)}>
                 <div className="relative overflow-hidden rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
                   <img
-                    src={`${basePath}images/projects/Project1 excel/zt2.avif`}
+                    src="sahil-portfolio/images/projects/Project1_excel/zt2.webp"
                     alt="Restaurant Analysis"
                     className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"

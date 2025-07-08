@@ -678,7 +678,7 @@ const projects = [
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['Web Development', 'AI Integration', 'UI/UX Design'],
     icon: 'GitHub',
-    image: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    image: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     previewImage: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: '',

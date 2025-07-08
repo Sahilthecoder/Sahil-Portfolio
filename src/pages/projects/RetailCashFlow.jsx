@@ -133,7 +133,7 @@ const RetailCashFlow = () => {
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
                 <img
-                  src={getImagePath('project', 'retail-cash-flow', 'CashFlow1.avif')}
+                  src={getImagePath('project', 'retail-cash-flow', 'CashFlow1.webp')}
                   alt="Retail Cash Flow Dashboard"
                   className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
@@ -147,7 +147,7 @@ const RetailCashFlow = () => {
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="relative">
               <img
-                src={getImagePath('project', 'retail-cash-flow', 'CashFlow2.avif')}
+                src={getImagePath('project', 'retail-cash-flow', 'CashFlow2.webp')}
                 alt="Daily Cash Flow Analysis"
                 className="w-full h-auto rounded-t-xl transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"

@@ -58,8 +58,8 @@ const BansalSupermarket = () => {
       aspectRatio: '16/9',
       containerClass: 'h-[500px] md:h-[600px] lg:h-[700px]',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2 tableau/bs2.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp',
     },
     {
       id: 'bansal-category',
@@ -77,8 +77,8 @@ const BansalSupermarket = () => {
       aspectRatio: '3/2',
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2 tableau/bs3.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs3.webp',
     },
     {
       id: 'bansal-top-products',
@@ -96,8 +96,8 @@ const BansalSupermarket = () => {
       aspectRatio: '3/2',
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2 tableau/bs-top10.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs-top10.webp',
     },
     {
       id: 'bansal-stock-turnover',
@@ -115,8 +115,8 @@ const BansalSupermarket = () => {
       aspectRatio: '3/2',
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2 tableau/bs-stockTO.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs-stockTO.webp',
     },
     {
       id: 'bansal-sales-profit',
@@ -134,8 +134,8 @@ const BansalSupermarket = () => {
       aspectRatio: '3/2',
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2 tableau/bs-saleVSpft.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs-saleVSpft.webp',
     },
     {
       id: 'bansal-customer-segments',
@@ -153,8 +153,8 @@ const BansalSupermarket = () => {
       aspectRatio: '3/2',
       containerClass: 'h-80 md:h-96',
       projectId: 'bansal',
-      ext: 'avif',
-      path: '/images/projects/Project2%20tableau/bs2.avif',
+      ext: 'webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp',
     },
   ];
 

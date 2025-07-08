@@ -142,7 +142,7 @@ const EkamAttendance = () => {
                 </h3>
               </div>
               <img
-                src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
+                src={getImagePath('project', 'ekam-attendance', 'Attendance_before.webp')}
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
@@ -174,7 +174,7 @@ const EkamAttendance = () => {
                 </h3>
               </div>
               <img
-                src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
+                src={getImagePath('project', 'ekam-attendance', 'Attendance_after.webp')}
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
@@ -543,7 +543,7 @@ GROUP BY e.name;`}
               </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img
-                  src={getImagePath('project', 'ekam-attendance', 'Attendance_before.avif')}
+                  src={getImagePath('project', 'ekam-attendance', 'Attendance_before.webp')}
                   alt="Manual attendance tracking process"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
@@ -564,7 +564,7 @@ GROUP BY e.name;`}
               </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img
-                  src={getImagePath('project', 'ekam-attendance', 'Attendance_after.avif')}
+                  src={getImagePath('project', 'ekam-attendance', 'Attendance_after.webp')}
                   alt="Automated attendance dashboard"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {

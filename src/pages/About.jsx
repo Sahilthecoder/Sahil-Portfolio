@@ -237,12 +237,12 @@ const About = () => {
                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 transform rotate-6"></div>
                     <div className="absolute inset-1 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
                       <img
-                        src="/images/profile/profile.avif"
+                        src="/Sahil-Portfolio/images/profile/profile.avif"
                         alt="Sahil Ali - Professional Photo"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = '/images/profile-fallback.png';
+                          e.target.src = '/Sahil-Portfolio/images/profile-fallback.png';
                         }}
                       />
                     </div>

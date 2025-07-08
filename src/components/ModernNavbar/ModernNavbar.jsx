@@ -481,8 +481,8 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
                 <ImageWithFallback 
-                  src="/Sahil-Portfolio/logo192.png"
-                  fallbackSrc="/Sahil-Portfolio/logo192.png"
+                  src="/Sahil-Portfolio/logo/logo192.png"
+                  fallbackSrc="/Sahil-Portfolio/logo/logo192.png"
                   alt="Sahil Ali - Portfolio Logo"
                   className="logo-img h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 group-hover:scale-110"
                   width={36}

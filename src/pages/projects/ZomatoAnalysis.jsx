@@ -251,7 +251,7 @@ const ZomatoAnalysis = () => {
                     <span className="absolute inset-0 bg-indigo-50/80 dark:bg-indigo-900/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-in-out"></span>
                   </a>
                   <a
-                    href="https://sahilthecoder.github.io/Zomato-Data-Analysis-Excel-Dashboard/"
+                    href="https://sahilthecoder.github.io/Sahil-Portfolio/Zomato-Data-Analysis-Excel-Dashboard/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative bg-transparent hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-medium py-2.5 px-6 rounded-lg text-center border-2 border-red-600 dark:border-red-500 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
@@ -629,7 +629,7 @@ const ZomatoAnalysis = () => {
                 </p>
                 <div className="space-y-3">
                   <a
-                    href="https://sahilthecoder.github.io/Zomato-Data-Analysis-Excel-Dashboard/"
+                    href="https://sahilthecoder.github.io/Sahil-Portfolio/Zomato-Data-Analysis-Excel-Dashboard/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center w-full px-4 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"

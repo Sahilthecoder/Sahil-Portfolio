@@ -21,7 +21,7 @@ module.exports = {
     appShortName: "Sahil",
     appDescription: "Data Analyst and Inventory Specialist",
     developerName: "Sahil Ali",
-    developerURL: "https://sahilthecoder.github.io/Sahil-Portfolio",
+    developerURL: "https://sahilthecoder.github.io/Sahil-Portfolio/",
     dir: "auto",
     lang: "en-US",
     background: "#fff",

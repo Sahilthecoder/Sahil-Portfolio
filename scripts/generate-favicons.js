@@ -5,8 +5,8 @@ const { execSync } = require('child_process');
 
 // Configuration
 const config = {
-  input: 'public/images/logo-hd.png', // Path to your HD logo
-  outputDir: 'public/images/favicons',
+  input: '/sahil-portfolio/public/images/logo-hd.png', // Path to your HD logo
+  outputDir: '/sahil-portfolio/public/images/favicons',
   sizes: [
     // Standard favicon
     { name: 'favicon.ico', size: 32 },

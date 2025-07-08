@@ -17,7 +17,7 @@ const config = {
   appShortName: 'Sahil Ali',
   appDescription: 'Data Analyst and Inventory Specialist',
   developerName: 'Sahil Ali',
-  developerURL: 'https://sahilthecoder.github.io/Sahil-Portfolio',
+  developerURL: 'https://sahilthecoder.github.io/Sahil-Portfolio/',
   dir: 'auto',
   lang: 'en-US',
   background_color: '#ffffff',

@@ -18,18 +18,18 @@ const getImagePath = (type, id, imageName) => {
   // Define paths for different environments
   const paths = {
     development: {
-      profile: '/images/profile.svg',
-      profilePng: '/images/profile-fallback.png',
-      logo: '/images/logo192.png',
-      favicon: '/images/favicon-32x32.png',
-      appleTouchIcon: '/images/apple-touch-icon.png',
-      fallback: '/images/profile-fallback.png',
-      default: '/images/fallback-image.jpg',
+      profile: 'sahil-portfolio/public/images/profile.svg',
+      profilePng: 'sahil-portfolio/public/images/profile-fallback.png',
+      logo: 'sahil-portfolio/public/images/logo/logo192.png',
+      favicon: 'sahil-portfolio/public/images/favicon-32x32.png',
+      appleTouchIcon: 'sahil-portfolio/public/images/apple-touch-icon.png',
+      fallback: 'sahil-portfolio/public/images/profile-fallback.png',
+      default: 'sahil-portfolio/public/images/fallback-image.jpg',
     },
     production: {
       profile: `${normalizedBase}images/profile.svg`,
       profilePng: `${normalizedBase}images/profile-fallback.png`,
-      logo: `${normalizedBase}images/logo192.png`,
+      logo: `${normalizedBase}images/logo/logo192.png`,
       favicon: `${normalizedBase}images/favicon-32x32.png`,
       appleTouchIcon: `${normalizedBase}images/apple-touch-icon.png`,
       fallback: `${normalizedBase}images/profile-fallback.png`,

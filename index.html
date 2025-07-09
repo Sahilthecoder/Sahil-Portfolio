@@ -49,6 +49,16 @@
     <!-- Vite HMR Client -->
     <script type="module" src="/@vite/client"></script>
     
+    <!-- Define __DEFINES__ before any other scripts -->
+    <script>
+      window.__DEFINES__ = {
+        'process.env.NODE_ENV': 'development',
+        'import.meta.env.MODE': 'development',
+        'import.meta.env.DEV': true,
+        'import.meta.env.PROD': false
+      };
+    </script>
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

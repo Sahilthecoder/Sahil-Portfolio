@@ -18,13 +18,14 @@ import ProjectImage from '../../components/ProjectImage';
 const dashboardImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp';
 const productAnalysisImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp';
 
-const ProductSalesDashboard = () => {
+const AIDailyDecisionSystem = () => {
   return (
     <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 lg:pt-24"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
@@ -54,10 +55,10 @@ const ProductSalesDashboard = () => {
             <div>
               <div className="flex items-center mb-4">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  AI-Powered Sales Forecasting & Inventory Optimization
+                  AI-Powered Daily Decision Making
                 </h1>
                 <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
-                  AI/ML + Predictive Analytics + Power BI
+                  AI/ML + Automation + Power BI
                 </span>
               </div>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
@@ -66,9 +67,9 @@ const ProductSalesDashboard = () => {
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {[
-                  '#AIForecasting',
-                  '#PredictiveAnalytics',
-                  '#InventoryAI',
+                  '#AIDailyDecisionMaking',
+                  '#Automation',
+                  '#PowerBI',
                   '#RetailTech',
                   '#MLOps',
                 ].map((tag, index) => (
@@ -102,7 +103,7 @@ const ProductSalesDashboard = () => {
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
                 <ProjectImage
-                  projectId="product-sales-dashboard"
+                  projectId="ai-daily-decision-system"
                   imageName="dashboard-preview.jpg"
                   alt="Sales Overview Dashboard"
                   aspectRatio="16/9"
@@ -122,7 +123,7 @@ const ProductSalesDashboard = () => {
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
                 <ProjectImage
-                  projectId="product-sales-dashboard"
+                  projectId="ai-daily-decision-system"
                   imageName="product-analysis.jpg"
                   alt="Product Performance Analysis"
                   aspectRatio="16/9"
@@ -472,4 +473,4 @@ ORDER BY category, total_revenue DESC;`}
   );
 };
 
-export default ProductSalesDashboard;
+export default AIDailyDecisionSystem;

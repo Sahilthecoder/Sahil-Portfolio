@@ -31,7 +31,7 @@ ensureDir(imagesDir);
 
 // Define required files and their default paths
 const requiredFiles = [
-  { source: path.join(publicDir, 'profile.avif'), target: path.join(imagesDir, 'profile.avif') },
+  { source: path.join(publicDir, 'profile.webp'), target: path.join(imagesDir, 'profile.webp') },
   { source: path.join(publicDir, 'logo192.png'), target: path.join(imagesDir, 'logo192.png') },
   { source: path.join(publicDir, 'logo512.png'), target: path.join(imagesDir, 'logo512.png') },
   { source: path.join(publicDir, 'favicon.ico'), target: path.join(publicDir, 'favicon.ico') },

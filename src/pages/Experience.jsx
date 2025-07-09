@@ -31,10 +31,8 @@ import {
   FaArrowDown,
   FaBoxes
 } from 'react-icons/fa';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
-import Footer from '../components/Footer';
-import { NavLink } from 'react-router-dom';
 import { FiTrendingUp } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
 
 const Experience = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -165,8 +163,7 @@ const Experience = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-      <ModernNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
       
       <main>
         {/* Hero Section */}
@@ -219,7 +216,7 @@ const Experience = () => {
           </style>
 
           <div className="container mx-auto px-4 sm:px-6 relative z-10">
-            <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div className="max-w-4xl mx-auto text-center">
               <motion.div
                 className="max-w-4xl mx-auto text-center"
                 initial={{ opacity: 0, y: 20 }}
@@ -227,14 +224,13 @@ const Experience = () => {
                 transition={{ duration: 0.8 }}
               >
                 <motion.div
-                  className="inline-block px-4 py-2 mb-6 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
+                  className="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
-                  <span className="inline-flex items-center">
-                    <FiTrendingUp className="mr-2" /> Professional Journey
-                  </span>
+                  <FiTrendingUp className="mr-2" />
+                  Professional Journey
                 </motion.div>
 
                 <motion.h1
@@ -256,7 +252,7 @@ const Experience = () => {
                 </motion.p>
 
                 <motion.div
-                  className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
@@ -278,18 +274,6 @@ const Experience = () => {
                     Contact Me
                   </NavLink>
                 </motion.div>
-
-                <motion.button
-                  onClick={scrollToContent}
-                  className="mt-12 text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300 flex flex-col items-center mx-auto"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.6 }}
-                  aria-label="Scroll down"
-                >
-                  <span className="text-sm mb-1">Explore My Journey</span>
-                  <FaArrowDown className="w-5 h-5 animate-bounce" />
-                </motion.button>
               </motion.div>
             </div>
           </div>
@@ -584,7 +568,6 @@ const Experience = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </div>
   );
 };

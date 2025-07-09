@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
   const socialLinks = [
     {
       icon: <FaGithub />,
-      href: 'https://github.com/SahilTheCoder',
+      href: 'https://github.com/Sahilthecoder/Sahil-Portfolio',
       label: 'GitHub',
       gradient: 'from-gray-800 via-gray-700 to-gray-800',
       hoverGradient: 'from-gray-700 via-gray-600 to-gray-700',

@@ -149,10 +149,10 @@ export class ErrorBoundary extends Component<Props, State> {
                 <p className="text-xs text-gray-500 dark:text-gray-400">
                   If the problem persists, please contact support at{' '}
                   <a
-                    href="mailto:support@example.com"
+                    href="mailto:sahilkhan36985@gmail.com"
                     className="text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 underline"
                   >
-                    support@example.com
+                    sahilkhan36985@gmail.com
                   </a>
                 </p>
               </div>

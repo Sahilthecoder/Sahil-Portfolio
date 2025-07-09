@@ -18,7 +18,7 @@ const getImagePath = (type, id, imageName) => {
   // Define paths for different environments
   const paths = {
     development: {
-      profile: 'sahil-portfolio/public/images/profile.svg',
+      profile: 'sahil-portfolio/public/images/profile/profile.webp',
       profilePng: 'sahil-portfolio/public/images/profile-fallback.png',
       logo: 'sahil-portfolio/public/images/logo/logo192.png',
       favicon: 'sahil-portfolio/public/images/favicon-32x32.png',
@@ -27,7 +27,7 @@ const getImagePath = (type, id, imageName) => {
       default: 'sahil-portfolio/public/images/fallback-image.jpg',
     },
     production: {
-      profile: `${normalizedBase}images/profile.svg`,
+      profile: `${normalizedBase}images/profile/profile.webp`,
       profilePng: `${normalizedBase}images/profile-fallback.png`,
       logo: `${normalizedBase}images/logo/logo192.png`,
       favicon: `${normalizedBase}images/favicon-32x32.png`,

@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import Tilt from 'react-parallax-tilt';
 import { Link, useNavigate, NavLink } from 'react-router-dom';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
-import Footer from '../components/Footer';
+
 
 // Icons
 import {
@@ -18,7 +17,8 @@ import {
   FaChartLine,
   FaMicrosoft,
   FaTimes,
-  FaImage
+  FaImage,
+  FaEnvelope
 } from 'react-icons/fa';
 
 import {
@@ -882,8 +882,8 @@ const projects = [
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['Web Development', 'AI Integration', 'UI/UX Design'],
     icon: 'GitHub',
-    image: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
-    previewImage: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: 'https://github.com/mahiradesignhub/mahira-portfolio',
     featured: true,
@@ -1080,8 +1080,6 @@ const Projects = () => {
         description="Explore my portfolio of data analysis, visualization, and automation projects."
       />
 
-      <ModernNavbar />
-
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
         {/* Graph Paper Background */}
@@ -1161,6 +1159,30 @@ const Projects = () => {
               A collection of my work showcasing data analysis, visualization, and automation
               projects.
             </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              <a
+                href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <FaGithub className="w-5 h-5" />
+                View on GitHub
+              </a>
+              <a
+                href="#contact"
+                className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <FaEnvelope className="w-4 h-4" />
+                Contact for Work
+              </a>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -1283,8 +1305,6 @@ const Projects = () => {
           </motion.button>
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
 };

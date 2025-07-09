@@ -1,17 +1,18 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaPython, FaSearch, FaChartPie, FaBook, FaGithub, FaTools } from 'react-icons/fa';
+import { FaRobot, FaTools, FaGithub, FaLink, FaServer, FaDatabase } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-const SnapeSentimentAnalysis = () => {
+const SmartAutomation = () => {
   return (
     <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 lg:pt-24"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <Link
           to="/projects"
@@ -34,21 +35,23 @@ const SnapeSentimentAnalysis = () => {
             <div className="w-full md:w-2/3">
               <div className="flex items-center mb-4">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  Advanced NLP Analysis of Severus Snape's Character Arc
+                  Smart Automation Solutions
                 </h1>
-                <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
-                  NLP + Machine Learning
+                <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                  Automation + AI
                 </span>
               </div>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Leveraging state-of-the-art NLP and machine learning to analyze character
-                development, emotional complexity, and narrative patterns in the Harry Potter
-                series.
+                Intelligent automation solutions leveraging AI and machine learning to streamline
+                business processes, reduce manual effort, and improve operational efficiency.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {[
-                  '#NLP',
+                  '#Automation',
+                  '#ArtificialIntelligence',
                   '#MachineLearning',
+                  '#Robotics',
+                  '#ProcessOptimization',
                   '#DeepLearning',
                   '#SentimentAnalysis',
                   '#CharacterAI',
@@ -67,7 +70,7 @@ const SnapeSentimentAnalysis = () => {
                   <span>BERT, Transformers, NLTK, SpaCy, PyTorch, TensorFlow, BERT</span>
                 </div>
                 <a
-                  href="https://github.com/yourusername/snape-sentiment-analysis"
+                  href="https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/SnapeSentimentAnalysis"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
@@ -319,19 +322,77 @@ const SnapeSentimentAnalysis = () => {
           </section>
 
           <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Conclusion</h2>
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                This project demonstrated how data science techniques can provide unique insights
-                into literary analysis. By quantifying and visualizing emotional patterns in Severus
-                Snape's character, we gain a deeper appreciation for J.K. Rowling's character
-                development and storytelling techniques.
-              </p>
-              <p className="text-gray-600 dark:text-gray-300">
-                The methodology used here could be applied to analyze other complex characters or to
-                study character development across different works of literature.
-              </p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Key Features</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+              {[
+                {
+                  icon: <FaRobot className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+                  title: 'AI-Powered Automation',
+                  description: 'Leverage machine learning to automate complex decision-making processes and repetitive tasks.'
+                },
+                {
+                  icon: <FaTools className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+                  title: 'Process Optimization',
+                  description: 'Streamline workflows and eliminate bottlenecks in business operations.'
+                },
+                {
+                  icon: <FaServer className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+                  title: 'Scalable Infrastructure',
+                  description: 'Cloud-based solutions that scale with your business needs.'
+                },
+                {
+                  icon: <FaDatabase className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />,
+                  title: 'Data Integration',
+                  description: 'Seamlessly connect with existing systems and data sources.'
+                }
+              ].map((feature, index) => (
+                <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0 mr-4">
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+
+            <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Technologies Used</h2>
+              <div className="flex flex-wrap gap-3 mb-8">
+                {['Python', 'Node.js', 'Docker', 'Kubernetes', 'AWS', 'Terraform', 'CI/CD', 'REST APIs'].map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-full text-sm">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-4 mt-8">
+                <a
+                  href="https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/SmartAutomation"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <FaGithub className="mr-2" />
+                  View on GitHub
+                </a>
+                <a
+                  href="#"
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  <FaLink className="mr-2" />
+                  Live Demo
+                </a>
+              </div>
+              </div>
           </section>
         </div>
       </div>
@@ -339,4 +400,4 @@ const SnapeSentimentAnalysis = () => {
   );
 };
 
-export default SnapeSentimentAnalysis;
+export default SmartAutomation;

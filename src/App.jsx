@@ -5,6 +5,8 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
 import './styles/backgrounds.css';
 import FaviconManager from './components/FaviconManager';
+import ModernNavbar from './components/ModernNavbar/ModernNavbar';
+import Footer from './components/Footer';
 
 // Import components
 import Home from './pages/Home';
@@ -12,13 +14,13 @@ import About from './pages/About';
 import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import Projects from './pages/Projects';
+import AIDailyDecisionSystem from './pages/projects/AIDailyDecisionSystem';
+import SmartAutomation from './pages/projects/SmartAutomation';
 import NotFound from './pages/NotFound';
 import ZomatoAnalysis from './pages/projects/ZomatoAnalysis';
 import BansalSupermarket from './pages/projects/BansalSupermarket';
 import EkamAttendance from './pages/projects/EkamAttendance';
 import RetailCashFlow from './pages/projects/RetailCashFlow';
-import SnapeSentimentAnalysis from './pages/projects/SnapeSentimentAnalysis';
-import ProductSalesDashboard from './pages/projects/ProductSalesDashboard';
 
 // Loading component
 const LoadingFallback = () => (
@@ -93,9 +95,11 @@ function App() {
         <ThemeProvider>
           <FaviconManager />
           <Router basename={basename} hashType="noslash">
+            <ModernNavbar />
             <AnimatePresence mode="wait">
               <Suspense fallback={<LoadingFallback />}>
-                <Routes>
+                <main>
+                  <Routes>
                   <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
                   <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
                   <Route path="/experience" element={<ErrorBoundary><Experience /></ErrorBoundary>} />
@@ -105,14 +109,16 @@ function App() {
                   <Route path="/projects/bansal-supermarket" element={<ErrorBoundary><BansalSupermarket /></ErrorBoundary>} />
                   <Route path="/projects/ekam-attendance" element={<ErrorBoundary><EkamAttendance /></ErrorBoundary>} />
                   <Route path="/projects/cash-flow-dashboard" element={<ErrorBoundary><RetailCashFlow /></ErrorBoundary>} />
-                  <Route path="/projects/ai-daily-planner" element={<ErrorBoundary><SnapeSentimentAnalysis /></ErrorBoundary>} />
-                  <Route path="/projects/smart-automation" element={<ErrorBoundary><ProductSalesDashboard /></ErrorBoundary>} />
+                  <Route path="/projects/ai-daily-decision-system" element={<ErrorBoundary><AIDailyDecisionSystem /></ErrorBoundary>} />
+                  <Route path="/projects/smart-automation" element={<ErrorBoundary><SmartAutomation /></ErrorBoundary>} />
                   
                   {/* Catch-all route for any other project paths */}
                   <Route path="/projects/*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                   <Route path="/contact" element={<ErrorBoundary><Contact /></ErrorBoundary>} />
                   <Route path="*" element={<ErrorBoundary><NotFound /></ErrorBoundary>} />
                 </Routes>
+                </main>
+                <Footer />
               </Suspense>
             </AnimatePresence>
           </Router>

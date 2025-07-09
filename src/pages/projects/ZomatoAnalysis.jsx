@@ -120,10 +120,11 @@ const ZomatoAnalysis = () => {
   };
   return (
     <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-200"
+      className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 lg:pt-24"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Hero Section with Cover Image */}
@@ -237,7 +238,7 @@ const ZomatoAnalysis = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                    href="https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative bg-transparent hover:bg-indigo-50 dark:hover:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 font-medium py-2.5 px-6 rounded-lg text-center border-2 border-indigo-700 dark:border-indigo-600 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"

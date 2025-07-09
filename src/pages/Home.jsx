@@ -1,36 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useAnimation } from 'framer-motion';
 import '../styles/responsive.css';
-import {
-  FiArrowRight,
-  FiDownload,
-  FiGithub,
-  FiLinkedin,
-  FiTwitter,
-  FiMail,
-  FiArrowDown,
-  FiChevronUp,
-  FiChevronDown,
-  FiPackage,
-  FiLayers,
-  FiTrendingUp,
-  FiCpu,
-  FiExternalLink,
-} from 'react-icons/fi';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+import { FiArrowRight, FiExternalLink, FiPackage, FiLayers, FiTrendingUp, FiMail, FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi';
+import { FaExternalLinkAlt, FaFileAlt } from 'react-icons/fa';
 import ProjectsSection from '../components/ProjectsSection/ProjectsSectionEnhanced';
-import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
 // Using placeholder images from a public CDN
-const HeroImage =
-  'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
-const Project1 =
-  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project2 =
-  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project3 =
-  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const HeroImage = 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
+const Project1 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project2 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
+const Project3 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
 
 // Animation variants
 const container = {
@@ -460,37 +440,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-      {/* Scroll Down Button (Only in Hero Section) */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-      >
-        <button
-          onClick={scrollToAbout}
-          className="flex flex-col items-center group"
-          aria-label="Scroll down to next section"
-        >
-          <span className="text-sm text-gray-600 dark:text-gray-400 mb-2 transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-            Scroll Down
-          </span>
-          <div className="w-8 h-12 rounded-full border-2 border-gray-300 dark:border-gray-600 flex justify-center items-start p-1 group-hover:border-indigo-500 transition-colors">
-            <motion.div
-              className="w-1 h-3 bg-gray-400 dark:bg-gray-500 rounded-full"
-              animate={{
-                y: [0, 12, 0],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                repeatType: 'loop',
-              }}
-            />
-          </div>
-        </button>
-      </motion.div>
-      <ModernNavbar />
 
       {/* Hero Section */}
       <section ref={homeRef} className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden px-4 md:px-6">
@@ -542,150 +491,143 @@ const Home = () => {
         </style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-            {/* Role Badge */}
-            <motion.div
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              <FiTrendingUp className="w-4 h-4" />
-              <span>Data Analyst & Business Intelligence</span>
-            </motion.div>
-
-            {/* Main Heading */}
-            <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-            >
-              Sahil Ali
-            </motion.h1>
-
-            {/* Description */}
-            <motion.p
-              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-            >
-              Transforming complex data into actionable insights and building intelligent solutions
-              that drive operational excellence and business growth.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              <a
-                href="#contact"
-                className="group relative px-6 sm:px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:shadow-indigo-500/20 w-full sm:w-auto"
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="w-full lg:w-1/2 text-center lg:text-left">
+              <motion.div
+                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Get in Touch
-                  <FiArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
-                </span>
-                <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-              </a>
+                <FiTrendingUp className="w-4 h-4" />
+                <span>Data Analyst & Business Intelligence</span>
+              </motion.div>
 
-              <div className="relative group w-full sm:w-auto">
-                <button className="px-6 sm:px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 group-hover:bg-indigo-50 dark:group-hover:bg-gray-700/50 w-full">
-                  <span className="relative z-10">View Resume</span>
-                  <FiChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
-                </button>
-                <div className="absolute right-0 mt-2 w-full sm:w-56 origin-top-right bg-white dark:bg-gray-800 rounded-lg shadow-xl ring-1 ring-gray-200 dark:ring-gray-700 focus:outline-none z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-1 group-hover:translate-y-0">
-                  <div className="py-1">
-                    <a
-                      href="/assets/Sahil_Ali_Cv.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors group-hover/item:translate-x-1"
-                    >
-                      <FiExternalLink className="mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-400 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-300 transition-colors" />
-                      <span>View in New Tab</span>
-                    </a>
-                    <a
-                      href="/assets/Sahil_Ali_Cv.pdf"
-                      download="Sahil_Ali_Resume.pdf"
-                      className="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors group-hover/item:translate-x-1"
-                    >
-                      <FiDownload className="mr-3 h-5 w-5 text-indigo-500 dark:text-indigo-400 group-hover/item:text-indigo-600 dark:group-hover/item:text-indigo-300 transition-colors" />
-                      <span>Download PDF</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                Hi, I'm <span className="block">Sahil Ali</span>
+              </motion.h1>
 
-            {/* Social Links */}
-            <motion.div
-              className="flex flex-wrap justify-center gap-4 sm:gap-6 mt-8 sm:mt-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              {[
-                {
-                  icon: <FiGithub className="w-5 h-5" />,
-                  href: 'https://github.com/yourusername',
-                  label: 'GitHub',
-                },
-                {
-                  icon: <FiLinkedin className="w-5 h-5" />,
-                  href: 'https://linkedin.com/in/yourusername',
-                  label: 'LinkedIn',
-                },
-                {
-                  icon: <FiTwitter className="w-5 h-5" />,
-                  href: 'https://twitter.com/yourusername',
-                  label: 'Twitter',
-                },
-                {
-                  icon: <FiMail className="w-5 h-5" />,
-                  href: 'mailto:your.email@example.com',
-                  label: 'Email',
-                },
-              ].map((social, index) => (
+              <motion.p
+                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation
+                Enthusiast.
+              </motion.p>
+
+              <motion.p
+                className="text-base sm:text-lg italic text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 px-4 sm:px-0"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                "I simplify chaos, optimize systems, and use AI to make work smarter."
+              </motion.p>
+
+              {/* CTA Buttons */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
                 <a
-                  key={index}
-                  href={social.href}
+                  href="/assets/Sahil_Ali_Cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5"
-                  aria-label={social.label}
+                  className="group relative px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
                 >
-                  {social.icon}
+                  <span className="relative z-10">View Resume</span>
+                  <FaExternalLinkAlt className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </a>
-              ))}
-            </motion.div>
+                <a
+                  href="/assets/Sahil_Ali_Cv.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+                >
+                  <span className="relative z-10">Preview Resume</span>
+                  <FaFileAlt className="w-4 h-4" />
+                </a>
+              </motion.div>
+            </div>
+
+            <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
+              <motion.div
+                className="relative w-full h-full flex items-center justify-center"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 transform rotate-6"></div>
+                    <div className="absolute inset-1 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+                      <img
+                        src="/Sahil-Portfolio/images/profile/profile.webp"
+                        alt="Sahil Ali - Professional Photo"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = '/Sahil-Portfolio/images/profile-fallback.png';
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: isVisible ? 1 : 0, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-        >
-          <button
-            onClick={scrollToAbout}
-            className="flex flex-col items-center group"
-            aria-label="Scroll down to next section"
-          >
-            <span className="text-sm text-gray-500 dark:text-gray-400 mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
-              Explore More
-            </span>
-            <div className="w-10 h-14 rounded-full border-2 border-gray-200 dark:border-gray-700 flex justify-center p-1 group-hover:border-indigo-500 transition-colors">
-              <div className="w-1 h-4 bg-gradient-to-b from-indigo-500 to-blue-500 dark:from-indigo-400 dark:to-cyan-400 rounded-full animate-bounce"></div>
+      {/* Next Section */}
+      <section className="py-16 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-8">What I Do</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: <FiPackage className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  title: "Data Analysis",
+                  description: "Transforming raw data into actionable insights to drive business decisions."
+                },
+                {
+                  icon: <FiLayers className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  title: "Business Intelligence",
+                  description: "Creating dashboards and reports to visualize key metrics and trends."
+                },
+                {
+                  icon: <FiTrendingUp className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  title: "Process Optimization",
+                  description: "Identifying inefficiencies and implementing data-driven improvements."
+                }
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 * index, duration: 0.5 }}
+                >
+                  <div className="mb-4">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
+                </motion.div>
+              ))}
             </div>
-          </button>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* About Section */}
@@ -1081,10 +1023,10 @@ const Home = () => {
                       <div className="ml-4">
                         <h4 className="font-medium">Email Me</h4>
                         <a
-                          href="mailto:your.email@example.com"
+                          href="mailto:sahilkhan36985@gmail.com"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
-                          your.email@example.com
+                          sahilkhan36985@gmail.com
                         </a>
                       </div>
                     </div>
@@ -1096,12 +1038,12 @@ const Home = () => {
                       <div className="ml-4">
                         <h4 className="font-medium">LinkedIn</h4>
                         <a
-                          href="https://linkedin.com/in/yourprofile"
+                          href="https://www.linkedin.com/in/sahil-ali-714867242/"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
-                          linkedin.com/in/yourprofile
+                          linkedin.com/in/sahil-ali-714867242
                         </a>
                       </div>
                     </div>
@@ -1113,12 +1055,12 @@ const Home = () => {
                       <div className="ml-4">
                         <h4 className="font-medium">GitHub</h4>
                         <a
-                          href="https://github.com/yourusername"
+                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
-                          github.com/yourusername
+                          github.com/Sahilthecoder/Sahil-Portfolio
                         </a>
                       </div>
                     </div>
@@ -1129,12 +1071,12 @@ const Home = () => {
                   <h4 className="font-medium mb-3">Follow Me</h4>
                   <div className="flex space-x-4">
                     {[
-                      { icon: <FiGithub size={20} />, url: 'https://github.com/yourusername' },
+                      { icon: <FiGithub size={20} />, url: 'https://github.com/Sahilthecoder/Sahil-Portfolio' },
                       {
                         icon: <FiLinkedin size={20} />,
-                        url: 'https://linkedin.com/in/yourprofile',
+                        url: 'https://www.linkedin.com/in/sahil-ali-714867242/',
                       },
-                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/yourhandle' },
+                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/SahilTheCoder' },
                     ].map((social, index) => (
                       <a
                         key={index}
@@ -1189,7 +1131,7 @@ const Home = () => {
                       value={formData.email}
                       onChange={handleChange}
                       className={`w-full px-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white`}
-                      placeholder="you@example.com"
+                      placeholder="sahilkhan36985@gmail.com"
                     />
                     {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
                   </div>
@@ -1276,8 +1218,6 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

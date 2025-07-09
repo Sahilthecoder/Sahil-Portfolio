@@ -18,10 +18,11 @@ import getImagePath from '../../utils/imagePaths';
 const EkamAttendance = () => {
   return (
     <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 lg:pt-24"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}

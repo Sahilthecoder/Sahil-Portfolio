@@ -14,119 +14,109 @@ const base = isProduction ? '/Sahil-Portfolio/' : '/';
 process.env.VITE_BASE_URL = base;
 process.env.BASE_URL = base;
 
-// Log environment info
-console.log(`Environment: ${process.env.NODE_ENV}`);
+console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 console.log(`Using base URL: "${base}"`);
-console.log('Vite config loaded with base:', base);
 
 export default defineConfig({
   base: base,
   publicDir: 'public',
-  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.svg', '**/*.ico', '**/*.webp', '**/*.avif'],
-  
-  resolve: {
-    alias: [
-      {
-        find: /^@\/(.*)/,
-        replacement: path.resolve(__dirname, 'src/$1')
-      }
-    ],
-    extensions: ['.js', '.jsx', '.json', '.mjs', '.ts', '.tsx']
-  },
-
-  optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'react-dom/client',
-      'react-router-dom',
-      'framer-motion',
-      'react-icons'
-    ],
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-      jsx: 'automatic',
-    },
-  },
-
-  plugins: [
-    react({
-      jsxImportSource: 'react',
-      jsxRuntime: 'automatic',
-      babel: {
-        plugins: [
-          ['@babel/plugin-transform-react-jsx', { 
-            runtime: 'automatic',
-            importSource: 'react'
-          }]
-        ],
-        babelrc: false,
-        configFile: false,
-      },
-      fastRefresh: true,
-      exclude: /\/node_modules\/|\/dist\/|\/\.git\//,
-    })
-  ],
-
   server: {
     port: 3000,
     strictPort: true,
     open: true,
-    host: '0.0.0.0',
-    cors: {
-      origin: true,
-      credentials: true
-    },
-    hmr: {
-      host: 'localhost',
-      port: 3000,
-      protocol: 'ws',
-      overlay: true
-    },
+    cors: true,
     fs: {
       strict: false,
       allow: ['..']
     },
-    watch: {
-      usePolling: true,
-      interval: 100
+    headers: {
+      'Content-Security-Policy': "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+        "font-src 'self' https://fonts.gstatic.com data:; " +
+        "img-src 'self' data: https:;",
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'X-XSS-Protection': '1; mode=block'
     },
-    proxy: {},
-    historyApiFallback: {
-      index: '/index.html',
-      disableDotRule: true
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+      port: 3000,
+      overlay: false
     },
-    errorOverlay: true,
-    mimeTypes: {
-      'text/jsx': ['jsx'],
-      'text/tsx': ['tsx'],
-      'application/javascript': ['js', 'mjs'],
-      'application/x-javascript': ['js'],
-      'text/javascript': ['js']
+    configureServer: (server) => {
+      server.middlewares.use((req, res, next) => {
+        const url = req.originalUrl || req.url;
+        
+        // Set appropriate Content-Type headers based on file extension
+        if (url.endsWith('.js') || url.endsWith('.mjs') || url.endsWith('.jsx')) {
+          res.setHeader('Content-Type', 'application/javascript');
+        } else if (url.endsWith('.css')) {
+          res.setHeader('Content-Type', 'text/css');
+        } else if (url.endsWith('.json')) {
+          res.setHeader('Content-Type', 'application/json');
+        } else if (url.endsWith('.webmanifest') || url.endsWith('manifest.json')) {
+          res.setHeader('Content-Type', 'application/manifest+json');
+        } else if (url.endsWith('.ico')) {
+          res.setHeader('Content-Type', 'image/x-icon');
+        } else if (url.endsWith('.png')) {
+          res.setHeader('Content-Type', 'image/png');
+        } else if (url.endsWith('.jpg') || url.endsWith('.jpeg')) {
+          res.setHeader('Content-Type', 'image/jpeg');
+        } else if (url.endsWith('.svg')) {
+          res.setHeader('Content-Type', 'image/svg+xml');
+        } else if (url.endsWith('.webp')) {
+          res.setHeader('Content-Type', 'image/webp');
+        } else if (url.endsWith('.woff')) {
+          res.setHeader('Content-Type', 'font/woff');
+        } else if (url.endsWith('.woff2')) {
+          res.setHeader('Content-Type', 'font/woff2');
+        } else if (url.endsWith('.ttf')) {
+          res.setHeader('Content-Type', 'font/ttf');
+        } else if (url.endsWith('.eot')) {
+          res.setHeader('Content-Type', 'application/vnd.ms-fontobject');
+        } else if (url.endsWith('.otf')) {
+          res.setHeader('Content-Type', 'font/otf');
+        }
+        
+        // Continue to the next middleware
+        next();
+      });
     }
   },
-
+  plugins: [
+    react({
+      jsxImportSource: '@emotion/react',
+      babel: {
+        presets: ['@babel/preset-react'],
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
+          '@emotion/babel-plugin'
+        ]
+      }
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@pages': path.resolve(__dirname, './src/pages'),
+      '@assets': path.resolve(__dirname, './src/assets'),
+      '@styles': path.resolve(__dirname, './src/styles'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@context': path.resolve(__dirname, './src/context'),
+      '@data': path.resolve(__dirname, './src/data'),
+    },
+  },
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
     sourcemap: true,
-    minify: 'terser',
-    assetsInlineLimit: 4096, // 4kb
-    emptyOutDir: true,
-    chunkSizeWarningLimit: 1000,
-    copyPublicDir: true,
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-      },
-    },
+    minify: isProduction ? 'terser' : false,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
-        sw: path.resolve(__dirname, 'src/sw.js')
       },
       output: {
         manualChunks: (id) => {
@@ -134,11 +124,17 @@ export default defineConfig({
             if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
               return 'vendor-react';
             }
-            if (id.includes('react-router-dom')) {
-              return 'vendor-router';
+            if (id.includes('@faker-js/faker')) {
+              return 'vendor-faker';
+            }
+            if (id.includes('@fontsource') || id.includes('typeface-')) {
+              return 'vendor-fonts';
             }
             if (id.includes('framer-motion')) {
               return 'vendor-framer';
+            }
+            if (id.includes('@headlessui') || id.includes('@heroicons')) {
+              return 'vendor-ui';
             }
             return 'vendor';
           }

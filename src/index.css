@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /**
  * Component Styles & Utilities
  * Contains component-specific styles and utility classes

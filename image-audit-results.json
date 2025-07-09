@@ -55,9 +55,9 @@
         "mtime": "2025-06-20T21:14:19.675Z"
       },
       {
-        "path": "public\\Sahil-Portfolio\\images\\profile.avif",
+        "path": "public\\Sahil-Portfolio\\images\\profile.webp",
         "size": 14228,
-        "ext": ".avif",
+        "ext": ".webp",
         "mtime": "2025-06-27T06:25:43.325Z"
       },
       {
@@ -247,7 +247,7 @@
         "mtime": "2025-06-20T21:14:19.675Z"
       },
       {
-        "path": "images\\profile.avif",
+        "path": "images\\profile.webp",
         "size": 14228,
         "ext": ".webp",
         "mtime": "2025-06-27T06:25:43.325Z"

@@ -43,8 +43,8 @@ const imagesDir = path.join(publicDir, 'images');
 ensureDirExists(imagesDir);
 
 // Check profile image
-const profileImageSource = path.join(publicDir, 'profile.avif');
-const profileImageTarget = path.join(imagesDir, 'profile.avif');
+const profileImageSource = path.join(publicDir, 'profile.webp');
+const profileImageTarget = path.join(imagesDir, 'profile.webp');
 
 if (fileExists(profileImageSource)) {
   copyFileIfNotExists(profileImageSource, profileImageTarget);

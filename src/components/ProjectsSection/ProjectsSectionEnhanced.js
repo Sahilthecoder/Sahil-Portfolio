@@ -29,33 +29,80 @@ const ProjectCard = ({ project, isMobile = false }) => {
   return (
     <div className="relative h-full group">
       <motion.div 
-        className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 h-full flex flex-col border border-gray-100 dark:border-gray-700 hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5"
+        className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col border border-gray-100 dark:border-gray-700 group"
         whileHover={!isMobile ? { y: -8, scale: 1.02 } : {}}
         whileTap={{ scale: 0.98 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        transition={{ 
+          type: 'spring', 
+          stiffness: 300, 
+          damping: 20,
+          shadow: { duration: 0.3, ease: 'easeInOut' }
+        }}
       >
         {/* Project Image */}
         <div className="h-48 sm:h-52 md:h-56 overflow-hidden relative">
-          <motion.img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-            initial={{ scale: 1 }}
-            whileHover={!isMobile ? { scale: 1.1 } : {}}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/images/fallback-image.jpg';
-            }}
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 flex items-end p-4 transition-opacity duration-300">
-            <span className="inline-flex items-center text-white text-sm font-medium bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full transition-colors duration-200">
-              {isExternalLink ? 'Visit Project' : 'View Details'}
-              <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-            </span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-10">
+            <motion.span 
+              className="absolute bottom-4 left-4 inline-flex items-center px-3 py-1.5 text-sm font-medium text-white bg-indigo-600 rounded-full"
+              initial={{ y: 20, opacity: 0 }}
+              whileHover={{ 
+                y: 0, 
+                opacity: 1,
+                transition: { 
+                  delay: 0.1,
+                  duration: 0.3
+                }
+              }}
+            >
+              {isExternalLink ? 'View Project' : 'View Details'}
+            </motion.span>
           </div>
+          <motion.div 
+            className="absolute inset-0 w-full h-full group-hover:scale-110 transition-transform duration-500 ease-in-out"
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/images/fallback-image.jpg';
+              }}
+              loading="lazy"
+            />
+          </motion.div>
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            whileHover={{ 
+              opacity: 1, 
+              y: 0,
+              transition: { 
+                duration: 0.3,
+                ease: "easeOut"
+              }
+            }}
+          >
+            <motion.div 
+              className="absolute bottom-4 left-4 right-4"
+              initial={{ y: 20, opacity: 0 }}
+              whileHover={{ 
+                y: 0, 
+                opacity: 1,
+                transition: { 
+                  delay: 0.1,
+                  duration: 0.3,
+                  ease: "easeOut"
+                }
+              }}
+            >
+              <span className="inline-block px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded-full">
+                {isExternalLink ? 'View Project' : 'View Details'}
+              </span>
+            </motion.div>
+          </motion.div>
         </div>
+        
         
         {/* Project Info */}
         <div className="p-5 flex-1 flex flex-col">
@@ -129,16 +176,33 @@ const ProjectsSectionEnhanced = () => {
     };
   }, [isMobile]);
   
-  // Extract all unique tags from projects
+  // Define main tags to show in the filter
+  const mainTags = useMemo(() => [
+    'All',
+    'Data Analysis',
+    'Business Intelligence',
+    'Automation',
+    'Web Development',
+    'Dashboarding',
+    'AI'
+  ], []);
+  
+  // Extract all unique tags from projects for filtering
   const allTags = useMemo(() => {
     const tags = new Set();
     projects.forEach(project => {
       if (project.tags && Array.isArray(project.tags)) {
-        project.tags.forEach(tag => tags.add(tag));
+        project.tags.forEach(tag => {
+          // Only add tags that are in our mainTags list
+          if (mainTags.includes(tag)) {
+            tags.add(tag);
+          }
+        });
       }
     });
-    return ['All', ...Array.from(tags).sort()];
-  }, []);
+    // Ensure 'All' is first, then sort the rest
+    return ['All', ...Array.from(tags).filter(tag => tag !== 'All').sort()];
+  }, [mainTags]);
   
   // Filter projects based on active filter
   const filteredProjects = useMemo(() => {

@@ -4,7 +4,7 @@ const { createCanvas } = require('canvas');
 
 const publicDir = path.join(__dirname, '..', 'public');
 const imagesDir = path.join(publicDir, 'images');
-const profileImagePath = path.join(imagesDir, 'profile.avif');
+const profileImagePath = path.join(imagesDir, 'profile.webp');
 
 // Create directories if they don't exist
 [publicDir, imagesDir].forEach(dir => {
@@ -35,8 +35,8 @@ if (!fs.existsSync(profileImagePath)) {
     ctx.textBaseline = 'middle';
     ctx.fillText('SA', 200, 200);
     
-    // Save as AVIF
-    const buffer = canvas.toBuffer('image/avif');
+    // Save as WebP
+    const buffer = canvas.toBuffer('image/webp');
     fs.writeFileSync(profileImagePath, buffer);
     console.log(`✅ Created fallback profile image at ${profileImagePath}`);
   } catch (err) {

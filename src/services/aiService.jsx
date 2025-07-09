@@ -150,12 +150,12 @@ const getNavigationIntent = (message) => {
 const commonQuestions = {
   // Contact Information
   'how can i contact you':
-    'You can contact Sahil via email at sahil@example.com or connect with him on LinkedIn at https://linkedin.com/in/sahil-ali. For professional inquiries, please use the contact form on the website.',
+    'You can contact Sahil via email at sahilkhan36985@gmail.com or connect with him on LinkedIn at https://www.linkedin.com/in/sahil-ali-714867242/. For professional inquiries, please use the contact form on the website.',
   contact:
-    'You can reach Sahil through email at sahil@example.com or via LinkedIn at https://linkedin.com/in/sahil-ali. The contact form on the website is also a great way to get in touch!',
-  email: 'Sahil can be reached at sahil@example.com',
-  linkedin: 'Connect with Sahil on LinkedIn: https://linkedin.com/in/sahil-ali',
-  github: "Check out Sahil's GitHub profile: https://github.com/sahil-ali",
+    'You can reach Sahil through email at sahilkhan36985@gmail.com or via LinkedIn at https://www.linkedin.com/in/sahil-ali-714867242/. The contact form on the website is also a great way to get in touch!',
+  email: 'Sahil can be reached at sahilkhan36985@gmail.com',
+  linkedin: 'Connect with Sahil on LinkedIn: https://www.linkedin.com/in/sahil-ali-714867242/',
+  github: "Check out Sahil's GitHub profile: https://github.com/Sahilthecoder/Sahil-Portfolio",
   resume: "You can view and download Sahil's resume from the Resume section of this portfolio.",
   about:
     'Sahil is a skilled developer with experience in building web applications and data solutions. He specializes in React, Node.js, and data analysis.',

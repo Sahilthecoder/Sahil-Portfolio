@@ -6,7 +6,6 @@ import {
   FaEnvelope,
   FaFilePdf,
   FaExternalLinkAlt,
-  FaArrowRight,
   FaBriefcase,
   FaLaptopCode,
   FaChartLine,
@@ -27,10 +26,9 @@ import {
   FaDatabase,
   FaFileAlt,
 } from 'react-icons/fa';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
-import Footer from '../components/Footer';
-import { NavLink } from 'react-router-dom';
 import { FiTrendingUp } from 'react-icons/fi';
+import { NavLink } from 'react-router-dom';
+
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -104,12 +102,11 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-      <ModernNavbar activeSection={activeSection} setActiveSection={setActiveSection} />
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
       
       <main>
         {/* Hero Section */}
-        <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
+        <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="about-hero">
           {/* Graph Paper Background */}
           <div 
             className="absolute inset-0 bg-white dark:bg-gray-900"
@@ -157,103 +154,72 @@ const About = () => {
             `}
           </style>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
+          <div className="container mx-auto px-4 sm:px-6 relative z-10">
+            <div className="max-w-4xl mx-auto text-center">
               <motion.div
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+                className="max-w-4xl mx-auto text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
+                transition={{ duration: 0.8 }}
               >
-                <FiTrendingUp className="w-4 h-4" />
-                <span>Data Analyst & Business Intelligence</span>
-              </motion.div>
-
-              <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                Hi, I'm <span className="block">Sahil Ali</span>
-              </motion.h1>
-
-              <motion.p
-                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation
-                Enthusiast.
-              </motion.p>
-
-              <motion.p
-                className="text-base sm:text-lg italic text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 px-4 sm:px-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                "I simplify chaos, optimize systems, and use AI to make work smarter."
-              </motion.p>
-
-              <motion.div
-                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                <a
-                  href="/assets/Sahil_Ali_Cv.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative px-8 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full"
+                <motion.div
+                  className="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
                 >
-                  <span className="relative z-10">View Resume</span>
-                  <FaExternalLinkAlt className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </a>
-                <a
-                  href="/assets/Sahil_Ali_Cv.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full"
-                >
-                  <span className="relative z-10">Preview Resume</span>
-                  <FaFileAlt className="w-4 h-4" />
-                </a>
-              </motion.div>
-            </div>
+                  <FiTrendingUp className="mr-2" />
+                  Data Analyst & Business Intelligence
+                </motion.div>
 
-            <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
-              <motion.div
-                className="relative w-full h-full flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 transform rotate-6"></div>
-                    <div className="absolute inset-1 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-                      <img
-                        src="/Sahil-Portfolio/images/profile/profile.avif"
-                        alt="Sahil Ali - Professional Photo"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = '/Sahil-Portfolio/images/profile-fallback.png';
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <motion.h1
+                  className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.6 }}
+                >
+                  About <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Me</span>
+                </motion.h1>
+
+                <motion.p
+                  className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                >
+                  Transforming complex data into actionable insights and driving business growth through analytics and visualization.
+                </motion.p>
+
+                <motion.div
+                  className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                >
+                  <a
+                    href="/assets/Sahil_Ali_Cv.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  >
+                    <FaFilePdf className="w-4 h-4" />
+                    Download CV
+                  </a>
+                  <NavLink
+                    to="/contact"
+                    className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+                  >
+                    <FaEnvelope className="w-4 h-4" />
+                    Contact Me
+                  </NavLink>
+                </motion.div>
               </motion.div>
             </div>
           </div>
-        </div>
         </section>
 
+        {/* Main Content */}
+       
         {/* Career Summary */}
         <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-4">
@@ -462,7 +428,6 @@ const About = () => {
         </div>
       </section>
       </main>
-      <Footer />
     </div>
   );
 };

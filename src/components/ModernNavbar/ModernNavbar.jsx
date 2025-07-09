@@ -541,7 +541,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
           <div className="hidden lg:flex items-center space-x-4">
             <ThemeToggle />
             <a
-              href="https://github.com/SahilTheCoder"
+              href="https://github.com/Sahilthecoder/Sahil-Portfolio"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -601,7 +601,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                       <div className="hidden lg:flex items-center space-x-4">
                         <ThemeToggle onThemeChange={closeMenu} />
                         <a
-                          href="https://github.com/SahilTheCoder"
+                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
@@ -708,7 +708,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                       
                       <div className="flex justify-center space-x-4 mt-4">
                         <a
-                          href="https://github.com/SahilTheCoder"
+                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"

@@ -9,7 +9,7 @@ export const projects = [
     role: 'Lead Data Analyst',
     technologies: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn', 'Jupyter Notebooks'],
     image: '/images/projects/Project1 excel/Project1 Cover.webp',
-    github: 'https://github.com/SahilTheCoder/zomato-analysis',
+    github: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis',
     demo: '/projects/zomato-analysis',
     featured: true,
     highlights: [
@@ -30,7 +30,7 @@ export const projects = [
     role: 'Data Solutions Architect',
     technologies: ['Excel', 'Power BI', 'SQL', 'VBA'],
     image: '/images/projects/Project2 tableau/Project2 Cover.webp',
-    github: 'https://github.com/SahilTheCoder/bansal-supermarket',
+    github: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/BansalSupermarket',
     demo: '/projects/bansal-supermarket',
     featured: true,
     highlights: [
@@ -51,7 +51,7 @@ export const projects = [
     role: 'Financial Data Analyst',
     technologies: ['Power BI', 'DAX', 'Power Query', 'Excel', 'SQL'],
     image: '/images/projects/Project4 Power BI/Project4 Cover.webp',
-    github: 'https://github.com/SahilTheCoder/cash-flow-dashboard',
+    github: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/RetailCashFlow',
     demo: '/projects/cash-flow',
     featured: true,
     highlights: [

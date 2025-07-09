@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
-import Footer from '../components/Footer';
 import {
   FaPaperPlane,
   FaFileUpload,
@@ -176,8 +174,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-      <ModernNavbar />
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
@@ -228,36 +225,64 @@ const Contact = () => {
           `}
         </style>
 
-        <div className="container mx-auto relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+              className="max-w-4xl mx-auto text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              transition={{ duration: 0.8 }}
             >
-              <FiTrendingUp className="w-4 h-4" />
-              <span>Get In Touch</span>
+              <motion.div
+                className="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <SiMinutemailer className="mr-2" />
+                Get In Touch
+              </motion.div>
+
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
+                Let's <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Talk</span>
+              </motion.h1>
+
+              <motion.p
+                className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+              >
+                Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!
+              </motion.p>
+
+              <motion.div
+                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                <a
+                  href="mailto:sahilkhan36985@gmail.com"
+                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                >
+                  <FaEnvelope className="w-4 h-4" />
+                  Email Me
+                </a>
+                <a
+                  href="https://wa.me/919875771550"
+                  className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <FaPhoneAlt className="w-4 h-4" />
+                  Call Me
+                </a>
+              </motion.div>
             </motion.div>
-
-            <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              Let's Work Together
-            </motion.h1>
-
-            <motion.p
-              className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto px-4 sm:px-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              Have a project in mind or want to discuss potential opportunities? I'd love to hear
-              from you.
-            </motion.p>
           </div>
         </div>
       </section>
@@ -332,7 +357,7 @@ const Contact = () => {
                           value={formData.email}
                           onChange={handleChange}
                           className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
-                          placeholder="your.email@example.com"
+                          placeholder="sahilkhan36985@gmail.com"
                         />
                         {errors.email && (
                           <p className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -515,10 +540,10 @@ const Contact = () => {
                         Email
                       </h3>
                       <a
-                        href="mailto:your.email@example.com"
+                        href="mailto:sahilkhan36985@gmail.com"
                         className="text-sm sm:text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 break-words"
                       >
-                        your.email@example.com
+                        sahilkhan36985@gmail.com
                       </a>
                     </div>
                   </div>
@@ -532,7 +557,7 @@ const Contact = () => {
                         Phone
                       </h3>
                       <a
-                        href="tel:+1234567890"
+                        href="https://wa.me/919875771550"
                         className="text-sm sm:text-base text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
                       >
                         +1 (234) 567-890
@@ -559,7 +584,7 @@ const Contact = () => {
                   </h3>
                   <div className="flex flex-wrap gap-3 sm:gap-4">
                     <a
-                      href="https://linkedin.com/in/yourprofile"
+                      href="https://www.linkedin.com/in/sahil-ali-714867242/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
@@ -568,7 +593,7 @@ const Contact = () => {
                       <FaLinkedin className="h-5 w-5 sm:h-6 sm:w-6" />
                     </a>
                     <a
-                      href="https://github.com/yourusername"
+                      href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
@@ -577,7 +602,7 @@ const Contact = () => {
                       <FaGithub className="h-5 w-5 sm:h-6 sm:w-6" />
                     </a>
                     <a
-                      href="https://wa.me/1234567890"
+                      href="https://wa.me/919875771550"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
@@ -635,8 +660,6 @@ const Contact = () => {
           </motion.button>
         )}
       </AnimatePresence>
-
-      <Footer />
     </div>
   );
 };

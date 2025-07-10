@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const NotFound = () => {
+  // Get the base path from environment variables or use the repository name
+  const basePath = process.env.PUBLIC_URL || '';
+  const location = useLocation();
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
       <motion.div
@@ -20,7 +24,7 @@ const NotFound = () => {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <Link
-          to="/"
+          to={basePath}
           className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
         >
           Go back home

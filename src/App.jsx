@@ -182,6 +182,7 @@ const AppWrapper = () => {
     <HelmetProvider>
       <ThemeProvider>
         <Router
+          basename="/Sahil-Portfolio"
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,
@@ -198,6 +199,6 @@ const AppWrapper = () => {
       </ThemeProvider>
     </HelmetProvider>
   );
-}
+};
 
 export default AppWrapper;

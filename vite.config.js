@@ -46,9 +46,11 @@ function copyFaviconsPlugin() {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Base URL for GitHub Pages
+const base = '/Sahil-Portfolio/';
+
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
-  const base = isProduction ? '/Sahil-Portfolio/' : '/';
   
   return {
     base,
@@ -131,7 +133,7 @@ export default defineConfig(({ command, mode }) => {
     // Resolve configuration
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'),
+        '@': path.resolve(__dirname, './src'),
         '@components': path.resolve(__dirname, 'src/components'),
         '@pages': path.resolve(__dirname, 'src/pages'),
         '@assets': path.resolve(__dirname, 'src/assets'),

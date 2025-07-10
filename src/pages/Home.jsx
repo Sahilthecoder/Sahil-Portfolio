@@ -354,12 +354,12 @@ const Home = () => {
                 <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
                   <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                     <img 
-                      src="/images/profile.jpg" 
+                      src="/sahil-portfolio/public/images/profile/profile.webp" 
                       alt="Sahil Ali" 
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/images/fallback-image.jpg';
+                        e.target.src = '/sahil-portfolio/public/images/profile/profile.webp';
                       }}
                     />
                   </div>
@@ -521,14 +521,14 @@ const Home = () => {
               {/* Image Section - Left side */}
               <motion.div variants={item} className="relative order-1">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img
-                    src={HeroImage}
-                    alt="Professional Headshot"
-                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/fallback-image.jpg';
-                    }}
+                <img
+  src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  alt="Professional Headshot"
+  className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+  }}
                   />
                 </div>
                 <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
@@ -653,15 +653,15 @@ const Home = () => {
               {/* Image Section - Moved to left side */}
               <motion.div variants={item} className="relative order-1 md:order-1">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img
-                    src="/images/experience/warehouse-management.jpg"
-                    alt="Warehouse and Inventory Management"
-                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/images/fallback-image.jpg';
-                    }}
-                  />
+                <img
+  src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+  alt="Warehouse and Inventory Management"
+  className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = 'https://images.unsplash.com/photo-1604014237800-1c9102c219da?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+  }}
+/>
                 </div>
                 <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
               </motion.div>

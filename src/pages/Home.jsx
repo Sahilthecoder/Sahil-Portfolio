@@ -354,12 +354,12 @@ const Home = () => {
                 <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
                   <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
                     <img 
-                      src="/sahil-portfolio/public/images/profile/profile.webp" 
+                      src="/Sahil-Portfolio/images/profile/profile.webp" 
                       alt="Sahil Ali" 
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = '/sahil-portfolio/public/images/profile/profile.webp';
+                        e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                       }}
                     />
                   </div>
@@ -813,7 +813,7 @@ const Home = () => {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                      e.target.src = 'https://unsplash.com/photos/magic-keyboard-beside-mug-and-click-pen-VieM9BdZKFo';
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
@@ -839,13 +839,25 @@ const Home = () => {
                       </span>
                     ))}
                   </div>
-                  <Link
-                    to={project.link}
-                    className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
-                  >
-                    View Project
-                    <FaArrowRight className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                  </Link>
+                  {project.link.startsWith('http') ? (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
+                    >
+                      View Project
+                      <FaExternalLinkAlt className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3 sm:w-3" />
+                    </a>
+                  ) : (
+                    <Link
+                      to={project.link}
+                      className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
+                    >
+                      View Project
+                      <FaArrowRight className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                    </Link>
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -1151,12 +1163,19 @@ const Home = () => {
               >
                 Get In Touch
               </Link>
-              <a
-                href="#work"
+              <Link
+                to="/projects"
                 className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+                onClick={(e) => {
+                  // Only prevent default if already on the home page
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 View My Work
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -1173,7 +1192,7 @@ const processedProjects = projects.map(project => ({
   // Extract category from tags or use first tag as category
   category: project.tags[0] || 'Project',
   // Ensure image has a fallback
-  image: project.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+  image: project.image || 'https://unsplash.com/photos/magic-keyboard-beside-mug-and-click-pen-VieM9BdZKFo',
   // Ensure link is properly formatted
   link: project.link || `#${project.id}`
 }));

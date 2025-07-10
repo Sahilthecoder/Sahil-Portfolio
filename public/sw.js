@@ -1,20 +1,26 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v15';
+const CACHE_NAME = 'portfolio-cache-v16';
 const OFFLINE_PAGE = '/offline.html';
+const BASE_PATH = '/Sahil-Portfolio';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/about.html',
-  '/site.webmanifest',
-  '/favicon.ico',
-  '/favicon-16x16.png',
-  '/favicon-32x32.png',
-  '/apple-touch-icon.png',
-  '/safari-pinned-tab.svg',
-  '/mstile-150x150.png',
-  '/assets/fonts/Roboto.woff2',
-  '/assets/fonts/Poppins.woff2'
+  '/Sahil-Portfolio/',
+  '/Sahil-Portfolio/index.html',
+  '/Sahil-Portfolio/about.html',
+  '/Sahil-Portfolio/site.webmanifest',
+  '/Sahil-Portfolio/favicon.ico',
+  '/Sahil-Portfolio/favicon-16x16.png',
+  '/Sahil-Portfolio/favicon-32x32.png',
+  '/Sahil-Portfolio/apple-touch-icon.png',
+  '/Sahil-Portfolio/safari-pinned-tab.svg',
+  '/Sahil-Portfolio/mstile-150x150.png',
+  '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
+  '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
 ];
+
+// Helper function to handle GitHub Pages base path
+function getPathWithBase(path) {
+  return path.startsWith(BASE_PATH) ? path : `${BASE_PATH}${path}`;
+}
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
@@ -24,8 +30,10 @@ self.addEventListener('install', (event) => {
         console.log('Opened cache');
         // Cache each file individually to prevent complete failure if one file fails
         return Promise.all(
-          ASSETS_TO_CACHE.map(url => {
-            return fetch(url, { credentials: 'same-origin' })
+          ASSETS_TO_CACHE.map(assetUrl => {
+            // Use the full URL for GitHub Pages
+            const url = assetUrl.startsWith('http') ? assetUrl : `${self.location.origin}${assetUrl}`;
+            return fetch(url, { credentials: 'same-origin', mode: 'no-cors' })
               .then(response => {
                 if (response.ok) {
                   return cache.put(url, response);
@@ -97,7 +105,18 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle navigation requests (HTML pages)
+  // Handle requests with different base URLs
+  const requestUrl = new URL(event.request.url);
+  const path = requestUrl.pathname;
+  
+  // For root path, serve index.html
+  if (path.endsWith('/') || path.endsWith('/index.html') || path === '') {
+    event.respondWith(
+      caches.match(`${BASE_PATH}/index.html`)
+        .then(response => response || fetch(event.request))
+    );
+    return;
+  }
   if (event.request.mode === 'navigate') {
     event.respondWith(
       caches.match('/index.html')

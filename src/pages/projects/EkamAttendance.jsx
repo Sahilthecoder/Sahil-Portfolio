@@ -143,12 +143,12 @@ const EkamAttendance = () => {
                 </h3>
               </div>
               <img
-                src={getImagePath('project', 'ekam-attendance', 'Attendance_before.webp')}
+                src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp"
                 alt="Manual Attendance Process"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = getImagePath('fallback', '', 'placeholder.svg');
+                  e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                 }}
               />
               <div className="p-4">
@@ -175,12 +175,12 @@ const EkamAttendance = () => {
                 </h3>
               </div>
               <img
-                src={getImagePath('project', 'ekam-attendance', 'Attendance_after.webp')}
+                src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp"
                 alt="Automated Attendance System"
                 className="w-full h-auto rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = `${import.meta.env.BASE_URL}optimized-images/placeholder.svg`;
+                  e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                 }}
               />
               <div className="p-4">

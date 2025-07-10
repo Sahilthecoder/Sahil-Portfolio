@@ -45,7 +45,7 @@ export const projects = [
     description: 'Intelligent automation solutions for business process optimization and workflow management.',
     image: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     tags: ['Automation', 'Zapier', 'Workflow', 'Integration'],
-    link: '/projects/smart-automation'
+    link: 'https://sahilthecoder.github.io/projects/smart-automation'
   },
   {
     id: 7,

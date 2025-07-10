@@ -450,12 +450,14 @@ const BansalSupermarket = () => {
       <div className="max-w-7xl mx-auto">
         {/* Hero Section with Cover Image */}
         <div className="relative rounded-2xl overflow-hidden mb-12 h-96">
-          <ProjectImage
-            projectId="bansal"
-            imageName="Project2 Cover"
+          <img
+            src="/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp"
             alt="Bansal Supermarket Dashboard"
             className="w-full h-full object-cover"
-            zoomOnHover={false}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-transparent"></div>
           <div className="absolute bottom-0 right-0 p-8 max-w-2xl">

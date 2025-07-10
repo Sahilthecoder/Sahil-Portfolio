@@ -134,10 +134,14 @@ const RetailCashFlow = () => {
             <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
               <div className="absolute inset-0">
                 <img
-                  src={getImagePath('project', 'retail-cash-flow', 'CashFlow1.webp')}
+                  src="/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp"
                   alt="Retail Cash Flow Dashboard"
                   className="w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+                  }}
                 />
               </div>
             </div>
@@ -148,10 +152,14 @@ const RetailCashFlow = () => {
           <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="relative">
               <img
-                src={getImagePath('project', 'retail-cash-flow', 'CashFlow2.webp')}
+                src="/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp"
                 alt="Daily Cash Flow Analysis"
                 className="w-full h-auto rounded-t-xl transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+                }}
               />
               <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                 <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm">

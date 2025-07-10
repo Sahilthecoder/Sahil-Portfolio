@@ -163,13 +163,19 @@ const ProjectCard = ({ project, index, onClick }) => {
     
     // Only handle click if the target is the card itself or its direct children
     if (e.target === cardRef.current || e.target.closest('.project-card')) {
-      // If it's an external link, open in new tab
-      if (project.external && project.link) {
-        window.open(project.link, '_blank', 'noopener,noreferrer');
+      // If there's a direct link, handle it appropriately
+      if (project.link) {
+        // If it's an external link, open in new tab
+        if (project.external || project.link.startsWith('http')) {
+          window.open(project.link, '_blank', 'noopener,noreferrer');
+        } else {
+          // For internal links, use React Router navigation
+          navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
+        }
         return;
       }
 
-      // If there's an onClick handler, call it (for modal)
+      // If there's an onClick handler (for modal), call it
       if (onClick && typeof onClick === 'function') {
         onClick(project);
       }

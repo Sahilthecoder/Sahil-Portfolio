@@ -1,6 +1,6 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v16';
-const OFFLINE_PAGE = '/offline.html';
+const CACHE_NAME = 'portfolio-cache-v17';
+const OFFLINE_PAGE = '/Sahil-Portfolio/offline.html';
 const BASE_PATH = '/Sahil-Portfolio';
 const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/',
@@ -18,7 +18,9 @@ const ASSETS_TO_CACHE = [
 
 // Helper function to handle GitHub Pages base path
 function getPathWithBase(path) {
-  return path.startsWith(BASE_PATH) ? path : `${BASE_PATH}${path}`;
+  // Remove any existing base path to avoid duplication
+  const cleanPath = path.startsWith(BASE_PATH) ? path.substring(BASE_PATH.length) : path;
+  return `${BASE_PATH}${cleanPath}`;
 }
 
 // Install event - cache static assets
@@ -27,25 +29,7 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        // Cache each file individually to prevent complete failure if one file fails
-        return Promise.all(
-          ASSETS_TO_CACHE.map(assetUrl => {
-            // Use the full URL for GitHub Pages
-            const url = assetUrl.startsWith('http') ? assetUrl : `${self.location.origin}${assetUrl}`;
-            return fetch(url, { credentials: 'same-origin', mode: 'no-cors' })
-              .then(response => {
-                if (response.ok) {
-                  return cache.put(url, response);
-                }
-                console.warn('Failed to cache:', url);
-                return null;
-              })
-              .catch(err => {
-                console.warn('Error caching', url, err);
-                return null;
-              });
-          })
-        );
+        return cache.addAll(ASSETS_TO_CACHE);
       })
   );
   self.skipWaiting();
@@ -61,7 +45,6 @@ self.addEventListener('activate', (event) => {
             console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
-          return null;
         })
       );
     })
@@ -74,22 +57,12 @@ async function fetchAndCache(request) {
   try {
     const response = await fetch(request);
     
-    // Check if we received a valid response
-    if (!response || response.status !== 200 || response.type !== 'basic') {
-      return response;
-    }
-
-    // Clone the response
-    const responseToCache = response.clone();
-    
-    // Cache the response
-    try {
+    // Only cache GET requests and successful responses
+    if (request.method === 'GET' && response.status === 200) {
       const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, responseToCache);
-    } catch (cacheError) {
-      console.warn('Failed to cache response for', request.url, cacheError);
+      await cache.put(request, response.clone());
     }
-
+    
     return response;
   } catch (error) {
     console.error('Fetch failed for', request.url, error);
@@ -105,54 +78,72 @@ self.addEventListener('fetch', (event) => {
   }
 
   const requestUrl = new URL(event.request.url);
-  const requestPath = requestUrl.pathname;
-
+  const isSameOrigin = requestUrl.origin === self.location.origin;
+  
   // Handle navigation requests (HTML pages)
-  // For SPA, serve index.html for all navigation requests
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match(new URL('/Sahil-Portfolio/index.html', self.location.origin))
-        .then((cachedResponse) => {
-          return cachedResponse || fetch(event.request).catch(() => {
-            return caches.match(new URL('/Sahil-Portfolio/offline.html', self.location.origin));
-          });
-        })
+      (async () => {
+        try {
+          // Always try network first for navigation requests
+          const networkResponse = await fetch(event.request);
+          if (networkResponse && networkResponse.status === 200) {
+            return networkResponse;
+          }
+        } catch (error) {
+          console.log('Network request failed, falling back to cache');
+        }
+        
+        // If network fails, try to serve from cache
+        const cachedResponse = await caches.match(
+          new URL(getPathWithBase('/index.html'), self.location.origin)
+        );
+        
+        return cachedResponse || caches.match(new URL(OFFLINE_PAGE, self.location.origin));
+      })()
     );
     return;
   }
 
   // For non-navigation requests, try cache first, then network
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached response if found
-        if (response) {
-          return response;
-        }
+    (async () => {
+      // Try to get from cache first
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
 
-        // For API requests, try network first
-        if (event.request.url.includes('/api/')) {
-          return fetchAndCache(event.request);
+      // For same-origin requests, ensure we're using the correct base path
+      if (isSameOrigin) {
+        const pathWithBase = getPathWithBase(requestUrl.pathname);
+        if (pathWithBase !== requestUrl.pathname) {
+          const modifiedRequest = new Request(
+            new URL(pathWithBase + requestUrl.search, self.location.origin).toString(),
+            event.request
+          );
+          const cachedResponseWithBase = await caches.match(modifiedRequest);
+          if (cachedResponseWithBase) {
+            return cachedResponseWithBase;
+          }
         }
+      }
 
-        // For other assets, try network then cache
-        // Try network then cache, with fallback to offline page for HTML requests
-        return fetchAndCache(event.request)
-          .catch(() => {
-            // If offline and not in cache, return offline page for HTML requests
-            if (event.request.headers.get('accept')?.includes('text/html')) {
-              return caches.match(new URL('/Sahil-Portfolio/offline.html', self.location.origin));
-            }
-            // Return a generic offline response for non-HTML requests
-            return new Response('You are offline. Please check your internet connection.', {
-              status: 503,
-              statusText: 'Offline',
-              headers: {
-                'Content-Type': 'text/plain',
-                'Cache-Control': 'no-store'
-              }
-            });
-          });
-      })
+      // If not in cache, try network
+      try {
+        return await fetchAndCache(event.request);
+      } catch (error) {
+        // For HTML requests, return the offline page
+        if (event.request.headers.get('accept')?.includes('text/html')) {
+          return caches.match(new URL(OFFLINE_PAGE, self.location.origin));
+        }
+        // For other requests, return a generic offline response
+        return new Response('You are offline. Please check your internet connection.', {
+          status: 503,
+          statusText: 'Offline',
+          headers: { 'Content-Type': 'text/plain' }
+        });
+      }
+    })()
   );
 });

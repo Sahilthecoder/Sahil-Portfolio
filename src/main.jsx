@@ -5,11 +5,16 @@ import createCache from '@emotion/cache';
 import App from './App';
 import './index.css'; // This is the main Tailwind CSS file
 
-// Create emotion cache
+// Create emotion cache with specific settings to avoid initialization issues
 const emotionCache = createCache({
   key: 'css',
   prepend: true,
+  // Add this to avoid the "Cannot access '_' before initialization" error
+  stylisPlugins: []
 });
+
+// Ensure the cache is created before any React code runs
+emotionCache.compat = true;
 
 // Get the root element
 const container = document.getElementById('root');
@@ -43,6 +48,9 @@ if (!container) {
 
 // Create a root and render the app
 const root = createRoot(container);
+
+// Ensure the cache is ready before rendering
+emotionCache.sheet.tags = [];
 
 // Set the base URL for the application
 const envBaseUrl = import.meta.env.BASE_URL || '';

@@ -222,10 +222,10 @@ const About = () => {
        
         {/* Career Summary */}
         <section className="py-16 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+          <div className="container mx-auto px-4 text-center">
+            <div className="max-w-3xl mx-auto">
               <motion.h2
-                className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
+                className="text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -234,7 +234,7 @@ const About = () => {
                 My Journey
               </motion.h2>
               <motion.p
-                className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-8 text-center"
+                className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed text-center max-w-2xl mx-auto px-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -246,8 +246,8 @@ const About = () => {
                 combine that practical experience with the power of AI tools like ChatGPT, Python, and
                 Notion AI to build automated workflows that save time and reduce errors.
               </motion.p>
+            </div>
           </div>
-        </div>
       </section>
 
       {/* Expertise */}
@@ -354,7 +354,7 @@ const About = () => {
               Why Work With Me?
             </motion.h2>
             <motion.p 
-              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 px-2 sm:px-0"
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 px-4 max-w-2xl mx-auto text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -365,15 +365,6 @@ const About = () => {
               setting up an AI assistant to plan your daily tasks, I can bridge manual effort with
               modern automation.
             </motion.p>
-            <div className="mt-8">
-              <div className="text-gray-500 dark:text-gray-400 text-sm mb-2">
-                Based in Rajasthan, India
-              </div>
-              <div className="text-gray-500 dark:text-gray-400 text-sm">
-                Passionate about clean systems & smart tech | Currently working on a full body
-                transformation 💪
-              </div>
-            </div>
           </div>
         </div>
       </section>

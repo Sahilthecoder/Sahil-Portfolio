@@ -16,7 +16,6 @@ import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars } from 
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
-import './ModernNavbar.css';
 
 // CSS classes for glass morphism effect
 const glassStyle = 'glass-morph';
@@ -144,10 +143,14 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
   const currentTheme = themes[theme] || themes.light;
 
   return (
-    <div className="theme-toggle-container">
+    <div className="relative inline-block">
       <motion.button
         type="button"
-        className={`theme-toggle ${isHovered ? 'hovered' : ''} ${isPressed ? 'pressed' : ''} ${className}`}
+        className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${
+          theme === 'light' 
+            ? 'text-yellow-500 hover:bg-yellow-50' 
+            : 'text-blue-400 hover:bg-gray-800'
+        } ${className}`}
         onClick={(e) => {
           e.stopPropagation();
           handleToggle(e);
@@ -159,13 +162,13 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
         onMouseUp={() => setIsPressed(false)}
         onMouseLeave={() => setIsPressed(false)}
         aria-label={`${currentTheme.tooltip}${autoTheme ? ' (Auto theme enabled)' : ''}`}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
         <motion.div 
-          className="theme-toggle-inner"
+          className="w-6 h-6 flex items-center justify-center"
           animate={{
-            rotate: isHovered ? (theme === 'light' ? 15 : -15) : 0,
+            rotate: isHovered ? (theme === 'light' ? 360 : -360) : 0,
             scale: isPressed ? 0.9 : 1
           }}
           transition={{
@@ -191,27 +194,27 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
               y: [10, -2, 0]
             }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ 
-              duration: 0.3,
-              times: [0, 0.8, 1],
-              ease: "easeOut"
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 20
             }}
           />
         )}
+        
+        <motion.div 
+          className="absolute top-full right-0 mt-2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 pointer-events-none"
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ 
+            opacity: isHovered ? 1 : 0,
+            y: isHovered ? 5 : -5
+          }}
+          transition={{ duration: 0.2 }}
+        >
+          {currentTheme.tooltip}
+          {autoTheme && ' (Auto)'}
+        </motion.div>
       </motion.button>
-      
-      <motion.div 
-        className="theme-tooltip"
-        initial={{ opacity: 0, y: 5 }}
-        animate={{
-          opacity: isHovered ? 1 : 0,
-          y: isHovered ? 0 : 5
-        }}
-        transition={{ duration: 0.2 }}
-      >
-        {currentTheme.tooltip}
-        {autoTheme && ' (Auto)'}
-      </motion.div>
     </div>
   );
 });
@@ -538,8 +541,9 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center space-x-4">
-            <ThemeToggle />
+          <div className="hidden lg:flex items-center space-x-2 ml-4">
+            <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
+            <ThemeToggle className="mr-1" />
             <a
               href="https://github.com/Sahilthecoder/Sahil-Portfolio"
               target="_blank"

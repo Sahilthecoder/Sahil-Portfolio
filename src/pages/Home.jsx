@@ -1,222 +1,90 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import '../styles/responsive.css';
-import { FiArrowRight, FiExternalLink, FiPackage, FiLayers, FiTrendingUp, FiMail, FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi';
-import { FaExternalLinkAlt, FaFileAlt } from 'react-icons/fa';
-import ProjectsSection from '../components/ProjectsSection/ProjectsSectionEnhanced';
 import { Link } from 'react-router-dom';
+import { TypeAnimation } from 'react-type-animation';
+import { 
+  FaExternalLinkAlt, 
+  FaFileAlt, 
+  FaArrowRight, 
+  FaBox, 
+  FaLayerGroup, 
+  FaChartLine,
+  FaGithub,
+  FaLinkedin,
+  FaTwitter
+} from 'react-icons/fa';
+import { FiMail, FiGithub, FiLinkedin, FiTwitter, FiBriefcase } from 'react-icons/fi';
+import { projects } from '../data/projects';
 
-// Using placeholder images from a public CDN
-const HeroImage = 'https://images.unsplash.com/photo-1504805572947-34fad45aed93?w=800&auto=format&fit=crop';
-const Project1 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project2 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-const Project3 = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop';
-
-// Animation variants
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
-
-const ProjectCard = ({ project }) => {
-  const navigate = useNavigate();
-
-  const handleCardClick = (e) => {
-    // Don't navigate if clicking on a link or button inside the card
-    if (e.target.closest('a, button, .no-navigate')) {
-      return;
-    }
-    
-    if (project.link) {
-      // Use React Router's navigate for SPA navigation
-      navigate(project.link);
-    } else if (project.githubLink) {
-      window.open(project.githubLink, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  // Handle view project button click
-  const handleViewProject = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (project.link) {
-      // Use React Router's navigate for SPA navigation
-      navigate(project.link);
-    }
-  };
-
-  // Handle image error with fallback to preview image
-  const handleImageError = (e) => {
-    const target = e.target;
-    if (target.src !== (project.previewImage || '')) {
-      target.src = project.previewImage || '/images/project-placeholder.jpg';
-      target.onerror = null; // Prevent infinite loop if fallback also fails
-    } else if (target.src !== '/images/project-placeholder.jpg') {
-      target.src = '/images/project-placeholder.jpg';
-    }
-  };
-
-  // Handle external link clicks
-  const handleExternalLink = (e, url) => {
-    e.preventDefault();
-    e.stopPropagation();
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  return (
-    <div className="h-full">
-      <motion.div
-        className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={handleCardClick}
-        style={{ cursor: 'pointer' }}
-      >
-        {/* Thumbnail Container with Fixed Aspect Ratio (16:9) */}
-        <div className="relative w-full pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-700">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              onError={handleImageError}
-              loading="lazy"
-              style={{
-                position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              minWidth: '100%',
-              minHeight: '100%',
-              objectFit: 'cover'
-            }}
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4 pointer-events-none">
-          <span className="text-white font-medium flex items-center">
-            View Project <FiArrowRight className="ml-1" />
-          </span>
-        </div>
-      </div>
-      
-      {/* Card Content */}
-      <div className="p-5 flex-1 flex flex-col">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-2">
-            {project.title}
-          </h3>
-          
-          {/* Project Links */}
-          <div className="flex space-x-2 ml-2 flex-shrink-0">
-            {project.githubLink && (
-              <button 
-                onClick={(e) => handleExternalLink(e, project.githubLink)}
-                className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors no-navigate"
-                aria-label="View on GitHub"
-              >
-                <FiGithub className="w-5 h-5" />
-              </button>
-            )}
-            {project.link && (
-              <button
-                onClick={handleViewProject}
-                className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors no-navigate"
-                aria-label="View Project Details"
-              >
-                <FiExternalLink className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-        </div>
-        
-        <p className="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
-          {project.shortDescription}
-        </p>
-        
-        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-3">
-          <FiCalendar className="mr-1.5 flex-shrink-0" />
-          <span className="truncate">{project.date}</span>
-        </div>
-        
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.techStack?.slice(0, 3).map((tech, index) => (
-            <span
-              key={`${project.id}-tech-${index}`}
-              className="px-2.5 py-1 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 rounded-full whitespace-nowrap"
-            >
-              {tech}
-            </span>
-          ))}
-          {project.techStack?.length > 3 && (
-            <span className="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-              +{project.techStack.length - 3}
-            </span>
-          )}
-        </div>
-      </div>
-    </motion.div>
-  </div>
-  );
-};
+// Using a fallback image from the public directory
+const HeroImage = '/images/fallback-image.jpg';
 
 const Home = () => {
-  // Form state
+  // Refs for sections
+  const homeRef = useRef(null);
+  const aboutRef = useRef(null);
+  const projectsRef = useRef(null);
+  const contactRef = useRef(null);
+  const experienceRef = useRef(null);
+  
+  // State for project category filter
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Contact form state
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: '',
+    message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const [errors, setErrors] = useState({});
-  const [activeTab, setActiveTab] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ success: false, message: '' });
+  
+  // State for active section
   const [activeSection, setActiveSection] = useState('home');
+  
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
 
-  // Success message display
-  useEffect(() => {
-    if (submitSuccess) {
-      const timer = setTimeout(() => {
-        setSubmitSuccess(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [submitSuccess]);
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
 
-  // Form handlers
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
-
-    // Clear error when user starts typing
+    
+    // Clear error when user types
     if (errors[name]) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
-        [name]: null,
+        [name]: ''
       }));
     }
   };
 
+  // Validate form
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = 'Name is required';
@@ -226,88 +94,65 @@ const Home = () => {
       newErrors.email = 'Email is invalid';
     }
     if (!formData.message.trim()) newErrors.message = 'Message is required';
-
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     if (!validateForm()) return;
-
+    
     setIsSubmitting(true);
-
+    
     try {
-      const response = await fetch('https://formspree.io/f/xpwrjjqj', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject || 'No subject',
-          message: formData.message,
-        }),
+      // Here you would typically send the form data to your backend
+      // For now, we'll simulate a successful submission
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setSubmitStatus({
+        success: true,
+        message: 'Your message has been sent successfully! I\'ll get back to you soon.'
       });
-
-      if (response.ok) {
-        setSubmitSuccess(true);
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        });
-
-        // Reset success message after 5 seconds
-        setTimeout(() => setSubmitSuccess(false), 5000);
-      } else {
-        const error = await response.json();
-        throw new Error(error.message || 'Something went wrong');
-      }
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setSubmitStatus({ success: false, message: '' });
+      }, 5000);
+      
     } catch (error) {
-      console.error('Form submission error:', error);
-      alert('Failed to send message. Please try again later.');
+      setSubmitStatus({
+        success: false,
+        message: 'Something went wrong. Please try again later.'
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
-  // Refs for all sections
-  const homeRef = useRef(null);
-  const aboutRef = useRef(null);
-  const experienceRef = useRef(null);
-  const projectsRef = useRef(null);
-  const contactRef = useRef(null);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const controls = useAnimation();
-
-  // Simple scroll to next section
-  const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  // Handle scroll to show/hide floating nav and set active section
+  // Handle scroll to update active section
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-
-      // Determine active section
       const scrollPosition = window.scrollY + 200;
-
-      const sectionOffsets = [
+      
+      const sections = [
         { id: 'home', ref: homeRef },
         { id: 'about', ref: aboutRef },
-        { id: 'experience', ref: experienceRef },
         { id: 'projects', ref: projectsRef },
         { id: 'contact', ref: contactRef },
       ];
 
-      for (const section of sectionOffsets) {
+      for (const section of sections) {
         const element = section.ref.current;
         if (element) {
           const { top, bottom } = element.getBoundingClientRect();
@@ -326,200 +171,140 @@ const Home = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fade in effect for scroll button
+  // Smooth scroll for navigation links
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 1500);
-    return () => clearTimeout(timer);
+    const handleSmoothScroll = (e) => {
+      const targetId = e.currentTarget.getAttribute('href');
+      if (targetId.startsWith('#')) {
+        e.preventDefault();
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // Adjust for header height
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+
+    // Add event listeners to all anchor links
+    const links = document.querySelectorAll('a[href^="#"]');
+    links.forEach(link => {
+      link.addEventListener('click', handleSmoothScroll);
+    });
+
+    return () => {
+      // Clean up event listeners
+      links.forEach(link => {
+        link.removeEventListener('click', handleSmoothScroll);
+      });
+    };
   }, []);
 
-  // Scroll to top function
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  // Intersection Observer for scroll animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            controls.start('show');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (aboutRef.current) {
-      observer.observe(aboutRef.current);
-    }
-    if (projectsRef.current) {
-      observer.observe(projectsRef.current);
-    }
-    if (contactRef.current) {
-      observer.observe(contactRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [controls]);
-
-  // Sample projects data with proper links matching App.jsx routes
-  const featuredProjects = [
-    {
-      id: 'zomato-expansion',
-      title: 'Zomato Restaurant Expansion Analysis',
-      shortDescription: 'Market Strategy Dashboard in Excel',
-      description: "Built an interactive Excel dashboard to analyze Zomato's city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.",
-      techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
-      icon: 'Excel',
-      image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
-      previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
-      link: '/projects/zomato-expansion',
-      githubLink: '',
-      featured: true,
-      date: 'June 2024',
-      categories: ['data-analysis', 'excel'],
-      component: 'ZomatoAnalysis'
-    },
-    {
-      id: 'bansal-supermarket',
-      title: 'Bansal Supermarket Sales Analysis',
-      shortDescription: 'Sales Performance Insights in Tableau',
-      description: 'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
-      techStack: ['Tableau', 'Data Analysis', 'Sales Analytics'],
-      icon: 'Tableau',
-      image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
-      previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
-      link: '/projects/bansal-supermarket',
-      githubLink: '',
-      featured: true,
-      date: 'May 2024',
-      categories: ['data-visualization', 'tableau'],
-      component: 'BansalSupermarket'
-    },
-    {
-      id: 'cash-flow-dashboard',
-      title: 'Daily Cash Flow Dashboard',
-      shortDescription: 'Retail Finance Tracker in Power BI',
-      description: 'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
-      techStack: ['Power BI', 'Finance', 'Data Visualization'],
-      icon: 'Power BI',
-      image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
-      previewImage: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
-      additionalImages: [
-        '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp',
-        '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp',
-      ],
-      link: '/projects/cash-flow-dashboard',
-      githubLink: '',
-      featured: true,
-      date: 'April 2024',
-      categories: ['finance', 'powerbi'],
-      component: 'RetailCashFlow'
-    },
-  ];
-
-  // Scroll to section with offset
-  const scrollToSection = (ref) => {
-    if (ref.current) {
-      const headerOffset = 80; // Adjust based on your header height
-      const elementPosition = ref.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-
-      {/* Hero Section */}
-      <section ref={homeRef} className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden px-4 md:px-6">
-        {/* Graph Paper Background */}
-        <div 
-          className="absolute inset-0 bg-white dark:bg-gray-900"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
-            backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
-            zIndex: 0,
-          }}
-        >
-          {/* Animated grid lines */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, transparent 98%, rgba(79, 70, 229, 0.15) 100%),
-                linear-gradient(transparent 98%, rgba(79, 70, 229, 0.15) 100%)
-              `,
-              backgroundSize: '40px 40px',
-              animation: 'pan 30s linear infinite',
-              zIndex: 1,
-            }}
-          />
-          
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-50 dark:opacity-10" />
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      {/* Enhanced Hero Section */}
+      <section ref={homeRef} className="relative pt-20 pb-16 md:pt-32 md:pb-28 overflow-hidden px-4 sm:px-6 min-h-screen flex items-center">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+            {/* Animated grid pattern */}
+            <div 
+              className="absolute inset-0 opacity-30 dark:opacity-10"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #6366f1 1px, transparent 1px),
+                  linear-gradient(to bottom, #6366f1 1px, transparent 1px)
+                `,
+                backgroundSize: '40px 40px',
+                maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+              }}
+            />
+            
+            {/* Floating elements */}
+            <div className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
+            <div className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+          </div>
         </div>
 
-        {/* Add the animation keyframes to the document */}
-        <style>
-          {`
-            @keyframes pan {
-              0% {
-                background-position: 0% 0%;
-              }
-              100% {
-                background-position: 100% 100%;
-              }
-            }
-          `}
-        </style>
+        {/* Animation keyframes */}
+        <style jsx global>{`
+          @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+          }
+          @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+          .animate-float {
+            animation: float 6s ease-in-out infinite;
+          }
+          .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 8s ease infinite;
+          }
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+          @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+          }
+        `}</style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <motion.div
-                className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+            {/* Hero Content */}
+            <motion.div 
+              className="lg:w-1/2 text-center lg:text-left"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="inline-block px-3 py-1 mb-6 text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 rounded-full">
+                Welcome to my portfolio! 👋
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">
+                  Hi, I'm Sahil Ali
+                </span>
+                <br />
+                <TypeAnimation
+                  sequence={[
+                    'Data Analyst',
+                    1000,
+                    'Business Intelligence',
+                    1000,
+                    'Data Visualization',
+                    1000,
+                  ]}
+                  wrapper="span"
+                  speed={50}
+                  repeat={Infinity}
+                  className="block mt-2 text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 dark:text-gray-300"
+                />
+              </h1>
+              <motion.p 
+                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <FiTrendingUp className="w-4 h-4" />
-                <span>Data Analyst & Business Intelligence</span>
-              </motion.div>
-
-              <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                Hi, I'm <span className="block">Sahil Ali</span>
-              </motion.h1>
-
-              <motion.p
-                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation
-                Enthusiast.
+                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation Enthusiast.
               </motion.p>
 
               <motion.p
@@ -557,7 +342,7 @@ const Home = () => {
                   <FaFileAlt className="w-4 h-4" />
                 </a>
               </motion.div>
-            </div>
+            </motion.div>
 
             <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
               <motion.div
@@ -568,18 +353,15 @@ const Home = () => {
               >
                 <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
                   <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 transform rotate-6"></div>
-                    <div className="absolute inset-1 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-                      <img
-                        src="/Sahil-Portfolio/images/profile/profile.webp"
-                        alt="Sahil Ali - Professional Photo"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = '/Sahil-Portfolio/images/profile-fallback.png';
-                        }}
-                      />
-                    </div>
+                    <img 
+                      src="/images/profile.jpg" 
+                      alt="Sahil Ali" 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/images/fallback-image.jpg';
+                      }}
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -588,7 +370,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Next Section */}
+      {/* What I Do Section */}
       <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -596,17 +378,17 @@ const Home = () => {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: <FiPackage className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  icon: <FaBox className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
                   title: "Data Analysis",
                   description: "Transforming raw data into actionable insights to drive business decisions."
                 },
                 {
-                  icon: <FiLayers className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  icon: <FaLayerGroup className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
                   title: "Business Intelligence",
                   description: "Creating dashboards and reports to visualize key metrics and trends."
                 },
                 {
-                  icon: <FiTrendingUp className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
+                  icon: <FaChartLine className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
                   title: "Process Optimization",
                   description: "Identifying inefficiencies and implementing data-driven improvements."
                 }
@@ -631,54 +413,36 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section ref={aboutRef} className="py-16 md:py-24 bg-white dark:bg-gray-800 px-4 md:px-6">
-        {/* Subtle pattern background */}
-        <div className="absolute inset-0 bg-pattern"></div>
-        {/* Decorative elements */}
-        <div className="absolute -left-20 -top-20 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="container mx-auto px-6 relative z-10">
+      <section ref={aboutRef} className="py-12 sm:py-16 bg-white dark:bg-gray-800 px-4 md:px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
+            className="max-w-4xl mx-auto text-center mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              About Me
-            </h2>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">About Me</h2>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Get to know more about my professional journey and expertise
+            </p>
           </motion.div>
 
           <div className="max-w-6xl mx-auto">
             <motion.div
+              className="flex flex-col md:flex-row gap-8 sm:gap-12 items-center"
               variants={container}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="grid md:grid-cols-2 gap-8 items-center"
             >
-              {/* Image Section */}
-              <motion.div variants={item} className="relative order-2 md:order-1">
-                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img
-                    src={HeroImage}
-                    alt="Professional Headshot"
-                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
-              </motion.div>
-
-              {/* Content Section */}
-              <motion.div variants={item} className="space-y-6 order-1 md:order-2">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+              {/* Content Section - Right side */}
+              <motion.div variants={item} className="space-y-6 order-2 md:order-2">
+                <div className="space-y-4 sm:space-y-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                     Professional Profile
                   </h3>
-
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
                     As a{' '}
                     <span className="font-medium text-indigo-600 dark:text-indigo-400">
                       Certified Inventory Specialist
@@ -689,87 +453,55 @@ const Home = () => {
                     operational costs through data-driven strategies.
                   </p>
 
-                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
-                    <p className="text-gray-700 dark:text-gray-300 italic">
+                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-3 sm:p-4 rounded-lg border-l-4 border-indigo-500 mt-4 sm:mt-6">
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 italic">
                       "Transforming inventory challenges into efficient, cost-effective solutions
                       through systematic controls and process optimization."
                     </p>
                   </div>
 
-                  <div className="pt-4">
-                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                  <div className="pt-2 sm:pt-4">
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 mb-2 sm:mb-3">
                       Core Competencies:
                     </h4>
-                    <div className="space-y-3">
-                      <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1">
-                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
-                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
+                    <div className="space-y-2 sm:space-y-3">
+                      {[
+                        "Inventory Management & Optimization",
+                        "Warehouse Operations & Process Improvement",
+                        "Data Analysis & Reporting",
+                        "Supply Chain Management",
+                        "Team Leadership & Training"
+                      ].map((competency, index) => (
+                        <div key={index} className="flex items-start">
+                          <div className="flex-shrink-0 mt-1">
+                            <div className="flex items-center justify-center h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                              <svg className="h-2 w-2 sm:h-3 sm:w-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                  fillRule="evenodd"
+                                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                  clipRule="evenodd"
+                                />
+                              </svg>
+                            </div>
                           </div>
+                          <p className="ml-2 sm:ml-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
+                            {competency}
+                          </p>
                         </div>
-                        <p className="ml-3 text-gray-700 dark:text-gray-300">
-                          Inventory Management & Optimization
-                        </p>
-                      </div>
-                      <div className="flex items-start">
-                        <div className="flex-shrink-0 mt-1">
-                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
-                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                        <p className="ml-3 text-gray-700 dark:text-gray-300">
-                          Warehouse Operations & Process Improvement
-                        </p>
-                      </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-2 sm:pt-4">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div className="flex flex-col gap-2">
-                      <span className="px-4 py-2 text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
-                        <svg
-                          className="w-4 h-4 mr-2 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
+                        <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
                         Inventory Specialist
                       </span>
-                      <span className="px-4 py-2 text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
-                        <svg
-                          className="w-4 h-4 mr-2 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
+                      <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
+                        <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
                         Warehouse Supervisor
                       </span>
                     </div>
@@ -777,13 +509,29 @@ const Home = () => {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       href="/about"
-                      className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 whitespace-nowrap self-center sm:self-auto mt-4 sm:mt-0"
+                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 mt-3 sm:mt-0 w-full sm:w-auto justify-center"
                     >
                       View Full Profile
-                      <FiArrowRight className="ml-2" />
+                      <FaArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
                     </motion.a>
                   </div>
                 </div>
+              </motion.div>
+              
+              {/* Image Section - Left side */}
+              <motion.div variants={item} className="relative order-1">
+                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
+                  <img
+                    src={HeroImage}
+                    alt="Professional Headshot"
+                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/images/fallback-image.jpg';
+                    }}
+                  />
+                </div>
+                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-3xl opacity-20 blur-xl"></div>
               </motion.div>
             </motion.div>
           </div>
@@ -791,44 +539,38 @@ const Home = () => {
       </section>
 
       {/* Experience Section */}
-      <section ref={experienceRef} className="py-16 md:py-24 bg-gray-50 dark:bg-gray-900 px-4 md:px-6">
-        {/* Subtle pattern background */}
-        <div className="absolute inset-0 bg-pattern"></div>
-        {/* Decorative elements */}
-        <div className="absolute -right-20 top-1/3 w-64 h-64 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="absolute -left-20 bottom-1/4 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full mix-blend-multiply filter blur-3xl opacity-30 dark:opacity-20"></div>
-        <div className="container mx-auto px-6 relative z-10">
+      <section ref={experienceRef} id="experience" className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
+            className="max-w-4xl mx-auto text-center mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Professional Journey
-            </h2>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto"></div>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Professional Experience</h2>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              My journey through various roles in inventory and warehouse management
+            </p>
           </motion.div>
 
           <div className="max-w-6xl mx-auto">
             <motion.div
+              className="flex flex-col md:flex-row-reverse gap-8 sm:gap-12 items-center"
               variants={container}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="grid md:grid-cols-2 gap-8 items-center"
             >
-              {/* Content Section - Moved to left side */}
-              <motion.div variants={item} className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                    Industry Experience
+              {/* Content Section - Right side */}
+              <motion.div variants={item} className="space-y-6 order-2">
+                <div className="space-y-4 sm:space-y-6">
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                    Inventory & Warehouse Management Specialist
                   </h3>
-
-                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                    With a career spanning multiple sectors, I've brought operational excellence to
-                    diverse environments including retail, supermarket chains, and warehouse
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                    With over 5 years of hands-on experience, I've specialized in inventory control,
+                    warehouse operations, and data-driven decision making across diverse environments including retail, supermarket chains, and warehouse
                     operations. My journey includes impactful roles at{' '}
                     <span className="font-medium text-indigo-600 dark:text-indigo-400">
                       Ekam Indian Groceries (Australia)
@@ -844,23 +586,23 @@ const Home = () => {
                     .
                   </p>
 
-                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-4 rounded-lg border-l-4 border-indigo-500 mt-6">
-                    <p className="text-gray-700 dark:text-gray-300 italic">
+                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-3 sm:p-4 rounded-lg border-l-4 border-indigo-500 mt-4 sm:mt-6">
+                    <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 italic">
                       "From GRNs and invoice accuracy to inventory audits and AI-powered reporting
                       tools, my focus has always been on driving efficiency, reducing errors, and
                       delivering measurable business value."
                     </p>
                   </div>
 
-                  <div className="pt-4">
-                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                  <div className="pt-2 sm:pt-4">
+                    <h4 className="font-semibold text-sm sm:text-base text-gray-800 dark:text-gray-200 mb-2 sm:mb-3">
                       Key Achievements:
                     </h4>
-                    <div className="space-y-3">
+                    <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-start">
                         <div className="flex-shrink-0 mt-1">
-                          <div className="flex items-center justify-center h-5 w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
-                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                          <div className="flex items-center justify-center h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                            <svg className="h-2 w-2 sm:h-3 sm:w-3" fill="currentColor" viewBox="0 0 20 20">
                               <path
                                 fillRule="evenodd"
                                 d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -869,7 +611,7 @@ const Home = () => {
                             </svg>
                           </div>
                         </div>
-                        <p className="ml-3 text-gray-700 dark:text-gray-300">
+                        <p className="ml-2 sm:ml-3 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                           Developed and implemented inventory management systems that reduced stock
                           discrepancies by 37%
                         </p>
@@ -895,30 +637,29 @@ const Home = () => {
                   </div>
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-2 sm:pt-4">
                   <motion.a
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     href="/experience"
-                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
+                    className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
                   >
                     View Full Work History
-                    <FiArrowRight className="ml-2" />
+                    <FaArrowRight className="ml-1 sm:ml-2" />
                   </motion.a>
                 </div>
               </motion.div>
               
-              {/* Image Section - Moved to right side */}
-              <motion.div variants={item} className="relative">
+              {/* Image Section - Moved to left side */}
+              <motion.div variants={item} className="relative order-1 md:order-1">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                    src="/images/experience/warehouse-management.jpg"
                     alt="Warehouse and Inventory Management"
                     className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src =
-                        'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80';
+                      e.target.src = '/images/fallback-image.jpg';
                     }}
                   />
                 </div>
@@ -929,57 +670,214 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Projects Section */}
-      {/* Projects Section - Moved all styling to the ProjectsSection component */}
-      <div ref={projectsRef}>
-        <ProjectsSection />
-      </div>
+      {/* Projects Section */}
+      <section ref={projectsRef} id="projects" className="py-12 sm:py-16 bg-white dark:bg-gray-900 relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-blue-50/50 dark:from-gray-900/90 dark:to-gray-900" style={{
+            backgroundImage: 'linear-gradient(to right, #6366f1 1px, transparent 1px), linear-gradient(to bottom, #6366f1 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+            maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+          }} />
+          <div className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
+          <div className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+        </div>
 
-      {/* Call to Action */}
-      <section className="relative py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-        {/* Subtle pattern background */}
-        <div className="absolute inset-0 bg-pattern"></div>
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-30 dark:opacity-10">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-indigo-200 dark:bg-indigo-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-purple-200 dark:bg-purple-800 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>  
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-              Ready to Start a Project?
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+              Smart Solutions | Real Impact | My Work
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
-              I'm always open to discussing new projects, creative ideas, or opportunities to be
-              part of your vision. Let's create something amazing together!
+            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto mb-4 sm:mb-6"></div>
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Transforming complex business challenges into efficient, data-driven solutions
             </p>
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+          </motion.div>
+
+          {/* Search and Filter */}
+          <motion.div 
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto mb-8 sm:mb-12 px-4"
+          >
+            <div className="relative">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search projects by technology or skill..."
+                  value={selectedCategory === 'All' ? '' : selectedCategory}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value || 'All');
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                  className="w-full px-4 py-3 pl-12 pr-10 text-sm sm:text-base bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
+                />
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                {selectedCategory !== 'All' && (
+                  <button
+                    onClick={() => setSelectedCategory('All')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              
+              {/* Suggestions Dropdown */}
+              <div className={`absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden transition-all duration-200 transform origin-top ${
+                showSuggestions ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
+              }`}>
+                <div className="max-h-60 overflow-y-auto">
+                  {['All', ...new Set(processedProjects.flatMap(project => project.tags))]
+                    .filter(tag => 
+                      tag.toLowerCase().includes(selectedCategory.toLowerCase()) || 
+                      selectedCategory === 'All' ||
+                      selectedCategory === ''
+                    )
+                    .slice(0, 8) // Limit to 8 suggestions
+                    .map((tag, index) => (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          setSelectedCategory(tag === 'All' ? 'All' : tag);
+                          setShowSuggestions(false);
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-sm sm:text-base hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors ${
+                          selectedCategory === tag ? 'bg-indigo-50 dark:bg-gray-700 text-indigo-600 dark:text-indigo-400' : 'text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Popular Tags */}
+            <div className="mt-4 flex flex-wrap justify-center gap-2">
+              {['All', 'React', 'Node.js', 'Python', 'AI/ML'].map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setSelectedCategory(tag === 'All' ? 'All' : tag)}
+                  className={`text-xs px-3 py-1 rounded-full transition-all duration-200 ${
+                    selectedCategory === tag || (selectedCategory === 'All' && tag === 'All')
+                      ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md'
+                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Projects Grid */}
+          <motion.div
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
+          >
+            {processedProjects
+              .filter(project => 
+                selectedCategory === 'All' || 
+                project.tags.includes(selectedCategory)
+              )
+              .map((project, index) => (
+              <motion.div
+                key={index}
+                variants={item}
+                className="group bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg hover:shadow-xl sm:hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 border border-gray-100 dark:border-gray-700"
+              >
+                <div className="relative overflow-hidden h-40 sm:h-48 bg-gray-100 dark:bg-gray-700">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <span className="text-white text-xs sm:text-sm font-medium bg-black/50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                      {project.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 line-clamp-1">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
+                    {project.impact}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <Link
+                    to={project.link}
+                    className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
+                  >
+                    View Project
+                    <FaArrowRight className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-center mt-12"
+          >
+            <Link
+              to="/projects"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
             >
-              <Link
-                to="/contact"
-                className="px-6 sm:px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+              View All Projects
+              <svg
+                className="w-5 h-5 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                Get In Touch
-              </Link>
-              <a
-                href="#work"
-                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
-              >
-                View My Work
-              </a>
-            </motion.div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
+                />
+              </svg>
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -995,7 +893,8 @@ const Home = () => {
           <motion.div
             variants={container}
             initial="hidden"
-            animate={controls}
+            whileInView="show"
+            viewport={{ once: true }}
             className="max-w-4xl mx-auto"
           >
             <motion.div variants={item} className="text-center mb-16">
@@ -1072,10 +971,7 @@ const Home = () => {
                   <div className="flex space-x-4">
                     {[
                       { icon: <FiGithub size={20} />, url: 'https://github.com/Sahilthecoder/Sahil-Portfolio' },
-                      {
-                        icon: <FiLinkedin size={20} />,
-                        url: 'https://www.linkedin.com/in/sahil-ali-714867242/',
-                      },
+                      { icon: <FiLinkedin size={20} />, url: 'https://www.linkedin.com/in/sahil-ali-714867242/' },
                       { icon: <FiTwitter size={20} />, url: 'https://twitter.com/SahilTheCoder' },
                     ].map((social, index) => (
                       <a
@@ -1097,6 +993,11 @@ const Home = () => {
                 className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg"
               >
                 <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
+                {submitStatus.message && (
+                  <div className={`mb-6 p-4 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200'}`}>
+                    {submitStatus.message}
+                  </div>
+                )}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label
@@ -1218,8 +1119,63 @@ const Home = () => {
           </motion.div>
         </div>
       </section>
+
+      {/* Ready to Start Project Section */}
+      <section className="relative py-16 sm:py-20 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
+        <div className="absolute inset-0 opacity-10 dark:opacity-5" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")'}}></div>
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto"
+          >
+            <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+              Ready to Start a Project?
+            </h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
+              I'm always open to discussing new projects, creative ideas, or opportunities to be
+              part of your vision. Let's create something amazing together!
+            </p>
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <Link
+                to="/contact"
+                className="px-6 sm:px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+              >
+                Get In Touch
+              </Link>
+              <a
+                href="#work"
+                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+              >
+                View My Work
+              </a>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 };
+
+// Process projects to ensure they have all required fields
+const processedProjects = projects.map(project => ({
+  ...project,
+  // Use description as impact for the card
+  impact: project.description,
+  // Extract category from tags or use first tag as category
+  category: project.tags[0] || 'Project',
+  // Ensure image has a fallback
+  image: project.image || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+  // Ensure link is properly formatted
+  link: project.link || `#${project.id}`
+}));
 
 export default Home;

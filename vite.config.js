@@ -1,43 +1,110 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { copyFileSync, existsSync, mkdirSync } from 'fs';
 
-// Get the directory name in ESM
+// Custom plugin to copy favicon files to the root directory
+function copyFaviconsPlugin() {
+  return {
+    name: 'copy-favicons',
+    buildStart() {
+      const faviconFiles = [
+        'favicon.ico',
+        'favicon-16x16.png',
+        'favicon-32x32.png',
+        'apple-touch-icon.png',
+        'safari-pinned-tab.svg',
+        'site.webmanifest',
+        'browserconfig.xml',
+        'logo192.png',
+        'logo512.png'
+      ];
+
+      const distDir = path.resolve(__dirname, 'dist');
+      if (!existsSync(distDir)) {
+        mkdirSync(distDir, { recursive: true });
+      }
+
+      faviconFiles.forEach(file => {
+        const srcPath = path.resolve(__dirname, 'public', file);
+        const destPath = path.resolve(distDir, file);
+        
+        if (existsSync(srcPath)) {
+          copyFileSync(srcPath, destPath);
+          console.log(`Copied ${file} to dist directory`);
+        } else {
+          console.warn(`Warning: ${file} not found in public directory`);
+        }
+      });
+    }
+  };
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL configuration
 const isProduction = process.env.NODE_ENV === 'production';
 const base = isProduction ? '/Sahil-Portfolio/' : '/';
 
-// Set environment variables for base URL
+// Set environment variables
 process.env.VITE_BASE_URL = base;
 process.env.BASE_URL = base;
 
-console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-console.log(`Using base URL: "${base}"`);
+// Configure MIME types for proper file handling
+const mimeTypes = {
+  'application/javascript': ['js', 'jsx', 'mjs'],
+  'text/jsx': ['jsx'],
+  'text/javascript': ['js', 'mjs']
+};
 
 export default defineConfig({
-  base: base,
+  base,
   publicDir: 'public',
+  appType: 'spa',
+  optimizeDeps: {
+    include: ['swiper', 'swiper/react', 'swiper/modules', 'swiper/element'],
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
+  },
+  
+  // Configure module resolution
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './src') },
+      { find: '@components', replacement: path.resolve(__dirname, './src/components') },
+      { find: '@pages', replacement: path.resolve(__dirname, './src/pages') },
+      { find: '@assets', replacement: path.resolve(__dirname, './src/assets') },
+      { find: '@styles', replacement: path.resolve(__dirname, './src/styles') },
+      { find: '@utils', replacement: path.resolve(__dirname, './src/utils') },
+      { find: '@hooks', replacement: path.resolve(__dirname, './src/hooks') },
+      { find: '@context', replacement: path.resolve(__dirname, './src/context') },
+      { find: '@data', replacement: path.resolve(__dirname, './src/data') },
+      { find: 'react/jsx-runtime.js', replacement: 'react/jsx-runtime' }
+    ],
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+  },
+  
   server: {
     port: 3000,
+    hmr: {
+      overlay: true,
+    },
+    fs: {
+      strict: true,
+    },
     strictPort: true,
     open: true,
     cors: true,
+    hmr: {
+      overlay: true,
+    },
     fs: {
       strict: false,
       allow: ['..']
-    },
-    headers: {
-      'Content-Security-Policy': "default-src 'self'; " +
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-        "font-src 'self' https://fonts.gstatic.com data:; " +
-        "img-src 'self' data: https:;",
-      'X-Content-Type-Options': 'nosniff',
-      'X-Frame-Options': 'DENY',
-      'X-XSS-Protection': '1; mode=block'
     },
     hmr: {
       protocol: 'ws',
@@ -45,133 +112,80 @@ export default defineConfig({
       port: 3000,
       overlay: false
     },
-    configureServer: (server) => {
-      server.middlewares.use((req, res, next) => {
-        const url = req.originalUrl || req.url;
-        
-        // Set appropriate Content-Type headers based on file extension
-        if (url.endsWith('.js') || url.endsWith('.mjs') || url.endsWith('.jsx')) {
-          res.setHeader('Content-Type', 'application/javascript');
-        } else if (url.endsWith('.css')) {
-          res.setHeader('Content-Type', 'text/css');
-        } else if (url.endsWith('.json')) {
-          res.setHeader('Content-Type', 'application/json');
-        } else if (url.endsWith('.webmanifest') || url.endsWith('manifest.json')) {
-          res.setHeader('Content-Type', 'application/manifest+json');
-        } else if (url.endsWith('.ico')) {
-          res.setHeader('Content-Type', 'image/x-icon');
-        } else if (url.endsWith('.png')) {
-          res.setHeader('Content-Type', 'image/png');
-        } else if (url.endsWith('.jpg') || url.endsWith('.jpeg')) {
-          res.setHeader('Content-Type', 'image/jpeg');
-        } else if (url.endsWith('.svg')) {
-          res.setHeader('Content-Type', 'image/svg+xml');
-        } else if (url.endsWith('.webp')) {
-          res.setHeader('Content-Type', 'image/webp');
-        } else if (url.endsWith('.woff')) {
-          res.setHeader('Content-Type', 'font/woff');
-        } else if (url.endsWith('.woff2')) {
-          res.setHeader('Content-Type', 'font/woff2');
-        } else if (url.endsWith('.ttf')) {
-          res.setHeader('Content-Type', 'font/ttf');
-        } else if (url.endsWith('.eot')) {
-          res.setHeader('Content-Type', 'application/vnd.ms-fontobject');
-        } else if (url.endsWith('.otf')) {
-          res.setHeader('Content-Type', 'font/otf');
-        }
-        
-        // Continue to the next middleware
-        next();
-      });
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
+    },
+    // Ensure proper MIME types for JSX files
+    mimeTypes: mimeTypes
+  },
+  
+  // Configure how the dev server serves files
+  preview: {
+    port: 3000,
+    strictPort: true,
+    cors: true,
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Resource-Policy': 'cross-origin'
     }
   },
+  
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
       babel: {
-        presets: ['@babel/preset-react'],
-        plugins: [
-          ['@babel/plugin-transform-react-jsx', { runtime: 'automatic' }],
-          '@emotion/babel-plugin'
-        ]
+        plugins: ['@emotion/babel-plugin']
       }
     }),
+    copyFaviconsPlugin()
   ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@components': path.resolve(__dirname, './src/components'),
-      '@pages': path.resolve(__dirname, './src/pages'),
-      '@assets': path.resolve(__dirname, './src/assets'),
-      '@styles': path.resolve(__dirname, './src/styles'),
-      '@utils': path.resolve(__dirname, './src/utils'),
-      '@hooks': path.resolve(__dirname, './src/hooks'),
-      '@context': path.resolve(__dirname, './src/context'),
-      '@data': path.resolve(__dirname, './src/data'),
-    },
+  
+  // Configure MIME types for proper file handling
+  mimeTypes: {
+    'application/javascript': ['js', 'jsx', 'mjs']
   },
+  
   build: {
     outDir: 'dist',
     sourcemap: true,
     minify: isProduction ? 'terser' : false,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
       output: {
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
-              return 'vendor-react';
-            }
-            if (id.includes('@faker-js/faker')) {
-              return 'vendor-faker';
-            }
-            if (id.includes('@fontsource') || id.includes('typeface-')) {
-              return 'vendor-fonts';
-            }
-            if (id.includes('framer-motion')) {
-              return 'vendor-framer';
-            }
-            if (id.includes('@headlessui') || id.includes('@heroicons')) {
-              return 'vendor-ui';
-            }
+            if (id.includes('react') || id.includes('react-dom')) return 'vendor-react';
+            if (id.includes('@emotion')) return 'vendor-emotion';
+            if (id.includes('framer-motion')) return 'vendor-framer';
             return 'vendor';
           }
         },
         assetFileNames: (assetInfo) => {
-          let extType = assetInfo.name.split('.').at(1);
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            extType = 'images';
-            return `assets/${extType}/[name][extname]`;
+          const ext = assetInfo.name.split('.').pop() || '';
+          if (/(png|jpe?g|gif|svg|webp|avif)$/i.test(ext)) {
+            return 'assets/images/[name].[hash][extname]';
           }
-          return `assets/${extType}/[name]-[hash][extname]`;
+          if (/(woff|woff2|eot|ttf|otf)$/i.test(ext)) {
+            return 'assets/fonts/[name].[hash][extname]';
+          }
+          return 'assets/[name].[hash][extname]';
         },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: (chunkInfo) => `assets/js/${chunkInfo.name}-[hash].js`
+        chunkFileNames: 'assets/js/[name].[hash].js',
+        entryFileNames: 'assets/js/[name].[hash].js'
       }
     }
   },
-
-  define: {
-    'import.meta.env.VITE_BASE_URL': JSON.stringify(process.env.VITE_BASE_URL || '/Sahil-Portfolio/'),
-    'process.platform': '"browser"',
-    'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'production'}"`,
-    'process.versions.node': '"18.0.0"',
-    'process.version': '"v18.0.0"',
-    global: 'window',
-  },
-
-  esbuild: {
-    jsx: 'automatic',
-    loader: 'tsx',
-    include: /src\/.*\.(jsx|tsx)?$/,
-    exclude: [],
-  },
-
+  
   css: {
+    devSourcemap: true,
     modules: {
-      localsConvention: 'camelCase',
-    },
-  },
+      localsConvention: 'camelCaseOnly',
+    }
+  }
 });

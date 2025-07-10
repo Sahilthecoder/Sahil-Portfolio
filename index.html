@@ -31,33 +31,40 @@
     <meta property="twitter:description" content="Explore my portfolio featuring data analysis projects, dashboards, and automation solutions." />
     <meta property="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/logo512.png" />
     
-    <!-- Favicon Configuration -->
+    <!-- Favicon and Icons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/logo192.png">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/logo192.png" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#2b5797">
-    <meta name="msapplication-config" content="/favicons/browserconfig.xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Safari Pinned Tab -->
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2563eb">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#2563eb">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Theme Color -->
     <meta name="theme-color" content="#2563eb">
     
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     
-    <!-- Vite HMR Client -->
-    <script type="module" src="/@vite/client"></script>
-    
-    <!-- Define __DEFINES__ before any other scripts -->
-    <script>
-      window.__DEFINES__ = {
-        'process.env.NODE_ENV': 'development',
-        'import.meta.env.MODE': 'development',
-        'import.meta.env.DEV': true,
-        'import.meta.env.PROD': false
-      };
-    </script>
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
@@ -81,31 +88,30 @@
       />
     </noscript>
     
-    <!-- Polyfills for older browsers -->
+    <!-- Base URL Configuration -->
     <script type="module">
-      // Determine if we're in development or production
+      // Set base URL based on environment
       const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      let basePath = '/';
       
-      // Set the base URL - empty for development, '/Sahil-Portfolio' for production
-      const basePath = isDev ? '' : '/Sahil-Portfolio';
+      // Only set the base path for production
+      if (!isDev) {
+        basePath = '/Sahil-Portfolio/';
+      }
       
-      // Store the base URL for use in the application
+      // Set base href
+      const base = document.createElement('base');
+      base.href = basePath;
+      document.head.prepend(base);
+      
+      // Set base URL for the application
       window.__BASE_URL__ = basePath;
       
-      // Create a script element to set the base URL before Vite loads
-      const baseScript = document.createElement('script');
-      baseScript.type = 'module';
-      baseScript.text = `
-        // Set the base URL for Vite
-        import.meta.env.BASE_URL = '${basePath}';
-        console.log('Base URL set to:', '${basePath}');
-      `;
-      document.head.appendChild(baseScript);
-    </script>
-    
-    <!-- Function to get the base path -->
-    <script type="module">
-      function getBasePath() {
+      // Log the base URL for debugging
+      console.log('Base URL set to:', basePath);
+      
+      // Function to get the base path
+      window.getBasePath = function() {
         // If we're on GitHub Pages, use the repository name as base path
         if (window.location.hostname.includes('github.io')) {
           const pathParts = window.location.pathname.split('/');
@@ -113,10 +119,9 @@
           if (pathParts.length > 2) {
             return `/${pathParts[1]}/${pathParts[2]}/`;
           }
-          return '/';
         }
-        return '/';
-      }
+        return basePath;
+      };
 
       // Handle client-side routing with dynamic base path
       document.addEventListener('DOMContentLoaded', () => {

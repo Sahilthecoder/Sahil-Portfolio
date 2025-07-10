@@ -1,11 +1,11 @@
-const projects = [
+export const projects = [
   {
     id: 1,
     title: 'Zomato Data Analysis',
     description: 'Comprehensive analysis of Zomato restaurant data to identify trends, customer preferences, and business insights. Used Python, Pandas, and Matplotlib for data processing and visualization.',
     image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     tags: ['Python', 'Data Analysis', 'Pandas', 'Data Visualization'],
-    link: '/projects/zomato-expansion',
+    link: '/projects/zomato-analysis',
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const projects = [
     description: 'Comprehensive cash flow tracking and financial management system for monitoring daily business transactions and financial health.',
     image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
     tags: ['Power BI', 'Financial Analysis', 'Business Intelligence', 'Dashboarding'],
-    link: '/projects/cash-flow-dashboard'
+    link: '/projects/retail-cash-flow'
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const projects = [
     description: 'AI-powered decision support system for daily business operations and analytics.',
     image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     tags: ['AI', 'GPT', 'Automation', 'Productivity'],
-    link: '/projects/ai-daily-planner'
+    link: '/projects/ai-daily-decision-system'
   },
   {
     id: 6,

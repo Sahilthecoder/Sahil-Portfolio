@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/Sahil-Portfolio/",
-    "preview": "vite preview --base=/Sahil-Portfolio/",
+    "build": "vite build",
+    "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t true -m 'Deploy to GitHub Pages [skip ci]'",
     "lint": "eslint src --ext .js,.jsx",
@@ -26,12 +26,12 @@
     "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA",
     "copy-favicons": "node scripts/copy-favicons.js",
     "copy-favicons-root": "node scripts/copy-favicons-root.js",
-    "prebuild": "npm run copy-favicons && npm run copy-favicons-root"
+    "prebuild": "npm run copy-favicons"
   },
   "dependencies": {
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "framer-motion": "^10.12.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -48,7 +48,7 @@
     "@babel/plugin-transform-runtime": "^7.22.10",
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
-    "@emotion/babel-plugin": "^11.11.0",
+    "@emotion/babel-plugin": "^11.13.5",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",

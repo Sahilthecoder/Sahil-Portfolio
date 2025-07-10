@@ -4,9 +4,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { copyFileSync, existsSync, mkdirSync } from 'fs';
 
-// Emotion configuration
-const emotionBabelPlugin = require('@emotion/babel-plugin').default || require('@emotion/babel-plugin');
-
 // Custom plugin to copy favicon files to the root directory
 function copyFaviconsPlugin() {
   return {
@@ -21,7 +18,10 @@ function copyFaviconsPlugin() {
         'site.webmanifest',
         'browserconfig.xml',
         'logo192.png',
-        'logo512.png'
+        'logo512.png',
+        'android-chrome-192x192.png',
+        'android-chrome-512x512.png',
+        'mstile-150x150.png'
       ];
 
       const distDir = path.resolve(__dirname, 'dist');
@@ -30,14 +30,14 @@ function copyFaviconsPlugin() {
       }
 
       faviconFiles.forEach(file => {
-        const srcPath = path.resolve(__dirname, 'public', file);
+        const srcPath = path.resolve(__dirname, 'public', 'favicons', file);
         const destPath = path.resolve(distDir, file);
         
         if (existsSync(srcPath)) {
           copyFileSync(srcPath, destPath);
-          console.log(`Copied ${file} to dist directory`);
+          console.log(`✅ Copied ${file} to dist directory`);
         } else {
-          console.warn(`Warning: ${file} not found in public directory`);
+          console.warn(`⚠️  Source file not found: ${srcPath}`);
         }
       });
     }
@@ -46,173 +46,162 @@ function copyFaviconsPlugin() {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Base URL configuration for GitHub Pages
-const base = '/Sahil-Portfolio/';
-
-// Set environment variables
-process.env.VITE_BASE_URL = base;
-process.env.BASE_URL = base;
-
-// Configure MIME types for proper file handling
-const mimeTypes = {
-  'application/javascript': ['js', 'jsx', 'mjs'],
-  'text/jsx': ['jsx'],
-  'text/javascript': ['js', 'mjs']
-};
-
-export default defineConfig({
-  base,
-  publicDir: 'public',
-  appType: 'spa',
-  optimizeDeps: {
-    include: ['swiper', 'swiper/react', 'swiper/modules', 'swiper/element'],
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
+export default defineConfig(({ command, mode }) => {
+  const isProduction = mode === 'production';
+  const base = isProduction ? '/Sahil-Portfolio/' : '/';
   
-  // Configure module resolution
-  resolve: {
-    alias: [
-      { find: '@', replacement: path.resolve(__dirname, './src') },
-      { find: '@components', replacement: path.resolve(__dirname, './src/components') },
-      { find: '@pages', replacement: path.resolve(__dirname, './src/pages') },
-      { find: '@assets', replacement: path.resolve(__dirname, './src/assets') },
-      { find: '@styles', replacement: path.resolve(__dirname, './src/styles') },
-      { find: '@utils', replacement: path.resolve(__dirname, './src/utils') },
-      { find: '@hooks', replacement: path.resolve(__dirname, './src/hooks') },
-      { find: '@context', replacement: path.resolve(__dirname, './src/context') },
-      { find: '@data', replacement: path.resolve(__dirname, './src/data') },
-      { find: 'react/jsx-runtime.js', replacement: 'react/jsx-runtime' }
-    ],
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
-  },
-  
-  server: {
-    port: 3000,
-    hmr: {
-      overlay: true,
-    },
-    fs: {
-      strict: true,
-    },
-    strictPort: true,
-    open: true,
-    cors: true,
-    hmr: {
-      overlay: true,
-    },
-    fs: {
-      strict: false,
-      allow: ['..']
-    },
-    hmr: {
-      protocol: 'ws',
-      host: 'localhost',
+  return {
+    base,
+    publicDir: 'public',
+    appType: 'spa',
+    
+    // Server configuration
+    server: {
       port: 3000,
-      overlay: false
-    },
-    headers: {
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
-      'Cross-Origin-Resource-Policy': 'cross-origin',
-      'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob:; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
-    },
-    // Ensure proper MIME types for JSX files
-    mimeTypes: mimeTypes
-  },
-  
-  // Configure how the dev server serves files
-  preview: {
-    port: 3000,
-    strictPort: true,
-    cors: true,
-    headers: {
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin',
-      'Cross-Origin-Resource-Policy': 'cross-origin'
-    }
-  },
-  
-  plugins: [
-    react({
-      jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: [
-          [
-            emotionBabelPlugin,
-            {
-              sourceMap: true,
-              autoLabel: 'dev-only',
-              labelFormat: '[local]',
-              cssPropOptimization: true,
-              useBuiltIns: false,
-            },
-          ],
-        ],
+      open: true,
+      strictPort: true,
+      host: '0.0.0.0',
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000
       },
-    }),
-    copyFaviconsPlugin()
-  ],
-  optimizeDeps: {
-    include: [
-      '@emotion/react',
-      '@emotion/styled',
-      '@emotion/babel-plugin',
-      '@emotion/cache'
-    ],
-    esbuildOptions: {
-      // Node.js global to browser globalThis
-      define: {
-        global: 'globalThis',
-      },
-    },
-  },
-  
-  // Configure MIME types for proper file handling
-  mimeTypes: {
-    'application/javascript': ['js', 'jsx', 'mjs']
-  },
-  
-  build: {
-    outDir: 'dist',
-    sourcemap: true,
-    minify: isProduction ? 'terser' : false,
-    rollupOptions: {
-      output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) return 'vendor-react';
-            if (id.includes('@emotion')) return 'vendor-emotion';
-            if (id.includes('framer-motion')) return 'vendor-framer';
-            return 'vendor';
-          }
-        },
-        assetFileNames: (assetInfo) => {
-          const ext = assetInfo.name.split('.').pop() || '';
-          if (/(png|jpe?g|gif|svg|webp|avif)$/i.test(ext)) {
-            return 'assets/images/[name].[hash][extname]';
-          }
-          if (/(woff|woff2|eot|ttf|otf)$/i.test(ext)) {
-            return 'assets/fonts/[name].[hash][extname]';
-          }
-          return 'assets/[name].[hash][extname]';
-        },
-        chunkFileNames: 'assets/js/[name].[hash].js',
-        entryFileNames: 'assets/js/[name].[hash].js'
+      fs: {
+        strict: true,
+        allow: ['..']
       }
-    }
-  },
-  
-  css: {
-    devSourcemap: true,
-    modules: {
-      localsConvention: 'camelCaseOnly',
-    }
-  }
+    },
+    
+    // Build configuration
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      emptyOutDir: true,
+      sourcemap: isProduction ? false : 'inline',
+      minify: isProduction ? 'terser' : false,
+      target: 'esnext',
+      chunkSizeWarningLimit: 1000,
+      reportCompressedSize: true,
+      
+      rollupOptions: {
+        input: path.resolve(__dirname, 'index.html'),
+        output: {
+          manualChunks: {
+            react: ['react', 'react-dom', 'react-router-dom'],
+            vendor: ['framer-motion', 'react-icons'],
+          },
+          assetFileNames: (assetInfo) => {
+            const info = assetInfo.name.split('.');
+            const ext = info[info.length - 1];
+            if (ext === 'css') {
+              return 'assets/css/[name].[hash][extname]';
+            }
+            if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'].includes(ext)) {
+              return 'assets/images/[name].[hash][extname]';
+            }
+            if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
+              return 'assets/fonts/[name].[hash][extname]';
+            }
+            return 'assets/[name].[hash][extname]';
+          },
+          chunkFileNames: 'assets/js/[name].[hash].js',
+          entryFileNames: 'assets/js/[name].[hash].js'
+        }
+      },
+      
+      terserOptions: isProduction ? {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      } : {},
+    },
+    
+    // Plugins
+    plugins: [
+      react({
+        jsxImportSource: '@emotion/react',
+        babel: {
+          plugins: ['@emotion/babel-plugin']
+        }
+      }),
+      copyFaviconsPlugin()
+    ],
+    
+    // Resolve configuration
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+        '@components': path.resolve(__dirname, 'src/components'),
+        '@pages': path.resolve(__dirname, 'src/pages'),
+        '@assets': path.resolve(__dirname, 'src/assets'),
+        '@styles': path.resolve(__dirname, 'src/styles'),
+        '@hooks': path.resolve(__dirname, 'src/hooks'),
+        '@utils': path.resolve(__dirname, 'src/utils'),
+        '@contexts': path.resolve(__dirname, 'src/contexts'),
+      },
+    },
+    
+    // CSS configuration
+    css: {
+      modules: {
+        localsConvention: 'camelCaseOnly',
+        scopeBehaviour: 'local',
+        generateScopedName: isProduction 
+          ? '[hash:base64:5]' 
+          : '[name]__[local]__[hash:base64:5]',
+      },
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "@/styles/variables.scss";`,
+        },
+      },
+      devSourcemap: !isProduction,
+    },
+    
+    // Environment variables
+    define: {
+      'process.env': {},
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+    },
+    
+    // Optimize dependencies
+    optimizeDeps: {
+      include: [
+        'react',
+        'react-dom',
+        'react-router-dom',
+        '@emotion/react',
+        '@emotion/styled',
+        '@emotion/cache',
+        '@emotion/babel-plugin',
+        'framer-motion',
+      ],
+      exclude: [],
+      esbuildOptions: {
+        define: {
+          global: 'globalThis',
+        },
+      },
+    },
+    
+    // Preview configuration
+    preview: {
+      port: 4173,
+      open: true,
+      strictPort: true,
+    },
+    
+    // Environment variables
+    envPrefix: 'VITE_',
+    
+    // Cache directory
+    cacheDir: 'node_modules/.vite',
+    
+    // Log level
+    logLevel: isProduction ? 'warn' : 'info',
+    
+    // Clear screen
+    clearScreen: true,
+  };
 });

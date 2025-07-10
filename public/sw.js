@@ -5,7 +5,6 @@ const BASE_PATH = '/Sahil-Portfolio';
 const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/',
   '/Sahil-Portfolio/index.html',
-  '/Sahil-Portfolio/about.html',
   '/Sahil-Portfolio/site.webmanifest',
   '/Sahil-Portfolio/favicons/favicon.ico',
   '/Sahil-Portfolio/favicons/favicon-16x16.png',
@@ -137,26 +136,23 @@ self.addEventListener('fetch', (event) => {
         }
 
         // For other assets, try network then cache
+        // Try network then cache, with fallback to offline page for HTML requests
         return fetchAndCache(event.request)
           .catch(() => {
             // If offline and not in cache, return offline page for HTML requests
             if (event.request.headers.get('accept')?.includes('text/html')) {
               return caches.match(new URL('/Sahil-Portfolio/offline.html', self.location.origin));
             }
-            // Return a 404 response for any other case
-            return new Response('Not found', { status: 404, statusText: 'Not Found' });
+            // Return a generic offline response for non-HTML requests
+            return new Response('You are offline. Please check your internet connection.', {
+              status: 503,
+              statusText: 'Offline',
+              headers: {
+                'Content-Type': 'text/plain',
+                'Cache-Control': 'no-store'
+              }
+            });
           });
-        }
-        
-        // Otherwise return a generic offline response
-        return new Response('You are offline. Please check your internet connection.', {
-          status: 503,
-          statusText: 'Offline',
-          headers: {
-            'Content-Type': 'text/plain',
-            'Cache-Control': 'no-store'
-          }
-        });
       })
   );
 });

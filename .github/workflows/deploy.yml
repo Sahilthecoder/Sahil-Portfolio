@@ -41,7 +41,17 @@ jobs:
           
       - name: Install dependencies
         run: |
-          npm ci --legacy-peer-deps
+          # Clean npm cache and remove node_modules and package-lock.json
+          echo "Cleaning npm cache and removing node_modules..."
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          
+          # Install dependencies
+          echo "Installing dependencies..."
+          npm install --legacy-peer-deps
+          
+          # Verify installation
+          echo "Verifying installation..."
           npm list --depth=0
           
       - name: Debug - List files

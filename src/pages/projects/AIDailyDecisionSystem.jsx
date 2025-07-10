@@ -12,7 +12,6 @@ import {
   FaUpRightFromSquare,
 } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import ProjectImage from '../../components/ProjectImage';
 
 // Image paths
 const dashboardImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp';
@@ -102,14 +101,11 @@ const AIDailyDecisionSystem = () => {
                 AI Sales Predictions
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
-                <ProjectImage
-                  projectId="ai-daily-decision-system"
-                  imageName="dashboard-preview.jpg"
+                <img
+                  src="/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp"
                   alt="Sales Overview Dashboard"
-                  aspectRatio="16/9"
-                  className="rounded-lg"
-                  showOverlay={false}
-                  zoomOnHover={true}
+                  className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
                 />
               </div>
               <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">
@@ -122,14 +118,11 @@ const AIDailyDecisionSystem = () => {
                 Inventory Optimization
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
-                <ProjectImage
-                  projectId="ai-daily-decision-system"
-                  imageName="product-analysis.jpg"
+                <img
+                  src="/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp"
                   alt="Product Performance Analysis"
-                  aspectRatio="16/9"
-                  className="rounded-lg"
-                  showOverlay={false}
-                  zoomOnHover={true}
+                  className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
                 />
               </div>
               <p className="mt-3 text-sm text-gray-600 dark:text-gray-300">

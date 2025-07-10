@@ -16,8 +16,8 @@ async function copyFavicons() {
       'apple-touch-icon.png',
       'safari-pinned-tab.svg',
       'browserconfig.xml',
-      'android-chrome-192x192.png',
-      'android-chrome-512x512.png',
+      'favicon-192x192.png', // Changed from android-chrome-192x192.png
+      'favicon-512x512.png', // Changed from android-chrome-512x512.png
       'mstile-150x150.png',
       'site.webmanifest'
     ];

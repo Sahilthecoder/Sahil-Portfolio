@@ -8,28 +8,28 @@
   "theme_color": "#2563eb",
   "icons": [
     {
-      "src": "/Sahil-Portfolio/favicon-16x16.png",
+      "src": "/Sahil-Portfolio/favicons/favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/Sahil-Portfolio/favicon-32x32.png",
+      "src": "/Sahil-Portfolio/favicons/favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/Sahil-Portfolio/apple-touch-icon.png",
+      "src": "/Sahil-Portfolio/favicons/apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/images/logo/android-chrome-192x192.png",
+      "src": "/Sahil-Portfolio/favicons/favicon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/Sahil-Portfolio/images/logo/android-chrome-512x512.png",
+      "src": "/Sahil-Portfolio/favicons/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

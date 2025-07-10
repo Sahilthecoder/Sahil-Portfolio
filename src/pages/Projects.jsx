@@ -57,7 +57,6 @@ import {
 import { BsFileEarmarkExcel } from 'react-icons/bs';
 
 // Components
-import ProjectImage from '../components/ProjectImage';
 import SEO from '../components/SEO';
 
 // Utils

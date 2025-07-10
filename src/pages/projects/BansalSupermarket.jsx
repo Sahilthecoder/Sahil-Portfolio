@@ -21,7 +21,6 @@ import {
   FaExpand,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import ProjectImage from '../../components/ProjectImage';
 
 const BansalSupermarket = () => {
   // State for image modal

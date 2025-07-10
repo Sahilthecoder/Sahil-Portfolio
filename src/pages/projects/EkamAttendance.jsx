@@ -13,7 +13,7 @@ import {
 } from 'react-icons/fa';
 import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import getImagePath from '../../utils/imagePaths';
+import { getImagePath } from '../../utils/imageUtils';
 
 const EkamAttendance = () => {
   return (

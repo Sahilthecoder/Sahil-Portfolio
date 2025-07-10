@@ -46,9 +46,8 @@ function copyFaviconsPlugin() {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Base URL configuration
-const isProduction = process.env.NODE_ENV === 'production';
-const base = isProduction ? '/Sahil-Portfolio/' : '/';
+// Base URL configuration for GitHub Pages
+const base = '/Sahil-Portfolio/';
 
 // Set environment variables
 process.env.VITE_BASE_URL = base;
@@ -160,6 +159,20 @@ export default defineConfig({
     }),
     copyFaviconsPlugin()
   ],
+  optimizeDeps: {
+    include: [
+      '@emotion/react',
+      '@emotion/styled',
+      '@emotion/babel-plugin',
+      '@emotion/cache'
+    ],
+    esbuildOptions: {
+      // Node.js global to browser globalThis
+      define: {
+        global: 'globalThis',
+      },
+    },
+  },
   
   // Configure MIME types for proper file handling
   mimeTypes: {

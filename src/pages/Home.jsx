@@ -11,9 +11,9 @@ import {
   FaChartLine,
   FaGithub,
   FaLinkedin,
-  FaTwitter
+  FaWhatsapp
 } from 'react-icons/fa';
-import { FiMail, FiGithub, FiLinkedin, FiTwitter, FiBriefcase } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackage, FiCode, FiTrendingUp } from 'react-icons/fi';
 import { projects } from '../data/projects';
 
 // Using a fallback image from the public directory
@@ -333,84 +333,71 @@ const Home = () => {
                   <FaExternalLinkAlt className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                 </a>
                 <a
-                  href="/assets/Sahil_Ali_Cv.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#contact"
                   className="group relative px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
                 >
-                  <span className="relative z-10">Preview Resume</span>
-                  <FaFileAlt className="w-4 h-4" />
+                  <span className="relative z-10">Get in Touch</span>
+                  <FiMail className="w-4 h-4" />
                 </a>
+              </motion.div>
+
+              {/* Social Links */}
+              <motion.div 
+                className="flex justify-center lg:justify-start gap-4 mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                {[
+                  { icon: <FiGithub className="w-6 h-6" />, url: "https://github.com/Sahilthecoder", label: "GitHub" },
+                  { icon: <FiLinkedin className="w-6 h-6" />, url: "https://linkedin.com/in/sahil-ali-1a2b3c4d", label: "LinkedIn" },
+                  { icon: <FaWhatsapp className="w-6 h-6" />, url: "https://api.whatsapp.com/send/?phone=919875771550&text&type=phone_number&app_absent=0", label: "WhatsApp" },
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 transition-colors duration-300 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+                    aria-label={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
               </motion.div>
             </motion.div>
 
-            <div className="w-full lg:w-1/2 mt-12 lg:mt-0">
-              <motion.div
-                className="relative w-full h-full flex items-center justify-center"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                    <img 
-                      src="/Sahil-Portfolio/images/profile/profile.webp" 
-                      alt="Sahil Ali" 
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
-                      }}
-                    />
-                  </div>
+            {/* Profile Image */}
+            <motion.div 
+              className="w-full lg:w-1/2 mt-12 lg:mt-0"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-2xl transform rotate-6 scale-95 opacity-20 dark:opacity-30"></div>
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-purple-500 to-pink-600 shadow-2xl transform -rotate-6 scale-95 opacity-20 dark:opacity-30"></div>
+                <div className="relative z-10 w-full h-full rounded-3xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl">
+                  <img 
+                    src="/Sahil-Portfolio/images/profile/profile.webp" 
+                    alt="Sahil Ali" 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+                    }}
+                  />
                 </div>
-              </motion.div>
-            </div>
+                
+                {/* Decorative elements */}
+                <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-indigo-500 rounded-full opacity-20 dark:opacity-30 animate-pulse"></div>
+                <div className="absolute -top-6 -left-6 w-12 h-12 bg-blue-500 rounded-full opacity-20 dark:opacity-30 animate-pulse animation-delay-2000"></div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* What I Do Section */}
-      <section className="py-16 bg-white dark:bg-gray-900">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-8">What I Do</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: <FaBox className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
-                  title: "Data Analysis",
-                  description: "Transforming raw data into actionable insights to drive business decisions."
-                },
-                {
-                  icon: <FaLayerGroup className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
-                  title: "Business Intelligence",
-                  description: "Creating dashboards and reports to visualize key metrics and trends."
-                },
-                {
-                  icon: <FaChartLine className="w-8 h-8 mx-auto mb-4 text-indigo-600 dark:text-indigo-400" />,
-                  title: "Process Optimization",
-                  description: "Identifying inefficiencies and implementing data-driven improvements."
-                }
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 * index, duration: 0.5 }}
-                >
-                  <div className="mb-4">
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* About Section */}
       <section ref={aboutRef} className="py-12 sm:py-16 bg-white dark:bg-gray-800 px-4 md:px-6">
@@ -494,27 +481,25 @@ const Home = () => {
                 </div>
 
                 <div className="pt-2 sm:pt-4">
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
-                        <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
-                        Inventory Specialist
-                      </span>
-                      <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
-                        <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
-                        Warehouse Supervisor
-                      </span>
-                    </div>
-                    <motion.a
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
-                      href="/about"
-                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 mt-3 sm:mt-0 w-full sm:w-auto justify-center"
-                    >
-                      View Full Profile
-                      <FaArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    </motion.a>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200 flex items-center">
+                      <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
+                      Inventory Specialist
+                    </span>
+                    <span className="px-3 py-1 text-xs sm:text-sm font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 flex items-center">
+                      <FiBriefcase className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 flex-shrink-0" />
+                      Warehouse Supervisor
+                    </span>
                   </div>
+                  <motion.a
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    href="/about"
+                    className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 mt-3 sm:mt-0 w-full sm:w-auto justify-center"
+                  >
+                    View Full Profile
+                    <FaArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
+                  </motion.a>
                 </div>
               </motion.div>
               
@@ -538,21 +523,90 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">What Clients Say</h2>
+            <p className="text-gray-600 dark:text-gray-300">Hear from the people I've worked with</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                id: 1,
+                quote: "Sahil's data analysis transformed our inventory management. His attention to detail and analytical skills are exceptional.",
+                name: "Alex Johnson",
+                role: "Operations Manager",
+                company: "TechRetail Inc."
+              },
+              {
+                id: 2,
+                quote: "Working with Sahil was a game-changer for our business. His automation solutions saved us countless hours of manual work.",
+                name: "Sarah Williams",
+                role: "CEO",
+                company: "LogiFlow Solutions"
+              },
+              {
+                id: 3,
+                quote: "Sahil's expertise in data visualization helped us make sense of complex datasets and make better business decisions.",
+                name: "Michael Chen",
+                role: "Data Science Lead",
+                company: "AnalytiCorp"
+              }
+            ].map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: testimonial.id * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <svg
+                      key={i}
+                      className="w-5 h-5 text-yellow-400 inline"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 italic">"{testimonial.quote}"</p>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">{testimonial.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {testimonial.role}, {testimonial.company}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Experience Section */}
       <section ref={experienceRef} id="experience" className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6">
-          <motion.div
-            className="max-w-4xl mx-auto text-center mb-8 sm:mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Professional Experience</h2>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-8">Professional Experience</h2>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               My journey through various roles in inventory and warehouse management
             </p>
-          </motion.div>
+          </div>
 
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -670,232 +724,475 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section ref={projectsRef} id="projects" className="py-12 sm:py-16 bg-white dark:bg-gray-900 relative overflow-hidden">
-        {/* Decorative background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-blue-50/50 dark:from-gray-900/90 dark:to-gray-900" style={{
-            backgroundImage: 'linear-gradient(to right, #6366f1 1px, transparent 1px), linear-gradient(to bottom, #6366f1 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-            maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
-          }} />
-          <div className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-          <div className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      {/* Skills Section */}
+      <section className="py-16 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
           <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">Skills & Expertise</h2>
+            <p className="text-gray-600 dark:text-gray-300">Technologies and tools I work with</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[
+              {
+                category: 'Data Analysis',
+                icon: <FiBarChart2 className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                skills: [
+                  { name: 'SQL', level: 90 },
+                  { name: 'Python', level: 85 },
+                  { name: 'R', level: 75 },
+                  { name: 'Excel/Sheets', level: 90 },
+                  { name: 'Tableau', level: 80 },
+                  { name: 'Power BI', level: 85 },
+                ]
+              },
+              {
+                category: 'Inventory & Operations',
+                icon: <FiPackage className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+                skills: [
+                  { name: 'Inventory Management', level: 95 },
+                  { name: 'Supply Chain', level: 85 },
+                  { name: 'Warehouse Operations', level: 90 },
+                  { name: 'Process Optimization', level: 88 },
+                  { name: 'Logistics', level: 82 },
+                  { name: 'ERP Systems', level: 85 },
+                ]
+              },
+              {
+                category: 'Automation & Tools',
+                icon: <FiCode className="w-6 h-6 text-purple-600 dark:text-purple-400" />,
+                skills: [
+                  { name: 'Python Scripting', level: 85 },
+                  { name: 'Google Apps Script', level: 90 },
+                  { name: 'Zapier', level: 80 },
+                  { name: 'Make (Integromat)', level: 75 },
+                  { name: 'API Integration', level: 82 },
+                  { name: 'Data Scraping', level: 78 },
+                ]
+              },
+              {
+                category: 'Business Intelligence',
+                icon: <FiTrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />,
+                skills: [
+                  { name: 'Data Visualization', level: 88 },
+                  { name: 'Dashboard Design', level: 85 },
+                  { name: 'KPI Development', level: 90 },
+                  { name: 'Report Automation', level: 87 },
+                  { name: 'Data Storytelling', level: 85 },
+                  { name: 'Performance Metrics', level: 88 },
+                ]
+              }
+            ].map((category, index) => (
+              <motion.div
+                key={category.category}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="flex items-center mb-6">
+                  <div className="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 mr-4">
+                    {category.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    {category.category}
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {category.skills.map((skill) => (
+                    <div key={skill.name} className="space-y-1.5">
+                      <div className="flex justify-between text-sm">
+                        <span className="font-medium text-gray-700 dark:text-gray-300">
+                          {skill.name}
+                        </span>
+                        <span className="text-gray-500 dark:text-gray-400">
+                          {skill.level}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-blue-500"
+                          style={{ width: `${skill.level}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-800/30 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-grid-gray-200/50 dark:bg-grid-gray-700/20" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50/80 dark:to-gray-900/90" />
+        </div>
+        
+        <div className="container mx-auto px-4 sm:px-6 relative">
+          <motion.div 
+            className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-              Smart Solutions | Real Impact | My Work
+            <span className="inline-block px-3 py-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-4">
+              What I Do
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Expert Solutions for Your Business
             </h2>
-            <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto mb-4 sm:mb-6"></div>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Transforming complex business challenges into efficient, data-driven solutions
+            <div className="w-20 h-1 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto mb-6"></div>
+            <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-300">
+              Specialized services designed to optimize your operations and drive growth through data and automation.
             </p>
           </motion.div>
 
-          {/* Search and Filter */}
-          <motion.div 
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="max-w-2xl mx-auto mb-8 sm:mb-12 px-4"
-          >
-            <div className="relative">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search projects by technology or skill..."
-                  value={selectedCategory === 'All' ? '' : selectedCategory}
-                  onChange={(e) => {
-                    setSelectedCategory(e.target.value || 'All');
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  className="w-full px-4 py-3 pl-12 pr-10 text-sm sm:text-base bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200"
-                />
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Inventory Management */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+            >
+              <div className="p-6 pb-0">
+                <div className="w-14 h-14 flex items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg mb-6">
+                  <FaBox className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  Inventory Management
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Streamline your inventory processes with data-driven solutions that reduce costs and improve efficiency.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  {[
+                    'Stock level optimization',
+                    'Demand forecasting',
+                    'Vendor management',
+                    'Warehouse organization'
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <svg className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-gray-600 dark:text-gray-300">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto p-6 pt-0">
+                <a 
+                  href="#contact" 
+                  className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium inline-flex items-center transition-colors"
+                >
+                  Learn more
+                  <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7M5 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-indigo-50/30 dark:from-gray-800/50 dark:to-indigo-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            </motion.div>
+
+            {/* Data Analysis */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+            >
+              <div className="p-6 pb-0">
+                <div className="w-14 h-14 flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg mb-6">
+                  <FaLayerGroup className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  Data Analysis
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Transform raw data into actionable insights that drive business decisions and growth.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  {[
+                    'Business intelligence',
+                    'Performance metrics',
+                    'Data visualization',
+                    'Trend analysis'
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <svg className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-gray-600 dark:text-gray-300">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto p-6 pt-0">
+                <a 
+                  href="#contact" 
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium inline-flex items-center transition-colors"
+                >
+                  Learn more
+                  <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7M5 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-blue-50/30 dark:from-gray-800/50 dark:to-blue-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            </motion.div>
+
+            {/* Process Automation */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+            >
+              <div className="p-6 pb-0">
+                <div className="w-14 h-14 flex items-center justify-center bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg mb-6">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                {selectedCategory !== 'All' && (
-                  <button
-                    onClick={() => setSelectedCategory('All')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                )}
-              </div>
-              
-              {/* Suggestions Dropdown */}
-              <div className={`absolute z-10 w-full mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden transition-all duration-200 transform origin-top ${
-                showSuggestions ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'
-              }`}>
-                <div className="max-h-60 overflow-y-auto">
-                  {['All', ...new Set(processedProjects.flatMap(project => project.tags))]
-                    .filter(tag => 
-                      tag.toLowerCase().includes(selectedCategory.toLowerCase()) || 
-                      selectedCategory === 'All' ||
-                      selectedCategory === ''
-                    )
-                    .slice(0, 8) // Limit to 8 suggestions
-                    .map((tag, index) => (
-                      <button
-                        key={tag}
-                        onClick={() => {
-                          setSelectedCategory(tag === 'All' ? 'All' : tag);
-                          setShowSuggestions(false);
-                        }}
-                        className={`w-full text-left px-4 py-2.5 text-sm sm:text-base hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors ${
-                          selectedCategory === tag ? 'bg-indigo-50 dark:bg-gray-700 text-indigo-600 dark:text-indigo-400' : 'text-gray-700 dark:text-gray-300'
-                        }`}
-                      >
-                        {tag}
-                      </button>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  Process Automation
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Automate repetitive tasks and workflows to save time and reduce human error.
+                </p>
+                <ul className="space-y-2 mb-6">
+                  {[
+                    'Workflow automation',
+                    'Data entry automation',
+                    'Report generation',
+                    'System integration'
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start">
+                      <svg className="w-5 h-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-gray-600 dark:text-gray-300">{item}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            </div>
-            
-            {/* Popular Tags */}
-            <div className="mt-4 flex flex-wrap justify-center gap-2">
-              {['All', 'React', 'Node.js', 'Python', 'AI/ML'].map((tag) => (
-                <button
-                  key={tag}
-                  onClick={() => setSelectedCategory(tag === 'All' ? 'All' : tag)}
-                  className={`text-xs px-3 py-1 rounded-full transition-all duration-200 ${
-                    selectedCategory === tag || (selectedCategory === 'All' && tag === 'All')
-                      ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
-                  }`}
+              <div className="mt-auto p-6 pt-0">
+                <a 
+                  href="#contact" 
+                  className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 font-medium inline-flex items-center transition-colors"
                 >
-                  {tag}
-                </button>
-              ))}
-            </div>
+                  Learn more
+                  <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7M5 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-purple-50/30 dark:from-gray-800/50 dark:to-purple-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+            </motion.div>
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Want to see how I can help your business?
+            </p>
+            <a 
+              href="#contact" 
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              Let's Talk
+              <svg className="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-16 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 sm:px-6">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">Featured Projects</h2>
+            <p className="text-gray-600 dark:text-gray-300">A selection of my recent work and case studies</p>
+          </motion.div>
+
+          {/* Project Filters */}
+          <motion.div 
+            className="flex flex-wrap justify-center gap-3 mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            {['All', 'Data Analysis', 'Automation', 'Dashboard', 'Inventory', 'Web App'].map((tag) => (
+              <motion.button
+                key={tag}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSelectedCategory(tag === 'All' ? 'All' : tag)}
+                className={`px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 ${
+                  selectedCategory === tag
+                    ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                }`}
+              >
+                {tag}
+              </motion.button>
+            ))}
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-          >
-            {processedProjects
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects
               .filter(project => 
                 selectedCategory === 'All' || 
                 project.tags.includes(selectedCategory)
               )
               .map((project, index) => (
               <motion.div
-                key={index}
-                variants={item}
-                className="group bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden shadow-md sm:shadow-lg hover:shadow-xl sm:hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 sm:hover:-translate-y-2 border border-gray-100 dark:border-gray-700"
+                key={project.id}
+                className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
               >
-                <div className="relative overflow-hidden h-40 sm:h-48 bg-gray-100 dark:bg-gray-700">
+                <div className="relative h-48 overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = 'https://unsplash.com/photos/magic-keyboard-beside-mug-and-click-pen-VieM9BdZKFo';
+                      e.target.src = '/Sahil-Portfolio/images/fallback-project.jpg';
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <span className="text-white text-xs sm:text-sm font-medium bg-black/50 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
-                      {project.category}
-                    </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span 
+                          key={tag} 
+                          className="px-2 py-1 text-xs font-medium rounded-full bg-indigo-600/90 text-white"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2 line-clamp-1">
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     {project.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-3 sm:mb-4 line-clamp-2">
-                    {project.impact}
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                    {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+                    {project.technologies?.slice(0, 3).map((tech) => (
+                      <span 
+                        key={tech} 
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
                       >
-                        {tag}
+                        {tech}
                       </span>
                     ))}
                   </div>
-                  {project.link.startsWith('http') ? (
+                  <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
                     <a
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
+                      className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                     >
                       View Project
-                      <FaExternalLinkAlt className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3 sm:w-3" />
+                      <svg
+                        className="w-4 h-4 ml-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        />
+                      </svg>
                     </a>
-                  ) : (
-                    <Link
-                      to={project.link}
-                      className="inline-flex items-center text-xs sm:text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-200"
-                    >
-                      View Project
-                      <FaArrowRight className="ml-1 sm:ml-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                    </Link>
-                  )}
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                        aria-label="GitHub repository"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="text-center mt-12"
-          >
-            <Link
-              to="/projects"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+          {projects.length === 0 && (
+            <motion.div
+              className="text-center py-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
             >
-              View All Projects
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 5l7 7-7 7M5 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
-          </motion.div>
+              <div className="inline-block p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-full mb-4">
+                <FiPackage className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-2">
+                No projects found
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
+                We couldn't find any projects matching your selected category.
+                Try selecting a different category or check back later for updates.
+              </p>
+            </motion.div>
+          )}
         </div>
       </section>
 
       {/* Contact Section */}
-      <section ref={contactRef} id="contact" className="relative py-16 sm:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+      <section id="contact" className="relative py-16 sm:py-20 bg-gray-50 dark:bg-gray-900 overflow-hidden">
         {/* Subtle pattern background */}
         <div className="absolute inset-0 bg-pattern"></div>
         {/* Decorative elements */}
@@ -961,17 +1258,17 @@ const Home = () => {
 
                     <div className="flex items-start">
                       <div className="flex-shrink-0 mt-1 text-blue-600 dark:text-blue-400">
-                        <FiGithub size={20} />
+                        <FaWhatsapp size={20} />
                       </div>
                       <div className="ml-4">
-                        <h4 className="font-medium">GitHub</h4>
+                        <h4 className="font-medium">WhatsApp</h4>
                         <a
-                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                          href="https://api.whatsapp.com/send/?phone=919875771550&text&type=phone_number&app_absent=0"
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                         >
-                          github.com/Sahilthecoder/Sahil-Portfolio
+                          +91 9875771550
                         </a>
                       </div>
                     </div>
@@ -984,7 +1281,7 @@ const Home = () => {
                     {[
                       { icon: <FiGithub size={20} />, url: 'https://github.com/Sahilthecoder/Sahil-Portfolio' },
                       { icon: <FiLinkedin size={20} />, url: 'https://www.linkedin.com/in/sahil-ali-714867242/' },
-                      { icon: <FiTwitter size={20} />, url: 'https://twitter.com/SahilTheCoder' },
+                      { icon: <FaWhatsapp size={20} />, url: 'https://api.whatsapp.com/send/?phone=919875771550&text&type=phone_number&app_absent=0' },
                     ].map((social, index) => (
                       <a
                         key={index}
@@ -1002,7 +1299,7 @@ const Home = () => {
 
               <motion.div
                 variants={item}
-                className="bg-white dark:bg-gray-700 p-6 sm:p-8 rounded-xl shadow-lg"
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg"
               >
                 <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
                 {submitStatus.message && (

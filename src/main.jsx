@@ -1,7 +1,15 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import App from './App';
 import './index.css'; // This is the main Tailwind CSS file
+
+// Create emotion cache
+const emotionCache = createCache({
+  key: 'css',
+  prepend: true,
+});
 
 // Get the root element
 const container = document.getElementById('root');
@@ -39,14 +47,14 @@ const root = createRoot(container);
 // Set the base URL for the application
 const envBaseUrl = import.meta.env.BASE_URL || '';
 const baseUrl = envBaseUrl.endsWith('/') ? envBaseUrl : `${envBaseUrl}/`;
-window.__BASE_URL__ = baseUrl;
 console.log('Application base URL:', baseUrl);
 console.log('Environment:', import.meta.env.MODE);
 
-// Initial render with the App component
 root.render(
   <React.StrictMode>
-    <App />
+    <CacheProvider value={emotionCache}>
+      <App />
+    </CacheProvider>
   </React.StrictMode>
 );
 
@@ -103,3 +111,4 @@ class ErrorBoundary extends React.Component {
 // Set the base URL in a global variable for debugging
 window.__BASE_URL__ = baseUrl;
 console.log('Application base URL:', baseUrl);
+console.log('Environment:', import.meta.env.MODE);

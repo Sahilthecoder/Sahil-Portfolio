@@ -4,6 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { copyFileSync, existsSync, mkdirSync } from 'fs';
 
+// Emotion configuration
+const emotionBabelPlugin = require('@emotion/babel-plugin').default;
+
 // Custom plugin to copy favicon files to the root directory
 function copyFaviconsPlugin() {
   return {
@@ -141,7 +144,14 @@ export default defineConfig({
     react({
       jsxImportSource: '@emotion/react',
       babel: {
-        plugins: ['@emotion/babel-plugin']
+        plugins: [
+          ['@emotion/babel-plugin', {
+            sourceMap: true,
+            autoLabel: 'dev-only',
+            labelFormat: '[local]',
+            cssPropOptimization: true
+          }]
+        ]
       }
     }),
     copyFaviconsPlugin()

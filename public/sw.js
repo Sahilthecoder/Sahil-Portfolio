@@ -105,59 +105,47 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Handle requests with different base URLs
   const requestUrl = new URL(event.request.url);
-  const path = requestUrl.pathname;
-  
-  // For root path, serve index.html
-  if (path.endsWith('/') || path.endsWith('/index.html') || path === '') {
-    event.respondWith(
-      caches.match(`${BASE_PATH}/index.html`)
-        .then(response => response || fetch(event.request))
-    );
-    return;
-  }
+  const requestPath = requestUrl.pathname;
+
+  // Handle navigation requests (HTML pages)
+  // For SPA, serve index.html for all navigation requests
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      caches.match('/index.html')
-        .then(cachedResponse => {
-          return cachedResponse || fetchAndCache(event.request);
-        })
-        .catch(() => {
-          // If both cache and network fail, show a fallback
-          return caches.match(OFFLINE_PAGE)
-            .then(response => response || new Response('You are offline. Please check your internet connection.'));
+      caches.match(new URL('/Sahil-Portfolio/index.html', self.location.origin))
+        .then((cachedResponse) => {
+          return cachedResponse || fetch(event.request).catch(() => {
+            return caches.match(new URL('/Sahil-Portfolio/offline.html', self.location.origin));
+          });
         })
     );
     return;
   }
 
-  // For all other requests, try cache first, then network
+  // For non-navigation requests, try cache first, then network
   event.respondWith(
     caches.match(event.request)
-      .then(cachedResponse => {
+      .then((response) => {
         // Return cached response if found
-        if (cachedResponse) {
-          return cachedResponse;
+        if (response) {
+          return response;
         }
-        // Otherwise, try the network
-        return fetchAndCache(event.request);
-      })
-      .catch(error => {
-        console.error('Fetch failed; returning offline fallback.', error);
-        
-        // If it's an image, return a placeholder
-        const acceptHeader = event.request.headers.get('accept') || '';
-        if (acceptHeader.includes('image/')) {
-          return new Response(
-            '<svg role="img" aria-labelledby="offline-title" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title id="offline-title">Offline</title><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>',
-            { 
-              headers: { 
-                'Content-Type': 'image/svg+xml',
-                'Cache-Control': 'no-store'
-              } 
+
+        // For API requests, try network first
+        if (event.request.url.includes('/api/')) {
+          return fetchAndCache(event.request);
+        }
+
+        // For other assets, try network then cache
+        return fetchAndCache(event.request)
+          .catch(() => {
+            // If offline and not in cache, return offline page for HTML requests
+            if (event.request.headers.get('accept')?.includes('text/html')) {
+              return caches.match(new URL('/Sahil-Portfolio/offline.html', self.location.origin));
             }
-          );
+            // Return a 404 response for any other case
+            return new Response('Not found', { status: 404, statusText: 'Not Found' });
+          });
         }
         
         // Otherwise return a generic offline response

@@ -1,162 +1,106 @@
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
-const { promisify } = require('util');
 
-const mkdir = promisify(fs.mkdir);
-const exists = promisify(fs.exists);
+// Source and output directories
+const sourceImage = path.join(__dirname, '../public/favicon-512x512.png');
+const outputDir = path.join(__dirname, '../public');
 
-// Favicon configurations
-const faviconSizes = [
-  // Standard favicon
-  { name: 'favicon.ico', size: 32 },
-  
-  // Standard favicon sizes
-  { name: 'favicon-16x16.png', width: 16, height: 16 },
-  { name: 'favicon-32x32.png', width: 32, height: 32 },
-  { name: 'favicon-48x48.png', width: 48, height: 48 },
-  
-  // Apple touch icons
-  { name: 'apple-touch-icon.png', width: 180, height: 180 },
-  { name: 'apple-touch-icon-57x57.png', width: 57, height: 57 },
-  { name: 'apple-touch-icon-60x60.png', width: 60, height: 60 },
-  { name: 'apple-touch-icon-72x72.png', width: 72, height: 72 },
-  { name: 'apple-touch-icon-76x76.png', width: 76, height: 76 },
-  { name: 'apple-touch-icon-114x114.png', width: 114, height: 114 },
-  { name: 'apple-touch-icon-120x120.png', width: 120, height: 120 },
-  { name: 'apple-touch-icon-144x144.png', width: 144, height: 144 },
-  { name: 'apple-touch-icon-152x152.png', width: 152, height: 152 },
-  
-  // Android Chrome icons
-  { name: 'android-chrome-192x192.png', width: 192, height: 192 },
-  { name: 'android-chrome-512x512.png', width: 512, height: 512 },
-  
-  // Microsoft Tiles
-  { name: 'mstile-70x70.png', width: 70, height: 70 },
-  { name: 'mstile-144x144.png', width: 144, height: 144 },
-  { name: 'mstile-150x150.png', width: 150, height: 150 },
-  { name: 'mstile-310x310.png', width: 310, height: 310 },
-  
-  // Safari Pinned Tab
-  { name: 'safari-pinned-tab.svg', width: 16, height: 16 } // Note: This will be a placeholder, SVG needs special handling
-];
-
-async function ensureDirectoryExists(dir) {
-  if (!await exists(dir)) {
-    await mkdir(dir, { recursive: true });
-  }
+// Create favicons directory if it doesn't exist
+const faviconsDir = path.join(outputDir, 'favicons');
+if (!fs.existsSync(faviconsDir)) {
+  fs.mkdirSync(faviconsDir, { recursive: true });
 }
 
+// Simple favicon generation
 async function generateFavicons() {
   try {
-    // Define paths
-    const sourceLogo = path.join(__dirname, '../public/logo/logo.png'); // Source high-res logo
-    const faviconsDir = path.join(__dirname, '../public/favicons');
-    
-    // Ensure directories exist
-    await ensureDirectoryExists(faviconsDir);
-    
-    // Check if source logo exists
-    if (!await exists(sourceLogo)) {
-      throw new Error(`Source logo not found at: ${sourceLogo}\nPlease place your high-resolution logo (at least 512x512px) at this location.`);
-    }
-    
     console.log('🚀 Starting favicon generation...');
-    console.log(`📁 Source logo: ${sourceLogo}`);
-    console.log(`📁 Output directory: ${faviconsDir}\n`);
     
-    // Generate each favicon size
-    for (const { name, width, height, size } of faviconSizes) {
-      const outputPath = path.join(faviconsDir, name);
-      
-      // Special handling for .ico files
-      if (name.endsWith('.ico')) {
-        await sharp(sourceLogo)
-          .resize(size || 32, size || 32)
-          .toFile(outputPath);
-      } 
-      // Special handling for SVG (just copy a placeholder for now)
-      else if (name.endsWith('.svg')) {
-        const svgContent = `<?xml version="1.0" encoding="utf-8"?>
-<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="#3b82f6"/>
-  <text x="50%" y="50%" font-family="Arial" font-size="${width / 4}" text-anchor="middle" dy=".3em" fill="white">S</text>
-</svg>`;
-        fs.writeFileSync(outputPath, svgContent);
-      }
-      // Generate PNGs
-      else {
-        await sharp(sourceLogo)
-          .resize(width, height, {
-            fit: 'contain',
-            background: { r: 0, g: 0, b: 0, alpha: 0 }
-          })
-          .toFile(outputPath);
-      }
-      
-      console.log(`✅ Generated: ${name} (${width || size}x${height || size}px)`);
+    // Check if source image exists
+    if (!fs.existsSync(sourceImage)) {
+      throw new Error(`Source favicon not found at: ${sourceImage}`);
     }
-    
-    // Create browserconfig.xml
-    const browserConfigPath = path.join(faviconsDir, 'browserconfig.xml');
+
+    // Generate favicon.ico (32x32) - place in root public directory
+    await sharp(sourceImage)
+      .resize(32, 32)
+      .toFile(path.join(outputDir, 'favicon.ico'));
+    console.log('✅ Generated favicon.ico (32x32)');
+
+    // Generate favicon-16x16.png - place in favicons directory
+    await sharp(sourceImage)
+      .resize(16, 16)
+      .toFile(path.join(faviconsDir, 'favicon-16x16.png'));
+    console.log('✅ Generated favicon-16x16.png');
+
+    // Generate favicon-32x32.png - place in favicons directory
+    await sharp(sourceImage)
+      .resize(32, 32)
+      .toFile(path.join(faviconsDir, 'favicon-32x32.png'));
+    console.log('✅ Generated favicon-32x32.png');
+
+    // Generate apple-touch-icon.png - place in root public directory
+    await sharp(sourceImage)
+      .resize(180, 180)
+      .toFile(path.join(outputDir, 'apple-touch-icon.png'));
+    console.log('✅ Generated apple-touch-icon.png');
+
+    // Generate android-chrome-192x192.png - place in favicons directory
+    await sharp(sourceImage)
+      .resize(192, 192)
+      .toFile(path.join(faviconsDir, 'android-chrome-192x192.png'));
+    console.log('✅ Generated android-chrome-192x192.png');
+
+    // Generate android-chrome-512x512.png (copy the source) - place in favicons directory
+    fs.copyFileSync(sourceImage, path.join(faviconsDir, 'android-chrome-512x512.png'));
+    console.log('✅ Copied android-chrome-512x512.png');
+
+    // Generate mstile-150x150.png - place in favicons directory
+    await sharp(sourceImage)
+      .resize(150, 150)
+      .toFile(path.join(faviconsDir, 'mstile-150x150.png'));
+    console.log('✅ Generated mstile-150x150.png');
+
+    // Create a simple browserconfig.xml - place in root public directory
     const browserConfig = `<?xml version="1.0" encoding="utf-8"?>
 <browserconfig>
   <msapplication>
     <tile>
-      <square70x70logo src="/mstile-70x70.png"/>
-      <square150x150logo src="/mstile-150x150.png"/>
-      <square310x310logo src="/mstile-310x310.png"/>
-      <TileColor>#3b82f6</TileColor>
+      <square150x150logo src="/favicons/mstile-150x150.png"/>
+      <TileColor>#ffffff</TileColor>
     </tile>
   </msapplication>
 </browserconfig>`;
     
-    fs.writeFileSync(browserConfigPath, browserConfig);
-    console.log('✅ Generated: browserconfig.xml');
+    fs.writeFileSync(path.join(outputDir, 'browserconfig.xml'), browserConfig);
+    console.log('✅ Generated browserconfig.xml');
     
-    // Create site.webmanifest
-    const manifestPath = path.join(faviconsDir, 'site.webmanifest');
+    // Create a simple site.webmanifest - place in root public directory
     const manifest = {
-      name: "Sahil's Portfolio",
-      short_name: "Sahil",
-      description: "Personal portfolio of Sahil Ali - Full Stack Developer",
-      start_url: "/Sahil-Portfolio/",
-      display: "standalone",
-      background_color: "#ffffff",
-      theme_color: "#3b82f6",
+      name: 'Sahil Portfolio',
+      short_name: 'Sahil',
+      start_url: '/Sahil-Portfolio/',
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#3b82f6',
       icons: [
         {
-          src: "/android-chrome-192x192.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "any maskable"
+          src: '/favicons/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+          purpose: 'any maskable'
         },
         {
-          src: "/android-chrome-512x512.png",
-          sizes: "512x512",
-          type: "image/png"
-        },
-        {
-          src: "/apple-touch-icon.png",
-          sizes: "180x180",
-          type: "image/png",
-          purpose: "any maskable"
-        },
-        {
-          src: "/favicon-32x32.png",
-          sizes: "32x32",
-          type: "image/png"
-        },
-        {
-          src: "/favicon-16x16.png",
-          sizes: "16x16",
-          type: "image/png"
+          src: '/favicons/android-chrome-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
         }
       ]
     };
     
-    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
-    console.log('✅ Generated: site.webmanifest');
+    fs.writeFileSync(path.join(outputDir, 'site.webmanifest'), JSON.stringify(manifest, null, 2));
+    console.log('✅ Generated site.webmanifest');
     
     console.log('\n🎉 Successfully generated all favicon files!');
     console.log('📁 Files saved to:', faviconsDir);

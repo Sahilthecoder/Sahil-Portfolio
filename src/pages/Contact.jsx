@@ -15,8 +15,7 @@ import {
   FaChartLine,
   FaSync,
   FaTools,
-  FaArrowRight,
-  FaArrowUp,
+  FaArrowRight
 } from 'react-icons/fa';
 import { SiMinutemailer } from 'react-icons/si';
 import { FiTrendingUp } from 'react-icons/fi';
@@ -35,13 +34,11 @@ const Contact = () => {
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showScrollToTop, setShowScrollToTop] = useState(false);
 
-  // Handle scroll to show/hide scroll-to-top button
+  // Handle scroll for header effects only
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 300);
-      setShowScrollToTop(window.scrollY > 1000);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -269,14 +266,14 @@ const Contact = () => {
               >
                 <a
                   href="mailto:sahilkhan36985@gmail.com"
-                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 >
                   <FaEnvelope className="w-4 h-4" />
                   Email Me
                 </a>
                 <a
                   href="https://wa.me/919875771550"
-                  className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <FaPhoneAlt className="w-4 h-4" />
                   Call Me
@@ -642,24 +639,6 @@ const Contact = () => {
           </div>
         </div>
       </section>
-
-      {/* Scroll to Top Button */}
-      <AnimatePresence>
-        {showScrollToTop && (
-          <motion.button
-            className="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 z-50"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Scroll to top"
-          >
-            <FaArrowUp className="w-5 h-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
     </div>
   );
 };

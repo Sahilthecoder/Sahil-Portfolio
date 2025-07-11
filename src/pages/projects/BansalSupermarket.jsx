@@ -446,28 +446,25 @@ const BansalSupermarket = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-12 h-96">
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
           <img
             src="/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp"
             alt="Bansal Supermarket Dashboard"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-black/70 to-transparent"></div>
-          <div className="absolute bottom-0 right-0 p-8 max-w-2xl">
-            <div className="text-right">
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-3 leading-tight">
-                AI-Powered Retail Analytics
-              </h1>
-              <p className="text-xl text-gray-100 mb-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
+            <div className="text-right text-white max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">AI-Powered Retail Analytics</h1>
+              <p className="text-base sm:text-lg md:text-xl text-gray-200">
                 Transforming retail operations with data-driven insights and AI
               </p>
-              <div className="flex flex-wrap justify-end gap-2">
+              <div className="mt-3 sm:mt-4 flex flex-wrap justify-end gap-2">
                 {[
                   '#RetailAnalytics',
                   '#InventoryOptimization',
@@ -476,7 +473,7 @@ const BansalSupermarket = () => {
                 ].map((tag, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-blue-600 dark:bg-blue-700 text-white text-sm rounded-full hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-blue-600/90 text-white text-xs sm:text-sm rounded-full hover:bg-blue-700 transition-colors"
                   >
                     {tag}
                   </span>
@@ -487,7 +484,7 @@ const BansalSupermarket = () => {
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="space-y-8">
             {/* Project Title and Description */}
             <div className="space-y-4">

@@ -5,56 +5,68 @@ const { promisify } = require('util');
 const copyFile = promisify(fs.copyFile);
 const mkdir = promisify(fs.mkdir);
 const exists = promisify(fs.exists);
-const readdir = promisify(fs.readdir);
 
 async function copyFavicons() {
   try {
-    const faviconFiles = [
+    // Define source and target directories
+    const rootDir = process.cwd();
+    const publicDir = path.join(rootDir, 'public');
+    const faviconSourceDir = path.join(publicDir, 'favicons');
+    const distDir = path.join(rootDir, 'dist');
+
+    // Files that should be in the root of public and dist
+    const rootFiles = [
       'favicon.ico',
-      'favicon-16x16.png',
-      'favicon-32x32.png',
       'apple-touch-icon.png',
-      'safari-pinned-tab.svg',
       'browserconfig.xml',
-      'favicon-192x192.png', // Changed from android-chrome-192x192.png
-      'favicon-512x512.png', // Changed from android-chrome-512x512.png
-      'mstile-150x150.png',
       'site.webmanifest'
     ];
 
-    // Define source and target directories
-    const rootDir = process.cwd();
-    const faviconSourceDir = path.join(rootDir, 'public', 'favicons');
-    const publicDir = path.join(rootDir, 'public');
-    const distDir = path.join(rootDir, 'dist');
+    // Files that should be in the favicons directory
+    const faviconFiles = [
+      'favicon-16x16.png',
+      'favicon-32x32.png',
+      'android-chrome-192x192.png',
+      'android-chrome-512x512.png',
+      'mstile-150x150.png',
+      'safari-pinned-tab.svg'
+    ];
 
     // Ensure target directories exist
-    for (const dir of [publicDir, distDir]) {
-      if (!await exists(dir)) {
-        await mkdir(dir, { recursive: true });
+    if (!await exists(distDir)) {
+      await mkdir(distDir, { recursive: true });
+    }
+    
+    const distFaviconDir = path.join(distDir, 'favicons');
+    if (!await exists(distFaviconDir)) {
+      await mkdir(distFaviconDir, { recursive: true });
+    }
+
+    // Copy root files to dist directory
+    console.log('\nCopying root favicon files...');
+    for (const file of rootFiles) {
+      const sourcePath = path.join(publicDir, file);
+      const destPath = path.join(distDir, file);
+      
+      if (await exists(sourcePath)) {
+        await copyFile(sourcePath, destPath);
+        console.log(`✅ Copied ${file} to dist directory`);
+      } else {
+        console.warn(`⚠️  Source file not found: ${sourcePath}`);
       }
     }
 
-    // Copy each file to both public and dist directories
+    // Copy favicon files to dist/favicons
+    console.log('\nCopying favicon files...');
     for (const file of faviconFiles) {
       const sourcePath = path.join(faviconSourceDir, file);
-      const publicDestPath = path.join(publicDir, file);
-      const distDestPath = path.join(distDir, file);
+      const destPath = path.join(distFaviconDir, file);
       
-      try {
-        if (await exists(sourcePath)) {
-          // Copy to public directory
-          await copyFile(sourcePath, publicDestPath);
-          console.log(`✅ Copied ${file} to public directory`);
-          
-          // Copy to dist directory
-          await copyFile(sourcePath, distDestPath);
-          console.log(`✅ Copied ${file} to dist directory`);
-        } else {
-          console.warn(`⚠️  Source file not found: ${sourcePath}`);
-        }
-      } catch (err) {
-        console.error(`❌ Error processing ${file}:`, err.message);
+      if (await exists(sourcePath)) {
+        await copyFile(sourcePath, destPath);
+        console.log(`✅ Copied ${file} to dist/favicons`);
+      } else {
+        console.warn(`⚠️  Source file not found: ${sourcePath}`);
       }
     }
 

@@ -17,8 +17,8 @@ function copyFaviconsPlugin() {
         'safari-pinned-tab.svg',
         'site.webmanifest',
         'browserconfig.xml',
-        'logo192.png',
-        'logo512.png',
+        'favicon-192x192.png',
+        'favicon-512x512.png',
         'android-chrome-192x192.png',
         'android-chrome-512x512.png',
         'mstile-150x150.png'
@@ -30,7 +30,7 @@ function copyFaviconsPlugin() {
       }
 
       faviconFiles.forEach(file => {
-        const srcPath = path.resolve(__dirname, 'public', 'favicons', file);
+        const srcPath = path.resolve(__dirname, 'public', file.includes('favicon') ? '' : 'favicons', file);
         const destPath = path.resolve(distDir, file);
         
         if (existsSync(srcPath)) {

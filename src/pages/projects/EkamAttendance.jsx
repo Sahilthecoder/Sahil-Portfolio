@@ -24,7 +24,7 @@ const EkamAttendance = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Button */}
         <Link
           to="/projects"
@@ -34,8 +34,44 @@ const EkamAttendance = () => {
           Back to Projects
         </Link>
 
+        {/* Hero Section with Cover Image */}
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
+          <img
+            src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp"
+            alt="Ekam Attendance Dashboard"
+            className="w-full h-full object-cover object-top"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
+            <div className="text-right text-white max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">AI-Powered Workforce Intelligence</h1>
+              <p className="text-base sm:text-lg md:text-xl text-gray-200">
+                Transforming workforce management with AI-powered attendance and analytics
+              </p>
+              <div className="mt-3 sm:mt-4 flex flex-wrap justify-end gap-2">
+                {[
+                  '#AIAutomation',
+                  '#WorkforceAnalytics',
+                  '#HRTech',
+                  '#DataDriven',
+                ].map((tag, index) => (
+                  <span
+                    key={index}
+                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-blue-600/90 text-white text-xs sm:text-sm rounded-full hover:bg-blue-700 transition-colors"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
               <div className="flex items-center mb-4">
@@ -544,12 +580,12 @@ GROUP BY e.name;`}
               </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img
-                  src={getImagePath('project', 'ekam-attendance', 'Attendance_before.webp')}
+                  src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp"
                   alt="Manual attendance tracking process"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = getImagePath('fallback', '', 'placeholder.svg');
+                    e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                   }}
                 />
               </div>
@@ -565,12 +601,12 @@ GROUP BY e.name;`}
               </h3>
               <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
                 <img
-                  src={getImagePath('project', 'ekam-attendance', 'Attendance_after.webp')}
+                  src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp"
                   alt="Automated attendance dashboard"
                   className="w-full h-full object-contain p-4"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = getImagePath('fallback', '', 'placeholder.svg');
+                    e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                   }}
                 />
               </div>

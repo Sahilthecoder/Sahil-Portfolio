@@ -816,7 +816,6 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const initialized = useRef(false);
 
@@ -851,7 +850,6 @@ const Projects = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 300);
-      setShowScrollToTop(window.scrollY > 1000);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -1200,24 +1198,6 @@ const Projects = () => {
             isOpen={isModalOpen} 
             onClose={handleCloseModal} 
           />
-        )}
-      </AnimatePresence>
-
-      {/* Scroll to Top Button */}
-      <AnimatePresence>
-        {showScrollToTop && (
-          <motion.button
-            className="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 z-50"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Scroll to top"
-          >
-            <FaArrowUp className="w-5 h-5" />
-          </motion.button>
         )}
       </AnimatePresence>
     </div>

@@ -1,35 +1,19 @@
 {
-  "name": "Sahil Ali - Portfolio",
-  "short_name": "Sahil Ali",
-  "description": "Professional portfolio of Sahil Ali - Data Analyst and Inventory Specialist",
+  "name": "Sahil Portfolio",
+  "short_name": "Sahil",
   "start_url": "/Sahil-Portfolio/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "theme_color": "#3b82f6",
   "icons": [
     {
-      "src": "/Sahil-Portfolio/favicons/favicon-16x16.png",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "/Sahil-Portfolio/favicons/favicon-32x32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "/Sahil-Portfolio/favicons/apple-touch-icon.png",
-      "sizes": "180x180",
+      "src": "/favicons/android-chrome-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/Sahil-Portfolio/favicons/favicon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/Sahil-Portfolio/favicons/favicon-512x512.png",
+      "src": "/favicons/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

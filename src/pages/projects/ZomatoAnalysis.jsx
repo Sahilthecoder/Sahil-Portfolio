@@ -126,18 +126,18 @@ const ZomatoAnalysis = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-12 h-96">
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
           <img
             src={images.find((img) => img.id === 'zomato-cover').path}
             alt="Zomato Analysis Dashboard"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-8">
-            <div className="text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-2">Zomato Market Analysis</h1>
-              <p className="text-lg md:text-xl text-gray-200 max-w-3xl">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
+            <div className="text-right text-white max-w-2xl">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Zomato Market Analysis</h1>
+              <p className="text-base sm:text-lg md:text-xl text-gray-200">
                 Data-driven insights for restaurant expansion and market optimization
               </p>
             </div>
@@ -145,14 +145,14 @@ const ZomatoAnalysis = () => {
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="space-y-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-6 sm:space-y-8">
             {/* Project Title and Description */}
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
                 AI-Enhanced Market Intelligence
               </h2>
-              <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl">
+              <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl text-sm sm:text-base">
                 Developed an advanced analytics platform using machine learning to analyze Zomato's
                 restaurant data, identifying high-potential markets through predictive modeling of
                 customer behavior, competitive analysis, and revenue potential across diverse
@@ -161,7 +161,7 @@ const ZomatoAnalysis = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
               {[
                 {
                   icon: <FaGlobeAmericas className="w-5 h-5" />,
@@ -217,7 +217,7 @@ const ZomatoAnalysis = () => {
 
             {/* Tags and Actions */}
             <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
                   {[
@@ -277,7 +277,7 @@ const ZomatoAnalysis = () => {
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Dashboard & Analysis
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {images
                 .filter((img) => img.id !== 'zomato-cover')
                 .map((image, index) => (
@@ -308,7 +308,7 @@ const ZomatoAnalysis = () => {
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05),0_10px_10px_-5px_rgba(0,0,0,0.04)] dark:shadow-lg hover:shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] dark:hover:shadow-lg transition-all duration-300">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               
               <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl flex flex-col items-center justify-center">
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
@@ -336,10 +336,10 @@ const ZomatoAnalysis = () => {
         {/* Business Impact */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Business Impact</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div className="bg-red-50 dark:bg-gray-700/50 p-6 rounded-xl border border-red-100 dark:border-red-900/30 shadow-[0_4px_15px_-3px_rgba(254,202,202,0.4),0_4px_6px_-4px_rgba(254,202,202,0.4)] dark:shadow-none hover:shadow-[0_10px_15px_-3px_rgba(254,202,202,0.4),0_4px_6px_-2px_rgba(254,202,202,0.3)] dark:hover:shadow-none transition-all duration-300">
               <div className="flex items-center mb-3">
-                <div className="p-2 rounded-full bg-red-200 dark:bg-red-900/30 mr-3">
+                <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/30 mr-3">
                   <FaGlobeAmericas className="w-5 h-5 text-red-600 dark:text-red-400" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
@@ -347,8 +347,7 @@ const ZomatoAnalysis = () => {
                 </h3>
               </div>
               <p className="text-gray-600 dark:text-gray-300">
-                Identified top 3 high-potential markets for Zomato's expansion with detailed entry
-                strategies and growth potential analysis.
+                Identified top 3 high-potential markets for Zomato's growth
               </p>
             </div>
             <div className="bg-orange-50 dark:bg-gray-700/50 p-6 rounded-xl">
@@ -509,11 +508,11 @@ const ZomatoAnalysis = () => {
               <ul className="space-y-4">
                 <li className="p-4 bg-red-50 dark:bg-gray-800/50 rounded-xl border border-red-100 dark:border-red-900/30 hover:shadow-md transition-all duration-200">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/30 mr-3 transition-colors">
+                    <div className="p-2 rounded-full bg-red-200 dark:bg-red-900/30 mr-3">
                       <FaGlobeAmericas className="w-5 h-5 text-red-600 dark:text-red-400" />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                      <h4 className="font-semibold text-gray-800 dark:text-white">
                         Market Expansion
                       </h4>
                       <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
@@ -524,7 +523,7 @@ const ZomatoAnalysis = () => {
                 </li>
                 <li className="p-4 bg-orange-50 dark:bg-gray-800/50 rounded-xl border border-orange-100 dark:border-orange-900/30 hover:shadow-md transition-all duration-200">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/30 mr-3 transition-colors">
+                    <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/20 mr-3">
                       <FaChartLine className="w-5 h-5 text-orange-600 dark:text-orange-400" />
                     </div>
                     <div>
@@ -537,7 +536,7 @@ const ZomatoAnalysis = () => {
                 </li>
                 <li className="p-4 bg-amber-50 dark:bg-gray-800/50 rounded-xl border border-amber-100 dark:border-amber-900/30 hover:shadow-md transition-all duration-200">
                   <div className="flex items-center">
-                    <div className="p-2 rounded-full bg-amber-100 dark:bg-amber-900/30 mr-3 transition-colors">
+                    <div className="p-2 rounded-full bg-amber-100 dark:bg-amber-900/20 mr-3">
                       <FaSearchDollar className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                     </div>
                     <div>
@@ -574,7 +573,7 @@ const ZomatoAnalysis = () => {
                   </div>
                   <div className="p-4 bg-white dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200">
                     <div className="flex items-center">
-                      <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 mr-3 transition-colors">
+                      <div className="p-2 rounded-lg bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 mr-3 transition-colors">
                         <FaTable className="w-5 h-5" />
                       </div>
                       <div>
@@ -587,7 +586,7 @@ const ZomatoAnalysis = () => {
                   </div>
                   <div className="p-4 bg-white dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-md transition-all duration-200">
                     <div className="flex items-center">
-                      <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 mr-3 transition-colors">
+                      <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 mr-3 transition-colors">
                         <FaChartLine className="w-5 h-5" />
                       </div>
                       <div>

@@ -1,94 +1,162 @@
-import React from 'react';
-import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaRocket } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Footer: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
 
   const socialLinks = [
     {
-      icon: <FaGithub />,
+      icon: <FaGithub className="w-5 h-5" />,
       href: 'https://github.com/Sahilthecoder/Sahil-Portfolio',
       label: 'GitHub',
-      gradient: 'from-gray-800 via-gray-700 to-gray-800',
-      hoverGradient: 'from-gray-700 via-gray-600 to-gray-700',
-      darkGradient: 'from-gray-700 via-gray-600 to-gray-700',
-      darkHoverGradient: 'from-gray-600 via-gray-500 to-gray-600',
-      size: 'w-9 h-9',
-      iconClass: 'text-gray-100 dark:text-gray-200',
+      color: 'from-gray-800 to-gray-700',
     },
     {
-      icon: <FaLinkedin />,
+      icon: <FaLinkedin className="w-5 h-5" />,
       href: 'https://www.linkedin.com/in/sahil-ali-714867242/',
       label: 'LinkedIn',
-      gradient: 'from-blue-600 via-blue-500 to-blue-600',
-      hoverGradient: 'from-blue-500 via-blue-400 to-blue-500',
-      darkGradient: 'from-blue-700 via-blue-600 to-blue-700',
-      darkHoverGradient: 'from-blue-600 via-blue-500 to-blue-600',
-      size: 'w-9 h-9',
-      iconClass: 'text-white',
+      color: 'from-blue-600 to-blue-500',
     },
     {
-      icon: <FaWhatsapp />,
+      icon: <FaWhatsapp className="w-5 h-5" />,
       href: 'https://wa.me/919875771550',
       label: 'WhatsApp',
-      gradient: 'from-green-500 via-green-400 to-green-500',
-      hoverGradient: 'from-green-400 via-green-300 to-green-400',
-      darkGradient: 'from-green-600 via-green-500 to-green-600',
-      darkHoverGradient: 'from-green-500 via-green-400 to-green-500',
-      size: 'w-9 h-9',
-      iconClass: 'text-white',
+      color: 'from-green-500 to-green-400',
     },
     {
-      icon: <FaEnvelope />,
+      icon: <FaEnvelope className="w-5 h-5" />,
       href: 'mailto:sahilkhan36985@gmail.com',
       label: 'Email',
-      gradient: 'from-red-500 via-red-400 to-red-500',
-      hoverGradient: 'from-red-400 via-red-300 to-red-400',
-      darkGradient: 'from-red-600 via-red-500 to-red-600',
-      darkHoverGradient: 'from-red-500 via-red-400 to-red-500',
-      size: 'w-9 h-9',
-      iconClass: 'text-white',
+      color: 'from-red-500 to-red-400',
     },
   ];
 
   return (
-    <footer className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-700 dark:text-gray-300 py-6 px-4 border-t border-gray-200 dark:border-gray-800 transition-colors duration-200">
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-4 md:mb-0">
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-300 transition-colors duration-200">
-              © {currentYear} Sahil&apos;s Portfolio. All rights reserved.
+    <footer className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 pt-12 pb-8 px-4">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden opacity-20">
+        <div className="absolute -top-1/2 left-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-1/3 -right-20 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="relative max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+              Sahil Ali
+            </h3>
+            <p className="text-sm text-gray-400">
+              Crafting digital experiences with cutting-edge technology and innovative solutions.
+            </p>
+            <p className="text-xs text-gray-500">
+              Built with 💙 and lots of caffeine.
             </p>
           </div>
 
-          <div className="flex space-x-4">
-            {socialLinks.map((item, index) => (
-              <a
-                key={index}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`flex items-center justify-center rounded-full p-2 transition-all duration-300 transform hover:-translate-y-0.5 
-                  shadow-md hover:shadow-lg 
-                  bg-gradient-to-br ${item.gradient} hover:${item.hoverGradient}
-                  dark:${item.darkGradient} dark:hover:${item.darkHoverGradient}
-                  transition-all duration-300`}
-                aria-label={item.label}
-              >
-                {React.cloneElement(item.icon, {
-                  className: `${item.size} ${item.iconClass} transition-colors duration-200`,
-                })}
-              </a>
-            ))}
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold text-cyan-400">Connect</h4>
+            <div className="flex space-x-4">
+              {socialLinks.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`p-2.5 rounded-lg backdrop-blur-sm bg-white/5 hover:bg-white/10 transition-all duration-300 transform hover:-translate-y-1 border border-white/5 hover:border-cyan-400/30`}
+                  aria-label={item.label}
+                >
+                  <span className={`text-white`}>
+                    {item.icon}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-sm font-semibold text-cyan-400">Location</h4>
+            <p className="text-sm text-gray-400">
+              Based in Rajasthan, India
+              <span className="block text-xs text-gray-500 mt-1">Open to remote opportunities</span>
+            </p>
           </div>
         </div>
 
-        <div className="mt-3 text-center md:text-left">
-          <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-200">
-            Based in Rajasthan, India • Open to remote opportunities
+        <div className="mt-12 pt-6 border-t border-white/5 text-center">
+          <p className="text-xs text-gray-500">
+            &copy; {currentYear} Sahil Ali. All rights reserved.
+            <span className="block mt-1 text-cyan-400/70">Made with 💙 by a curious data soul</span>
           </p>
         </div>
       </div>
+
+      {/* Scroll to top button */}
+      <AnimatePresence>
+        {isVisible && (
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            onClick={scrollToTop}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className="fixed bottom-6 right-6 p-3.5 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 transition-all duration-300 z-50"
+            aria-label="Scroll to top"
+          >
+            <motion.div
+              animate={{ y: isHovered ? -3 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FaRocket className="w-5 h-5" />
+            </motion.div>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* Add these styles to your global CSS */}
+      <style jsx global>
+        {`
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+        `}
+      </style>
     </footer>
   );
 };

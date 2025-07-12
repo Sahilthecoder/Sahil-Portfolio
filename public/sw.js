@@ -6,12 +6,12 @@ const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/',
   '/Sahil-Portfolio/index.html',
   '/Sahil-Portfolio/site.webmanifest',
-  '/Sahil-Portfolio/favicons/favicon.ico',
-  '/Sahil-Portfolio/favicons/favicon-16x16.png',
-  '/Sahil-Portfolio/favicons/favicon-32x32.png',
-  '/Sahil-Portfolio/favicons/apple-touch-icon.png',
-  '/Sahil-Portfolio/favicons/safari-pinned-tab.svg',
-  '/Sahil-Portfolio/favicons/mstile-150x150.png',
+  '/Sahil-Portfolio/favicon.ico',
+  '/Sahil-Portfolio/favicon-32x32.png',
+  '/Sahil-Portfolio/images/logo/favicon-16x16.png',
+  '/Sahil-Portfolio/images/logo/favicon-32x32.png',
+  '/Sahil-Portfolio/images/logo/favicon.png',
+  '/Sahil-Portfolio/images/logo/favicon.svg',
   '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
   '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
 ];
@@ -23,13 +23,22 @@ function getPathWithBase(path) {
   return `${BASE_PATH}${cleanPath}`;
 }
 
-// Install event - cache static assets
+// Install event - cache static assets with better error handling
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('Opened cache');
-        return cache.addAll(ASSETS_TO_CACHE);
+        // Add each asset one by one to handle individual failures
+        return Promise.all(
+          ASSETS_TO_CACHE.map((asset) => {
+            return cache.add(asset).catch(err => {
+              console.warn(`Failed to cache ${asset}:`, err);
+              // Continue even if some assets fail to cache
+              return Promise.resolve();
+            });
+          })
+        );
       })
   );
   self.skipWaiting();
@@ -52,22 +61,34 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Helper function to fetch and cache responses
-async function fetchAndCache(request) {
-  try {
-    const response = await fetch(request);
-    
-    // Only cache GET requests and successful responses
-    if (request.method === 'GET' && response.status === 200) {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(request, response.clone());
-    }
-    
-    return response;
-  } catch (error) {
-    console.error('Fetch failed for', request.url, error);
-    throw error;
-  }
+// Helper function to fetch and cache responses with better error handling
+function fetchAndCache(request) {
+  return fetch(request)
+    .then((response) => {
+      // Check if we received a valid response
+      if (!response || response.status !== 200 || response.type !== 'basic') {
+        return response;
+      }
+
+      // Clone the response
+      const responseToCache = response.clone();
+
+      caches.open(CACHE_NAME).then((cache) => {
+        cache.put(request, responseToCache).catch(err => {
+          console.warn('Failed to cache response for', request.url, err);
+        });
+      });
+
+      return response;
+    })
+    .catch(error => {
+      console.warn('Fetch failed for', request.url, error);
+      // Return a fallback response or rethrow the error
+      if (request.mode === 'navigate') {
+        return caches.match(OFFLINE_PAGE);
+      }
+      throw error;
+    });
 }
 
 // Fetch event - serve from cache, falling back to network

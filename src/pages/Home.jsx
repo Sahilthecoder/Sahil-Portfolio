@@ -493,13 +493,13 @@ const Home = () => {
                 </div>
 
                 <div className="pt-2 sm:pt-4">
-                  <a
-                    href="/about"
+                  <Link
+                    to="/about"
                     className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 w-full sm:w-auto justify-center"
                   >
                     View Full Profile
                     <FaArrowRight className="ml-1.5 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-                  </a>
+                  </Link>
                 </div>
               </motion.div>
               
@@ -617,15 +617,16 @@ const Home = () => {
                 </div>
 
                 <div className="pt-2 sm:pt-4">
-                  <motion.a
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    href="/experience"
-                    className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
-                  >
-                    View Full Work History
-                    <FaArrowRight className="ml-1 sm:ml-2" />
-                  </motion.a>
+                  <Link to="/experience">
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 cursor-pointer"
+                    >
+                      View Full Work History
+                      <FaArrowRight className="ml-1 sm:ml-2" />
+                    </motion.div>
+                  </Link>
                 </div>
               </motion.div>
               
@@ -798,25 +799,49 @@ const Home = () => {
                     ))}
                   </div>
                   <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <a
-                      href={project.link}
-                      className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
-                    >
-                      View Project
-                      <svg
-                        className="w-4 h-4 ml-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                    {project.link.startsWith('http') || project.link.startsWith('//') ? (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M14 5l7 7m0 0l-7 7m7-7H3"
-                        />
-                      </svg>
-                    </a>
+                        View Project
+                        <svg
+                          className="w-4 h-4 ml-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </a>
+                    ) : (
+                      <Link
+                        to={project.link.startsWith('/') ? project.link : `/${project.link}`}
+                        className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+                      >
+                        View Project
+                        <svg
+                          className="w-4 h-4 ml-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </Link>
+                    )}
                     {project.github && (
                       <a
                         href={project.github}

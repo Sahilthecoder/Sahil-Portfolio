@@ -164,14 +164,12 @@ const ProjectCard = ({ project, index, onClick }) => {
     if (e.target === cardRef.current || e.target.closest('.project-card')) {
       // If there's a direct link, handle it appropriately
       if (project.link) {
-        // For all links, use React Router navigation for internal links
-        if (project.link.startsWith('http')) {
-          // For external links, open in the same tab
+        // For external links, open in the same tab
+        if (project.isExternal || project.link.startsWith('http') || project.link.startsWith('//')) {
           window.open(project.link, '_self');
         } else {
-          // For internal links, use React Router's navigate
-          // The base path is already handled by the router's basename
-          navigate(project.link);
+          // For internal links, use React Router's navigate with hash-based routing
+          navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
         }
         return;
       }
@@ -199,7 +197,10 @@ const ProjectCard = ({ project, index, onClick }) => {
     
     if (!link) return;
     
-    // For all links, navigate in the same tab
+    // Check if this is an external link (has isExternal flag or starts with http)
+    const isExternalLink = project.isExternal || link.startsWith('http') || link.startsWith('//');
+    
+    // For external links, open in the same tab
     const path = link.startsWith('/') ? link : `/${link}`;
     navigate(path);
   };
@@ -394,29 +395,35 @@ const ProjectCard = ({ project, index, onClick }) => {
                 <FiMaximize2 className="ml-1.5 w-3.5 h-3.5" />
               </motion.button>
               
-              {project.link && (
+              {project.link && (project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
                 <motion.a
-                  href={import.meta.env.PROD ? `/Sahil-Portfolio${project.link}` : project.link}
-                  target={project.external ? "_blank" : "_self"}
-                  rel={project.external ? "noopener noreferrer" : "noopener"}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!project.external) {
-                      e.preventDefault();
-                      const isProduction = import.meta.env.PROD;
-                      const basePath = isProduction ? '/Sahil-Portfolio' : '';
-                      const fullPath = `${basePath}${project.link.startsWith('/') ? '' : '/'}${project.link}`;
-                      navigate(fullPath);
-                    }
-                  }}
+                  href={project.link}
+                  target="_self"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
                 >
                   <span>View Project</span>
                   <FiExternalLink className="ml-1.5 w-3.5 h-3.5" />
                 </motion.a>
-              )}
+              ) : (
+                <Link
+                  to={project.link.startsWith('/') ? project.link : `/${project.link}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+                >
+                  <motion.span
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center justify-center w-full"
+                  >
+                    <span>View Project</span>
+                    <FiExternalLink className="ml-1.5 w-3.5 h-3.5" />
+                  </motion.span>
+                </Link>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -1096,13 +1103,13 @@ const Projects = () => {
                 <FaGithub className="w-5 h-5" />
                 View on GitHub
               </a>
-              <a
-                href="#contact"
+              <Link
+                to="/#contact"
                 className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <FaEnvelope className="w-4 h-4" />
                 Contact for Work
-              </a>
+              </Link>
             </motion.div>
           </div>
         </div>

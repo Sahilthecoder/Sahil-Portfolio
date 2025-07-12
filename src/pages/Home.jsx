@@ -324,8 +324,8 @@ const Home = () => {
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
                 <a
-                  href="/assets/Sahil_Ali_Cv.pdf"
-                  target="_blank"
+                  href="/Sahil-Portfolio/assets/Sahil_Ali_Cv.pdf"
+                  target=""
                   rel="noopener noreferrer"
                   className="group relative px-8 py-3.5 bg-transparent border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full sm:w-auto"
                 >

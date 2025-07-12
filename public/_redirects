@@ -1,2 +1,7 @@
 # Single page app routing
-/* /index.html 200
+/*    /index.html   200
+/about    /about.html   200
+/experience    /experience.html   200
+/projects    /projects.html   200
+/contact    /contact.html   200
+/projects/zomato-analysis    /projects/zomato-analysis.html   200

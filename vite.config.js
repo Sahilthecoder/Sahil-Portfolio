@@ -2,68 +2,27 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { copyFileSync, existsSync, mkdirSync } from 'fs';
-
-// Custom plugin to copy favicon files to the root directory
-function copyFaviconsPlugin() {
-  return {
-    name: 'copy-favicons',
-    buildStart() {
-      const faviconFiles = [
-        'favicon.ico',
-        'favicon-16x16.png',
-        'favicon-32x32.png',
-        'apple-touch-icon.png',
-        'safari-pinned-tab.svg',
-        'site.webmanifest',
-        'browserconfig.xml',
-        'favicon-192x192.png',
-        'favicon-512x512.png',
-        'android-chrome-192x192.png',
-        'android-chrome-512x512.png',
-        'mstile-150x150.png'
-      ];
-
-      const distDir = path.resolve(__dirname, 'dist');
-      if (!existsSync(distDir)) {
-        mkdirSync(distDir, { recursive: true });
-      }
-
-      faviconFiles.forEach(file => {
-        const srcPath = path.resolve(__dirname, 'public', file.includes('favicon') ? '' : 'favicons', file);
-        const destPath = path.resolve(distDir, file);
-        
-        if (existsSync(srcPath)) {
-          copyFileSync(srcPath, destPath);
-          console.log(`✅ Copied ${file} to dist directory`);
-        } else {
-          console.warn(`⚠️  Source file not found: ${srcPath}`);
-        }
-      });
-    }
-  };
-}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Base URL for GitHub Pages - using empty base for hash-based routing
-const base = '';
-
-// For GitHub Pages SPA fallback
-const getBasePath = () => {
-  return ''; // Empty for hash-based routing
-};
+// Base URL for GitHub Pages
+const base = '/Sahil-Portfolio/';
 
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
   
   return {
     base: base,
+    // Add .html extension to all routes
     publicDir: 'public',
     appType: 'spa',
-    // Ensure clean URLs work with hash-based routing
+    // Environment variables and build-time defines
     define: {
-      'process.env.BASE_URL': JSON.stringify(base)
+      'process.env': {},
+      'process.env.BASE_URL': JSON.stringify(base),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+      __GIT_COMMIT_HASH__: JSON.stringify(process.env.GIT_COMMIT_HASH || '')
     },
     
     // Server configuration
@@ -92,43 +51,53 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       emptyOutDir: true,
-      sourcemap: isProduction ? false : 'inline',
       minify: isProduction ? 'terser' : false,
+      // Ensure all static assets are copied
+      assetsInlineLimit: 0, // Force all assets to be copied as files
+      // Copy public directory to dist
+      copyPublicDir: true,
       target: 'esnext',
       chunkSizeWarningLimit: 1000,
       reportCompressedSize: true,
       // Generate manifest.json for production
       manifest: isProduction,
-      // Generate sourcemaps for production builds
-      sourcemap: isProduction ? 'hidden' : true,
+      // Sourcemap configuration
+      sourcemap: isProduction ? 'hidden' : 'inline',
       // Minify CSS
       cssCodeSplit: true,
       // Enable brotli and gzip compression
       brotliSize: true,
       
       rollupOptions: {
-        input: path.resolve(__dirname, 'index.html'),
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          about: path.resolve(__dirname, 'about.html'),
+          experience: path.resolve(__dirname, 'experience.html'),
+          projects: path.resolve(__dirname, 'projects.html'),
+          contact: path.resolve(__dirname, 'contact.html'),
+          'projects/zomato-analysis': path.resolve(__dirname, 'projects/zomato-analysis.html')
+        },
         output: {
           manualChunks: {
             react: ['react', 'react-dom', 'react-router-dom'],
             vendor: ['framer-motion', 'react-icons'],
           },
+          entryFileNames: 'assets/js/[name].[hash].js',
+          chunkFileNames: 'assets/js/[name].[hash].js',
           assetFileNames: (assetInfo) => {
             const info = assetInfo.name.split('.');
             const ext = info[info.length - 1];
             if (ext === 'css') {
               return 'assets/css/[name].[hash][extname]';
             }
-            if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'].includes(ext)) {
+            if (['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp', 'ico'].includes(ext)) {
               return 'assets/images/[name].[hash][extname]';
             }
             if (['woff', 'woff2', 'eot', 'ttf', 'otf'].includes(ext)) {
               return 'assets/fonts/[name].[hash][extname]';
             }
             return 'assets/[name].[hash][extname]';
-          },
-          chunkFileNames: 'assets/js/[name].[hash].js',
-          entryFileNames: 'assets/js/[name].[hash].js'
+          }
         }
       },
       
@@ -147,8 +116,7 @@ export default defineConfig(({ command, mode }) => {
         babel: {
           plugins: ['@emotion/babel-plugin']
         }
-      }),
-      copyFaviconsPlugin()
+      })
     ],
     
     // Resolve configuration
@@ -182,17 +150,7 @@ export default defineConfig(({ command, mode }) => {
       devSourcemap: !isProduction,
     },
     
-    // Environment variables
-    define: {
-      'process.env': {},
-      __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-      // Add base URL for client-side usage
-      __BASE_URL__: JSON.stringify(base),
-      // Add environment variables
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      // Add Git commit hash for debugging
-      __GIT_COMMIT_HASH__: JSON.stringify(process.env.GIT_COMMIT_HASH || '')
-    },
+
     
     // Optimize dependencies
     optimizeDeps: {

@@ -397,48 +397,49 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
 
   // Handle navigation with support for both page navigation and section scrolling
   const handleNavClick = useCallback((e, path, section) => {
-    // Only prevent default for anchor links within the same page
-    if (path.startsWith('#')) {
-      e.preventDefault();
-      
-      // If it's the home page link
-      if (path === '#/') {
-        if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
-          // If already on home page, scroll to top
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          // Navigate to home page
-          navigate('/Sahil-Portfolio/');
-        }
+    // Prevent default to handle navigation manually
+    e.preventDefault();
+    
+    // Remove any leading slashes and hash
+    const cleanPath = path.replace(/^[#/]+/, '');
+    
+    // For development and production with base path
+    const basePath = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '';
+    
+    // Handle home navigation
+    if (cleanPath === '' || cleanPath === 'home') {
+      navigate(`${basePath}/`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    // Handle section links on the home page
+    if (window.location.pathname === `${basePath}/` || window.location.pathname === `${basePath}`) {
+      const element = document.getElementById(cleanPath);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
+        // Update URL without page reload
+        window.history.pushState({}, '', `${basePath}/#${cleanPath}`);
         return;
       }
-      
-      // Handle other hash-based navigation
-      const targetId = path.substring(1); // Remove the '#'
-      
-      // If we're already on the home page, just scroll to the section
-      if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
-        const element = document.getElementById(targetId);
-        if (element) {
-          const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-          });
-        }
-      } else {
-        // If not on home page, navigate to the home page with the hash
-        navigate(`/Sahil-Portfolio/${path}`);
-      }
-    } else {
-      // For regular navigation, let the default behavior handle it
-      // We'll still update the active section if needed
-      if (onNavigate) {
-        onNavigate(section);
-      }
     }
+    
+    // Handle regular page navigation
+    if (['about', 'experience', 'projects', 'contact'].includes(cleanPath)) {
+      navigate(`${basePath}/${cleanPath}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    // If we got here, it's a section link but we're not on the home page
+    // So navigate to home page with the section hash
+    navigate(`${basePath}/#${cleanPath}`);
   }, [navigate, location.pathname]);
 
   // Handle body class and scroll position when menu is open or path changes
@@ -528,19 +529,24 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                 to={item.path}
                 onClick={(e) => handleNavClick(e, item.path, item.section)}
                 className={({ isActive }) => {
-                  // For GitHub Pages, we need to check both the path and hash
-                  const isHomePage = item.path === '#/' && 
-                    (window.location.pathname.endsWith('/Sahil-Portfolio/') || 
-                     window.location.pathname.endsWith('/Sahil-Portfolio'));
+                  const basePath = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '';
+                  const currentPath = window.location.pathname;
+                  const cleanPath = item.path.replace(/^[#/]+/, '');
                   
-                  const isActiveRoute = isHomePage || 
-                    window.location.hash === item.path ||
-                    window.location.pathname.endsWith(item.path.substring(1));
+                  // Handle home page active state
+                  if (cleanPath === '' || cleanPath === 'home') {
+                    const isActive = currentPath === `${basePath}/` || currentPath === basePath;
+                    return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
+                    }`;
+                  }
+                  
+                  // Handle other pages
+                  const isActive = currentPath === `${basePath}/${cleanPath}` || 
+                                 currentPath.endsWith(`/${cleanPath}`);
                   
                   return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive || isActiveRoute
-                      ? 'text-blue-600 dark:text-blue-400' 
-                      : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
+                    isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
                   }`;
                 }}
                 end={item.exact}

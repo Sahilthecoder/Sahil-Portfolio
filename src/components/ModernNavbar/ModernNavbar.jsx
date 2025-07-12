@@ -397,22 +397,23 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
 
   // Handle navigation with support for both page navigation and section scrolling
   const handleNavClick = useCallback((e, path, section) => {
-    // If it's the home page link
-    if (path === '#/') {
-      e.preventDefault();
-      if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
-        // If already on home page, scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        // Navigate to home page
-        navigate('/Sahil-Portfolio/');
-      }
-      return;
-    }
-    
-    // Handle other hash-based navigation
+    // Only prevent default for anchor links within the same page
     if (path.startsWith('#')) {
       e.preventDefault();
+      
+      // If it's the home page link
+      if (path === '#/') {
+        if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
+          // If already on home page, scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // Navigate to home page
+          navigate('/Sahil-Portfolio/');
+        }
+        return;
+      }
+      
+      // Handle other hash-based navigation
       const targetId = path.substring(1); // Remove the '#'
       
       // If we're already on the home page, just scroll to the section
@@ -430,6 +431,12 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       } else {
         // If not on home page, navigate to the home page with the hash
         navigate(`/Sahil-Portfolio/${path}`);
+      }
+    } else {
+      // For regular navigation, let the default behavior handle it
+      // We'll still update the active section if needed
+      if (onNavigate) {
+        onNavigate(section);
       }
     }
   }, [navigate, location.pathname]);

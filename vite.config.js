@@ -46,22 +46,25 @@ function copyFaviconsPlugin() {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Base URL for GitHub Pages
-const base = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio/' : '/';
+// Base URL for GitHub Pages - using empty base for hash-based routing
+const base = '';
 
 // For GitHub Pages SPA fallback
 const getBasePath = () => {
-  if (process.env.NODE_ENV !== 'production') return '/';
-  return '/Sahil-Portfolio/';
+  return ''; // Empty for hash-based routing
 };
 
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
   
   return {
-    base,
+    base: base,
     publicDir: 'public',
     appType: 'spa',
+    // Ensure clean URLs work with hash-based routing
+    define: {
+      'process.env.BASE_URL': JSON.stringify(base)
+    },
     
     // Server configuration
     server: {
@@ -77,7 +80,11 @@ export default defineConfig(({ command, mode }) => {
       fs: {
         strict: true,
         allow: ['..']
-      }
+      },
+      // Enable CORS for development
+      cors: true,
+      // Enable CORS for all routes
+      proxy: {}
     },
     
     // Build configuration
@@ -90,6 +97,14 @@ export default defineConfig(({ command, mode }) => {
       target: 'esnext',
       chunkSizeWarningLimit: 1000,
       reportCompressedSize: true,
+      // Generate manifest.json for production
+      manifest: isProduction,
+      // Generate sourcemaps for production builds
+      sourcemap: isProduction ? 'hidden' : true,
+      // Minify CSS
+      cssCodeSplit: true,
+      // Enable brotli and gzip compression
+      brotliSize: true,
       
       rollupOptions: {
         input: path.resolve(__dirname, 'index.html'),
@@ -171,6 +186,12 @@ export default defineConfig(({ command, mode }) => {
     define: {
       'process.env': {},
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+      // Add base URL for client-side usage
+      __BASE_URL__: JSON.stringify(base),
+      // Add environment variables
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+      // Add Git commit hash for debugging
+      __GIT_COMMIT_HASH__: JSON.stringify(process.env.GIT_COMMIT_HASH || '')
     },
     
     // Optimize dependencies
@@ -190,7 +211,7 @@ export default defineConfig(({ command, mode }) => {
         define: {
           global: 'globalThis',
         },
-      },
+      }
     },
     
     // Preview configuration

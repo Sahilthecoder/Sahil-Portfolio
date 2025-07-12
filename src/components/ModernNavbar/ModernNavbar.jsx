@@ -59,7 +59,7 @@ const BackgroundPattern = () => (
 const NAV_ITEMS = [
   { 
     name: 'Home', 
-    path: '/', 
+    path: '#/', 
     section: 'home',
     ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
@@ -68,7 +68,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'About', 
-    path: '/about', 
+    path: '#/about', 
     section: 'about',
     ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
@@ -77,7 +77,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Experience', 
-    path: '/experience', 
+    path: '#/experience', 
     section: 'experience',
     ref: 'experienceRef',
     icon: <FiBriefcase className="w-5 h-5" />,
@@ -86,7 +86,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Projects', 
-    path: '/projects', 
+    path: '#/projects', 
     section: 'projects',
     ref: 'projectsRef',
     icon: <FiCode className="w-5 h-5" />,
@@ -95,7 +95,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Contact', 
-    path: '/contact', 
+    path: '#/contact', 
     section: 'contact',
     ref: 'contactRef',
     icon: <FiMail className="w-5 h-5" />,
@@ -471,11 +471,11 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">
           <NavLink 
-            to="/" 
+            to="#/" 
             className="flex items-center space-x-2 group"
             aria-label="Home"
             onClick={(e) => {
-              if (location.pathname === '/') {
+              if (window.location.hash === '#/' || window.location.hash === '') {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }
@@ -524,13 +524,16 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                 key={item.name}
                 to={item.path}
                 onClick={(e) => handleNavClick(e, item.path, item.section)}
-                className={({ isActive }) => 
-                  `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive 
+                className={({ isActive }) => {
+                  // For hash-based routing, we need to check the hash instead of path
+                  const isActiveRoute = window.location.hash === `#${item.path}` || 
+                                     (item.path === '#/' && (window.location.hash === '#/' || window.location.hash === ''));
+                  return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive || isActiveRoute
                       ? 'text-blue-600 dark:text-blue-400' 
                       : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
-                  }`
-                }
+                  }`;
+                }}
                 end={item.exact}
               >
                 <div className="flex items-center">
@@ -636,9 +639,11 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
                       <ul className="space-y-2">
                         {NAV_ITEMS.map((item) => {
+                          // For hash-based routing, we check the hash instead of pathname
+                          const currentHash = window.location.hash || '#';
                           const isActive = item.exact 
-                            ? location.pathname === item.path
-                            : location.pathname.startsWith(item.path);
+                            ? currentHash === item.path
+                            : currentHash.startsWith(item.path);
                             
                           return (
                             <li key={item.name}>
@@ -647,56 +652,39 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                                   e.preventDefault();
                                   closeMenu();
                                   
-                                  if (location.pathname === item.path) {
-                                    // If already on the same page, just scroll to section
-                                    if (item.path === '/') {
-                                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    } else if (item.section) {
-                                      const element = document.getElementById(item.section);
-                                      if (element) {
-                                        const headerOffset = 100;
-                                        const elementPosition = element.getBoundingClientRect().top;
-                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                        window.scrollTo({
-                                          top: offsetPosition,
-                                          behavior: 'smooth',
-                                        });
-                                      }
+                                  // Use hash-based navigation
+                                  window.location.hash = item.path.replace('#', '');
+                                  
+                                  // If it's the home page, scroll to top
+                                  if (item.path === '#/') {
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                                  } else if (item.section) {
+                                    // Scroll to section if it exists
+                                    const element = document.getElementById(item.section);
+                                    if (element) {
+                                      const headerOffset = 100;
+                                      const elementPosition = element.getBoundingClientRect().top;
+                                      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                      window.scrollTo({
+                                        top: offsetPosition,
+                                        behavior: 'smooth',
+                                      });
                                     }
-                                  } else {
-                                    // Navigate to new page
-                                    navigate(item.path);
-                                    
-                                    // Small delay to ensure the page has loaded
-                                    setTimeout(() => {
-                                      if (item.section) {
-                                        const element = document.getElementById(item.section);
-                                        if (element) {
-                                          const headerOffset = 100;
-                                          const elementPosition = element.getBoundingClientRect().top;
-                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                          window.scrollTo({
-                                            top: offsetPosition,
-                                            behavior: 'smooth',
-                                          });
-                                        }
-                                      } else if (item.path === '/') {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                      }
-                                    }, 100);
                                   }
                                 }}
-                                className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
-                                  isActive 
-                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                                    : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                                className={`w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3 transition-colors ${
+                                  isActive
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
                                 }`}
                                 aria-current={isActive ? 'page' : undefined}
                               >
-                                <span className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
+                                <span className="text-gray-500 dark:text-gray-400">
                                   {item.icon}
                                 </span>
                                 <span className="font-medium">{item.name}</span>
+                                <span className="flex-1"></span>
+                                <FiChevronRight className="w-4 h-4 text-gray-400" />
                               </button>
                             </li>
                           );

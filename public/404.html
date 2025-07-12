@@ -1,77 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-      text-align: center;
-    }
-    .spinner {
-      border: 4px solid rgba(0, 0, 0, 0.1);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border-left-color: #3b82f6;
-      animation: spin 1s linear infinite;
-      margin: 2rem auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to Portfolio</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1.5rem;
+            border: 4px solid rgba(37, 99, 235, 0.2);
+            border-radius: 50%;
+            border-top-color: #2563eb;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="spinner"></div>
-  <p>Loading your page...</p>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>Loading Portfolio...</h1>
+        <p>Please wait while we redirect you to the requested page.</p>
+        <p>If you are not redirected automatically, <a href="#/">click here</a> to go to the home page.</p>
+    </div>
 
-  <script>
-    // Get the current path and clean it up
-    const basePath = '/Sahil-Portfolio';
-    let path = window.location.pathname;
-    let search = window.location.search;
-    let hash = window.location.hash;
-    
-    // Remove trailing slash if present
-    if (path.endsWith('/') && path.length > 1) {
-      path = path.slice(0, -1);
-    }
-    
-    // If we're not at the root, try to handle the path
-    if (path !== basePath && path !== basePath + '/') {
-      // Remove the base path if it's already there
-      if (path.startsWith(basePath + '/')) {
-        path = path.substring(basePath.length);
-      }
-      
-      // If there's a hash, handle it properly
-      if (hash) {
-        // If the hash starts with #/, it's a client-side route
-        if (hash.startsWith('#/')) {
-          window.location.href = `${basePath}/#${hash.substring(1)}`;
-          return;
-        }
-      }
-      
-      // Otherwise, redirect to the main app with the path as a hash
-      window.location.href = `${basePath}/#${path}${search}`;
-    } else {
-      // If we're at the root, just go to the main app
-      window.location.href = `${basePath}/`;
-    }
-    
-    // Fallback in case redirect fails
-    setTimeout(() => {
-      window.location.href = basePath + '/';
-    }, 1000);
-  </script>
+    <script>
+        // Single Page Apps for GitHub Pages - Hash-based routing
+        (function() {
+            // Get the current path and clean it up
+            let path = window.location.pathname;
+            const basePath = ''; // Empty for hash-based routing
+            
+            // Remove any base path if present
+            if (path.startsWith(basePath)) {
+                path = path.substring(basePath.length);
+            }
+            
+            // Remove leading/trailing slashes
+            path = path.replace(/^\/+|\/+$/g, '');
+            
+            // Get query and hash
+            const search = window.location.search;
+            const hash = window.location.hash;
+            
+            // Function to redirect to the correct hash route
+            function redirect() {
+                let newUrl = basePath + '/';
+                
+                if (path) {
+                    // If there's a path, convert it to hash-based routing
+                    newUrl = basePath + '/#' + path + search + hash;
+                } else if (hash) {
+                    // If there's already a hash, make sure it's in the right format
+                    newUrl = basePath + '/#' + hash.replace(/^#+/, '');
+                }
+                
+                // Clean up the URL
+                newUrl = newUrl.replace(/\/+/g, '/').replace(/\/$/, '') || '/';
+                
+                // Only redirect if the URL would change
+                if (newUrl !== window.location.pathname + window.location.search + window.location.hash) {
+                    window.location.href = newUrl;
+                }
+            }
+            
+            // Try to redirect immediately
+            redirect();
+            
+            // If still on the 404 page after a short delay, redirect to home
+            setTimeout(function() {
+                if (window.location.pathname.endsWith('404.html')) {
+                    window.location.href = basePath + '/';
+                }
+            }, 2000);
+            
+            // Update the link in case the user clicks it
+            document.querySelector('a').href = basePath + '/';
+        })();
+    </script>
 </body>
 </html>

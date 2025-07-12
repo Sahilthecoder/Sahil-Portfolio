@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { Routes, Route, BrowserRouter as Router, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, HashRouter as Router, useLocation, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
@@ -104,14 +104,19 @@ class ErrorBoundary extends React.Component {
 
 // Scroll to top on route change
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, search, hash } = useLocation();
 
   useEffect(() => {
-    // Only scroll to top if we're not in the middle of a hash navigation
-    if (!window.location.hash) {
+    // Don't scroll if we're just changing the hash
+    if (hash) return;
+    
+    // Small timeout to ensure the new page has rendered
+    const timer = setTimeout(() => {
       window.scrollTo(0, 0);
-    }
-  }, [pathname]);
+    }, 10);
+    
+    return () => clearTimeout(timer);
+  }, [pathname, search, hash]);
 
   return null;
 };
@@ -178,14 +183,10 @@ function App() {
 
 // Wrapper component to provide router context with future flags
 const AppWrapper = () => {
-  // Set the basename based on the environment
-  const basename = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '/';
-  
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router
-          basename={basename}
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,

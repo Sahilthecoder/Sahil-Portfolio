@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
+    "postbuild": "npm run verify-favicons",
+    "preview": "vite preview --port 4173",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t true -m 'Deploy to GitHub Pages [skip ci]'",
     "lint": "eslint src --ext .js,.jsx",
@@ -27,7 +28,10 @@
     "generate-favicons": "node scripts/generate-favicons.js",
     "copy-favicons": "node scripts/copy-favicons.js",
     "copy-favicons-root": "node scripts/copy-favicons-root.js",
-    "prebuild": "npm run generate-favicons && npm run copy-favicons"
+    "verify-favicons": "node scripts/verify-favicons.js",
+    "prebuild": "npm run generate-favicons && npm run copy-favicons",
+    "clean": "rm -rf node_modules/.vite dist",
+    "postinstall": "npm run generate-favicons"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

@@ -148,6 +148,9 @@ function App() {
   console.log('Current location:', location);
   console.log('Current path:', location.pathname);
 
+  // Base path for GitHub Pages
+  const basePath = import.meta.env.PROD ? '/Sahil-Portfolio' : '';
+  
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
       <ModernNavbar />
@@ -155,17 +158,17 @@ function App() {
         <AnimatePresence mode="wait" initial={false}>
           <Suspense fallback={<LoadingFallback />}>
             <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/experience" element={<Experience />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />
-              <Route path="/projects/smart-automation" element={<SmartAutomation />} />
-              <Route path="/projects/zomato-analysis" element={<ZomatoAnalysis />} />
-              <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
-              <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
-              <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
+              <Route path={`${basePath}/`} element={<Home />} />
+              <Route path={`${basePath}/about`} element={<About />} />
+              <Route path={`${basePath}/experience`} element={<Experience />} />
+              <Route path={`${basePath}/projects`} element={<Projects />} />
+              <Route path={`${basePath}/contact`} element={<Contact />} />
+              <Route path={`${basePath}/projects/ai-daily-decision-system`} element={<AIDailyDecisionSystem />} />
+              <Route path={`${basePath}/projects/smart-automation`} element={<SmartAutomation />} />
+              <Route path={`${basePath}/projects/zomato-analysis`} element={<ZomatoAnalysis />} />
+              <Route path={`${basePath}/projects/bansal-supermarket`} element={<BansalSupermarket />} />
+              <Route path={`${basePath}/projects/ekam-attendance`} element={<EkamAttendance />} />
+              <Route path={`${basePath}/projects/retail-cash-flow`} element={<RetailCashFlow />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

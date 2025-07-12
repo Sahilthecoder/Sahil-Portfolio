@@ -3,22 +3,65 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found</title>
+  <title>Redirecting...</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f3f4f6;
+      color: #1f2937;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #3b82f6;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
   <script>
-    // Redirect to the main application with the correct base path
+    // Get current path and remove any trailing slashes
+    const path = window.location.pathname.replace(/\/+$/, '');
     const basePath = '/Sahil-Portfolio';
-    const path = window.location.pathname;
     
-    // If we're not already at the base path, redirect
-    if (!path.startsWith(basePath)) {
+    // Check if this is a direct link to a project page
+    const projectMatch = path.match(/\/projects\/([^\/]+)$/);
+    
+    if (projectMatch) {
+      // This is a direct link to a project page
+      const projectPath = projectMatch[0];
+      window.location.href = `${basePath}${projectPath}`;
+    } else if (!path.startsWith(basePath)) {
+      // Not at base path, redirect to base path with original path
       window.location.href = `${basePath}${path}`;
     } else {
-      // If we're at the base path but still got a 404, redirect to home
+      // Already at base path but still 404, go to home
       window.location.href = `${basePath}/`;
     }
   </script>
 </head>
 <body>
-  <p>Redirecting to the home page...</p>
+  <div class="container">
+    <div class="spinner"></div>
+    <h2>Redirecting to the correct page...</h2>
+    <p>If you're not redirected, please <a href="/Sahil-Portfolio/">click here to go to the home page</a>.</p>
+  </div>
 </body>
 </html>

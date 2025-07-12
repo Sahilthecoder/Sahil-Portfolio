@@ -3,3 +3,6 @@
 
 # Handle all routes for GitHub Pages
 /Sahil-Portfolio/* /Sahil-Portfolio/index.html 200
+
+# Handle direct project routes
+/projects/* /Sahil-Portfolio/index.html 200

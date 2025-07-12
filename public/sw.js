@@ -8,10 +8,10 @@ const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/site.webmanifest',
   '/Sahil-Portfolio/favicon.ico',
   '/Sahil-Portfolio/favicon-32x32.png',
-  '/Sahil-Portfolio/images/logo/favicon-16x16.png',
-  '/Sahil-Portfolio/images/logo/favicon-32x32.png',
-  '/Sahil-Portfolio/images/logo/favicon.png',
-  '/Sahil-Portfolio/images/logo/favicon.svg',
+  '/Sahil-Portfolio/images/favicons/favicon-16x16.png',
+  '/Sahil-Portfolio/images/favicons/favicon-32x32.png',
+  '/Sahil-Portfolio/images/favicons/android-chrome-192x192.png',
+  '/Sahil-Portfolio/images/favicons/favicon.svg',
   '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
   '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
 ];

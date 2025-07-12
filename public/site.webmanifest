@@ -41,6 +41,16 @@
       "src": "/Sahil-Portfolio/images/favicons/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml"
+    },
+    {
+      "src": "/Sahil-Portfolio/images/favicons/mstile-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "/Sahil-Portfolio/images/favicons/mstile-310x310.png",
+      "sizes": "310x310",
+      "type": "image/png"
     }
   ]
 }

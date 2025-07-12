@@ -144,35 +144,26 @@ function App() {
     }
   }, [navigate]);
 
-  // Debug: Log the current location and path
-  console.log('Current location:', location);
-  console.log('Current path:', location.pathname);
-
-  // Get the base path for GitHub Pages
-  const basePath = import.meta.env.PROD ? '/Sahil-Portfolio' : '';
-
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
       <ModernNavbar />
       <ErrorBoundary>
         <AnimatePresence mode="wait" initial={false}>
           <Suspense fallback={<LoadingFallback />}>
-            <Router basename={basePath}>
-              <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/experience" element={<Experience />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />
-                <Route path="/projects/smart-automation" element={<SmartAutomation />} />
-                <Route path="/projects/zomato-analysis" element={<ZomatoAnalysis />} />
-                <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
-                <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
-                <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Router>
+            <Routes location={location} key={location.pathname}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/experience" element={<Experience />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />
+              <Route path="/projects/smart-automation" element={<SmartAutomation />} />
+              <Route path="/projects/zomato-analysis" element={<ZomatoAnalysis />} />
+              <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
+              <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
+              <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           </Suspense>
         </AnimatePresence>
       </ErrorBoundary>
@@ -181,13 +172,13 @@ function App() {
   );
 }
 
-// Wrapper component to provide router context with future flags
+// Wrapper component to provide router context
 const AppWrapper = () => {
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router
-          basename="/Sahil-Portfolio"
+          basename={import.meta.env.PROD ? '/Sahil-Portfolio' : '/'}
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,

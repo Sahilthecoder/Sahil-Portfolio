@@ -2,185 +2,178 @@
 @tailwind components;
 @tailwind utilities;
 
-/**
- * Component Styles & Utilities
- * Contains component-specific styles and utility classes
- */
-
-/* ===== Container & Layout ===== */
-.container {
-  @apply w-full px-[var(--container-padding)] mx-auto;
-  max-width: 1280px;
-}
-
-.section {
-  @apply py-16 md:py-24;
-}
-
-/* ===== Buttons ===== */
-.btn {
-  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)];
-}
-
-.btn-primary {
-  @apply bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] text-white hover:opacity-90 shadow-lg shadow-[rgba(var(--color-primary),0.2)];
-}
-
-.btn-outline {
-  @apply border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[rgba(var(--color-primary),0.1)];
-}
-
-.btn-ghost {
-  @apply hover:bg-[rgba(var(--color-primary),0.1)] text-[var(--color-primary)];
-}
-
-/* ===== Cards ===== */
-.card {
-  @apply bg-[rgba(var(--color-card),0.8)] backdrop-blur-sm rounded-xl p-6 shadow-lg transition-all duration-300 border border-[rgba(var(--color-border),0.2)] hover:border-[var(--color-primary)] hover:shadow-xl hover:-translate-y-1;
-}
-
-.card-hover {
-  @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl;
-}
-
-/* ===== Utility Classes ===== */
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)];
-}
-
-.text-balance {
-  text-wrap: balance;
-}
-
-/* ===== Animations ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+@layer base {
+  :root {
+    --color-primary: 99 102 241;  /* indigo-500 */
+    --color-accent: 139 92 246;   /* purple-500 */
+    --color-card: 255 255 255;    /* white */
+    --color-border: 229 231 235;  /* gray-200 */
+    --color-bg: 249 250 251;      /* gray-50 */
+    --color-text: 17 24 39;       /* gray-900 */
+    --color-heading: 17 24 39;    /* gray-900 */
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .dark {
+    --color-card: 31 41 55;       /* gray-800 */
+    --color-border: 55 65 81;     /* gray-700 */
+    --color-bg: 17 24 39;         /* gray-900 */
+    --color-text: 243 244 246;    /* gray-100 */
+    --color-heading: 255 255 255; /* white */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased;
+    font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    line-height: 1.7;
+    padding-top: 0;
+    transition: all 0.3s ease;
+  }
+  
+  body.menu-open {
+    @apply overflow-hidden fixed w-full h-full;
+  }
+  
+  ::selection {
+    @apply bg-primary-500 text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold leading-tight tracking-tight;
+    color: rgb(var(--color-heading));
+  }
+
+  p {
+    @apply leading-relaxed mb-4 max-w-prose;
+  }
+
+  a {
+    @apply text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300 transition-colors duration-200;
   }
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
+@layer components {
+  /* Container */
+  .container {
+    @apply w-full px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl;
   }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* ===== Custom Components ===== */
-.section-title {
-  @apply text-3xl md:text-4xl font-bold mb-8 text-center gradient-text;
-  position: relative;
-  display: inline-block;
-}
-
-.section-title::after {
-  content: '';
-  @apply block w-16 h-1 mx-auto mt-4 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] rounded-full;
-}
-
-/* ===== Responsive Utilities ===== */
-@media (max-width: 640px) {
+  /* Sections */
   .section {
-    @apply py-12;
+    @apply py-16 md:py-24;
+  }
+
+  .hero-section {
+    @apply pt-16 md:pt-24;
   }
 
   .section-title {
-    @apply text-2xl;
+    @apply text-3xl md:text-4xl font-bold mb-8 text-center relative;
+    
+    &::after {
+      content: '';
+      @apply block w-16 h-1 mx-auto mt-4 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full;
+    }
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium 
+           transition-all duration-300 ease-in-out relative overflow-hidden z-10
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 
+           hover:shadow-lg active:scale-95;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 to-accent-500 text-white 
+           hover:opacity-90 shadow-lg shadow-primary-200 dark:shadow-primary-900/20;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary-500 text-primary-500 
+           hover:bg-primary-50 dark:hover:bg-primary-900/20;
+  }
+
+  .btn-ghost {
+    @apply hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-600 dark:text-primary-400;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden 
+           transition-all duration-300 hover:shadow-lg border border-gray-200 dark:border-gray-700;
+  }
+
+  .card-hover {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .card-footer {
+    @apply mt-4 pt-4 border-t border-gray-200 dark:border-gray-700;
+  }
+
+  /* Forms */
+  input,
+  textarea,
+  select {
+    @apply w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+           bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+           focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  /* Mobile menu */
+  .mobile-menu-container {
+    @apply z-50;
+  }
+  
+  @media (max-width: 767px) {
+    body {
+      @apply pt-16;
+    }
   }
 }
 
-/* ===== Base Elements ===== */
-body {
-  @apply bg-[var(--color-bg)] text-[var(--color-text)] antialiased overflow-x-hidden transition-all duration-300;
-  font-family: var(--font-sans);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer utilities {
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500;
+  }
 
-/* Container */
-.container {
-  @apply w-full mx-auto px-[var(--container-padding)];
-  max-width: 1280px;
-}
+  .text-balance {
+    text-wrap: balance;
+  }
 
-/* Sections */
-section {
-  @apply py-[var(--section-padding)] relative;
-}
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 
-/* Typography */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply font-bold leading-tight tracking-tight;
-  margin-bottom: 1em;
-}
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
 
-p {
-  @apply leading-relaxed mb-4;
-  max-width: 65ch;
-}
-
-/* Links */
-a {
-  @apply text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200;
-  text-decoration: none;
-}
-
-a:hover {
-  @apply underline;
-}
-
-/* Buttons */
-button,
-.btn {
-  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)];
-}
-
-/* Forms */
-input,
-textarea,
-select {
-  @apply w-full px-4 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent;
-}
-
-/* Cards */
-.card {
-  @apply bg-[var(--color-card)] rounded-xl shadow-md overflow-hidden transition-all duration-200 hover:shadow-lg;
-}
-
-/* Utilities */
-.section-title {
-  @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-12;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.text-gradient {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-primary)) transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-primary-500 rounded-full;
+  }
 }
 
 /* Animations */
@@ -195,56 +188,18 @@ select {
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-
-  line-height: 1.7;
-  padding-top: 80px;
-  font-family:
-    'Inter',
-    'Poppins',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* When menu is open, prevent body scroll */
-body.menu-open {
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-
-/* Ensure hero section has proper spacing */
-.hero-section {
-  @apply pt-16 md:pt-24; /* Add more top padding on mobile */
-}
-
-/* Navbar specific styles for mobile */
-@media (max-width: 767px) {
-  body {
-    padding-top: 72px; /* Slightly less padding on mobile */
-  }
-
-  /* Ensure mobile menu appears above all content */
-  .mobile-menu-container {
-    z-index: 9999 !important;
-  }
-
-  /* Prevent content shift when menu is open */
-  html {
-    scroll-padding-top: 72px;
-  }
+/* Prevent content shift when menu is open */
+html {
+  scroll-padding-top: 72px;
 }
 
 /* Typography */

@@ -198,9 +198,7 @@ const AppWrapper = () => {
           }}
         >
           <ScrollToTop />
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
+          <App />
           <FaviconManager />
         </Router>
       </ThemeProvider>

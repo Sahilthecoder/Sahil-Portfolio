@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { preloadImage } from '../utils/imageUtils';
+import { preloadImage } from '../utils/imageUtils.jsx';
 
 const ImageWithFallback = ({
   src,

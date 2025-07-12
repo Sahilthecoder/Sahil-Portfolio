@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { getImagePath } from '../../utils/imageUtils';
+import { getImagePath } from '../../utils/imageUtils.jsx';
 import ImageWithFallback from '../ImageWithFallback';
 import { 
   FiHome, 

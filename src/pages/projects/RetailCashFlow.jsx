@@ -11,7 +11,7 @@ import {
 } from 'react-icons/fa';
 import { FaTable, FaFileExcel, FaExternalLinkAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImagePath } from '../../utils/imageUtils';
+import { getImagePath } from '../../utils/imageUtils.jsx';
 
 const RetailCashFlow = () => {
   return (

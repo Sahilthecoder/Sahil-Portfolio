@@ -1,7 +1,7 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
 import ImageWithFallback from './ImageWithFallback';
-import { getImagePath } from '../utils/imageUtils';
+import { getImagePath } from '../utils/imageUtils.jsx';
 
 const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectType }) => {
   // Format the image source URL

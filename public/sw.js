@@ -1,5 +1,5 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v19';
+const CACHE_NAME = 'portfolio-cache-v20';
 const OFFLINE_PAGE = '/Sahil-Portfolio/offline.html';
 const BASE_PATH = '/Sahil-Portfolio';
 
@@ -8,6 +8,20 @@ const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/',
   '/Sahil-Portfolio/index.html',
   '/Sahil-Portfolio/site.webmanifest',
+  '/Sahil-Portfolio/favicon.ico',
+  '/Sahil-Portfolio/favicon-32x32.png',
+  '/Sahil-Portfolio/favicon-16x16.png',
+  '/Sahil-Portfolio/apple-touch-icon.png',
+  '/Sahil-Portfolio/android-chrome-192x192.png',
+  '/Sahil-Portfolio/android-chrome-512x512.png',
+  '/Sahil-Portfolio/mstile-150x150.png',
+  '/Sahil-Portfolio/mstile-310x310.png',
+  '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
+  '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
+];
+
+// Add the images directory to the cache
+const IMAGES_TO_CACHE = [
   '/Sahil-Portfolio/images/favicons/favicon.ico',
   '/Sahil-Portfolio/images/favicons/favicon-32x32.png',
   '/Sahil-Portfolio/images/favicons/favicon-16x16.png',
@@ -15,9 +29,7 @@ const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/images/favicons/android-chrome-192x192.png',
   '/Sahil-Portfolio/images/favicons/android-chrome-512x512.png',
   '/Sahil-Portfolio/images/favicons/mstile-150x150.png',
-  '/Sahil-Portfolio/images/favicons/mstile-310x310.png',
-  '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
-  '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
+  '/Sahil-Portfolio/images/favicons/mstile-310x310.png'
 ];
 
 // Helper function to handle GitHub Pages base path
@@ -133,41 +145,45 @@ self.addEventListener('fetch', (event) => {
   // For non-navigation requests, try cache first, then network
   event.respondWith(
     (async () => {
+      const request = event.request;
+      const url = new URL(request.url);
+      
+      // Handle favicon requests
+      if (url.pathname.endsWith('favicon.ico') || url.pathname.endsWith('favicon-32x32.png') || url.pathname.endsWith('favicon-16x16.png')) {
+        const cachedPath = `/Sahil-Portfolio${url.pathname}`;
+        const cachedFavicon = await caches.match(cachedPath);
+        if (cachedFavicon) {
+          return cachedFavicon;
+        }
+        return fetch(cachedPath);
+      }
+
       // Try to get from cache first
-      const cachedResponse = await caches.match(event.request);
+      const cachedResponse = await caches.match(request);
       if (cachedResponse) {
         return cachedResponse;
       }
 
-      // For same-origin requests, ensure we're using the correct base path
-      if (isSameOrigin) {
-        const pathWithBase = getPathWithBase(requestUrl.pathname);
-        if (pathWithBase !== requestUrl.pathname) {
-          const modifiedRequest = new Request(
-            new URL(pathWithBase + requestUrl.search, self.location.origin).toString(),
-            event.request
-          );
-          const cachedResponseWithBase = await caches.match(modifiedRequest);
-          if (cachedResponseWithBase) {
-            return cachedResponseWithBase;
+      // For HTML requests, try network first
+      if (request.headers.get('accept')?.includes('text/html')) {
+        try {
+          const networkResponse = await fetch(request);
+          if (networkResponse.ok) {
+            return networkResponse;
           }
+        } catch (error) {
+          return caches.match(OFFLINE_PAGE);
         }
       }
 
-      // If not in cache, try network
+      // For other requests, try network first
       try {
-        return await fetchAndCache(event.request);
-      } catch (error) {
-        // For HTML requests, return the offline page
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match(new URL(OFFLINE_PAGE, self.location.origin));
+        const networkResponse = await fetch(request);
+        if (networkResponse.ok) {
+          return networkResponse;
         }
-        // For other requests, return a generic offline response
-        return new Response('You are offline. Please check your internet connection.', {
-          status: 503,
-          statusText: 'Offline',
-          headers: { 'Content-Type': 'text/plain' }
-        });
+      } catch (error) {
+        return Promise.reject('No response in cache and fetch failed');
       }
     })()
   );

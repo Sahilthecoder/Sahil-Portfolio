@@ -118,22 +118,12 @@ export const ThemeProvider = ({ children }) => {
       root.style.setProperty('--accent', '#3b82f6'); // Blue 500
       root.style.setProperty('--accent-hover', '#2563eb'); // Blue 600
       root.style.setProperty('--border-color', '#e2e8f0'); // Slate 200
-    } else {
-      // futuristic
-      // Futuristic theme with better contrast
-      root.style.setProperty('--bg-primary', '#0f172a'); // Slate 900
-      root.style.setProperty('--bg-secondary', '#1e1b4b'); // Indigo 950
-      root.style.setProperty('--text-primary', '#e0e7ff'); // Indigo 100
-      root.style.setProperty('--text-secondary', '#a5b4fc'); // Indigo 300
-      root.style.setProperty('--accent', '#818cf8'); // Indigo 400
-      root.style.setProperty('--accent-hover', '#6366f1'); // Indigo 500
-      root.style.setProperty('--border-color', '#3730a3'); // Indigo 800
     }
   };
 
   // Add dark mode class to html element if dark theme is active
   useEffect(() => {
-    if (theme === 'dark' || theme === 'futuristic') {
+    if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
@@ -147,7 +137,7 @@ export const ThemeProvider = ({ children }) => {
     toggleTheme,
     autoTheme,
     toggleAutoTheme,
-    isDark: theme === 'dark' || theme === 'futuristic',
+    isDark: theme === 'dark',
   };
 
   return <ThemeContext.Provider value={contextValue}>{children}</ThemeContext.Provider>;

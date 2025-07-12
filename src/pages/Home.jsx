@@ -634,7 +634,7 @@ const Home = () => {
               <motion.div variants={item} className="relative order-1 md:order-1 hidden md:block">
                 <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
                   <img
-                    src="/Sahil-Portfolio/images/experience-image.webp"
+                    src="/images/experience/experience-image.webp"
                     alt="Warehouse Operations"
                     className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
                     onError={(e) => {

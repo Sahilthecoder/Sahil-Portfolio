@@ -133,7 +133,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       'process.env': {},
       __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-      'import.meta.env.BASE_URL': JSON.stringify(isProduction ? base : '/'),
+      'import.meta.env.BASE_URL': JSON.stringify(isProduction ? base : '/')
     },
     
     // Optimize dependencies

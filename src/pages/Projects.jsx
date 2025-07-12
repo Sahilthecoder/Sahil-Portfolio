@@ -169,13 +169,9 @@ const ProjectCard = ({ project, index, onClick }) => {
           // For external links, open in the same tab
           window.open(project.link, '_self');
         } else {
-          // For internal links, check if we're in production
-          const isProduction = import.meta.env.PROD;
-          const basePath = isProduction ? '/Sahil-Portfolio' : '';
-          const fullPath = `${basePath}${project.link.startsWith('/') ? '' : '/'}${project.link}`;
-          
-          // Use React Router navigation for internal links
-          navigate(fullPath);
+          // For internal links, use React Router's navigate
+          // The base path is already handled by the router's basename
+          navigate(project.link);
         }
         return;
       }

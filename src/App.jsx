@@ -188,15 +188,7 @@ const AppWrapper = () => {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router
-          basename="/Sahil-Portfolio"
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-            v7_fetcherPersist: true,
-            v7_throwAbortReason: true,
-          }}
-        >
+        <Router>
           <ScrollToTop />
           <App />
           <FaviconManager />

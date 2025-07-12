@@ -6,7 +6,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL for GitHub Pages
-const base = '/Sahil-Portfolio/';
+const base = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio/' : '/';
+
+// Ensure the base path has a leading slash but no trailing slash
+const basePath = base.endsWith('/') ? base.slice(0, -1) : base;
 
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';

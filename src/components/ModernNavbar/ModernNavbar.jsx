@@ -398,45 +398,39 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   // Handle navigation with support for both page navigation and section scrolling
   const handleNavClick = useCallback((e, path, section) => {
     // If it's the home page link
-    if (path === '/') {
-      if (location.pathname === '/') {
+    if (path === '#/') {
+      e.preventDefault();
+      if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
         // If already on home page, scroll to top
-        e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         // Navigate to home page
-        navigate('/');
+        navigate('/Sahil-Portfolio/');
       }
       return;
     }
     
-    // If it's a different page
-    if (path.startsWith('/')) {
-      navigate(path);
-      // Scroll to top when navigating to a new page
-      window.scrollTo(0, 0);
-      return;
-    }
-    
-    // If it's a hash link and we're on the home page
-    if (path.startsWith('#') && location.pathname === '/') {
-      const element = document.getElementById(path.substring(1));
-      if (element) {
-        e.preventDefault();
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-      return;
-    }
-    
-    // If we're not on the home page and it's a section link
+    // Handle other hash-based navigation
     if (path.startsWith('#')) {
-      navigate('/' + path);
+      e.preventDefault();
+      const targetId = path.substring(1); // Remove the '#'
+      
+      // If we're already on the home page, just scroll to the section
+      if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth',
+          });
+        }
+      } else {
+        // If not on home page, navigate to the home page with the hash
+        navigate(`/Sahil-Portfolio/${path}`);
+      }
     }
   }, [navigate, location.pathname]);
 
@@ -471,13 +465,15 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">
           <NavLink 
-            to="#/" 
+            to="/Sahil-Portfolio/" 
             className="flex items-center space-x-2 group"
             aria-label="Home"
             onClick={(e) => {
-              if (window.location.hash === '#/' || window.location.hash === '') {
-                e.preventDefault();
+              e.preventDefault();
+              if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                navigate('/Sahil-Portfolio/');
               }
             }}
           >
@@ -525,9 +521,15 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                 to={item.path}
                 onClick={(e) => handleNavClick(e, item.path, item.section)}
                 className={({ isActive }) => {
-                  // For hash-based routing, we need to check the hash instead of path
-                  const isActiveRoute = window.location.hash === `#${item.path}` || 
-                                     (item.path === '#/' && (window.location.hash === '#/' || window.location.hash === ''));
+                  // For GitHub Pages, we need to check both the path and hash
+                  const isHomePage = item.path === '#/' && 
+                    (window.location.pathname.endsWith('/Sahil-Portfolio/') || 
+                     window.location.pathname.endsWith('/Sahil-Portfolio'));
+                  
+                  const isActiveRoute = isHomePage || 
+                    window.location.hash === item.path ||
+                    window.location.pathname.endsWith(item.path.substring(1));
+                  
                   return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive || isActiveRoute
                       ? 'text-blue-600 dark:text-blue-400' 

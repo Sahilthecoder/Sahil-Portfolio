@@ -1,7 +1,17 @@
-# Single page app routing
+# Single page app routing for GitHub Pages
 /*    /index.html   200
-/about    /about.html   200
-/experience    /experience.html   200
-/projects    /projects.html   200
-/contact    /contact.html   200
-/projects/zomato-analysis    /projects/zomato-analysis.html   200
+
+# Specific routes for better handling
+/about*    /index.html   200
+/experience*    /index.html   200
+/projects*    /index.html   200
+/contact*    /index.html   200
+
+# Project detail pages
+/projects/ai-daily-decision-system*    /index.html   200
+/projects/smart-automation*    /index.html   200
+/projects/zomato-analysis*    /index.html   200
+/projects/bansal-supermarket*    /index.html   200
+/projects/ekam-attendance*    /index.html   200
+/projects/retail-cash-flow*    /index.html   200
+/projects/spotify-data    /projects/spotify-data.html   200

@@ -691,7 +691,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project1_excel/zt1.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zt2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/zomato-analysis',
+    link: '/Sahil-Portfolio/projects/zomato-analysis',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis',
     featured: true,
   },
@@ -713,7 +713,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs-stockTO.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/bansal-supermarket',
+    link: '/Sahil-Portfolio/projects/bansal-supermarket',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/BansalSupermarket',
     featured: true,
   },
@@ -732,7 +732,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp',
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/ekam-attendance',
+    link: '/Sahil-Portfolio/projects/ekam-attendance',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/EkamAttendance',
     featured: true,
   },
@@ -751,7 +751,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp',
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/retail-cash-flow',
+    link: '/Sahil-Portfolio/projects/retail-cash-flow',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/RetailCashFlow',
     featured: true,
   },
@@ -768,7 +768,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/ai-daily-decision-system',
+    link: '/Sahil-Portfolio/projects/ai-daily-decision-system',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ai-daily-decision-system',
     featured: true,
   },
@@ -785,7 +785,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/smart-automation',
+    link: '/Sahil-Portfolio/projects/smart-automation',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ProductSalesDashboard',
     featured: true,
   },

@@ -104,19 +104,21 @@ class ErrorBoundary extends React.Component {
 
 // Scroll to top on route change
 const ScrollToTop = () => {
-  const { pathname, search, hash } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
-    // Don't scroll if we're just changing the hash
-    if (hash) return;
-    
-    // Small timeout to ensure the new page has rendered
-    const timer = setTimeout(() => {
+    // Only scroll to top if we're not handling a hash link
+    if (!window.location.hash) {
       window.scrollTo(0, 0);
-    }, 10);
-    
-    return () => clearTimeout(timer);
-  }, [pathname, search, hash]);
+    } else {
+      // If there's a hash, let the browser handle scrolling to it
+      const id = window.location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [pathname, search]);
 
   return null;
 };
@@ -187,6 +189,7 @@ const AppWrapper = () => {
     <HelmetProvider>
       <ThemeProvider>
         <Router
+          basename="/Sahil-Portfolio"
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,

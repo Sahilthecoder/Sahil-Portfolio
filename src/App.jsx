@@ -178,11 +178,14 @@ function App() {
 
 // Wrapper component to provide router context with future flags
 const AppWrapper = () => {
+  // Set the basename based on the environment
+  const basename = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '/';
+  
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router
-          basename="/Sahil-Portfolio"
+          basename={basename}
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,

@@ -3,22 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page Not Found</title>
-  <script>
-    // Redirect to the main application with the correct base path
-    const basePath = '/Sahil-Portfolio';
-    const path = window.location.pathname;
-    
-    // If we're not already at the base path, redirect
-    if (!path.startsWith(basePath)) {
-      window.location.href = `${basePath}${path}`;
-    } else {
-      // If we're at the base path but still got a 404, redirect to home
-      window.location.href = `${basePath}/`;
+  <title>Redirecting...</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
     }
-  </script>
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border-left-color: #3b82f6;
+      animation: spin 1s linear infinite;
+      margin: 2rem auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <p>Redirecting to the home page...</p>
+  <div class="spinner"></div>
+  <p>Loading your page...</p>
+
+  <script>
+    // Get the current path and clean it up
+    const basePath = '/Sahil-Portfolio';
+    let path = window.location.pathname;
+    let search = window.location.search;
+    let hash = window.location.hash;
+    
+    // Remove trailing slash if present
+    if (path.endsWith('/') && path.length > 1) {
+      path = path.slice(0, -1);
+    }
+    
+    // If we're not at the root, try to handle the path
+    if (path !== basePath && path !== basePath + '/') {
+      // Remove the base path if it's already there
+      if (path.startsWith(basePath + '/')) {
+        path = path.substring(basePath.length);
+      }
+      
+      // If there's a hash, handle it properly
+      if (hash) {
+        // If the hash starts with #/, it's a client-side route
+        if (hash.startsWith('#/')) {
+          window.location.href = `${basePath}/#${hash.substring(1)}`;
+          return;
+        }
+      }
+      
+      // Otherwise, redirect to the main app with the path as a hash
+      window.location.href = `${basePath}/#${path}${search}`;
+    } else {
+      // If we're at the root, just go to the main app
+      window.location.href = `${basePath}/`;
+    }
+    
+    // Fallback in case redirect fails
+    setTimeout(() => {
+      window.location.href = basePath + '/';
+    }, 1000);
+  </script>
 </body>
 </html>

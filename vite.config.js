@@ -47,7 +47,13 @@ function copyFaviconsPlugin() {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Base URL for GitHub Pages
-const base = '/Sahil-Portfolio/';
+const base = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio/' : '/';
+
+// For GitHub Pages SPA fallback
+const getBasePath = () => {
+  if (process.env.NODE_ENV !== 'production') return '/';
+  return '/Sahil-Portfolio/';
+};
 
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';

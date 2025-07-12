@@ -164,10 +164,10 @@ const ProjectCard = ({ project, index, onClick }) => {
     if (e.target === cardRef.current || e.target.closest('.project-card')) {
       // If there's a direct link, handle it appropriately
       if (project.link) {
-        // For all links, navigate in the same tab
+        // For all links, use React Router navigation for internal links
         if (project.link.startsWith('http')) {
-          // For external links, use window.location
-          window.location.href = project.link;
+          // For external links, open in the same tab
+          window.open(project.link, '_self');
         } else {
           // For internal links, use React Router navigation
           navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
@@ -686,7 +686,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project1_excel/zt1.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zt2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/zomato-analysis',
+    link: '/projects/zomato-analysis',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis',
     featured: true,
   },
@@ -708,7 +708,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs-stockTO.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/bansal-supermarket',
+    link: '/projects/bansal-supermarket',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/BansalSupermarket',
     featured: true,
   },
@@ -727,7 +727,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp',
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/ekam-attendance',
+    link: '/projects/ekam-attendance',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/EkamAttendance',
     featured: true,
   },
@@ -746,7 +746,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp',
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/retail-cash-flow',
+    link: '/projects/retail-cash-flow',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/RetailCashFlow',
     featured: true,
   },
@@ -763,7 +763,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/ai-daily-decision-system',
+    link: '/projects/ai-daily-decision-system',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ai-daily-decision-system',
     featured: true,
   },
@@ -780,7 +780,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp'
     ],
-    link: 'http://localhost:3000/Sahil-Portfolio/projects/smart-automation',
+    link: '/projects/smart-automation',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ProductSalesDashboard',
     featured: true,
   },

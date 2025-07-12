@@ -12,19 +12,21 @@ export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
   
   return {
+    // Use base URL for production, root for development
     base: isProduction ? base : '/',
+    // Ensure the public path is correctly set
+    publicPath: isProduction ? base : '/',
     publicDir: 'public',
     appType: 'spa',
     
     // Server configuration
     server: {
       port: 3000,
-      open: true,
+      open: !isProduction,
       strictPort: true,
-      host: '0.0.0.0',
-      hmr: {
+      host: isProduction ? false : '0.0.0.0',
+      hmr: isProduction ? false : {
         protocol: 'ws',
-        host: 'localhost',
         port: 3000
       },
       fs: {

@@ -169,8 +169,13 @@ const ProjectCard = ({ project, index, onClick }) => {
           // For external links, open in the same tab
           window.open(project.link, '_self');
         } else {
-          // For internal links, use React Router navigation
-          navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
+          // For internal links, check if we're in production
+          const isProduction = import.meta.env.PROD;
+          const basePath = isProduction ? '/Sahil-Portfolio' : '';
+          const fullPath = `${basePath}${project.link.startsWith('/') ? '' : '/'}${project.link}`;
+          
+          // Use React Router navigation for internal links
+          navigate(fullPath);
         }
         return;
       }
@@ -395,10 +400,19 @@ const ProjectCard = ({ project, index, onClick }) => {
               
               {project.link && (
                 <motion.a
-                  href={project.link}
+                  href={import.meta.env.PROD ? `/Sahil-Portfolio${project.link}` : project.link}
                   target={project.external ? "_blank" : "_self"}
                   rel={project.external ? "noopener noreferrer" : "noopener"}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (!project.external) {
+                      e.preventDefault();
+                      const isProduction = import.meta.env.PROD;
+                      const basePath = isProduction ? '/Sahil-Portfolio' : '';
+                      const fullPath = `${basePath}${project.link.startsWith('/') ? '' : '/'}${project.link}`;
+                      navigate(fullPath);
+                    }
+                  }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-700 rounded-lg transition-colors"

@@ -1,2 +1,5 @@
 # Single page app routing
 /* /index.html 200
+
+# Handle all routes for GitHub Pages
+/Sahil-Portfolio/* /Sahil-Portfolio/index.html 200

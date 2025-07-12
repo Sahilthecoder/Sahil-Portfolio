@@ -25,6 +25,14 @@ export default defineConfig(({ command, mode }) => {
       open: !isProduction,
       strictPort: true,
       host: isProduction ? false : '0.0.0.0',
+      // Add history API fallback for SPA routing in development
+      ...(!isProduction ? {
+        historyApiFallback: {
+          rewrites: [
+            { from: /\//, to: '/index.html' }
+          ]
+        }
+      } : {}),
       hmr: isProduction ? false : {
         protocol: 'ws',
         port: 3000

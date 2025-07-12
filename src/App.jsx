@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { Routes, Route, BrowserRouter as Router, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, HashRouter as Router, useLocation, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
@@ -122,27 +122,7 @@ function App() {
   const navigate = useNavigate();
   const hasRedirected = useRef(false);
 
-  // Handle initial load with hash routing
-  useEffect(() => {
-    // Only run this on the client side and only once
-    if (typeof window !== 'undefined' && !hasRedirected.current) {
-      const { pathname, search, hash } = window.location;
-      
-      // If the URL has a hash, we need to handle it
-      if (hash) {
-        // Extract the path from the hash (remove the #)
-        const path = hash.startsWith('#/') ? hash.substring(2) : hash.substring(1);
-        
-        // Only navigate if the path is not empty and doesn't match the current path
-        if (path && path !== pathname + search) {
-          navigate(path + search, { replace: true });
-        }
-      }
-      
-      // Mark that we've handled the redirect
-      hasRedirected.current = true;
-    }
-  }, [navigate]);
+  // No need for manual hash handling with HashRouter
 
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900">
@@ -150,7 +130,7 @@ function App() {
       <ErrorBoundary>
         <AnimatePresence mode="wait" initial={false}>
           <Suspense fallback={<LoadingFallback />}>
-            <Routes location={location} key={location.pathname}>
+            <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/experience" element={<Experience />} />
@@ -177,15 +157,7 @@ const AppWrapper = () => {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router
-          basename={import.meta.env.PROD ? '/Sahil-Portfolio' : '/'}
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-            v7_fetcherPersist: true,
-            v7_throwAbortReason: true,
-          }}
-        >
+        <Router>
           <ScrollToTop />
           <ErrorBoundary>
             <App />

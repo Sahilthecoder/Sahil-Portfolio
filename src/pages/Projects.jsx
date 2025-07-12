@@ -250,7 +250,11 @@ const ProjectCard = ({ project, index, onClick }) => {
         transitionSpeed={800}
       >
         <motion.div
-          className={`flex flex-col h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${project.background || 'bg-white dark:bg-gray-800'} ${project.className || ''} group relative`}
+          className={`h-full bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden border transition-all duration-300 group relative shadow-sm hover:shadow-md sm:hover:shadow-xl ${
+            isHovered 
+              ? 'border-indigo-400/70 dark:border-blue-400/40 shadow-lg' 
+              : 'border-gray-200/80 dark:border-gray-700/50'
+          }`}
           initial={false}
           animate={{
             y: isHovered ? -4 : 0,
@@ -622,7 +626,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       href={project.link}
                       target={project.external ? "_blank" : "_self"}
                       rel={project.external ? "noopener noreferrer" : "noopener"}
-                      className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 justify-center gap-2 hover:-translate-y-0.5"
+                      className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                     >
                       <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                       <span className="relative flex items-center">
@@ -687,7 +691,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project1_excel/zt1.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zt2.webp'
     ],
-    link: '/Sahil-Portfolio/projects/zomato-analysis',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/zomato-analysis',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ZomatoAnalysis',
     featured: true,
   },
@@ -709,7 +713,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs-stockTO.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs2.webp'
     ],
-    link: '/Sahil-Portfolio/projects/bansal-supermarket',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/bansal-supermarket',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/BansalSupermarket',
     featured: true,
   },
@@ -728,7 +732,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp',
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp'
     ],
-    link: '/Sahil-Portfolio/projects/ekam-attendance',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/ekam-attendance',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/EkamAttendance',
     featured: true,
   },
@@ -747,7 +751,7 @@ const projects = [
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp',
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp'
     ],
-    link: '/Sahil-Portfolio/projects/retail-cash-flow',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/retail-cash-flow',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/RetailCashFlow',
     featured: true,
   },
@@ -764,7 +768,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp'
     ],
-    link: '/Sahil-Portfolio/projects/ai-daily-decision-system',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/ai-daily-decision-system',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ai-daily-decision-system',
     featured: true,
   },
@@ -781,7 +785,7 @@ const projects = [
     images: [
       '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp'
     ],
-    link: '/Sahil-Portfolio/projects/smart-automation',
+    link: 'http://localhost:3000/Sahil-Portfolio/projects/smart-automation',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ProductSalesDashboard',
     featured: true,
   },
@@ -872,26 +876,10 @@ const Projects = () => {
     setSelectedProject(projectCopy);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
     
-    // Add event listener for keyboard navigation
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        handleCloseModal();
-      } else if (e.key === 'ArrowLeft') {
-        handlePrevProject();
-      } else if (e.key === 'ArrowRight') {
-        handleNextProject();
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    
-    // Cleanup function
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'auto';
-    };
-  }, [handleCloseModal, handleNextProject, handlePrevProject]);
+    return false; // Prevent any default behavior
+  }, []);
 
   // Handle modal close
   const handleCloseModal = useCallback((e) => {

@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173",
+    "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t true -m 'Deploy to GitHub Pages [skip ci]'",
     "lint": "eslint src --ext .js,.jsx",
@@ -23,8 +23,7 @@
     "preview:prod": "vite preview --port 4173 --host",
     "analyze": "cross-env VITE_BUNDLE_ANALYZE=true vite build",
     "audit:performance": "lighthouse http://localhost:3000 --view --preset=desktop",
-    "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA",
-    "clean": "rm -rf node_modules/.vite dist"
+    "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -68,7 +67,6 @@
     "postcss-import": "^16.1.1",
     "postcss-nesting": "^13.0.2",
     "prettier": "^3.0.2",
-    "sharp": "^0.34.3",
     "tailwindcss": "^3.3.3",
     "terser": "^5.43.1",
     "vite": "^7.0.3"

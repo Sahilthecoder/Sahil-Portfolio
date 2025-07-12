@@ -397,26 +397,32 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
 
   // Handle navigation with support for both page navigation and section scrolling
   const handleNavClick = useCallback((e, path, section) => {
-    // Prevent default to handle navigation manually
-    e.preventDefault();
-    
-    // Remove any leading slashes and hash
-    const cleanPath = path.replace(/^[#/]+/, '');
-    
-    // For development and production with base path
-    const basePath = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '';
-    
-    // Handle home navigation
-    if (cleanPath === '' || cleanPath === 'home') {
-      navigate(`${basePath}/`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    // If it's the home page link
+    if (path === '/') {
+      if (location.pathname === '/') {
+        // If already on home page, scroll to top
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Navigate to home page
+        navigate('/');
+      }
       return;
     }
     
-    // Handle section links on the home page
-    if (window.location.pathname === `${basePath}/` || window.location.pathname === `${basePath}`) {
-      const element = document.getElementById(cleanPath);
+    // If it's a different page
+    if (path.startsWith('/')) {
+      navigate(path);
+      // Scroll to top when navigating to a new page
+      window.scrollTo(0, 0);
+      return;
+    }
+    
+    // If it's a hash link and we're on the home page
+    if (path.startsWith('#') && location.pathname === '/') {
+      const element = document.getElementById(path.substring(1));
       if (element) {
+        e.preventDefault();
         const headerOffset = 100;
         const elementPosition = element.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -424,22 +430,14 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
           top: offsetPosition,
           behavior: 'smooth',
         });
-        // Update URL without page reload
-        window.history.pushState({}, '', `${basePath}/#${cleanPath}`);
-        return;
       }
-    }
-    
-    // Handle regular page navigation
-    if (['about', 'experience', 'projects', 'contact'].includes(cleanPath)) {
-      navigate(`${basePath}/${cleanPath}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
     
-    // If we got here, it's a section link but we're not on the home page
-    // So navigate to home page with the section hash
-    navigate(`${basePath}/#${cleanPath}`);
+    // If we're not on the home page and it's a section link
+    if (path.startsWith('#')) {
+      navigate('/' + path);
+    }
   }, [navigate, location.pathname]);
 
   // Handle body class and scroll position when menu is open or path changes
@@ -473,15 +471,13 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">
           <NavLink 
-            to="/Sahil-Portfolio/" 
+            to="/" 
             className="flex items-center space-x-2 group"
             aria-label="Home"
             onClick={(e) => {
-              e.preventDefault();
-              if (window.location.pathname === '/Sahil-Portfolio/' || window.location.pathname === '/Sahil-Portfolio') {
+              if (location.pathname === '/') {
+                e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-              } else {
-                navigate('/Sahil-Portfolio/');
               }
             }}
           >
@@ -528,27 +524,13 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                 key={item.name}
                 to={item.path}
                 onClick={(e) => handleNavClick(e, item.path, item.section)}
-                className={({ isActive }) => {
-                  const basePath = process.env.NODE_ENV === 'production' ? '/Sahil-Portfolio' : '';
-                  const currentPath = window.location.pathname;
-                  const cleanPath = item.path.replace(/^[#/]+/, '');
-                  
-                  // Handle home page active state
-                  if (cleanPath === '' || cleanPath === 'home') {
-                    const isActive = currentPath === `${basePath}/` || currentPath === basePath;
-                    return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
-                    }`;
-                  }
-                  
-                  // Handle other pages
-                  const isActive = currentPath === `${basePath}/${cleanPath}` || 
-                                 currentPath.endsWith(`/${cleanPath}`);
-                  
-                  return `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
-                  }`;
-                }}
+                className={({ isActive }) => 
+                  `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    isActive 
+                      ? 'text-blue-600 dark:text-blue-400' 
+                      : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
+                  }`
+                }
                 end={item.exact}
               >
                 <div className="flex items-center">
@@ -654,11 +636,9 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
                       <ul className="space-y-2">
                         {NAV_ITEMS.map((item) => {
-                          // For hash-based routing, we check the hash instead of pathname
-                          const currentHash = window.location.hash || '#';
                           const isActive = item.exact 
-                            ? currentHash === item.path
-                            : currentHash.startsWith(item.path);
+                            ? location.pathname === item.path
+                            : location.pathname.startsWith(item.path);
                             
                           return (
                             <li key={item.name}>
@@ -667,39 +647,56 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                                   e.preventDefault();
                                   closeMenu();
                                   
-                                  // Use hash-based navigation
-                                  window.location.hash = item.path.replace('#', '');
-                                  
-                                  // If it's the home page, scroll to top
-                                  if (item.path === '#/') {
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                                  } else if (item.section) {
-                                    // Scroll to section if it exists
-                                    const element = document.getElementById(item.section);
-                                    if (element) {
-                                      const headerOffset = 100;
-                                      const elementPosition = element.getBoundingClientRect().top;
-                                      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                      window.scrollTo({
-                                        top: offsetPosition,
-                                        behavior: 'smooth',
-                                      });
+                                  if (location.pathname === item.path) {
+                                    // If already on the same page, just scroll to section
+                                    if (item.path === '/') {
+                                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    } else if (item.section) {
+                                      const element = document.getElementById(item.section);
+                                      if (element) {
+                                        const headerOffset = 100;
+                                        const elementPosition = element.getBoundingClientRect().top;
+                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                        window.scrollTo({
+                                          top: offsetPosition,
+                                          behavior: 'smooth',
+                                        });
+                                      }
                                     }
+                                  } else {
+                                    // Navigate to new page
+                                    navigate(item.path);
+                                    
+                                    // Small delay to ensure the page has loaded
+                                    setTimeout(() => {
+                                      if (item.section) {
+                                        const element = document.getElementById(item.section);
+                                        if (element) {
+                                          const headerOffset = 100;
+                                          const elementPosition = element.getBoundingClientRect().top;
+                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                                          window.scrollTo({
+                                            top: offsetPosition,
+                                            behavior: 'smooth',
+                                          });
+                                        }
+                                      } else if (item.path === '/') {
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }
+                                    }, 100);
                                   }
                                 }}
-                                className={`w-full text-left px-4 py-3 rounded-lg flex items-center space-x-3 transition-colors ${
-                                  isActive
-                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
+                                className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
+                                  isActive 
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                    : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                                 }`}
                                 aria-current={isActive ? 'page' : undefined}
                               >
-                                <span className="text-gray-500 dark:text-gray-400">
+                                <span className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
                                   {item.icon}
                                 </span>
                                 <span className="font-medium">{item.name}</span>
-                                <span className="flex-1"></span>
-                                <FiChevronRight className="w-4 h-4 text-gray-400" />
                               </button>
                             </li>
                           );

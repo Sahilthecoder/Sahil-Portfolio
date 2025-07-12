@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { Routes, Route, HashRouter as Router, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, BrowserRouter as Router, useLocation, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
@@ -104,21 +104,14 @@ class ErrorBoundary extends React.Component {
 
 // Scroll to top on route change
 const ScrollToTop = () => {
-  const { pathname, search } = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    // Only scroll to top if we're not handling a hash link
+    // Only scroll to top if we're not in the middle of a hash navigation
     if (!window.location.hash) {
       window.scrollTo(0, 0);
-    } else {
-      // If there's a hash, let the browser handle scrolling to it
-      const id = window.location.hash.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
     }
-  }, [pathname, search]);
+  }, [pathname]);
 
   return null;
 };
@@ -140,18 +133,16 @@ function App() {
         // Extract the path from the hash (remove the #)
         const path = hash.startsWith('#/') ? hash.substring(2) : hash.substring(1);
         
-        // Only navigate if we're not already on the correct path
-        if (path && path !== location.pathname) {
-          // For GitHub Pages, we need to handle the base path
-          const basePath = '/Sahil-Portfolio';
-          const fullPath = path.startsWith(basePath) ? path : `${basePath}${path}`;
-          navigate(fullPath, { replace: true });
+        // Only navigate if the path is not empty and doesn't match the current path
+        if (path && path !== pathname + search) {
+          navigate(path + search, { replace: true });
         }
       }
       
+      // Mark that we've handled the redirect
       hasRedirected.current = true;
     }
-  }, [location.pathname, navigate]);
+  }, [navigate]);
 
   // Debug: Log the current location and path
   console.log('Current location:', location);
@@ -190,9 +181,19 @@ const AppWrapper = () => {
   return (
     <HelmetProvider>
       <ThemeProvider>
-        <Router>
+        <Router
+          basename="/Sahil-Portfolio"
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+            v7_fetcherPersist: true,
+            v7_throwAbortReason: true,
+          }}
+        >
           <ScrollToTop />
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
           <FaviconManager />
         </Router>
       </ThemeProvider>

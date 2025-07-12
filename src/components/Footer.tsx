@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaGithub, FaLinkedin, FaWhatsapp, FaEnvelope, FaRocket } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import styles from './Footer.module.css'; // Import the CSS module
 
 const Footer: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -58,9 +59,9 @@ const Footer: React.FC = () => {
     <footer className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-300 pt-12 pb-8 px-4">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
-        <div className="absolute -top-1/2 left-1/4 w-96 h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-1/3 -right-20 w-96 h-96 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-cyan-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        <div className={`${styles.blob} ${styles.blob1}`}></div>
+        <div className={`${styles.blob} ${styles.blob2}`}></div>
+        <div className={`${styles.blob} ${styles.blob3}`}></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto">
@@ -136,27 +137,6 @@ const Footer: React.FC = () => {
           </motion.button>
         )}
       </AnimatePresence>
-
-      {/* Add these styles to your global CSS */}
-      <style jsx global>
-        {`
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        `}
-      </style>
     </footer>
   );
 };

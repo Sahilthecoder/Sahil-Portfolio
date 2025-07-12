@@ -59,7 +59,7 @@ const BackgroundPattern = () => (
 const NAV_ITEMS = [
   { 
     name: 'Home', 
-    path: '#/', 
+    path: '/', 
     section: 'home',
     ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
@@ -68,7 +68,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'About', 
-    path: '#/about', 
+    path: '/about', 
     section: 'about',
     ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
@@ -77,7 +77,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Experience', 
-    path: '#/experience', 
+    path: '/experience', 
     section: 'experience',
     ref: 'experienceRef',
     icon: <FiBriefcase className="w-5 h-5" />,
@@ -86,7 +86,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Projects', 
-    path: '#/projects', 
+    path: '/projects', 
     section: 'projects',
     ref: 'projectsRef',
     icon: <FiCode className="w-5 h-5" />,
@@ -95,7 +95,7 @@ const NAV_ITEMS = [
   },
   { 
     name: 'Contact', 
-    path: '#/contact', 
+    path: '/contact', 
     section: 'contact',
     ref: 'contactRef',
     icon: <FiMail className="w-5 h-5" />,

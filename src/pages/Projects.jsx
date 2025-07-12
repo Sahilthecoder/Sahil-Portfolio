@@ -250,11 +250,7 @@ const ProjectCard = ({ project, index, onClick }) => {
         transitionSpeed={800}
       >
         <motion.div
-          className={`h-full bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden border transition-all duration-300 group relative shadow-sm hover:shadow-md sm:hover:shadow-xl ${
-            isHovered 
-              ? 'border-indigo-400/70 dark:border-blue-400/40 shadow-lg' 
-              : 'border-gray-200/80 dark:border-gray-700/50'
-          }`}
+          className={`flex flex-col h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 ${project.background || 'bg-white dark:bg-gray-800'} ${project.className || ''} group relative`}
           initial={false}
           animate={{
             y: isHovered ? -4 : 0,
@@ -626,7 +622,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       href={project.link}
                       target={project.external ? "_blank" : "_self"}
                       rel={project.external ? "noopener noreferrer" : "noopener"}
-                      className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                      className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 justify-center gap-2 hover:-translate-y-0.5"
                     >
                       <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
                       <span className="relative flex items-center">
@@ -876,10 +872,26 @@ const Projects = () => {
     setSelectedProject(projectCopy);
     setIsModalOpen(true);
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-    document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
     
-    return false; // Prevent any default behavior
-  }, []);
+    // Add event listener for keyboard navigation
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleCloseModal();
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevProject();
+      } else if (e.key === 'ArrowRight') {
+        handleNextProject();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    
+    // Cleanup function
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'auto';
+    };
+  }, [handleCloseModal, handleNextProject, handlePrevProject]);
 
   // Handle modal close
   const handleCloseModal = useCallback((e) => {

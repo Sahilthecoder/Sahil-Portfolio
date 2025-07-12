@@ -140,16 +140,18 @@ function App() {
         // Extract the path from the hash (remove the #)
         const path = hash.startsWith('#/') ? hash.substring(2) : hash.substring(1);
         
-        // Only navigate if the path is not empty and doesn't match the current path
-        if (path && path !== pathname + search) {
-          navigate(path + search, { replace: true });
+        // Only navigate if we're not already on the correct path
+        if (path && path !== location.pathname) {
+          // For GitHub Pages, we need to handle the base path
+          const basePath = '/Sahil-Portfolio';
+          const fullPath = path.startsWith(basePath) ? path : `${basePath}${path}`;
+          navigate(fullPath, { replace: true });
         }
       }
       
-      // Mark that we've handled the redirect
       hasRedirected.current = true;
     }
-  }, [navigate]);
+  }, [location.pathname, navigate]);
 
   // Debug: Log the current location and path
   console.log('Current location:', location);

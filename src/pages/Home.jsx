@@ -800,8 +800,6 @@ const Home = () => {
                   <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
                     <a
                       href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                     >
                       View Project
@@ -822,8 +820,6 @@ const Home = () => {
                     {project.github && (
                       <a
                         href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                         aria-label="GitHub repository"
                       >

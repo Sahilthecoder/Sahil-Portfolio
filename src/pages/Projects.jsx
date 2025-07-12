@@ -164,9 +164,10 @@ const ProjectCard = ({ project, index, onClick }) => {
     if (e.target === cardRef.current || e.target.closest('.project-card')) {
       // If there's a direct link, handle it appropriately
       if (project.link) {
-        // If it's an external link, open in new tab
-        if (project.external || project.link.startsWith('http')) {
-          window.open(project.link, '_blank', 'noopener,noreferrer');
+        // For all links, navigate in the same tab
+        if (project.link.startsWith('http')) {
+          // For external links, use window.location
+          window.location.href = project.link;
         } else {
           // For internal links, use React Router navigation
           navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
@@ -197,13 +198,7 @@ const ProjectCard = ({ project, index, onClick }) => {
     
     if (!link) return;
     
-    // If it's an external link, open in new tab
-    if (project.external || link.startsWith('http')) {
-      window.open(link, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    
-    // For internal links, use React Router navigation
+    // For all links, navigate in the same tab
     const path = link.startsWith('/') ? link : `/${link}`;
     navigate(path);
   };

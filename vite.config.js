@@ -12,7 +12,7 @@ export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production';
   
   return {
-    base,
+    base: isProduction ? base : '/',
     publicDir: 'public',
     appType: 'spa',
     

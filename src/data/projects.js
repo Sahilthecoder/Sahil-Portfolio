@@ -1,3 +1,5 @@
+const BASE_URL = 'https://sahilthecoder.github.io';
+
 export const projects = [
   {
     id: 1,
@@ -5,7 +7,7 @@ export const projects = [
     description: 'Comprehensive analysis of Zomato restaurant data to identify trends, customer preferences, and business insights. Used Python, Pandas, and Matplotlib for data processing and visualization.',
     image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     tags: ['Python', 'Data Analysis', 'Pandas', 'Data Visualization'],
-    link: '/projects/zomato-analysis',
+    link: `${BASE_URL}/projects/zomato-analysis`,
   },
   {
     id: 2,
@@ -13,7 +15,7 @@ export const projects = [
     description: 'End-to-end inventory and sales management system for Bansal Supermarket with automated stock tracking, sales reporting, and supplier management.',
     image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     tags: ['Excel', 'Inventory Management', 'VBA', 'Sales Analysis'],
-    link: '/projects/bansal-supermarket'
+    link: `${BASE_URL}/projects/bansal-supermarket`
   },
   {
     id: 3,
@@ -21,7 +23,7 @@ export const projects = [
     description: 'Automated attendance tracking system with employee scheduling, shift management, and reporting capabilities.',
     image: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
     tags: ['SQL', 'Database', 'HR Management', 'Reporting'],
-    link: '/projects/ekam-attendance'
+    link: `${BASE_URL}/projects/ekam-attendance`
   },
   {
     id: 4,
@@ -29,7 +31,7 @@ export const projects = [
     description: 'Comprehensive cash flow tracking and financial management system for monitoring daily business transactions and financial health.',
     image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
     tags: ['Power BI', 'Financial Analysis', 'Business Intelligence', 'Dashboarding'],
-    link: '/projects/retail-cash-flow'
+    link: `${BASE_URL}/projects/retail-cash-flow`
   },
   {
     id: 5,
@@ -37,7 +39,7 @@ export const projects = [
     description: 'AI-powered decision support system for daily business operations and analytics.',
     image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     tags: ['AI', 'GPT', 'Automation', 'Productivity'],
-    link: '/projects/ai-daily-decision-system'
+    link: `${BASE_URL}/projects/ai-daily-decision-system`
   },
   {
     id: 6,

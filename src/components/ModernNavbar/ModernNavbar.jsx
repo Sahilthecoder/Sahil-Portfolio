@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { getImagePath } from '../../utils/imageUtils.jsx';
 import ImageWithFallback from '../ImageWithFallback';
+import ThemeSwitch from '../ThemeSwitch';
 import { 
   FiHome, 
   FiUser, 
   FiCode, 
   FiBriefcase, 
-  FiMail, 
-  FiChevronRight,
+  FiMail,
   FiX,
   FiSun,
   FiMoon
@@ -104,125 +104,6 @@ const NAV_ITEMS = [
   }
 ];
 
-// Theme Toggle Component
-const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
-  const { theme, toggleTheme, autoTheme, toggleAutoTheme } = useTheme();
-  const [isHovered, setIsHovered] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
-  
-  const handleToggle = useCallback((e) => {
-    e.stopPropagation();
-    setIsPressed(true);
-    setTimeout(() => setIsPressed(false), 200);
-    toggleTheme();
-    if (onThemeChange) onThemeChange();
-  }, [toggleTheme, onThemeChange]);
-  
-  const handleAutoThemeToggle = useCallback((e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleAutoTheme();
-  }, [toggleAutoTheme]);
-  
-  // Theme configurations with CSS classes
-  const themes = useMemo(() => ({
-    light: {
-      icon: <FiSun className="theme-icon" />,
-      label: 'Light Mode',
-      className: 'theme-light',
-      tooltip: 'Switch to dark mode',
-    },
-    dark: {
-      icon: <FiMoon className="theme-icon" />,
-      label: 'Dark Mode',
-      className: 'theme-dark',
-      tooltip: 'Switch to light mode',
-    }
-  }), []);
-
-  const currentTheme = themes[theme] || themes.light;
-
-  return (
-    <div className="relative inline-block">
-      <motion.button
-        type="button"
-        className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
-          theme === 'light' 
-            ? 'text-yellow-500 hover:bg-yellow-50' 
-            : 'text-blue-400 hover:bg-gray-800'
-        } ${className}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          handleToggle(e);
-        }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
-        onMouseLeave={() => setIsPressed(false)}
-        aria-label={`${currentTheme.tooltip}${autoTheme ? ' (Auto theme enabled)' : ''}`}
-        whileHover={{ 
-          scale: 1.1,
-          transition: { duration: 0.2, type: 'spring', damping: 15 }
-        }}
-        whileTap={{ 
-          scale: 0.95,
-          transition: { duration: 0.1 }
-        }}
-      >
-        <motion.div 
-          className="w-6 h-6 flex items-center justify-center"
-          animate={{
-            rotate: isHovered ? (theme === 'light' ? 360 : -360) : 0,
-            scale: isPressed ? 0.9 : 1
-          }}
-          transition={{
-            type: 'spring',
-            stiffness: 500,
-            damping: 15,
-            mass: 0.5
-          }}
-        >
-          <span className="theme-icon">
-            {currentTheme.icon}
-          </span>
-          <span className="theme-ripple"></span>
-        </motion.div>
-
-        {autoTheme && (
-          <motion.span 
-            className="theme-auto-indicator"
-            initial={{ scale: 0 }}
-            animate={{ 
-              scale: 1,
-              opacity: [0, 1, 1],
-              y: [10, -2, 0]
-            }}
-            exit={{ scale: 0, opacity: 0 }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 20
-            }}
-          />
-        )}
-        
-        <motion.div 
-          className="absolute top-full right-0 mt-2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 pointer-events-none"
-          initial={{ opacity: 0, y: -5 }}
-          animate={{ 
-            opacity: isHovered ? 1 : 0,
-            y: isHovered ? 5 : -5
-          }}
-          transition={{ duration: 0.2 }}
-        >
-          {currentTheme.tooltip}
-          {autoTheme && ' (Auto)'}
-        </motion.div>
-      </motion.button>
-    </div>
-  );
-});
 
 const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -548,7 +429,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
 
           <div className="hidden lg:flex items-center space-x-2 ml-4">
             <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
-            <ThemeToggle className="mr-1" />
+            <ThemeSwitch className="mr-1" />
             <a
               href="https://github.com/Sahilthecoder/Sahil-Portfolio"
               target="_blank"
@@ -608,7 +489,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <div className="p-6 pb-4">
                     <div className="flex justify-between items-center">
                       <div className="hidden lg:flex items-center space-x-4">
-                        <ThemeToggle onThemeChange={closeMenu} />
+                        <ThemeSwitch />
                         <a
                           href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                           target="_blank"
@@ -712,7 +593,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
                       <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
-                        <ThemeToggle onThemeChange={closeMenu} />
+                        <ThemeSwitch />
                       </div>
                       
                       <div className="flex justify-center space-x-4 mt-4">

@@ -1,0 +1,8 @@
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}

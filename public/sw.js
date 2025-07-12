@@ -3,17 +3,16 @@ const CACHE_NAME = 'portfolio-cache-v17';
 const OFFLINE_PAGE = '/Sahil-Portfolio/offline.html';
 const BASE_PATH = '/Sahil-Portfolio';
 const ASSETS_TO_CACHE = [
-  '/Sahil-Portfolio/',
-  '/Sahil-Portfolio/index.html',
-  '/Sahil-Portfolio/site.webmanifest',
-  '/Sahil-Portfolio/favicon.ico',
-  '/Sahil-Portfolio/favicon-32x32.png',
-  '/Sahil-Portfolio/images/logo/favicon-16x16.png',
-  '/Sahil-Portfolio/images/logo/favicon-32x32.png',
-  '/Sahil-Portfolio/images/logo/favicon.png',
-  '/Sahil-Portfolio/images/logo/favicon.svg',
-  '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
-  '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
+  '/',
+  '/index.html',
+  '/site.webmanifest',
+  '/images/favicons/favicon.ico',
+  '/images/favicons/favicon-32x32.png',
+  '/images/favicons/favicon-16x16.png',
+  '/images/favicons/favicon.png',
+  '/images/favicons/favicon.svg',
+  '/assets/fonts/Roboto.woff2',
+  '/assets/fonts/Poppins.woff2'
 ];
 
 // Helper function to handle GitHub Pages base path

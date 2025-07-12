@@ -630,21 +630,7 @@ const Home = () => {
                 </div>
               </motion.div>
               
-              {/* Image Section - Moved to left side */}
-              <motion.div variants={item} className="relative order-1 md:order-1 hidden md:block">
-                <div className="bg-white dark:bg-gray-700 p-2 rounded-2xl shadow-xl overflow-hidden">
-                  <img
-                    src="images/experience/experience-image.webp"
-                    alt="Warehouse Operations"
-                    className="rounded-xl w-full h-auto transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = 'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80';
-                    }}
-                  />
-                </div>
-                <div className="absolute -z-10 -inset-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl opacity-20 blur-xl"></div>
-              </motion.div>
+
             </motion.div>
           </div>
         </div>

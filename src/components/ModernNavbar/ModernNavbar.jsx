@@ -146,7 +146,7 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
     <div className="relative inline-block">
       <motion.button
         type="button"
-        className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors ${
+        className={`p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 ${
           theme === 'light' 
             ? 'text-yellow-500 hover:bg-yellow-50' 
             : 'text-blue-400 hover:bg-gray-800'
@@ -155,15 +155,20 @@ const ThemeToggle = React.memo(({ onThemeChange, className = '' }) => {
           e.stopPropagation();
           handleToggle(e);
         }}
-        onContextMenu={handleAutoThemeToggle}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         onMouseDown={() => setIsPressed(true)}
         onMouseUp={() => setIsPressed(false)}
         onMouseLeave={() => setIsPressed(false)}
         aria-label={`${currentTheme.tooltip}${autoTheme ? ' (Auto theme enabled)' : ''}`}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
+        whileHover={{ 
+          scale: 1.1,
+          transition: { duration: 0.2, type: 'spring', damping: 15 }
+        }}
+        whileTap={{ 
+          scale: 0.95,
+          transition: { duration: 0.1 }
+        }}
       >
         <motion.div 
           className="w-6 h-6 flex items-center justify-center"

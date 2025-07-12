@@ -1,19 +1,16 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v17';
-const OFFLINE_PAGE = '/Sahil-Portfolio/offline.html';
+const CACHE_NAME = 'portfolio-cache-v18';
 const BASE_PATH = '/Sahil-Portfolio';
+const OFFLINE_PAGE = `${BASE_PATH}/index.html`;
+
+// Base assets that should be cached
 const ASSETS_TO_CACHE = [
-  '/Sahil-Portfolio/',
-  '/Sahil-Portfolio/index.html',
-  '/Sahil-Portfolio/site.webmanifest',
-  '/Sahil-Portfolio/favicons/favicon.ico',
-  '/Sahil-Portfolio/favicons/favicon-16x16.png',
-  '/Sahil-Portfolio/favicons/favicon-32x32.png',
-  '/Sahil-Portfolio/favicons/apple-touch-icon.png',
-  '/Sahil-Portfolio/favicons/safari-pinned-tab.svg',
-  '/Sahil-Portfolio/favicons/mstile-150x150.png',
-  '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
-  '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/site.webmanifest`,
+  `${BASE_PATH}/favicon.ico`,
+  `${BASE_PATH}/logo192.png`,
+  `${BASE_PATH}/logo512.png`
 ];
 
 // Helper function to handle GitHub Pages base path
@@ -73,7 +70,9 @@ async function fetchAndCache(request) {
 // Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests and chrome-extension requests
-  if (event.request.method !== 'GET' || event.request.url.startsWith('chrome-extension://')) {
+  if (event.request.method !== 'GET' || 
+      event.request.url.startsWith('chrome-extension://') ||
+      event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
     return;
   }
 

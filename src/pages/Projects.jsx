@@ -634,21 +634,33 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                     <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
                       PROJECT GALLERY
                     </h4>
-                    <a
-                      href={project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') 
-                        ? project.link 
-                        : `https://sahilthecoder.github.io/Sahil-Portfolio/${project.link}`}
-                      target="_self"
-                      rel="noopener noreferrer"
-                      className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                    >
-                      <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                      <span className="relative flex items-center">
-                        <FaExternalLinkAlt className="mr-2.5 transition-transform duration-300 group-hover:scale-110" />
-                        <span className="tracking-wide">View Project</span>
-                        <FiArrowRight className="ml-2 transition-all duration-300 transform -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0" />
-                      </span>
-                    </a>
+                    {project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
+                      <a
+                        href={project.link}
+                        target="_self"
+                        rel="noopener noreferrer"
+                        className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                      >
+                        <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span className="relative flex items-center">
+                          <FaExternalLinkAlt className="mr-2.5 transition-transform duration-300 group-hover:scale-110" />
+                          <span className="tracking-wide">View Project</span>
+                          <FiArrowRight className="ml-2 transition-all duration-300 transform -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0" />
+                        </span>
+                      </a>
+                    ) : (
+                      <Link
+                        to={project.link}
+                        className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                      >
+                        <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span className="relative flex items-center">
+                          <FaExternalLinkAlt className="mr-2.5 transition-transform duration-300 group-hover:scale-110" />
+                          <span className="tracking-wide">View Project</span>
+                          <FiArrowRight className="ml-2 transition-all duration-300 transform -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0" />
+                        </span>
+                      </Link>
+                    )}
                   </div>
                   
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">

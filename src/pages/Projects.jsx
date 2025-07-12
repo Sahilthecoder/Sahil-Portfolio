@@ -635,9 +635,11 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                       PROJECT GALLERY
                     </h4>
                     <a
-                      href={project.link}
-                      target={project.external ? "_blank" : "_self"}
-                      rel={project.external ? "noopener noreferrer" : "noopener"}
+                      href={project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') 
+                        ? project.link 
+                        : `https://sahilthecoder.github.io/Sahil-Portfolio/${project.link}`}
+                      target="_self"
+                      rel="noopener noreferrer"
                       className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                     >
                       <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>

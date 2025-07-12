@@ -799,10 +799,10 @@ const Home = () => {
                     ))}
                   </div>
                   <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
-                    {project.link.startsWith('http') || project.link.startsWith('//') ? (
+                    {project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
                       <a
-                        href={project.link}
-                        target="_blank"
+                        href={project.isExternal ? project.link : `https://sahilthecoder.github.io/Sahil-Portfolio/${project.link}`}
+                        target="_self"
                         rel="noopener noreferrer"
                         className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                       >
@@ -822,8 +822,10 @@ const Home = () => {
                         </svg>
                       </a>
                     ) : (
-                      <Link
-                        to={project.link.startsWith('/') ? project.link : `/${project.link}`}
+                      <a
+                        href={`https://sahilthecoder.github.io/Sahil-Portfolio/${project.link}`}
+                        target="_self"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                       >
                         View Project
@@ -840,7 +842,7 @@ const Home = () => {
                             d="M14 5l7 7m0 0l-7 7m7-7H3"
                           />
                         </svg>
-                      </Link>
+                      </a>
                     )}
                     {project.github && (
                       <a

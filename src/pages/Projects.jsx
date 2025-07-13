@@ -1,66 +1,76 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
-import { Link, useNavigate, NavLink } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import EnhancedProjectModal from '../components/ProjectModal/EnhancedProjectModal';
 
 // Icons
-import {
-  FaGithub,
-  FaExternalLinkAlt,
-  FaArrowUp,
-  FaSearch,
-  FaFilePdf,
-  FaLaptopCode,
-  FaArrowRight,
+// React Icons from Font Awesome
+import { 
+  FaGithub, 
+  FaExternalLinkAlt, 
+  FaTimes, 
+  FaChevronLeft, 
+  FaChevronRight, 
+  FaSearch, 
+  FaTimesCircle, 
+  FaChartLine, 
+  FaChartBar, 
+  FaChartPie, 
+  FaRobot,
+  FaCode,
   FaDatabase,
-  FaChartLine,
+  FaNodeJs,
   FaMicrosoft,
-  FaTimes,
   FaImage,
   FaEnvelope
 } from 'react-icons/fa';
 
-import {
-  FiArrowRight,
-  FiFigma,
-  FiArrowDown,
-  FiTrendingUp,
-  FiExternalLink,
-  FiGithub,
-  FiX,
-  FiChevronRight,
-  FiChevronLeft,
-  FiMaximize2,
-  FiMinimize as FiMinimizeIcon
-} from 'react-icons/fi';
-
-import {
-  SiTableau,
-  SiPython,
-  SiReact,
-  SiJavascript,
-  SiHtml5,
-  SiCss3,
-  SiGit,
-  SiGithub,
-  SiNotion,
-  SiZapier,
-  SiOpenai,
-  SiDocker,
+// Simple Icons
+import { 
+  SiTableau, 
+  SiPython, 
+  SiGooglesheets, 
+  SiGoogleanalytics, 
+  SiGoogledatastudio, 
+  SiZapier, 
+  SiNotion, 
+  SiOpenai, 
+  SiReact, 
+  SiJavascript, 
+  SiTypescript, 
+  SiHtml5, 
+  SiCss3, 
+  SiMongodb, 
+  SiPostgresql, 
+  SiDocker, 
+  SiFirebase, 
+  SiBootstrap, 
+  SiTailwindcss, 
+  SiSass, 
+  SiGit, 
+  SiGithub, 
+  SiNextdotjs, 
+  SiD3Dotjs, 
+  SiTensorflow, 
   SiStreamlit,
-  SiD3Dotjs,
-  SiTensorflow,
-  SiNextdotjs,
+  SiAmazonaws
 } from 'react-icons/si';
 
+// Feather Icons
+import { FiExternalLink, FiFigma, FiTrendingUp, FiMaximize2 } from 'react-icons/fi';
+// Bootstrap Icons
 import { BsFileEarmarkExcel } from 'react-icons/bs';
+// Font Awesome Icons
+import { FaPalette } from 'react-icons/fa';
 
 // Components
 import SEO from '../components/SEO';
 
 // Utils
 import { scrollToSection } from '../utils/scrollUtils';
+
+// Tilt Effect
+import Tilt from 'react-parallax-tilt';
 
 // Glitch text component
 const GlitchText = ({ children }) => {
@@ -71,39 +81,64 @@ const GlitchText = ({ children }) => {
   );
 };
 
-// Tech stack icons mapping
+// Tech stack icons mapping with categories
 const techIcons = {
-  Tableau: <SiTableau />,
-  'Power BI': <FaChartLine />,
-  Python: <SiPython />,
-  React: <SiReact />,
-  JavaScript: <SiJavascript />,
-  HTML5: <SiHtml5 />,
-  CSS3: <SiCss3 />,
-  Git: <SiGit />,
-  GitHub: <SiGithub />,
-  Notion: <SiNotion />,
-  Zapier: <SiZapier />,
-  OpenAI: <SiOpenai />,
-  Figma: <FiFigma />,
-  Excel: <BsFileEarmarkExcel />,
-  'Data Analysis': <FaChartLine />,
-  'Market Strategy': <FaChartLine />,
-  'Scikit-learn': <SiPython />,
-  Pandas: <SiPython />,
-  XGBoost: <SiPython />,
-  TensorFlow: <SiPython />,
-  Prophet: <SiPython />,
-  SQL: <FaDatabase />,
-  PyTorch: <SiPython />,
-  'Azure ML': <FaMicrosoft />,
-  OpenCV: <SiPython />,
-  FastAPI: <SiPython />,
-  Docker: <SiDocker />,
-  Streamlit: <SiStreamlit />,
-  'D3.js': <SiD3Dotjs />,
-  'TensorFlow.js': <SiTensorflow />,
+  // Core Technologies
+  'React': <SiReact className="text-blue-500" />,
+  'JavaScript': <SiJavascript className="text-yellow-400" />,
+  'TypeScript': <SiTypescript className="text-blue-600" />,
+  'HTML5': <SiHtml5 className="text-orange-500" />,
+  'CSS3': <SiCss3 />,
+  'Node.js': <FaNodeJs className="text-green-500" />,
+  'Python': <SiPython className="text-blue-600" />,
+  'Git': <SiGit />,
+  'GitHub': <SiGithub />,
+  
+  // Data & Analytics
+  'Tableau': <SiTableau className="text-blue-600" />,
+  'Power BI': <FaChartLine className="text-yellow-500" />,
+  'Excel': <BsFileEarmarkExcel />,
+  'Google Sheets': <SiGooglesheets className="text-green-500" />,
+  'Google Analytics': <SiGoogleanalytics className="text-orange-500" />,
+  'Google Data Studio': <SiGoogledatastudio className="text-blue-400" />,
+  'Data Analysis': <FaChartLine className="text-blue-500" />,
+  'Business Intelligence': <FaChartPie className="text-orange-500" />,
+  'Data Visualization': <FaChartBar className="text-blue-400" />,
+  'SQL': <FaDatabase className="text-blue-700" />,
+  'MongoDB': <SiMongodb className="text-green-600" />,
+  'PostgreSQL': <SiPostgresql className="text-blue-700" />,
+  
+  // AI & Automation
+  'OpenAI': <SiOpenai className="text-green-600" />,
+  'Automation': <FaRobot className="text-blue-500" />,
+  'Zapier': <SiZapier className="text-blue-500" />,
+  'Notion': <SiNotion />,
+  
+  // Web & Cloud
+  'Docker': <SiDocker className="text-blue-500" />,
+  'AWS': <SiAmazonaws className="text-yellow-500" />,
+  'Firebase': <SiFirebase className="text-yellow-500" />,
   'Next.js': <SiNextdotjs />,
+  
+  // UI/UX
+  'Material-UI': <FaPalette className="text-blue-500" />,
+  'Bootstrap': <SiBootstrap className="text-purple-500" />,
+  'Tailwind CSS': <SiTailwindcss className="text-cyan-400" />,
+  'Sass': <SiSass className="text-pink-500" />,
+  'Figma': <FiFigma className="text-pink-500" />,
+  
+  // Data Science & ML
+  'TensorFlow': <SiTensorflow className="text-orange-500" />,
+  'D3.js': <SiD3Dotjs className="text-orange-600" />,
+  'Streamlit': <SiStreamlit className="text-red-500" />,
+  'Prophet': <SiPython className="text-blue-600" />,
+  'PyTorch': <SiPython className="text-orange-500" />,
+  'Azure ML': <FaMicrosoft className="text-blue-600" />,
+  'OpenCV': <SiPython className="text-blue-600" />,
+  'FastAPI': <SiPython className="text-green-600" />,
+  
+  // Default fallback for any technology not listed above
+  'default': <FaCode className="text-gray-500" />,
 };
 
 // Project card component
@@ -432,274 +467,6 @@ const ProjectCard = ({ project, index, onClick }) => {
   );
 };
 
-  // Project modal component
-const ProjectModal = ({ project, isOpen, onClose }) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const [images, setImages] = useState([]);
-  const [currentImage, setCurrentImage] = useState('');
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [isImageError, setIsImageError] = useState(false);
-  const modalRef = useRef(null);
-  
-  // Set mounted state to handle animations and initialize images
-  useEffect(() => {
-    if (isOpen && project) {
-      setIsMounted(true);
-      setIsImageLoaded(false);
-      setIsImageError(false);
-      
-      // Initialize images array from project.images or use project.image as single image
-      const projectImages = project.images 
-        ? [...project.images] 
-        : project.image 
-          ? [project.image]
-          : [];
-      
-      // If previewImage exists and is not included, add it
-      if (project.previewImage && !projectImages.includes(project.previewImage)) {
-        projectImages.unshift(project.previewImage);
-      }
-      
-      setImages(projectImages);
-      setSelectedImageIndex(0);
-      setCurrentImage(projectImages[0] || '');
-      
-      // Focus the modal when it opens for better keyboard navigation
-      if (modalRef.current) {
-        modalRef.current.focus();
-      }
-    }
-    
-    return () => {
-      setIsMounted(false);
-    };
-  }, [isOpen, project]);
-  
-  // Close modal on Escape key or click outside
-  useEffect(() => {
-    if (!isOpen) return;
-    
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'ArrowLeft' && images.length > 1) {
-        setSelectedImageIndex(prev => (prev - 1 + images.length) % images.length);
-      } else if (e.key === 'ArrowRight' && images.length > 1) {
-        setSelectedImageIndex(prev => (prev + 1) % images.length);
-      }
-    };
-    
-    const handleClickOutside = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        onClose();
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleClickOutside);
-    
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose, images.length]);
-  
-  // Update current image when selected index changes
-  useEffect(() => {
-    if (images.length > 0 && selectedImageIndex >= 0 && selectedImageIndex < images.length) {
-      setIsImageLoaded(false);
-      setIsImageError(false);
-      setCurrentImage(images[selectedImageIndex]);
-    }
-  }, [selectedImageIndex, images]);
-  
-  // Handle image load and error states
-  useEffect(() => {
-    if (!currentImage) return;
-    
-    const img = new Image();
-    img.src = currentImage;
-    
-    img.onload = () => {
-      setIsImageLoaded(true);
-      setIsImageError(false);
-    };
-    
-    img.onerror = () => {
-      console.error(`Failed to load image: ${currentImage}`);
-      setIsImageError(true);
-      setIsImageLoaded(true);
-    };
-    
-    return () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-  }, [currentImage]);
-  
-  // Navigation functions
-  const nextImage = (e) => {
-    e?.stopPropagation();
-    setSelectedImageIndex(prev => (prev + 1) % images.length);
-  };
-
-  const prevImage = (e) => {
-    e?.stopPropagation();
-    setSelectedImageIndex(prev => (prev - 1 + images.length) % images.length);
-  };
-  
-  const toggleFullscreen = (e) => {
-    e?.stopPropagation();
-    setIsFullscreen(!isFullscreen);
-  };
-  
-  if (!isOpen || !project) return null;
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onClick={onClose}
-        >
-          <motion.div 
-            ref={modalRef}
-            className="relative bg-gray-900 rounded-lg shadow-2xl max-w-4xl w-full max-h-[100vh] overflow-hidden flex flex-col"
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Modal content */}
-            <div className="flex-1 overflow-auto p-0">
-              {/* Main Thumbnail - Full Width */}
-              <div className="relative w-full overflow-hidden bg-gray-800 group">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-auto max-h-[80vh] object-cover"
-                />
-                
-                {/* Close Button */}
-                <button
-                  onClick={onClose}
-                  className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors z-10"
-                  aria-label="Close modal"
-                >
-                  <FaTimes className="w-5 h-5" />
-                </button>
-
-                {/* Tech Stack on Image Hover */}
-                {project.techStack && project.techStack.length > 0 && (
-                  <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-                    {project.techStack.map((tech, i) => (
-                      <span 
-                        key={i}
-                        className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-800/90 text-gray-200 border border-gray-700"
-                      >
-                        {techIcons[tech] && (
-                          <span className="mr-1.5">{techIcons[tech]}</span>
-                        )}
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              {/* Project Details */}
-              <div className="max-w-4xl mx-auto px-6 py-6">
-                {/* Project Title and Description */}
-                <div className="mb-6">
-                  <h3 className="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-                    {project.title}
-                  </h3>
-                  <div className="h-1 w-16 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mb-4"></div>
-                  <p className="text-gray-300 text-lg leading-relaxed font-light tracking-wide">
-                    {project.description}
-                  </p>
-                </div>
-
-               
-                {/* Gallery Section */}
-                <div className="mt-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-                      PROJECT GALLERY
-                    </h4>
-                    {project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
-                      <a
-                        href={project.link}
-                        target="_self"
-                        rel="noopener noreferrer"
-                        className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                      >
-                        <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                        <span className="relative flex items-center">
-                          <FaExternalLinkAlt className="mr-2.5 transition-transform duration-300 group-hover:scale-110" />
-                          <span className="tracking-wide">View Project</span>
-                          <FiArrowRight className="ml-2 transition-all duration-300 transform -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0" />
-                        </span>
-                      </a>
-                    ) : (
-                      <Link
-                        to={project.link}
-                        className="group relative inline-flex items-center px-5 py-2.5 overflow-hidden font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                      >
-                        <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-                        <span className="relative flex items-center">
-                          <FaExternalLinkAlt className="mr-2.5 transition-transform duration-300 group-hover:scale-110" />
-                          <span className="tracking-wide">View Project</span>
-                          <FiArrowRight className="ml-2 transition-all duration-300 transform -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0" />
-                        </span>
-                      </Link>
-                    )}
-                  </div>
-                  
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    {project.images.slice(1).map((img, index) => (
-                      <div key={index} className="relative group aspect-square">
-                        <div className="w-full h-full rounded-lg overflow-hidden border-2 border-gray-700 group-hover:border-blue-500 transition-colors">
-                          <img
-                            src={img}
-                            alt={`${project.title} - ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                          <button
-                            onClick={() => {
-                              setSelectedImageIndex(index + 1);
-                              setCurrentImage(img);
-                              setIsImageLoaded(false);
-                            }}
-                            className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transform transition-transform hover:scale-110"
-                            aria-label={`View image ${index + 2}`}
-                          >
-                            <FiMaximize2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-};
-
 const projects = [
   {
     id: 'zomato-expansion',
@@ -707,7 +474,7 @@ const projects = [
     shortDescription: 'Market Strategy Dashboard in Excel',
     description:
       "Built an interactive Excel dashboard to analyze Zomato's city-wise expansion strategy across India, uncovering performance trends and market insights. Helped identify high-performing regions and new expansion opportunities.",
-    techStack: ['Excel', 'Data Analysis', 'Market Strategy'],
+    techStack: ['Excel', 'Data Analysis', 'Business Intelligence'],
     icon: 'Excel',
     image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
@@ -727,7 +494,7 @@ const projects = [
     shortDescription: 'Sales Performance Insights in Tableau',
     description:
       'Created a dynamic Tableau dashboard revealing daily/weekly sales trends, customer behavior, and category performance for better decision-making. Boosted revenue by 12% through optimized inventory and promotions.',
-    techStack: ['Tableau', 'Data Analysis', 'Sales Analytics'],
+    techStack: ['Tableau', 'Data Analysis', 'Business Intelligence', 'Data Visualization'],
     icon: 'Tableau',
     image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
@@ -749,7 +516,7 @@ const projects = [
     shortDescription: 'HR & Finance Automation with SQL + Sheets',
     description:
       'Automated attendance and payroll data reporting using SQL queries and Google Sheets for Ekam Indian Groceries, Australia. Reduced manual reporting time by 80% monthly for HR and accounts.',
-    techStack: ['SQL', 'Google Sheets', 'Automation'],
+    techStack: ['SQL', 'Google Sheets', 'Automation', 'Data Analysis'],
     icon: 'SQL',
     image: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
@@ -768,7 +535,7 @@ const projects = [
     shortDescription: 'Retail Finance Tracker in Power BI',
     description:
       'Created a multi-store Power BI dashboard to track daily cash flow and flag discrepancies across Ekam locations in real time. Improved financial visibility and reduced cash errors significantly.',
-    techStack: ['Power BI', 'Finance', 'Data Visualization'],
+    techStack: ['Power BI', 'Data Analysis', 'Business Intelligence', 'Data Visualization'],
     icon: 'Power BI',
     image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
@@ -787,7 +554,7 @@ const projects = [
     shortDescription: 'AI-Powered Planning with GPT + Notion',
     description:
       'Built an AI-based planner using GPT, Notion, and Google Sheets—automating journaling, routines, and task tracking. Saved 2+ hours daily by automating decisions and personal workflows.',
-    techStack: ['GPT', 'Notion', 'Automation'],
+    techStack: ['OpenAI', 'Notion', 'Automation', 'Google Sheets', 'JavaScript'],
     icon: 'Notion',
     image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
@@ -804,7 +571,7 @@ const projects = [
     shortDescription: 'Business Workflow Automation with GPT + Zapier',
     description:
       'Designed AI + Zapier automations for Excel and emails—auto-generating reports, syncing data, and streamlining ops for daily business use. Saved 15+ hours/month by eliminating repetitive manual work.',
-    techStack: ['Zapier', 'GPT', 'Automation'],
+    techStack: ['Zapier', 'OpenAI', 'Automation', 'Excel', 'Google Sheets'],
     icon: 'Zapier',
     image: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
@@ -821,7 +588,7 @@ const projects = [
     shortDescription: 'AI-Enhanced Personal Website',
     description:
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
-    techStack: ['Web Development', 'AI Integration', 'UI/UX Design'],
+    techStack: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Git', 'GitHub'],
     icon: 'GitHub',
     image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     previewImage: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
@@ -836,41 +603,51 @@ const projects = [
 ];
 
 const Projects = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [isLoading, setIsLoading] = useState(true);
+
+  // State for modal
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const initialized = useRef(false);
+
+  // Handle project selection for modal
+  const handleProjectClick = useCallback((project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+    // Prevent scrolling when modal is open
+    document.body.style.overflow = 'hidden';
+  }, []);
+
+  // Handle modal close
+  const handleCloseModal = useCallback(() => {
+    setIsModalOpen(false);
+    // Re-enable scrolling when modal is closed
+    document.body.style.overflow = 'auto';
+    // Reset selected project after animation completes
+    setTimeout(() => setSelectedProject(null), 300);
+  }, []);
 
   // Filter projects based on search term and active filter
   const filteredProjects = useMemo(() => {
-    let result = [...projects];
-
-    // Apply search term filter
-    if (searchTerm.trim()) {
-      const term = searchTerm.toLowerCase();
-      result = result.filter(
-        (project) =>
-          project.title.toLowerCase().includes(term) ||
-          project.description.toLowerCase().includes(term) ||
-          project.techStack.some((tech) => tech.toLowerCase().includes(term))
-      );
-    }
-
-    // Apply category filter
-    if (activeFilter !== 'all') {
-      result = result.filter(
-        (project) =>
-          project.categories?.includes(activeFilter) ||
-          project.techStack?.some((tech) => tech.toLowerCase() === activeFilter.toLowerCase())
-      );
-    }
-
-    return result;
-  }, [searchTerm, activeFilter]);
+    if (!projects) return [];
+    
+    return projects.filter(project => {
+      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         project.techStack.some(tech => 
+                           tech.toLowerCase().includes(searchTerm.toLowerCase())
+                         );
+      
+      const matchesFilter = activeFilter === 'all' || 
+                          project.categories?.includes(activeFilter) ||
+                          (activeFilter === 'data-analysis' && project.categories?.includes('data')) ||
+                          (activeFilter === 'visualization' && project.categories?.includes('viz')) ||
+                          (activeFilter === 'automation' && project.categories?.includes('automation'));
+      
+      return matchesSearch && matchesFilter;
+    });
+  }, [projects, searchTerm, activeFilter]);
 
   // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
@@ -882,114 +659,18 @@ const Projects = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle project selection for modal
-  const handleProjectSelect = useCallback((project) => {
-    if (!project) return false;
-    
-    console.log('Setting selected project:', project.id);
-    
-    // Create a deep copy of the project to avoid potential reference issues
-    const projectCopy = JSON.parse(JSON.stringify(project));
-    
-    // Update URL with project ID
-    const newUrl = `${window.location.pathname}#project-${project.id}`;
-    
-    // Only push state if the URL is different to avoid duplicate history entries
-    if (window.location.hash !== `#project-${project.id}`) {
-      window.history.pushState({ projectId: project.id }, '', newUrl);
-    }
-    
-    setSelectedProject(projectCopy);
-    setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-    document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
-    
-    return false; // Prevent any default behavior
-  }, []);
 
-  // Handle modal close
-  const handleCloseModal = useCallback((e) => {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    console.log('Closing modal');
-    
-    // Only update URL if we have a project hash
-    if (window.location.hash.startsWith('#project-')) {
-      window.history.pushState(null, '', window.location.pathname);
-    }
-    
-    setIsModalOpen(false);
-    setSelectedProject(null);
-    document.body.style.overflow = 'auto'; // Re-enable scrolling when modal is closed
-    document.documentElement.style.paddingRight = '';
-    
-    return false;
-  }, []);
-  
-  // Handle browser back/forward navigation
+
+  // Handle scroll to show/hide scroll-to-top button
   useEffect(() => {
-    const handlePopState = (event) => {
-      const hash = window.location.hash;
-      
-      // If we have a project hash in the URL
-      if (hash && hash.startsWith('#project-')) {
-        const projectId = hash.replace('#project-', '');
-        const project = projects.find(p => p.id === projectId);
-        
-        if (project) {
-          // Only update if we're not already showing this project
-          if (!selectedProject || selectedProject.id !== projectId) {
-            const projectCopy = JSON.parse(JSON.stringify(project));
-            setSelectedProject(projectCopy);
-            setIsModalOpen(true);
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
-          }
-        } else {
-          // Project not found, close modal if open
-          if (isModalOpen) {
-            setIsModalOpen(false);
-            setSelectedProject(null);
-            document.body.style.overflow = 'auto';
-            document.documentElement.style.paddingRight = '';
-          }
-        }
-      } else if (isModalOpen) {
-        // No project hash but modal is open, close it
-        handleCloseModal();
-      }
+    const handleScroll = () => {
+      // Removed state update since we're not using isScrolled anymore
+      // Keeping the effect in case we need to add scroll-based behavior later
     };
-    
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, [isModalOpen, selectedProject, projects, handleCloseModal]);
-  
-  // Initialize from URL on first load
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      
-      const hash = window.location.hash;
-      if (hash && hash.startsWith('#project-')) {
-        const projectId = hash.replace('#project-', '');
-        const project = projects.find(p => p.id === projectId);
-        
-        if (project) {
-          // Use setTimeout to ensure the modal opens after the component is mounted
-          setTimeout(() => {
-            const projectCopy = JSON.parse(JSON.stringify(project));
-            setSelectedProject(projectCopy);
-            setIsModalOpen(true);
-            document.body.style.overflow = 'hidden';
-            document.documentElement.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
-          }, 100);
-        }
-      }
-    }
-  }, [projects]);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Simulate loading
   useEffect(() => {
@@ -1191,7 +872,7 @@ const Projects = () => {
                   <ProjectCard
                     project={project}
                     index={index}
-                    onClick={handleProjectSelect}
+                    onClick={handleProjectClick}
                   />
                 </motion.div>
               ))}
@@ -1219,10 +900,10 @@ const Projects = () => {
       {/* Project Modal */}
       <AnimatePresence>
         {isModalOpen && selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            isOpen={isModalOpen} 
-            onClose={handleCloseModal} 
+          <EnhancedProjectModal
+            project={selectedProject}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
           />
         )}
       </AnimatePresence>

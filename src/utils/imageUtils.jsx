@@ -1,29 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { getOptimizedImageUrl } from './imageOptimization';
 
-/**
- * Gets the correct image path based on the environment
- * @param {string} type - The type of image (e.g., 'projects', 'profile')
- * @param {string} subfolder - Optional subfolder
- * @param {string} filename - The image filename
- * @returns {string} The correct image path
- */
 export const getImagePath = (type = '', subfolder = '', filename) => {
   if (!filename) return '';
-  
-  // In development, use relative paths
   if (import.meta.env.DEV) {
     return `/images/${type}${subfolder ? `/${subfolder}` : ''}/${filename}`;
   }
-  // In production, use absolute paths with the base URL
   return `${import.meta.env.BASE_URL || '/Sahil-Portfolio/'}images/${type}${subfolder ? `/${subfolder}` : ''}/${filename}`;
 };
 
-/**
- * Preloads an image to ensure it's cached
- * @param {string} src - The image source URL
- * @returns {Promise<boolean>} - Resolves to true when the image is loaded
- */
 export const preloadImage = (src) => {
   return new Promise((resolve) => {
     const img = new Image();
@@ -33,21 +18,6 @@ export const preloadImage = (src) => {
   });
 };
 
-/**
- * Creates an image with error handling and lazy loading
- * @param {Object} props - Component props
- * @param {string} props.src - The image source path
- * @param {string} [props.alt=''] - Alternative text for the image (required for accessibility)
- * @param {string} [props.className=''] - CSS class names
- * @param {string} [props.fallbackSrc='/images/fallback-image.jpg'] - Fallback image source
- * @param {('eager'|'lazy')} [props.loading='lazy'] - Loading strategy
- * @param {string} [props.decoding='async'] - Decoding hint
- * @param {number} [props.width] - Image width in pixels (for layout stability)
- * @param {number} [props.height] - Image height in pixels (for layout stability)
- * @param {boolean} [props.priority=false] - Whether to prioritize loading
- * @param {Object} [rest] - Additional props to pass to the img element
- * @returns {JSX.Element} Image component with error handling
- */
 export const ImageWithFallback = ({
   src,
   alt = '',
@@ -60,29 +30,36 @@ export const ImageWithFallback = ({
   priority = false,
   ...rest
 }) => {
-  const [imgSrc, setImgSrc] = useState(getOptimizedImageUrl(src || fallbackSrc, width, height));
+  const [imgSrc, setImgSrc] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const imgRef = useRef(null);
 
-  // Handle image loading and errors
   useEffect(() => {
     if (!src) {
       setImgSrc(fallbackSrc);
+      setIsError(true);
       return;
     }
 
+    const optimized = getOptimizedImageUrl(src, width, height, priority);
+    setImgSrc(optimized);
+    setIsLoading(true);
+    setIsError(false);
+
     const img = new Image();
+    img.src = optimized;
+
     let isMounted = true;
 
-    const handleLoad = () => {
+    img.onload = () => {
       if (isMounted) {
         setIsLoading(false);
         setIsError(false);
       }
     };
 
-    const handleError = () => {
+    img.onerror = () => {
       if (isMounted) {
         setIsLoading(false);
         setIsError(true);
@@ -90,31 +67,25 @@ export const ImageWithFallback = ({
       }
     };
 
-    img.src = src;
-    img.onload = handleLoad;
-    img.onerror = handleError;
-
     return () => {
       isMounted = false;
-      img.onload = null;
-      img.onerror = null;
     };
-  }, [src, fallbackSrc]);
+  }, [src, fallbackSrc, width, height, priority]);
 
-  // Handle retry loading the image
   const handleRetry = () => {
-    if (src && src !== imgSrc) {
+    if (src) {
+      const retrySrc = getOptimizedImageUrl(src, width, height, priority);
+      setImgSrc(retrySrc);
       setIsLoading(true);
-      setImgSrc(src);
+      setIsError(false);
     }
   };
 
-  // Determine loading strategy
   const loading = priority ? 'eager' : loadingProp;
   const fetchPriority = priority ? 'high' : 'auto';
 
   return (
-    <div 
+    <div
       className={`relative ${className}`}
       style={width || height ? { width, height } : undefined}
     >
@@ -123,12 +94,14 @@ export const ImageWithFallback = ({
           <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
-      
+
       <img
         ref={imgRef}
         src={imgSrc}
         alt={alt}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
+          isLoading ? 'opacity-0' : 'opacity-100'
+        }`}
         loading={loading}
         decoding={decoding}
         width={width}
@@ -137,18 +110,19 @@ export const ImageWithFallback = ({
         onError={() => {
           if (imgSrc !== fallbackSrc) {
             setImgSrc(fallbackSrc);
+            setIsError(true);
           }
         }}
         {...rest}
       />
-      
+
       {isError && (
-        <div 
+        <div
           className="absolute inset-0 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 p-4 text-center"
           onClick={handleRetry}
         >
           <span className="text-red-500 mb-2">⚠️ Failed to load image</span>
-          <button 
+          <button
             className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
             onClick={(e) => {
               e.stopPropagation();

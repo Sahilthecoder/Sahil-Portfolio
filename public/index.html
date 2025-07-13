@@ -46,13 +46,79 @@
     <meta name="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/twitter-card.jpg" />
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="/Sahil-Portfolio/images/profile/profile.webp" as="image" type="image/webp" />
-    <link rel="preload" href="/Sahil-Portfolio/css/index.CoMJKCIj.css" as="style" />
-    <link rel="preload" href="/Sahil-Portfolio/js/index.CsBkrCQB.js" as="script" />
-    <link rel="preload" href="/Sahil-Portfolio/js/react.B2LqJeY3.js" as="script" />
+    <link rel="preload" href="/Sahil-Portfolio/images/profile/profile.webp" as="image" type="image/webp" crossorigin="anonymous" />
+    <link rel="preload" href="/Sahil-Portfolio/css/index.CoMJKCIj.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="/Sahil-Portfolio/js/index.CsBkrCQB.js" as="script" crossorigin="anonymous" />
+    <link rel="preload" href="/Sahil-Portfolio/js/react.B2LqJeY3.js" as="script" crossorigin="anonymous" />
     
-    <!-- Critical CSS -->
-    <link rel="stylesheet" href="/Sahil-Portfolio/css/index.CoMJKCIj.css" media="screen" />
+    <!-- Preconnect to critical domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Critical CSS inline -->
+    <style>
+      :root {
+        --color-primary: 99 102 241;
+        --color-accent: 139 92 246;
+        --color-card: 255 255 255;
+        --color-border: 229 231 235;
+        --color-bg: 249 250 251;
+        --color-text: 17 24 39;
+        --color-heading: 17 24 39;
+      }
+      
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        line-height: 1.7;
+        color: rgb(var(--color-text));
+        background-color: rgb(var(--color-bg));
+        transition: background-color 0.3s ease;
+      }
+      
+      .dark {
+        --color-card: 31 41 55;
+        --color-border: 55 65 81;
+        --color-bg: 17 24 39;
+        --color-text: 243 244 246;
+        --color-heading: 255 255 255;
+      }
+      
+      /* Critical layout styles */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      
+      /* Critical image sizing */
+      .project-card {
+        aspect-ratio: 16/9;
+      }
+      
+      /* Critical font loading */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2) format('woff2');
+      }
+      
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/inter/v12/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2) format('woff2');
+      }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="/Sahil-Portfolio/css/index.CoMJKCIj.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div id="root"></div>

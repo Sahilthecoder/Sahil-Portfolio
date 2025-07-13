@@ -1,40 +1,66 @@
 // Image optimization settings
 export const imageSettings = {
-  // Image quality settings
   quality: {
-    webp: 80,
-    jpeg: 75,
-    png: 85
+    webp: 70,
+    jpeg: 65,
+    png: 80
   },
-
-  // Image size limits (in pixels)
   maxSize: {
-    width: 1920,
-    height: 1080
+    width: 1200,
+    height: 675
   },
-
-  // Image format preferences
   formatPreferences: {
     default: 'webp',
     fallback: 'jpeg'
   },
-
-  // Image loading strategy
   loading: 'lazy',
-
-  // Image decoding strategy
-  decoding: 'async'
+  decoding: 'async',
+  placeholder: {
+    width: 100,
+    height: 56,
+    quality: 30
+  },
+  critical: {
+    preload: true,
+    priority: true,
+    decoding: 'sync'
+  }
 };
 
-// Helper function to generate optimized image URLs
-export const getOptimizedImageUrl = (originalUrl, width = null, height = null) => {
+// ✅ Use this optimized function
+export const getOptimizedImageUrl = (originalUrl, width = null, height = null, isCritical = false) => {
   const url = new URL(originalUrl);
   const params = new URLSearchParams(url.search);
 
-  if (width) params.set('width', width);
-  if (height) params.set('height', height);
+  const baseWidth = width || imageSettings.maxSize.width;
+  const baseHeight = height || imageSettings.maxSize.height;
+
+  const aspectRatio = baseWidth / baseHeight;
+
+  if (width && !height) {
+    height = Math.round(width / aspectRatio);
+  } else if (height && !width) {
+    width = Math.round(height * aspectRatio);
+  }
+
+  if (isCritical) {
+    params.set('priority', 'true');
+    params.set('decoding', imageSettings.critical.decoding);
+  } else {
+    params.set('loading', imageSettings.loading);
+    params.set('decoding', imageSettings.decoding);
+  }
+
+  params.set('width', width);
+  params.set('height', height);
   params.set('quality', imageSettings.quality.webp);
   params.set('format', imageSettings.formatPreferences.default);
+
+  // Add placeholder enhancements
+  params.set('placeholder', 'true');
+  params.set('placeholder-quality', imageSettings.placeholder.quality);
+  params.set('placeholder-width', imageSettings.placeholder.width);
+  params.set('placeholder-height', imageSettings.placeholder.height);
 
   url.search = params.toString();
   return url.toString();

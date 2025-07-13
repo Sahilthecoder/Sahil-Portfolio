@@ -438,6 +438,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               aria-label="GitHub"
             >
               <FaGithub className="w-5 h-5" />
+              <span className="sr-only">GitHub Profile</span>
             </a>
             <a
               href="https://www.linkedin.com/in/sahil-ali-714867242/"
@@ -447,6 +448,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               aria-label="LinkedIn"
             >
               <FaLinkedin className="w-5 h-5" />
+              <span className="sr-only">LinkedIn Profile</span>
             </a>
           </div>
 

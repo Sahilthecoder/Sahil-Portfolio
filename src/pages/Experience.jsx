@@ -157,10 +157,7 @@ const Experience = () => {
     ],
   };
 
-  const languages = [
-    { name: 'English', level: 'Professional' },
-    { name: 'Hindi', level: 'Native' },
-  ];
+
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
@@ -489,84 +486,8 @@ const Experience = () => {
           </div>
         </section>
 
-        {/* Languages Section */}
-        <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900">
-          <div className="container mx-auto px-4 sm:px-6">
-            <motion.div
-              className="max-w-4xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
-                Languages
-              </h2>
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm">
-                <div className="space-y-6">
-                  {languages.map((lang, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1, duration: 0.3 }}
-                    >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-gray-900 dark:text-white">{lang.name}</span>
-                        <span className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                          {lang.level}
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5">
-                        <div 
-                          className="bg-gradient-to-r from-indigo-500 to-blue-500 h-2.5 rounded-full" 
-                          style={{ width: `${lang.proficiency}%` }}
-                        ></div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
-        {/* Call to Action */}
-        <section className="py-16 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-4 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="max-w-3xl mx-auto"
-            >
-              <h2 className="text-3xl font-bold mb-6">Let's Work Together</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Have a project in mind or want to discuss potential opportunities?
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <motion.a
-                  href="/contact"
-                  className="px-8 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Get In Touch
-                </motion.a>
-                <motion.a
-                  href="/projects"
-                  className="px-8 py-3 border-2 border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 rounded-lg font-medium hover:bg-indigo-50 dark:hover:bg-gray-800 transition-colors"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  View My Work
-                </motion.a>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+
       </main>
     </div>
   );

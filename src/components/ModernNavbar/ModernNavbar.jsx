@@ -12,7 +12,7 @@ import {
   FiSun,
   FiMoon
 } from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars, FaWhatsapp } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
@@ -454,6 +454,16 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               <FaLinkedin className="w-5 h-5" aria-hidden="true" />
               <span className="sr-only">View my LinkedIn profile</span>
             </a>
+            <a
+              href="https://wa.me/919875771550"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="WhatsApp"
+            >
+              <FaWhatsapp className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">Contact me on WhatsApp</span>
+            </a>
           </div>
 
 
@@ -513,6 +523,15 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           aria-label="LinkedIn"
                         >
                           <FaLinkedin className="h-5 w-5" aria-label="LinkedIn" role="img" />
+                        </a>
+                        <a
+                          href="https://wa.me/919875771550"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+                          aria-label="WhatsApp"
+                        >
+                          <FaWhatsapp className="h-5 w-5" aria-label="WhatsApp" />
                         </a>
                       </div>
                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>

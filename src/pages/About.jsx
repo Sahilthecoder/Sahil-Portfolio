@@ -27,6 +27,7 @@ import {
   FaFileAlt,
   FaGraduationCap,
   FaCheckCircle,
+  FaLanguage,
 } from 'react-icons/fa';
 import { FiTrendingUp } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
@@ -116,6 +117,11 @@ const About = () => {
       description: 'Committed to staying current with the latest technologies and methodologies to deliver innovative solutions.',
       icon: <FaTools className="text-green-500" /> 
     },
+  ];
+
+  const languages = [
+    { name: 'English', level: 'Professional', icon: <FaLanguage className="text-indigo-500" /> },
+    { name: 'Hindi', level: 'Native', icon: <FaLanguage className="text-blue-500" /> },
   ];
 
   return (
@@ -349,6 +355,44 @@ const About = () => {
                     {tool.icon}
                   </div>
                   <span className="text-sm font-medium text-gray-600 dark:text-gray-300 text-center">{tool.name}</span>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* Languages */}
+          <section className="mb-16 sm:mb-20 md:mb-24 bg-white dark:bg-gray-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-lg">
+            <motion.div 
+              className="text-center mb-8 sm:mb-12 md:mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="inline-block px-3 py-1 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-3 sm:mb-4">
+                Language Skills
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+                Languages
+              </h2>
+              <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto rounded-full mb-6 sm:mb-8"></div>
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {languages.map((lang, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 rounded-xl text-indigo-600 dark:text-indigo-400 text-2xl mb-6">
+                    {lang.icon}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3">{lang.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{lang.level}</p>
                 </motion.div>
               ))}
             </div>

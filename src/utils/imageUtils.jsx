@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { getOptimizedImageUrl } from './imageOptimization';
 
 /**
  * Gets the correct image path based on the environment
@@ -59,7 +60,7 @@ export const ImageWithFallback = ({
   priority = false,
   ...rest
 }) => {
-  const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
+  const [imgSrc, setImgSrc] = useState(getOptimizedImageUrl(src || fallbackSrc, width, height));
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const imgRef = useRef(null);

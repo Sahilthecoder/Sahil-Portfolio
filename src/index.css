@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Critical CSS first */
+:root {
+  --color-primary: 99 102 241;
+  --color-accent: 139 92 246;
+  --color-card: 255 255 255;
+  --color-border: 229 231 235;
+  --color-bg: 249 250 251;
+  --color-text: 17 24 39;
+  --color-heading: 17 24 39;
+}
+
 @layer base {
   :root {
     --color-primary: 99 102 241;  /* indigo-500 */
@@ -27,13 +38,14 @@
   
   body {
     @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased;
-    font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     line-height: 1.7;
     padding-top: 0;
     transition: all 0.3s ease;
+    will-change: transform;
   }
   
   body.menu-open {

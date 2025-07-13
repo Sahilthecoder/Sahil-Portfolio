@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
       color: 'from-gray-800 to-gray-700',
     },
     {
-      icon: <FaLinkedin className="w-5 h-5" />,
+      icon: <FaLinkedin className="w-5 h-5" aria-label="LinkedIn" role="img" />,
       href: 'https://www.linkedin.com/in/sahil-ali-714867242/',
       label: 'LinkedIn',
       color: 'from-blue-600 to-blue-500',

@@ -294,7 +294,7 @@ const ProjectCard = ({ project, index, onClick }) => {
               {isImageError && (
                 <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
                   <div className="text-center p-4">
-                    <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" />
+                    <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" aria-label="Image placeholder" role="img" />
                     <p className="text-xs text-gray-500">Image not available</p>
                   </div>
                 </div>
@@ -322,8 +322,8 @@ const ProjectCard = ({ project, index, onClick }) => {
                       }}
                       className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-150 shadow-sm cursor-default"
                     >
-                      <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm">
-                        {techIcons[tech] || tech.charAt(0)}
+                      <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm" aria-hidden="true">
+                        <span aria-hidden="true">{techIcons[tech] || tech.charAt(0)}</span>
                       </span>
                       <span className="hidden xs:inline">{tech}</span>
                       <span className="xs:hidden">{tech.split(' ')[0]}</span>

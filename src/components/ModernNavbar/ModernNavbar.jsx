@@ -506,7 +506,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                           className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
                           aria-label="LinkedIn"
                         >
-                          <FaLinkedin className="h-5 w-5" />
+                          <FaLinkedin className="h-5 w-5" aria-label="LinkedIn" role="img" />
                         </a>
                       </div>
                       <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>

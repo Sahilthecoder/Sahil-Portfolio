@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   FaTimes, 
   FaExternalLinkAlt, 
@@ -280,22 +281,12 @@ const EnhancedProjectModal = ({ project, isOpen, onClose }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 aspectRatio: '16/9',
-                maxHeight: '60vh'
+                maxHeight: '60vh',
+                minHeight: '200px'
               }}>
-                {/* Main Image */}
+                {/* Main Image Container */}
                 <div 
-                  className="relative w-full h-full" 
-                  style={{ 
-                    width: '100%',
-                    height: '100%',
-                    minHeight: '220px',
-                    margin: 0,
-                    padding: 0,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'relative'
-                  }}
+                  className="relative w-full h-full flex items-center justify-center"
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
                 >
@@ -326,31 +317,23 @@ const EnhancedProjectModal = ({ project, isOpen, onClose }) => {
                     </div>
                   )}
 
-                  {/* Image */}
-                  <motion.div 
+                  {/* Image Wrapper */}
+                  <div 
+                    className="relative w-full h-full flex items-center justify-center"
                     style={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
                       backgroundColor: '#f3f4f6',
                       overflow: 'hidden',
-                      position: 'relative'
+                      maxWidth: '100%',
+                      maxHeight: '100%'
                     }}
-                    onMouseEnter={() => setIsHovering(true)}
-                    onMouseLeave={() => setIsHovering(false)}
                   >
                     <motion.img
                       src={currentImage}
                       alt={`${project.title} - Featured`}
+                      className="w-auto h-auto max-w-full max-h-full object-contain"
                       style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                        objectPosition: 'center',
                         opacity: isImageLoaded ? 1 : 0,
-                        transition: 'all 0.3s ease-in-out',
+                        transition: 'opacity 0.3s ease-in-out',
                         filter: isHovering ? 'brightness(0.7)' : 'brightness(1)'
                       }}
                       onLoad={() => setIsImageLoaded(true)}
@@ -391,7 +374,7 @@ const EnhancedProjectModal = ({ project, isOpen, onClose }) => {
                         ))}
                       </motion.div>
                     )}
-                  </motion.div>
+                  </div>
 
                   {/* Fullscreen Toggle */}
                   <motion.button
@@ -447,17 +430,25 @@ const EnhancedProjectModal = ({ project, isOpen, onClose }) => {
                         {project.title}
                       </h1>
                       {project.link && (
-                        <motion.a
-                          href={project.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow hover:shadow-md transition-all duration-300 whitespace-nowrap active:scale-95"
+                        <motion.div
+                          className="inline-flex"
                           whileHover={{ y: -1 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <FaExternalLinkAlt className="mr-1.5 sm:mr-2 flex-shrink-0 w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                          <span className="text-xs sm:text-sm">View Project</span>
-                        </motion.a>
+                          <Link
+                            to={project.link}
+                            className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow hover:shadow-md transition-all duration-300 whitespace-nowrap active:scale-95"
+                            onClick={(e) => {
+                              // Close the modal when clicking the link
+                              onClose();
+                              // Prevent default to let React Router handle the navigation
+                              e.stopPropagation();
+                            }}
+                          >
+                            <FaExternalLinkAlt className="mr-1.5 sm:mr-2 flex-shrink-0 w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                            <span className="text-xs sm:text-sm">View Project</span>
+                          </Link>
+                        </motion.div>
                       )}
                     </div>
                     <div className="h-0.5 w-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>

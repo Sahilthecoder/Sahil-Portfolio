@@ -375,10 +375,7 @@ const ProjectCard = ({ project, index, onClick }) => {
             style={{ pointerEvents: 'auto' }}
           >
             <div className="flex items-start justify-between mb-2 sm:mb-3">
-              <div className="flex items-center space-x-2 sm:space-x-3">
-                <span className="flex-shrink-0 inline-flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white text-sm sm:text-base shadow-sm">
-                  {techIcons[project.icon] || <BsFileEarmarkExcel className="w-4 h-4 sm:w-5 sm:h-5" />}
-                </span>
+              <div>
                 <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent">
                   {project.title}
                 </h3>
@@ -760,7 +757,6 @@ const Projects = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <FiTrendingUp className="w-4 h-4" />
               <span>Portfolio Showcase</span>
             </motion.div>
 

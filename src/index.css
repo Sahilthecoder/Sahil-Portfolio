@@ -13,6 +13,38 @@
   --color-heading: 17 24 39;
 }
 
+/* Custom focus styles */
+:focus-visible {
+  outline: 2px solid rgb(99 102 241 / 0.75);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 4px rgb(99 102 241 / 0.1);
+}
+
+/* ARIA live regions */
+[aria-live="polite"] {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+}
+
+[aria-live="assertive"] {
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+}
+
 @layer base {
   :root {
     --color-primary: 99 102 241;  /* indigo-500 */

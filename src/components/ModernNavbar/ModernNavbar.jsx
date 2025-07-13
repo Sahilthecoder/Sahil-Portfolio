@@ -367,6 +367,10 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               }
             }}
           >
+            {/* Skip link */}
+            <a href="#main-content" className="sr-only focus:not-sr-only" aria-label="Skip to main content">
+              Skip to main content
+            </a>
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
                 <ImageWithFallback 
@@ -435,20 +439,20 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="GitHub"
+              aria-label="GitHub profile"
             >
-              <FaGithub className="w-5 h-5" />
-              <span className="sr-only">GitHub Profile</span>
+              <FaGithub className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">View my GitHub profile</span>
             </a>
             <a
               href="https://www.linkedin.com/in/sahil-ali-714867242/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="LinkedIn"
+              aria-label="LinkedIn profile"
             >
-              <FaLinkedin className="w-5 h-5" />
-              <span className="sr-only">LinkedIn Profile</span>
+              <FaLinkedin className="w-5 h-5" aria-hidden="true" />
+              <span className="sr-only">View my LinkedIn profile</span>
             </a>
           </div>
 

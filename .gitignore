@@ -106,7 +106,10 @@ dist
 
 # Gatsby files
 .cache/
-public
+# Allow public folder for React static assets
+!public/
+!public/**
+# public patterns removed
 
 # vuepress build output
 .vuepress/dist

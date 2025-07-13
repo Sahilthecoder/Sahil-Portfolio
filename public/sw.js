@@ -6,12 +6,15 @@ const ASSETS_TO_CACHE = [
   '/Sahil-Portfolio/',
   '/Sahil-Portfolio/index.html',
   '/Sahil-Portfolio/site.webmanifest',
-  '/Sahil-Portfolio/favicon.ico',
-  '/Sahil-Portfolio/favicon-32x32.png',
-  '/Sahil-Portfolio/images/favicons/favicon-16x16.png',
+  '/Sahil-Portfolio/images/favicons/favicon.ico',
   '/Sahil-Portfolio/images/favicons/favicon-32x32.png',
+  '/Sahil-Portfolio/images/favicons/favicon-16x16.png',
   '/Sahil-Portfolio/images/favicons/android-chrome-192x192.png',
+  '/Sahil-Portfolio/images/favicons/android-chrome-512x512.png',
   '/Sahil-Portfolio/images/favicons/favicon.svg',
+  '/Sahil-Portfolio/images/favicons/apple-touch-icon.png',
+  '/Sahil-Portfolio/images/favicons/mstile-150x150.png',
+  '/Sahil-Portfolio/images/favicons/mstile-310x310.png',
   '/Sahil-Portfolio/assets/fonts/Roboto.woff2',
   '/Sahil-Portfolio/assets/fonts/Poppins.woff2'
 ];

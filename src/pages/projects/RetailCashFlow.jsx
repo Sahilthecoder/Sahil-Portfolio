@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaChartLine,
   FaMoneyBillWave,
@@ -8,12 +8,43 @@ import {
   FaSearchDollar,
   FaCheckCircle,
   FaArrowLeft,
+  FaTable,
+  FaFileExcel,
+  FaExternalLinkAlt,
 } from 'react-icons/fa';
-import { FaTable, FaFileExcel, FaExternalLinkAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImagePath } from '../../utils/imageUtils.jsx';
+
+const gradientAnimation = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0 },
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    repeatType: 'reverse',
+    ease: 'easeInOut',
+  },
+};
 
 const RetailCashFlow = () => {
+  const images = useMemo(
+    () => [
+      {
+        id: 'retail-cover',
+        name: 'Project4_Cover',
+        alt: 'Retail Cash Flow Dashboard',
+        description: 'Project cover image',
+        featured: true,
+        width: 1600,
+        height: 900,
+        aspectRatio: '16/9',
+        containerClass: 'h-96',
+        projectId: 'retail',
+        ext: 'webp',
+        path: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
+      },
+    ],
+    []
+  );
   return (
     <motion.div
       className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 pt-16 lg:pt-24"
@@ -32,60 +63,30 @@ const RetailCashFlow = () => {
           Back to Projects
         </Link>
 
-        {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
+        {/* Hero Section */}
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
-            src="/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp"
+            src={images.find((img) => img.id === 'retail-cover').path}
             alt="Retail Cash Flow Dashboard"
             className="w-full h-full object-cover object-top"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
-            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
-            <div className="text-right text-white max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">AI-Powered Cash Flow Intelligence</h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-200">
-                Advanced financial forecasting and anomaly detection for retail operations
-              </p>
-              <div className="mt-3 sm:mt-4 flex flex-wrap justify-end gap-2">
-                {[
-                  '#AIFinance',
-                  '#PredictiveAnalytics',
-                  '#RetailAI',
-                  '#CashFlow',
-                ].map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-blue-600/90 text-white text-xs sm:text-sm rounded-full hover:bg-blue-700 transition-colors"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-blue-900/20 via-blue-900/15 to-transparent dark:from-blue-800/20 dark:via-blue-800/15"
+            variants={gradientAnimation}
+            initial="hidden"
+            animate="visible"
+          />
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div>
-              <div className="flex items-center mb-4">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  AI-Powered Cash Flow Intelligence
-                </h1>
-                <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
-                  AI + Predictive Analytics + Power BI
-                </span>
-              </div>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Advanced AI-driven financial forecasting and anomaly detection system for
-                multi-location retail operations, delivering 95% prediction accuracy for cash flow
-                optimization.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-4 sm:space-y-6">
+            {/* Project Title and Description */}
+            <div className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Financial Analytics Platform
+              </h2>
+              <div className="flex flex-wrap gap-2">
                 {[
                   '#AIFinance',
                   '#PredictiveAnalytics',

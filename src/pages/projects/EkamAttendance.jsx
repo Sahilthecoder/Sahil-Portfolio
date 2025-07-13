@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaDatabase,
   FaClock,
@@ -10,10 +10,23 @@ import {
   FaFileExcel,
   FaGoogle,
   FaServer,
+  FaTable,
+  FaMoneyBillWave,
+  FaUserCheck,
+  FaBusinessTime,
 } from 'react-icons/fa';
-import { FaTable, FaMoneyBillWave, FaUserCheck, FaBusinessTime } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { getImagePath } from '../../utils/imageUtils.jsx';
+
+const gradientAnimation = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0 },
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    repeatType: 'reverse',
+    ease: 'easeInOut',
+  },
+};
 
 const EkamAttendance = () => {
   return (
@@ -35,7 +48,7 @@ const EkamAttendance = () => {
         </Link>
 
         {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
             src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp"
             alt="Ekam Attendance Dashboard"
@@ -45,44 +58,27 @@ const EkamAttendance = () => {
               e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
-            <div className="text-right text-white max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">AI-Powered Workforce Intelligence</h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-200">
-                Transforming workforce management with AI-powered attendance and analytics
-              </p>
-              <div className="mt-3 sm:mt-4 flex flex-wrap justify-end gap-2">
-                {[
-                  '#AIAutomation',
-                  '#WorkforceAnalytics',
-                  '#HRTech',
-                  '#DataDriven',
-                ].map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-blue-600/90 text-white text-xs sm:text-sm rounded-full hover:bg-blue-700 transition-colors"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-blue-900/20 via-blue-900/15 to-transparent dark:from-blue-800/20 dark:via-blue-800/15"
+            variants={gradientAnimation}
+            initial="hidden"
+            animate="visible"
+          />
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-              <div className="flex items-center mb-4">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <div className="flex items-center mb-2 sm:mb-3">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                   AI-Powered Workforce Intelligence System
                 </h1>
-                <span className="ml-3 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
+                <span className="ml-3 inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
                   AI + Automation + Workforce Analytics
                 </span>
               </div>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">
                 An intelligent workforce management platform leveraging computer vision and machine
                 learning to automate time tracking, predict staffing needs, and optimize labor costs
                 with 97% accuracy.
@@ -571,51 +567,7 @@ GROUP BY e.name;`}
           </div>
         </div>
 
-        {/* Before & After Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Before Automation
-              </h3>
-              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                <img
-                  src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp"
-                  alt="Manual attendance tracking process"
-                  className="w-full h-full object-contain p-4"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
-                  }}
-                />
-              </div>
-              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                Manual tracking led to errors and inconsistencies in attendance records.
-              </p>
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                After Automation
-              </h3>
-              <div className="relative w-full h-64 bg-gray-100 dark:bg-gray-700 rounded-lg overflow-hidden">
-                <img
-                  src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp"
-                  alt="Automated attendance dashboard"
-                  className="w-full h-full object-contain p-4"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
-                  }}
-                />
-              </div>
-              <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                Automated system with real-time tracking and discrepancy alerts.
-              </p>
-            </div>
-          </div>
-        </div>
+
 
         {/* Back to Projects Button */}
         <div className="mt-16 mb-8 text-center">

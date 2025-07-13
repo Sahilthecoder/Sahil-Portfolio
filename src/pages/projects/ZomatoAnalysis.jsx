@@ -18,6 +18,17 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+const gradientAnimation = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0 },
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    repeatType: 'reverse',
+    ease: 'easeInOut',
+  },
+};
+
 const ZomatoAnalysis = () => {
   // State for image modal
   const [selectedImage, setSelectedImage] = useState(null);
@@ -128,28 +139,26 @@ const ZomatoAnalysis = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
             src={images.find((img) => img.id === 'zomato-cover').path}
             alt="Zomato Analysis Dashboard"
             className="w-full h-full object-cover object-top"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
-            <div className="text-right text-white max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Zomato Market Analysis</h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-200">
-                Data-driven insights for restaurant expansion and market optimization
-              </p>
-            </div>
-          </div>
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-blue-900/20 via-blue-900/15 to-transparent dark:from-blue-800/20 dark:via-blue-800/15"
+            variants={gradientAnimation}
+            initial="hidden"
+            animate="visible"
+          />
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="space-y-6 sm:space-y-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-4 sm:space-y-6">
             {/* Project Title and Description */}
-            <div className="space-y-3 sm:space-y-4">
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+            <div className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
                 AI-Enhanced Market Intelligence
               </h2>
               <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl text-sm sm:text-base">
@@ -161,7 +170,7 @@ const ZomatoAnalysis = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {[
                 {
                   icon: <FaGlobeAmericas className="w-5 h-5" />,
@@ -194,9 +203,9 @@ const ZomatoAnalysis = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className={`bg-${stat.color}-50 dark:bg-gray-800 p-4 rounded-lg border border-${stat.color}-100 dark:border-gray-700 transition-colors duration-200 hover:shadow-md`}
+                  className={`bg-${stat.color}-50 dark:bg-gray-800 p-3 sm:p-4 rounded-lg border border-${stat.color}-100 dark:border-gray-700 transition-colors duration-200 hover:shadow-md`}
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2 sm:space-x-3">
                     <div
                       className={`p-2 rounded-lg bg-${stat.color}-100 dark:bg-opacity-20 text-${stat.color}-600 dark:text-${stat.color}-400`}
                     >

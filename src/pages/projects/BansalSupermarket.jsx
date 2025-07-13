@@ -22,6 +22,17 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+const gradientAnimation = {
+  hidden: { opacity: 0, x: -100 },
+  visible: { opacity: 1, x: 0 },
+  transition: {
+    duration: 2,
+    repeat: Infinity,
+    repeatType: 'reverse',
+    ease: 'easeInOut',
+  },
+};
+
 const BansalSupermarket = () => {
   // State for image modal
   const [selectedImage, setSelectedImage] = useState(null);
@@ -447,8 +458,8 @@ const BansalSupermarket = () => {
       transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section with Cover Image */}
-        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-64 sm:h-80 md:h-[32rem]">
+        {/* Hero Section */}
+        <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
             src="/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp"
             alt="Bansal Supermarket Dashboard"
@@ -458,44 +469,25 @@ const BansalSupermarket = () => {
               e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-4 sm:p-6 md:p-8">
-            <div className="text-right text-white max-w-2xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">AI-Powered Retail Analytics</h1>
-              <p className="text-base sm:text-lg md:text-xl text-gray-200">
-                Transforming retail operations with data-driven insights and AI
-              </p>
-              <div className="mt-3 sm:mt-4 flex flex-wrap justify-end gap-2">
-                {[
-                  '#RetailAnalytics',
-                  '#InventoryOptimization',
-                  '#AIDriven',
-                  '#BusinessIntelligence',
-                ].map((tag, index) => (
-                  <span
-                    key={index}
-                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 bg-blue-600/90 text-white text-xs sm:text-sm rounded-full hover:bg-blue-700 transition-colors"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <motion.div
+            className="absolute bottom-0 left-0 right-0 h-1/5 bg-gradient-to-t from-blue-900/20 via-blue-900/15 to-transparent dark:from-blue-800/20 dark:via-blue-800/15"
+            variants={gradientAnimation}
+            initial="hidden"
+            animate="visible"
+          />
         </div>
 
         {/* Project Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-12 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="space-y-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="space-y-4 sm:space-y-6">
             {/* Project Title and Description */}
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                Project Overview
+            <div className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Advanced Supermarket Analytics
               </h2>
-              <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl">
-                A comprehensive analysis of Bansal Supermarket's sales data to derive actionable
-                insights for inventory management, pricing strategies, and sales optimization. This
-                project focuses on understanding customer purchasing patterns, product performance,
-                and inventory turnover to drive business growth.
+              <p className="text-gray-600 dark:text-gray-300/90 leading-relaxed max-w-3xl text-sm sm:text-base">
+                Developed an intelligent analytics platform for Bansal Supermarket, providing real-time
+                insights into sales trends, inventory management, and customer behavior optimization.
               </p>
             </div>
 

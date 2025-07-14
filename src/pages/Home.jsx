@@ -721,11 +721,11 @@ const Home = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -5 }}
               >
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative aspect-video overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/Sahil-Portfolio/images/fallback-project.jpg';
@@ -767,7 +767,7 @@ const Home = () => {
                         href={project.link}
                         target="_self"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
                       >
                         View Project
                         <svg
@@ -787,7 +787,7 @@ const Home = () => {
                     ) : (
                       <Link
                         to={project.link}
-                        className="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
                       >
                         View Project
                         <svg

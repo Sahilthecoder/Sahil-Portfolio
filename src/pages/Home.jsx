@@ -9,11 +9,10 @@ import {
   FaBox, 
   FaLayerGroup, 
   FaChartLine,
-  FaGithub,
   FaLinkedin,
   FaWhatsapp
 } from 'react-icons/fa';
-import { FiMail, FiGithub, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackage, FiCode, FiTrendingUp, FiSettings } from 'react-icons/fi';
+import { FiMail, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackage, FiCode, FiTrendingUp, FiSettings } from 'react-icons/fi';
 import { projects } from '../data/projects';
 
 // Using a fallback image from the public directory
@@ -274,86 +273,62 @@ const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="inline-block px-3 py-1 mb-6 text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 rounded-full">
-                Welcome to my portfolio! 👋
-              </div>
-              
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">
-                  Hi, I'm Sahil Ali
-                </span>
-                <br />
-                <TypeAnimation
-                  sequence={[
-                    'Data Analyst',
-                    1000,
-                    'Business Intelligence',
-                    1000,
-                    'Data Visualization',
-                    1000,
-                  ]}
-                  wrapper="span"
-                  speed={50}
-                  repeat={Infinity}
-                  className="block mt-2 text-2xl sm:text-3xl lg:text-4xl font-normal text-gray-700 dark:text-gray-300"
-                />
-              </h1>
-              <motion.p 
-                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 leading-relaxed"
+              <motion.div
+                className="inline-flex items-center px-3 py-1.5 mb-4 sm:mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                A Data-Driven Inventory Specialist, Warehouse Operations Pro, and AI Automation Enthusiast.
-              </motion.p>
+                <FiTrendingUp className="mr-1.5" />
+                <span>Inventory & Data Analytics Specialist</span>
+              </motion.div>
+
+              <motion.h1
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
+                Transforming <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Data</span> into <br className="hidden sm:block" />Actionable <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">Business Insights</span>
+              </motion.h1>
 
               <motion.p
-                className="text-base sm:text-lg italic text-gray-500 dark:text-gray-400 mb-6 sm:mb-8 px-4 sm:px-0"
+                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
               >
-                "I simplify chaos, optimize systems, and use AI to make work smarter."
+                I help businesses optimize inventory, analyze data, and implement AI solutions to drive efficiency and growth. With expertise in inventory management, data analytics, and process automation, I transform complex challenges into strategic advantages.
               </motion.p>
 
-              {/* CTA Buttons */}
               <motion.div
-                className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+                className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
               >
                 <a
                   href="/Sahil-Portfolio/assets/Sahil_Ali_Cv.pdf"
-                  target=""
+                  target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative px-8 py-3.5 bg-transparent border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full sm:w-auto"
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-indigo-600/10 to-indigo-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  <span className="relative z-10 flex items-center gap-2">
-                    <span className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">
-                      Explore My Resume
-                    </span>
-                    <FaExternalLinkAlt className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </a>
-                <a
-                  href="#contact"
-                  className="group relative px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden w-full sm:w-auto"
+                  className="group relative px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   <span className="relative z-10 flex items-center gap-2">
-                    <span>Let's Collaborate</span>
-                    <span className="inline-flex items-center justify-center">
-                      <span className="group-hover:translate-x-0.5 transition-transform duration-200">
-                        <FiMail className="w-4 h-4" />
-                      </span>
-                    </span>
+                    <FaFileAlt className="w-4 h-4" />
+                    <span>View My Resume</span>
+                  </span>
+                </a>
+                <a
+                  href="/contact"
+                  className="group relative px-6 py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <span>Contact Me</span>
+                    <FiMail className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </a>
               </motion.div>
-
-
             </motion.div>
 
             {/* Profile Image */}
@@ -398,7 +373,7 @@ const Home = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">About Me</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3">About Me</h2>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Get to know more about my professional journey and expertise
             </p>
@@ -598,7 +573,7 @@ const Home = () => {
                     <motion.div
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
-                      className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300 cursor-pointer"
+                      className="inline-flex items-center px-4 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 cursor-pointer"
                     >
                       View Full Work History
                       <FaArrowRight className="ml-1 sm:ml-2" />
@@ -880,13 +855,17 @@ const Home = () => {
             >
               <Link
                 to="/contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="px-6 sm:px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
               >
                 Get In Touch
               </Link>
               <Link
                 to="/projects"
-                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
+                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto"
                 onClick={(e) => {
                   // Only prevent default if already on the home page
                   if (window.location.pathname === '/') {

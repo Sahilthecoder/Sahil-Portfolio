@@ -22,7 +22,8 @@ import {
   FaNodeJs,
   FaMicrosoft,
   FaImage,
-  FaEnvelope
+  FaEnvelope,
+  FaFileAlt
 } from 'react-icons/fa';
 
 // Simple Icons
@@ -631,17 +632,21 @@ const Projects = () => {
     if (!projects) return [];
     
     return projects.filter(project => {
-      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         project.techStack.some(tech => 
-                           tech.toLowerCase().includes(searchTerm.toLowerCase())
-                         );
+      // Search term matching
+      const matchesSearch = searchTerm === '' || 
+        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.techStack?.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
       
+      // Category filtering
       const matchesFilter = activeFilter === 'all' || 
-                          project.categories?.includes(activeFilter) ||
-                          (activeFilter === 'data-analysis' && project.categories?.includes('data')) ||
-                          (activeFilter === 'visualization' && project.categories?.includes('viz')) ||
-                          (activeFilter === 'automation' && project.categories?.includes('automation'));
+        project.categories?.some(cat => 
+          cat.toLowerCase() === activeFilter.toLowerCase() ||
+          (activeFilter === 'inventory' && cat.toLowerCase().includes('inventory')) ||
+          (activeFilter === 'data analysis' && (cat.toLowerCase().includes('data') || cat.toLowerCase().includes('analysis'))) ||
+          (activeFilter === 'automation' && cat.toLowerCase().includes('automation')) ||
+          (activeFilter === 'ai/ml' && (cat.toLowerCase().includes('ai') || cat.toLowerCase().includes('machine learning') || cat.toLowerCase().includes('ml')))
+        );
       
       return matchesSearch && matchesFilter;
     });
@@ -678,7 +683,7 @@ const Projects = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 text-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
       <SEO
         title="Projects | Sahil Ali"
         description="Explore my portfolio of data analysis, visualization, and automation projects."
@@ -686,112 +691,143 @@ const Projects = () => {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
-        {/* Graph Paper Background */}
-        <div 
-          className="absolute inset-0 bg-white dark:bg-gray-900"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
-            backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
-            zIndex: 0,
-          }}
-        >
-          {/* Animated grid lines */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, transparent 98%, rgba(79, 70, 229, 0.15) 100%),
-                linear-gradient(transparent 98%, rgba(79, 70, 229, 0.15) 100%)
-              `,
-              backgroundSize: '40px 40px',
-              animation: 'pan 30s linear infinite',
-              zIndex: 1,
-            }}
-          />
-          
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-50 dark:opacity-10" />
+        {/* Animated Background - Matching About page */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+            <div 
+              className="absolute inset-0 opacity-20 dark:opacity-5"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #6366f1 1px, transparent 1px),
+                  linear-gradient(to bottom, #6366f1 1px, transparent 1px)
+                `,
+                backgroundSize: '30px 30px',
+              }}
+            />
+            {/* Animated blobs */}
+            <div className="absolute top-1/4 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
+            <div className="absolute top-1/2 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+          </div>
         </div>
 
         {/* Add the animation keyframes to the document */}
-        <style>
-          {`
-            @keyframes pan {
-              0% {
-                background-position: 0% 0%;
-              }
-              100% {
-                background-position: 100% 100%;
-              }
+        <style jsx global>{`
+          @keyframes blob {
+            0% {
+              transform: translate(0px, 0px) scale(1);
             }
-          `}
-        </style>
+            33% {
+              transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+              transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+              transform: translate(0px, 0px) scale(1);
+            }
+          }
+          .animate-blob {
+            animation: blob 7s infinite;
+          }
+          .animation-delay-2000 {
+            animation-delay: 2s;
+          }
+          .animation-delay-4000 {
+            animation-delay: 4s;
+          }
+        `}</style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 dark:bg-gray-800/90 text-indigo-600 dark:text-indigo-300 text-sm font-medium mb-6 border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm shadow-sm"
+              className="inline-flex items-center px-3 py-1.5 mb-4 sm:mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
             >
+              <FaCode className="mr-1.5" />
               <span>Portfolio Showcase</span>
             </motion.div>
 
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              My Projects
-            </motion.h1>
-
-            <motion.p
-              className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
-              A collection of my work showcasing data analysis, visualization, and automation
-              projects.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
+              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span> & <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">Solutions</span>
+            </motion.h1>
+
+            <motion.p
+              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              Explore my portfolio of <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span> projects. Each project demonstrates my ability to solve complex business challenges with innovative technical solutions.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
+              {['All', 'Inventory', 'Data Analysis', 'Automation', 'AI/ML'].map((category) => {
+                const filterValue = category === 'All' ? 'all' : category.toLowerCase();
+                return (
+                  <button
+                    key={category}
+                    onClick={() => setActiveFilter(filterValue)}
+                    className={`px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
+                      activeFilter === filterValue
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              <a
+                href="#projects-grid"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const projectsSection = document.getElementById('projects-grid');
+                  if (projectsSection) {
+                    projectsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <FaSearch className="w-4 h-4" />
+                Explore Projects
+              </a>
               <a
                 href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                <FaGithub className="w-5 h-5" />
+                <FaGithub className="w-4 h-4" />
                 View on GitHub
               </a>
-              <Link
-                to="/#contact"
-                className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <FaEnvelope className="w-4 h-4" />
-                Contact for Work
-              </Link>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Projects Grid */}
-      <section className="py-12 bg-white dark:bg-gray-900">
+      <section className="py-12 bg-white dark:bg-gray-900" id="projects-grid">
         <div className="container mx-auto px-4 sm:px-6">
           {/* Search and Filter */}
           <motion.div

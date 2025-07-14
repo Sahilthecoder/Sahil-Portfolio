@@ -10,6 +10,7 @@ import {
   FaLaptopCode,
   FaChartLine,
   FaTools,
+  FaCode,
   FaCheck,
   FaUserTie,
   FaWarehouse,
@@ -164,17 +165,26 @@ const About = () => {
                   transition={{ delay: 0.2, duration: 0.5 }}
                 >
                   <FiTrendingUp className="mr-1.5" />
-                  <span>Data Analyst & Business Intelligence</span>
+                  <span>Welcome to My Professional Profile</span>
                 </motion.div>
 
                 <motion.h1
-                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 leading-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.6 }}
                 >
-                  About <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Me</span>
+                  I'm <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Sahil Ali</span>
                 </motion.h1>
+
+                <motion.p
+                  className="text-xl sm:text-2xl text-indigo-600 dark:text-indigo-300 font-medium mb-4 sm:mb-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35, duration: 0.6 }}
+                >
+                  Inventory & Data Analytics Specialist
+                </motion.p>
 
                 <motion.p
                   className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
@@ -182,30 +192,65 @@ const About = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4, duration: 0.6 }}
                 >
-                  Transforming complex data into actionable insights and driving business growth through analytics and visualization.
+                  I'm a results-driven professional with expertise in <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span>. With a proven track record in optimizing supply chains and implementing data-driven solutions, I help businesses turn complex challenges into strategic advantages.
                 </motion.p>
+
+                <motion.div
+                  className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.6 }}
+                >
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg">
+                        <FaBoxOpen className="text-indigo-600 dark:text-indigo-400 w-5 h-5" />
+                      </div>
+                      <h3 className="font-medium text-gray-900 dark:text-white">Inventory Management</h3>
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Optimizing stock levels and supply chain operations for maximum efficiency</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+                        <FaChartBar className="text-blue-600 dark:text-blue-400 w-5 h-5" />
+                      </div>
+                      <h3 className="font-medium text-gray-900 dark:text-white">Data Analysis</h3>
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Transforming raw data into actionable business intelligence</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+                        <FaRobot className="text-purple-600 dark:text-purple-400 w-5 h-5" />
+                      </div>
+                      <h3 className="font-medium text-gray-900 dark:text-white">AI Automation</h3>
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Implementing intelligent automation for process optimization</p>
+                  </div>
+                </motion.div>
 
                 <motion.div
                   className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
                 >
                   <a
-                    href="/assets/Sahil_Ali_Cv.pdf"
+                    href="/Sahil-Portfolio/assets/Sahil_Ali_Cv.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-indigo-600 text-white text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
                   >
                     <FaFilePdf className="w-4 h-4" />
-                    Download CV
+                    Download Resume
                   </a>
                   <NavLink
-                    to="/contact"
-                    className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+                    to="/projects"
+                    className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
                   >
-                    <FaEnvelope className="w-4 h-4" />
-                    Contact Me
+                    <FaCode className="w-4 h-4" />
+                    View My Work
                   </NavLink>
                 </motion.div>
               </motion.div>

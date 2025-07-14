@@ -15,7 +15,8 @@ import {
   FaChartLine,
   FaSync,
   FaTools,
-  FaArrowRight
+  FaArrowRight,
+  FaInstagram
 } from 'react-icons/fa';
 import { SiMinutemailer } from 'react-icons/si';
 import { FiTrendingUp } from 'react-icons/fi';
@@ -175,110 +176,118 @@ const Contact = () => {
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
-        {/* Graph Paper Background */}
-        <div 
-          className="absolute inset-0 bg-white dark:bg-gray-900"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px),
-              linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px)
-            `,
-            backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
-            backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
-            zIndex: 0,
-          }}
-        >
-          {/* Animated grid lines */}
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, transparent 98%, rgba(79, 70, 229, 0.15) 100%),
-                linear-gradient(transparent 98%, rgba(79, 70, 229, 0.15) 100%)
-              `,
-              backgroundSize: '40px 40px',
-              animation: 'pan 30s linear infinite',
-              zIndex: 1,
-            }}
-          />
-          
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-50 dark:opacity-10" />
+        {/* Animated Background - Consistent with other pages */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+            <div 
+              className="absolute inset-0 opacity-20 dark:opacity-5"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #6366f1 1px, transparent 1px),
+                  linear-gradient(to bottom, #6366f1 1px, transparent 1px)
+                `,
+                backgroundSize: '30px 30px',
+              }}
+            />
+            {/* Animated blobs */}
+            <div className="absolute top-1/4 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
+            <div className="absolute top-1/2 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+          </div>
         </div>
-
-        {/* Add the animation keyframes to the document */}
-        <style>
-          {`
-            @keyframes pan {
-              0% {
-                background-position: 0% 0%;
-              }
-              100% {
-                background-position: 100% 100%;
-              }
-            }
-          `}
-        </style>
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
-              className="max-w-4xl mx-auto text-center"
+              className="inline-flex items-center px-3 py-1.5 mb-4 sm:mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
             >
-              <motion.div
-                className="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <SiMinutemailer className="mr-2" />
-                Get In Touch
-              </motion.div>
+              <FaPaperPlane className="mr-1.5" />
+              <span>Get In Touch</span>
+            </motion.div>
 
-              <motion.h1
-                className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-              >
-                Let's <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Talk</span>
-              </motion.h1>
+            <motion.h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              Let's <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Work</span> <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">Together</span>
+            </motion.h1>
 
-              <motion.p
-                className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-              >
-                Have a project in mind or want to discuss potential opportunities? I'd love to hear from you!
-              </motion.p>
+            <motion.p
+              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              I'm excited to discuss how my expertise in <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span> can help solve your business challenges. Let's connect and explore opportunities for collaboration.
+            </motion.p>
 
-              <motion.div
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
+            <motion.div
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
+              <a
+                href="mailto:sahilali.work.01@gmail.com"
+                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                <a
-                  href="mailto:sahilkhan36985@gmail.com"
-                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  <FaEnvelope className="w-4 h-4" />
-                  Email Me
-                </a>
-                <a
-                  href="https://wa.me/919875771550"
-                  className="px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <FaPhoneAlt className="w-4 h-4" />
-                  Call Me
-                </a>
-              </motion.div>
+                <FaEnvelope className="w-4 h-4" />
+                Email for Opportunities
+              </a>
+              <a
+                href="#contact-form"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const contactForm = document.getElementById('contact-form');
+                  if (contactForm) {
+                    contactForm.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <FaPaperPlane className="w-4 h-4" />
+                Send a Message
+              </a>
+            </motion.div>
+
+            <motion.div 
+              className="mt-10 flex flex-wrap justify-center gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+            >
+              <a 
+                href="https://www.linkedin.com/in/sahil-ali-0a0b3b1b3/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                <FaLinkedin className="w-5 h-5" />
+                <span className="text-sm font-medium">LinkedIn</span>
+              </a>
+              <a 
+                href="https://github.com/Sahilthecoder" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                <FaGithub className="w-5 h-5" />
+                <span className="text-sm font-medium">GitHub</span>
+              </a>
+              <a 
+                href="https://www.instagram.com/sahilali.work/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+              >
+                <FaInstagram className="w-5 h-5" />
+                <span className="text-sm font-medium">Instagram</span>
+              </a>
             </motion.div>
           </div>
         </div>

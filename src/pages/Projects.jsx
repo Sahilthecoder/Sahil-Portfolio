@@ -604,6 +604,7 @@ const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
+
   // State for modal
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -646,28 +647,11 @@ const Projects = () => {
     });
   }, [projects, searchTerm, activeFilter]);
 
-  // Handle scroll to show/hide scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 300);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
 
 
-  // Handle scroll to show/hide scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      // Removed state update since we're not using isScrolled anymore
-      // Keeping the effect in case we need to add scroll-based behavior later
-    };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+
 
   // Simulate loading
   useEffect(() => {
@@ -896,11 +880,18 @@ const Projects = () => {
       {/* Project Modal */}
       <AnimatePresence>
         {isModalOpen && selectedProject && (
-          <EnhancedProjectModal
-            project={selectedProject}
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-          />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <EnhancedProjectModal
+              project={selectedProject}
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+            />
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

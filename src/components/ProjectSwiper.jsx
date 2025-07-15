@@ -1,9 +1,11 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, A11y, EffectCoverflow, Autoplay } from 'swiper/modules';
+import { Pagination, A11y, EffectCoverflow, Autoplay } from 'swiper';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-import 'swiper/css';
+
+// Import Swiper styles
+import 'swiper/swiper.min.css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 

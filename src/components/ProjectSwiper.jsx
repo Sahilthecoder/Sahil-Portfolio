@@ -5,9 +5,10 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 // Import Swiper styles
-import 'swiper/swiper.min.css';
+import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
+import 'swiper/css/autoplay';
 
 const ProjectSwiper = ({ projects }) => {
   return (

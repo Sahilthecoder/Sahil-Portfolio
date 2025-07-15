@@ -1,10 +1,10 @@
 // src/components/ProjectCard.jsx
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ImageWithFallback from './ImageWithFallback';
 import { getImagePath } from '../utils/imageUtils.jsx';
 
-const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectType }) => {
+const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectType, id }) => {
   // Format the image source URL
   const formatImageSrc = (path) => {
     if (!path) return '';
@@ -15,19 +15,39 @@ const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectT
   // Determine if this is an internal or external link
   const isInternalLink = liveLink && !liveLink.startsWith('http') && !liveLink.startsWith('//');
   
+  const navigate = useNavigate();
+  
+  // Handle card click
+  const handleCardClick = (e) => {
+    // Don't navigate if clicking on a button or link
+    if (e.target.closest('button, a')) {
+      return;
+    }
+    if (liveLink) {
+      if (isInternalLink) {
+        navigate(liveLink);
+      } else {
+        window.open(liveLink, '_blank', 'noopener,noreferrer');
+      }
+    }
+  };
+
   // Wrapper component for project card content
   const ProjectContent = () => (
-    <>
+    <div 
+      onClick={handleCardClick}
+      className="cursor-pointer hover:shadow-lg transition-shadow duration-300 h-full flex flex-col"
+    >
       {cover && (
         <div className="relative h-48 overflow-hidden">
           <ImageWithFallback
             src={formatImageSrc(cover)}
             alt={`Screenshot of ${title} project`}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
             fallbackSrc={getImagePath('', 'fallback', 'placeholder.svg')}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
             <span className="inline-block px-3 py-1 text-sm font-medium text-white bg-indigo-600 dark:bg-dark-primary rounded-full">
               {projectType}
             </span>
@@ -88,7 +108,7 @@ const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectT
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 
   return (

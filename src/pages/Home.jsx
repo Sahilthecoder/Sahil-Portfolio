@@ -530,10 +530,12 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3">Featured Projects</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
+            <div className="w-20 h-1 bg-indigo-600 dark:bg-indigo-400 mx-auto mb-8"></div>
           </motion.div>
 
-          {/* Mobile Swiper - Hidden on md screens and up */}
+          {/* 
+           Swiper - Hidden on md screens and up */}
           <div className="md:hidden mb-12">
             <ProjectSwiper projects={projects} />
           </div>

@@ -67,56 +67,87 @@ const About = () => {
 
   const expertise = [
     {
-      title: 'Inventory Mastery',
+      title: 'Inventory & Supply Chain',
       icon: <FaClipboardCheck className="text-3xl text-indigo-600" />,
       items: [
-        'Stock Reconciliation',
-        'Vendor Relations',
-        'Demand Forecasting',
-        'Inventory Auditing',
+        'Advanced Inventory Control',
+        'Vendor & Supplier Relations',
+        'Demand Forecasting & Planning',
+        'Stock Optimization Strategies',
+        'Inventory Auditing & Compliance'
       ],
     },
     {
-      title: 'Warehouse Management',
-      icon: <FaWarehouse className="text-3xl text-blue-600" />,
-      items: ['SOPs Implementation', 'Team Supervision', 'Logistics', 'Space Optimization'],
+      title: 'Data Analytics',
+      icon: <FaChartLine className="text-3xl text-blue-600" />,
+      items: [
+        'Business Intelligence',
+        'Data Visualization',
+        'Performance Metrics',
+        'Process Optimization',
+        'KPI Development'
+      ],
     },
     {
-      title: 'AI Automation',
+      title: 'AI & Automation',
       icon: <FaRobot className="text-3xl text-purple-600" />,
-      items: ['GPT-4 Workflows', 'Notion AI', 'Python Scripting', 'Process Automation'],
+      items: [
+        'Workflow Automation',
+        'AI-Powered Analytics',
+        'Process Optimization',
+        'Custom Tool Development',
+        'Data Integration'
+      ],
     },
   ];
 
   const tools = [
-    { name: 'Excel', icon: <FaMicrosoft className="text-2xl" /> },
-    { name: 'Power BI', icon: <FaMicrosoft className="text-2xl" /> },
-    { name: 'Python', icon: <FaLaptopCode className="text-2xl" /> },
-    { name: 'SQL', icon: <FaDatabase className="text-2xl" /> },
-    { name: 'ChatGPT', icon: <FaBrain className="text-2xl" /> },
-    { name: 'Notion AI', icon: <FaFileAlt className="text-2xl" /> },
+    { 
+      name: 'Excel & Power BI', 
+      icon: <FaMicrosoft className="text-2xl" />,
+      description: 'Advanced data modeling, dashboards, and reporting'
+    },
+    { 
+      name: 'Python & SQL', 
+      icon: <FaLaptopCode className="text-2xl" />,
+      description: 'Data analysis, automation, and database management'
+    },
+    { 
+      name: 'AI Tools', 
+      icon: <FaBrain className="text-2xl" />,
+      description: 'ChatGPT, Notion AI, and custom AI solutions'
+    },
+    { 
+      name: 'Inventory Systems', 
+      icon: <FaClipboardCheck className="text-2xl" />,
+      description: 'ERP, WMS, and custom inventory solutions'
+    },
   ];
 
   const values = [
     { 
-      text: 'Accuracy Over Assumptions', 
-      description: 'I prioritize data-driven decisions and thorough verification over assumptions, ensuring reliable and precise results in all my work.',
-      icon: <FaShieldAlt className="text-indigo-500" /> 
+      text: 'Data-Driven Decision Making', 
+      description: 'I rely on accurate data and thorough analysis rather than assumptions, ensuring reliable and precise business decisions.',
+      icon: <FaShieldAlt className="text-indigo-500" />,
+      color: 'indigo'
     },
     { 
-      text: 'Systematic & Organized', 
-      description: 'My approach is methodical and structured, creating efficient systems that enhance productivity and reduce errors in complex projects.',
-      icon: <FaCogs className="text-blue-500" /> 
+      text: 'Process Excellence', 
+      description: 'I design and implement systematic approaches that enhance efficiency, reduce errors, and create scalable solutions.',
+      icon: <FaCogs className="text-blue-500" />,
+      color: 'blue'
     },
     { 
-      text: 'Obsessed with Optimization', 
-      description: "Continuously seeking ways to improve processes and workflows, I'm dedicated to finding the most effective solutions.",
-      icon: <FaChartLine className="text-purple-500" /> 
+      text: 'Continuous Improvement', 
+      description: 'I constantly seek opportunities to optimize workflows, reduce costs, and enhance operational effectiveness.',
+      icon: <FaChartLine className="text-purple-500" />,
+      color: 'purple'
     },
     { 
-      text: 'Always Learning New Tools', 
-      description: 'Committed to staying current with the latest technologies and methodologies to deliver innovative solutions.',
-      icon: <FaTools className="text-green-500" /> 
+      text: 'Lifelong Learning', 
+      description: 'I stay ahead of industry trends and continuously expand my technical and professional skill set.',
+      icon: <FaTools className="text-green-500" />,
+      color: 'green'
     },
   ];
 

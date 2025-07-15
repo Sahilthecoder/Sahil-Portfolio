@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, A11y, EffectCoverflow, Autoplay } from 'swiper';
+import { Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
@@ -14,7 +14,7 @@ const ProjectSwiper = ({ projects }) => {
   return (
     <div className="relative w-full max-w-6xl mx-auto px-4">
       <Swiper
-        modules={[Pagination, A11y, EffectCoverflow, Autoplay]}
+        modules={[Pagination, EffectCoverflow, Autoplay]}
         effect="coverflow"
         grabCursor={true}
         centeredSlides={true}

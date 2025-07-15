@@ -1,6 +1,8 @@
 import React from 'react';
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, EffectCoverflow, Autoplay } from 'swiper/modules';
+import { motion } from 'framer-motion';
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -8,16 +10,26 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/autoplay';
 
-// Import required modules
-import { Pagination, EffectCoverflow, Autoplay } from 'swiper';
-
-// Other imports
-import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
-
 const ProjectSwiper = ({ projects }) => {
+  // Prevent body scroll when swiping on mobile
+  React.useEffect(() => {
+    const handleTouchMove = (e) => {
+      // Only prevent default if the touch is on the swiper
+      if (e.target.closest('.swiper-container')) {
+        e.preventDefault();
+      }
+    };
+
+    // Add touch event listener to prevent body scroll
+    document.body.addEventListener('touchmove', handleTouchMove, { passive: false });
+    
+    return () => {
+      document.body.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, []);
+
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4">
+    <div className="relative w-full max-w-6xl mx-auto px-2 sm:px-4">
       <Swiper
         modules={[Pagination, EffectCoverflow, Autoplay]}
         effect="coverflow"
@@ -25,6 +37,9 @@ const ProjectSwiper = ({ projects }) => {
         centeredSlides={true}
         loop={true}
         slidesPerView={'auto'}
+        preventInteractionOnTransition={true}
+        touchStartPreventDefault={false}
+        touchMoveStopPropagation={true}
         coverflowEffect={{
           rotate: 0,
           stretch: 0,
@@ -88,35 +103,48 @@ const ProjectSwiper = ({ projects }) => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = 'https://via.placeholder.com/600x400?text=Project+Image';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.slice(0, 3).map((tag, i) => (
-                      <span 
-                        key={i}
-                        className="px-3 py-1 bg-indigo-600/90 text-white text-xs font-medium rounded-full backdrop-blur-sm shadow-lg"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-100 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     {project.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                     {project.description}
                   </p>
+                </div>
+                
+                {/* Stack tags - clean and minimal below description */}
+                <div className="mt-2">
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tags.slice(0, 4).map((tag, i) => (
+                      <span 
+                        key={i}
+                        className="px-2 py-0.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-[10px] font-medium rounded-full whitespace-nowrap"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    {project.tags.length > 4 && (
+                      <span 
+                        className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 text-[10px] font-medium rounded-full"
+                        title={project.tags.slice(4).join(', ')}
+                      >
+                        +{project.tags.length - 4}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="mt-4 flex items-center justify-between">
                 </div>
                 
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">

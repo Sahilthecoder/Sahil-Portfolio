@@ -104,12 +104,14 @@ const NAV_ITEMS = [
   }
 ];
 
-
 const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  // Use activeSection from props if available, otherwise default to 'home'
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const navbarRef = useRef(null);
+  const lastScrollTop = useRef(0);
+  const ticking = useRef(false);
   const [activeItem, setActiveItem] = useState(activeSection || 'home');
   const location = useLocation();
   const navigate = useNavigate();
@@ -117,20 +119,38 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
   const menuRef = useRef(null);
   const menuContainerRef = useRef(null);
 
-  // Handle scroll effect with debounce
+  // Handle scroll events for navbar visibility and background
   useEffect(() => {
-    let timeoutId;
     const handleScroll = () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        setIsScrolled(window.scrollY > 10);
-      }, 10);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollPos = window.pageYOffset;
+          const scrollDifference = currentScrollPos - lastScrollTop.current;
+          
+          // Always show navbar when scrolling up or at the top of the page
+          if (currentScrollPos < 10) {
+            setVisible(true);
+          } 
+          // Hide navbar when scrolling down, show when scrolling up
+          else if (scrollDifference < -5) {
+            setVisible(true);
+          } else if (scrollDifference > 5) {
+            setVisible(false);
+          }
+          
+          // Update scroll position and background
+          lastScrollTop.current = Math.max(0, currentScrollPos);
+          setIsScrolled(currentScrollPos > 10);
+          ticking.current = false;
+        });
+        
+        ticking.current = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', handleScroll, { passive: true });
     };
   }, []);
 
@@ -344,15 +364,31 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     };
   }, [isMenuOpen]);
 
+  // Navbar animation variants
+  const navVariants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { 
+        type: 'spring', 
+        damping: 25, 
+        stiffness: 500,
+        mass: 0.5
+      }
+    }
+  };
+
   return (
     <motion.nav
-      ref={navRef}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      ref={navbarRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+        isScrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
       }`}
+      initial="visible"
+      animate={visible ? 'visible' : 'hidden'}
+      variants={navVariants}
+      transition={{ type: 'spring', damping: 25, stiffness: 500 }}
     >
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 md:h-20 items-center">

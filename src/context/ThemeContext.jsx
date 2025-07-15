@@ -8,20 +8,37 @@ export const ThemeProvider = ({ children }) => {
   const [isMounted, setIsMounted] = useState(false);
   const isDark = theme === 'dark';
 
-  // Initialize theme from localStorage or system preference
+  // Initialize theme with system preference by default
   useEffect(() => {
+    // Check system preference first
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Get saved preferences
     const savedTheme = localStorage.getItem('theme');
-    const savedAutoTheme = localStorage.getItem('autoTheme') === 'true';
-
+    const savedAutoTheme = localStorage.getItem('autoTheme');
+    
+    // Set theme based on saved preference or system preference
     if (savedTheme) {
       setTheme(savedTheme);
     } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setTheme(prefersDark ? 'dark' : 'light');
+      setTheme(systemPrefersDark ? 'dark' : 'light');
     }
-
-    setAutoTheme(savedAutoTheme);
+    
+    // If no autoTheme preference is saved, default to true to follow system
+    setAutoTheme(savedAutoTheme === null ? true : savedAutoTheme === 'true');
+    
+    // Listen for system theme changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleSystemThemeChange = (e) => {
+      if (autoTheme) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleSystemThemeChange);
     setIsMounted(true);
+    
+    return () => mediaQuery.removeEventListener('change', handleSystemThemeChange);
   }, []);
 
   // Toggle between light and dark themes
@@ -29,6 +46,9 @@ export const ThemeProvider = ({ children }) => {
     setTheme((prevTheme) => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
       localStorage.setItem('theme', newTheme);
+      // When manually toggling, disable auto-theme to respect user's choice
+      setAutoTheme(false);
+      localStorage.setItem('autoTheme', 'false');
       return newTheme;
     });
   }, []);
@@ -38,6 +58,11 @@ export const ThemeProvider = ({ children }) => {
     setAutoTheme((prev) => {
       const newValue = !prev;
       localStorage.setItem('autoTheme', newValue);
+      // If enabling auto-theme, update to match system preference
+      if (newValue) {
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setTheme(systemPrefersDark ? 'dark' : 'light');
+      }
       return newValue;
     });
   }, []);

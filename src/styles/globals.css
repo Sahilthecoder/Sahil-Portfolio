@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #2563eb;
+    --color-secondary: #7c3aed;
+    --color-accent: #8b5cf6;
+    --bg-body: #f8faff;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+  }
+
+  .dark {
+    --color-primary: #6C9FF6;
+    --color-secondary: #A78BFA;
+    --color-accent: #F472B6;
+    --bg-body: #0d1117;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+  }
+
+  html {
+    @apply bg-background text-text-primary;
+    background-color: var(--bg-body);
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(108, 159, 246, 0.7);
+  }
+  
+  .border-glass {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary);
+    border-radius: 4px;
+  }
+  
+  .scrollbar-thin.dark::-webkit-scrollbar-thumb {
+    background-color: var(--color-secondary);
+  }
+}
+
+/* Container query example */
+@container (min-width: 640px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+/* Smooth scrolling for the whole app */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* Adjust based on your header height */
+}
+
+/* Focus styles for better accessibility */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary;
+}

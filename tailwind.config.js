@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
   content: [
@@ -8,17 +8,45 @@ module.exports = {
   ],
   darkMode: 'class',
   important: true,
+  safelist: [
+    {
+      pattern: /^(bg|text|border|hover:bg|hover:text)-(primary|secondary|accent|gray|blue|indigo|green|red|yellow|pink|purple)-(50|100|200|300|400|500|600|700|800|900)$/,
+      variants: ['hover', 'focus', 'dark', 'dark:hover', 'dark:focus', 'motion-safe', 'motion-reduce'],
+    },
+  ],
   corePlugins: {
     preflight: true,
   },
   theme: {
+    screens: {
+      'xs': '360px',
+      ...defaultTheme.screens,
+      '3xl': '1920px',
+    },
     fontFamily: {
       sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
     },
     extend: {
+      colors: {
+        dynamic: {
+          primary: 'var(--color-primary)',
+          secondary: 'var(--color-secondary)',
+          accent: 'var(--color-accent)',
+          background: 'var(--bg-body)',
+        },
+      },
       backgroundImage: {
         'grid': "url('data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e')"
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite motion-safe',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
       },
       colors: {
         primary: {
@@ -114,9 +142,6 @@ module.exports = {
         'gradient-primary': 'linear-gradient(135deg, #6C9FF6 0%, #A78BFA 100%)',
         'gradient-primary-light': 'linear-gradient(135deg, #5A6BD8 0%, #9F6BFF 100%)',
       },
-      backdropBlur: {
-        'xs': '2px',
-      },
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -190,5 +215,18 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/container-queries'),
+    require('tailwind-scrollbar'),
+    require('tailwindcss-animate'),
   ],
+  variants: {
+    extend: {
+      backgroundColor: ['active', 'group-hover', 'motion-safe', 'motion-reduce'],
+      textColor: ['group-hover', 'focus-within', 'motion-safe', 'motion-reduce'],
+      animation: ['motion-safe', 'motion-reduce'],
+      transitionProperty: ['motion-safe', 'motion-reduce'],
+      transform: ['motion-safe', 'motion-reduce'],
+      scrollbar: ['rounded', 'dark'],
+    },
+  },
 }

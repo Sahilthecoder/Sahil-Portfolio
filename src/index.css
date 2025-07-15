@@ -2,16 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles */
+/* Custom base styles */
 :root {
-  --color-primary: 99 102 241;
-  --color-accent: 139 92 246;
   --color-card: 255 255 255;
   --color-border: 229 231 235;
   --color-bg: 249 250 251;
   --color-text: 17 24 39;
   --color-heading: 17 24 39;
   --color-paragraph: 75 85 99;
+  
+  /* Make sure these match your globals.css */
+  --color-primary: 99 102 241;
+  --color-secondary: 139 92 246;
+  --color-accent: 167 139 250;
+  --bg-body: 249 250 251;
+}
+
+/* Dark theme overrides */
+.dark {
+  --color-card: 30 41 59;
+  --color-border: 51 65 85;
+  --color-bg: 15 23 42;
+  --color-text: 226 232 240;
+  --color-heading: 248 250 252;
+  --color-paragraph: 203 213 225;
+  
+  /* Dark theme colors */
+  --color-primary: 99 102 241;
+  --color-secondary: 139 92 246;
+  --color-accent: 196 181 253;
+  --bg-body: 15 23 42;
 }
 
 /* Focus styles */

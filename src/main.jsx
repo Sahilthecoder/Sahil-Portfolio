@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import App from './App';
-import './index.css'; // This is the main Tailwind CSS file
+// Import Tailwind CSS
+import './index.css';  // Main CSS file with Tailwind imports
 
 // Create emotion cache with specific settings to avoid initialization issues
 const emotionCache = createCache({

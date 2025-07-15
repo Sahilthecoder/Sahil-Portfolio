@@ -48,6 +48,8 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       emptyOutDir: true,
+      cssCodeSplit: true,
+      cssMinify: true,
       sourcemap: isProduction ? false : 'inline',
       minify: isProduction ? 'terser' : false,
       target: 'esnext',

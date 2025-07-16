@@ -403,13 +403,30 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               }
             }}
           >
-            {/* Skip link - visible when focused */}
+            {/* Skip to main content link - visible when focused */}
             <a 
               href="#main-content" 
-              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:dark:bg-gray-800 focus:px-4 focus:py-2 focus:rounded focus:shadow-lg focus:ring-2 focus:ring-blue-500 focus:outline-none focus:font-medium focus:text-gray-900 focus:dark:text-white"
-              aria-label="Skip to main content"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 bg-white dark:bg-gray-800 px-6 py-3 rounded-lg shadow-xl ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 font-medium text-gray-900 dark:text-white text-sm sm:text-base transition-all duration-200 transform focus:scale-105 focus:shadow-2xl"
+              onClick={(e) => {
+                // Prevent default only if we're on the same page
+                if (location.pathname === '/') {
+                  e.preventDefault();
+                  const mainContent = document.getElementById('main-content');
+                  if (mainContent) {
+                    mainContent.setAttribute('tabindex', '-1');
+                    mainContent.focus({ preventScroll: true });
+                    window.scrollTo({
+                      top: mainContent.offsetTop - 100, // Adjust for header height
+                      behavior: 'smooth'
+                    });
+                    // Remove tabindex after focus is set
+                    setTimeout(() => mainContent.removeAttribute('tabindex'), 1000);
+                  }
+                }
+              }}
             >
               Skip to main content
+              <span className="ml-2" aria-hidden="true">↓</span>
             </a>
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">

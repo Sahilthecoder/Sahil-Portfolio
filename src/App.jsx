@@ -9,8 +9,7 @@ import Footer from './components/Footer';
 
 // Lazy load components with Suspense fallback
 const Home = React.lazy(() => import('./pages/Home.jsx'));
-const About = React.lazy(() => import('./pages/About.jsx'));
-const Experience = React.lazy(() => import('./pages/Experience.jsx'));
+const AboutExperience = React.lazy(() => import('./pages/AboutExperience.jsx'));
 const Contact = React.lazy(() => import('./pages/Contact.jsx'));
 const Projects = React.lazy(() => import('./pages/Projects.jsx'));
 const AIDailyDecisionSystem = React.lazy(() => import('./pages/projects/AIDailyDecisionSystem.jsx'));
@@ -132,8 +131,8 @@ function App() {
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/experience" element={<Experience />} />
+              <Route path="/about" element={<AboutExperience initialSection="about" />} />
+              <Route path="/experience" element={<AboutExperience initialSection="experience" />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />

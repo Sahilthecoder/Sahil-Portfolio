@@ -4,7 +4,7 @@ import { preloadImage } from '../utils/imageUtils.jsx';
 
 const ImageWithFallback = ({
   src,
-  fallbackSrc = '/images/fallback-image.jpg',
+  fallbackSrc = '/Sahil-Portfolio/images/fallback-image.jpg',
   alt = '',
   className = '',
   width,

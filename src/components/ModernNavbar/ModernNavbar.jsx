@@ -6,13 +6,12 @@ import {
   FiHome, 
   FiUser, 
   FiCode, 
-  FiBriefcase, 
   FiMail,
   FiX,
   FiSun,
   FiMoon
 } from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaTwitter, FaSun, FaMoon, FaTimes, FaBars, FaWhatsapp } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaSun as FaSunSolid, FaMoon as FaMoonSolid, FaTimes, FaBars, FaWhatsapp,FaClipboardList } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
@@ -67,21 +66,12 @@ const NAV_ITEMS = [
     exact: true
   },
   { 
-    name: 'About', 
+    name: 'About & Experience', 
     path: '/about', 
     section: 'about',
     ref: 'aboutRef',
     icon: <FiUser className="w-5 h-5" />,
-    description: 'Learn about me and my skills',
-    exact: false
-  },
-  { 
-    name: 'Experience', 
-    path: '/experience', 
-    section: 'experience',
-    ref: 'experienceRef',
-    icon: <FiBriefcase className="w-5 h-5" />,
-    description: 'View my professional experience',
+    description: 'Learn about me and my experience',
     exact: false
   },
   { 
@@ -232,6 +222,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     }
   }, [isMenuOpen]);
 
+  // Toggle mobile menu
   const toggleMenu = useCallback((e) => {
     if (e) {
       e.stopPropagation();
@@ -247,16 +238,17 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     }
   }, [isMenuOpen]);
 
+  // Close mobile menu
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
 
-  // Close mobile menu when clicking outside
+  // Handle click outside mobile menu
   const handleClickOutside = useCallback((event) => {
     if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
       closeMenu();
     }
-  }, [isMenuOpen]);
+  }, [isMenuOpen, closeMenu]);
   
   // Add click outside listener
   useEffect(() => {
@@ -301,68 +293,54 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     }
   }, [location.pathname, navigate]);
 
-  // Handle navigation with support for both page navigation and section scrolling
-  const handleNavClick = useCallback((e, path, section) => {
-    // If it's the home page link
-    if (path === '/') {
-      if (location.pathname === '/') {
-        // If already on home page, scroll to top
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        // Navigate to home page
-        navigate('/');
-      }
-      return;
-    }
-    
-    // If it's a different page
-    if (path.startsWith('/')) {
-      navigate(path);
-      // Scroll to top when navigating to a new page
-      window.scrollTo(0, 0);
-      return;
-    }
-    
-    // If it's a hash link and we're on the home page
-    if (path.startsWith('#') && location.pathname === '/') {
-      const element = document.getElementById(path.substring(1));
-      if (element) {
-        e.preventDefault();
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-      return;
-    }
-    
-    // If we're not on the home page and it's a section link
-    if (path.startsWith('#')) {
-      navigate('/' + path);
-    }
-  }, [navigate, location.pathname]);
-
-  // Handle body class and scroll position when menu is open or path changes
-  useEffect(() => {
-    // Handle menu open/close
-    if (isMenuOpen) {
-      document.body.classList.add('menu-open');
-      document.body.style.overflow = 'hidden';
+  // Helper function to handle section navigation
+  const navigateToSection = useCallback((section) => {
+    if (onNavigate) {
+      onNavigate(section);
     } else {
-      document.body.classList.remove('menu-open');
-      document.body.style.overflow = 'auto';
+      window.history.pushState({}, '', `#${section}`);
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [onNavigate]);
+
+  // Handle navigation with smooth scrolling
+  const handleNavClick = useCallback((e, item) => {
+    e.preventDefault();
+    
+    // Navigate to the path
+    if (item.path === '/') {
+      navigate('/');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate(item.path);
     }
     
-    // Cleanup
-    return () => {
-      document.body.classList.remove('menu-open');
-      document.body.style.overflow = 'auto';
-    };
-  }, [isMenuOpen]);
+    // Close mobile menu if open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+  }, [navigate, isMenuOpen]);
+
+
+  // Determine active state for nav items
+  const isActive = useCallback((item) => {
+    const { pathname } = location;
+    const itemPath = item.path;
+    
+    // Handle home page
+    if (itemPath === '/' && pathname === '/') return true;
+    
+    // Handle about & experience page
+    if (itemPath === '/about' && (pathname === '/about' || pathname === '/experience')) {
+      return true;
+    }
+    
+    // Handle other paths
+    return itemPath !== '/' && pathname.startsWith(itemPath);
+  }, [location.pathname]);
 
   // Navbar animation variants
   const navVariants = {
@@ -512,7 +490,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               <NavLink
                 key={item.name}
                 to={item.path}
-                onClick={(e) => handleNavClick(e, item.path, item.section)}
+                onClick={(e) => handleNavClick(e, item)}
                 className={({ isActive }) => 
                   `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     isActive 
@@ -646,10 +624,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
                       <ul className="space-y-2">
                         {NAV_ITEMS.map((item) => {
-                          const isActive = item.exact 
-                            ? location.pathname === item.path
-                            : location.pathname.startsWith(item.path);
-                            
+                          const isActive = isActive(item);
                           return (
                             <li key={item.name}>
                               <button

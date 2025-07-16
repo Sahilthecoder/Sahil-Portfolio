@@ -233,7 +233,7 @@ const Contact = () => {
               transition={{ delay: 0.5, duration: 0.6 }}
             >
               <a
-                href="mailto:sahilali.work.01@gmail.com"
+                href="mailto:sahilkhan36985@gmail.com"
                 className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <FaEnvelope className="w-4 h-4" />

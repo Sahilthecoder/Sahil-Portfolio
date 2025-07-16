@@ -369,147 +369,153 @@ const Home = () => {
       {/* About Preview Section */}
       <section 
         ref={aboutRef} 
-        className="bg-gray-50 dark:bg-gray-900 relative py-16 sm:py-20 overflow-hidden transition-colors duration-300"
+        className="bg-white dark:bg-gray-900 relative py-16 md:py-20 px-4 sm:px-6 overflow-hidden transition-colors duration-300"
       >
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
             <motion.h2 
-              className="text-2xl sm:text-3xl font-bold mb-4"
+              className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
               About Me
             </motion.h2>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto mb-8" />
-
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
-              variants={container}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-            >
-              {[
-                {
-                  title: 'Inventory Mastery',
-                  icon: <FaClipboardCheck className="w-8 h-8 mb-4 text-indigo-600 mx-auto" />,
-                  description: 'Expert in stock reconciliation, vendor relations, and demand forecasting with a track record of reducing discrepancies by 37%'
-                },
-                {
-                  title: 'Warehouse Management',
-                  icon: <FaWarehouse className="w-8 h-8 mb-4 text-blue-600 mx-auto" />,
-                  description: 'Specialized in SOPs implementation, team supervision, and logistics optimization'
-                },
-                {
-                  title: 'AI Automation',
-                  icon: <FaRobot className="w-8 h-8 mb-4 text-purple-600 mx-auto" />,
-                  description: 'Skilled in GPT-4 workflows, Notion AI, and process automation for maximum efficiency'
-                }
-              ].map((item, index) => (
-                <motion.div 
-                  key={index}
-                  className="bg-white/80 dark:bg-gray-800/80 p-6 rounded-xl shadow-lg backdrop-blur-sm hover:shadow-xl transition-all duration-300"
-                  variants={item}
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="text-4xl mb-4">{item.icon}</div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-800 dark:text-white">{item.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-
-            <motion.div
-              className="max-w-3xl mx-auto bg-white/80 dark:bg-gray-800/80 p-6 rounded-xl shadow-lg backdrop-blur-sm mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-            >
-              <p className="text-gray-700 dark:text-gray-300 mb-6 text-center">
-                As a Certified Inventory Specialist with 5+ years of experience, I've helped organizations optimize their supply chains, reduce costs, and improve operational efficiency through data-driven strategies and process improvements.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                {['Data-Driven Decisions', 'Process Optimization', 'Team Leadership', 'AI Integration'].map((tag, i) => (
-                  <span 
-                    key={i}
-                    className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
-                  >
-                    <FaCheck className="w-3 h-3 mr-1.5" />
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
-            >
-              <Link 
-                to="/about" 
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition-colors duration-300"
-              >
-                Learn More About Me
-                <FaArrowRight className="ml-2" />
-              </Link>
-            </motion.div>
+            <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-8 rounded-full" />
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                title: 'Inventory Mastery',
+                icon: <FaClipboardCheck className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: 'Expert in stock reconciliation, vendor relations, and demand forecasting with a track record of reducing discrepancies by 37%'
+              },
+              {
+                title: 'Warehouse Management',
+                icon: <FaWarehouse className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: 'Specialized in SOPs implementation, team supervision, and logistics optimization'
+              },
+              {
+                title: 'AI Automation',
+                icon: <FaRobot className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: 'Skilled in GPT-4 workflows, Notion AI, and process automation for maximum efficiency'
+              }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            className="max-w-3xl mx-auto bg-indigo-50 dark:bg-gray-800/50 p-6 md:p-8 rounded-xl shadow-inner border border-indigo-100 dark:border-gray-700 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            <p className="text-gray-700 dark:text-gray-300 mb-6 text-center">
+              As a Certified Inventory Specialist with 5+ years of experience, I've helped organizations optimize their supply chains, reduce costs, and improve operational efficiency through data-driven strategies and process improvements.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['Data-Driven Decisions', 'Process Optimization', 'Team Leadership', 'AI Integration'].map((tag, i) => (
+                <span 
+                  key={i}
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
+                >
+                  <FaCheck className="w-3 h-3 mr-1.5 text-indigo-600 dark:text-indigo-400" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <Link 
+              to="/about" 
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+            >
+              Learn More About Me
+              <FaArrowRight className="ml-2" />
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* Experience Preview Section */}
       <section 
         ref={experienceRef} 
-        className="bg-gray-50 dark:bg-gray-900 relative py-16 sm:py-20 overflow-hidden transition-colors duration-300"
+        className="bg-gray-50 dark:bg-gray-900 relative py-16 md:py-20 px-4 sm:px-6 overflow-hidden transition-colors duration-300"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/20 to-blue-50/20 dark:from-indigo-900/10 dark:to-blue-900/10" />
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">Professional Journey</h2>
-            <div className="w-20 h-1 bg-indigo-600 dark:bg-indigo-400 mx-auto mb-8"></div>
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Professional Journey</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
             <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
               With experience across retail, supermarket chains, and healthcare supply chains, I've helped 
               organizations optimize their inventory management and warehouse operations for maximum efficiency.
             </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-              {[
-                {
-                  title: "Inventory Management",
-                  icon: <FiPackage className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400 mx-auto" />,
-                  description: "Reduced inventory discrepancies by 37% through strategic system implementations"
-                },
-                {
-                  title: "Process Optimization",
-                  icon: <FiTrendingUp className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400 mx-auto" />,
-                  description: "Improved operational efficiency by 30% through process improvements"
-                },
-                {
-                  title: "Team Leadership",
-                  icon: <FiUsers className="w-8 h-8 mb-4 text-indigo-600 dark:text-indigo-400 mx-auto" />,
-                  description: "Led and mentored teams of up to 15+ staff members"
-                }
-              ].map((item, index) => (
-                <motion.div 
-                  key={index}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="text-4xl mb-4">{item.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{item.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
-            
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            {[
+              {
+                title: "Inventory Management",
+                icon: <FiPackage className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: "Reduced inventory discrepancies by 37% through strategic system implementations"
+              },
+              {
+                title: "Process Optimization",
+                icon: <FiTrendingUp className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: "Improved operational efficiency by 30% through process improvements"
+              },
+              {
+                title: "Team Leadership",
+                icon: <FiUsers className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />,
+                description: "Led and mentored teams of up to 15+ staff members"
+              }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="text-center">
             <Link 
               to="/experience" 
-              className="inline-flex items-center px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-colors duration-300"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
               View Full Experience
               <FaArrowRight className="ml-2" />
@@ -522,9 +528,9 @@ const Home = () => {
       {/* Projects Section */}
       <section 
         id="projects" 
-        className="bg-white dark:bg-gray-800 relative py-16 overflow-hidden transition-colors duration-300"
+        className="bg-white dark:bg-gray-900 relative py-16 md:py-20 px-4 sm:px-6 overflow-hidden transition-colors duration-300"
       >
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -532,8 +538,8 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
-            <div className="w-20 h-1 bg-indigo-600 dark:bg-indigo-400 mx-auto mb-8"></div>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
           </motion.div>
 
           {/* Mobile Swiper - Hidden on md screens and up */}
@@ -583,25 +589,26 @@ const Home = () => {
 
       
       {/* Ready to Start Project Section */}
-      <section className="relative py-16 sm:py-20 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 overflow-hidden">
-        <div className="absolute inset-0 opacity-10 dark:opacity-5" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/svg%3E")'}}></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
+      <section className="relative py-16 md:py-20 bg-gradient-to-r from-indigo-600 to-blue-600 overflow-hidden">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full -ml-32 -mb-32"></div>
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 md:mb-6">
               Ready to Start a Project?
             </h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className="text-lg md:text-xl text-indigo-100 mb-8 max-w-3xl mx-auto">
               I'm always open to discussing new projects, creative ideas, or opportunities to be
               part of your vision. Let's create something amazing together!
             </p>
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -609,12 +616,12 @@ const Home = () => {
             >
               <Link
                 to="/contact"
-                className="px-6 sm:px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-6 py-3 bg-white text-indigo-600 font-medium rounded-lg hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center justify-center gap-2"
                 aria-label="Get in touch"
               >
                 {isLoading ? 'Sending...' : 'Get In Touch'}
                 {isLoading && (
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -mr-1 ml-2 h-4 w-4 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -622,7 +629,7 @@ const Home = () => {
               </Link>
               <Link
                 to="/projects"
-                className="px-6 sm:px-8 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
                 aria-label="View my work"
               >
                 View My Work

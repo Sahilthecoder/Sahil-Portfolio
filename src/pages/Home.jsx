@@ -14,11 +14,13 @@ import {
   FaWarehouse,
   FaRobot,
   FaCheck,
-  FaWhatsapp
+  FaWhatsapp,
+  FaGithub
 } from 'react-icons/fa';
-import { FiMail, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackage, FiCode, FiTrendingUp, FiSettings, FiUsers, FiGithub } from 'react-icons/fi';
-import { projects } from '../data/projects';
+import { FiMail, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackage, FiCode, FiTrendingUp, FiSettings, FiUsers } from 'react-icons/fi';
 import ProjectSwiper from '../components/ProjectSwiper';
+import HomeProjectCard from '../components/HomeProjectCard';
+import { projects } from '../data/projects';
 
 // Using a fallback image from the public directory
 const HeroImage = '/images/fallback-image.jpg';
@@ -534,116 +536,27 @@ const Home = () => {
             <div className="w-20 h-1 bg-indigo-600 dark:bg-indigo-400 mx-auto mb-8"></div>
           </motion.div>
 
-          {/* 
-           Swiper - Hidden on md screens and up */}
+          {/* Mobile Swiper - Hidden on md screens and up */}
           <div className="md:hidden mb-12">
             <ProjectSwiper projects={projects} />
           </div>
 
           {/* Desktop Grid - Hidden on mobile */}
-          <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects
-              .map((project, index) => (
-              <motion.div
-                key={project.id}
-                className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
-              >
-                <div className="relative aspect-video overflow-hidden">
-                  <div className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"></div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.slice(0, 3).map((tag) => (
-                        <span 
-                          key={tag} 
-                          className="px-2 py-1 text-xs font-medium rounded-full bg-indigo-600/90 text-white"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies?.slice(0, 3).map((tech) => (
-                      <span 
-                        key={tech} 
-                        className="px-2 py-1 text-xs font-medium rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-200"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-700">
-                    {project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
-                      <a
-                        href={project.link}
-                        target="_self"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
-                      >
-                        View Project
-                        <svg
-                          className="w-4 h-4 ml-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </a>
-                    ) : (
-                      <Link
-                        to={project.link}
-                        className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 text-white hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
-                      >
-                        View Project
-                        <svg
-                          className="w-4 h-4 ml-1"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"
-                          />
-                        </svg>
-                      </Link>
-                    )}
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
-                        aria-label={`View ${project.title} on GitHub`}
-                      >
-                        <FiGithub className="w-5 h-5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+          <div className="hidden md:block">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <motion.div
+                  key={index}
+                  className="h-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <HomeProjectCard project={project} index={index} />
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {projects.length === 0 && (

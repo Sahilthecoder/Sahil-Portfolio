@@ -262,10 +262,11 @@ const Contact = () => {
               transition={{ delay: 0.6, duration: 0.6 }}
             >
               <a 
-                href="https://www.linkedin.com/in/sahil-ali-0a0b3b1b3/" 
+                href="https://www.linkedin.com/in/sahil-ali-714867242/" 
                 target="_blank" 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer nofollow"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                aria-label="Connect on LinkedIn"
               >
                 <FaLinkedin className="w-5 h-5" />
                 <span className="text-sm font-medium">LinkedIn</span>
@@ -273,20 +274,22 @@ const Contact = () => {
               <a 
                 href="https://github.com/Sahilthecoder" 
                 target="_blank" 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer nofollow"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                aria-label="View GitHub Profile"
               >
                 <FaGithub className="w-5 h-5" />
                 <span className="text-sm font-medium">GitHub</span>
               </a>
               <a 
-                href="https://www.instagram.com/sahilali.work/" 
+                href="https://wa.me/919875771550" 
                 target="_blank" 
-                rel="noopener noreferrer"
+                rel="noopener noreferrer nofollow"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                aria-label="Chat on WhatsApp"
               >
-                <FaInstagram className="w-5 h-5" />
-                <span className="text-sm font-medium">Instagram</span>
+                <FaWhatsapp className="w-5 h-5" />
+                <span className="text-sm font-medium">WhatsApp</span>
               </a>
             </motion.div>
           </div>

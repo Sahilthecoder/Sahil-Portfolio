@@ -403,7 +403,73 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
               }
             }}
           >
-
+            {/* Skip to main content link - visible when focused */}
+            <a 
+              href="#main-content" 
+              className={`
+                sr-only 
+                focus:not-sr-only 
+                focus:fixed 
+                focus:top-4 
+                focus:left-1/2 
+                focus:-translate-x-1/2
+                focus:z-50 
+                bg-gradient-to-r 
+                from-blue-600 
+                to-indigo-600 
+                dark:from-blue-700 
+                dark:to-indigo-700
+                text-white 
+                px-6 
+                py-3 
+                rounded-full 
+                shadow-lg 
+                font-medium 
+                text-sm 
+                sm:text-base 
+                transition-all 
+                duration-300 
+                transform 
+                focus:scale-105 
+                focus:shadow-xl
+                focus:ring-2 
+                focus:ring-white 
+                focus:ring-offset-2
+                focus:ring-offset-blue-600
+                hover:shadow-2xl
+                hover:scale-105
+                hover:brightness-110
+                dark:hover:brightness-125
+                flex 
+                items-center 
+                justify-center
+                whitespace-nowrap
+                backdrop-blur-sm
+                bg-opacity-90
+              `}
+              onClick={(e) => {
+                // Prevent default only if we're on the same page
+                if (location.pathname === '/') {
+                  e.preventDefault();
+                  const mainContent = document.getElementById('main-content');
+                  if (mainContent) {
+                    mainContent.setAttribute('tabindex', '-1');
+                    mainContent.focus({ preventScroll: true });
+                    window.scrollTo({
+                      top: mainContent.offsetTop - 80, // Adjust for header height
+                      behavior: 'smooth'
+                    });
+                    // Remove tabindex after focus is set
+                    setTimeout(() => mainContent.removeAttribute('tabindex'), 1000);
+                  }
+                }
+              }}
+            >
+              Skip to main content
+              <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/20" aria-hidden="true">
+                ↓
+              </span>
+            </a>
             <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
               <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
                 <ImageWithFallback 

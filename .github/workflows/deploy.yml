@@ -50,11 +50,34 @@ jobs:
           echo "Installing dependencies..."
           npm install --legacy-peer-deps
           
+      - name: Verify Environment Variables
+        run: |
+          echo "=== Environment Variables ==="
+          echo "VITE_EMAILJS_SERVICE_ID: ${#VITE_EMAILJS_SERVICE_ID} characters"
+          echo "VITE_EMAILJS_TEMPLATE_ID: ${#VITE_EMAILJS_TEMPLATE_ID} characters"
+          echo "VITE_EMAILJS_PUBLIC_KEY: ${#VITE_EMAILJS_PUBLIC_KEY} characters"
+          echo "VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${#VITE_EMAILJS_ADMIN_TEMPLATE_ID} characters"
+          echo "VITE_ADMIN_EMAIL: ${VITE_ADMIN_EMAIL}"
+          
+          # Verify required variables are not empty
+          if [ -z "$VITE_EMAILJS_SERVICE_ID" ] || [ -z "$VITE_EMAILJS_TEMPLATE_ID" ] || [ -z "$VITE_EMAILJS_PUBLIC_KEY" ]; then
+            echo "::error::Missing required EmailJS configuration"
+            exit 1
+          fi
+        env:
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
+          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
+          
       - name: Build
         run: |
           echo "Building the application..."
+          echo "Vite Environment Mode: $NODE_ENV"
           npm run build
         env:
+          NODE_ENV: production
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}

@@ -60,28 +60,59 @@ jobs:
           echo "VITE_ADMIN_EMAIL: ${VITE_ADMIN_EMAIL}"
           
           # Verify required variables are not empty
-          if [ -z "$VITE_EMAILJS_SERVICE_ID" ] || [ -z "$VITE_EMAILJS_TEMPLATE_ID" ] || [ -z "$VITE_EMAILJS_PUBLIC_KEY" ]; then
-            echo "::error::Missing required EmailJS configuration"
+          if [ -z "$VITE_EMAILJS_SERVICE_ID" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_SERVICE_ID"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "$VITE_EMAILJS_TEMPLATE_ID" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_TEMPLATE_ID"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "$VITE_EMAILJS_PUBLIC_KEY" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_PUBLIC_KEY"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
             exit 1
           fi
         env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-          VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
-          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID || '' }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID || '' }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY || '' }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID || '' }}
+          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL || '' }}
           
+      - name: Check required secrets
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.VITE_EMAILJS_SERVICE_ID }}" ] || [ -z "${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" ] || [ -z "${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" ]; then
+            echo "::error::Missing required secrets. Please ensure all EmailJS secrets are set in repository settings."
+            echo "::error::Missing VITE_EMAILJS_SERVICE_ID: $([ -z "${{ secrets.VITE_EMAILJS_SERVICE_ID }}" ] && echo 'true' || echo 'false')"
+            echo "::error::Missing VITE_EMAILJS_TEMPLATE_ID: $([ -z "${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" ] && echo 'true' || echo 'false')"
+            echo "::error::Missing VITE_EMAILJS_PUBLIC_KEY: $([ -z "${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" ] && echo 'true' || echo 'false')"
+            exit 1
+          fi
+
       - name: Create .env.production
+        if: steps.check_secrets.outcome == 'success'
         run: |
           echo "Creating .env.production file..."
           cat > .env.production << 'EOL'
           VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-          VITE_EMAILJS_ADMIN_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
-          VITE_ADMIN_EMAIL=${{ secrets.VITE_ADMIN_EMAIL }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID || '' }}
+          VITE_ADMIN_EMAIL=${{ secrets.VITE_ADMIN_EMAIL || '' }}
           NODE_ENV=production
           EOL
+          
+          # Verify the file was created
+          if [ ! -f ".env.production" ]; then
+            echo "::error::Failed to create .env.production file"
+            exit 1
+          fi
+          
+          echo "Environment variables set successfully"
           
           # Verify the file was created (without showing sensitive values)
           echo ".env.production created with the following keys (values hidden for security):"

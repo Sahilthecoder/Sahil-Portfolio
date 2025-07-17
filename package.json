@@ -27,11 +27,13 @@
     "audit:accessibility": "pa11y http://localhost:3000 --standard WCAG2AA"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
+    "@sendgrid/mail": "^8.1.5",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "clsx": "^2.1.1",

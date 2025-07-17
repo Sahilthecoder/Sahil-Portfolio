@@ -5,7 +5,9 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
 import FaviconManager from './components/FaviconManager';
 import ModernNavbar from './components/ModernNavbar/ModernNavbar';
-import Footer from './components/Footer';
+import Footer from './components/Footer.jsx';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
 
 // Lazy load components with Suspense fallback
 const Home = React.lazy(() => import('./pages/Home.jsx'));
@@ -141,6 +143,8 @@ function App() {
               <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
               <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
               <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

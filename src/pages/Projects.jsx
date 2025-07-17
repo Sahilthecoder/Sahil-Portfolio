@@ -768,29 +768,7 @@ const Projects = () => {
               Explore my portfolio of <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span> projects. Each project demonstrates my ability to solve complex business challenges with innovative technical solutions.
             </motion.p>
 
-            <motion.div
-              className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-            >
-              {['All', 'Inventory', 'Data Analysis', 'Automation', 'AI/ML'].map((category) => {
-                const filterValue = category === 'All' ? 'all' : category.toLowerCase();
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setActiveFilter(filterValue)}
-                    className={`px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
-                      activeFilter === filterValue
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                );
-              })}
-            </motion.div>
+            {/* Category filter removed as per request */}
 
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"

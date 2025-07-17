@@ -1,136 +1,135 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { getImagePath } from '../../utils/imageUtils.jsx';
-import ImageWithFallback from '../ImageWithFallback';
-import ThemeSwitch from '../ThemeSwitch';
-import { 
-  FiHome, 
-  FiUser, 
-  FiCode, 
-  FiMail,
-  FiX,
-  FiSun,
-  FiMoon
-} from 'react-icons/fi';
-import { FaGithub, FaLinkedin, FaTwitter, FaSun as FaSunSolid, FaMoon as FaMoonSolid, FaTimes, FaBars, FaWhatsapp,FaClipboardList } from 'react-icons/fa';
+import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
+import { FiHome, FiUser, FiCode, FiMail, FiX, FiChevronUp } from 'react-icons/fi';
+import { FaGithub, FaLinkedin, FaBars } from 'react-icons/fa';
+import ThemeSwitch from '../ThemeSwitch';
+import ImageWithFallback from '../ImageWithFallback';
+import { getImagePath } from '../../utils/imageUtils';
 
-// CSS classes for glass morphism effect
-const glassStyle = 'glass-morph';
-const glassHover = 'glass-hover';
-const glassBorder = 'glass-border';
-
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: -10 },
-  show: { 
-    opacity: 1, 
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 15,
-    }
-  },
-};
-
-// Floating background pattern
-const BackgroundPattern = () => (
-  <div className="absolute inset-0 overflow-hidden -z-10">
-    <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.02]" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 dark:to-gray-900/50" />
-  </div>
+// Add smooth theme transitions
+const ThemeTransition = () => (
+  <style jsx global>{`n    html {n      scroll-behavior: smooth;n    }n    .theme-transition *:not(.no-transition):not(.no-transition *) {n      transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;n      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);n      transition-duration: 150ms;n    }n  `}</style>
 );
 
-// Navigation items with static text and routing configuration
+// Navigation items configuration
 const NAV_ITEMS = [
   { 
     name: 'Home', 
     path: '/', 
     section: 'home',
-    ref: 'homeRef',
     icon: <FiHome className="w-5 h-5" />,
-    description: 'Back to the homepage',
     exact: true
   },
   { 
-    name: 'About & Experience', 
-    path: '/about', 
+    name: 'About', 
+    path: '/about',
     section: 'about',
-    ref: 'aboutRef',
-    icon: <FiUser className="w-5 h-5" />,
-    description: 'Learn about me and my experience',
-    exact: false
+    icon: <FiUser className="w-5 h-5" />
   },
   { 
     name: 'Projects', 
-    path: '/projects', 
+    path: '/projects',
     section: 'projects',
-    ref: 'projectsRef',
-    icon: <FiCode className="w-5 h-5" />,
-    description: 'Explore my portfolio projects',
-    exact: false
+    icon: <FiCode className="w-5 h-5" />
   },
   { 
     name: 'Contact', 
-    path: '/contact', 
+    path: '/contact',
     section: 'contact',
-    ref: 'contactRef',
-    icon: <FiMail className="w-5 h-5" />,
-    description: 'Get in touch with me',
-    exact: false
+    icon: <FiMail className="w-5 h-5" />
   }
 ];
 
-const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
+// Animation variants
+const navVariants = {
+  hidden: { y: -100, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { 
+      type: 'spring', 
+      damping: 25, 
+      stiffness: 500,
+      mass: 0.5
+    }
+  }
+};
+
+const menuVariants = {
+  hidden: { x: '100%' },
+  visible: { 
+    x: 0,
+    transition: {
+      type: 'tween',
+      ease: [0.22, 1, 0.36, 1],
+      duration: 0.3
+    }
+  },
+  exit: { 
+    x: '100%',
+    transition: {
+      ease: [0.22, 1, 0.36, 1],
+      duration: 0.2
+    }
+  }
+};
+
+// Skip to main content link component
+const SkipToContent = () => (
+  <a
+    href="#main-content"
+    className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-1/2 focus:-translate-x-1/2 focus:z-50 focus:bg-white dark:focus:bg-gray-900 focus:px-4 focus:py-2 focus:rounded-md focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900 focus:outline-none transition-all duration-200 transform focus:scale-105"
+  >
+    Skip to content
+  </a>
+);
+
+const ModernNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const navbarRef = useRef(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const lastScrollTop = useRef(0);
   const ticking = useRef(false);
-  const [activeItem, setActiveItem] = useState(activeSection || 'home');
+  const menuRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
-  const navRef = useRef(null);
-  const menuRef = useRef(null);
-  const menuContainerRef = useRef(null);
+  const { theme, toggleTheme } = useTheme();
+  
+  // Handle theme toggle with smooth transition
+  const handleThemeToggle = useCallback(() => {
+    setIsTransitioning(true);
+    // Add a small delay to allow the transition to complete
+    setTimeout(() => {
+      toggleTheme();
+      setIsTransitioning(false);
+    }, 150);
+  }, [toggleTheme]);
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Handle scroll events for navbar visibility and background
+  // Handle scroll events for navbar visibility, progress, and background
   useEffect(() => {
     const handleScroll = () => {
       if (!ticking.current) {
         window.requestAnimationFrame(() => {
           const currentScrollPos = window.pageYOffset;
-          const scrollDifference = currentScrollPos - lastScrollTop.current;
+          const windowHeight = window.innerHeight;
+          const docHeight = document.documentElement.scrollHeight - windowHeight;
           
-          // Always show navbar when scrolling up or at the top of the page
-          if (currentScrollPos < 10) {
-            setVisible(true);
-          } 
-          // Hide navbar when scrolling down, show when scrolling up
-          else if (scrollDifference < -5) {
-            setVisible(true);
-          } else if (scrollDifference > 5) {
-            setVisible(false);
-          }
+          // Update scroll progress (0-100%)
+          setScrollProgress(Math.min((currentScrollPos / docHeight) * 100, 100));
           
-          // Update scroll position and background
-          lastScrollTop.current = Math.max(0, currentScrollPos);
+          // Show back to top button when scrolled past 50% of viewport height
+          setShowBackToTop(currentScrollPos > windowHeight * 0.5);
+          
+          // Update navbar background on scroll
           setIsScrolled(currentScrollPos > 10);
+          
+          lastScrollTop.current = currentScrollPos;
           ticking.current = false;
         });
         
@@ -139,593 +138,389 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll, { passive: true });
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Update active item when activeSection prop changes
+  // Close menu when clicking outside
   useEffect(() => {
-    if (activeSection) {
-      setActiveItem(activeSection);
-    }
-  }, [activeSection]);
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Close menu when route changes
   useEffect(() => {
-    closeMenu();
-    // Scroll to top when path changes
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
+    setIsMenuOpen(false);
+  }, [location]);
 
-  // Handle body scroll and focus trap when menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      // Prevent body scroll when menu is open
-      const originalStyle = window.getComputedStyle(document.body).overflow;
-      document.body.style.overflow = 'hidden';
-      
-      // Focus trap for accessibility
-      const menuElement = menuRef.current;
-      if (!menuElement) return;
-      
-      // Get all focusable elements in the menu
-      const focusableElements = Array.from(menuElement.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )).filter(el => !el.disabled && !el.hidden && el.offsetParent !== null);
-      
-      if (focusableElements.length === 0) return;
-      
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-      
-      const handleKeyDown = (e) => {
-        // Close menu on Escape
-        if (e.key === 'Escape') {
-          closeMenu();
-          // Return focus to menu button
-          const menuButton = document.querySelector('[aria-label*="menu"]');
-          if (menuButton) menuButton.focus();
-          return;
-        }
-        
-        // Only handle tab key when menu is open
-        if (e.key !== 'Tab') return;
-        
-        // Handle shift + tab (backwards tab)
-        if (e.shiftKey) {
-          if (document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          }
-        } 
-        // Handle tab (forwards tab)
-        else if (document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
-        }
-      };
-      
-      // Focus first element when menu opens
-      requestAnimationFrame(() => {
-        firstElement.focus();
-      });
-      
-      // Add event listeners
-      document.addEventListener('keydown', handleKeyDown);
-      
-      // Cleanup function
-      return () => {
-        document.removeEventListener('keydown', handleKeyDown);
-        document.body.style.overflow = originalStyle;
-      };
-    }
-  }, [isMenuOpen]);
-
+  // Scroll to top handler
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: reducedMotion ? 'auto' : 'smooth'
+    });
+  }, [reducedMotion]);
+  
   // Toggle mobile menu
-  const toggleMenu = useCallback((e) => {
-    if (e) {
-      e.stopPropagation();
-      e.preventDefault();
-    }
-    const newIsMenuOpen = !isMenuOpen;
-    setIsMenuOpen(newIsMenuOpen);
-    
-    // Update aria-expanded for screen readers
-    const menuButton = document.querySelector('[aria-label*="menu"]');
-    if (menuButton) {
-      menuButton.setAttribute('aria-expanded', String(newIsMenuOpen));
-    }
-  }, [isMenuOpen]);
-
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+  }, []);
+  
   // Close mobile menu
   const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
   }, []);
-
-  // Handle click outside mobile menu
-  const handleClickOutside = useCallback((event) => {
-    if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
-      closeMenu();
-    }
-  }, [isMenuOpen, closeMenu]);
   
-  // Add click outside listener
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
+  // Check if nav item is active
+  const isActive = useCallback((item) => {
+    if (item.path === '/') {
+      return location.pathname === '/';
     }
-  }, [isMenuOpen, handleClickOutside]);
-
-  // Improved scroll to section with navigation support
-  const scrollTo = useCallback((id, path) => {
-    // If we're not on the home page, navigate first
-    if (location.pathname !== '/') {
-      navigate(path || '/');
-      // Small delay to ensure the component has mounted
-      setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth',
-          });
-        }
-      }, 100);
-    } else {
-      // We're already on the home page, just scroll
-      const element = document.getElementById(id);
-      if (element) {
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        });
-      }
-    }
-  }, [location.pathname, navigate]);
-
-  // Helper function to handle section navigation
-  const navigateToSection = useCallback((section) => {
-    if (onNavigate) {
-      onNavigate(section);
-    } else {
-      window.history.pushState({}, '', `#${section}`);
-      const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [onNavigate]);
-
-  // Handle navigation with smooth scrolling
+    return location.pathname.startsWith(item.path);
+  }, [location.pathname]);
+  
+  // Handle nav click with smooth scroll
   const handleNavClick = useCallback((e, item) => {
     e.preventDefault();
+    closeMenu();
     
-    // Navigate to the path
-    if (item.path === '/') {
-      navigate('/');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname === item.path) {
+      // If already on the same page, just scroll to top or section
+      if (item.section === 'home') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const element = document.getElementById(item.section);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     } else {
+      // Navigate to new page
       navigate(item.path);
     }
-    
-    // Close mobile menu if open
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
-  }, [navigate, isMenuOpen]);
+  }, [location.pathname, navigate, closeMenu]);
 
-
-  // Determine active state for nav items
-  const isActive = useCallback((item) => {
-    const { pathname } = location;
-    const itemPath = item.path;
-    
-    // Handle home page
-    if (itemPath === '/' && pathname === '/') return true;
-    
-    // Handle about & experience page
-    if (itemPath === '/about' && (pathname === '/about' || pathname === '/experience')) {
-      return true;
-    }
-    
-    // Handle other paths
-    return itemPath !== '/' && pathname.startsWith(itemPath);
-  }, [location.pathname]);
-
-  // Navbar animation variants
-  const navVariants = {
-    hidden: { y: -100, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: { 
-        type: 'spring', 
-        damping: 25, 
-        stiffness: 500,
-        mass: 0.5
-      }
-    }
-  };
+  // Handle image load
+  const handleImageLoad = useCallback(() => {
+    setIsImageLoaded(true);
+  }, []);
 
   return (
-    <motion.nav
-      ref={navbarRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-        isScrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
-      }`}
-      initial="visible"
-      animate={visible ? 'visible' : 'hidden'}
-      variants={navVariants}
-      transition={{ type: 'spring', damping: 25, stiffness: 500 }}
-    >
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 md:h-20 items-center">
-          <NavLink 
-            to="/" 
-            className="flex items-center space-x-2 group"
-            aria-label="Home"
-            onClick={(e) => {
-              if (location.pathname === '/') {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }}
-          >
-            {/* Skip to main content link - visible when focused */}
-            <a 
-              href="#main-content" 
-              className={`
-                sr-only 
-                focus:not-sr-only 
-                focus:fixed 
-                focus:top-4 
-                focus:left-1/2 
-                focus:-translate-x-1/2
-                focus:z-50 
-                bg-gradient-to-r 
-                from-blue-600 
-                to-indigo-600 
-                dark:from-blue-700 
-                dark:to-indigo-700
-                text-white 
-                px-6 
-                py-3 
-                rounded-full 
-                shadow-lg 
-                font-medium 
-                text-sm 
-                sm:text-base 
-                transition-all 
-                duration-300 
-                transform 
-                focus:scale-105 
-                focus:shadow-xl
-                focus:ring-2 
-                focus:ring-white 
-                focus:ring-offset-2
-                focus:ring-offset-blue-600
-                hover:shadow-2xl
-                hover:scale-105
-                hover:brightness-110
-                dark:hover:brightness-125
-                flex 
-                items-center 
-                justify-center
-                whitespace-nowrap
-                backdrop-blur-sm
-                bg-opacity-90
-              `}
+    <>
+      {/* Theme Transition */}
+      <ThemeTransition />
+      
+      {/* Skip to content link */}
+      <SkipToContent />
+      
+      {/* Scroll Progress Indicator */}
+      <div 
+        className="fixed top-0 left-0 right-0 h-0.5 z-[60]"
+        style={{
+          background: `linear-gradient(90deg, ${theme === 'dark' ? '#3b82f6' : '#2563eb'} ${scrollProgress}%, transparent ${scrollProgress}%)`,
+          opacity: isScrolled ? 1 : 0,
+          transition: 'opacity 0.3s ease-in-out'
+        }}
+        aria-hidden="true"
+      />
+      
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
+          isScrolled ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+        }`}
+        initial="hidden"
+        animate="visible"
+        variants={navVariants}
+      >
+        {/* Subtle divider that appears on scroll */}
+        <div 
+          className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent transition-opacity duration-300 ${
+            isScrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+        
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 theme-transition">
+          <div className="flex justify-between h-16 md:h-20 items-center">
+            {/* Logo / Brand */}
+            <NavLink 
+              to="/" 
+              className="flex items-center space-x-2 group"
+              aria-label="Home"
               onClick={(e) => {
-                // Prevent default only if we're on the same page
                 if (location.pathname === '/') {
                   e.preventDefault();
-                  const mainContent = document.getElementById('main-content');
-                  if (mainContent) {
-                    mainContent.setAttribute('tabindex', '-1');
-                    mainContent.focus({ preventScroll: true });
-                    window.scrollTo({
-                      top: mainContent.offsetTop - 80, // Adjust for header height
-                      behavior: 'smooth'
-                    });
-                    // Remove tabindex after focus is set
-                    setTimeout(() => mainContent.removeAttribute('tabindex'), 1000);
-                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
               }}
             >
-              Skip to main content
-              <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/20" aria-hidden="true">
-                ↓
-              </span>
-            </a>
-            <div className="logo-container relative flex items-center group-hover:scale-105 transition-transform">
-              <div className="logo relative z-10 bg-white dark:bg-gray-900 rounded-full p-1.5 shadow-sm">
-                <ImageWithFallback 
-                  src="/Sahil-Portfolio/images/logo/logo192.png"
-                  fallbackSrc="/Sahil-Portfolio/images/logo/logo192.png"
-                  alt="Sahil Ali - Portfolio Logo"
-                  className="logo-img h-8 w-8 md:h-9 md:w-9 transition-transform duration-300 group-hover:scale-110"
-                  width={36}
-                  height={36}
-                  loading="eager"
-                  sizes="(max-width: 768px) 36px, 40px"
-                />
-              </div>
-              <span className="ml-3 hidden md:inline-block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Sahil Ali
-                <span className="block text-xs text-gray-500 dark:text-gray-400">Data Analyst</span>
-              </span>
-            </div>
-          </NavLink>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            onClick={toggleMenu}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-            aria-haspopup="true"
-            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          >
-            {isMenuOpen ? (
-              <FaTimes className="w-6 h-6 text-gray-800 dark:text-gray-100" />
-            ) : (
-              <FaBars className="w-6 h-6 text-gray-800 dark:text-gray-100" />
-            )}
-          </button>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main navigation">
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                onClick={(e) => handleNavClick(e, item)}
-                className={({ isActive }) => 
-                  `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    isActive 
-                      ? 'text-blue-600 dark:text-blue-400' 
-                      : 'text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white'
-                  }`
-                }
-                end={item.exact}
-              >
-                <div className="flex items-center">
-                  <span className="mr-2">{item.icon}</span>
-                  {item.name}
-                </div>
-              </NavLink>
-            ))}
-          </nav>
-
-          <div className="hidden lg:flex items-center space-x-2 ml-4">
-            <div className="h-8 w-px bg-gray-200 dark:bg-gray-700 mx-2"></div>
-            <ThemeSwitch className="mr-1" />
-            <a
-              href="https://github.com/Sahilthecoder/Sahil-Portfolio"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="GitHub profile"
-            >
-              <FaGithub className="w-5 h-5" aria-hidden="true" />
-              <span className="sr-only">View my GitHub profile</span>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/sahil-ali-714867242/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="LinkedIn profile"
-            >
-              <FaLinkedin className="w-5 h-5" aria-hidden="true" />
-              <span className="sr-only">View my LinkedIn profile</span>
-            </a>
-            <a
-              href="https://wa.me/919875771550"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="WhatsApp"
-            >
-              <FaWhatsapp className="w-5 h-5" aria-hidden="true" />
-              <span className="sr-only">Contact me on WhatsApp</span>
-            </a>
-          </div>
-
-
-            
-            {/* Mobile Menu Overlay */}
-            <AnimatePresence>
-              {isMenuOpen && (
-                <div 
-                  ref={menuContainerRef}
-                  id="mobile-menu"
-                  role="dialog"
-                  aria-modal="true"
-                  aria-label="Mobile navigation menu"
-                  className={`fixed inset-0 z-50 bg-white dark:bg-gray-900 transform transition-transform duration-300 ease-in-out ${
-                    isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                  } lg:hidden`}
-                >
-                  <motion.div 
-                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    onClick={closeMenu}
-                    aria-hidden="true"
-                  />
-                  
-                  <motion.div 
-                    ref={menuRef}
-                    className="fixed top-0 right-0 h-screen w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 flex flex-col overflow-hidden"
-                    initial={{ x: '100%' }}
-                    animate={{ x: 0 }}
-                    exit={{ x: '100%' }}
-                    transition={{ type: 'tween', ease: [0.22, 1, 0.36, 1] }}
-                    role="dialog"
-                    aria-modal="true"
-                    aria-label="Mobile menu"
-                  >
-                    <div className="p-6 pb-4">
-                    <div className="flex justify-between items-center">
-                      <div className="hidden lg:flex items-center space-x-4">
-                        <ThemeSwitch />
-                        <a
-                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-                          aria-label="GitHub"
-                        >
-                          <FaGithub className="h-5 w-5" />
-                        </a>
-                        <a
-                          href="https://www.linkedin.com/in/sahil-ali-714867242/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-                          aria-label="LinkedIn"
-                        >
-                          <FaLinkedin className="h-5 w-5" aria-label="LinkedIn" role="img" />
-                        </a>
-                        <a
-                          href="https://wa.me/919875771550"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-                          aria-label="WhatsApp"
-                        >
-                          <FaWhatsapp className="h-5 w-5" aria-label="WhatsApp" />
-                        </a>
-                      </div>
-                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu</h2>
-                      <button 
-                        onClick={closeMenu}
-                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                        aria-label="Close menu"
-                      >
-                        <FiX className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-                      </button>
-                    </div>
-                    
-                    <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
-                      <ul className="space-y-2">
-                        {NAV_ITEMS.map((item) => {
-                          const isItemActive = isActive(item);
-                          return (
-                            <li key={item.name}>
-                              <button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  closeMenu();
-                                  
-                                  if (location.pathname === item.path) {
-                                    // If already on the same page, just scroll to section
-                                    if (item.path === '/') {
-                                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                                    } else if (item.section) {
-                                      const element = document.getElementById(item.section);
-                                      if (element) {
-                                        const headerOffset = 100;
-                                        const elementPosition = element.getBoundingClientRect().top;
-                                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                        window.scrollTo({
-                                          top: offsetPosition,
-                                          behavior: 'smooth',
-                                        });
-                                      }
-                                    }
-                                  } else {
-                                    // Navigate to new page
-                                    navigate(item.path);
-                                    
-                                    // Small delay to ensure the page has loaded
-                                    setTimeout(() => {
-                                      if (item.section) {
-                                        const element = document.getElementById(item.section);
-                                        if (element) {
-                                          const headerOffset = 100;
-                                          const elementPosition = element.getBoundingClientRect().top;
-                                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                                          window.scrollTo({
-                                            top: offsetPosition,
-                                            behavior: 'smooth',
-                                          });
-                                        }
-                                      } else if (item.path === '/') {
-                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                      }
-                                    }, 100);
-                                  }
-                                }}
-                                className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
-                                  isItemActive 
-                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                                    : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                                }`}
-                                aria-current={isItemActive ? 'page' : undefined}
-                              >
-                                <span className={`flex-shrink-0 ${isItemActive ? 'text-blue-500' : 'text-gray-400'}`}>
-                                  {item.icon}
-                                </span>
-                                <span className="font-medium">{item.name}</span>
-                              </button>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </nav>
-                    
-                    <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                      <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
-                        <ThemeSwitch />
-                      </div>
-                      
-                      <div className="flex justify-center space-x-4 mt-4">
-                        <a
-                          href="https://github.com/Sahilthecoder/Sahil-Portfolio"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                          aria-label="GitHub"
-                          onClick={closeMenu}
-                        >
-                          <FaGithub className="w-5 h-5" />
-                        </a>
-                        <a
-                          href="https://www.linkedin.com/in/sahil-ali-714867242/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                          aria-label="LinkedIn"
-                          onClick={closeMenu}
-                        >
-                          <FaLinkedin className="w-5 h-5" />
-                        </a>
-                      </div>
-                    </div>
+              <div className="relative flex items-center group active:scale-95 transition-transform duration-100">
+                {/* Logo Container with Smooth Transitions */}
+                <div className="relative z-10 bg-white/90 dark:bg-gray-900/90 rounded-full p-1.5 shadow-sm ring-1 ring-gray-900/5 dark:ring-white/10 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:ring-2 group-hover:ring-blue-500/30 group-hover:shadow-lg transform-gpu will-change-transform">
+                  {/* Logo Image */}
+                  <div className={`relative w-8 h-8 md:w-9 md:h-9 transition-opacity duration-500 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}>
+                    <picture>
+                      {/* WebP with responsive sources */}
+                      <source 
+                        srcSet={`/images/logo/logo192.webp 192w, /images/logo/logo512-300w.webp 300w`} 
+                        type="image/webp"
+                        sizes="(max-width: 768px) 32px, 36px"
+                      />
+                      {/* Fallback to PNG */}
+                      <ImageWithFallback
+                        src="/images/logo/logo192.png"
+                        srcSet={"/images/logo/logo192.png 192w, /images/logo/logo512.png 300w"}
+                        sizes="(max-width: 768px) 32px, 36px"
+                        fallbackText="SA"
+                        className="w-full h-full object-contain"
+                        alt="Sahil's Logo"
+                        onLoad={handleImageLoad}
+                        loading="eager"
+                        width={36}
+                        height={36}
+                      />
+                    </picture>
                   </div>
-                </motion.div>
+                  
+                  {/* Loading State */}
+                  {!isImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-full animate-pulse">
+                      <span className="text-xs font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                        SA
+                      </span>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Name and Title with Gradient Text */}
+                <div className="ml-3 flex flex-col leading-tight -space-y-0.5">
+                  <motion.span 
+                    className="text-lg md:text-xl font-bold tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent"
+                    whileHover={!reducedMotion ? { x: 2 } : {}}
+                    transition={{ type: 'spring', stiffness: 500, damping: 15 }}
+                  >
+                    Sahil Ali
+                  </motion.span>
+                  <motion.span 
+                    className="text-[11px] xs:text-xs font-medium text-gray-500 dark:text-gray-400 tracking-widest transition-colors duration-300 group-hover:text-blue-500 dark:group-hover:text-blue-400"
+                    whileHover={!reducedMotion ? { letterSpacing: '0.15em' } : {}}
+                    transition={{ type: 'spring', stiffness: 500, damping: 15 }}
+                  >
+                    DATA ANALYST
+                  </motion.span>
+                </div>
               </div>
-            )}
-          </AnimatePresence>
+            </NavLink>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {NAV_ITEMS.map((item) => (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  className={({ isActive }) => `
+                    px-4 py-2 rounded-md text-sm font-medium transition-colors
+                    flex items-center space-x-2
+                    ${
+                      isActive 
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-gray-800/50' 
+                        : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-gray-800/30'
+                    }
+                  `}
+                  onClick={(e) => handleNavClick(e, item)}
+                >
+                  {React.cloneElement(item.icon, { className: 'w-5 h-5' })}
+                  <span>{item.name}</span>
+                </NavLink>
+              ))}
+            </div>
+
+            {/* Right side actions */}
+            <div className="flex items-center space-x-4">
+              <div className="hidden lg:flex items-center space-x-4">
+                <a
+                  href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  aria-label="GitHub"
+                >
+                  <FaGithub className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/sahil-ali-12345678"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <FaLinkedin className="w-5 h-5" />
+                </a>
+                <ThemeSwitch 
+              onChange={handleThemeToggle} 
+              />
+              </div>
+
+              {/* Mobile Menu Button */}
+              <motion.button
+                onClick={toggleMenu}
+                className="lg:hidden p-3 -mr-2 rounded-full text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-all active:bg-gray-100 dark:active:bg-gray-800"
+                aria-expanded={isMenuOpen}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                whileTap={!reducedMotion ? { scale: 0.9 } : {}}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+              >
+                {isMenuOpen ? (
+                  <FiX className="h-6 w-6" />
+                ) : (
+                  <FaBars className="h-6 w-6" />
+                )}
+              </motion.button>
+            </div>
+          </div>
         </div>
-      </div>
-    </motion.nav>
+      </motion.nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <motion.div
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeMenu}
+              aria-hidden="true"
+            />
+            <motion.div
+              ref={menuRef}
+              className="fixed top-0 right-0 h-full w-4/5 max-w-sm bg-white dark:bg-gray-900 shadow-2xl z-50 overflow-y-auto"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={menuVariants}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile menu"
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center">
+                      <ImageWithFallback
+                        src="/images/logo/logo192.png"
+                        alt="Logo"
+                        width={64}
+                        height={64}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.target.src = '/images/logo/logo192.png';
+                        }}
+                      />
+                    </div>
+                    <span className="text-lg font-semibold text-gray-900 dark:text-white">Menu</span>
+                  </div>
+                  <button
+                    onClick={closeMenu}
+                    className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Close menu"
+                  >
+                    <FiX className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                  </button>
+                </div>
+
+                <nav className="space-y-1">
+                  {NAV_ITEMS.map((item) => {
+                    const active = isActive(item);
+                    return (
+                      <NavLink
+                        key={item.name}
+                        to={item.path}
+                        className={`flex items-center px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                          active
+                            ? 'bg-blue-50 dark:bg-gray-800 text-blue-600 dark:text-blue-400'
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        }`}
+                        onClick={(e) => handleNavClick(e, item)}
+                      >
+                        {React.cloneElement(item.icon, {
+                          className: `w-5 h-5 mr-3 ${active ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500'}`
+                        })}
+                        {item.name}
+                      </NavLink>
+                    );
+                  })}
+                </nav>
+
+                <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
+                  <div className="flex justify-center space-x-4">
+                    <a
+                      href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                      aria-label="GitHub"
+                    >
+                      <FaGithub className="w-5 h-5" />
+                    </a>
+                    <a
+                      href="https://linkedin.com/in/sahil-ali-12345678"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                      aria-label="LinkedIn"
+                    >
+                      <FaLinkedin className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Back to Top Button */}
+      {/* Theme Transition Wrapper */}
+      <style jsx global>{`
+        .theme-transition * {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+      `}</style>
+
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            onClick={scrollToTop}
+            className="fixed right-6 bottom-6 z-50 w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-900 transition-all duration-300 hover:scale-105 active:scale-95 group"
+            aria-label="Back to top"
+            data-testid="back-to-top"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: {
+                type: reducedMotion ? 'tween' : 'spring',
+                stiffness: 500,
+                damping: 30,
+              },
+            }}
+            exit={{ opacity: 0, y: 20, scale: 0.9, transition: { duration: 0.2 } }}
+            whileHover={!reducedMotion ? { scale: 1.1, rotate: 5 } : {}}
+            whileTap={!reducedMotion ? { scale: 0.95 } : {}}
+            
+          >
+            <FiChevronUp className="w-6 h-6 transform group-hover:-translate-y-0.5 transition-transform" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

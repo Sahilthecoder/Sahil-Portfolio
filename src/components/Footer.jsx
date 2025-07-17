@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp, FaCode, FaSpinner, FaTwitter, FaYoutube } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp,FaTwitter,FaYoutube, FaCode, FaSpinner, FaWhatsapp } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 // Floating animation for particles
@@ -22,7 +22,6 @@ const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { theme } = useTheme();
@@ -41,34 +40,30 @@ const Footer = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Memoize scroll handler with useCallback
-  const handleScroll = useCallback(() => {
-    const currentScrollPos = window.pageYOffset;
-    const isScrollingUp = prevScrollPos > currentScrollPos;
-    
-    // Update scroll state for shadow effect
-    setScrolled(currentScrollPos > 10);
-    
-    // Skip animation-heavy operations if reduced motion is preferred
-    if (reducedMotion) {
-      setIsVisible(currentScrollPos > 300);
-      return;
-    }
-    
-    setPrevScrollPos(currentScrollPos);
-    
-    if (currentScrollPos > 300) {
-      setIsVisible(true);
-    } else if (isScrollingUp && currentScrollPos < 300) {
-      setIsVisible(false);
-    }
-  }, [prevScrollPos, reducedMotion]);
-
-  // Add scroll event listener
+  // Show/hide back-to-top button based on scroll position
   useEffect(() => {
+    const handleScroll = () => {
+      // Skip animation-heavy operations if reduced motion is preferred
+      if (reducedMotion) {
+        setIsVisible(window.pageYOffset > 300);
+        return;
+      }
+      
+      const currentScrollPos = window.pageYOffset;
+      const isScrollingUp = prevScrollPos > currentScrollPos;
+      
+      setPrevScrollPos(currentScrollPos);
+      
+      if (currentScrollPos > 300) {
+        setIsVisible(true);
+      } else if (isScrollingUp && currentScrollPos < 300) {
+        setIsVisible(false);
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+  }, [prevScrollPos]);
 
   // Copy email to clipboard
   const copyEmail = async () => {
@@ -81,74 +76,49 @@ const Footer = () => {
     }
   };
 
-  // Memoize scrollToTop function
-  const scrollToTop = useCallback(async () => {
+  // Smooth scroll to top with loading state
+  const scrollToTop = async () => {
     if (isScrolling) return;
     
     setIsScrolling(true);
     
     try {
-      // Focus management for better accessibility
-      const mainContent = document.querySelector('main') || document.querySelector('body');
-      if (mainContent) {
-        mainContent.setAttribute('tabindex', '-1');
-        mainContent.focus();
-      }
-
       await new Promise(resolve => {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
         
-        // Adjust delay based on scroll position for better UX
-        const scrollDuration = Math.min(1000, window.pageYOffset * 0.5);
-        setTimeout(() => {
-          if (mainContent) {
-            mainContent.removeAttribute('tabindex');
-          }
-          resolve();
-        }, scrollDuration);
+        // Small delay to ensure smooth animation completes
+        setTimeout(resolve, 1000);
       });
-    } catch (error) {
-      console.error('Error during scroll:', error);
     } finally {
       setIsScrolling(false);
     }
-  }, [isScrolling]);
+  };
   
-  // Memoize brand animation variants
-  const brandVariants = useMemo(() => ({
-    hover: { 
-      scale: 1.02, 
-      transition: { 
-        type: 'spring', 
-        stiffness: 400, 
-        damping: 10 
-      } 
-    },
-    tap: { 
-      scale: 0.98 
-    }
-  }), []);
+  // Brand animation variants
+  const brandVariants = {
+    hover: { scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 10 } },
+    tap: { scale: 0.98 }
+  };
+
+  // Social media links with icons
+  const socialLinks = [
+    { name: 'GitHub', icon: <FaGithub />, url: 'https://github.com/Sahilthecoder' },
+    { name: 'LinkedIn', icon: <FaLinkedin />, url: 'https://linkedin.com/in/sahil-ali' },
+    { name: 'WhatsApp', icon: <FaWhatsapp />, url: 'https://wa.me/yourwhatsappnumber' },
+    { name: 'Email', icon: <FaEnvelope />, url: 'mailto:Sahilkhan36985@gmail.com' },
+  ];
 
   // Newsletter signup state
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(() => {
     return typeof window !== 'undefined' && localStorage.getItem('newsletterSubscribed') === 'true';
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [showSubscribeButton, setShowSubscribeButton] = useState(false);
-
-  useEffect(() => {
-    if (email.trim() !== '') {
-      setShowSubscribeButton(true);
-    } else {
-      setShowSubscribeButton(false);
-    }
-  }, [email]);
 
   // Email validation
   const validateEmail = (email) => {
@@ -157,7 +127,7 @@ const Footer = () => {
   };
 
   const handleSubscribe = async (e) => {
-    e.preventDefault();
+    // Don't prevent default here since we're handling the button click directly
     
     if (!email) {
       setError('Please enter your email');
@@ -323,127 +293,52 @@ const Footer = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   const handleDismiss = () => {
     setIsSubscribed(false);
   };
 
-  // Smooth scroll reveal effect
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Parallax effect for background elements
-  const parallaxOffset = scrollY * 0.1;
-
   return (
-    <motion.footer 
-      className={`relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 border-t border-gray-200 dark:border-gray-800 pt-16 pb-10 overflow-hidden transition-all duration-300 ${
-        scrolled ? 'shadow-2xl' : 'shadow-none'
-      }`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-    >
-    {/* Enhanced animated background elements */}
-    <div className="absolute inset-0 overflow-hidden opacity-10 dark:opacity-5">
-      <motion.div 
-        className="absolute inset-0 bg-grid-gray-400 dark:bg-grid-gray-600"
-        style={{ y: -parallaxOffset * 0.5 }}
-      />
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent dark:via-black/10"
-        style={{ y: -parallaxOffset * 0.3 }}
-      />
+    <footer className="relative bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 border-t border-gray-200 dark:border-gray-800 pt-16 pb-10 overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden opacity-10 dark:opacity-5">
+        <div className="absolute inset-0 bg-grid-gray-400 dark:bg-grid-gray-600" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent dark:via-black/10" />
+      </div>
       
-      {/* Optimized floating particles */}
-      {[...Array(15)].map((_, i) => {
-        const size = Math.random() * 4 + 1;
-        const duration = Math.random() * 10 + 10;
-        const delay = Math.random() * 5;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const offsetX = Math.random() * 20 - 10;
-        
-        return (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute rounded-full bg-blue-300 dark:bg-blue-900/30"
-            style={{
-              width: `${size}px`,
-              height: `${size}px`,
-              left: `${posX}%`,
-              top: `${posY}%`,
-              opacity: Math.random() * 0.4 + 0.1,
-            }}
-            initial={{ x: 0, y: 0 }}
-            animate={{
-              x: [0, offsetX, 0],
-              y: [0, -20, 0]
-            }}
-            transition={{
-              duration: duration,
-              delay: delay,
-              repeat: Infinity,
-              ease: "easeInOut",
-              repeatType: "reverse"
-            }}
-          />
-        );
-      })}
-    </div>
-      
-      {/* Enhanced floating particles with reduced motion support */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        {!reducedMotion && 
-          [...Array(window.innerWidth < 768 ? 12 : 20)].map((_, i) => {
+      {/* Floating particles - conditionally rendered based on motion preference */}
+      {!reducedMotion && (
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          {[...Array(window.innerWidth < 768 ? 12 : 20)].map((_, i) => {
             const size = Math.random() * (window.innerWidth < 768 ? 4 : 6) + 2;
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 5;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const offsetY = Math.random() * 30 + 10;
-            
             return (
               <motion.div 
-                key={`floating-${i}`}
+                key={i}
                 className="absolute rounded-full bg-blue-300 dark:bg-blue-900/30"
                 style={{
                   width: `${size}px`,
                   height: `${size}px`,
-                  left: `${posX}%`,
-                  top: `${posY}%`,
-                  opacity: Math.random() * 0.4 + 0.1,
+                  top: `${Math.random() * 100}%`,
+                  left: `${Math.random() * 100}%`,
+                  animation: `float ${Math.random() * 15 + 10}s linear infinite`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  opacity: Math.random() * 0.4 + 0.1
                 }}
-                initial={{ y: 0 }}
-                animate={{
-                  y: [-offsetY, offsetY, -offsetY],
-                }}
-                transition={{
-                  duration: duration,
-                  delay: delay,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
-                }}
+                custom={i}
+                initial="hidden"
+                animate="visible"
+                variants={floatingAnimation}
               />
             );
-          })
-        }
-      </div>
+          })}
+        </div>
+      )}
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
           <motion.div 
-            className="space-y-5 md:col-span-2 lg:col-span-1"
+            className="space-y-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -469,38 +364,37 @@ const Footer = () => {
                   Sahil Ali
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Data Analyst</p>
-
-                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                  Transforming data into actionable insights. Let's collaborate on your next data-driven project.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-2">
-                  {[
-                    { icon: FaGithub, url: 'https://github.com/Sahilthecoder', label: 'GitHub' },
-                    { icon: FaLinkedin, url: 'https://linkedin.com/in/sahil-ali', label: 'LinkedIn' },
-                    { icon: FaTwitter, url: 'https://twitter.com', label: 'Twitter' },
-                    { icon: FaYoutube, url: 'https://youtube.com', label: 'YouTube' }
-                  ].map((item, index) => (
-                    <motion.a
-                      key={index}
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-full bg-white dark:bg-gray-800 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 shadow-sm hover:shadow-md transition-all duration-300"
-                      whileHover={{ y: -2, scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      aria-label={item.label}
-                    >
-                      <item.icon className="h-4 w-4" />
-                    </motion.a>
-                  ))}
-                </div>
               </div>
             </motion.div>
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+              Transforming data into actionable insights. Let's collaborate on your next data-driven project.
+            </p>
+            <div className="flex space-x-3 pt-1">
+              {[
+                { icon: FaGithub, url: 'https://github.com/Sahilthecoder', label: 'GitHub' },
+                { icon: FaLinkedin, url: 'https://linkedin.com/in/sahil-ali', label: 'LinkedIn' },
+                { icon: FaTwitter, url: 'https://twitter.com', label: 'Twitter' },
+                { icon: FaYoutube, url: 'https://youtube.com', label: 'YouTube' }
+              ].map((item, index) => (
+                <motion.a
+                  key={index}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-full bg-white dark:bg-gray-800 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 shadow-sm hover:shadow-md transition-all duration-300"
+                  whileHover={{ y: -2, scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label={item.label}
+                >
+                  <item.icon className="h-4 w-4" />
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
 
           {/* Quick Links */}
           <motion.div 
-            className="md:pl-4 lg:pl-8"
+            className="md:pl-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -509,7 +403,7 @@ const Footer = () => {
               <span className="w-1 h-4 bg-blue-500 rounded-full mr-2"></span>
               Navigation
             </h3>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {[
                 { name: 'Home', path: '/' },
                 { name: 'About', path: '/about' },
@@ -521,20 +415,17 @@ const Footer = () => {
                   whileHover={{ x: 3 }}
                   transition={{ type: 'spring', stiffness: 500 }}
                 >
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Link
-                      to={item.path}
-                      className={`group relative flex items-center text-sm transition-all duration-200 ${
-                        location.pathname === item.path 
-                          ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                          : 'text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 hover:translate-x-1'
-                      }`}
-                    >
-                      <span className="absolute -left-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
-    
-                      {item.name}
-                    </Link>
-                  </motion.div>
+                  <Link
+                    to={item.path}
+                    className={`flex items-center text-sm transition-colors duration-200 ${
+                      location.pathname === item.path 
+                        ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                        : 'text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400'
+                    }`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    {item.name}
+                  </Link>
                 </motion.li>
               ))}
             </ul>
@@ -545,7 +436,7 @@ const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="md:col-span-2 bg-white/50 dark:bg-gray-800/30 p-4 sm:p-6 rounded-xl backdrop-blur-sm border border-gray-100 dark:border-gray-700/50"
+            className="md:col-span-2 bg-white/50 dark:bg-gray-800/30 p-6 rounded-xl backdrop-blur-sm border border-gray-100 dark:border-gray-700/50"
           >
             <h3 className="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-2 flex items-center">
               <span className="w-1 h-4 bg-blue-500 rounded-full mr-2"></span>
@@ -561,7 +452,7 @@ const Footer = () => {
               >
                 <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-100 dark:border-green-800/50 rounded-lg flex items-start">
                   <div className="flex-shrink-0 h-5 w-5 text-green-500 dark:text-green-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                   </div>
@@ -587,71 +478,128 @@ const Footer = () => {
                   Get the latest updates, articles and resources delivered to your inbox. No spam, ever.
                 </p>
                 
-                <form onSubmit={handleSubscribe} className="space-y-3">
+                <form onSubmit={(e) => e.preventDefault()} className="space-y-3">
                   <div className="space-y-3">
                     <div>
                       <label htmlFor="name" className="sr-only">Your Name</label>
                       <input
                         type="text"
                         id="name"
-                        name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Your Name"
-                        className="block w-full px-4 py-2 mt-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-blue-500 dark:focus:ring-blue-500"
+                        placeholder="Your name (optional)"
+                        className="w-full px-4 py-2.5 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400"
+                        disabled={isSubmitting}
                       />
                     </div>
+
                     <div>
                       <label htmlFor="email" className="sr-only">Email address</label>
                       <input
                         type="email"
                         id="email"
-                        name="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        className="block w-full px-4 py-2 mt-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:ring-blue-500 dark:focus:ring-blue-500"
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                          if (error) setError('');
+                        }}
+                        placeholder="your.email@example.com"
+                        className={`w-full px-4 py-2.5 text-sm bg-white dark:bg-gray-800 border ${
+                          error
+                            ? 'border-red-500 focus:ring-red-500'
+                            : 'border-gray-200 dark:border-gray-700 focus:ring-blue-500'
+                        } rounded-lg focus:ring-2 focus:border-transparent transition-all duration-200 placeholder-gray-400`}
+                        aria-invalid={!!error}
+                        aria-describedby={error ? 'email-error' : undefined}
+                        disabled={isSubmitting}
+                        required
                       />
                     </div>
-                  </div>
-                  <motion.button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full px-5 py-2.5 text-sm font-medium text-white ${
-                      isSubmitting 
-                        ? 'bg-blue-400 dark:bg-blue-700' 
-                        : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'
-                    } rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 disabled:opacity-80 relative overflow-hidden group`}
-                  >
-                    {isSubmitting && (
-                      <motion.div 
-                        className="absolute inset-0 bg-blue-500/20"
-                        initial={{ width: 0 }}
-                        animate={{ width: '100%' }}
-                        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                      />
-                    )}
-                    whileHover={isSubmitting ? {} : { y: -1 }}
-                    whileTap={isSubmitting ? {} : { scale: 0.98 }}
-                    aria-busy={isSubmitting}
-                    aria-live="polite"
-                    
-                    {isSubmitting ? (
-                      <>
-                        <FaSpinner className="animate-spin h-4 w-4" />
-                        <span>Subscribing...</span>
-                      </>
-                    ) : (
-                      <>
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+
+                    {error && (
+                      <p
+                        id="email-error"
+                        className="text-xs text-red-500 dark:text-red-400 flex items-start"
+                        role="alert"
+                      >
+                        <svg className="h-3.5 w-3.5 mr-1 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span>Subscribe to Newsletter</span>
-                      </>
+                        {error}
+                      </p>
                     )}
-                  </motion.button>
+
+                    <motion.button
+                      type="button"
+                      disabled={isSubmitting || !email}
+                      onClick={handleSubscribe}
+                      className={`w-full px-5 py-2.5 text-sm font-medium text-white ${
+                        isSubmitting
+                          ? 'bg-blue-400 dark:bg-blue-700'
+                          : !email
+                            ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-size-200 hover:bg-right transition-all duration-500'
+                      } rounded-xl flex items-center justify-center space-x-2 relative overflow-hidden group`}
+                      whileHover={!isSubmitting && email ? {
+                        scale: 1.02,
+                        transition: { type: 'spring', stiffness: 500, damping: 15 }
+                      } : {}}
+                      whileTap={!isSubmitting && email ? { scale: 0.98 } : {}}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {/* Animated background shine effect */}
+                      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/20 via-white/40 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-full group-hover:translate-x-full"></span>
+
+                      {/* Button content */}
+                      <span className="relative z-10 flex items-center space-x-2">
+                        {isSubmitting ? (
+                          <>
+                            <motion.span
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                            >
+                              <FaSpinner className="h-4 w-4" />
+                            </motion.span>
+                            <span>Subscribing...</span>
+                          </>
+                        ) : (
+                          <>
+                            <motion.span
+                              whileHover={{ rotate: 360, scale: 1.2 }}
+                              transition={{ duration: 0.5 }}
+                            >
+                              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                            </motion.span>
+                            <motion.span
+                              className="relative"
+                              whileHover={{ x: 2 }}
+                              transition={{ type: 'spring', stiffness: 500 }}
+                            >
+                              Subscribe to Newsletter
+                            </motion.span>
+                          </>
+                        )}
+                      </span>
+
+                      {/* Success checkmark (hidden by default) */}
+                      <motion.span
+                        className="absolute inset-0 flex items-center justify-center bg-green-500 text-white rounded-xl"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={isSubscribed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </motion.span>
+                    </motion.button>
+                  </div>
                 </form>
-                
+
                 <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
                   Unsubscribe anytime. I respect your privacy.
                 </p>
@@ -659,212 +607,106 @@ const Footer = () => {
             )}
           </motion.div>
         </div>
-      </div>
 
-      {/* Enhanced footer bottom section with wave divider */}
-      <div className="relative overflow-hidden mt-12">
-        <div className="absolute -top-1 left-0 right-0 h-12 overflow-hidden">
-          <svg 
-            className="w-full h-full text-white dark:text-gray-900" 
-            viewBox="0 0 1200 120" 
-            preserveAspectRatio="none"
-          >
-            <path 
-              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512,54.67,583,72c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" 
-              opacity="1" 
-              className="fill-current"
-            ></path>
-          </svg>
-        </div>
-        <div className="border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
-              <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6">
-                <motion.p 
-                  className="text-xs text-center sm:text-left text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  &copy; {currentYear} Sahil Ali. All rights reserved.
-                </motion.p>
-                <motion.div 
-                  className="hidden sm:block w-px h-4 bg-gray-200 dark:bg-gray-700"
-                  whileHover={{ scaleY: 1.5 }}
-                />
-                <div className="flex items-center space-x-1 group">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Made with</span>
-                  <span 
-                    className="text-red-500 mx-1 group-hover:scale-110 transition-transform duration-200 cursor-help"
-                    title="Proudly made with love in India!"
-                  >
-                    ❤️
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors duration-200">
-                    in India
-                  </span>
-                </div>
-              </div>
-              
-              <div className="flex space-x-4">
-                {[
-                  { name: 'Privacy Policy', path: '/privacy' },
-                  { name: 'Terms', path: '/terms' },
-                  { name: 'Sitemap', path: '/sitemap' }
-                ].map((item, index) => (
-                  <motion.div 
-                    key={item.name}
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Link 
-                      to={item.path}
-                      className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
+        <div className="border-t border-gray-100 dark:border-gray-800 pt-8 mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                &copy; {new Date().getFullYear()} Sahil Ali. All rights reserved.
+              </p>
+              <div className="hidden sm:block w-px h-4 bg-gray-200 dark:bg-gray-700"></div>
+              <div className="flex items-center space-x-1">
+                <span className="text-xs text-gray-500 dark:text-gray-400">Made with</span>
+                <span className="text-red-500 mx-1">❤️</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">in India</span>
               </div>
             </div>
+            <div className="flex items-center space-x-6 mt-4 md:mt-0">
+              <Link
+                to="/privacy"
+                className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                to="/terms"
+                className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
+              >
+                Terms of Service
+              </Link>
+              <button 
+                onClick={copyEmail}
+                className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200 flex items-center"
+                aria-label={emailCopied ? 'Email copied!' : 'Copy email to clipboard'}
+              >
+                {emailCopied ? 'Email copied!' : 'Copy Email'}
+                {emailCopied && (
+                  <svg className="w-3.5 h-3.5 ml-1 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
+        </div>
       </div>
 
-      {/* Enhanced back to top button */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatePresence>
+      {/* Enhanced back to top button with better mobile touch targets */}
+      <AnimatePresence>
         {isVisible && (
           <motion.button
             onClick={scrollToTop}
-            className={`fixed bottom-6 right-6 w-14 h-14 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:ring-offset-gray-900 z-50 touch-manipulation hover:shadow-2xl transition-all duration-300 will-change-transform group ${
-              isScrolling ? 'cursor-wait' : 'cursor-pointer'
-            }`}
-            aria-label="Back to top"
-            aria-busy={isScrolling}
-            disabled={isScrolling}
-            style={{
-              '--tw-ring-offset-shadow': 'var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width, 0px) var(--tw-ring-offset-color, #fff)',
-              '--tw-ring-shadow': 'var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width, 0px)) var(--tw-ring-color, rgb(59 130 246 / 0.5))'
-            }}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={{
-              hidden: { 
-                opacity: 0, 
-                y: 20, 
-                scale: 0.9,
-                transition: { duration: 0.2 }
-              },
-              visible: { 
-                opacity: 1, 
-                y: 0, 
-                scale: 1,
-                transition: { 
-                  type: 'spring',
-                  stiffness: 500,
-                  damping: 25
-                }
-              },
-              exit: { 
-                opacity: 0, 
-                y: 20, 
-                scale: 0.9,
-                transition: { duration: 0.2 }
+            className="fixed bottom-6 right-6 w-14 h-14 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:ring-offset-gray-900 z-50 touch-manipulation"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ 
+              opacity: 1, 
+              y: 0, 
+              scale: 1,
+              transition: { 
+                type: 'spring',
+                stiffness: 500,
+                damping: 25
               }
             }}
-            whileHover={!reducedMotion && !isScrolling ? { 
+            exit={{ 
+              opacity: 0, 
+              y: 20, 
+              scale: 0.9,
+              transition: { duration: 0.2 }
+            }}
+            whileHover={!reducedMotion ? { 
               scale: 1.1,
               backgroundColor: 'rgba(59, 130, 246, 0.1)'
-            } : undefined}
-            whileTap={!reducedMotion && !isScrolling ? { 
+            } : {}}
+            whileTap={!reducedMotion ? { 
               scale: 0.95,
               backgroundColor: 'rgba(59, 130, 246, 0.2)'
-            } : undefined}
+            } : {}}
+            aria-label="Back to top"
           >
             {isScrolling ? (
               <motion.div
-                key="spinner"
                 animate={{ rotate: 360 }}
-                transition={{ 
-                  duration: 1, 
-                  repeat: Infinity, 
-                  ease: 'linear'
-                }}
-                aria-hidden="true"
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               >
                 <FaSpinner className="h-5 w-5" />
               </motion.div>
             ) : (
               <motion.div
-                key="arrow"
-                className="flex items-center justify-center"
-                initial={{ y: 0 }}
-                animate={{
-                  y: [-2, 2],
-                  transition: {
-                    y: {
-                      duration: 1.5,
-                      repeat: Infinity,
-                      repeatType: 'reverse',
-                      ease: 'easeInOut',
-                    }
-                  }
+                animate={{ y: [0, -2, 0] }}
+                transition={{ 
+                  duration: 1.5, 
+                  repeat: Infinity, 
+                  ease: 'easeInOut'
                 }}
-                transition={{ duration: 0.2 }}
-                aria-hidden="true"
               >
-                <FaArrowUp className="h-5 w-5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} />
+                <FaArrowUp className="h-5 w-5" />
               </motion.div>
             )}
           </motion.button>
         )}
       </AnimatePresence>
-      </div>
-      
-      {/* Performance optimization */}
-      <style jsx global>{`
-        @media (prefers-reduced-motion: no-preference) {
-          .motion-element {
-            will-change: transform, opacity;
-          }
-        }
-        
-        /* Back to top tooltip */
-        [data-tooltip-content] {
-          position: relative;
-        }
-        
-        [data-tooltip-content]:hover::after {
-          content: attr(data-tooltip-content);
-          position: absolute;
-          bottom: 100%;
-          left: 50%;
-          transform: translateX(-50%) translateY(-8px);
-          background: rgba(0, 0, 0, 0.8);
-          color: white;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 12px;
-          white-space: nowrap;
-          pointer-events: none;
-          opacity: 0;
-          transition: opacity 0.2s, transform 0.2s;
-        }
-        
-        [data-tooltip-content]:hover::after {
-          opacity: 1;
-          transform: translateX(-50%) translateY(-12px);
-        }
-        
-        @media (max-width: 640px) {
-          [data-tooltip-content]:hover::after {
-            display: none;
-          }
-        }
-      `}</style>
-      </div>
-    </motion.footer>
-    
+    </footer>
   );
 };
 

@@ -266,20 +266,14 @@ const ModernNavbar = () => {
                     <picture>
                       {/* WebP with responsive sources */}
                       <source 
-                        srcSet={
-                          `/Sahil-Portfolio/images/logo/logo192.webp 192w, ` +
-                          `/Sahil-Portfolio/images/logo/logo512-300w.webp 300w`
-                        } 
+                        srcSet={`/images/logo/logo192.webp 192w, /images/logo/logo512-300w.webp 300w`} 
                         type="image/webp"
                         sizes="(max-width: 768px) 32px, 36px"
                       />
                       {/* Fallback to PNG */}
                       <ImageWithFallback
-                        src="/Sahil-Portfolio/images/logo/logo192.png"
-                        srcSet={
-                          `/Sahil-Portfolio/images/logo/logo192.png 192w, ` +
-                          `/Sahil-Portfolio/images/logo/logo512.png 300w`
-                        }
+                        src="/images/logo/logo192.png"
+                        srcSet={"/images/logo/logo192.png 192w, /images/logo/logo512.png 300w"}
                         sizes="(max-width: 768px) 32px, 36px"
                         fallbackText="SA"
                         className="w-full h-full object-contain"
@@ -419,14 +413,14 @@ const ModernNavbar = () => {
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center">
                       <ImageWithFallback
-                        src={`${process.env.PUBLIC_URL || ''}/images/logo/logo192.png`}
+                        src="/images/logo/logo192.png"
                         alt="Logo"
                         width={64}
                         height={64}
-                        onError={(e) => {
-                          e.target.src = `${process.env.PUBLIC_URL || ''}/images/logo/logo192.png`;
-                        }}
                         className="w-full h-full object-contain"
+                        onError={(e) => {
+                          e.target.src = '/images/logo/logo192.png';
+                        }}
                       />
                     </div>
                     <span className="text-lg font-semibold text-gray-900 dark:text-white">Menu</span>

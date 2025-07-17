@@ -107,8 +107,8 @@ const Footer = () => {
   const socialLinks = [
     { name: 'GitHub', icon: <FaGithub />, url: 'https://github.com/Sahilthecoder' },
     { name: 'LinkedIn', icon: <FaLinkedin />, url: 'https://linkedin.com/in/sahil-ali' },
-    { name: 'WhatsApp', icon: <FaWhatsapp />, url: 'https://wa.me/yourwhatsappnumber' },
-    { name: 'Email', icon: <FaEnvelope />, url: 'mailto:Sahilkhan36985@gmail.com' },
+    { name: 'WhatsApp', icon: <FaWhatsapp />, url: 'https://wa.me/919719369855' },
+    { name: 'Email', icon: <FaEnvelope />, url: 'mailto:sahilkhan36985@gmail.com' },
   ];
 
   // Newsletter signup state
@@ -427,9 +427,9 @@ const Footer = () => {
               {[
                 { icon: FaGithub, url: 'https://github.com/Sahilthecoder', label: 'GitHub' },
                 { icon: FaLinkedin, url: 'https://linkedin.com/in/sahil-ali', label: 'LinkedIn' },
-                { icon: FaTwitter, url: 'https://twitter.com', label: 'Twitter' },
-                { icon: FaYoutube, url: 'https://youtube.com', label: 'YouTube' }
-              ].map((item, index) => (
+                { icon: FaWhatsapp, url: 'https://wa.me/919719369855', label: 'WhatsApp' },
+                { icon: FaEnvelope, url: 'mailto:sahilkhan36985@gmail.com', label: 'Email' }
+              ].filter(Boolean).map((item, index) => (
                 <motion.a
                   key={index}
                   href={item.url}

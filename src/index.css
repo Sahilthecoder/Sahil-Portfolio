@@ -2,72 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Floating animation for footer particles */
+/* === Modern Animations === */
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0) translateX(0);
-  }
-  25% {
-    transform: translateY(-10px) translateX(5px);
-  }
-  50% {
-    transform: translateY(5px) translateX(-5px);
-  }
-  75% {
-    transform: translateY(-5px) translateX(10px);
-  }
+  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+  25% { transform: translateY(-10px) translateX(5px) rotate(1deg); }
+  50% { transform: translateY(5px) translateX(-5px) rotate(-1deg); }
+  75% { transform: translateY(-5px) translateX(10px) rotate(1deg); }
 }
 
-/* Blob animation */
 @keyframes blob {
-  0% { 
-    transform: translate(0px, 0px) scale(1); 
-  }
-  33% { 
-    transform: translate(30px, -50px) scale(1.1); 
-  }
-  66% { 
-    transform: translate(-20px, 20px) scale(0.9); 
-  }
-  100% { 
-    transform: translate(0px, 0px) scale(1); 
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+/* === Utility Classes === */
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-blob { animation: blob 7s ease-in-out infinite; }
+.animate-gradient { 
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+.animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+/* === Scrollbar Styling === */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-primary/40 to-primary/60 rounded-full hover:from-primary/60 hover:to-primary/80 transition-all duration-300;
+}
+
+/* === Selection Styling === */
+::selection {
+  @apply bg-primary/20 text-primary;
+}
+
+/* === Focus States === */
+:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-primary/50 ring-offset-white dark:ring-offset-slate-900;
+}
+
+/* === Smooth Scrolling === */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-.animate-\[blob_7s_infinite\] {
-  animation: blob 7s infinite;
-}
-
-/* Custom base styles */
+/* === CSS Variables === */
 :root {
+  /* Light Theme */
   --color-card: 255 255 255;
   --color-border: 229 231 235;
   --color-bg: 249 250 251;
   --color-text: 17 24 39;
   --color-heading: 17 24 39;
   --color-paragraph: 75 85 99;
+  --color-muted: 100 116 139;
   
-  /* Make sure these match your globals.css */
-  --color-primary: 99 102 241;
-  --color-secondary: 139 92 246;
-  --color-accent: 167 139 250;
-  --bg-body: 249 250 251;
+  /* Brand Colors */
+  --color-primary: 99 102 241;    /* Indigo-500 */
+  --color-primary-light: 165 180 252; /* Indigo-300 */
+  --color-primary-dark: 67 56 202;   /* Indigo-700 */
+  --color-secondary: 139 92 246;  /* Violet-500 */
+  --color-accent: 167 139 250;    /* Violet-300 */
+  --color-success: 16 185 129;    /* Emerald-500 */
+  --color-warning: 245 158 11;    /* Amber-500 */
+  --color-error: 239 68 68;       /* Red-500 */
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-secondary)));
+  --gradient-accent: linear-gradient(135deg, rgb(var(--color-secondary)), rgb(var(--color-accent)));
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Transitions */
+  --transition-default: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Layout */
+  --header-height: 4rem;
+  --max-width: 1280px;
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 2rem;
 }
 
-/* Dark theme overrides */
+/* Dark Theme */
 .dark {
-  --color-card: 30 41 59;
-  --color-border: 51 65 85;
-  --color-bg: 15 23 42;
-  --color-text: 226 232 240;
-  --color-heading: 248 250 252;
-  --color-paragraph: 203 213 225;
+  --color-card: 30 41 59;         /* Slate-800 */
+  --color-border: 51 65 85;       /* Slate-700 */
+  --color-bg: 15 23 42;           /* Slate-900 */
+  --color-text: 226 232 240;      /* Slate-100 */
+  --color-heading: 248 250 252;   /* Slate-50 */
+  --color-paragraph: 203 213 225; /* Slate-200 */
+  --color-muted: 148 163 184;     /* Slate-400 */
   
-  /* Dark theme colors */
-  --color-primary: 99 102 241;
-  --color-secondary: 139 92 246;
-  --color-accent: 196 181 253;
-  --bg-body: 15 23 42;
+  --color-primary: 129 140 248;   /* Indigo-400 */
+  --color-primary-light: 199 210 254; /* Indigo-200 */
+  --color-primary-dark: 79 70 229;    /* Indigo-600 */
+  --color-secondary: 167 139 250; /* Violet-400 */
+  --color-accent: 196 181 253;    /* Violet-300 */
+  --color-success: 34 197 94;     /* Green-500 */
+  --color-warning: 234 179 8;     /* Yellow-500 */
+  --color-error: 248 113 113;     /* Red-400 */
+  
+  --gradient-primary: linear-gradient(135deg, rgb(var(--color-primary)), rgb(var(--color-secondary)));
+  --gradient-accent: linear-gradient(135deg, rgb(var(--color-secondary)), rgb(var(--color-accent)));
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2), 0 2px 4px -2px rgb(0 0 0 / 0.2);
+  --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.2), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+  --shadow-lg: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
 }
 
 /* Focus styles */

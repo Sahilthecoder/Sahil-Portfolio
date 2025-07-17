@@ -14,8 +14,6 @@ export default defineConfig(({ command, mode }) => {
   return {
     // Use base URL for production, root for development
     base: isProduction ? base : '/',
-    // Ensure the public path is correctly set
-    publicPath: isProduction ? base : '/',
     publicDir: 'public',
     appType: 'spa',
     
@@ -24,22 +22,20 @@ export default defineConfig(({ command, mode }) => {
       port: 3000,
       open: !isProduction,
       strictPort: true,
-      host: isProduction ? false : '0.0.0.0',
-      // Add history API fallback for SPA routing in development
-      ...(!isProduction ? {
-        historyApiFallback: {
-          rewrites: [
-            { from: /\//, to: '/index.html' }
-          ]
-        }
-      } : {}),
-      hmr: isProduction ? false : {
-        protocol: 'ws',
-        port: 3000
+      host: '0.0.0.0',
+      cors: true,
+      headers: {
+        'Cross-Origin-Embedder-Policy': 'require-corp',
+        'Cross-Origin-Opener-Policy': 'same-origin',
       },
       fs: {
-        strict: true,
-        allow: ['..']
+        strict: false,
+        allow: ['..', 'node_modules']
+      },
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000
       }
     },
     

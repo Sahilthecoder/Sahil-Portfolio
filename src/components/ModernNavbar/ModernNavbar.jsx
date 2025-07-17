@@ -458,7 +458,7 @@ const ModernNavbar = () => {
                 </nav>
 
                 <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
-                  <div className="flex justify-center space-x-4">
+                  <div className="flex justify-center items-center space-x-4">
                     <a
                       href="https://github.com/Sahilthecoder/Sahil-Portfolio"
                       target="_blank"
@@ -477,6 +477,13 @@ const ModernNavbar = () => {
                     >
                       <FaLinkedin className="w-5 h-5" />
                     </a>
+                    <button
+                      onClick={handleThemeToggle}
+                      className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                      aria-label="Toggle theme"
+                    >
+                      <ThemeSwitch />
+                    </button>
                   </div>
                 </div>
               </div>

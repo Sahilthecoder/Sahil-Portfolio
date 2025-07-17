@@ -23,11 +23,14 @@ import {
   FaGlobe,
   FaCog,
   FaCode,
-  FaWhatsapp
+  FaWhatsapp,
+  FaArrowRight,
+  FaExternalLinkAlt
 } from 'react-icons/fa';
-import { FiDownload, FiMail, FiMapPin, FiMessageSquare } from 'react-icons/fi';
+import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
 import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
 import { useLocation } from 'react-router-dom';
+import '../styles/animations.css';
 
 // Animation variants
 const fadeInUp = {
@@ -35,7 +38,30 @@ const fadeInUp = {
   visible: { 
     opacity: 1, 
     y: 0,
-    transition: { duration: 0.6 }
+    transition: { 
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
+  }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.8 }
+  }
+};
+
+const slideIn = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1]
+    }
   }
 };
 
@@ -44,53 +70,175 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.1,
+      delayChildren: 0.2
     }
   }
 };
 
-// Sub-components
-const SectionHeader = ({ title, subtitle, icon, className = '' }) => (
-  <motion.div 
-    className={`mb-12 text-center ${className}`}
+// Animation components
+const AnimatedSection = ({ children, className = '', delay = 0, ...props }) => (
+  <motion.div
     initial="hidden"
     whileInView="visible"
-    viewport={{ once: true, amount: 0.2 }}
+    viewport={{ once: true, margin: "-50px" }}
     variants={{
-      hidden: { opacity: 0, y: 20 },
-      visible: { 
-        opacity: 1, 
+      hidden: { opacity: 0, y: 30 },
+      visible: {
+        opacity: 1,
         y: 0,
-        transition: { duration: 0.6 }
+        transition: {
+          duration: 0.8,
+          delay: delay * 0.1,
+          ease: [0.25, 0.1, 0.25, 1]
+        }
       }
     }}
+    className={className}
+    {...props}
   >
-    <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white mb-4">
-      {React.cloneElement(icon, { className: 'w-8 h-8' })}
-    </div>
-    <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 mb-3">
-      {title}
-    </h2>
-    {subtitle && (
-      <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        {subtitle}
-      </p>
-    )}
+    {children}
   </motion.div>
 );
 
-const SkillBadge = ({ icon, text }) => (
+// Sub-components
+const SectionHeader = ({ title, subtitle, icon, className = '', highlight = '' }) => {
+  const titleParts = title.split(highlight);
+  
+  return (
+    <motion.div 
+      className={`mb-16 text-center ${className}`}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: { 
+          opacity: 1, 
+          y: 0,
+          transition: { 
+            duration: 0.8,
+            ease: [0.25, 0.1, 0.25, 1]
+          }
+        }
+      }}
+    >
+      <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white mb-6 shadow-lg shadow-indigo-500/20 animate-float">
+        {React.cloneElement(icon, { className: 'w-8 h-8' })}
+      </div>
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+        {highlight ? (
+          <>
+            {titleParts[0]}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500">
+              {highlight}
+            </span>
+            {titleParts[1]}
+          </>
+        ) : (
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500">
+            {title}
+          </span>
+        )}
+      </h2>
+      {subtitle && (
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          {subtitle}
+        </p>
+      )}
+    </motion.div>
+  );
+};
+
+const SkillBadge = ({ icon, text, className = '', ...props }) => (
   <motion.div 
-    className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-full shadow-sm border border-gray-200 dark:border-gray-700"
-    whileHover={{ scale: 1.05, y: -2 }}
+    className={`inline-flex items-center space-x-2 px-4 py-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full shadow-sm border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-all duration-300 ${className}`}
+    whileHover={{ y: -2, scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
+    {...props}
   >
     <span className="text-indigo-500">{icon}</span>
     <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{text}</span>
   </motion.div>
 );
 
+const Card = ({ children, className = '', hoverEffect = true, ...props }) => (
+  <motion.div
+    className={`card ${hoverEffect ? 'hover:shadow-xl hover:-translate-y-1' : ''} ${className}`}
+    whileHover={hoverEffect ? { y: -5, transition: { duration: 0.2 } } : {}}
+    {...props}
+  >
+    {children}
+  </motion.div>
+);
+
+const GlassCard = ({ children, className = '', ...props }) => (
+  <motion.div
+    className={`card-glass hover:shadow-xl ${className}`}
+    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+    {...props}
+  >
+    {children}
+  </motion.div>
+);
+
+const GradientBorderCard = ({ children, className = '', ...props }) => (
+  <div className="border-gradient">
+    <motion.div
+      className={className}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+      {...props}
+    >
+      {children}
+    </motion.div>
+  </div>
+);
+
+const Button = ({ 
+  children, 
+  variant = 'primary', 
+  size = 'md',
+  className = '',
+  icon: Icon,
+  iconPosition = 'right',
+  ...props 
+}) => {
+  const sizeClasses = {
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-2.5',
+    lg: 'px-8 py-3 text-lg'
+  };
+
+  const variantClasses = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    ghost: 'btn-ghost',
+    outline: 'border-2 border-current text-current hover:bg-opacity-10 hover:bg-current'
+  };
+
+  return (
+    <motion.button
+      className={`btn ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      whileHover={{ y: -2, scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      {...props}
+    >
+      {iconPosition === 'left' && Icon && <Icon className="mr-2" />}
+      <span>{children}</span>
+      {iconPosition === 'right' && Icon && <Icon className="ml-2" />}
+    </motion.button>
+  );
+};
+
 const AboutSection = React.forwardRef((props, ref) => {
+  // Language Skills Data
+  const languageSkills = [
+    { name: 'English', level: 70 },
+    { name: 'Hindi', level: 100 },
+    { name: 'Punjabi', level: 70 },
+    { name: 'Gujarati', level: 50 }
+  ];
+
   // Core Expertise Data
   const coreExpertise = [
     {
@@ -137,8 +285,8 @@ const AboutSection = React.forwardRef((props, ref) => {
   const languages = [
     {
       name: "English",
-      level: "Professional",
-      proficiency: 90,
+      level: "Proficiant",
+      proficiency: 70,
       icon: <FaLanguage className="text-green-600 dark:text-green-400" />
     },
     {
@@ -165,296 +313,281 @@ const AboutSection = React.forwardRef((props, ref) => {
   const aiTools = [
     { name: 'ChatGPT', description: 'Advanced prompt engineering and AI-assisted workflows' },
     { name: 'Perplexity AI', description: 'Research and data analysis enhancement' },
-    { name: 'AI-powered Analytics', description: 'Implementing AI in business intelligence' },
-    { name: 'Automation Tools', description: 'Streamlining repetitive tasks with AI' }
   ];
 
-  return (
-    <section ref={ref} className="py-12 md:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" id="about">
-      <SectionHeader 
-        title="About Me"
-        subtitle="Inventory Specialist | Data Analyst | System Optimizer"
-        icon={<FaUserTie />}
-      />
-      
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-        {/* Left Column - Profile & Skills */}
-        <div className="space-y-8">
-          {/* Profile Card */}
-          <motion.div 
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <div className="flex flex-col items-center text-center mb-4 md:mb-6">
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 p-1 mb-3 md:mb-4">
-                <img 
-                  src="/Sahil-Portfolio/images/profile/profile.webp" 
-                  alt="Sahil Ali" 
-                  className="w-full h-full object-cover rounded-full border-4 border-white dark:border-gray-800"
-                  loading="lazy"
-                  width="128"
-                  height="128"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = 'images/profile/profile.webp';
-                  }}
-                />
+  // Profile Card
+  const ProfileCard = () => (
+    <AnimatedSection className="lg:col-span-1">
+      <GlassCard className="h-full flex flex-col relative">
+        <div className="relative h-48 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-t-xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
+            <div className="relative h-32 w-32 rounded-2xl border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 shadow-xl">
+              <img 
+                src="/Sahil-Portfolio/images/profile/profile.webp" 
+                alt="Sahil Ali - Inventory & Data Specialist" 
+                className="h-full w-full object-cover"
+                loading="lazy"
+                width="128"
+                height="128"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/200';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            </div>
+          </div>
+        </div>
+        <div className="pt-20 pb-8 px-6 text-center flex-1 flex flex-col">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sahil Ali</h3>
+          <p className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500 font-medium">
+            Inventory & Data Specialist
+          </p>
+          <p className="text-gray-600 dark:text-gray-300 mt-3 text-sm leading-relaxed">
+            Transforming data into actionable insights and optimizing inventory operations with precision and efficiency.
+          </p>
+          
+          <div className="mt-6 flex justify-center space-x-4">
+            <Button 
+              as="a" 
+              href="https://www.linkedin.com/in/sahil-ali-714867242/" 
+              target="_blank" 
+              rel="noopener noreferrer nofollow" 
+              size="sm" 
+              variant="ghost"
+              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
+              aria-label="LinkedIn Profile"
+            >
+              <FaLinkedin className="w-4 h-4" />
+            </Button>
+            <Button 
+              as="a" 
+              href="https://wa.me/919875771550" 
+              target="_blank" 
+              rel="noopener noreferrer nofollow" 
+              size="sm" 
+              variant="ghost"
+              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
+              aria-label="WhatsApp"
+            >
+              <FaWhatsapp className="w-4 h-4" />
+            </Button>
+            <Button 
+              as="a" 
+              href="mailto:sahilkhan36985@gmail.com" 
+              size="sm" 
+              variant="ghost"
+              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
+              aria-label="Email Me"
+            >
+              <FiMail className="w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="mt-6">
+            <Button 
+              as="a"
+              href="/resume.pdf" 
+              download
+              variant="primary"
+              size="sm"
+              icon={FiDownload}
+              iconPosition="left"
+              className="w-full justify-center"
+            >
+              Download CV
+            </Button>
+          </div>
+        </div>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-indigo-400 animate-pulse"></div>
+        <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-blue-400"></div>
+      </GlassCard>
+    </AnimatedSection>
+  );
+
+  // Main Content
+  const MainContent = () => (
+    <div className="lg:col-span-3 space-y-8">
+      {/* About Me */}
+      <AnimatedSection delay={1}>
+        <Card className="relative overflow-hidden group">
+          {/* Decorative gradient blob */}
+          <div className="absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-br from-indigo-400/20 to-blue-400/20 rounded-full filter blur-3xl opacity-70 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div className="relative">
+            <div className="flex items-center mb-6">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 text-indigo-600 dark:text-indigo-400 mr-4">
+                <FaUserTie className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sahil Ali</h3>
-              <p className="text-indigo-600 dark:text-indigo-400">Data & Inventory Specialist</p>
-              <div className="mt-4 flex space-x-4">
-                <a href="https://www.linkedin.com/in/sahil-ali-714867242/" target="_blank" rel="noopener noreferrer nofollow" className="text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400">
-                  <FaLinkedin className="w-5 h-5" />
-                </a>
-                <a href="https://wa.me/919875771550" target="_blank" rel="noopener noreferrer nofollow" className="text-gray-500 hover:text-green-500 dark:hover:text-green-400">
-                  <FaWhatsapp className="w-5 h-5" />
-                </a>
-                <a href="https://github.com/Sahilthecoder" target="_blank" rel="noopener noreferrer nofollow" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                  <FaGithub className="w-5 h-5" />
-                </a>
-              </div>
+              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+                Professional Profile
+              </h3>
             </div>
             
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-              <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Contact Info</h4>
-              <div className="space-y-3">
-                <div className="flex items-center text-gray-600 dark:text-gray-300">
-                  <FiMail className="w-5 h-5 mr-3 text-indigo-600 dark:text-indigo-400" />
-                  <a href="mailto:sahilkhan36985@gmail.com" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">sahilkhan36985@gmail.com</a>
-                </div>
-                <div className="flex items-center text-gray-600 dark:text-gray-300">
-                  <FiMapPin className="w-5 h-5 mr-3 text-indigo-600 dark:text-indigo-400" />
-                  <span>Rajasthan, India</span>
-                </div>
-              </div>
+            <div className="prose dark:prose-invert max-w-none space-y-4">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <span className="font-medium text-gray-900 dark:text-white">Results-driven professional</span> with over 4 years of experience in inventory management, data analysis, and business process optimization. 
+                Based in Rajasthan, India, I specialize in transforming complex data into strategic insights that drive operational excellence and business growth.
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                My expertise lies in leveraging cutting-edge technologies, including AI-powered analytics and automation tools, to optimize inventory levels, 
+                reduce operational costs, and improve supply chain efficiency. I'm passionate about implementing data-driven solutions that enhance business 
+                performance and create sustainable competitive advantages.
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                Beyond technical skills, I'm a collaborative problem-solver who thrives in dynamic environments. I believe in continuous learning and 
+                staying ahead of industry trends to deliver innovative solutions that address real-world business challenges.
+              </p>
             </div>
-          </motion.div>
-
-          {/* Language Skills */}
-          <motion.div 
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-              <FaGlobe className="text-indigo-600 dark:text-indigo-400 mr-2" />
-              Language Skills
-            </h3>
-            <div className="space-y-3 md:space-y-5">
-              {languages.map((language, index) => (
-                <div key={index}>
-                  <div className="flex justify-between items-center mb-1">
-                    <div className="flex items-center">
-                      <span className="mr-2">{language.icon}</span>
-                      <span className="font-medium text-gray-900 dark:text-white">{language.name}</span>
-                    </div>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{language.level}</span>
-                  </div>
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                    <div 
-                      className="bg-gradient-to-r from-indigo-500 to-blue-500 h-2 rounded-full" 
-                      style={{ width: `${language.proficiency}%` }}
-                    ></div>
-                  </div>
-                </div>
+            
+            {/* Skills chips */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              {['Inventory Management', 'Data Analysis', 'Process Optimization', 'ERP Systems', 'Advanced Excel', 'Automation', 'Supply Chain', 'Business Intelligence'].map((skill, i) => (
+                <SkillBadge 
+                  key={i} 
+                  text={skill} 
+                  icon={<FaCheck className="text-green-500" />}
+                  className="text-xs px-3 py-1.5 bg-white/50 dark:bg-gray-700/50 hover:bg-white dark:hover:bg-gray-700/70 transition-colors"
+                />
               ))}
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </Card>
+      </AnimatedSection>
 
-        {/* Middle Column - Main Content */}
-        <div className="lg:col-span-2 space-y-8">
-          {/* Professional Summary */}
-          <motion.div 
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Professional Profile</h3>
-            <div className="prose prose-indigo dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Hello! I'm <span className="font-semibold text-indigo-600 dark:text-indigo-400">Sahil Ali</span>, a results-driven professional with over 4 years of experience in inventory management, data analysis, and business process optimization. Based in Rajasthan, India, I specialize in transforming complex data into strategic insights that drive operational excellence and business growth.
-              </p>
-              
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                My expertise lies in leveraging cutting-edge technologies, including AI-powered analytics and automation tools, to optimize inventory levels, reduce operational costs, and improve supply chain efficiency. I'm passionate about implementing data-driven solutions that enhance business performance and create sustainable competitive advantages.
-              </p>
-              
-              <p className="text-gray-700 dark:text-gray-300">
-                Beyond technical skills, I'm a collaborative problem-solver who thrives in dynamic environments. I believe in continuous learning and staying ahead of industry trends to deliver innovative solutions that address real-world business challenges.
-              </p>
+      {/* Language Skills */}
+      <AnimatedSection delay={2}>
+        <Card className="relative overflow-hidden group">
+          {/* Decorative elements */}
+          <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-gradient-to-br from-indigo-500/5 to-blue-500/5 rounded-full filter blur-3xl"></div>
+          
+          <div className="relative">
+            <div className="flex items-center mb-6">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/30 dark:to-blue-900/30 text-indigo-600 dark:text-indigo-400 mr-4">
+                <FaLanguage className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">
+                Language Skills
+              </h3>
             </div>
-          </motion.div>
-
-          {/* Education */}
-          <motion.div 
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-          >
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-              <FaGraduationCap className="text-indigo-600 dark:text-indigo-400 mr-2" />
-              Education
-            </h3>
-            <div className="space-y-8">
-              {education.map((edu, index) => (
-                <div key={index} className="relative pl-10 pb-8 border-l-2 border-indigo-200 dark:border-indigo-900 last:border-0 last:pb-0">
-                  <div className="absolute -left-2.5 top-0 w-4 h-4 md:w-5 md:h-5 rounded-full bg-indigo-600 dark:bg-indigo-400 flex items-center justify-center">
-                    {edu.icon}
-                  </div>
-                  <div className="bg-indigo-50 dark:bg-gray-700/50 p-5 rounded-xl">
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{edu.degree}</h4>
-                    <p className="text-indigo-600 dark:text-indigo-400 font-medium">{edu.institution}</p>
-                    <span className="inline-block mt-1 text-sm text-gray-500 dark:text-gray-400 bg-indigo-100 dark:bg-indigo-900/30 px-3 py-1 rounded-full">
-                      {edu.duration}
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {languageSkills.map((language, index) => (
+                <div key={index} className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 hover:bg-white dark:hover:bg-gray-700/50 transition-colors duration-300">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-800 dark:text-gray-200 flex items-center">
+                      <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
+                      {language.name}
                     </span>
-                    <p className="mt-2 text-gray-700 dark:text-gray-300">{edu.description}</p>
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300">
+                      {language.level}%
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
+                    <motion.div 
+                      className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${language.level}%` }}
+                      viewport={{ once: true }}
+                      transition={{ 
+                        duration: 1, 
+                        delay: index * 0.1,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }}
+                    ></motion.div>
                   </div>
                 </div>
               ))}
             </div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Core Expertise */}
-      <motion.div 
-        className="mt-12"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeInUp}
-      >
-        <h3 className="text-xl md:text-2xl font-bold text-center text-gray-900 dark:text-white mb-6 md:mb-8">Core Expertise</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {coreExpertise.map((item, index) => (
-            <motion.div 
-              key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
-              whileHover={{ y: -5 }}
-              variants={fadeInUp}
-            >
-              <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-4">
-                {item.icon}
-              </div>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.title}</h4>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">{item.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* AI Tools & Technical Skills */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-12">
-        {/* AI Tools */}
-        <motion.div 
-          className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900/50 rounded-2xl p-6 md:p-8 shadow-lg border border-indigo-100 dark:border-gray-700"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-            <FaRobot className="text-indigo-600 dark:text-indigo-400 mr-2" />
-            AI & Automation Expertise
-          </h3>
-          <div className="space-y-4">
-            {aiTools.map((tool, index) => (
-              <div key={index} className="flex items-start space-x-4">
-                <div className="flex-shrink-0 mt-1">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                    <FaCog className="w-4 h-4" />
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">{tool.name}</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{tool.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Technical Skills */}
-        <motion.div 
-          className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-        >
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-            <FaCode className="text-indigo-600 dark:text-indigo-400 mr-2" />
-            Technical Skills
-          </h3>
-          <div className="space-y-4">
-            {technicalSkills.map((skill, index) => (
-              <div key={index}>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{skill.name}</span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div 
-                    className="bg-gradient-to-r from-indigo-500 to-blue-500 h-2 rounded-full" 
-                    style={{ width: `${skill.level}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </div>
+            </div>
+            
+            
+        </Card>
+      </AnimatedSection>
 
       {/* Call to Action */}
-      <motion.div 
-        className="mt-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 md:p-12 shadow-xl overflow-hidden relative"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeInUp}
-      >
-        <div className="hidden md:block absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-white/10 rounded-full -mr-12 md:-mr-16 -mt-12 md:-mt-16"></div>
-        <div className="hidden md:block absolute bottom-0 left-0 w-40 h-40 md:w-64 md:h-64 bg-white/5 rounded-full -ml-20 md:-ml-32 -mb-20 md:-mb-32"></div>
-        
-        <div className="relative z-10 text-center">
-          <h3 className="text-xl md:text-3xl font-bold text-white mb-3 md:mb-4">Ready to Optimize Your Business?</h3>
-          <p className="text-indigo-100 max-w-2xl mx-auto mb-8">
-            Let's collaborate to transform your data into actionable insights and streamline your operations with cutting-edge solutions.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-            <motion.a
-              href="/resume.pdf"
-              download
-              className="px-6 py-3 bg-white text-indigo-600 font-medium rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105 inline-flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FiDownload className="mr-2" />
-              Download Resume
-            </motion.a>
-            <motion.a
-              href="#contact"
-              className="px-6 py-3 border-2 border-white text-white font-medium rounded-full hover:bg-white/10 transition-all duration-300 hover:scale-105 inline-flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FiMessageSquare className="mr-2" />
-              Contact Me
-            </motion.a>
+      <AnimatedSection delay={3} className="lg:col-span-4">
+        <div className="relative bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 md:p-12 shadow-2xl overflow-hidden group">
+          {/* Decorative elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 bg-white/10 rounded-full -mr-16 -mt-16 transform transition-transform duration-700 group-hover:scale-110"></div>
+            <div className="absolute bottom-0 left-0 w-40 h-40 md:w-64 md:h-64 bg-white/5 rounded-full -ml-20 -mb-20 transform transition-transform duration-700 group-hover:scale-110"></div>
+            <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          </div>
+          
+          <div className="relative z-10 text-center">
+            <h3 className="text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">
+              Ready to Transform Your <span className="text-yellow-300">Business Operations</span>?
+            </h3>
+            <p className="text-indigo-100 text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
+              Let's collaborate to optimize your inventory, analyze your data, and implement efficient solutions that drive growth and efficiency.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button
+                as="a"
+                href="/resume.pdf"
+                download
+                variant="secondary"
+                size="lg"
+                icon={FiDownload}
+                iconPosition="left"
+                className="shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Download My Resume
+              </Button>
+              <Button
+                as="a"
+                href="#contact"
+                variant="ghost"
+                size="lg"
+                className="bg-white/5 hover:bg-white/10 text-white border-white/20"
+                icon={FiMessageSquare}
+                iconPosition="left"
+              >
+                Get In Touch
+              </Button>
+            </div>
+            
+            <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-indigo-200">
+              <div className="flex items-center">
+                <div className="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
+                <span>Available for freelance projects</span>
+              </div>
+              <div className="hidden sm:block text-white/30">•</div>
+              <div className="flex items-center">
+                <FaWhatsapp className="w-4 h-4 mr-2" />
+                <span>+91 98757 71550</span>
+              </div>
+              <div className="hidden sm:block text-white/30">•</div>
+              <div className="flex items-center">
+                <FiMail className="w-4 h-4 mr-2" />
+                <span>sahilkhan36985@gmail.com</span>
+              </div>
+            </div>
           </div>
         </div>
-      </motion.div>
+      </AnimatedSection>
+    </div>
+  );
+
+  return (
+    <section ref={ref} className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800" id="about">
+      <div className="max-w-7xl mx-auto">
+        <SectionHeader 
+          title="About " 
+          subtitle="Crafting data-driven solutions and optimizing operations with precision and innovation."
+          icon={<FaUserTie />}
+          highlight="Me"
+        />
+        
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mt-12">
+          <ProfileCard />
+          <MainContent />
+        </div>
+      </div>
     </section>
   );
 });

@@ -36,52 +36,48 @@ const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectT
   const ProjectContent = () => (
     <div 
       onClick={handleCardClick}
-      className="cursor-pointer hover:shadow-lg transition-shadow duration-300 h-full flex flex-col"
+      className="group card hover:shadow-lg transition-all duration-300 h-full flex flex-col overflow-hidden animate-fade-in"
+      style={{
+        '--delay': Math.random() * 0.5 + 's',
+        animationDelay: 'var(--delay)'
+      }}
     >
       {cover && (
         <div className="relative h-48 overflow-hidden">
           <ImageWithFallback
             src={formatImageSrc(cover)}
             alt={`Screenshot of ${title} project`}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
             fallbackSrc={getImagePath('', 'fallback', 'placeholder.svg')}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-6">
             <span className="inline-block px-3 py-1 text-sm font-medium text-white bg-indigo-600 dark:bg-dark-primary rounded-full">
               {projectType}
             </span>
           </div>
         </div>
       )}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-dark-text-heading mb-2">
+      <div className="p-6 flex-1 flex flex-col">
+        <h3 className="text-xl font-bold mb-2 text-heading dark:text-white group-hover:text-primary transition-colors duration-300">
           {title}
         </h3>
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">{description}</p>
-        <div className="flex flex-wrap gap-3 mt-6">
+        <p className="text-pretty text-gray-600 dark:text-gray-300 mb-4 flex-1">
+          {description}
+        </p>
+        <div className="flex flex-wrap gap-3 mt-auto">
           {liveLink && (
             <a
-              href={isInternalLink ? `#${liveLink}` : liveLink}
-              target={isInternalLink ? "_self" : "_blank"}
+              href={liveLink}
+              target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-dark-primary dark:hover:bg-dark-primary/90 rounded-lg transition-colors duration-200"
+              className="btn btn-primary flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
             >
-              <span>View Project</span>
-              <svg
-                className="w-4 h-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
               </svg>
+              View Project
             </a>
           )}
           {githubLink && (
@@ -89,19 +85,11 @@ const ProjectCard = ({ title, description, cover, liveLink, githubLink, projectT
               href={githubLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 dark:text-dark-text-body bg-gray-100 hover:bg-gray-200 dark:bg-dark-glass dark:hover:bg-dark-glass/80 rounded-lg transition-colors duration-200"
+              className="btn btn-ghost flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
             >
-              <span>GitHub</span>
-              <svg
-                className="w-4 h-4 ml-2"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                  clipRule="evenodd"
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.699 1.028 1.595 1.028 2.688 0 3.848-2.339 4.685-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd"
                 />
               </svg>
             </a>

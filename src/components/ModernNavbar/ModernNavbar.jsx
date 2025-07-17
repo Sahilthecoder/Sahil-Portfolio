@@ -267,18 +267,18 @@ const ModernNavbar = () => {
                       {/* WebP with responsive sources */}
                       <source 
                         srcSet={
-                          `${process.env.PUBLIC_URL || ''}/images/logo/logo192.webp 192w, ` +
-                          `${process.env.PUBLIC_URL || ''}/images/logo/logo512-300w.webp 300w`
+                          `images/logo/logo192.webp 192w, ` +
+                          `images/logo/logo512-300w.webp 300w`
                         } 
                         type="image/webp"
                         sizes="(max-width: 768px) 32px, 36px"
                       />
                       {/* Fallback to PNG */}
                       <ImageWithFallback
-                        src={`${process.env.PUBLIC_URL || ''}/images/logo/logo192.png`}
+                        src="images/logo/logo192.png"
                         srcSet={
-                          `${process.env.PUBLIC_URL || ''}/images/logo/logo192.png 192w, ` +
-                          `${process.env.PUBLIC_URL || ''}/images/logo/logo512.png 300w`
+                          `images/logo/logo192.png 192w, ` +
+                          `images/logo/logo512.png 300w`
                         }
                         sizes="(max-width: 768px) 32px, 36px"
                         fallbackText="SA"

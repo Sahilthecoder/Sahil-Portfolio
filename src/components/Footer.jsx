@@ -775,11 +775,11 @@ const Footer = () => {
             whileHover={!reducedMotion && !isScrolling ? { 
               scale: 1.1,
               backgroundColor: 'rgba(59, 130, 246, 0.1)'
-            } : {}}
+            } : undefined}
             whileTap={!reducedMotion && !isScrolling ? { 
               scale: 0.95,
               backgroundColor: 'rgba(59, 130, 246, 0.2)'
-            } : {}}
+            } : undefined}
           >
             {isScrolling ? (
               <motion.div

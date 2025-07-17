@@ -1,18 +1,29 @@
 // Service Worker for Portfolio PWA
-const CACHE_NAME = 'portfolio-cache-v13';
+const CACHE_NAME = 'portfolio-cache-v14';
+const BASE_PATH = process.env.PUBLIC_URL || '';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/about',
-  '/manifest.json',
-  '/images/logo192.png',
-  '/images/logo512.png',
-  '/images/favicon.ico',
-  '/images/favicon-16x16.png',
-  '/images/favicon-32x32.png',
-  '/images/og-default.jpg',
-  '/fonts/Roboto.woff2',
-  '/fonts/Poppins.woff2',
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/about`,
+  `${BASE_PATH}/manifest.json`,
+  // Favicons
+  `${BASE_PATH}/favicon.ico`,
+  `${BASE_PATH}/favicons/android-chrome-192x192.png`,
+  `${BASE_PATH}/favicons/android-chrome-512x512.png`,
+  `${BASE_PATH}/favicons/apple-touch-icon.png`,
+  `${BASE_PATH}/favicons/favicon-16x16.png`,
+  `${BASE_PATH}/favicons/favicon-32x32.png`,
+  `${BASE_PATH}/favicons/favicon.svg`,
+  // Logo images
+  `${BASE_PATH}/images/logo/logo192.png`,
+  `${BASE_PATH}/images/logo/logo192.webp`,
+  `${BASE_PATH}/images/logo/logo512.png`,
+  `${BASE_PATH}/images/logo/logo512.webp`,
+  `${BASE_PATH}/images/logo/logo512-300w.webp`,
+  // Other assets
+  `${BASE_PATH}/images/og-default.jpg`,
+  `${BASE_PATH}/fonts/Roboto.woff2`,
+  `${BASE_PATH}/fonts/Poppins.woff2`,
   'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'
 ];

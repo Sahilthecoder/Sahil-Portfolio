@@ -119,6 +119,21 @@ const Footer = () => {
     return typeof window !== 'undefined' && localStorage.getItem('newsletterSubscribed') === 'true';
   });
   const [error, setError] = useState('');
+  
+  // Debug: Log environment variables in production
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Environment Variables:', {
+        serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID ? '✅ Set' : '❌ Missing',
+        templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID ? '✅ Set' : '❌ Missing',
+        publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY ? '✅ Set' : '❌ Missing',
+        adminTemplateId: import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID ? '✅ Set' : '❌ Missing',
+        adminEmail: import.meta.env.VITE_ADMIN_EMAIL ? '✅ Set' : '❌ Missing',
+        nodeEnv: process.env.NODE_ENV,
+        envKeys: Object.keys(import.meta.env)
+      });
+    }
+  }, []);
 
   // Email validation
   const validateEmail = (email) => {
@@ -143,7 +158,8 @@ const Footer = () => {
     setError('');
     
     try {
-      console.log('Starting subscription process...');
+      console.log('=== Starting subscription process ===');
+      console.log('Environment:', process.env.NODE_ENV);
       
       // Check if environment variables are set (using Vite's import.meta.env)
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -152,13 +168,17 @@ const Footer = () => {
       const adminTemplateId = import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID;
       const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
       
-      console.log('EmailJS Config:', { 
+      // Log environment variables for debugging
+      const envStatus = { 
         serviceId: serviceId ? '✅ Set' : '❌ Missing',
         templateId: templateId ? '✅ Set' : '❌ Missing',
         publicKey: publicKey ? '✅ Set' : '❌ Missing',
         adminTemplateId: adminTemplateId ? '✅ Set' : '❌ Missing',
-        adminEmail: adminEmail ? '✅ Set' : '❌ Missing'
-      });
+        adminEmail: adminEmail ? '✅ Set' : '❌ Missing',
+        allEnvKeys: Object.keys(import.meta.env)
+      };
+      
+      console.log('EmailJS Configuration Status:', envStatus);
       
       if (!serviceId || !templateId || !publicKey) {
         const missing = [];
@@ -166,14 +186,21 @@ const Footer = () => {
         if (!templateId) missing.push('VITE_EMAILJS_TEMPLATE_ID');
         if (!publicKey) missing.push('VITE_EMAILJS_PUBLIC_KEY');
         
-        throw new Error(`Missing required EmailJS configuration: ${missing.join(', ')}`);
+        const errorMsg = `Missing required EmailJS configuration: ${missing.join(', ')}`;
+        console.error('Configuration Error:', errorMsg);
+        throw new Error('Service configuration error. Please try again later.');
       }
-      
-      console.log('Environment variables loaded');
       
       // Dynamically import EmailJS only on the client side
       console.log('Importing EmailJS...');
-      const emailjs = (await import('@emailjs/browser')).default;
+      let emailjs;
+      try {
+        emailjs = (await import('@emailjs/browser')).default;
+        console.log('EmailJS imported successfully');
+      } catch (importError) {
+        console.error('Failed to import EmailJS:', importError);
+        throw new Error('Failed to load email service. Please try again later.');
+      }
       
       // Ensure email is properly formatted
       const recipientEmail = email.trim();
@@ -203,91 +230,118 @@ const Footer = () => {
         user_name: recipientName,
         current_year: currentYear,
         year: currentYear,
-        date: todayDate // 👈 This is the key for your dynamic date
+        date: todayDate
       };
       
-      
-      console.log('Sending email with params:', JSON.stringify(templateParams, null, 2));
+      console.log('=== Email Parameters ===');
+      console.log('Service ID:', serviceId);
+      console.log('Template ID:', templateId);
+      console.log('Template Params:', JSON.stringify(templateParams, null, 2));
       
       try {
-        // Initialize EmailJS with your public key
+        console.log('Initializing EmailJS with public key:', publicKey ? '✅ Set' : '❌ Missing');
         emailjs.init(publicKey);
         
+        console.log('Sending email...');
         // Send the email with a timeout to prevent hanging
         const result = await Promise.race([
-          emailjs.send(serviceId, templateId, templateParams, publicKey),
+          emailjs.send(serviceId, templateId, templateParams, publicKey)
+            .then(result => {
+              console.log('EmailJS Response:', result);
+              return result;
+            }),
           new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Email sending timed out')), 10000)
+            setTimeout(() => reject(new Error('Email sending timed out after 10 seconds')), 10000)
           )
         ]);
         
-        console.log('Email sent successfully:', result);
-        
-        // Send notification to yourself (optional)
-        if (adminTemplateId) {
-          try {
-            await emailjs.send(
-              serviceId,
-              adminTemplateId,
-              {
-                to_email: adminEmail || 'your-email@example.com',
-                from_name: 'Portfolio Contact Form',
-                subject: 'New Newsletter Subscriber',
-                message: `New subscriber: ${name || 'No name'} (${email})`
-              },
-              publicKey
-            );
-            console.log('Admin notification sent');
-          } catch (adminError) {
-            console.warn('Failed to send admin notification:', adminError);
-            // Don't fail the whole subscription if admin notification fails
+        if (result.status === 200) {
+          console.log('✅ Email sent successfully!', result);
+          
+          // Send notification to yourself (optional)
+          if (adminTemplateId && adminEmail) {
+            console.log('Sending admin notification...');
+            try {
+              const adminResult = await emailjs.send(
+                serviceId,
+                adminTemplateId,
+                {
+                  to_email: adminEmail,
+                  from_name: 'Portfolio Contact Form',
+                  subject: 'New Newsletter Subscriber',
+                  message: `New subscriber: ${name || 'No name'} (${email})`,
+                  subscriber_email: email,
+                  subscriber_name: name || 'No name',
+                  date: todayDate
+                },
+                publicKey
+              );
+              console.log('✅ Admin notification sent:', adminResult);
+            } catch (adminError) {
+              console.warn('⚠️ Failed to send admin notification:', adminError);
+              // Don't fail the whole subscription if admin notification fails
+            }
           }
+          
+          // Update UI state
+          setIsSubscribed(true);
+          setEmail('');
+          setName('');
+          localStorage.setItem('newsletterSubscribed', 'true');
+          
+          // Track successful subscription
+          if (window.gtag) {
+            window.gtag('event', 'subscribe', {
+              'event_category': 'Newsletter',
+              'event_label': 'Footer Subscription'
+            });
+          }
+          
+          return result;
+        } else {
+          console.error('❌ Email sending failed with status:', result.status, result);
+          throw new Error('Failed to send email. Please try again later.');
         }
-        
-        setIsSubscribed(true);
-        setEmail('');
-        setName('');
-        localStorage.setItem('newsletterSubscribed', 'true');
-        
-        // Track successful subscription
-        if (window.gtag) {
-          window.gtag('event', 'subscribe', {
-            'event_category': 'Newsletter',
-            'event_label': 'Footer Subscription'
-          });
-        }
-        
-        return result;
       } catch (sendError) {
         console.error('Error sending email:', sendError);
         throw sendError; // Re-throw to be caught by the outer catch
       }
       
     } catch (err) {
-      console.error('Subscription error details:', {
-        error: err,
-        message: err.text || err.message,
+      // Log detailed error information
+      const errorDetails = {
+        name: err.name,
+        message: err.message,
         status: err.status,
+        text: err.text,
         response: err.response,
-        stack: err.stack
-      });
+        stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+      };
       
+      console.error('❌ Subscription Error Details:', JSON.stringify(errorDetails, null, 2));
+      
+      // Default error message
       let errorMessage = 'Failed to subscribe. Please try again later.';
-      const errorText = err.text || err.message || '';
+      const errorText = (err.text || err.message || '').toLowerCase();
       
-      // More specific error messages based on EmailJS response
-      if (err.status === 403 || errorText.includes('Invalid')) {
+      // More specific error messages based on common issues
+      if (err.status === 403 || errorText.includes('invalid')) {
         errorMessage = 'Email service authentication failed. Please check your EmailJS credentials.';
-      } else if (errorText.includes('template not found') || errorText.includes('Template is empty')) {
-        errorMessage = 'Email template not found or empty. Please check your template ID and content.';
-      } else if (errorText.includes('Service not found')) {
+      } else if (errorText.includes('template') && (errorText.includes('not found') || errorText.includes('empty'))) {
+        errorMessage = 'Email template not found. Please check your template ID.';
+      } else if (errorText.includes('service not found')) {
         errorMessage = 'Email service not found. Please check your service ID.';
       } else if (err.status === 422) {
-        errorMessage = 'Invalid request. Please check your template parameters match the template.';
-      } else if (errorText.includes('limit')) {
-        errorMessage = 'Email sending limit reached. Please try again later.';
+        errorMessage = 'Invalid request. Please check your template parameters.';
+      } else if (errorText.includes('limit') || errorText.includes('quota')) {
+        errorMessage = 'Email sending limit reached. Please try again later or contact support.';
+      } else if (errorText.includes('network')) {
+        errorMessage = 'Network error. Please check your internet connection.';
+      } else if (errorText.includes('timed out')) {
+        errorMessage = 'Request timed out. Please try again in a moment.';
       }
       
+      console.error('User-friendly error:', errorMessage);
       setError(errorMessage);
     } finally {
       setIsSubmitting(false);

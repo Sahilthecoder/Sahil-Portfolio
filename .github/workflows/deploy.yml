@@ -71,18 +71,42 @@ jobs:
           VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
           VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
           
+      - name: Create .env.production
+        run: |
+          echo "Creating .env.production file..."
+          cat > .env.production << 'EOL'
+          VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
+          VITE_ADMIN_EMAIL=${{ secrets.VITE_ADMIN_EMAIL }}
+          NODE_ENV=production
+          EOL
+          
+          # Verify the file was created (without showing sensitive values)
+          echo ".env.production created with the following keys (values hidden for security):"
+          cat .env.production | awk -F= '{print $1}' | sort
+          
       - name: Build
         run: |
           echo "Building the application..."
           echo "Vite Environment Mode: $NODE_ENV"
+          
+          # Verify .env.production exists and has content
+          if [ ! -f ".env.production" ]; then
+            echo "Error: .env.production file not found!"
+            exit 1
+          fi
+          
+          echo "Environment file content (keys only for security):"
+          cat .env.production | awk -F= '{print $1}' | sort
+          
+          # Build the application
           npm run build
-        env:
-          NODE_ENV: production
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-          VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
-          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
+          
+          # Verify the built files
+          echo "Build output files:"
+          find dist -type f | sort
           
       - name: Verify Installation
         run: |

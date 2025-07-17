@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === Base Layer === */
+/* Base Layer */
 @layer base {
   html {
     @apply antialiased text-text-primary bg-background;
@@ -12,14 +12,10 @@
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
-    word-break: break-word;
-    text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90 
-           bg-[length:100%_100%] bg-fixed overflow-x-hidden;
+    @apply min-h-screen bg-background overflow-x-hidden;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
@@ -154,17 +150,7 @@
     @apply rounded-full bg-primary/40 hover:bg-primary/60 transition-colors;
   }
 
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-float-slow {
-    animation: float 8s ease-in-out infinite;
-  }
-
-  .animate-float-fast {
-    animation: float 4s ease-in-out infinite;
-  }
+  /* Animation classes moved to animations.css */
 
   .container-custom {
     @apply w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8;
@@ -175,33 +161,9 @@
   }
 }
 
-/* === Custom Animations === */
-@keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
-  25% { transform: translateY(-10px) translateX(5px) rotate(1deg); }
-  50% { transform: translateY(5px) translateX(-5px) rotate(-1deg); }
-  75% { transform: translateY(-5px) translateX(10px) rotate(1deg); }
-}
+/* Animation keyframes moved to animations.css */
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* === Motion Sensitivity Support === */
-@media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .animate-float-slow,
-  .animate-float-fast,
-  .btn-loading::after {
-    animation: none !important;
-  }
-}
+/* Reduced motion preferences handled in animations.css */
 
 /* === Responsive Font === */
 @media (max-width: 768px) {

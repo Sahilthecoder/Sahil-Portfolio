@@ -23,7 +23,8 @@ import {
   FaMicrosoft,
   FaImage,
   FaEnvelope,
-  FaFileAlt
+  FaFileAlt,
+  FaCheck
 } from 'react-icons/fa';
 
 // Simple Icons
@@ -602,13 +603,10 @@ const projects = [
 
 const Projects = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [activeFilter, setActiveFilter] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
-
-
-  // State for modal
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const heroRef = useRef(null);
 
   // Handle project selection for modal
   const handleProjectClick = useCallback((project) => {
@@ -627,30 +625,18 @@ const Projects = () => {
     setTimeout(() => setSelectedProject(null), 300);
   }, []);
 
-  // Filter projects based on search term and active filter
+  // Filter projects based on search term
   const filteredProjects = useMemo(() => {
     if (!projects) return [];
     
     return projects.filter(project => {
       // Search term matching
-      const matchesSearch = searchTerm === '' || 
+      return searchTerm === '' || 
         project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         project.techStack?.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
-      
-      // Category filtering
-      const matchesFilter = activeFilter === 'all' || 
-        project.categories?.some(cat => 
-          cat.toLowerCase() === activeFilter.toLowerCase() ||
-          (activeFilter === 'inventory' && cat.toLowerCase().includes('inventory')) ||
-          (activeFilter === 'data analysis' && (cat.toLowerCase().includes('data') || cat.toLowerCase().includes('analysis'))) ||
-          (activeFilter === 'automation' && cat.toLowerCase().includes('automation')) ||
-          (activeFilter === 'ai/ml' && (cat.toLowerCase().includes('ai') || cat.toLowerCase().includes('machine learning') || cat.toLowerCase().includes('ml')))
-        );
-      
-      return matchesSearch && matchesFilter;
     });
-  }, [projects, searchTerm, activeFilter]);
+  }, [projects, searchTerm]);
 
 
 
@@ -690,115 +676,222 @@ const Projects = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
-        {/* Animated Background - Matching About page */}
+      <section ref={heroRef} className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden px-4 sm:px-6 min-h-[80vh] flex items-center">
+        {/* Animated Gradient Background */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
-            <div 
-              className="absolute inset-0 opacity-20 dark:opacity-5"
+            {/* Animated grid pattern with subtle movement */}
+            <motion.div 
+              className="absolute inset-0 opacity-30 dark:opacity-10"
               style={{
                 backgroundImage: `
                   linear-gradient(to right, #6366f1 1px, transparent 1px),
                   linear-gradient(to bottom, #6366f1 1px, transparent 1px)
                 `,
-                backgroundSize: '30px 30px',
+                backgroundSize: '40px 40px',
+                maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+              }}
+              animate={{
+                backgroundPosition: ['0% 0%', '100% 100%'],
+              }}
+              transition={{
+                duration: 30,
+                repeat: Infinity,
+                ease: 'linear',
               }}
             />
-            {/* Animated blobs */}
-            <div className="absolute top-1/4 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-            <div className="absolute top-1/2 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+            
+            {/* Animated gradient overlay */}
+            <motion.div 
+              className="absolute inset-0 opacity-10"
+              style={{
+                background: 'linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e, #f59e0b)',
+                backgroundSize: '300% 300%',
+              }}
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+            
+            {/* Floating elements with staggered animation */}
+            <motion.div 
+              className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, -30, 0],
+                x: [0, 20, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, 30, 0],
+                x: [0, -20, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 20,
+                delay: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, -20, 0],
+                x: [0, 15, 0],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 25,
+                delay: 1,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
           </div>
         </div>
 
-        {/* Add the animation keyframes to the document */}
-        <style jsx global>{`
-          @keyframes blob {
-            0% {
-              transform: translate(0px, 0px) scale(1);
-            }
-            33% {
-              transform: translate(30px, -50px) scale(1.1);
-            }
-            66% {
-              transform: translate(-20px, 20px) scale(0.9);
-            }
-            100% {
-              transform: translate(0px, 0px) scale(1);
-            }
-          }
-          .animate-blob {
-            animation: blob 7s infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
-          .animation-delay-4000 {
-            animation-delay: 4s;
-          }
-        `}</style>
-
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              className="inline-flex items-center px-3 py-1.5 mb-4 sm:mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            {/* Hero Content */}
+            <motion.div 
+              className="lg:w-1/2 text-center lg:text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <FaCode className="mr-1.5" />
-              <span>Portfolio Showcase</span>
+              <motion.div
+                className="inline-flex items-center px-4 py-1.5 mb-4 sm:mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <FaCode className="mr-1.5" />
+                <span>Portfolio Showcase</span>
+              </motion.div>
+
+              <motion.h1
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
+                My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span> & <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">Solutions</span>
+              </motion.h1>
+
+              <motion.p
+                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+              >
+                Explore my portfolio of <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span> projects. Each project demonstrates my ability to solve complex business challenges with innovative technical solutions.
+              </motion.p>
+
+              <motion.div
+                className="flex flex-col sm:flex-row items-center gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+              >
+                <a
+                  href="#projects-grid"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const projectsSection = document.getElementById('projects-grid');
+                    if (projectsSection) {
+                      projectsSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-medium rounded-full hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <FaSearch className="w-4 h-4" />
+                  Explore Projects
+                </a>
+                <a
+                  href="https://github.com/Sahilthecoder/Sahil-Portfolio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-medium rounded-full border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:shadow-gray-500/10 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <FaGithub className="w-4 h-4" />
+                  View on GitHub
+                </a>
+              </motion.div>
             </motion.div>
 
-            <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
+            {/* Hero Image/Illustration */}
+            <motion.div 
+              className="lg:w-1/2 relative"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
             >
-              My <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Projects</span> & <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600 dark:from-purple-400 dark:to-pink-400">Solutions</span>
-            </motion.h1>
-
-            <motion.p
-              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              Explore my portfolio of <span className="font-medium text-indigo-600 dark:text-indigo-400">inventory management</span>, <span className="font-medium text-blue-600 dark:text-blue-400">data analysis</span>, and <span className="font-medium text-purple-600 dark:text-purple-400">AI automation</span> projects. Each project demonstrates my ability to solve complex business challenges with innovative technical solutions.
-            </motion.p>
-
-            {/* Category filter removed as per request */}
-
-            <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              <a
-                href="#projects-grid"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const projectsSection = document.getElementById('projects-grid');
-                  if (projectsSection) {
-                    projectsSection.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <FaSearch className="w-4 h-4" />
-                Explore Projects
-              </a>
-              <a
-                href="https://github.com/Sahilthecoder/Sahil-Portfolio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50/20 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <FaGithub className="w-4 h-4" />
-                View on GitHub
-              </a>
+              <div className="relative max-w-md mx-auto lg:mr-0">
+                <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
+                  <img 
+                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                    alt="Data Analysis and Project Showcase"
+                    className="w-full h-auto object-cover rounded-lg"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = '/images/fallback-image.jpg';
+                    }}
+                  />
+                </div>
+                
+                {/* Decorative elements */}
+                <div className="absolute -top-6 -left-6 w-24 h-24 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl -z-10"></div>
+                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-blue-100 dark:bg-blue-900/30 rounded-full -z-10"></div>
+                
+                {/* Floating badges */}
+                <motion.div 
+                  className="absolute -bottom-4 -left-4 bg-white dark:bg-gray-800 p-3 rounded-xl shadow-lg"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.6 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg text-indigo-600 dark:text-indigo-400">
+                      <FaCode className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Projects</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">10+ Completed</p>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className="absolute -top-4 -right-4 bg-white dark:bg-gray-800 p-3 rounded-xl shadow-lg"
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.6 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
+                      <FaCheck className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Technologies</p>
+                      <p className="font-semibold text-gray-900 dark:text-white">20+ Used</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -807,85 +900,79 @@ const Projects = () => {
       {/* Projects Grid */}
       <section className="py-12 bg-white dark:bg-gray-900" id="projects-grid">
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Search and Filter */}
-          <motion.div
-            className="max-w-4xl mx-auto mb-8 sm:mb-12 px-2 sm:px-0"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-          >
-            <div className="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:space-x-3">
-              <div className="relative flex-1">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  className="block w-full pl-9 pr-3 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Search projects..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+          {/* Search */}
+          <div className="mb-10 md:mb-12 lg:mb-16 max-w-3xl mx-auto">
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FaSearch className="h-5 w-5 text-gray-400" />
               </div>
-              <div className="w-full sm:w-auto">
-                <select
-                  className="block w-full pl-3 pr-10 py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  value={activeFilter}
-                  onChange={(e) => setActiveFilter(e.target.value)}
+              <input
+                type="text"
+                className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Search projects by title, description, or technology..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm && (
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setSearchTerm('')}
                 >
-                  <option value="all">All Projects</option>
-                  <option value="data-analysis">Data Analysis</option>
-                  <option value="visualization">Visualization</option>
-                  <option value="automation">Automation</option>
-                </select>
-              </div>
-            </div>
-          </motion.div>
+                  <FaTimesCircle className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                </button>
+              )}
+            </motion.div>
+          </div>
 
           {/* Projects Grid */}
           {isLoading ? (
-            <div className="flex justify-center items-center h-64">
+            <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
             </div>
           ) : (
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-0"
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               variants={container}
               initial="hidden"
               animate="show"
             >
               {filteredProjects.map((project, index) => (
                 <motion.div 
-                  key={project.id} 
-                  variants={item} 
+                  key={project.id}
+                  variants={item}
                   className="h-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
                 >
-                  <ProjectCard
+                  <ProjectCard 
                     project={project}
                     index={index}
-                    onClick={handleProjectClick}
+                    onClick={() => {
+                      setSelectedProject(project);
+                      setIsModalOpen(true);
+                    }}
                   />
                 </motion.div>
               ))}
             </motion.div>
           )}
 
-          {filteredProjects.length === 0 && !isLoading && (
-            <motion.div
-              className="text-center py-16"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+          {!isLoading && filteredProjects.length === 0 && (
+            <motion.div 
+              className="text-center py-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400">
-                No projects found
-              </h3>
-              <p className="mt-2 text-gray-500 dark:text-gray-500">
-                Try adjusting your search or filter criteria
-              </p>
+              <div className="mx-auto flex items-center justify-center h-24 w-24 rounded-full bg-indigo-100 dark:bg-indigo-900/30 mb-4">
+                <FaSearch className="h-12 w-12 text-indigo-500" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">No projects found</h3>
+              <p className="text-gray-500 dark:text-gray-400">Try adjusting your search to find what you're looking for.</p>
             </motion.div>
           )}
         </div>

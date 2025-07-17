@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp,FaTwitter,FaYoutube, FaCode, FaSpinner, FaWhatsapp } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
@@ -23,6 +23,7 @@ const Footer = () => {
   const [isScrolling, setIsScrolling] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const { theme } = useTheme();
 
@@ -459,29 +460,55 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { name: 'Home', path: '/' },
-                { name: 'About', path: '/about' },
-                { name: 'Projects', path: '/projects' },
-                { name: 'Contact', path: '/contact' }
-              ].map((item, index) => (
-                <motion.li 
-                  key={item.name}
-                  whileHover={{ x: 3 }}
-                  transition={{ type: 'spring', stiffness: 500 }}
-                >
-                  <Link
-                    to={item.path}
-                    className={`flex items-center text-sm transition-colors duration-200 ${
-                      location.pathname === item.path 
-                        ? 'text-blue-600 dark:text-blue-400 font-medium' 
-                        : 'text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400'
-                    }`}
+                { name: 'Home', path: '/', section: 'home' },
+                { name: 'About', path: '/about', section: 'about' },
+                { name: 'Projects', path: '/projects', section: 'projects' },
+                { name: 'Contact', path: '/contact', section: 'contact' }
+              ].map((item) => {
+                // Handle navigation with scroll to top
+                const handleClick = (e) => {
+                  e.preventDefault();
+                  // Always scroll to top first
+                  window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+                  
+                  // Small delay to ensure scroll completes before navigation
+                  setTimeout(() => {
+                    if (location.pathname === item.path) {
+                      // If already on the same page, just scroll to section if not home
+                      if (item.section !== 'home') {
+                        const element = document.getElementById(item.section);
+                        if (element) {
+                          element.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
+                        }
+                      }
+                    } else {
+                      // Navigate to new page
+                      navigate(item.path);
+                    }
+                  }, 100);
+                };
+                
+                return (
+                  <motion.li 
+                    key={item.name}
+                    whileHover={{ x: 3 }}
+                    transition={{ type: 'spring', stiffness: 500 }}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                    {item.name}
-                  </Link>
-                </motion.li>
-              ))}
+                    <Link
+                      to={item.path}
+                      onClick={handleClick}
+                      className={`flex items-center text-sm transition-colors duration-200 ${
+                        location.pathname === item.path 
+                          ? 'text-blue-600 dark:text-blue-400 font-medium' 
+                          : 'text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400'
+                      }`}
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                      {item.name}
+                    </Link>
+                  </motion.li>
+                );
+              })}
             </ul>
           </motion.div>
 

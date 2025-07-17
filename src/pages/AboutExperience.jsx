@@ -28,7 +28,7 @@ import {
   FaExternalLinkAlt
 } from 'react-icons/fa';
 import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
-import ModernNavbar from '../components/ModernNavbar/ModernNavbar';
+
 import { useLocation } from 'react-router-dom';
 import '../styles/animations.css';
 
@@ -316,97 +316,113 @@ const AboutSection = React.forwardRef((props, ref) => {
   ];
 
   // Profile Card
-  const ProfileCard = () => (
-    <AnimatedSection className="lg:col-span-1">
-      <GlassCard className="h-full flex flex-col relative">
-        <div className="relative h-48 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-t-xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-          <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-            <div className="relative h-32 w-32 rounded-2xl border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 shadow-xl">
-              <img 
-                src="/Sahil-Portfolio/images/profile/profile.webp" 
-                alt="Sahil Ali - Inventory & Data Specialist" 
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width="128"
-                height="128"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/200';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+  const ProfileCard = () => {
+    const handleDownload = (e) => {
+      e.preventDefault();
+      // Create a temporary anchor element to trigger download
+      const link = document.createElement('a');
+      link.href = '/assets/Sahil_Ali_Cv.pdf';
+      link.download = 'Sahil-Ali-Resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+    return (
+      <AnimatedSection className="lg:col-span-1">
+        <GlassCard className="h-full flex flex-col relative group overflow-visible">
+          <div className="relative h-40 bg-gradient-to-r from-indigo-500 to-blue-600 rounded-t-xl overflow-visible">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+            <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 transition-all duration-300 group-hover:-translate-y-2 z-10">
+              <div className="relative h-36 w-36 rounded-2xl border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 shadow-xl">
+                <img 
+                  src="/Sahil-Portfolio/images/profile/profile.webp" 
+                  alt="Sahil Ali - Inventory & Data Specialist" 
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  width="144"
+                  height="144"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = 'https://via.placeholder.com/200';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="pt-20 pb-8 px-6 text-center flex-1 flex flex-col">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sahil Ali</h3>
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500 font-medium">
-            Inventory & Data Specialist
-          </p>
-          <p className="text-gray-600 dark:text-gray-300 mt-3 text-sm leading-relaxed">
-            Transforming data into actionable insights and optimizing inventory operations with precision and efficiency.
-          </p>
-          
-          <div className="mt-6 flex justify-center space-x-4">
-            <Button 
-              as="a" 
-              href="https://www.linkedin.com/in/sahil-ali-714867242/" 
-              target="_blank" 
-              rel="noopener noreferrer nofollow" 
-              size="sm" 
-              variant="ghost"
-              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
-              aria-label="LinkedIn Profile"
-            >
-              <FaLinkedin className="w-4 h-4" />
-            </Button>
-            <Button 
-              as="a" 
-              href="https://wa.me/919875771550" 
-              target="_blank" 
-              rel="noopener noreferrer nofollow" 
-              size="sm" 
-              variant="ghost"
-              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
-              aria-label="WhatsApp"
-            >
-              <FaWhatsapp className="w-4 h-4" />
-            </Button>
-            <Button 
-              as="a" 
-              href="mailto:sahilkhan36985@gmail.com" 
-              size="sm" 
-              variant="ghost"
-              className="w-10 h-10 p-0 rounded-full flex items-center justify-center"
-              aria-label="Email Me"
-            >
-              <FiMail className="w-4 h-4" />
-            </Button>
+          <div className="pt-16 pb-8 px-6 text-center flex-1 flex flex-col">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sahil Ali</h3>
+            <p className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500 font-medium">
+              Inventory & Data Specialist
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 mt-3 text-sm leading-relaxed">
+              Transforming data into actionable insights and optimizing inventory operations with precision and efficiency.
+            </p>
+            
+            <div className="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4">
+              <Button 
+                as="a" 
+                href="https://www.linkedin.com/in/sahil-ali-714867242/" 
+                target="_blank" 
+                rel="noopener noreferrer nofollow" 
+                size="sm" 
+                variant="ghost"
+                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                aria-label="Connect on LinkedIn"
+                title="Connect on LinkedIn"
+              >
+                <FaLinkedin className="w-4 h-4" />
+              </Button>
+              <Button 
+                as="a" 
+                href="https://wa.me/919875771550" 
+                target="_blank" 
+                rel="noopener noreferrer nofollow" 
+                size="sm" 
+                variant="ghost"
+                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                aria-label="Message on WhatsApp"
+                title="Message on WhatsApp"
+              >
+                <FaWhatsapp className="w-4 h-4" />
+              </Button>
+              <Button 
+                as="a" 
+                href="mailto:sahilkhan36985@gmail.com"
+                target="_blank"
+                size="sm" 
+                variant="ghost"
+                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                aria-label="Send an email"
+                title="Send an email"
+              >
+                <FiMail className="w-4 h-4" />
+              </Button>
+            </div>
+            
+            <div className="mt-6">
+              <Button 
+                onClick={handleDownload}
+                variant="primary"
+                size="sm"
+                icon={FiDownload}
+                iconPosition="left"
+                className="w-full justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                aria-label="Download Resume"
+              >
+                Download CV
+              </Button>
+            </div>
           </div>
           
-          <div className="mt-6">
-            <Button 
-              as="a"
-              href="/resume.pdf" 
-              download
-              variant="primary"
-              size="sm"
-              icon={FiDownload}
-              iconPosition="left"
-              className="w-full justify-center"
-            >
-              Download CV
-            </Button>
-          </div>
-        </div>
-        
-        {/* Decorative elements */}
-        <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-indigo-400 animate-pulse"></div>
-        <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-blue-400"></div>
-      </GlassCard>
-    </AnimatedSection>
-  );
+          {/* Decorative elements */}
+          <div className="absolute top-4 right-4 w-3 h-3 rounded-full bg-indigo-400 animate-pulse"></div>
+          <div className="absolute bottom-4 left-4 w-2 h-2 rounded-full bg-blue-400"></div>
+        </GlassCard>
+      </AnimatedSection>
+    );
+  };;
 
   // Main Content
   const MainContent = () => (
@@ -510,7 +526,7 @@ const AboutSection = React.forwardRef((props, ref) => {
 
       {/* Call to Action */}
       <AnimatedSection delay={3} className="lg:col-span-4">
-        <div className="relative bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-8 md:p-12 shadow-2xl overflow-hidden group">
+        <div className="relative bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-6 sm:p-8 md:p-12 shadow-2xl overflow-hidden group">
           {/* Decorative elements */}
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 bg-white/10 rounded-full -mr-16 -mt-16 transform transition-transform duration-700 group-hover:scale-110"></div>
@@ -519,22 +535,23 @@ const AboutSection = React.forwardRef((props, ref) => {
           </div>
           
           <div className="relative z-10 text-center">
-            <h3 className="text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
               Ready to Transform Your <span className="text-yellow-300">Business Operations</span>?
             </h3>
-            <p className="text-indigo-100 text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
+            <p className="text-indigo-100 text-base sm:text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
               Let's collaborate to optimize your inventory, analyze your data, and implement efficient solutions that drive growth and efficiency.
             </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0">
               <Button
                 as="a"
                 href="/resume.pdf"
-                download
+                download="Sahil-Ali-Resume.pdf"
                 variant="secondary"
                 size="lg"
                 icon={FiDownload}
                 iconPosition="left"
-                className="shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                className="w-full sm:w-auto justify-center shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+                aria-label="Download My Resume"
               >
                 Download My Resume
               </Button>
@@ -543,29 +560,42 @@ const AboutSection = React.forwardRef((props, ref) => {
                 href="#contact"
                 variant="ghost"
                 size="lg"
-                className="bg-white/5 hover:bg-white/10 text-white border-white/20"
+                className="w-full sm:w-auto justify-center bg-white/5 hover:bg-white/10 text-white border border-white/20 hover:border-white/30"
                 icon={FiMessageSquare}
                 iconPosition="left"
+                aria-label="Get in Touch"
               >
                 Get In Touch
               </Button>
             </div>
             
-            <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-indigo-200">
+            <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 text-sm text-indigo-200">
               <div className="flex items-center">
                 <div className="w-2 h-2 rounded-full bg-green-400 mr-2 animate-pulse"></div>
                 <span>Available for freelance projects</span>
               </div>
               <div className="hidden sm:block text-white/30">•</div>
-              <div className="flex items-center">
+              <a 
+                href="https://wa.me/919875771550" 
+                target="_blank" 
+                rel="noopener noreferrer nofollow"
+                className="flex items-center hover:text-white transition-colors"
+                aria-label="Contact on WhatsApp"
+              >
                 <FaWhatsapp className="w-4 h-4 mr-2" />
                 <span>+91 98757 71550</span>
-              </div>
+              </a>
               <div className="hidden sm:block text-white/30">•</div>
-              <div className="flex items-center">
+              <a 
+                href="mailto:sahilkhan36985@gmail.com" 
+                target="_blank" 
+                rel="noopener noreferrer nofollow"
+                className="flex items-center hover:text-white transition-colors"
+                aria-label="Send an email"
+              >
                 <FiMail className="w-4 h-4 mr-2" />
                 <span>sahilkhan36985@gmail.com</span>
-              </div>
+              </a>
             </div>
           </div>
         </div>
@@ -589,7 +619,7 @@ const AboutSection = React.forwardRef((props, ref) => {
         </div>
       </div>
     </section>
-  );
+  )
 });
 
 AboutSection.displayName = 'AboutSection';
@@ -821,20 +851,20 @@ const ExperienceSection = React.forwardRef((props, ref) => {
 ExperienceSection.displayName = 'ExperienceSection';
 
 const AboutExperience = ({ initialSection = 'about' }) => {
-  const [isMounted, setIsMounted] = useState(false);
   const aboutRef = useRef(null);
   const experienceRef = useRef(null);
   const heroRef = useRef(null);
 
-  // Scroll to section when location hash changes
+  // Handle initial scroll to section if there's a hash in the URL
   useEffect(() => {
-    const hash = location.hash;
-    if (hash === '#about' && aboutRef.current) {
-      aboutRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (hash === '#experience' && experienceRef.current) {
-      experienceRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (window.location.hash) {
+      const section = window.location.hash.replace('#', '');
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
-  }, [location]);
+  }, []);
 
   // Hero Section Component
   const HeroSection = () => (
@@ -842,8 +872,8 @@ const AboutExperience = ({ initialSection = 'about' }) => {
       {/* Animated Gradient Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
-          {/* Animated grid pattern */}
-          <div 
+          {/* Animated grid pattern with subtle movement */}
+          <motion.div 
             className="absolute inset-0 opacity-30 dark:opacity-10"
             style={{
               backgroundImage: `
@@ -854,14 +884,113 @@ const AboutExperience = ({ initialSection = 'about' }) => {
               maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
               WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
             }}
+            animate={{
+              backgroundPosition: ['0% 0%', '100% 100%'],
+            }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
           />
           
-          {/* Floating elements */}
-          <div className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-          <div className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+          {/* Animated gradient overlay */}
+          <motion.div 
+            className="absolute inset-0 opacity-10"
+            style={{
+              background: 'linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e, #f59e0b)',
+              backgroundSize: '300% 300%',
+            }}
+            animate={{
+              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: 'linear',
+            }}
+          />
+          
+          {/* Floating elements with staggered animation */}
+          <motion.div 
+            className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+            animate={{
+              y: [0, -30, 0],
+              x: [0, 20, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 15,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div 
+            className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+            animate={{
+              y: [0, 30, 0],
+              x: [0, -20, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{
+              duration: 20,
+              delay: 2,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+            animate={{
+              y: [0, -20, 0],
+              x: [0, 15, 0],
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 25,
+              delay: 1,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
         </div>
       </div>
+
+      {/* Animation keyframes */}
+      <style jsx global>{`
+        @keyframes float {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+          100% { transform: translateY(0px); }
+        }
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 8s ease infinite;
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+        @keyframes blob {
+          0% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+          100% { transform: translate(0px, 0px) scale(1); }
+        }
+      `}</style>
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -1024,61 +1153,11 @@ const AboutExperience = ({ initialSection = 'about' }) => {
     </section>
   );
 
-  const [activeSection, setActiveSection] = useState(initialSection);
 
-  // Create refs object for the ModernNavbar
-  const sectionRefs = {
-    aboutRef: aboutRef,
-    experienceRef: experienceRef,
-    heroRef: heroRef
-  };
-
-  // Update active section when location changes
-  useEffect(() => {
-    const hash = location.hash.replace('#', '');
-    if (hash && (hash === 'about' || hash === 'experience')) {
-      setActiveSection(hash);
-      const element = document.getElementById(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      setActiveSection(initialSection);
-    }
-  }, [location, initialSection]);
-
-  // Handle navigation within the page
-  const handleNavigate = (section) => {
-    setActiveSection(section);
-    window.history.pushState({}, '', `#${section}`);
-    const element = document.getElementById(section);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    setIsMounted(true);
-    
-    // Initial scroll to section if there's a hash
-    if (window.location.hash) {
-      const section = window.location.hash.replace('#', '');
-      if (section === 'about' || section === 'experience') {
-        setActiveSection(section);
-        const element = document.getElementById(section);
-        if (element) {
-          element.scrollIntoView();
-        }
-      }
-    }
-  }, []);
-
-  if (!isMounted) return null;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-      <ModernNavbar activeSection={activeSection} sectionRefs={{ aboutRef, experienceRef, heroRef }} />
-      <main className="pt-16">
+      <main>
         <HeroSection ref={heroRef} />
         <AboutSection ref={aboutRef} />
         <ExperienceSection ref={experienceRef} />

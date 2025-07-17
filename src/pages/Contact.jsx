@@ -35,6 +35,60 @@ const Contact = () => {
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    handleFiles(files);
+  };
+
+  const handleFiles = (files) => {
+    const validFiles = files.filter(file => {
+      const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'];
+      const isValidType = validTypes.some(type => file.type === type);
+      const isValidSize = file.size <= 10 * 1024 * 1024; // 10MB
+      
+      if (!isValidType) {
+        alert(`File type not supported: ${file.name}`);
+        return false;
+      }
+      
+      if (!isValidSize) {
+        alert(`File too large (max 10MB): ${file.name}`);
+        return false;
+      }
+      
+      return true;
+    });
+    
+    setSelectedFiles(prev => [...prev, ...validFiles]);
+  };
+
+  const handleRemoveFile = (index) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
 
   // Handle scroll for header effects only
   useEffect(() => {
@@ -172,27 +226,126 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden">
-
+    <div id="main-content" className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200 relative overflow-x-hidden" tabIndex="-1">
       {/* Hero Section */}
-      <section className="relative pt-16 pb-12 md:pt-24 md:pb-16 lg:pt-32 lg:pb-24 overflow-hidden px-4 md:px-6" id="content-start">
-        {/* Animated Background - Consistent with other pages */}
+      <section className="relative py-16 md:py-24 lg:py-32 overflow-hidden px-4 md:px-6 min-h-screen flex items-center">
+        {/* Animated Background */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
-            <div 
-              className="absolute inset-0 opacity-20 dark:opacity-5"
+            <motion.div 
+              className="absolute inset-0 opacity-30 dark:opacity-10"
               style={{
                 backgroundImage: `
                   linear-gradient(to right, #6366f1 1px, transparent 1px),
                   linear-gradient(to bottom, #6366f1 1px, transparent 1px)
                 `,
-                backgroundSize: '30px 30px',
+                backgroundSize: '40px 40px',
+                maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+              }}
+              animate={{
+                backgroundPosition: ['0% 0%', '100% 100%'],
+              }}
+              transition={{
+                duration: 30,
+                repeat: Infinity,
+                ease: 'linear',
               }}
             />
-            {/* Animated blobs */}
-            <div className="absolute top-1/4 -left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
-            <div className="absolute top-1/2 -right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
-            <div className="absolute bottom-1/4 left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-60 md:h-60 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"></div>
+            
+            {/* Animated gradient overlay */}
+            <motion.div 
+              className="absolute inset-0 opacity-10"
+              style={{
+                background: 'linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899, #f43f5e, #f59e0b)',
+                backgroundSize: '300% 300%',
+              }}
+              animate={{
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+            
+            {/* Floating elements with staggered animation */}
+            <motion.div 
+              className="absolute top-1/4 -left-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, -30, 0],
+                x: [0, 20, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/2 -right-10 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, 30, 0],
+                x: [0, -20, 0],
+                scale: [1, 1.1, 1],
+              }}
+              transition={{
+                duration: 20,
+                delay: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+
+            {/* Unsplash Images Grid Background */}
+            <div className="absolute inset-0 overflow-hidden opacity-15 dark:opacity-[0.03] pointer-events-none">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1 md:gap-3 h-full w-full p-2 sm:p-4">
+                {[
+                  'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Office meeting
+                  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Handshake
+                  'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Team discussion
+                  'https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Business meeting
+                  'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Video call
+                  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', // Team collaboration
+                ].map((src, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative h-40 sm:h-48 md:h-56 w-full overflow-hidden rounded-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ 
+                      delay: index * 0.1, 
+                      duration: 0.5,
+                      ease: [0.25, 0.1, 0.25, 1.0]
+                    }}
+                  >
+                    <img
+                      src={src}
+                      alt=""
+                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700 ease-out"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            <motion.div 
+              className="absolute bottom-1/4 left-1/4 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10"
+              animate={{
+                y: [0, -20, 0],
+                x: [0, 15, 0],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 25,
+                delay: 1,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
           </div>
         </div>
 
@@ -297,225 +450,499 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-8 sm:py-12 bg-white dark:bg-gray-900">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
+            <motion.div 
+              className="absolute inset-0 opacity-30 dark:opacity-10"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #6366f1 1px, transparent 1px),
+                  linear-gradient(to bottom, #6366f1 1px, transparent 1px)
+                `,
+                backgroundSize: '40px 40px',
+                maskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+                WebkitMaskImage: 'radial-gradient(ellipse at center, black 20%, transparent 70%)',
+              }}
+              animate={{
+                backgroundPosition: ['0% 0%', '100% 100%'],
+              }}
+              transition={{
+                duration: 30,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
               {/* Contact Form */}
               <motion.div
-                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-xl border border-gray-100 dark:border-gray-700/50"
+                className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl border border-gray-100/50 dark:border-gray-700/30 hover:shadow-xl transition-all duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
                 viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
               >
-                <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                  Send Me a Message
+                <div className="inline-flex items-center px-4 py-1.5 mb-6 text-xs sm:text-sm font-medium text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 rounded-full">
+                  <FaPaperPlane className="mr-1.5" />
+                  <span>Contact Form</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900 dark:text-white">
+                  Send Me a <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 dark:from-indigo-400 dark:to-blue-400">Message</span>
                 </h2>
 
                 {submitSuccess ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-                      <FaCheck className="w-8 h-8 text-green-600 dark:text-green-400" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                      Message Sent!
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-6">
-                      Thank you for reaching out. I'll get back to you soon.
-                    </p>
-                    <button
-                      onClick={() => setSubmitSuccess(false)}
-                      className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-200 flex items-center mx-auto"
+                  <motion.div 
+                    className="text-center py-12"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                  >
+                    <motion.div 
+                      className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ 
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 20,
+                        delay: 0.2
+                      }}
                     >
+                      <FaCheck className="w-10 h-10 text-green-600 dark:text-green-400" />
+                    </motion.div>
+                    <motion.h3 
+                      className="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      Message Sent!
+                    </motion.h3>
+                    <motion.p 
+                      className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto"
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      Thank you for reaching out. I've received your message and will get back to you as soon as possible.
+                    </motion.p>
+                    <motion.button
+                      onClick={() => setSubmitSuccess(false)}
+                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white font-medium rounded-full transition-all duration-300 flex items-center mx-auto shadow-lg hover:shadow-xl hover:scale-105 transform"
+                      initial={{ y: 10, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <FaPaperPlane className="mr-2" />
                       Send Another Message
-                    </button>
-                  </div>
+                    </motion.button>
+                  </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                      <div>
+                    <motion.div 
+                      className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
+                      variants={{
+                        hidden: { opacity: 0 },
+                        show: {
+                          opacity: 1,
+                          transition: {
+                            staggerChildren: 0.1,
+                            delayChildren: 0.3,
+                          },
+                        },
+                      }}
+                      initial="hidden"
+                      animate="show"
+                    >
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, y: 10 },
+                          show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+                        }}
+                      >
                         <label
                           htmlFor="name"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                         >
-                          Name
+                          Full Name
                         </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
-                          placeholder="Your name"
-                        />
-                        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-                      </div>
-                      <div>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className={`w-full px-4 pl-12 py-3 rounded-xl border-2 ${errors.name ? 'border-red-500' : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 focus:border-indigo-500'} bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 backdrop-blur-sm`}
+                            placeholder="John Doe"
+                          />
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                        {errors.name && (
+                          <p className="mt-1.5 text-sm text-red-500 flex items-center">
+                            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {errors.name}
+                          </p>
+                        )}
+                      </motion.div>
+                      
+                      <motion.div
+                        variants={{
+                          hidden: { opacity: 0, y: 10 },
+                          show: { 
+                            opacity: 1, 
+                            y: 0, 
+                            transition: { 
+                              duration: 0.4,
+                              delay: 0.1
+                            } 
+                          },
+                        }}
+                      >
                         <label
                           htmlFor="email"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                         >
-                          Email
+                          Email Address
                         </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
-                          placeholder="sahilkhan36985@gmail.com"
-                        />
+                        <div className="relative">
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            className={`w-full px-4 pl-12 py-3 rounded-xl border-2 ${errors.email ? 'border-red-500' : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 focus:border-indigo-500'} bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 backdrop-blur-sm`}
+                            placeholder="sahil@example.com"
+                          />
+                          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                        </div>
                         {errors.email && (
-                          <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                          <p className="mt-1.5 text-sm text-red-500 flex items-center">
+                            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            {errors.email}
+                          </p>
                         )}
-                      </div>
-                    </div>
+                      </motion.div>
+                    </motion.div>
 
-                    <div>
+                    <motion.div
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          transition: { 
+                            duration: 0.4,
+                            delay: 0.2
+                          } 
+                        }
+                      }}
+                      initial="hidden"
+                      animate="show"
+                    >
                       <label
                         htmlFor="phone"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                       >
-                        Phone (Optional)
+                        Phone Number (Optional)
                       </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                        placeholder="+1 (555) 123-4567"
-                      />
-                    </div>
+                      <div className="relative">
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          className="w-full px-4 pl-12 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-400 focus:border-indigo-500 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200 backdrop-blur-sm"
+                          placeholder="+1 (555) 123-4567"
+                        />
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.div>
 
-                    <div>
+                    <motion.div
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          transition: { 
+                            duration: 0.4,
+                            delay: 0.3
+                          } 
+                        },
+                      }}
+                    >
                       <label
                         htmlFor="service"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                       >
-                        Service (Optional)
+                        How can I help you? (Optional)
                       </label>
-                      <select
-                        id="service"
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                      >
-                        <option value="">Select a service</option>
-                        {services.map((service) => (
-                          <option key={service.id} value={service.title}>
-                            {service.title}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                      <div className="relative">
+                        <select
+                          id="service"
+                          name="service"
+                          value={formData.service}
+                          onChange={handleChange}
+                          className="appearance-none w-full px-4 pl-12 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-400 focus:border-indigo-500 bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200 backdrop-blur-sm cursor-pointer"
+                        >
+                          <option value="">Select a service</option>
+                          {services.map((service) => (
+                            <option key={service.id} value={service.title}>
+                              {service.title}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M12 18h.01" />
+                          </svg>
+                        </div>
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </motion.div>
 
-                    <div>
+                    <motion.div
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          transition: { 
+                            duration: 0.4,
+                            delay: 0.4
+                          } 
+                        },
+                      }}
+                    >
                       <label
                         htmlFor="message"
-                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
                       >
-                        Message
+                        Your Message
                       </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows="4"
-                        value={formData.message}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
-                        placeholder="How can I help you?"
-                      ></textarea>
+                      <div className="relative">
+                        <textarea
+                          id="message"
+                          name="message"
+                          rows={4}
+                          value={formData.message}
+                          onChange={handleChange}
+                          className={`w-full px-4 pl-12 py-3 rounded-xl border-2 ${errors.message ? 'border-red-500' : 'border-gray-200 dark:border-gray-700 hover:border-indigo-400 focus:border-indigo-500'} bg-white/50 dark:bg-gray-700/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-200 backdrop-blur-sm`}
+                          placeholder="Tell me about your project..."
+                        />
+                        <div className="absolute top-3 left-3">
+                          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                          </svg>
+                        </div>
+                      </div>
                       {errors.message && (
-                        <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                        <p className="mt-1.5 text-sm text-red-500 flex items-center">
+                          <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                          {errors.message}
+                        </p>
                       )}
-                    </div>
+                    </motion.div>
 
-                    <div>
+                    <motion.div
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          transition: { 
+                            duration: 0.4,
+                            delay: 0.5
+                          } 
+                        },
+                      }}
+                    >
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        <span>Attachment (Optional)</span>
-                        <div className="mt-1 flex justify-center px-4 sm:px-6 pt-4 pb-5 sm:pt-5 sm:pb-6 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg">
-                          <div className="space-y-1 text-center">
-                            <FaFileUpload className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
-                            <div className="flex flex-col sm:flex-row items-center text-sm text-gray-600 dark:text-gray-400">
+                        Attachments (Optional)
+                      </label>
+                      <div 
+                        className={`mt-1 relative border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200 ${isDragging ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20' : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'}`}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => document.getElementById('file-upload')?.click()}
+                      >
+                        <div className="space-y-3">
+                          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50">
+                            <svg
+                              className="h-6 w-6 text-indigo-600 dark:text-indigo-400"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex flex-col items-center text-sm text-gray-600 dark:text-gray-400">
+                            <div className="flex">
                               <label
                                 htmlFor="file-upload"
-                                className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 focus-within:outline-none"
+                                className="relative cursor-pointer rounded-md font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 focus-within:outline-none"
                               >
-                                <span>Upload a file</span>
+                                <span className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+                                  Click to upload
+                                </span>
                                 <input
                                   id="file-upload"
                                   name="file-upload"
                                   type="file"
                                   className="sr-only"
-                                  ref={fileInputRef}
-                                  onChange={(e) => {
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      file: e.target.files[0],
-                                    }));
-                                  }}
+                                  onChange={handleFileChange}
+                                  multiple
                                 />
                               </label>
-                              <span className="hidden sm:inline px-1">or</span>
-                              <p className="text-center sm:text-left">drag and drop</p>
+                              <p className="pl-1">or drag and drop</p>
                             </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                              PDF, DOC, XLS up to 10MB
+                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              PDF, DOC, JPG, PNG up to 10MB
                             </p>
                           </div>
                         </div>
-                        {formData.file && (
-                          <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 truncate">
-                            Selected: {formData.file.name}
+                      </div>
+                      
+                      {selectedFiles.length > 0 && (
+                        <motion.div 
+                          className="mt-3 space-y-2"
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ 
+                            opacity: 1, 
+                            height: 'auto',
+                            transition: { duration: 0.3 }
+                          }}
+                        >
+                          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                            Selected files:
                           </p>
-                        )}
-                      </label>
-                    </div>
+                          <ul className="space-y-1.5">
+                            {selectedFiles.map((file, index) => (
+                              <motion.li
+                                key={index}
+                                className="flex items-center justify-between text-sm px-3 py-2 bg-gray-50 dark:bg-gray-800/50 rounded-lg"
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ 
+                                  opacity: 1, 
+                                  x: 0,
+                                  transition: { 
+                                    delay: 0.1 * index,
+                                    duration: 0.2 
+                                  } 
+                                }}
+                              >
+                                <div className="flex items-center min-w-0">
+                                  <svg className="flex-shrink-0 h-4 w-4 text-gray-500 dark:text-gray-400 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                  </svg>
+                                  <span className="truncate flex-1">{file.name}</span>
+                                  <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                                    {(file.size / 1024).toFixed(1)} KB
+                                  </span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleRemoveFile(index);
+                                  }}
+                                  className="ml-3 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors"
+                                  aria-label="Remove file"
+                                >
+                                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </motion.div>
+                      )}
+                    </motion.div>
 
-                    <div className="pt-2">
-                      <button
+                    <motion.div 
+                      className="pt-2"
+                      variants={{
+                        hidden: { opacity: 0, y: 10 },
+                        show: { 
+                          opacity: 1, 
+                          y: 0, 
+                          transition: { 
+                            duration: 0.4,
+                            delay: 0.6
+                          } 
+                        },
+                      }}
+                    >
+                      <motion.button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full flex justify-center items-center px-4 sm:px-6 py-2 sm:py-3 border border-transparent rounded-lg shadow-sm text-sm sm:text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className={`w-full flex justify-center items-center px-8 py-4 rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 bg-size-200 hover:bg-right-bottom focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-500 ${isSubmitting ? 'opacity-80 cursor-not-allowed' : 'hover:shadow-xl hover:-translate-y-0.5'}`}
+                        whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                        whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                       >
                         {isSubmitting ? (
                           <>
-                            <svg
-                              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              ></circle>
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              ></path>
-                            </svg>
-                            Sending...
+                            <motion.div
+                              animate={{ rotate: 360 }}
+                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                              className="h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-3"
+                            />
+                            Sending Message...
                           </>
                         ) : (
                           <>
-                            <FaPaperPlane className="mr-2 -ml-1 h-5 w-5" />
-                            Send Message
+                            <svg className="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white bg-200% animate-shimmer">
+                              Send Message
+                            </span>
                           </>
                         )}
-                      </button>
-                    </div>
+                      </motion.button>
+                    </motion.div>
+
+
                   </form>
                 )}
               </motion.div>

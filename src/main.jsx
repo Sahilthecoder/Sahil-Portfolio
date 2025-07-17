@@ -3,8 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import App from './App';
-// Import Tailwind CSS
+// Import CSS files
 import './index.css';  // Main CSS file with Tailwind imports
+import './styles/animations.css'; // Global animations and transitions
 
 // Create emotion cache with specific settings to avoid initialization issues
 const emotionCache = createCache({

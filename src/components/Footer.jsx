@@ -801,16 +801,16 @@ const Footer = () => {
                 initial={{ y: 0 }}
                 animate={{
                   y: [-2, 2],
+                  transition: {
+                    y: {
+                      duration: 1.5,
+                      repeat: Infinity,
+                      repeatType: 'reverse',
+                      ease: 'easeInOut',
+                    }
+                  }
                 }}
-                transition={{
-                  y: {
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatType: 'reverse',
-                    ease: 'easeInOut',
-                  },
-                  opacity: { duration: 0.2 }
-                }}
+                transition={{ duration: 0.2 }}
                 aria-hidden="true"
               >
                 <FaArrowUp className="h-5 w-5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} />

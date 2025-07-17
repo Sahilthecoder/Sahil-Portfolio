@@ -51,7 +51,9 @@ jobs:
           npm install --legacy-peer-deps
           
       - name: Build
-        run: npm run build
+        run: |
+          echo "Building the application..."
+          npm run build
         env:
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
@@ -59,7 +61,8 @@ jobs:
           VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
           VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
           
-          # Verify installation
+      - name: Verify Installation
+        run: |
           echo "Verifying installation..."
           npm list --depth=0
           

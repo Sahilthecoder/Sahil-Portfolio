@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp, FaCode, FaSpinner, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 
 // Floating animation for particles
@@ -41,33 +41,34 @@ const Footer = () => {
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
-  // Show/hide back-to-top button and update scroll state
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      const isScrollingUp = prevScrollPos > currentScrollPos;
-      
-      // Update scroll state for shadow effect
-      setScrolled(currentScrollPos > 10);
-      
-      // Skip animation-heavy operations if reduced motion is preferred
-      if (reducedMotion) {
-        setIsVisible(currentScrollPos > 300);
-        return;
-      }
-      
-      setPrevScrollPos(currentScrollPos);
-      
-      if (currentScrollPos > 300) {
-        setIsVisible(true);
-      } else if (isScrollingUp && currentScrollPos < 300) {
-        setIsVisible(false);
-      }
-    };
+  // Memoize scroll handler with useCallback
+  const handleScroll = useCallback(() => {
+    const currentScrollPos = window.pageYOffset;
+    const isScrollingUp = prevScrollPos > currentScrollPos;
+    
+    // Update scroll state for shadow effect
+    setScrolled(currentScrollPos > 10);
+    
+    // Skip animation-heavy operations if reduced motion is preferred
+    if (reducedMotion) {
+      setIsVisible(currentScrollPos > 300);
+      return;
+    }
+    
+    setPrevScrollPos(currentScrollPos);
+    
+    if (currentScrollPos > 300) {
+      setIsVisible(true);
+    } else if (isScrollingUp && currentScrollPos < 300) {
+      setIsVisible(false);
+    }
+  }, [prevScrollPos, reducedMotion]);
 
+  // Add scroll event listener
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollPos, reducedMotion]);
+  }, [handleScroll]);
 
   // Copy email to clipboard
   const copyEmail = async () => {
@@ -80,32 +81,56 @@ const Footer = () => {
     }
   };
 
-  // Smooth scroll to top with loading state
-  const scrollToTop = async () => {
+  // Memoize scrollToTop function
+  const scrollToTop = useCallback(async () => {
     if (isScrolling) return;
     
     setIsScrolling(true);
     
     try {
+      // Focus management for better accessibility
+      const mainContent = document.querySelector('main') || document.querySelector('body');
+      if (mainContent) {
+        mainContent.setAttribute('tabindex', '-1');
+        mainContent.focus();
+      }
+
       await new Promise(resolve => {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
         
-        // Small delay to ensure smooth animation completes
-        setTimeout(resolve, 1000);
+        // Adjust delay based on scroll position for better UX
+        const scrollDuration = Math.min(1000, window.pageYOffset * 0.5);
+        setTimeout(() => {
+          if (mainContent) {
+            mainContent.removeAttribute('tabindex');
+          }
+          resolve();
+        }, scrollDuration);
       });
+    } catch (error) {
+      console.error('Error during scroll:', error);
     } finally {
       setIsScrolling(false);
     }
-  };
+  }, [isScrolling]);
   
-  // Brand animation variants
-  const brandVariants = {
-    hover: { scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 10 } },
-    tap: { scale: 0.98 }
-  };
+  // Memoize brand animation variants
+  const brandVariants = useMemo(() => ({
+    hover: { 
+      scale: 1.02, 
+      transition: { 
+        type: 'spring', 
+        stiffness: 400, 
+        damping: 10 
+      } 
+    },
+    tap: { 
+      scale: 0.98 
+    }
+  }), []);
 
   // Newsletter signup state
   const [email, setEmail] = useState('');
@@ -338,17 +363,18 @@ const Footer = () => {
         style={{ y: -parallaxOffset * 0.3 }}
       />
       
-      {/* Subtle floating particles */}
+      {/* Optimized floating particles */}
       {[...Array(15)].map((_, i) => {
         const size = Math.random() * 4 + 1;
         const duration = Math.random() * 10 + 10;
         const delay = Math.random() * 5;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
+        const offsetX = Math.random() * 20 - 10;
         
         return (
           <motion.div
-            key={i}
+            key={`particle-${i}`}
             className="absolute rounded-full bg-blue-300 dark:bg-blue-900/30"
             style={{
               width: `${size}px`,
@@ -357,9 +383,10 @@ const Footer = () => {
               top: `${posY}%`,
               opacity: Math.random() * 0.4 + 0.1,
             }}
+            initial={{ x: 0, y: 0 }}
             animate={{
-              y: [0, -20, 0],
-              x: [0, Math.random() * 20 - 10, 0]
+              x: [0, offsetX, 0],
+              y: [0, -20, 0]
             }}
             transition={{
               duration: duration,
@@ -373,33 +400,44 @@ const Footer = () => {
       })}
     </div>
       
-      {/* Floating particles - conditionally rendered based on motion preference */}
-      {!reducedMotion && (
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {[...Array(window.innerWidth < 768 ? 12 : 20)].map((_, i) => {
+      {/* Enhanced floating particles with reduced motion support */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        {!reducedMotion && 
+          [...Array(window.innerWidth < 768 ? 12 : 20)].map((_, i) => {
             const size = Math.random() * (window.innerWidth < 768 ? 4 : 6) + 2;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 5;
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            const offsetY = Math.random() * 30 + 10;
+            
             return (
               <motion.div 
-                key={i}
+                key={`floating-${i}`}
                 className="absolute rounded-full bg-blue-300 dark:bg-blue-900/30"
                 style={{
                   width: `${size}px`,
                   height: `${size}px`,
-                  top: `${Math.random() * 100}%`,
-                  left: `${Math.random() * 100}%`,
-                  animation: `float ${Math.random() * 15 + 10}s linear infinite`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  opacity: Math.random() * 0.4 + 0.1
+                  left: `${posX}%`,
+                  top: `${posY}%`,
+                  opacity: Math.random() * 0.4 + 0.1,
                 }}
-                custom={i}
-                initial="hidden"
-                animate="visible"
-                variants={floatingAnimation}
+                initial={{ y: 0 }}
+                animate={{
+                  y: [-offsetY, offsetY, -offsetY],
+                }}
+                transition={{
+                  duration: duration,
+                  delay: delay,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }}
               />
             );
-          })}
-        </div>
-      )}
+          })
+        }
+      </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
@@ -597,7 +635,7 @@ const Footer = () => {
                     whileTap={isSubmitting ? {} : { scale: 0.98 }}
                     aria-busy={isSubmitting}
                     aria-live="polite"
-                  >
+                    
                     {isSubmitting ? (
                       <>
                         <FaSpinner className="animate-spin h-4 w-4" />
@@ -697,63 +735,90 @@ const Footer = () => {
         {isVisible && (
           <motion.button
             onClick={scrollToTop}
-            className="fixed bottom-6 right-6 w-14 h-14 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:ring-offset-gray-900 z-50 touch-manipulation hover:shadow-2xl transition-all duration-300 will-change-transform group"
+            className={`fixed bottom-6 right-6 w-14 h-14 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-xl text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:ring-offset-gray-900 z-50 touch-manipulation hover:shadow-2xl transition-all duration-300 will-change-transform group ${
+              isScrolling ? 'cursor-wait' : 'cursor-pointer'
+            }`}
             aria-label="Back to top"
-            data-tooltip-content="Back to top"
-            data-tooltip-id="back-to-top-tooltip"
+            aria-busy={isScrolling}
+            disabled={isScrolling}
             style={{
               '--tw-ring-offset-shadow': 'var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width, 0px) var(--tw-ring-offset-color, #fff)',
-              '--tw-ring-shadow': 'var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width, 0px)) var(--tw-ring-color, rgb(59 130 246 / 0.5))',
+              '--tw-ring-shadow': 'var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width, 0px)) var(--tw-ring-color, rgb(59 130 246 / 0.5))'
             }}
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ 
-              opacity: 1, 
-              y: 0, 
-              scale: 1,
-              transition: { 
-                type: 'spring',
-                stiffness: 500,
-                damping: 25
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={{
+              hidden: { 
+                opacity: 0, 
+                y: 20, 
+                scale: 0.9,
+                transition: { duration: 0.2 }
+              },
+              visible: { 
+                opacity: 1, 
+                y: 0, 
+                scale: 1,
+                transition: { 
+                  type: 'spring',
+                  stiffness: 500,
+                  damping: 25
+                }
+              },
+              exit: { 
+                opacity: 0, 
+                y: 20, 
+                scale: 0.9,
+                transition: { duration: 0.2 }
               }
             }}
-            exit={{ 
-              opacity: 0, 
-              y: 20, 
-              scale: 0.9,
-              transition: { duration: 0.2 }
-            }}
-            whileHover={!reducedMotion ? { 
+            whileHover={!reducedMotion && !isScrolling ? { 
               scale: 1.1,
               backgroundColor: 'rgba(59, 130, 246, 0.1)'
             } : {}}
-            whileTap={!reducedMotion ? { 
+            whileTap={!reducedMotion && !isScrolling ? { 
               scale: 0.95,
               backgroundColor: 'rgba(59, 130, 246, 0.2)'
             } : {}}
-            aria-label="Back to top"
           >
             {isScrolling ? (
               <motion.div
+                key="spinner"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                transition={{ 
+                  duration: 1, 
+                  repeat: Infinity, 
+                  ease: 'linear'
+                }}
+                aria-hidden="true"
               >
                 <FaSpinner className="h-5 w-5" />
               </motion.div>
             ) : (
               <motion.div
-                animate={{ y: [0, -2, 0] }}
-                transition={{ 
-                  duration: 1.5, 
-                  repeat: Infinity, 
-                  ease: 'easeInOut'
+                key="arrow"
+                className="flex items-center justify-center"
+                initial={{ y: 0 }}
+                animate={{
+                  y: [-2, 2],
                 }}
+                transition={{
+                  y: {
+                    duration: 1.5,
+                    repeat: Infinity,
+                    repeatType: 'reverse',
+                    ease: 'easeInOut',
+                  },
+                  opacity: { duration: 0.2 }
+                }}
+                aria-hidden="true"
               >
                 <FaArrowUp className="h-5 w-5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }} />
               </motion.div>
             )}
           </motion.button>
         )}
-        </AnimatePresence>
+      </AnimatePresence>
       </div>
       
       {/* Performance optimization */}

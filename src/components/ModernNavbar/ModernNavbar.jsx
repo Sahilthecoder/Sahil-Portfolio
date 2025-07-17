@@ -624,7 +624,7 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                     <nav className="flex-1 overflow-y-auto py-4 -mx-4 px-4">
                       <ul className="space-y-2">
                         {NAV_ITEMS.map((item) => {
-                          const isActive = isActive(item);
+                          const isItemActive = isActive(item);
                           return (
                             <li key={item.name}>
                               <button
@@ -672,13 +672,13 @@ const ModernNavbar = ({ activeSection, onNavigate, sectionRefs = {} }) => {
                                   }
                                 }}
                                 className={`w-full px-4 py-3 rounded-lg flex items-center space-x-3 text-left transition-colors ${
-                                  isActive 
+                                  isItemActive 
                                     ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                                 }`}
-                                aria-current={isActive ? 'page' : undefined}
+                                aria-current={isItemActive ? 'page' : undefined}
                               >
-                                <span className={`flex-shrink-0 ${isActive ? 'text-blue-500' : 'text-gray-400'}`}>
+                                <span className={`flex-shrink-0 ${isItemActive ? 'text-blue-500' : 'text-gray-400'}`}>
                                   {item.icon}
                                 </span>
                                 <span className="font-medium">{item.name}</span>

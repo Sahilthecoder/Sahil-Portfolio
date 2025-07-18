@@ -221,8 +221,17 @@ const Contact = () => {
     }
   };
 
-  const scrollToForm = () => {
-    document.getElementById('contact-form').scrollIntoView({ behavior: 'smooth' });
+  const scrollToForm = (e) => {
+    if (e) e.preventDefault();
+    const formSection = document.getElementById('contact-form');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth' });
+      // Add focus to the form for better accessibility
+      const firstInput = formSection.querySelector('input, textarea, button');
+      if (firstInput) {
+        setTimeout(() => firstInput.focus({ preventScroll: true }), 500);
+      }
+    }
   };
 
   return (
@@ -362,7 +371,7 @@ const Contact = () => {
             </motion.div>
 
             <motion.h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
@@ -371,7 +380,7 @@ const Contact = () => {
             </motion.h1>
 
             <motion.p
-              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-2 sm:px-0"
+              className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto px-4 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
@@ -387,25 +396,19 @@ const Contact = () => {
             >
               <a
                 href="mailto:sahilkhan36985@gmail.com"
-                className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-lg hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2"
               >
                 <FaEnvelope className="w-4 h-4" />
                 Email for Opportunities
               </a>
-              <a
-                href="#contact-form"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const contactForm = document.getElementById('contact-form');
-                  if (contactForm) {
-                    contactForm.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
-                className="w-full sm:w-auto px-6 py-3 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 text-sm sm:text-base font-medium rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700/50 transition-all duration-300 flex items-center justify-center gap-2"
+              <button
+                onClick={scrollToForm}
+                className="w-full sm:w-auto px-4 sm:px-6 py-2.5 sm:py-3 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-lg hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <FaPaperPlane className="w-4 h-4" />
                 Send a Message
-              </a>
+              </button>
             </motion.div>
 
             <motion.div 
@@ -450,7 +453,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
+      <section id="contact-form" className="py-12 sm:py-16 lg:py-20 bg-white dark:bg-gray-900 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
             <motion.div 
@@ -792,8 +795,16 @@ const Contact = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Attachments (Optional)
                       </label>
+                      <input
+                        type="file"
+                        id="file-upload"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        multiple
+                      />
                       <div 
-                        className={`mt-1 relative border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200 ${isDragging ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20' : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'}`}
+                        className={`mt-1 relative border-2 border-dashed rounded-xl p-6 text-center transition-all duration-200 cursor-pointer ${isDragging ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-900/20' : 'border-gray-300 dark:border-gray-600 hover:border-indigo-400'}`}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}

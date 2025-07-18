@@ -1052,9 +1052,9 @@ const AboutExperience = ({ initialSection = 'about' }) => {
             </motion.div>
           </motion.div>
 
-          {/* Hero Image/Illustration */}
+          {/* Hero Image/Illustration - Hidden on mobile, visible on lg screens and up */}
           <motion.div 
-            className="lg:w-1/2 relative"
+            className="hidden lg:block lg:w-1/2 relative"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}

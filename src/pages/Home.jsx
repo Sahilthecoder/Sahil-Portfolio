@@ -402,7 +402,7 @@ const Home = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="View my resume"
-                  className="group relative px-6 py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden"
+                  className="group relative px-4 sm:px-6 py-3 sm:py-3.5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm sm:text-base font-medium rounded-xl hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden"
                   whileHover={{ 
                     scale: 1.03,
                     boxShadow: '0 10px 25px -5px rgba(99, 102, 241, 0.4)'
@@ -444,7 +444,7 @@ const Home = () => {
                   <Link
                     to="/contact"
                     aria-label="Contact me"
-                    className="group relative px-6 py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-xl hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden"
+                    className="group relative px-4 sm:px-6 py-3 sm:py-3.5 bg-white dark:bg-gray-800 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-300 font-medium rounded-xl hover:bg-indigo-50/30 dark:hover:bg-indigo-900/20 transition-all duration-300 flex items-center justify-center gap-2 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 overflow-hidden text-sm sm:text-base"
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       <span>Contact Me</span>
@@ -464,15 +464,15 @@ const Home = () => {
               </motion.div>
             </motion.div>
 
-            {/* Profile Image */}
+            {/* Profile Image - Hidden on mobile, visible on lg screens and up */}
             <motion.div 
-              className="w-full lg:w-1/2 mt-12 lg:mt-0"
+              className="block w-full sm:w-3/4 md:w-1/2 lg:w-1/2 mx-auto mt-12 lg:mt-0"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
               <motion.div 
-                className="relative mx-auto w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+                className="relative mx-auto w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 300 }}
               >
@@ -514,6 +514,7 @@ const Home = () => {
                       e.target.onerror = null;
                       e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                     }}
+                    loading="eager"
                   />
                   
                   {/* Glow effect */}

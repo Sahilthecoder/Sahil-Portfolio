@@ -764,11 +764,11 @@ const Projects = () => {
           </div>
         </div>
 
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+        <div className="container mx-auto px-4 sm:px-6 relative z-10 py-8 sm:py-12">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12">
             {/* Hero Content */}
             <motion.div 
-              className="lg:w-1/2 text-center lg:text-left"
+              className="w-full lg:w-1/2 text-center lg:text-left px-2 sm:px-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -784,7 +784,7 @@ const Projects = () => {
               </motion.div>
 
               <motion.h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 leading-tight px-2 sm:px-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
@@ -793,7 +793,7 @@ const Projects = () => {
               </motion.h1>
 
               <motion.p
-                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl"
+                className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl px-4 sm:px-0"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
@@ -833,9 +833,9 @@ const Projects = () => {
               </motion.div>
             </motion.div>
 
-            {/* Hero Image/Illustration */}
+            {/* Hero Image/Illustration - Hidden on mobile, visible on lg screens and up */}
             <motion.div 
-              className="lg:w-1/2 relative"
+              className="hidden lg:block lg:w-1/2 relative"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}

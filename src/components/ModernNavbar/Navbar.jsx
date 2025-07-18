@@ -217,7 +217,7 @@ const Navbar = () => {
                 aria-label="Home"
               >
                 <img
-                  src="/images/logo/logo192.png"
+                  src="/Sahil-Portfolio/images/logo/logo192.png"
                   alt="Sahil's Logo"
                   className="w-8 h-8"
                   width="32"
@@ -334,7 +334,7 @@ const Navbar = () => {
               <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-center space-x-2">
                   <img
-                    src="/images/logo/logo192.png"
+                    src="/Sahil-Portfolio/images/logo/logo192.png"
                     alt="Sahil's Logo"
                     className="w-10 h-10"
                     width="40"

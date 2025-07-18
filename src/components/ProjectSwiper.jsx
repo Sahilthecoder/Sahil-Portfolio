@@ -269,7 +269,7 @@ const ProjectSwiper = ({ projects, className = '', breakpoints }) => {
         <div className="swiper-pagination !relative mt-8 !bottom-0" />
       </Swiper>
       
-      <style jsx global>{`
+      <style jsx="true" global="true">{`
         .swiper {
           width: 100%;
           padding: 1.5rem 0 3rem;
@@ -331,7 +331,7 @@ const ProjectSwiper = ({ projects, className = '', breakpoints }) => {
         }
       `}</style>
       
-      <style jsx global>{`
+      <style jsx="true" global="true">{`
         .swiper-pagination-bullet {
           width: 10px;
           height: 10px;

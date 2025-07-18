@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth" dir="ltr" itemscope itemtype="https://schema.org/WebPage" xml:lang="en">
+<html lang="en" class="scroll-smooth" dir="ltr" itemscope itemtype="https://schema.org/WebPage" xml:lang="en" data-theme="light">
   <head>
     <!-- Primary Meta Tags -->
     <meta charset="UTF-8" />
@@ -85,10 +85,11 @@
     </noscript>
     
     <!-- Base URL Configuration -->
+    <script type="module" src="/src/entry.jsx"></script>
     <script type="module">
       // Set base URL based on environment
       const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      let basePath = '/';
+      window.basePath = isDev ? '/' : '/Sahil-Portfolio/';
       
       // Only set the base path for production
       if (!isDev) {
@@ -249,13 +250,35 @@
       </div>
     </div>
 
-    <!-- Main Application Script -->
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: dark)">
+    
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Main Application Script -->
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Theme Initialization -->
+    <script>
+      // Check for saved theme preference or use system preference
+      const savedTheme = localStorage.getItem('theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
     
     <!-- Service Worker Registration -->
     <script type="module">

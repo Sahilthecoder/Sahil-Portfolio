@@ -1,0 +1,23 @@
+/* Custom media queries for responsive design */
+@custom-media --xs (min-width: 360px);
+@custom-media --sm (min-width: 640px);
+@custom-media --md (min-width: 768px);
+@custom-media --lg (min-width: 1024px);
+@custom-media --xl (min-width: 1280px);
+@custom-media --2xl (min-width: 1536px);
+@custom-media --3xl (min-width: 1920px);
+
+/* Reduced motion preference */
+@custom-media --motion-ok (prefers-reduced-motion: no-preference);
+@custom-media --motion-not-ok (prefers-reduced-motion: reduce);
+
+/* Color scheme preferences */
+@custom-media --dark (prefers-color-scheme: dark);
+@custom-media --light (prefers-color-scheme: light);
+
+/* Hover support */
+@custom-media --hover (hover: hover) and (pointer: fine);
+@custom-media --no-hover (hover: none) and (pointer: coarse);
+
+/* Print media type */
+@custom-media --print (print), (prefers-reduced-motion: reduce);

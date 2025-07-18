@@ -1,8 +1,0 @@
-# Single page app routing
-/*    /index.html   200
-
-# Handle all routes for GitHub Pages with base path
-/Sahil-Portfolio/*    /Sahil-Portfolio/index.html    200
-
-# Handle direct access to project pages
-/projects/*           /Sahil-Portfolio/index.html    200

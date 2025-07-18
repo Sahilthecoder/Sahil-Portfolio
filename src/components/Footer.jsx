@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaGithub, FaLinkedin, FaEnvelope, FaArrowUp,FaTwitter,FaYoutube, FaCode, FaSpinner, FaWhatsapp } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Floating animation for particles
 const floatingAnimation = {
@@ -25,7 +25,8 @@ const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const { theme } = useTheme();
+  // Use theme from context with a default value
+  const { theme = 'light' } = useTheme ? useTheme() : {};
 
   // Check for reduced motion preference
   const [reducedMotion, setReducedMotion] = useState(false);

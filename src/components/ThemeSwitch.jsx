@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
 export default function ThemeSwitch({ className = '' }) {

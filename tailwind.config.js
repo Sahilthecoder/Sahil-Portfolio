@@ -9,10 +9,21 @@ module.exports = {
   darkMode: 'class',
   important: true,
   safelist: [
-    {
-      pattern: /^(bg|text|border|hover:bg|hover:text)-(primary|secondary|accent|gray|blue|indigo|green|red|yellow|pink|purple)-(50|100|200|300|400|500|600|700|800|900)$/,
-      variants: ['hover', 'focus', 'dark', 'dark:hover', 'dark:focus', 'motion-safe', 'motion-reduce'],
-    },
+    // Only safelist dynamic theme colors that can't be detected
+    'bg-primary', 'bg-secondary', 'bg-accent',
+    'text-primary', 'text-secondary', 'text-accent',
+    'border-primary', 'border-secondary', 'border-accent',
+    'hover:bg-primary', 'hover:bg-secondary', 'hover:bg-accent',
+    'hover:text-primary', 'hover:text-secondary', 'hover:text-accent',
+    'dark:bg-primary', 'dark:bg-secondary', 'dark:bg-accent',
+    'dark:text-primary', 'dark:text-secondary', 'dark:text-accent',
+    'dark:hover:bg-primary', 'dark:hover:bg-secondary', 'dark:hover:bg-accent',
+    'dark:hover:text-primary', 'dark:hover:text-secondary', 'dark:hover:text-accent',
+    // Animation classes
+    'animate-float', 'animate-fade-in', 'animate-slide-up', 'animate-scale-in',
+    'animate-pulse', 'animate-spin-slow', 'animate-bounce-slow',
+    // Z-index utilities
+    'z-dropdown', 'z-sticky', 'z-fixed', 'z-modal', 'z-popover', 'z-toast', 'z-tooltip'
   ],
   corePlugins: {
     preflight: true,
@@ -22,34 +33,33 @@ module.exports = {
       'xs': '360px',
       ...defaultTheme.screens,
       '3xl': '1920px',
+      '4xl': '2560px',
+    },
+    zIndex: {
+      auto: 'auto',
+      base: '0',
+      dropdown: '1000',
+      sticky: '1020',
+      fixed: '1030',
+      modal: '1040',
+      popover: '1050',
+      toast: '1060',
+      tooltip: '1070',
     },
     fontFamily: {
-      sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      sans: ['Inter var', 'Inter', ...defaultTheme.fontFamily.sans],
       mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
     },
     extend: {
       colors: {
-        dynamic: {
-          primary: 'var(--color-primary)',
-          secondary: 'var(--color-secondary)',
-          accent: 'var(--color-accent)',
-          background: 'var(--bg-body)',
-        },
-      },
-      backgroundImage: {
-        'grid': "url('data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e')"
-      },
-      animation: {
-        'float': 'float 6s ease-in-out infinite motion-safe',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-      },
-      colors: {
+        // CSS Variables for Theming
+        transparent: 'transparent',
+        current: 'currentColor',
+        
+        // Semantic color names using CSS variables
         primary: {
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          hover: 'rgb(var(--color-primary) / 0.9)',
           50: '#eff6ff',
           100: '#dbeafe',
           200: '#bfdbfe',
@@ -60,14 +70,10 @@ module.exports = {
           700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
-          DEFAULT: '#2563eb',
-          hover: '#1d4ed8',
         },
         secondary: {
-          DEFAULT: '#7c3aed',
-          hover: '#6d28d9',
-        },
-        accent: {
+          DEFAULT: 'rgb(var(--color-secondary) / <alpha-value>)',
+          hover: 'rgb(var(--color-secondary) / 0.9)',
           50: '#f5f3ff',
           100: '#ede9fe',
           200: '#ddd6fe',
@@ -78,9 +84,40 @@ module.exports = {
           700: '#6d28d9',
           800: '#5b21b6',
           900: '#4c1d95',
-          DEFAULT: '#8b5cf6',
-          hover: '#7c3aed',
         },
+        accent: {
+          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+          hover: 'rgb(var(--color-accent) / 0.9)',
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+        },
+        
+        // UI Colors
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
+        card: 'rgb(var(--color-card) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        background: 'rgb(var(--color-bg) / <alpha-value>)',
+        foreground: 'rgb(var(--color-text) / <alpha-value>)',
+        
+        // Status Colors
+        success: 'rgb(var(--color-success) / <alpha-value>)',
+        warning: 'rgb(var(--color-warning) / <alpha-value>)',
+        danger: 'rgb(var(--color-danger) / <alpha-value>)',
+        info: 'rgb(var(--color-info) / <alpha-value>)',
+        
+        // Special Colors
+        'neon-blue': 'rgb(var(--neon-blue) / <alpha-value>)',
+        'neon-pink': 'rgb(var(--neon-pink) / <alpha-value>)',
+        
+        // Light/Dark Theme Colors
         light: {
           bg: '#F8FAFF',
           gradient: 'linear-gradient(135deg, #f1f5ff 0%, #ffffff 100%)',
@@ -131,22 +168,59 @@ module.exports = {
           },
         },
       },
+      backgroundImage: {
+        'grid': "url('data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e')",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'fade-in': 'fadeIn 0.5s ease-out forwards',
+        'slide-up': 'slideUp 0.5s ease-out forwards',
+        'slide-right': 'slideRight 0.5s ease-out forwards',
+        'scale-in': 'scaleIn 0.3s ease-out forwards',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spin 3s linear infinite',
+        'bounce-slow': 'bounce 2s infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'ping-slow': 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite',
+        'bounce-subtle': 'bounce 3s infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0) translateX(0) rotate(0deg)' },
+          '25%': { transform: 'translateY(-10px) translateX(5px) rotate(1deg)' },
+          '50%': { transform: 'translateY(5px) translateX(-5px) rotate(-1deg)' },
+          '75%': { transform: 'translateY(-5px) translateX(10px) rotate(1deg)' },
+        },
+        'bounce-subtle': {
+          '0%, 100%': {
+            transform: 'translateY(-5%)',
+            'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)'
+          },
+          '50%': {
+            transform: 'translateY(0)',
+            'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1)'
+          },
+        },
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         mono: ['Fira Code VF', 'Fira Code', ...defaultTheme.fontFamily.mono],
       },
-      backdropBlur: {
-        xs: '2px',
-        sm: '6px',
-        md: '12px',
-        lg: '16px',
-        xl: '24px',
-      },
       boxShadow: {
-        'glass-light': '0 4px 30px rgba(0, 0, 0, 0.05)',
-        'glass-dark': '0 6px 40px rgba(0, 0, 0, 0.3)',
-        'glow': '0 0 15px rgba(108, 159, 246, 0.5)',
-        'glow-pink': '0 0 15px rgba(244, 114, 182, 0.5)',
+        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+        DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        'xl': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+        '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
+        'inner': 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
+        'soft': '0 4px 20px -3px rgba(0, 0, 0, 0.1)',
+        'soft-dark': '0 4px 20px -3px rgba(0, 0, 0, 0.3)',
+        'glow': '0 0 10px theme(colors.primary.500/20)',
+        'glow-dark': '0 0 15px theme(colors.primary.400/30)',
+        'none': 'none',
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(135deg, #6C9FF6 0%, #A78BFA 100%)',

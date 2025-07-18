@@ -1,0 +1,68 @@
+/* Typography styles */
+@layer base {
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0, 'onum' 0, 'lnum' 0, 'zero' 0;
+  }
+
+  /* Headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold leading-tight tracking-tight text-gray-900 dark:text-white;
+  }
+
+  h1 { @apply text-4xl md:text-5xl; }
+  h2 { @apply text-3xl md:text-4xl; }
+  h3 { @apply text-2xl md:text-3xl; }
+  h4 { @apply text-xl md:text-2xl; }
+  h5 { @apply text-lg md:text-xl; }
+  h6 { @apply text-base md:text-lg; }
+
+  /* Paragraphs and text elements */
+  p {
+    @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
+  }
+
+  /* Links */
+  a {
+    @apply font-medium text-primary-600 hover:text-primary-500 dark:text-primary-400 dark:hover:text-primary-300 transition-colors duration-200;
+  }
+
+  /* Lists */
+  ul, ol {
+    @apply pl-6 mb-4 list-outside;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply mb-2;
+  }
+
+  /* Blockquotes */
+  blockquote {
+    @apply pl-4 border-l-4 border-gray-200 dark:border-gray-600 italic text-gray-600 dark:text-gray-400 my-4;
+  }
+
+  /* Code */
+  code:not([class*="language-"]) {
+    @apply px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800 text-sm font-mono text-pink-600 dark:text-pink-400;
+  }
+
+  pre {
+    @apply p-4 my-4 rounded-lg bg-gray-900 overflow-x-auto;
+  }
+
+  /* Horizontal Rule */
+  hr {
+    @apply my-8 border-t border-gray-200 dark:border-gray-700;
+  }
+}

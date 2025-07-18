@@ -1,10 +1,12 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { Routes, Route, HashRouter as Router, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, HashRouter, useLocation, useNavigate } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { createHashHistory } from 'history';
 import { HelmetProvider } from 'react-helmet-async';
-import { ThemeProvider } from './context/ThemeContext';
 import { AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from './contexts/ThemeContext';
 import FaviconManager from './components/FaviconManager';
-import ModernNavbar from './components/ModernNavbar/ModernNavbar';
+import Navbar from './components/ModernNavbar/Navbar';
 import Footer from './components/Footer.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
@@ -126,49 +128,59 @@ function App() {
   // No need for manual hash handling with HashRouter
 
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-900 overflow-x-hidden">
-      <ModernNavbar />
+    <div className="relative min-h-screen bg-white dark:bg-gray-900 overflow-x-hidden p-0 m-0">
+      <Navbar />
       <ErrorBoundary>
-        <AnimatePresence mode="wait" initial={false}>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<AboutExperience initialSection="about" />} />
-              <Route path="/experience" element={<AboutExperience initialSection="experience" />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />
-              <Route path="/projects/smart-automation" element={<SmartAutomation />} />
-              <Route path="/projects/zomato-analysis" element={<ZomatoAnalysis />} />
-              <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
-              <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
-              <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
-              <Route path="/privacy" element={<PrivacyPolicy />} />
-              <Route path="/terms" element={<TermsOfService />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </AnimatePresence>
+        <div className="pt-16 m-0">
+          <AnimatePresence mode="wait" initial={false}>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutExperience initialSection="about" />} />
+                <Route path="/experience" element={<AboutExperience initialSection="experience" />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/projects/ai-daily-decision-system" element={<AIDailyDecisionSystem />} />
+                <Route path="/projects/smart-automation" element={<SmartAutomation />} />
+                <Route path="/projects/zomato-analysis" element={<ZomatoAnalysis />} />
+                <Route path="/projects/bansal-supermarket" element={<BansalSupermarket />} />
+                <Route path="/projects/ekam-attendance" element={<EkamAttendance />} />
+                <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<TermsOfService />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </AnimatePresence>
+          <Footer />
+        </div>
       </ErrorBoundary>
-      <Footer />
     </div>
   );
 }
 
+// Create a custom history with future flags
+const history = createHashHistory({
+  future: {
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
+  }
+});
+
 // Wrapper component to provide router context
 const AppWrapper = () => {
   return (
-    <HelmetProvider>
-      <ThemeProvider>
-        <Router>
+    <ThemeProvider>
+      <HelmetProvider>
+        <HistoryRouter history={history}>
           <ScrollToTop />
+          <FaviconManager />
           <ErrorBoundary>
             <App />
           </ErrorBoundary>
-          <FaviconManager />
-        </Router>
-      </ThemeProvider>
-    </HelmetProvider>
+        </HistoryRouter>
+      </HelmetProvider>
+    </ThemeProvider>
   );
 };
 

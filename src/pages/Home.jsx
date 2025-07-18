@@ -294,7 +294,7 @@ const Home = () => {
         </div>
 
         {/* Animation keyframes */}
-        <style jsx global>{`
+        <style jsx="true" global="true">{`
           @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -329,7 +329,7 @@ const Home = () => {
           }
         `}</style>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto relative z-10">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
             {/* Hero Content */}
             <motion.div 
@@ -788,7 +788,7 @@ const Home = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900 dark:text-white">Featured Projects</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Featured Projects</h2>
             <div className="w-20 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
           </motion.div>
 

@@ -3,9 +3,14 @@ import { createRoot } from 'react-dom/client';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import App from './App';
+
 // Import CSS files
 import './index.css';  // Main CSS file with Tailwind imports
 import './styles/animations.css'; // Global animations and transitions
+
+// Set base URL from environment, window, or default to '/'
+const envBaseUrl = import.meta.env.BASE_URL || window.basePath || '';
+const baseUrl = envBaseUrl.endsWith('/') ? envBaseUrl : `${envBaseUrl}/`;
 
 // Create emotion cache with specific settings to avoid initialization issues
 const emotionCache = createCache({
@@ -54,10 +59,8 @@ const root = createRoot(container);
 // Ensure the cache is ready before rendering
 emotionCache.sheet.tags = [];
 
-// Set the base URL for the application
-const envBaseUrl = import.meta.env.BASE_URL || '';
-const baseUrl = envBaseUrl.endsWith('/') ? envBaseUrl : `${envBaseUrl}/`;
-console.log('Application base URL:', baseUrl);
+// Log the application base URL for debugging
+console.log('Application base URL:', baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
 console.log('Environment:', import.meta.env.MODE);
 
 root.render(

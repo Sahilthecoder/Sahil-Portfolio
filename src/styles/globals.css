@@ -1,59 +1,74 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Base Layer */
+/* Global Styles */
 @layer base {
+  /* Base HTML and Body styles */
   html {
-    @apply antialiased text-text-primary bg-background;
+    @apply antialiased text-[rgb(var(--color-text))] bg-[rgb(var(--color-bg))];
     font-feature-settings: 'rlig' 1, 'calt' 1, 'ss01' 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
   }
 
   body {
-    @apply min-h-screen bg-background overflow-x-hidden;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply min-h-screen bg-[rgb(var(--color-bg))] text-[rgb(var(--color-text))] theme-transition;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-heading;
-    line-height: 1.2;
+  /* Selection styles */
+  ::selection {
+    @apply bg-primary-500/20 text-primary-700 dark:text-primary-300;
   }
 
-  h1 { @apply text-4xl md:text-5xl lg:text-6xl; }
-  h2 { @apply text-3xl md:text-4xl; }
-  h3 { @apply text-2xl md:text-3xl; }
-  h4 { @apply text-xl md:text-2xl; }
-  h5 { @apply text-lg md:text-xl; }
-  h6 { @apply text-base md:text-lg; }
-
-  p {
-    @apply leading-relaxed;
-  }
-
-  a {
-    @apply transition-colors duration-200 text-primary hover:text-primary/80;
-    text-underline-offset: 3px;
-  }
-
-  input, textarea, select, button {
-    @apply transition-all duration-200 outline-none focus:ring-2 focus:ring-primary/50 
-           focus:ring-offset-2 focus:ring-offset-background rounded-lg;
-  }
-
+  /* Focus styles */
   :focus-visible {
-    outline: 2px solid theme('colors.primary.DEFAULT');
-    outline-offset: 2px;
+    @apply outline-none ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-900 dark:ring-primary-400;
+  }
+
+  /* Remove focus styles for mouse users but keep for keyboard */
+  :focus:not(:focus-visible) {
+    @apply ring-0 ring-offset-0;
+  }
+
+  /* Better focus for form elements */
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  button:focus-visible {
+    @apply ring-2 ring-offset-2 ring-primary-500 dark:ring-offset-gray-900 dark:ring-primary-400 outline-none;
+  }
+
+  /* Remove default button focus styles */
+  button:focus {
+    @apply outline-none;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gradient-to-b from-primary/40 to-primary/60 rounded-full hover:from-primary/60 hover:to-primary/80 transition-all duration-300;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   .btn {
     @apply inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium 
            transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 
-           focus:ring-primary/50 focus:ring-offset-background disabled:opacity-50 
+           focus:ring-primary/50 focus:ring-offset-[rgb(var(--color-bg))] disabled:opacity-50 
            disabled:pointer-events-none cursor-pointer;
   }
 

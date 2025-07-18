@@ -1,0 +1,101 @@
+/* Form elements */
+@layer components {
+  /* Base form controls */
+  [type='text'],
+  [type='email'],
+  [type='url'],
+  [type='password'],
+  [type='number'],
+  [type='date'],
+  [type='datetime-local'],
+  [type='month'],
+  [type='search'],
+  [type='tel'],
+  [type='time'],
+  [type='week'],
+  [multiple],
+  textarea,
+  select {
+    @apply w-full px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-400 dark:focus:border-primary-400;
+  }
+
+  /* Checkboxes and Radios */
+  [type='checkbox'],
+  [type='radio'] {
+    @apply w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-400 dark:bg-gray-700 dark:border-gray-600;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-2 text-base font-medium text-center text-white transition-colors duration-200 bg-primary-600 border border-transparent rounded-md shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-offset-gray-900;
+  }
+
+  .btn-outline {
+    @apply text-primary-700 bg-transparent border border-primary-700 hover:bg-primary-50 dark:text-primary-300 dark:border-primary-500 dark:hover:bg-gray-800;
+  }
+
+  .btn-sm {
+    @apply px-4 py-1.5 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-8 py-3 text-lg;
+  }
+
+  /* Form labels */
+  label {
+    @apply block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300;
+  }
+
+  /* Form groups */
+  .form-group {
+    @apply mb-4;
+  }
+
+  /* Form validation */
+  .error-message {
+    @apply mt-1 text-sm text-red-600 dark:text-red-400;
+  }
+
+  .input-error {
+    @apply border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500;
+  }
+
+  /* Custom file input */
+  .file-input {
+    @apply block w-full text-sm text-gray-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-md file:border-0
+      file:text-sm file:font-semibold
+      file:bg-primary-50 file:text-primary-700
+      hover:file:bg-primary-100
+      dark:file:bg-gray-700 dark:file:text-primary-300
+      dark:hover:file:bg-gray-600;
+  }
+
+  /* Toggle switches */
+  .toggle {
+    @apply relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 dark:bg-gray-700;
+  }
+
+  .toggle-checkbox {
+    @apply absolute w-0 h-0 opacity-0;
+  }
+
+  .toggle-label {
+    @apply absolute cursor-pointer inset-0 rounded-full transition-colors duration-200 ease-in-out bg-gray-200 dark:bg-gray-700;
+  }
+
+  .toggle-label:before {
+    content: '';
+    @apply absolute h-5 w-5 left-0.5 bottom-0.5 bg-white rounded-full shadow transition-transform duration-200 ease-in-out transform;
+  }
+
+  .toggle-checkbox:checked + .toggle-label {
+    @apply bg-primary-600;
+  }
+
+  .toggle-checkbox:checked + .toggle-label:before {
+    @apply transform translate-x-5;
+  }
+}

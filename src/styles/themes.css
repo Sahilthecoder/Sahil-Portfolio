@@ -1,0 +1,118 @@
+/* Theme Variables */
+@layer base {
+  :root, [data-theme="light"] {
+    /* Light Theme */
+    --color-card: 255 255 255;
+    --color-border: 229 231 235;
+    --color-bg: 249 250 251;
+    --color-text: 17 24 39;
+    /* Scrollbar */
+    --color-scroll-track: 243 244 246;
+    --color-scroll-thumb: 156 163 175;
+    --color-scroll-thumb-hover: 107 114 128;
+    --color-primary: 79 70 229;
+    --color-secondary: 99 102 241;
+    --color-accent: 139 92 246;
+    --color-muted: 107 114 128;
+    --color-success: 16 185 129;
+    --color-warning: 245 158 11;
+    --color-danger: 239 68 68;
+    --color-info: 59 130 246;
+    --neon-blue: 59 130 246;
+    --neon-pink: 236 72 153;
+    --shadow-color: 0 0% 0%;
+    --shadow-strength: 0.02;
+  }
+
+  [data-theme="dark"] {
+    /* Dark Theme */
+    --color-card: 17 24 39;
+    --color-border: 55 65 81;
+    --color-bg: 31 41 55;
+    --color-text: 243 244 246;
+    /* Scrollbar */
+    --color-scroll-track: 17 24 39;
+    --color-scroll-thumb: 75 85 99;
+    --color-scroll-thumb-hover: 107 114 128;
+    --color-primary: 99 102 241;
+    --color-secondary: 129 140 248;
+    --color-accent: 167 139 250;
+    --color-muted: 156 163 175;
+    --color-success: 34 197 94;
+    --color-warning: 234 179 8;
+    --color-danger: 239 68 68;
+    --color-info: 59 130 246;
+    --neon-blue: 96 165 250;
+    --neon-pink: 244 114 182;
+    --shadow-color: 0 0% 0%;
+    --shadow-strength: 0.8;
+  }
+
+  /* Theme Transition */
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition-property: 
+      color,
+      background-color,
+      border-color,
+      text-decoration-color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+
+  /* For elements that should transition more smoothly */
+  .transition-theme {
+    transition-property: 
+      color,
+      background-color,
+      border-color,
+      text-decoration-color,
+      fill,
+      stroke,
+      opacity,
+      box-shadow,
+      transform,
+      filter,
+      backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  /* Theme Toggle Animation */
+  @keyframes theme-toggle {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .theme-toggle-animation {
+    animation: theme-toggle 0.3s ease-out forwards;
+  }
+
+  /* Theme Specific Styles */
+  [data-theme="dark"] .dark\:invert {
+    filter: invert(1) hue-rotate(180deg);
+  }
+
+  [data-theme="light"] .light\:invert {
+    filter: invert(0);
+  }
+
+  /* Print Styles */
+  @media print {
+    :root {
+      --color-bg: 255 255 255;
+      --color-text: 0 0 0;
+      --color-card: 255 255 255;
+      --color-border: 209 213 219;
+    }
+  }
+}

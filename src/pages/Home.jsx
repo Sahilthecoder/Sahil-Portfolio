@@ -22,7 +22,7 @@ import { FiMail, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackag
 import ProjectSwiper from '../components/ProjectSwiper';
 import HomeProjectCard from '../components/HomeProjectCard';
 import { projects } from '../data/projects';
-import { getAssetPath } from '../utils/paths';
+import getAssetPath from '../utils/paths';
 
 // Using a fallback image from the public directory
 const HeroImage = getAssetPath('/images/fallback-image.jpg');

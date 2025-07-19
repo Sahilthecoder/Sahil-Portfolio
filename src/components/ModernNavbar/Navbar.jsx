@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FiHome, FiUser, FiCode, FiMail, FiX, FiSun, FiMoon, FiGithub, FiLinkedin, FiPhone } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
-import { getAssetPath } from '../../utils/paths';
+import getAssetPath from '../../utils/paths';
 import { useTheme } from '../../contexts/ThemeContext';
 
 // Scroll to top utility function

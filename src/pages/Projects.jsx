@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import EnhancedProjectModal from '../components/ProjectModal/EnhancedProjectModal';
+import getAssetPath from '../utils/paths';
 
 // Icons
 // React Icons from Font Awesome
@@ -601,12 +602,12 @@ const projects = [
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Git', 'GitHub'],
     icon: 'GitHub',
-    image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp'),
+    previewImage: getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp'),
     images: [
-      '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp'
+      getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp'),
+      getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-600w.webp'),
+      getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp')
     ],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: 'https://github.com/mahiradesignhub/mahira-portfolio',

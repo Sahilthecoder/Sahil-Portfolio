@@ -13,6 +13,7 @@ import {
   FaExternalLinkAlt,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import getAssetPath from '../../utils/paths';
 
 const gradientAnimation = {
   hidden: { opacity: 0, x: -100 },
@@ -40,8 +41,8 @@ const RetailCashFlow = () => {
         containerClass: 'h-96',
         projectId: 'retail',
         ext: 'webp',
-        path: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
-        thumbnail: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
+        path: getAssetPath('/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp'),
+        thumbnail: getAssetPath('/images/projects/Project4_Power_BI/Project4_Cover-300w.webp'),
       },
     ],
     []

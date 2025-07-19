@@ -1,11 +1,13 @@
+import getAssetPath from '../utils/paths';
+
 // Use relative paths for client-side routing
 export const projects = [
   {
     id: 1,
     title: 'Zomato Data Analysis',
     description: 'Comprehensive analysis of Zomato restaurant data to identify trends, customer preferences, and business insights. Used Python, Pandas, and Matplotlib for data processing and visualization.',
-    image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project1_excel/Project1_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project1_excel/Project1_Cover-300w.webp'),
     tags: ['Python', 'Data Analysis', 'Pandas', 'Data Visualization'],
     link: 'projects/zomato-analysis',
   },
@@ -13,8 +15,8 @@ export const projects = [
     id: 2,
     title: 'Bansal Supermarket',
     description: 'End-to-end inventory and sales management system for Bansal Supermarket with automated stock tracking, sales reporting, and supplier management.',
-    image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project2_tableau/Project2_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project2_tableau/Project2_Cover-300w.webp'),
     tags: ['Excel', 'Inventory Management', 'VBA', 'Sales Analysis'],
     link: 'projects/bansal-supermarket'
   },
@@ -22,8 +24,8 @@ export const projects = [
     id: 3,
     title: 'Ekam Attendance',
     description: 'Automated attendance tracking system with employee scheduling, shift management, and reporting capabilities.',
-    image: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project3_Sql+Sheets/Project3_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project3_Sql+Sheets/Project3_Cover-300w.webp'),
     tags: ['SQL', 'Database', 'HR Management', 'Reporting'],
     link: 'projects/ekam-attendance'
   },
@@ -31,8 +33,8 @@ export const projects = [
     id: 4,
     title: 'Retail Cash Flow',
     description: 'Comprehensive cash flow tracking and financial management system for monitoring daily business transactions and financial health.',
-    image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project4_Power_BI/Project4_Cover-300w.webp'),
     tags: ['Power BI', 'Financial Analysis', 'Business Intelligence', 'Dashboarding'],
     link: 'projects/retail-cash-flow'
   },
@@ -40,8 +42,8 @@ export const projects = [
     id: 5,
     title: 'AI Daily Planner',
     description: 'AI-powered decision support system for daily business operations and analytics.',
-    image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp'),
     tags: ['AI', 'GPT', 'Automation', 'Productivity'],
     link: 'projects/ai-daily-decision-system'
   },
@@ -49,8 +51,8 @@ export const projects = [
     id: 6,
     title: 'Smart Automation',
     description: 'Intelligent automation solutions for business process optimization and workflow management.',
-    image: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Project6_Gpt+Zapier/Project6_Cover-300w.webp'),
     tags: ['Automation', 'Zapier', 'Workflow', 'Integration'],
     link: 'https://sahilthecoder.github.io/projects/smart-automation',
     isExternal: true
@@ -59,8 +61,8 @@ export const projects = [
     id: 7,
     title: 'Mahira Portfolio',
     description: 'Professional portfolio website showcasing projects and skills.',
-    image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp',
+    image: getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp'),
+    previewImage: getAssetPath('/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp'),
     tags: ['React', 'Web', 'UI/UX', 'Responsive Design'],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     github: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/MahiraPortfolio',

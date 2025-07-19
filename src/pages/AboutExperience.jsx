@@ -28,7 +28,7 @@ import {
   FaExternalLinkAlt
 } from 'react-icons/fa';
 import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
-import { getAssetPath } from '../utils/paths';
+import getAssetPath from '../utils/paths';
 import ModernButton from '@/components/ui/ModernButton';
 
 import { useLocation } from 'react-router-dom';

@@ -12,10 +12,11 @@ import {
   FaUpRightFromSquare,
 } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
+import getAssetPath from '../../utils/paths';
 
 // Image paths
-const dashboardImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
-const productAnalysisImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
+const dashboardImage = getAssetPath('/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp');
+const productAnalysisImage = getAssetPath('/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp');
 
 const AIDailyDecisionSystem = () => {
   return (

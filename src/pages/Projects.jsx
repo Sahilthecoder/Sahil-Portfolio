@@ -476,11 +476,9 @@ const projects = [
     techStack: ['Excel', 'Data Analysis', 'Business Intelligence'],
     icon: 'Excel',
     image: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover-300w.webp',
+      '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zometo-ds.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zt1.webp',
       '/Sahil-Portfolio/images/projects/Project1_excel/zt2.webp'
@@ -498,11 +496,9 @@ const projects = [
     techStack: ['Tableau', 'Data Analysis', 'Business Intelligence', 'Data Visualization'],
     icon: 'Tableau',
     image: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-300w.webp',
+      '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs3.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs-top10.webp',
       '/Sahil-Portfolio/images/projects/Project2_tableau/bs-saleVSpft.webp',
@@ -522,11 +518,9 @@ const projects = [
     techStack: ['SQL', 'Google Sheets', 'Automation', 'Data Analysis'],
     icon: 'SQL',
     image: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover-300w.webp',
+      '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp',
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_before.webp',
       '/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Attendance_after.webp'
     ],
@@ -543,11 +537,9 @@ const projects = [
     techStack: ['Power BI', 'Data Analysis', 'Business Intelligence', 'Data Visualization'],
     icon: 'Power BI',
     image: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
+      '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow1.webp',
       '/Sahil-Portfolio/images/projects/Project4_Power_BI/CashFlow2.webp'
     ],
@@ -564,11 +556,11 @@ const projects = [
     techStack: ['OpenAI', 'Notion', 'Automation', 'Google Sheets', 'JavaScript'],
     icon: 'Notion',
     image: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp'
+      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
+      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp',
+      '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp'
     ],
     link: '/projects/ai-daily-decision-system',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ai-daily-decision-system',
@@ -583,11 +575,9 @@ const projects = [
     techStack: ['Zapier', 'OpenAI', 'Automation', 'Excel', 'Google Sheets'],
     icon: 'Zapier',
     image: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
-    previewImage: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-300w.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     images: [
-      '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w.webp',
-      '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-600w.webp',
-      '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover-300w.webp'
+      '/Sahil-Portfolio/images/projects/Project6_Gpt+Zapier/Project6_Cover.webp',
     ],
     link: '/projects/smart-automation',
     githubLink: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/ProductSalesDashboard',
@@ -601,12 +591,10 @@ const projects = [
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Git', 'GitHub'],
     icon: 'GitHub',
-    image: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
-    previewImage: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp',
+    image: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    previewImage: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     images: [
-      '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp',
-      '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-600w.webp',
-      '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp'
+      'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     ],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: 'https://github.com/mahiradesignhub/mahira-portfolio',

@@ -13,8 +13,8 @@ import {
 } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 // Image paths
-const dashboardImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
-const productAnalysisImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
+const dashboardImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
+const productAnalysisImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
 
 const AIDailyDecisionSystem = () => {
   return (

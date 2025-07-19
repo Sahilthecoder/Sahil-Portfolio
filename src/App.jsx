@@ -4,7 +4,6 @@ import { createHashHistory } from 'history';
 import { HelmetProvider } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './contexts/ThemeContext';
-import FaviconManager from './components/FaviconManager';
 import Navbar from './components/ModernNavbar/Navbar';
 import Footer from './components/Footer.jsx';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -22,7 +21,6 @@ const ZomatoAnalysis = React.lazy(() => import('./pages/projects/ZomatoAnalysis.
 const BansalSupermarket = React.lazy(() => import('./pages/projects/BansalSupermarket.jsx'));
 const EkamAttendance = React.lazy(() => import('./pages/projects/EkamAttendance.jsx'));
 const RetailCashFlow = React.lazy(() => import('./pages/projects/RetailCashFlow.jsx'));
-const UIPlayground = React.lazy(() => import('./components/sections/UIPlayground.jsx'));
 
 // Loading component
 const LoadingFallback = () => (
@@ -128,7 +126,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300" ref={pageRef}>
-      <FaviconManager />
       <Navbar />
       <ErrorBoundary>
         <div className="pt-16 m-0">
@@ -148,7 +145,6 @@ function App() {
                 <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
-                <Route path="/ui-playground" element={<UIPlayground />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

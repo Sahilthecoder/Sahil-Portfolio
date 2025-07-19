@@ -543,7 +543,7 @@ const Home = () => {
                   }}
                 >
                   <img 
-                    src="/Sahil-Portfolio/public/images/profile/profile.webp"
+                    src="/Sahil-Portfolio/images/profile/profile.webp"
                     alt="Sahil Ali" 
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     onError={(e) => {

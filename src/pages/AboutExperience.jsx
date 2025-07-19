@@ -28,7 +28,6 @@ import {
   FaExternalLinkAlt
 } from 'react-icons/fa';
 import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
-import getAssetPath from '../utils/paths';
 import ModernButton from '@/components/ui/ModernButton';
 
 import { useLocation } from 'react-router-dom';
@@ -302,7 +301,7 @@ const AboutSection = React.forwardRef((props, ref) => {
             <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 transition-all duration-300 group-hover:-translate-y-2 z-10">
               <div className="relative h-36 w-36 rounded-2xl border-4 border-white dark:border-gray-800 overflow-hidden bg-white dark:bg-gray-700 shadow-xl">
                 <img 
-                  src={getAssetPath('/images/profile/profile.webp')}
+                  src="/images/profile/profile.webp"
                   alt="Sahil Ali - Inventory & Data Specialist" 
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"

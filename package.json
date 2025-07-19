@@ -81,9 +81,11 @@
     "postcss-preset-env": "^10.2.4",
     "prettier": "^3.0.2",
     "rimraf": "^6.0.1",
+    "rollup-plugin-visualizer": "^6.0.3",
     "sharp": "^0.34.3",
     "tailwindcss": "^3.3.3",
     "terser": "^5.43.1",
-    "vite": "^5.4.19"
+    "vite": "^5.4.19",
+    "vite-plugin-pwa": "^1.0.1"
   }
 }

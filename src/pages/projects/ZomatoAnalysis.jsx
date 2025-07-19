@@ -107,7 +107,8 @@ const ZomatoAnalysis = () => {
         containerClass: 'h-96',
         projectId: 'zomato',
         ext: 'webp',
-        path: '/Sahil-Portfolio/images/projects/Project1_excel/Project1_Cover.webp',
+        path: '/images/projects/Project1_excel/Project1_Cover-1200w.webp',
+        thumbnail: '/images/projects/Project1_excel/Project1_Cover-300w.webp',
       },
     ],
     []

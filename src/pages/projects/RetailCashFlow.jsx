@@ -30,7 +30,7 @@ const RetailCashFlow = () => {
     () => [
       {
         id: 'retail-cover',
-        name: 'Project4_Cover',
+        name: 'Project4_Cover-1200w',
         alt: 'Retail Cash Flow Dashboard',
         description: 'Project cover image',
         featured: true,
@@ -40,7 +40,8 @@ const RetailCashFlow = () => {
         containerClass: 'h-96',
         projectId: 'retail',
         ext: 'webp',
-        path: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover.webp',
+        path: '/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
+        thumbnail: '/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
       },
     ],
     []

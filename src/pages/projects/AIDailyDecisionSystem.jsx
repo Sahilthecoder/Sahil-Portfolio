@@ -14,8 +14,8 @@ import {
 import { Link } from 'react-router-dom';
 
 // Image paths
-const dashboardImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp';
-const productAnalysisImage = '/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp';
+const dashboardImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
+const productAnalysisImage = '/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp';
 
 const AIDailyDecisionSystem = () => {
   return (
@@ -102,7 +102,9 @@ const AIDailyDecisionSystem = () => {
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
                 <img
-                  src="/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp"
+                  src="/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp"
+                  srcSet="/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp 300w, /images/projects/Project5_Gpt+Notion/Project5_Cover-600w.webp 600w, /images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp 1200w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   alt="Sales Overview Dashboard"
                   className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
                   loading="lazy"
@@ -119,7 +121,9 @@ const AIDailyDecisionSystem = () => {
               </h3>
               <div className="relative w-full h-64 bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
                 <img
-                  src="/Sahil-Portfolio/images/projects/Project5_Gpt+Notion/Project5_Cover.webp"
+                  src="/images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp"
+                  srcSet="/images/projects/Project5_Gpt+Notion/Project5_Cover-300w.webp 300w, /images/projects/Project5_Gpt+Notion/Project5_Cover-600w.webp 600w, /images/projects/Project5_Gpt+Notion/Project5_Cover-1200w.webp 1200w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   alt="Product Performance Analysis"
                   className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
                   loading="lazy"

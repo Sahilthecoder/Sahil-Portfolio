@@ -957,7 +957,7 @@ const AboutExperience = ({ initialSection = 'about' }) => {
       </div>
 
       {/* Animation keyframes */}
-      <style jsx="true" global="true">{`
+      <style jsx global>{`
         @keyframes float {
           0% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }
@@ -1116,7 +1116,7 @@ const AboutExperience = ({ initialSection = 'about' }) => {
       </div>
 
       {/* Animation keyframes */}
-      <style jsx="true" global="true">{`
+      <style jsx global>{`
         @keyframes float {
           0% { transform: translateY(0px); }
           50% { transform: translateY(-20px); }

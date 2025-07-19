@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
-import { Routes, Route, HashRouter, useLocation, useNavigate } from 'react-router-dom';
-import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { createHashHistory } from 'history';
 import { HelmetProvider } from 'react-helmet-async';
 import { AnimatePresence } from 'framer-motion';
@@ -123,12 +122,12 @@ const ScrollToTop = () => {
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const hasRedirected = useRef(false);
-
-  // No need for manual hash handling with HashRouter
+  const pageRef = useRef(null);
+  const isInitialLoad = useRef(true);
 
   return (
-    <div className="relative min-h-screen bg-white dark:bg-gray-900 overflow-x-hidden p-0 m-0">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300" ref={pageRef}>
+      <FaviconManager />
       <Navbar />
       <ErrorBoundary>
         <div className="pt-16 m-0">
@@ -159,22 +158,26 @@ function App() {
   );
 }
 
-// Create a custom history with future flags
-const history = createHashHistory({
-  future: {
-    v7_startTransition: true,
-    v7_relativeSplatPath: true
-  }
-});
+// Create a custom history with future flags for React Router v7
+const history = createHashHistory();
+
+// Set future flags for React Router v7
+const routerFuture = {
+  v7_startTransition: true,
+  v7_relativeSplatPath: true,
+  v7_throwAbortReason: true
+};
 
 // Wrapper component to provide router context
 const AppWrapper = () => {
   return (
     <ThemeProvider>
       <HelmetProvider>
-        <HistoryRouter history={history}>
+        <HistoryRouter 
+          history={history}
+          future={routerFuture}
+        >
           <ScrollToTop />
-          <FaviconManager />
           <ErrorBoundary>
             <App />
           </ErrorBoundary>

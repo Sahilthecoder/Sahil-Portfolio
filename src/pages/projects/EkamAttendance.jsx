@@ -50,7 +50,9 @@ const EkamAttendance = () => {
         {/* Hero Section with Cover Image */}
         <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
-            src="/Sahil-Portfolio/images/projects/Project3_Sql+Sheets/Project3_Cover.webp"
+            src="/images/projects/Project3_Sql+Sheets/Project3_Cover-1200w.webp"
+            srcSet="/images/projects/Project3_Sql+Sheets/Project3_Cover-300w.webp 300w, /images/projects/Project3_Sql+Sheets/Project3_Cover-600w.webp 600w, /images/projects/Project3_Sql+Sheets/Project3_Cover-1200w.webp 1200w"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Ekam Attendance Dashboard"
             className="w-full h-full object-cover object-top"
             onError={(e) => {

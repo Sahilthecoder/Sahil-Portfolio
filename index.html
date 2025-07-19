@@ -31,12 +31,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Preload critical resources with crossorigin -->
-    <link rel="preload" href="favicon-32x32.png" as="image" type="image/png" crossorigin="anonymous" />
-    <link rel="preload" href="favicon-16x16.png" as="image" type="image/png" crossorigin="anonymous" />
-    <link rel="preload" href="favicon.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
-    <link rel="preload" href="android-chrome-192x192.png" as="image" type="image/png" crossorigin="anonymous" />
-    <link rel="preload" href="android-chrome-512x512.png" as="image" type="image/png" crossorigin="anonymous" />
+    <!-- Favicon preloading - Only preload the most critical icon -->
+    <link rel="preload" href="favicon.ico" as="image" type="image/x-icon" crossorigin="anonymous" />
+    
+    <!-- Preload critical font files -->
+    <link rel="preload" href="/Sahil-Portfolio/fonts/Inter.var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    
+    <!-- Preload critical images -->
+    <link rel="preload" href="/Sahil-Portfolio/images/profile/profile.webp" as="image" type="image/webp" media="(min-width: 768px)" crossorigin="anonymous" />
     
     <!-- Additional meta tags -->
     <meta name="author" content="Sahil Ali" />

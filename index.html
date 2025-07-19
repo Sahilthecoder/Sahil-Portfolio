@@ -31,14 +31,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Favicon preloading - Only preload the most critical icon -->
-    <link rel="preload" href="favicon.ico" as="image" type="image/x-icon" crossorigin="anonymous" />
+    <!-- Favicon - No preload needed for favicon.ico as it's automatically requested by the browser -->
     
-    <!-- Preload critical font files -->
-    <link rel="preload" href="/Sahil-Portfolio/fonts/Inter.var.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <!-- Google Fonts - Load with preconnect and preload pattern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" />
     
-    <!-- Preload critical images -->
-    <link rel="preload" href="/Sahil-Portfolio/images/profile/profile.webp" as="image" type="image/webp" media="(min-width: 768px)" crossorigin="anonymous" />
+    <!-- Preload critical images with proper media queries -->
+    <link rel="preload" as="image" href="/Sahil-Portfolio/images/profile/profile.webp" type="image/webp" media="(min-width: 768px)" />
     
     <!-- Additional meta tags -->
     <meta name="author" content="Sahil Ali" />

@@ -132,10 +132,17 @@ export default defineConfig({
     modulePreload: {
       polyfill: false,
     },
-    // Ensure all favicon files are copied to the output directory
-    assetsInclude: ['**/*.ico', '**/*.png', '**/*.svg', '**/*.webmanifest'],
+    // Ensure all favicon files and index.html are copied to the output directory
+    assetsInclude: ['**/*.ico', '**/*.png', '**/*.svg', '**/*.webmanifest', '**/*.html'],
+    // Configure rollup options
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
       output: {
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
           vendor: ['framer-motion', 'react-icons'],
@@ -160,13 +167,29 @@ export default defineConfig({
   
   // Plugins
   plugins: [
-    react({
-      jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: ['@emotion/babel-plugin']
-      }
-    }),
-    copyFaviconsPlugin()
+    react(),
+    {
+      name: 'add-google-fonts',
+      transformIndexHtml(html) {
+        // Only add the fonts if they're not already in the HTML
+        if (!html.includes('fonts.googleapis.com/css2?family=Inter')) {
+          const fontLinks = `
+            <!-- Google Fonts - Inter -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+          `;
+          
+          // Insert the font links after the opening <head> tag
+          return html.replace(
+            /<head([^>]*)>/,
+            `<head$1>\n${fontLinks}`
+          );
+        }
+        return html;
+      },
+    },
+    copyFaviconsPlugin(),
   ],
   
   // CSS configuration

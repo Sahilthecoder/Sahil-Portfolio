@@ -47,7 +47,7 @@ module.exports = {
       tooltip: '1070',
     },
     fontFamily: {
-      sans: ['Inter var', 'Inter', ...defaultTheme.fontFamily.sans],
+      sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace']
     },
     extend: {

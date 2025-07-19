@@ -1,9 +1,17 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { FiHome, FiUser, FiCode, FiMail, FiX, FiSun, FiMoon, FiGithub, FiLinkedin, FiTwitter, FiYoutube, FiPhone } from 'react-icons/fi';
+import { FiHome, FiUser, FiCode, FiMail, FiX, FiSun, FiMoon, FiGithub, FiLinkedin, FiPhone } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useTheme } from '../../contexts/ThemeContext';
+
+// Scroll to top utility function
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
 
 // Scroll progress hook
 const useScrollProgress = () => {
@@ -63,7 +71,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 10 },
   show: { 
     opacity: 1, 
     y: 0,
@@ -85,7 +93,7 @@ const navItems = [
 const socialLinks = [
   { name: 'GitHub', url: 'https://github.com/Sahilthecoder', icon: <FiGithub className="w-5 h-5" /> },
   { name: 'LinkedIn', url: 'https://linkedin.com/in/sahil-ali', icon: <FiLinkedin className="w-5 h-5" /> },
-  { name: 'WhatsApp', url: 'https://wa.me/919719369855', icon: <FaWhatsapp className="w-5 h-5" /> },
+  { name: 'WhatsApp', url: 'https://wa.me/919875771550', icon: <FaWhatsapp className="w-5 h-5" /> },
   { name: 'Email', url: 'mailto:sahilkhan36985@gmail.com', icon: <FiMail className="w-5 h-5" /> }
 ];
 
@@ -97,11 +105,20 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 
+  const handleNavigation = useCallback((path) => {
+    setIsMenuOpen(false);
+    if (location.pathname === path) {
+      scrollToTop();
+    } else {
+      navigate(path);
+      setTimeout(scrollToTop, 0);
+    }
+  }, [location.pathname, navigate]);
+
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      const offset = window.scrollY;
-      setIsScrolled(offset > 10);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -127,60 +144,15 @@ const Navbar = () => {
 
   // Handle escape key
   useEffect(() => {
-    const handleEscape = (e) => {
-      if (e.key === 'Escape' && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-    };
-
+    const handleEscape = (e) => e.key === 'Escape' && setIsMenuOpen(false);
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [isMenuOpen]);
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMenuOpen]);
-
-  // Focus trap for accessibility
-  useEffect(() => {
-    if (!isMenuOpen) return;
-
-    const focusableElements = menuRef.current?.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-
-    if (focusableElements?.length > 0) {
-      const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
-
-      const handleTabKey = (e) => {
-        if (e.key !== 'Tab') return;
-
-        if (e.shiftKey) {
-          if (document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-          }
-        }
-      };
-
-      document.addEventListener('keydown', handleTabKey);
-      return () => document.removeEventListener('keydown', handleTabKey);
-    }
+    document.body.style.overflow = isMenuOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
   }, [isMenuOpen]);
 
   const toggleMenu = useCallback(() => {
@@ -224,28 +196,34 @@ const Navbar = () => {
                   height="32"
                   loading="eager"
                 />
-                <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
-                  Sahil Ali
-                </span>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+                    Sahil Ali
+                  </span>
+                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400 -mt-1">
+                    Data Analyst
+                  </span>
+                </div>
               </NavLink>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-1">
               {navItems.map((item) => (
-                <NavLink
+                <button
                   key={item.path}
-                  to={item.path}
-                  className={({ isActive }) => `
+                  onClick={() => handleNavigation(item.path)}
+                  className={`
                     px-4 py-2 text-sm font-medium rounded-md
                     transition-colors duration-200
-                    ${isActive 
-                      ? 'text-blue-600 dark:text-blue-400' 
-                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}
-                  `}
+                    ${
+                      location.pathname === item.path
+                        ? 'text-blue-600 dark:text-blue-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                    }`}
                 >
                   {item.name}
-                </NavLink>
+                </button>
               ))}
             </nav>
 
@@ -325,10 +303,7 @@ const Navbar = () => {
               role="dialog"
               aria-modal="true"
               aria-label="Mobile menu"
-              style={{
-                WebkitOverflowScrolling: 'touch',
-                overscrollBehavior: 'contain'
-              }}
+              style={{ WebkitOverflowScrolling: 'touch' }}
             >
               {/* Logo and Close Button */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
@@ -341,9 +316,14 @@ const Navbar = () => {
                     height="40"
                     loading="eager"
                   />
-                  <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
-                    Sahil Ali
-                  </span>
+                  <div className="flex flex-col">
+                    <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+                      Sahil Ali
+                    </span>
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 -mt-1">
+                      Data Analyst
+                    </span>
+                  </div>
                 </div>
                 <button
                   onClick={toggleMenu}
@@ -363,20 +343,29 @@ const Navbar = () => {
               >
                 {navItems.map((item) => (
                   <motion.div key={item.path} variants={itemVariants}>
-                    <NavLink
-                      to={item.path}
-                      className={({ isActive }) => `
-                        flex items-center px-4 py-3 text-base font-medium rounded-lg mx-2
-                        transition-all duration-200 transform hover:scale-105
-                        ${isActive 
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' 
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}
-                      `}
-                      onClick={() => setIsMenuOpen(false)}
+                    <button
+                      onClick={() => {
+                        handleNavigation(item.path);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                      className={`
+                        w-full flex items-center space-x-3 px-4 py-3 rounded-lg
+                        transition-colors duration-200
+                        ${
+                          location.pathname === item.path
+                            ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                        }`}
                     >
-                      <span className="mr-3">{item.icon}</span>
-                      <span>{item.name}</span>
-                    </NavLink>
+                      {React.cloneElement(item.icon, {
+                        className: `w-6 h-6 ${
+                          location.pathname === item.path
+                            ? 'text-blue-600 dark:text-blue-400'
+                            : 'text-gray-500 dark:text-gray-400'
+                        }`,
+                      })}
+                      <span className="text-lg font-medium">{item.name}</span>
+                    </button>
                   </motion.div>
                 ))}
               </motion.div>
@@ -424,11 +413,11 @@ const Navbar = () => {
                   <span>sahilkhan36985@gmail.com</span>
                 </a>
                 <a
-                  href="tel:+919719369855"
+                  href="tel:+919875771550"
                   className="flex items-center px-4 py-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   <FiPhone className="mr-3 w-5 h-5" />
-                  <span>+91 9719369855</span>
+                  <span>+91 9875771550</span>
                 </a>
               </motion.div>
             </motion.div>

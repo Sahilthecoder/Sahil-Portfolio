@@ -40,8 +40,8 @@ const RetailCashFlow = () => {
         containerClass: 'h-96',
         projectId: 'retail',
         ext: 'webp',
-        path: '/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
-        thumbnail: '/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
+        path: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-1200w.webp',
+        thumbnail: '/Sahil-Portfolio/images/projects/Project4_Power_BI/Project4_Cover-300w.webp',
       },
     ],
     []

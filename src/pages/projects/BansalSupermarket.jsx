@@ -69,8 +69,8 @@ const BansalSupermarket = () => {
       containerClass: 'h-96',
       projectId: 'bansal',
       ext: 'webp',
-      path: '/images/projects/Project2_tableau/Project2_Cover-1200w.webp',
-      thumbnail: '/images/projects/Project2_tableau/Project2_Cover-300w.webp',
+      path: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-1200w.webp',
+      thumbnail: '/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-300w.webp',
     },
     {
       id: 'bansal-category',

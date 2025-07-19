@@ -60,25 +60,6 @@ export default defineConfig({
     assetsDir: 'assets',
     emptyOutDir: true,
     assetsInlineLimit: 4096, // 4kb
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['framer-motion', 'react-helmet-async', 'swiper']
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: ({ name }) => {
-          if (/\\.(png|jpe?g|gif|svg|webp|avif)$/i.test(name)) {
-            return 'assets/images/[name]-[hash][extname]';
-          }
-          if (/\\.(woff|woff2|eot|ttf|otf)$/i.test(name)) {
-            return 'assets/fonts/[name]-[hash][extname]';
-          }
-          return 'assets/[ext]/[name]-[hash][extname]';
-        }
-      }
-    },
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -91,14 +72,20 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['framer-motion', 'react-icons'],
+          vendor: ['framer-motion', 'react-helmet-async', 'swiper', 'react-icons']
         },
-      },
-    },
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
-  },
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: ({ name }) => {
+          if (/\.(png|jpe?g|gif|svg|webp|avif)$/i.test(name)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (/\.(woff|woff2|eot|ttf|otf)$/i.test(name)) {
+            return 'assets/fonts/[name]-[hash][extname]';
+          }
+          return 'assets/[ext]/[name]-[hash][extname]';
+        }
+      }
+    }
+  }
 });

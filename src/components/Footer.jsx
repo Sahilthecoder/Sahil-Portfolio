@@ -704,18 +704,26 @@ const Footer = () => {
               </div>
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0">
-              <Link
-                to="/privacy"
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/privacy');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
               >
                 Privacy Policy
-              </Link>
-              <Link
-                to="/terms"
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/terms');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
                 className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200"
               >
                 Terms of Service
-              </Link>
+              </button>
               <button 
                 onClick={copyEmail}
                 className="text-xs text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors duration-200 flex items-center"

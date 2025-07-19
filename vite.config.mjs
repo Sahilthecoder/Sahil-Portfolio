@@ -29,6 +29,7 @@ export default defineConfig({
     emptyOutDir: true,
     sourcemap: !isProduction,
     minify: isProduction ? 'esbuild' : false,
+    assetsInlineLimit: 0, // Force all assets to be emitted as files
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
@@ -56,7 +57,7 @@ export default defineConfig({
             ttf: 'fonts',
             otf: 'fonts'
           }[ext] || 'misc';
-          return `Sahil-Portfolio/assets/${folder}/[name]-[hash][extname]`;
+          return `assets/${folder}/[name]-[hash][extname]`;
         }
       }
     }

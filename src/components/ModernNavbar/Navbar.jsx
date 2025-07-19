@@ -87,6 +87,7 @@ const navItems = [
   { name: 'Home', path: '/', icon: <FiHome className="w-5 h-5" /> },
   { name: 'About', path: '/about', icon: <FiUser className="w-5 h-5" /> },
   { name: 'Projects', path: '/projects', icon: <FiCode className="w-5 h-5" /> },
+  { name: 'UI Playground', path: '/ui-playground', icon: <FiCode className="w-5 h-5" /> },
   { name: 'Contact', path: '/contact', icon: <FiMail className="w-5 h-5" /> },
 ];
 
@@ -309,7 +310,7 @@ const Navbar = () => {
               <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-center space-x-2">
                   <img
-                    src="/Sahil-Portfolio/images/logo/logo192.png"
+                    src="/Sahil-Portfolio/src/assets/images/logo/logo192.png"
                     alt="Sahil's Logo"
                     className="w-10 h-10"
                     width="40"

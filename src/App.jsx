@@ -22,6 +22,7 @@ const ZomatoAnalysis = React.lazy(() => import('./pages/projects/ZomatoAnalysis.
 const BansalSupermarket = React.lazy(() => import('./pages/projects/BansalSupermarket.jsx'));
 const EkamAttendance = React.lazy(() => import('./pages/projects/EkamAttendance.jsx'));
 const RetailCashFlow = React.lazy(() => import('./pages/projects/RetailCashFlow.jsx'));
+const UIPlayground = React.lazy(() => import('./components/sections/UIPlayground.jsx'));
 
 // Loading component
 const LoadingFallback = () => (
@@ -147,6 +148,7 @@ function App() {
                 <Route path="/projects/retail-cash-flow" element={<RetailCashFlow />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/ui-playground" element={<UIPlayground />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

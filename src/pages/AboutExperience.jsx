@@ -28,6 +28,7 @@ import {
   FaExternalLinkAlt
 } from 'react-icons/fa';
 import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
+import ModernButton from '@/components/ui/ModernButton';
 
 import { useLocation } from 'react-router-dom';
 import '../styles/animations.css';
@@ -194,42 +195,6 @@ const GradientBorderCard = ({ children, className = '', ...props }) => (
   </div>
 );
 
-const Button = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md',
-  className = '',
-  icon: Icon,
-  iconPosition = 'right',
-  ...props 
-}) => {
-  const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-2.5',
-    lg: 'px-8 py-3 text-lg'
-  };
-
-  const variantClasses = {
-    primary: 'btn-primary',
-    secondary: 'btn-secondary',
-    ghost: 'btn-ghost',
-    outline: 'border-2 border-current text-current hover:bg-opacity-10 hover:bg-current'
-  };
-
-  return (
-    <motion.button
-      className={`btn ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
-      whileHover={{ y: -2, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      {...props}
-    >
-      {iconPosition === 'left' && Icon && <Icon className="mr-2" />}
-      <span>{children}</span>
-      {iconPosition === 'right' && Icon && <Icon className="ml-2" />}
-    </motion.button>
-  );
-};
-
 const AboutSection = React.forwardRef((props, ref) => {
   // Language Skills Data
   const languageSkills = [
@@ -361,58 +326,55 @@ const AboutSection = React.forwardRef((props, ref) => {
             </p>
             
             <div className="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4">
-              <Button 
+              <ModernButton 
                 as="a" 
                 href="https://www.linkedin.com/in/sahil-ali-714867242/" 
                 target="_blank" 
                 rel="noopener noreferrer nofollow" 
-                size="sm" 
+                size="icon"
                 variant="ghost"
-                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                icon="linkedin"
+                className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Connect on LinkedIn"
                 title="Connect on LinkedIn"
-              >
-                <FaLinkedin className="w-4 h-4" />
-              </Button>
-              <Button 
+              />
+              <ModernButton 
                 as="a" 
                 href="https://wa.me/919875771550" 
                 target="_blank" 
-                rel="noopener noreferrer nofollow" 
-                size="sm" 
+                rel="noopener noreferrer nofollow"
+                size="icon"
                 variant="ghost"
-                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                icon="whatsapp"
+                className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Message on WhatsApp"
                 title="Message on WhatsApp"
-              >
-                <FaWhatsapp className="w-4 h-4" />
-              </Button>
-              <Button 
+              />
+              <ModernButton 
                 as="a" 
                 href="mailto:sahilkhan36985@gmail.com"
                 target="_blank"
-                size="sm" 
+                size="icon"
                 variant="ghost"
-                className="w-10 h-10 p-0 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-colors"
+                icon="mail"
+                className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Send an email"
                 title="Send an email"
-              >
-                <FiMail className="w-4 h-4" />
-              </Button>
+              />
             </div>
             
             <div className="mt-6">
-              <Button 
+              <ModernButton 
                 onClick={handleDownload}
                 variant="primary"
-                size="sm"
-                icon={FiDownload}
+                size="md"
+                icon="download"
                 iconPosition="left"
                 className="w-full justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                 aria-label="Download Resume"
               >
                 Download CV
-              </Button>
+              </ModernButton>
             </div>
           </div>
           
@@ -542,7 +504,7 @@ const AboutSection = React.forwardRef((props, ref) => {
               Let's collaborate to optimize your inventory, analyze your data, and implement efficient solutions that drive growth and efficiency.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0">
-              <Button
+              <ModernButton
                 as="a"
                 href="/resume.pdf"
                 download="Sahil-Ali-Resume.pdf"
@@ -554,8 +516,8 @@ const AboutSection = React.forwardRef((props, ref) => {
                 aria-label="Download My Resume"
               >
                 Download My Resume
-              </Button>
-              <Button
+              </ModernButton>
+              <ModernButton
                 as="a"
                 href="#contact"
                 variant="ghost"
@@ -566,7 +528,7 @@ const AboutSection = React.forwardRef((props, ref) => {
                 aria-label="Get in Touch"
               >
                 Get In Touch
-              </Button>
+              </ModernButton>
             </div>
             
             <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 text-sm text-indigo-200">

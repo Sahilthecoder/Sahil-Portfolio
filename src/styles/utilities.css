@@ -1,7 +1,124 @@
 @layer utilities {
+  /* Modern Scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-primary)) rgb(var(--color-border) / 0.5);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background-color: rgb(var(--color-border) / 0.5);
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-primary));
+    @apply rounded-full;
+  }
+  
+  /* Modern Focus Ring */
+  .focus-ring {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900;
+  }
+  
+  /* Backdrop Blur */
+  .backdrop-blur {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg;
+  }
+  
+  /* Text Gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500;
+  }
+  
   /* Text Utilities */
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Container Queries */
+  .container {
+    container-type: inline-size;
+    container-name: component;
+  }
+  
+  @container component (min-width: 640px) {
+    .card {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Modern Animations */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  .animate-scroll-reveal {
+    animation: scrollReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  /* Animation Keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+    25% { transform: translateY(-10px) translateX(5px) rotate(1deg); }
+    50% { transform: translateY(5px) translateX(-5px) rotate(-1deg); }
+    75% { transform: translateY(-5px) translateX(5px) rotate(1deg); }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from { 
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to { 
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes scrollReveal {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* Gradient Text */
@@ -44,7 +161,65 @@
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
+  
+  /* Container Queries */
+  .container {
+    container-type: inline-size;
+  }
+  
+  @container (min-width: 640px) {
+    .card {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Modern Transitions */
+  .transition-all-fast {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  
+  /* Text Stroke */
+  .text-stroke {
+    -webkit-text-stroke: 1px currentColor;
+    text-stroke: 1px currentColor;
+  }
+  
+  /* Animation Utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
 
+  /* Scroll Snap */
+  .snap-x-mandatory {
+    scroll-snap-type: x mandatory;
+  }
+  
+  .snap-y-mandatory {
+    scroll-snap-type: y mandatory;
+  }
+  
+  .snap-center {
+    scroll-snap-align: center;
+  }
+  
+  .snap-start {
+    scroll-snap-align: start;
+  }
+  
+  .snap-end {
+    scroll-snap-align: end;
+  }
+  
   /* Scroll Snap */
   .snap-x {
     scroll-snap-type: x mandatory;

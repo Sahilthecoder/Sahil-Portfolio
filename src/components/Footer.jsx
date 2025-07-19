@@ -416,7 +416,7 @@ const Footer = () => {
                 </svg>
               </motion.div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                <h3 className="text-xl font-bold dark:text-white bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
                   Sahil Ali
                 </h3>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Data Analyst</p>

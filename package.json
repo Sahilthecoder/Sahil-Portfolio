@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run optimize-images && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t true -m 'Deploy to GitHub Pages [skip ci]'",
@@ -44,7 +44,8 @@
     "react-type-animation": "^3.2.0",
     "swiper": "^11.2.10",
     "tailwind-scrollbar": "^4.0.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-text-balance": "^0.2.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.27.1",

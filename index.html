@@ -31,7 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Preload resources with crossorigin attribute -->
+    <!-- Preload critical resources with crossorigin -->
     <link rel="preload" href="favicon-32x32.png" as="image" type="image/png" crossorigin="anonymous" />
     <link rel="preload" href="favicon-16x16.png" as="image" type="image/png" crossorigin="anonymous" />
     <link rel="preload" href="favicon.svg" as="image" type="image/svg+xml" crossorigin="anonymous" />
@@ -40,83 +40,62 @@
     
     <!-- Additional meta tags -->
     <meta name="author" content="Sahil Ali" />
-    <meta name="keywords" content="portfolio, web developer, full stack, data analyst, Sahil Ali" />
+    <meta name="keywords" content="Sahil Ali, Portfolio, Full Stack Developer, Data Analyst, Web Developer" />
+    <meta name="robots" content="index, follow" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
     <meta property="og:title" content="Sahil Ali - Portfolio" />
     <meta property="og:description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
-    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/og-image.jpg" />
+    <meta property="og:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/profile/profile.webp" />
     
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
-    <meta name="twitter:title" content="Sahil Ali - Portfolio" />
-    <meta name="twitter:description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
-    <meta name="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/twitter-card.jpg" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://sahilthecoder.github.io/Sahil-Portfolio/" />
+    <meta property="twitter:title" content="Sahil Ali - Portfolio" />
+    <meta property="twitter:description" content="Personal portfolio of Sahil Ali - Full Stack Developer and Data Analyst" />
+    <meta property="twitter:image" content="https://sahilthecoder.github.io/Sahil-Portfolio/images/profile/profile.webp" />
     
-    <!-- Preload critical resources - Paths will be updated during build -->
-    <link rel="preload" href="images/profile/profile.webp" as="image" type="image/webp" crossorigin="anonymous" />
-    <link rel="preload" href="assets/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="preload" href="assets/index.js" as="script" crossorigin="anonymous" />
-    <link rel="preload" href="assets/react.js" as="script" crossorigin="anonymous" />
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#6366f1" />
     
-    <!-- Preconnect to critical domains -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preload Google Fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" /></noscript>
     
-    <!-- Critical CSS inline -->
     <style>
       :root {
         --color-primary: 99 102 241;
         --color-accent: 139 92 246;
         --color-card: 255 255 255;
-        --color-border: 229 231 235;
-        --color-bg: 249 250 251;
         --color-text: 17 24 39;
-        --color-heading: 17 24 39;
+        --color-text-muted: 107 114 128;
+        --color-border: 229 231 235;
+        --color-background: 249 250 251;
+        --color-error: 239 68 68;
+        --color-success: 16 185 129;
+        --color-warning: 245 158 11;
+        --color-info: 59 130 246;
       }
       
-      body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        line-height: 1.7;
-        color: rgb(var(--color-text));
-        background-color: rgb(var(--color-bg));
-        transition: background-color 0.3s ease;
-      }
-      
-      .dark {
-        --color-card: 31 41 55;
-        --color-border: 55 65 81;
-        --color-bg: 17 24 39;
-        --color-text: 243 244 246;
-        --color-heading: 255 255 255;
-      }
-      
-      /* Critical layout styles */
-      html {
-        scroll-behavior: smooth;
-      }
-      
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1rem;
-      }
-      
-      /* Critical image sizing */
-      .project-card {
-        aspect-ratio: 16/9;
-      }
-      
-      /* Critical font loading */
+      /* Critical font-face definitions */
       @font-face {
         font-family: 'Inter';
         font-style: normal;
-        font-weight: 400;
+        font-weight: 100 900;
         font-display: swap;
-        src: url(/fonts/Inter-Regular.woff2) format('woff2');
+        src: url(/Sahil-Portfolio/fonts/Inter.var.woff2) format('woff2');
+        font-named-instance: 'Regular';
+      }
+      
+      @font-face {
+        font-family: 'Inter';
+        font-style: italic;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url(/Sahil-Portfolio/fonts/Inter.var.woff2) format('woff2');
+        font-named-instance: 'Italic';
       }
       
       @font-face {
@@ -124,18 +103,14 @@
         font-style: normal;
         font-weight: 500;
         font-display: swap;
-        src: url(/fonts/Inter-Medium.woff2) format('woff2');
+        src: url(/Sahil-Portfolio/fonts/Inter-Medium.woff2) format('woff2');
       }
     </style>
-    
-    <!-- Non-critical CSS -->
-    <link rel="stylesheet" href="/Sahil-Portfolio/css/index.uxCVThry.css" media="print" onload="this.media='all'" />
   </head>
   <body>
     <div id="root"></div>
     
-    <!-- Load main script with module type -->
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Vite will inject the correct script paths -->
     
     <!-- Fallback for browsers that don't support modules -->
     <script nomodule>

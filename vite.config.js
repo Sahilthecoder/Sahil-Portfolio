@@ -133,7 +133,7 @@ export default defineConfig({
       polyfill: false,
     },
     // Ensure all favicon files and index.html are copied to the output directory
-    assetsInclude: ['**/*.ico', '**/*.png', '**/*.svg', '**/*.webmanifest', '**/*.html'],
+    assetsInclude: ['**/*.ico', '**/*.png', '**/*.svg', '**/*.webmanifest', '**/*.html', '**/*.woff2'],
     // Configure rollup options
     rollupOptions: {
       input: {
@@ -142,7 +142,18 @@ export default defineConfig({
       output: {
         entryFileNames: 'assets/[name]-[hash].js',
         chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash][extname]',
+        assetFileNames: (assetInfo) => {
+          // Put fonts in a separate directory
+          if (assetInfo.name.endsWith('.woff2') || assetInfo.name.endsWith('.ttf') || assetInfo.name.endsWith('.woff')) {
+            return 'assets/fonts/[name]-[hash][extname]';
+          }
+          // Put images in an images directory
+          if (assetInfo.name.match(/\.(png|jpe?g|svg|gif|webp|avif)$/)) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          // Default asset directory
+          return 'assets/[name]-[hash][extname]';
+        },
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
           vendor: ['framer-motion', 'react-icons'],
@@ -154,9 +165,9 @@ export default defineConfig({
   // Resolve aliases
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, 'src'),
+      '~assets': path.resolve(__dirname, 'src/assets'),
       '@components': path.resolve(__dirname, 'src/components'),
-      '@assets': path.resolve(__dirname, 'src/assets'),
       '@styles': path.resolve(__dirname, 'src/styles'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),

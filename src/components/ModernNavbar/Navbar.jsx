@@ -190,7 +190,7 @@ const Navbar = () => {
                 aria-label="Home"
               >
                 <img
-                  src="/images/logo/logo192.png"
+                  src="/Sahil-Portfolio/images/logo/logo192.png"
                   alt="Sahil's Logo"
                   className="w-8 h-8"
                   width="32"
@@ -309,13 +309,13 @@ const Navbar = () => {
               {/* Logo and Close Button */}
               <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
                 <div className="flex items-center space-x-2">
-                  <img
-                    src="/Sahil-Portfolio/src/images/logo/logo192.png"
-                    alt="Sahil's Logo"
-                    className="w-10 h-10"
+                  <img 
+                    src="/Sahil-Portfolio/images/logo/logo192.png" 
+                    alt="Sahil's Logo" 
+                    className="w-10 h-10 rounded-full mr-3"
                     width="40"
                     height="40"
-                    loading="eager"
+                    loading="lazy"
                   />
                   <div className="flex flex-col">
                     <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">

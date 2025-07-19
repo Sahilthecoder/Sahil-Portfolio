@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import Button from '../ui/Button';
 
 const ProjectCard = ({ 
   project, 
@@ -14,40 +15,54 @@ const ProjectCard = ({
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isImageError, setIsImageError] = useState(false);
   const imageRef = useRef(null);
+  
+  // Helper function to ensure image path has the correct prefix
+  const getImagePath = (path) => {
+    if (!path) return '';
+    // If the path already has the prefix, return as is
+    if (path.startsWith('/Sahil-Portfolio/')) return path;
+    // If it's an external URL, return as is
+    if (path.startsWith('http')) return path;
+    // Otherwise, add the prefix
+    return `/Sahil-Portfolio${path.startsWith('/') ? '' : '/'}${path}`;
+  };
   const navigate = useNavigate();
 
   // Handle image load and error states
   useEffect(() => {
-    if (!project) return;
-    
-    const img = new Image();
-    const imageUrl = project.previewImage || project.image;
-    
-    // Skip if no image URL
-    if (!imageUrl) {
-      setIsImageError(true);
-      return;
-    }
-    
-    img.src = imageUrl;
-    
-    img.onload = () => {
-      setIsImageLoaded(true);
-      if (imageRef.current) {
-        imageRef.current.src = img.src;
+    const img = imageRef.current;
+    if (!img) return;
+
+    const handleLoad = () => setIsImageLoaded(true);
+    const handleError = () => {
+      // Try fallback image if main image fails
+      if (img.src !== getImagePath('/images/fallback-image.jpg')) {
+        img.src = getImagePath('/images/fallback-image.jpg');
+      } else {
+        setIsImageError(true);
+        setIsImageLoaded(true);
       }
     };
-    
-    img.onerror = () => {
-      console.error(`Failed to load image: ${imageUrl}`);
-      setIsImageError(true);
-    };
-    
+
+    // Set up event listeners
+    img.addEventListener('load', handleLoad);
+    img.addEventListener('error', handleError);
+
+    // Check if image is already loaded (cached)
+    if (img.complete) {
+      if (img.naturalHeight === 0) {
+        handleError();
+      } else {
+        handleLoad();
+      }
+    }
+
+    // Cleanup
     return () => {
-      img.onload = null;
-      img.onerror = null;
+      img.removeEventListener('load', handleLoad);
+      img.removeEventListener('error', handleError);
     };
-  }, [project]);
+  }, [project.previewImage, project.image]);
 
   // Handle card click
   const handleCardClick = (e) => {
@@ -107,7 +122,7 @@ const ProjectCard = ({
         {!isImageError && (
           <img
             ref={imageRef}
-            src={project.previewImage || project.image}
+            src={getImagePath(project.previewImage || project.image)}
             alt={project.title}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
               isImageLoaded ? 'opacity-100' : 'opacity-0'
@@ -119,7 +134,11 @@ const ProjectCard = ({
         {/* Fallback if image fails to load */}
         {isImageError && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700">
-            <span className="text-gray-400 dark:text-gray-500">No preview available</span>
+            <img 
+              src="/Sahil-Portfolio/images/fallback-image.jpg" 
+              alt="Fallback preview"
+              className="w-full h-full object-cover"
+            />
           </div>
         )}
         
@@ -151,16 +170,20 @@ const ProjectCard = ({
         {/* Actions */}
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
           {showViewButton && (
-            <button 
-              className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+            <Button
+              variant="link"
+              size="sm"
+              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 px-0"
               onClick={(e) => {
                 e.stopPropagation();
                 handleCardClick(e);
               }}
+              icon={FaExternalLinkAlt}
+              iconPosition="right"
+              iconClassName="ml-1.5"
             >
               View Project
-              <FaExternalLinkAlt className="ml-1.5" size={12} />
-            </button>
+            </Button>
           )}
           
           <div className="flex items-center space-x-3">

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import EnhancedProjectModal from '../components/ProjectModal/EnhancedProjectModal';
+import PropTypes from 'prop-types';
 
 // Icons
 // React Icons from Font Awesome
@@ -24,7 +25,9 @@ import {
   FaImage,
   FaEnvelope,
   FaFileAlt,
-  FaCheck
+  FaCheck,
+  FaStar,
+  FaCodeBranch
 } from 'react-icons/fa';
 
 // Simple Icons
@@ -143,89 +146,127 @@ const techIcons = {
   'default': <FaCode className="text-gray-500" />,
 };
 
-// Project card component
-const ProjectCard = ({ project, index, onClick }) => {
-  // Use React Router's useNavigate for client-side navigation
+// Project card component with memoization
+const ProjectCard = React.memo(({ project, index, onClick, className }) => {
   const navigate = useNavigate();
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [isImageError, setIsImageError] = useState(false);
+  const [imageState, setImageState] = useState({
+    isLoaded: false,
+    hasError: false
+  });
   const [isHovered, setIsHovered] = useState(false);
   const imageRef = useRef(null);
   const cardRef = useRef(null);
 
-  // Handle image load and error states
+  // Helper function to ensure image path has the correct prefix
+  const getImagePath = (path) => {
+    if (!path) return '';
+    // If it's an external URL, return as is
+    if (path.startsWith('http')) return path;
+    // If it already has the prefix, return as is
+    if (path.startsWith('/Sahil-Portfolio/')) return path;
+    // Otherwise, add the prefix
+    return `/Sahil-Portfolio${path.startsWith('/') ? '' : '/'}${path}`;
+  };
+
+  // Memoize the image URL to prevent unnecessary effect runs
+  const imageUrl = useMemo(() => getImagePath(project?.previewImage || project?.image), [project]);
+
+  // Handle image loading state
   useEffect(() => {
-    if (!project) return;
-    
-    const img = new Image();
-    const imageUrl = project.previewImage || project.image;
-    
-    // Skip if no image URL
     if (!imageUrl) {
-      setIsImageError(true);
+      setImageState(prev => ({ ...prev, hasError: true }));
       return;
     }
+
+    let isMounted = true;
+    const img = new Image();
     
-    img.src = imageUrl;
-    
-    img.onload = () => {
-      setIsImageLoaded(true);
-      if (imageRef.current) {
-        imageRef.current.src = img.src;
+    const handleLoad = () => {
+      if (isMounted) {
+        setImageState({ isLoaded: true, hasError: false });
       }
     };
     
-    img.onerror = () => {
-      console.error(`Failed to load image: ${imageUrl}`);
-      setIsImageError(true);
+    const handleError = () => {
+      if (isMounted) {
+        console.error(`Failed to load image: ${imageUrl}`);
+        setImageState({ isLoaded: true, hasError: true });
+      }
     };
-    
+
+    img.src = imageUrl;
+    img.onload = handleLoad;
+    img.onerror = handleError;
+
+    // Cleanup function
     return () => {
+      isMounted = false;
       img.onload = null;
       img.onerror = null;
     };
-  }, [project]);
+  }, [imageUrl]);
 
-  // Handle card clicks - only for the card itself, not its children
-  const handleCardClick = (e) => {
-    // Prevent default to avoid any unwanted behavior
+  // Add PropTypes for better type checking
+  ProjectCard.propTypes = {
+    project: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string,
+      previewImage: PropTypes.string,
+      link: PropTypes.string,
+      isExternal: PropTypes.bool,
+      tags: PropTypes.arrayOf(PropTypes.string),
+      technologies: PropTypes.arrayOf(PropTypes.string),
+      github: PropTypes.string,
+      liveDemo: PropTypes.string,
+    }).isRequired,
+    index: PropTypes.number,
+    onClick: PropTypes.func,
+    className: PropTypes.string,
+  };
+
+  ProjectCard.defaultProps = {
+    index: 0,
+    onClick: null,
+    className: '',
+  };
+
+  // Handle card click for navigation and preview
+  const handleCardClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     
-    // Don't handle click if it came from a button or link
-    if (e.target.closest('button, a, [role="button"]')) {
+    // Don't handle click if it came from a button or link (except for preview button)
+    const isPreviewButton = e.target.closest('button[data-preview]');
+    if (e.target.closest('a, [role="button"]') && !isPreviewButton) {
       return;
     }
     
-    // Only handle click if the target is the card itself or its direct children
+    // Handle preview button click
+    if (isPreviewButton) {
+      if (onClick && typeof onClick === 'function') {
+        onClick(project);
+      }
+      return;
+    }
+    
+    // Handle card click for navigation
     if (e.target === cardRef.current || e.target.closest('.project-card')) {
-      // If there's a direct link, handle it appropriately
-      if (project.link) {
+      if (project?.link) {
         // For external links, open in the same tab
         if (project.isExternal || project.link.startsWith('http') || project.link.startsWith('//')) {
           window.open(project.link, '_self');
         } else {
-          // For internal links, use React Router's navigate with hash-based routing
+          // For internal links, use React Router's navigate
           navigate(project.link.startsWith('/') ? project.link : `/${project.link}`);
         }
-        return;
-      }
-
-      // If there's an onClick handler (for modal), call it
-      if (onClick && typeof onClick === 'function') {
+      } else if (onClick && typeof onClick === 'function') {
+        // If there's an onClick handler (for modal), call it
         onClick(project);
       }
     }
-  };
-  
-  // Handle preview button click
-  const handlePreviewClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onClick && typeof onClick === 'function') {
-      onClick(project);
-    }
-  };
+  }, [project, onClick, navigate]);
   
   // Handle direct navigation to project link
   const handleDirectNavigation = (e, link) => {
@@ -255,216 +296,207 @@ const ProjectCard = ({ project, index, onClick }) => {
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
+  // Calculate animation delay based on index to create a staggered effect
+  const animationDelay = Math.min(0.1 * (index % 5), 0.5);
+
   if (!project) return null;
 
+  // Handle preview click
+  const handlePreviewClick = (e) => {
+    e.stopPropagation();
+    if (onClick && typeof onClick === 'function') {
+      onClick(project);
+    }
+  };
+
   return (
-    <div 
-      className="w-full h-full"
+    <motion.article
       ref={cardRef}
-      role="button"
-      tabIndex={0}
+      className={`relative bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col project-card ${className}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
+      role="button"
+      tabIndex={0}
       aria-label={`View ${project.title} project`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ 
+        duration: 0.3, 
+        delay: animationDelay,
+        type: 'spring',
+        stiffness: 100,
+        damping: 15
+      }}
     >
-      <Tilt
-        tiltMaxAngleX={2}
-        tiltMaxAngleY={2}
-        scale={1.01}
-        glareEnable={true}
-        glareMaxOpacity={0.05}
-        glareColor="#ffffff"
-        glarePosition="all"
-        glareBorderRadius="12px"
-        className="h-full"
-        transitionSpeed={800}
-      >
-        <motion.div
-          className={`h-full bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl overflow-hidden border transition-all duration-300 group relative shadow-sm hover:shadow-md sm:hover:shadow-xl ${
-            isHovered 
-              ? 'border-indigo-400/70 dark:border-blue-400/40 shadow-lg' 
-              : 'border-gray-200/80 dark:border-gray-700/50'
-          }`}
-          initial={false}
-          animate={{
-            y: isHovered ? -4 : 0,
-            boxShadow: isHovered 
-              ? '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)' 
-              : '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
-          }}
-          transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-          style={{ position: 'relative', zIndex: 1 }}
-        >
-          {/* Enhanced glow effect */}
-          <div 
-            className="absolute inset-0 bg-gradient-to-br from-indigo-50/80 to-blue-50/80 dark:from-blue-900/20 dark:to-purple-900/20 opacity-0 transition-opacity duration-300"
-            style={{ opacity: isHovered ? 1 : 0 }}
+      {/* Project image */}
+      <div className="relative pt-[56.25%] overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
+          <img
+            ref={imageRef}
+            src={getImagePath(project.previewImage || project.image)}
+            alt={project.title}
+            className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-105' : 'scale-100'} ${imageState.isLoaded ? 'opacity-100' : 'opacity-0'}`}
+            loading="lazy"
+            onError={(e) => {
+              const imageUrl = project.previewImage || project.image;
+              console.error(`Failed to load image: ${imageUrl}`);
+              setImageState(prev => ({ ...prev, hasError: true }));
+              // Try to load fallback image
+              if (e.target.src !== getImagePath('/images/fallback-image.jpg')) {
+                e.target.src = getImagePath('/images/fallback-image.jpg');
+              } else {
+                e.target.style.display = 'none';
+              }
+            }}
+            onLoad={() => setImageState({ isLoaded: true, hasError: false })}
+            decoding="async"
           />
-          <div className="absolute inset-0 ring-1 ring-inset ring-gray-100/50 dark:ring-white/5" />
-
-          {/* Project image */}
-          <div className="relative pt-[56.25%] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
-              <img
-                ref={imageRef}
-                src={project.previewImage || project.image}
-                alt={project.title}
-                className={`w-full h-full object-cover transition-transform duration-500 ${isHovered ? 'scale-105' : 'scale-100'} ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                loading="lazy"
-                onError={(e) => {
-                  console.error(`Failed to load image: ${project.previewImage || project.image}`);
-                  setIsImageError(true);
-                  e.target.style.display = 'none';
-                }}
-                onLoad={() => setIsImageLoaded(true)}
-                decoding="async"
-              />
-              {!isImageLoaded && !isImageError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                  <div className="w-8 h-8 border-4 border-gray-300 border-t-indigo-500 rounded-full animate-spin"></div>
-                </div>
-              )}
-              {isImageError && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                  <div className="text-center p-4">
-                    <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" aria-label="Image placeholder" role="img" />
-                    <p className="text-xs text-gray-500">Image not available</p>
-                  </div>
-                </div>
-              )}
+          {!imageState.isLoaded && !imageState.hasError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+              <div className="w-8 h-8 border-4 border-gray-300 border-t-indigo-500 rounded-full animate-spin"></div>
             </div>
-            
-            {/* Tech stack overlay */}
-            <div 
-              className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 flex items-end p-3 sm:p-4 md:p-6"
-              style={{ opacity: isHovered ? 1 : 0 }}
-            >
-              <div className="w-full">
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
-                  {project.techStack?.slice(0, 5).map((tech, idx) => (
-                    <motion.span
-                      key={`${tech}-${idx}`}
-                      initial={{ opacity: 0, y: 5 }}
-                      animate={{ 
-                        opacity: isHovered ? 1 : 0, 
-                        y: isHovered ? 0 : 5 
-                      }}
-                      transition={{ 
-                        delay: isHovered ? idx * 0.03 : 0,
-                        duration: 0.2 
-                      }}
-                      className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-150 shadow-sm cursor-default"
-                    >
-                      <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm" aria-hidden="true">
-                        <span aria-hidden="true">{techIcons[tech] || tech.charAt(0)}</span>
-                      </span>
-                      <span className="hidden xs:inline">{tech}</span>
-                      <span className="xs:hidden">{tech.split(' ')[0]}</span>
-                    </motion.span>
-                  ))}
-                </div>
+          )}
+          {imageState.hasError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+              <div className="text-center p-4">
+                <FaImage className="w-8 h-8 mx-auto text-gray-400 mb-2" aria-label="Image placeholder" role="img" />
+                <p className="text-xs text-gray-500">Image not available</p>
               </div>
             </div>
-          </div>
-
-          {/* Project info */}
-          <div 
-            className="p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 relative z-10 transition-colors duration-300 group-hover:bg-white/95 dark:group-hover:bg-gray-800/95"
-            style={{ pointerEvents: 'auto' }}
-          >
-            <div className="flex items-start justify-between mb-2 sm:mb-3">
-              <div>
-                <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent">
-                  {project.title}
-                </h3>
-              </div>
-              
-              {/* Project links */}
-              <div className="flex items-center space-x-1.5">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/70 transform hover:-translate-y-0.5"
-                    aria-label="View on GitHub"
-                  >
-                    <FiGithub className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                  </a>
-                )}
-                
-                {project.link && (
-                  <a
-                    href={project.link}
-                    target={project.external ? "_blank" : "_self"}
-                    rel={project.external ? "noopener noreferrer" : "noopener"}
-                    onClick={(e) => e.stopPropagation()}
-                    className="p-1.5 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/70 transform hover:-translate-y-0.5"
-                    aria-label="View live project"
-                  >
-                    <FiExternalLink className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                  </a>
-                )}
-              </div>
-            </div>
-            
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed line-clamp-2 transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
-              {project.shortDescription}
-            </p>
-            
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
-              <motion.button
-                onClick={handlePreviewClick}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg border border-gray-200 dark:border-gray-600 hover:border-indigo-300 dark:hover:border-indigo-500/50"
-              >
-                <span>Preview</span>
-                <FiMaximize2 className="ml-1.5 w-3.5 h-3.5" />
-              </motion.button>
-              
-              {project.link && (project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
-                <motion.a
-                  href={project.link}
-                  target="_self"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+          )}
+        </div>
+        
+        {/* Tech stack overlay */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 transition-opacity duration-300 flex items-end p-3 sm:p-4 md:p-6"
+          style={{ opacity: isHovered ? 1 : 0 }}
+        >
+          <div className="w-full">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
+              {project.techStack?.slice(0, 5).map((tech, idx) => (
+                <motion.span
+                  key={`${tech}-${idx}`}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ 
+                    opacity: isHovered ? 1 : 0, 
+                    y: isHovered ? 0 : 5 
+                  }}
+                  transition={{ 
+                    delay: isHovered ? idx * 0.03 : 0,
+                    duration: 0.2 
+                  }}
+                  className="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-white/90 dark:bg-gray-800/90 text-gray-800 dark:text-gray-100 backdrop-blur-sm border border-white/20 hover:border-white/40 transition-all duration-150 shadow-sm cursor-default"
                 >
-                  <span>View Project</span>
-                  <FiExternalLink className="ml-1.5 w-3.5 h-3.5" />
-                </motion.a>
-              ) : (
-                <Link
-                  to={project.link.startsWith('/') ? project.link : `/${project.link}`}
-                  onClick={(e) => e.stopPropagation()}
-                  className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
-                >
-                  <motion.span
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="flex items-center justify-center w-full"
-                  >
-                    <span>View Project</span>
-                    <FiExternalLink className="ml-1.5 w-3.5 h-3.5" />
-                  </motion.span>
-                </Link>
+                  <span className="text-blue-500 mr-1 sm:mr-1.5 text-xs sm:text-sm" aria-hidden="true">
+                    <span aria-hidden="true">{techIcons[tech] || tech.charAt(0)}</span>
+                  </span>
+                  <span className="hidden xs:inline">{tech}</span>
+                  <span className="xs:hidden">{tech.split(' ')[0]}</span>
+                </motion.span>
               ))}
             </div>
           </div>
-        </motion.div>
-      </Tilt>
-    </div>
+        </div>
+      </div>
+
+      {/* Project info */}
+      <div 
+        className="p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 relative z-10 transition-colors duration-300 group-hover:bg-white/95 dark:group-hover:bg-gray-800/95"
+        style={{ pointerEvents: 'auto' }}
+      >
+        <div className="flex items-start justify-between mb-2 sm:mb-3">
+          <div>
+            <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent">
+              {project.title}
+            </h3>
+          </div>
+          
+          {/* Project links */}
+          <div className="flex items-center space-x-1.5">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/70 transform hover:-translate-y-0.5"
+                aria-label="View on GitHub"
+              >
+                <FiGithub className="w-4 h-4 sm:w-4.5 sm:h-4.5" aria-hidden="true" />
+              </a>
+            )}
+            
+            {project.link && (
+              <a
+                href={project.link}
+                target={project.external ? "_blank" : "_self"}
+                rel={project.external ? "noopener noreferrer" : "noopener"}
+                onClick={(e) => e.stopPropagation()}
+                className="p-1.5 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/70 transform hover:-translate-y-0.5"
+                aria-label="View live project"
+              >
+                <FiExternalLink className="w-4 h-4 sm:w-4.5 sm:h-4.5" aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        </div>
+        
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 leading-relaxed line-clamp-2 transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
+          {project.shortDescription}
+        </p>
+        
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
+          <motion.button
+            onClick={handleCardClick}
+            data-preview="true"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg border border-gray-200 dark:border-gray-600 hover:border-indigo-300 dark:hover:border-indigo-500/50"
+          >
+            <span>Preview</span>
+            <FiMaximize2 className="ml-1.5 w-3.5 h-3.5" aria-hidden="true" />
+          </motion.button>
+          
+          {project.link && (project.isExternal || project.link.startsWith('http') || project.link.startsWith('//') ? (
+            <motion.a
+              href={project.link}
+              target="_self"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+            >
+              <span>View Project</span>
+              <FiExternalLink className="ml-1.5 w-3.5 h-3.5" />
+            </motion.a>
+          ) : (
+            <Link
+              to={project.link.startsWith('/') ? project.link : `/${project.link}`}
+              onClick={(e) => e.stopPropagation()}
+              className="flex-1 flex items-center justify-center px-3 py-2 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 rounded-lg transition-all shadow-sm hover:shadow-md"
+            >
+              <motion.span
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center justify-center w-full"
+              >
+                <span>View Project</span>
+                <FiExternalLink className="ml-1.5 w-3.5 h-3.5" aria-hidden="true" />
+              </motion.span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </motion.article>
   );
-};
+});
+
+export { ProjectCard };
 
 const projects = [
   {
@@ -639,12 +671,6 @@ const Projects = () => {
         project.techStack?.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
     });
   }, [projects, searchTerm]);
-
-
-
-
-
-
 
   // Simulate loading
   useEffect(() => {
@@ -845,12 +871,12 @@ const Projects = () => {
               <div className="relative max-w-md mx-auto lg:mr-0">
                 <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
                   <img 
-                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                    src="/Sahil-Portfolio/images/hero/project-showcase.jpg" 
                     alt="Data Analysis and Project Showcase"
                     className="w-full h-auto object-cover rounded-lg"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/images/fallback-image.jpg';
+                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                     }}
                   />
                 </div>

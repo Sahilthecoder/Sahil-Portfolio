@@ -27,8 +27,8 @@ import {
   FaArrowRight,
   FaExternalLinkAlt
 } from 'react-icons/fa';
-import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink } from 'react-icons/fi';
-import ModernButton from '@/components/ui/ModernButton';
+import { FiDownload, FiMail, FiMapPin, FiMessageSquare, FiExternalLink, FiLinkedin, FiMessageCircle } from 'react-icons/fi';
+import Button from '@/components/ui/Button';
 
 import { useLocation } from 'react-router-dom';
 import '../styles/animations.css';
@@ -309,7 +309,7 @@ const AboutSection = React.forwardRef((props, ref) => {
                   height="144"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = 'https://via.placeholder.com/200';
+                    e.target.src = '/Sahil-Portfolio/images/profile/profile-fallback.jpg';
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
@@ -326,37 +326,37 @@ const AboutSection = React.forwardRef((props, ref) => {
             </p>
             
             <div className="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4">
-              <ModernButton 
-                as="a" 
+              <Button 
+                as="a"
                 href="https://www.linkedin.com/in/sahil-ali-714867242/" 
                 target="_blank" 
-                rel="noopener noreferrer nofollow" 
-                size="icon"
+                rel="noopener noreferrer nofollow"
                 variant="ghost"
-                icon="linkedin"
+                size="icon"
+                icon={FiLinkedin}
                 className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Connect on LinkedIn"
                 title="Connect on LinkedIn"
               />
-              <ModernButton 
-                as="a" 
+              <Button 
+                as="a"
                 href="https://wa.me/919875771550" 
                 target="_blank" 
                 rel="noopener noreferrer nofollow"
-                size="icon"
                 variant="ghost"
-                icon="whatsapp"
+                size="icon"
+                icon={FiMessageCircle}
                 className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Message on WhatsApp"
                 title="Message on WhatsApp"
               />
-              <ModernButton 
-                as="a" 
+              <Button 
+                as="a"
                 href="mailto:sahilkhan36985@gmail.com"
                 target="_blank"
-                size="icon"
                 variant="ghost"
-                icon="mail"
+                size="icon"
+                icon={FiMail}
                 className="w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700/50"
                 aria-label="Send an email"
                 title="Send an email"
@@ -364,17 +364,17 @@ const AboutSection = React.forwardRef((props, ref) => {
             </div>
             
             <div className="mt-6">
-              <ModernButton 
+              <Button 
                 onClick={handleDownload}
                 variant="primary"
                 size="md"
-                icon="download"
+                icon={FiDownload}
                 iconPosition="left"
                 className="w-full justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
                 aria-label="Download Resume"
               >
                 Download CV
-              </ModernButton>
+              </Button>
             </div>
           </div>
           
@@ -504,7 +504,7 @@ const AboutSection = React.forwardRef((props, ref) => {
               Let's collaborate to optimize your inventory, analyze your data, and implement efficient solutions that drive growth and efficiency.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0">
-              <ModernButton
+              <Button
                 as="a"
                 href="/resume.pdf"
                 download="Sahil-Ali-Resume.pdf"
@@ -516,8 +516,8 @@ const AboutSection = React.forwardRef((props, ref) => {
                 aria-label="Download My Resume"
               >
                 Download My Resume
-              </ModernButton>
-              <ModernButton
+              </Button>
+              <Button
                 as="a"
                 href="#contact"
                 variant="ghost"
@@ -528,7 +528,7 @@ const AboutSection = React.forwardRef((props, ref) => {
                 aria-label="Get in Touch"
               >
                 Get In Touch
-              </ModernButton>
+              </Button>
             </div>
             
             <div className="mt-8 flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 text-sm text-indigo-200">

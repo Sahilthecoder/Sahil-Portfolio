@@ -304,13 +304,13 @@ const BansalSupermarket = () => {
     const getImagePath = (img) => {
       if (!img) return '';
 
-      // If we have a direct path, use it
+      // If we have a direct path, use it (ensure it has the prefix)
       if (img.path) {
-        return img.path;
+        return img.path.startsWith('/Sahil-Portfolio/') ? img.path : `/Sahil-Portfolio${img.path.startsWith('/') ? '' : '/'}${img.path}`;
       }
 
       // Fallback to constructing the path
-      const basePath = '/images/projects/Project2%20tableau';
+      const basePath = '/Sahil-Portfolio/images/projects/Project2_tableau';
       const name = (img.name || '').replace(/ /g, '%20');
       const ext = img.ext || 'webp';
 
@@ -323,11 +323,11 @@ const BansalSupermarket = () => {
       if (!isModal && typeof window !== 'undefined') {
         let size = '';
         if (window.innerWidth <= 768) {
-          size = '@384w';
+          size = '-300w';
         } else if (window.innerWidth <= 1280) {
-          size = '@768w';
+          size = '-600w';
         } else {
-          size = '@1152w';
+          size = '-1200w';
         }
         return `${basePath}/${name}${size}.${ext}`;
       }
@@ -462,8 +462,8 @@ const BansalSupermarket = () => {
         {/* Hero Section */}
         <div className="relative rounded-2xl overflow-hidden mb-8 sm:mb-12 h-48 sm:h-64 md:h-[32rem]">
           <img
-            src="/images/projects/Project2_tableau/Project2_Cover-1200w.webp"
-            srcSet="/images/projects/Project2_tableau/Project2_Cover-300w.webp 300w, /images/projects/Project2_tableau/Project2_Cover-600w.webp 600w, /images/projects/Project2_tableau/Project2_Cover-1200w.webp 1200w"
+            src="/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-1200w.webp"
+            srcSet="/Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-300w.webp 300w, /Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-600w.webp 600w, /Sahil-Portfolio/images/projects/Project2_tableau/Project2_Cover-1200w.webp 1200w"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt="Bansal Supermarket Dashboard"
             className="w-full h-full object-cover object-top"

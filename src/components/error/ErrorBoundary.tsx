@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
 
 interface Props {
   children: ReactNode;
@@ -125,24 +125,25 @@ export class ErrorBoundary extends Component<Props, State> {
                 </div>
               </div>
 
-              <div className="mt-6 flex justify-center space-x-4">
-                <Button
+              <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+                <button
                   onClick={this.resetErrorBoundary}
-                  variant="primary"
-                  className="inline-flex items-center"
+                  className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-base font-medium transition-colors bg-primary-600 hover:bg-primary-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   Try again
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={() => window.location.reload()}
-                  variant="secondary"
-                  className="inline-flex items-center"
+                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 px-4 py-2 text-base font-medium transition-colors hover:bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   Refresh page
-                </Button>
-                <Button as="a" href="/" variant="ghost" className="inline-flex items-center">
+                </button>
+                <a 
+                  href="/" 
+                  className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-base font-medium transition-colors hover:bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
+                >
                   Go to home
-                </Button>
+                </a>
               </div>
 
               <div className="mt-8 text-center">

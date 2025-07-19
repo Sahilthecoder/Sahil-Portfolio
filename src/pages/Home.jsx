@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { TypeAnimation } from 'react-type-animation';
-import ModernButton from '@/components/ui/ModernButton';
+import Button from '@/components/ui/Button';
 import { 
   FaExternalLinkAlt, 
   FaFileAlt, 
@@ -433,43 +433,40 @@ const Home = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
               >
-                <ModernButton
+                <Button
                   as="a"
                   href="/Sahil-Portfolio/assets/Sahil_Ali_Cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   variant="primary"
                   size="lg"
-                  icon="download"
-                  iconPosition="left"
+                  icon="FiDownload"
                   className="group w-full sm:w-auto"
                 >
                   View My Resume
-                </ModernButton>
+                </Button>
                 
-                <ModernButton
-                  as={Link}
-                  to="/contact"
+                <Button 
+                  as="a"
+                  href="#contact"
                   variant="outline"
                   size="lg"
-                  icon="mail"
-                  iconPosition="left"
+                  icon="FiMail"
                   className="w-full sm:w-auto"
                 >
                   Contact Me
-                </ModernButton>
+                </Button>
                 
-                <ModernButton
+                <Button
                   as={Link}
                   to="/projects"
                   variant="ghost"
                   size="lg"
-                  icon="arrow"
-                  iconPosition="right"
+                  icon="FiArrowRight"
                   className="w-full sm:w-auto group"
                 >
-                  View Projects
-                </ModernButton>
+                  View All Projects
+                </Button>
               </motion.div>
               
               {/* Social Links */}
@@ -480,11 +477,11 @@ const Home = () => {
                 transition={{ delay: 0.7, duration: 0.6 }}
               >
                 {[
-                  { icon: 'github', url: 'https://github.com/Sahilthecoder', label: 'GitHub' },
-                  { icon: 'linkedin', url: 'https://linkedin.com/in/sahil-ali', label: 'LinkedIn' },
-                  { icon: 'mail', url: 'mailto:sahilkhan36985@gmail.com', label: 'Email' }
-                ].map((item, index) => (
-                  <ModernButton
+                  { icon: 'FaGithub', url: 'https://github.com/Sahilthecoder', label: 'GitHub' },
+                  { icon: 'FaLinkedin', url: 'https://linkedin.com/in/sahil-ali', label: 'LinkedIn' },
+                  { icon: 'FiMail', url: 'mailto:sahilkhan36985@gmail.com', label: 'Email' }
+                ].map((item) => (
+                  <Button
                     key={item.label}
                     as="a"
                     href={item.url}
@@ -548,7 +545,7 @@ const Home = () => {
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/Sahil-Portfolio/public/images/fallback-image.jpg';
+                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                     }}
                     loading="eager"
                   />
@@ -962,12 +959,14 @@ const Home = () => {
                 We couldn't find any projects matching your selected category.
                 Try selecting a different category or check back later for updates.
               </p>
-                <ModernButton 
-                onClick={() => window.location.reload()}
-                className="px-6 py-2.5 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors duration-200"
-              >
-                Refresh Page
-              </ModernButton>
+                <Button 
+                  onClick={() => window.location.reload()}
+                  variant="primary"
+                  size="md"
+                  className="px-6 py-2.5 text-sm font-medium"
+                >
+                  Refresh Page
+                </Button>
             </motion.div>
           )}
         </div>

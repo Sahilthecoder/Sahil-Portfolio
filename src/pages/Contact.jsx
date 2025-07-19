@@ -1,25 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaPaperPlane,
-  FaFileUpload,
-  FaLinkedin,
-  FaGithub,
-  FaWhatsapp,
-  FaPhoneAlt,
-  FaMapMarkerAlt,
-  FaEnvelope,
-  FaCheck,
-  FaHandshake,
-  FaBoxes,
-  FaChartLine,
-  FaSync,
-  FaTools,
-  FaArrowRight,
-  FaInstagram
-} from 'react-icons/fa';
+import { FaPaperPlane, FaFileUpload, FaLinkedin, FaGithub, FaWhatsapp, FaPhoneAlt, FaMapMarkerAlt, FaEnvelope, FaCheck, FaHandshake, FaBoxes, FaChartLine, FaSync, FaTools, FaArrowRight, FaInstagram } from 'react-icons/fa';
 import { SiMinutemailer } from 'react-icons/si';
 import { FiTrendingUp } from 'react-icons/fi';
+import Button from '../components/ui/Button';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -924,33 +908,25 @@ const Contact = () => {
                         },
                       }}
                     >
-                      <motion.button
+                      <Button
                         type="submit"
+                        variant="primary"
+                        size="lg"
+                        className="w-full justify-center px-8 py-4 text-base font-medium"
                         disabled={isSubmitting}
-                        className={`w-full flex justify-center items-center px-8 py-4 rounded-xl shadow-lg text-base font-medium text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 bg-size-200 hover:bg-right-bottom focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-500 ${isSubmitting ? 'opacity-80 cursor-not-allowed' : 'hover:shadow-xl hover:-translate-y-0.5'}`}
-                        whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-                        whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+                        isLoading={isSubmitting}
+                        loadingText="Sending Message..."
+                        icon={FaPaperPlane}
+                        iconPosition="left"
+                        motionProps={!isSubmitting ? {
+                          whileHover: { scale: 1.02 },
+                          whileTap: { scale: 0.98 }
+                        } : undefined}
                       >
-                        {isSubmitting ? (
-                          <>
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                              className="h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-3"
-                            />
-                            Sending Message...
-                          </>
-                        ) : (
-                          <>
-                            <svg className="w-5 h-5 mr-2 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white bg-200% animate-shimmer">
-                              Send Message
-                            </span>
-                          </>
-                        )}
-                      </motion.button>
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white bg-200% animate-shimmer">
+                          Send Message
+                        </span>
+                      </Button>
                     </motion.div>
 
 

@@ -26,16 +26,20 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "clsx": "^2.1.1",
     "framer-motion": "^10.12.16",
+    "history": "^5.3.0",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",
     "react-icons": "^4.12.0",
-    "react-router-dom": "^6.14.2",
+    "react-parallax-tilt": "^1.7.301",
+    "react-router-dom": "^6.30.1",
     "react-type-animation": "^3.2.0",
     "swiper": "^11.2.10",
     "tailwind-scrollbar": "^4.0.2",
@@ -54,7 +58,7 @@
     "@types/styled-jsx": "^2.2.9",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
-    "@vitejs/plugin-react": "^4.0.4",
+    "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
     "cssnano": "^7.1.0",
@@ -80,6 +84,6 @@
     "sharp": "^0.34.3",
     "tailwindcss": "^3.3.3",
     "terser": "^5.43.1",
-    "vite": "^7.0.3"
+    "vite": "^5.4.19"
   }
 }

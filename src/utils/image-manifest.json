@@ -1,0 +1,1076 @@
+{
+  "basePath": "/Sahil-Portfolio",
+  "publicPath": "/Sahil-Portfolio/optimized-images",
+  "images": [
+    {
+      "original": "..\\optimized-images\\fallback-image.avif",
+      "optimized": "fallback-image-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/fallback-image-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\fallback-image.webp",
+      "optimized": "fallback-image-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/fallback-image-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\favicons\\apple-touch-icon.avif",
+      "optimized": "favicons\\apple-touch-icon-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/favicons/apple-touch-icon-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\favicons\\apple-touch-icon.webp",
+      "optimized": "favicons\\apple-touch-icon-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/favicons/apple-touch-icon-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\favicons\\apple-touch-icon.avif",
+      "optimized": "favicons\\apple-touch-icon-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/favicons/apple-touch-icon-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\favicons\\apple-touch-icon.webp",
+      "optimized": "favicons\\apple-touch-icon-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/favicons/apple-touch-icon-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\logo\\logo512.avif",
+      "optimized": "logo\\logo512-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/logo/logo512-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\logo\\logo512.webp",
+      "optimized": "logo\\logo512-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/logo/logo512-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\profile\\profile-600w.avif",
+      "optimized": "profile\\profile-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/profile/profile-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\profile\\profile-600w.webp",
+      "optimized": "profile\\profile-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/profile/profile-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\profile\\profile.avif",
+      "optimized": "profile\\profile-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/profile/profile-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\profile\\profile.webp",
+      "optimized": "profile\\profile-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/profile/profile-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-600w.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-600w.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.avif",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Mahira_Portfolio_Web+AI\\Project7_Cover.webp",
+      "optimized": "projects\\Mahira_Portfolio_Web+AI\\Project7_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-1200w.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-1200w.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-1200w.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-1200w.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-600w.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover-600w.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.avif",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\Project1_Cover.webp",
+      "optimized": "projects\\Project1_excel\\Project1_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/Project1_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zometo-ds-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zometo-ds-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zometo-ds-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zometo-ds-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-600w.avif",
+      "optimized": "projects\\Project1_excel\\zometo-ds-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds-600w.webp",
+      "optimized": "projects\\Project1_excel\\zometo-ds-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds.avif",
+      "optimized": "projects\\Project1_excel\\zometo-ds-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds.webp",
+      "optimized": "projects\\Project1_excel\\zometo-ds-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds.avif",
+      "optimized": "projects\\Project1_excel\\zometo-ds-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zometo-ds.webp",
+      "optimized": "projects\\Project1_excel\\zometo-ds-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zometo-ds-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zt1-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zt1-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zt1-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zt1-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-600w.avif",
+      "optimized": "projects\\Project1_excel\\zt1-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1-600w.webp",
+      "optimized": "projects\\Project1_excel\\zt1-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1.avif",
+      "optimized": "projects\\Project1_excel\\zt1-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1.webp",
+      "optimized": "projects\\Project1_excel\\zt1-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1.avif",
+      "optimized": "projects\\Project1_excel\\zt1-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt1.webp",
+      "optimized": "projects\\Project1_excel\\zt1-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt1-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zt2-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zt2-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-1200w.avif",
+      "optimized": "projects\\Project1_excel\\zt2-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-1200w.webp",
+      "optimized": "projects\\Project1_excel\\zt2-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-600w.avif",
+      "optimized": "projects\\Project1_excel\\zt2-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2-600w.webp",
+      "optimized": "projects\\Project1_excel\\zt2-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2.avif",
+      "optimized": "projects\\Project1_excel\\zt2-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2.webp",
+      "optimized": "projects\\Project1_excel\\zt2-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2.avif",
+      "optimized": "projects\\Project1_excel\\zt2-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project1_excel\\zt2.webp",
+      "optimized": "projects\\Project1_excel\\zt2-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project1_excel/zt2-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft-600w.avif",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft-600w.webp",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft.avif",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft.webp",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft.avif",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-saleVSpft.webp",
+      "optimized": "projects\\Project2_tableau\\bs-saleVSpft-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-saleVSpft-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-600w.avif",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO-600w.webp",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO.avif",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO.webp",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO.avif",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-stockTO.webp",
+      "optimized": "projects\\Project2_tableau\\bs-stockTO-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-stockTO-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10-600w.avif",
+      "optimized": "projects\\Project2_tableau\\bs-top10-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10-600w.webp",
+      "optimized": "projects\\Project2_tableau\\bs-top10-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10.avif",
+      "optimized": "projects\\Project2_tableau\\bs-top10-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10.webp",
+      "optimized": "projects\\Project2_tableau\\bs-top10-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10.avif",
+      "optimized": "projects\\Project2_tableau\\bs-top10-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs-top10.webp",
+      "optimized": "projects\\Project2_tableau\\bs-top10-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs-top10-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-600w.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2-600w.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.avif",
+      "optimized": "projects\\Project2_tableau\\bs2-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs2.webp",
+      "optimized": "projects\\Project2_tableau\\bs2-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs2-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-600w.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3-600w.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.avif",
+      "optimized": "projects\\Project2_tableau\\bs3-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\bs3.webp",
+      "optimized": "projects\\Project2_tableau\\bs3-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/bs3-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-1200w.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-1200w.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-600w.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover-600w.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.avif",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project2_tableau\\Project2_Cover.webp",
+      "optimized": "projects\\Project2_tableau\\Project2_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project2_tableau/Project2_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-600w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after-600w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_after.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_after-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_after-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-600w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before-600w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Attendance_before.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Attendance_before-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Attendance_before-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-1200w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-1200w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-600w.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover-600w.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.avif",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project3_Sql+Sheets\\Project3_Cover.webp",
+      "optimized": "projects\\Project3_Sql+Sheets\\Project3_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project3_Sql+Sheets/Project3_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-1200w.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-1200w.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-1200w.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-1200w.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-600w.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1-600w.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow1.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow1-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow1-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2-600w.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2-600w.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2.avif",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\CashFlow2.webp",
+      "optimized": "projects\\Project4_Power_BI\\CashFlow2-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/CashFlow2-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-1200w.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-1200w.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-1200w.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-1200w.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-600w.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover-600w.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.avif",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project4_Power_BI\\Project4_Cover.webp",
+      "optimized": "projects\\Project4_Power_BI\\Project4_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project4_Power_BI/Project4_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-1200w.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-1200w.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-1200w.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-1200w.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-600w.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover-600w.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.avif",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project5_Gpt+Notion\\Project5_Cover.webp",
+      "optimized": "projects\\Project5_Gpt+Notion\\Project5_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project5_Gpt+Notion/Project5_Cover-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-1200w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-1200w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-600w.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-600w-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-600w-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover-600w.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-600w-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-600w-sm.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-lg.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-lg.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-lg.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-lg.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-md.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-md.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-md.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-md.webp"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.avif",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-sm.avif",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-sm.avif"
+    },
+    {
+      "original": "..\\optimized-images\\projects\\Project6_Gpt+Zapier\\Project6_Cover.webp",
+      "optimized": "projects\\Project6_Gpt+Zapier\\Project6_Cover-sm.webp",
+      "url": "/Sahil-Portfolio/optimized-images/projects/Project6_Gpt+Zapier/Project6_Cover-sm.webp"
+    }
+  ]
+}

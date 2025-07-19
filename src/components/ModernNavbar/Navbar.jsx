@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FiHome, FiUser, FiCode, FiMail, FiX, FiSun, FiMoon, FiGithub, FiLinkedin, FiPhone } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
+import { getAssetPath } from '../../utils/paths';
 import { useTheme } from '../../contexts/ThemeContext';
 
 // Scroll to top utility function
@@ -190,7 +191,7 @@ const Navbar = () => {
                 aria-label="Home"
               >
                 <img
-                  src="/Sahil-Portfolio/images/logo/logo192.png"
+                  src={getAssetPath('/images/logo/logo192.png')}
                   alt="Sahil's Logo"
                   className="w-8 h-8"
                   width="32"

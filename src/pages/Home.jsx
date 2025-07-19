@@ -22,9 +22,10 @@ import { FiMail, FiLinkedin, FiMessageSquare, FiBriefcase, FiBarChart2, FiPackag
 import ProjectSwiper from '../components/ProjectSwiper';
 import HomeProjectCard from '../components/HomeProjectCard';
 import { projects } from '../data/projects';
+import { getAssetPath } from '../utils/paths';
 
 // Using a fallback image from the public directory
-const HeroImage = '/images/fallback-image.jpg';
+const HeroImage = getAssetPath('/images/fallback-image.jpg');
 
 const Home = () => {
   // Refs for sections
@@ -546,12 +547,12 @@ const Home = () => {
                   }}
                 >
                   <img 
-                    src="/Sahil-Portfolio/images/profile/profile.webp" 
+                    src={getAssetPath('/images/profile/profile.webp')}
                     alt="Sahil Ali" 
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+                      e.target.src = getAssetPath('/images/fallback-image.jpg');
                     }}
                     loading="eager"
                   />

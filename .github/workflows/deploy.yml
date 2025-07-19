@@ -41,13 +41,13 @@ jobs:
           
       - name: Install dependencies
         run: |
-          # Clean npm cache and remove node_modules and package-lock.json
-          echo "Cleaning npm cache and removing node_modules..."
+          # Clean npm cache
+          echo "Cleaning npm cache..."
           npm cache clean --force
-          rm -rf node_modules package-lock.json
           
-          # Install dependencies
+          # Install dependencies with legacy peer deps to avoid conflicts
           echo "Installing dependencies..."
+          npm ci --legacy-peer-deps
           npm install --legacy-peer-deps
           
       - name: Verify Environment Variables

@@ -40,21 +40,24 @@ jobs:
           # Install dependencies without running scripts first
           npm ci --prefer-offline --no-audit --legacy-peer-deps --ignore-scripts
           
-          # Install TypeScript and all required type definitions
-          npm install --save-dev typescript \
-            @types/node \
-            @types/react \
-            @types/react-dom \
-            @types/react-router-dom \
-            @types/react-transition-group \
-            @types/styled-components
+          # Install Vite and core dependencies first with exact versions
+          npm install --save-dev --legacy-peer-deps \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
+            typescript@^5.0.0 \
+            @types/node@^20.0.0 \
+            @types/react@^18.0.0 \
+            @types/react-dom@^18.0.0
           
-          # Install Vite and required plugins
-          npm install --save-dev \
-            vite \
-            @vitejs/plugin-react \
-            rollup-plugin-visualizer \
-            @vitejs/plugin-legacy
+          # Install additional type definitions
+          npm install --save-dev --legacy-peer-deps \
+            @types/react-router-dom@^6.0.0 \
+            @types/react-transition-group@^4.0.0 \
+            @types/styled-components@^5.0.0
+          
+          # Install optional plugins
+          npm install --save-dev --legacy-peer-deps \
+            rollup-plugin-visualizer@^5.0.0
           
           # Install Vite globally for CLI access
           npm install -g vite

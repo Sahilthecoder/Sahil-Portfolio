@@ -40,11 +40,18 @@ jobs:
           # Clean install all dependencies
           npm ci --legacy-peer-deps
           
-          # Install TypeScript and Vite first
-          npm install --save-dev typescript@^5.0.0 vite@^5.0.0 @vitejs/plugin-react@^4.0.0
-          
-          # Install types as production dependencies to ensure they're available
-          npm install @types/node @types/react @types/react-dom
+          # Install all required dependencies including types
+          npm install --save-dev \
+            typescript@^5.0.0 \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
+            @types/node@^20.0.0 \
+            @types/react@^18.0.0 \
+            @types/react-dom@^18.0.0 \
+            @types/react-router-dom@^5.3.3 \
+            @types/react-transition-group@^4.4.10 \
+            @types/styled-components@^5.1.34 \
+            rollup-plugin-visualizer@^5.0.0
           
           # Verify installations
           echo "Node.js version: $(node --version)"
@@ -53,32 +60,17 @@ jobs:
           echo "Installed @types packages:"
           ls -la node_modules/@types/
           
-          # Create a minimal tsconfig.json for CI
-          cat > tsconfig.json << 'EOL'
-          {
-            "compilerOptions": {
-              "target": "ESNext",
-              "lib": ["DOM", "DOM.Iterable", "ESNext"],
-              "module": "ESNext",
-              "moduleResolution": "node",
-              "esModuleInterop": true,
-              "strict": true,
-              "jsx": "react-jsx",
-              "skipLibCheck": true,
-              "forceConsistentCasingInFileNames": true,
-              "resolveJsonModule": true,
-              "isolatedModules": true,
-              "noEmit": true,
-              "baseUrl": ".",
-              "paths": {
-                "@/*": ["src/*"]
-              },
-              "types": ["node", "vite/client", "react"]
-            },
-            "include": ["src", "vite.config.ts", "**/*.ts", "**/*.tsx"],
-            "exclude": ["node_modules", "dist", "**/node_modules/*"]
-          }
-          EOL
+          # Use the project's tsconfig.json
+          echo "Using project's tsconfig.json"
+          
+          # Verify TypeScript can find the types
+          echo "TypeScript version: $(npx tsc --version)"
+          echo "TypeScript configuration:"
+          npx tsc --showConfig || true
+          
+          # List installed @types for debugging
+          echo "Installed @types packages:"
+          find node_modules -maxdepth 2 -name "@types" -type d -exec ls -la {} \;
           
           # Verify installations and TypeScript configuration
           echo "Node.js version: $(node --version)"

@@ -144,13 +144,61 @@ jobs:
           
           echo "Building application..."
           
-          # Create a minimal Vite config as a CommonJS module
-          cat > vite.config.js << 'EOL'
-          const { defineConfig } = require('vite');
-          const react = require('@vitejs/plugin-react');
+          # Install all required dependencies first
+          echo "Installing dependencies..."
+          npm install --save-dev --legacy-peer-deps \
+            typescript@^5.0.0 \
+            @types/react@^18.0.0 \
+            @types/react-dom@^18.0.0 \
+            @types/node@^20.0.0 \
+            @types/react-router-dom@^5.3.3 \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0
           
-          module.exports = defineConfig({
+          # Create or update tsconfig.json
+          echo "Creating tsconfig.json..."
+          cat > tsconfig.json << 'EOL'
+          {
+            "compilerOptions": {
+              "target": "ESNext",
+              "useDefineForClassFields": true,
+              "lib": ["DOM", "DOM.Iterable", "ESNext"],
+              "allowJs": true,
+              "skipLibCheck": true,
+              "esModuleInterop": true,
+              "allowSyntheticDefaultImports": true,
+              "strict": true,
+              "forceConsistentCasingInFileNames": true,
+              "module": "ESNext",
+              "moduleResolution": "bundler",
+              "resolveJsonModule": true,
+              "isolatedModules": true,
+              "noEmit": true,
+              "jsx": "react-jsx",
+              "paths": {
+                "@/*": ["./src/*"]
+              },
+              "types": ["vite/client", "node"]
+            },
+            "include": ["src"],
+            "exclude": ["node_modules", "dist"]
+          }
+          EOL
+          
+          # Create a minimal Vite config
+          echo "Creating vite.config.js..."
+          cat > vite.config.js << 'EOL'
+          import { defineConfig } from 'vite';
+          import react from '@vitejs/plugin-react';
+          import path from 'path';
+          
+          export default defineConfig({
             plugins: [react()],
+            resolve: {
+              alias: {
+                '@': path.resolve(__dirname, './src')
+              }
+            },
             build: {
               outDir: 'dist',
               sourcemap: true,
@@ -170,38 +218,9 @@ jobs:
           });
           EOL
           
-          # Create or update tsconfig.json
-          cat > tsconfig.json << 'EOL'
-          {
-            "compilerOptions": {
-              "target": "ESNext",
-              "useDefineForClassFields": true,
-              "lib": ["DOM", "DOM.Iterable", "ESNext"],
-              "allowJs": true,
-              "skipLibCheck": true,
-              "esModuleInterop": true,
-              "allowSyntheticDefaultImports": true,
-              "strict": true,
-              "forceConsistentCasingInFileNames": true,
-              "module": "ESNext",
-              "moduleResolution": "node",
-              "resolveJsonModule": true,
-              "isolatedModules": true,
-              "noEmit": true,
-              "jsx": "react-jsx"
-            },
-            "include": ["src"],
-            "exclude": ["node_modules", "dist"]
-          }
-          EOL
-          
-          # Install Vite and required plugins locally
-          echo "Installing Vite and required plugins..."
-          npm install --save-dev --legacy-peer-deps \
-            vite@^5.0.0 \
-            @vitejs/plugin-react@^4.0.0 \
-            @types/node@^20.0.0 \
-            @vitejs/plugin-legacy@^5.0.0
+          # Create missing type declarations
+          mkdir -p src/types
+          echo "// Type definitions for environment variables" > src/types/env.d.ts
           
           # Run TypeScript type checking
           echo "Running TypeScript type checking..."

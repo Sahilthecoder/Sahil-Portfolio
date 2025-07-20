@@ -22,7 +22,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-        npm ci --prefer-offline --no-audit --legacy-peer-deps
+        npm install --legacy-peer-deps --no-audit
     
     - name: Build
       run: |

@@ -333,14 +333,30 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Install all dependencies first
+          # Install Node.js first
+          echo "Installing Node.js..."
+          curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &&\
+          sudo apt-get install -y nodejs
+          
+          # Verify Node.js and npm
+          echo "\n=== Node.js Environment ==="
+          node --version
+          npm --version
+          
+          # Install TypeScript globally
+          echo "\nInstalling TypeScript globally..."
+          sudo npm install -g typescript@^5.0.0
+          
+          # Install project dependencies
+          echo "\nInstalling project dependencies..."
           npm ci --prefer-offline --no-audit --legacy-peer-deps
           
-          # Install TypeScript and Vite
-          npm install --save-dev typescript@^5.0.0 vite@^5.0.0 @vitejs/plugin-react@^4.0.0
-          
-          # Install all required type definitions
+          # Install development dependencies
+          echo "\nInstalling development dependencies..."
           npm install --save-dev \
+            typescript@^5.0.0 \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
             @types/node@^20.0.0 \
             @types/react@^18.0.0 \
             @types/react-dom@^18.0.0 \
@@ -349,18 +365,10 @@ jobs:
             @types/styled-components@^5.1.34
           
           # Verify installations
-          echo "=== Environment Information ==="
-          echo "Node.js version: $(node --version)"
-          echo "npm version: $(npm --version)"
+          echo "\n=== Verification ==="
           echo "TypeScript version: $(npx tsc --version)"
-          
-          # Debug: Show installed @types
-          echo "\n=== Installed Type Definitions ==="
+          echo "\nInstalled @types packages:"
           find node_modules -name "@types" -type d | xargs ls -la
-          
-          # Debug: Show TypeScript config
-          echo "\n=== TypeScript Configuration ==="
-          npx tsc --showConfig || true
         
       - name: Build application
         run: |
@@ -382,12 +390,15 @@ jobs:
           echo "\n=== node_modules content ==="
           ls -la node_modules/@types
           
-          # Run the build with type checking
+          # Run TypeScript type check
           echo "\n=== Running TypeScript Type Check ==="
-          NODE_OPTIONS=--openssl-legacy-provider npx tsc --noEmit --skipLibCheck
+          export NODE_OPTIONS=--openssl-legacy-provider
+          npx tsc --version
+          npx tsc --noEmit --skipLibCheck
           
+          # Run Vite build
           echo "\n=== Running Vite Build ==="
-          NODE_OPTIONS=--openssl-legacy-provider npm run build:vite
+          npm run build:vite
         env:
           VITE_BASE_URL: ${{ env.VITE_BASE_URL }}
           NODE_ENV: ${{ env.NODE_ENV }}

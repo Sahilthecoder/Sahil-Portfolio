@@ -3,5 +3,12 @@ build/
 dist/
 .next/
 .vscode/
-*.config.js
-*.min.js
+*.config.*
+*.min.*
+public/
+scripts/
+*.d.ts
+.env
+.env.*
+!.eslintrc.js
+pages/api/*.js

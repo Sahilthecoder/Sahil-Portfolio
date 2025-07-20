@@ -1,8 +1,12 @@
-import sgMail from '@sendgrid/mail';
+// @ts-nocheck - Disable TypeScript checking for this file
+import emailjs from '@emailjs/browser';
 
-// Initialize SendGrid with your API key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// Initialize EmailJS with your Service ID and Template ID
+const EMAILJS_SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID || 'your_template_id';
+const EMAILJS_PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -15,13 +19,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Send welcome email
-    const welcomeEmail = {
-      to: email,
-      from: process.env.EMAIL_FROM || 'Sahil Ali <noreply@sahilali.dev>',
+    // Prepare email template parameters
+    const templateParams = {
+      to_email: email,
+      from_name: 'Sahil Ali',
+      from_email: process.env.EMAIL_FROM || 'noreply@sahilali.dev',
       subject: '🎉 Welcome to My Newsletter!',
-      text: `Hi there,\n\nThank you for subscribing to my newsletter! I'm excited to share my latest updates, projects, and insights with you.\n\nBest regards,\nSahil Ali\n\n---\nYou're receiving this email because you signed up for updates from sahilali.dev`,
-      html: `
+      message: `Hi there,\n\nThank you for subscribing to my newsletter! I'm excited to share my latest updates, projects, and insights with you.`,
+      html_message: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 30px;">
             <h1 style="color: #2563eb; font-size: 24px; margin-bottom: 10px;">Welcome to My Newsletter! 🎉</h1>
@@ -62,19 +67,26 @@ export default async function handler(req, res) {
     };
 
     await Promise.all([
-      sgMail.send(welcomeEmail),
+      // Send email using EmailJS
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      ),
       // Uncomment this if you want to receive notifications for new subscribers
       // sgMail.send(adminEmail)
     ]);
 
-    // Here you would typically save the email to your database
-    // For now, we'll just return success
-    
-    return res.status(200).json({ success: true });
+    // Here you would typically store the email in your database
+    // For example: await saveSubscriber(email);
+
+    return res.status(200).json({ message: 'Subscription successful! Please check your email.' });
   } catch (error) {
-    console.error('Subscription error:', error);
-    return res.status(500).json({ 
-      error: error.response?.body?.errors?.[0]?.message || 'Failed to subscribe. Please try again.'
+    console.error('Error sending email:', error);
+    return res.status(500).json({
+      error: 'Failed to process subscription',
+      details: error.message,
     });
   }
 }

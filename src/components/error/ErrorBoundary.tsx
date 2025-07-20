@@ -18,6 +18,7 @@ interface State {
  * Logs those errors and displays a fallback UI when an error occurs.
  */
 class ErrorBoundary extends React.Component<Props, State> {
+  static displayName = 'ErrorBoundary';
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -25,7 +26,7 @@ class ErrorBoundary extends React.Component<Props, State> {
       error: null,
       errorInfo: null,
     };
-    
+
     // Bind methods
     this.resetErrorBoundary = this.resetErrorBoundary.bind(this);
   }
@@ -106,8 +107,8 @@ class ErrorBoundary extends React.Component<Props, State> {
                 Something went wrong
               </h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-                We're sorry, but an unexpected error occurred. Please try refreshing the page or
-                contact support if the problem persists.
+                We&apos;re sorry, but an unexpected error occurred. Please try refreshing the page
+                or contact support if the problem persists.
               </p>
 
               <div className="mt-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-md text-left">
@@ -140,8 +141,8 @@ class ErrorBoundary extends React.Component<Props, State> {
                 >
                   Refresh page
                 </button>
-                <a 
-                  href="/" 
+                <a
+                  href="/"
                   className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-base font-medium transition-colors hover:bg-gray-100 text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
                 >
                   Go to home
@@ -174,11 +175,17 @@ export function withErrorBoundary<T>(
   WrappedComponent: React.ComponentType<T>,
   errorBoundaryProps?: Partial<Props>
 ) {
-  return (props: T) => (
+  const WithErrorBoundary = (props: T) => (
     <ErrorBoundary {...errorBoundaryProps}>
       <WrappedComponent {...(props as any)} />
     </ErrorBoundary>
   );
+
+  // Set display name for better debugging
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+  WithErrorBoundary.displayName = `withErrorBoundary(${displayName})`;
+
+  return WithErrorBoundary;
 }
 
 // Error boundary context for functional components

@@ -5,8 +5,8 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": ["node", "vite/client", "react"],
-    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "types": ["vite/client"],
+    "typeRoots": ["./node_modules/@types"],
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -56,7 +56,7 @@
 
     /* React */
   },
-  "include": ["src", "vite.config.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["src", "vite.config.ts"],
   "exclude": [
     "node_modules",
     "dist",

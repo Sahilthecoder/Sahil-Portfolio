@@ -23,7 +23,7 @@ jobs:
       run: |
         echo "Node.js version: $(node -v)"
         echo "npm version: $(npm -v)"
-        npm ci --no-audit --legacy-peer-deps
+        npm install --no-audit --legacy-peer-deps
     
     - name: Check dependency tree
       run: npm ls ajv postcss-selector-parser rollup picomatch

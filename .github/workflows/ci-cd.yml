@@ -2,48 +2,42 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '20.x'
   VITE_BASE_URL: '/Sahil-Portfolio/'
   NODE_ENV: production
 
 jobs:
   test:
-    name: Test Suite
+    name: Test (Node.js ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
+        run: |
+          npm ci --prefer-offline --no-audit --legacy-peer-deps
+          
+      - name: Check dependency tree
+        run: npm ls ajv postcss-selector-parser rollup picomatch
 
       - name: Run type checking
         run: npm run type-check
@@ -53,39 +47,43 @@ jobs:
 
       - name: Run tests
         run: npm test --if-present
+        
+      - name: Build
+        run: npm run build --if-present
+        
+      - name: Run Lighthouse CI
+        if: matrix.node-version == '20.x' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
 
-  build:
-    name: Build & Deploy
+  deploy:
     needs: test
     if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: production
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
+        run: npm ci --prefer-offline --no-audit --legacy-peer-deps
+        
       - name: Build application
         run: npm run build
         env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_BASE_URL: ${{ env.VITE_BASE_URL }}
+          NODE_ENV: ${{ env.NODE_ENV }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
           VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
@@ -106,7 +104,7 @@ jobs:
 
   notify:
     name: Notify Status
-    needs: build
+    needs: deploy
     if: always()
     runs-on: ubuntu-latest
     steps:

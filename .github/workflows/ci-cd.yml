@@ -266,6 +266,7 @@ jobs:
               exit 1
             fi
           fi
+
           set -e  # Re-enable exit on error
           
           # Verify build output

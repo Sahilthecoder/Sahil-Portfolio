@@ -139,21 +139,17 @@ jobs:
         run: |
           export NODE_OPTIONS=--openssl-legacy-provider
           
-          # Ensure Vite is available in the path
-          export PATH=$PATH:$(npm bin -g)
+          # Ensure local node_modules/.bin is in PATH
+          export PATH=$PATH:$(npm bin):$(npm bin -g)
           
           echo "Building application..."
           
-          # Run TypeScript type checking but don't fail the build
-          echo "Running TypeScript type checking..."
-          npx tsc --noEmit --skipLibCheck || echo "Type checking completed with warnings"
-          
-          # Create a minimal Vite config
+          # Create a minimal Vite config as a CommonJS module
           cat > vite.config.js << 'EOL'
-          import { defineConfig } from 'vite';
-          import react from '@vitejs/plugin-react';
+          const { defineConfig } = require('vite');
+          const react = require('@vitejs/plugin-react');
           
-          export default defineConfig({
+          module.exports = defineConfig({
             plugins: [react()],
             build: {
               outDir: 'dist',
@@ -174,6 +170,43 @@ jobs:
           });
           EOL
           
+          # Create or update tsconfig.json
+          cat > tsconfig.json << 'EOL'
+          {
+            "compilerOptions": {
+              "target": "ESNext",
+              "useDefineForClassFields": true,
+              "lib": ["DOM", "DOM.Iterable", "ESNext"],
+              "allowJs": true,
+              "skipLibCheck": true,
+              "esModuleInterop": true,
+              "allowSyntheticDefaultImports": true,
+              "strict": true,
+              "forceConsistentCasingInFileNames": true,
+              "module": "ESNext",
+              "moduleResolution": "node",
+              "resolveJsonModule": true,
+              "isolatedModules": true,
+              "noEmit": true,
+              "jsx": "react-jsx"
+            },
+            "include": ["src"],
+            "exclude": ["node_modules", "dist"]
+          }
+          EOL
+          
+          # Install Vite and required plugins locally
+          echo "Installing Vite and required plugins..."
+          npm install --save-dev --legacy-peer-deps \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
+            @types/node@^20.0.0 \
+            @vitejs/plugin-legacy@^5.0.0
+          
+          # Run TypeScript type checking
+          echo "Running TypeScript type checking..."
+          npx tsc --noEmit --skipLibCheck || echo "Type checking completed with warnings"
+          
           # Build the application with Vite
           echo "Building with Vite..."
           set +e  # Don't exit on error
@@ -183,7 +216,7 @@ jobs:
           echo "Vite version: $(npx vite --version)"
           
           # Try building with production mode
-          NODE_OPTIONS=--openssl-legacy-provider npx vite build --mode production
+          npx vite build --mode production
           
           # If build fails, try with a more permissive configuration
           if [ $? -ne 0 ]; then

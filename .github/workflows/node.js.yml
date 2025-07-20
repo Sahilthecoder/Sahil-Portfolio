@@ -14,14 +14,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup Node.js
+    - name: Setup Node.js 20.x
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
         cache: 'npm'
     
-    - name: Install dependencies
+    - name: Clean install
       run: |
+        node -v
+        npm -v
+        rm -rf node_modules package-lock.json
         npm install --legacy-peer-deps --no-audit
     
     - name: Build

@@ -1,10 +1,8 @@
 {
   "ci": {
     "collect": {
-      "staticDistDir": "./dist",
-      "url": ["http://localhost:3000"],
-      "numberOfRuns": 1,
       "settings": {
+        "staticDistDir": "./dist",
         "preset": "desktop",
         "throttling": {
           "rttMs": 40,
@@ -13,24 +11,89 @@
           "requestLatencyMs": 0,
           "downloadThroughputKbps": 0,
           "uploadThroughputKbps": 0
+        },
+        "screenEmulation": {
+          "mobile": false,
+          "width": 1350,
+          "height": 940,
+          "deviceScaleFactor": 1,
+          "disabled": false
+        },
+        "formFactor": "desktop",
+        "onlyCategories": [
+          "performance",
+          "accessibility",
+          "best-practices",
+          "seo",
+          "pwa"
+        ]
+      },
+      "numberOfRuns": 3,
+      "url": [
+        {
+          "url": "http://localhost:3000",
+          "name": "homepage"
+        },
+        {
+          "url": "http://localhost:3000/projects",
+          "name": "projects"
+        },
+        {
+          "url": "http://localhost:3000/contact",
+          "name": "contact"
         }
-      }
+      ]
     },
     "assert": {
       "preset": "lighthouse:recommended",
       "assertions": {
-        "categories:performance": ["warn", { "minScore": 0.8 }],
-        "categories:accessibility": ["warn", { "minScore": 0.9 }],
-        "categories:best-practices": ["warn", { "minScore": 0.9 }],
+        "categories:performance": ["error", { "minScore": 0.8 }],
+        "first-contentful-paint": ["warn", { "maxNumericValue": 2000 }],
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
+        "speed-index": ["warn", { "maxNumericValue": 4300 }],
+        "total-blocking-time": ["warn", { "maxNumericValue": 600 }],
+        "max-potential-fid": ["warn", { "maxNumericValue": 130 }],
+        "categories:accessibility": ["error", { "minScore": 0.9 }],
+        "color-contrast": ["warn", { "minScore": 1 }],
+        "image-alt": ["error"],
+        "label": ["error"],
+        "categories:best-practices": ["error", { "minScore": 0.9 }],
+        "is-on-https": ["error"],
+        "uses-http2": ["warn"],
+        "geolocation-on-start": ["error"],
         "categories:seo": ["warn", { "minScore": 0.9 }],
+        "document-title": ["error"],
+        "meta-description": ["warn"],
+        "http-status-code": ["error"],
         "categories:pwa": ["warn", { "minScore": 0.7 }],
+        "installable-manifest": ["warn"],
+        "service-worker": ["warn"],
+        "splash-screen": ["warn"],
         "csp-xss": "off",
-        "errors-in-console": "off",
-        "canonical": "off"
+        "canonical": "off",
+        "errors-in-console": "off"
       }
     },
     "upload": {
       "target": "temporary-public-storage"
-    }
+    },
+    "budgets": [
+      {
+        "path": "/*",
+        "resourceSizes": [
+          { "resourceType": "document", "budget": 100 },
+          { "resourceType": "script", "budget": 350 },
+          { "resourceType": "stylesheet", "budget": 100 },
+          { "resourceType": "image", "budget": 500 },
+          { "resourceType": "media", "budget": 300 },
+          { "resourceType": "font", "budget": 100 },
+          { "resourceType": "other", "budget": 150 }
+        ],
+        "resourceCounts": [
+          { "resourceType": "third-party", "budget": 10 }
+        ]
+      }
+    ]
   }
 }

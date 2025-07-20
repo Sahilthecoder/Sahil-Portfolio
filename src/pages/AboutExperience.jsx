@@ -384,7 +384,7 @@ const AboutSection = React.forwardRef((props, ref) => {
         </GlassCard>
       </AnimatedSection>
     );
-  };;
+  };
 
   // Main Content
   const MainContent = () => (

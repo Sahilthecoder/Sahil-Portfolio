@@ -51,9 +51,9 @@ jobs:
           
           # Install additional type definitions
           npm install --save-dev --legacy-peer-deps \
-            @types/react-router-dom@^6.0.0 \
-            @types/react-transition-group@^4.0.0 \
-            @types/styled-components@^5.0.0
+            @types/react-router-dom@^5.3.3 \
+            @types/react-transition-group@^4.4.10 \
+            @types/styled-components@^5.1.34
           
           # Install optional plugins
           npm install --save-dev --legacy-peer-deps \

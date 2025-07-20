@@ -8,23 +8,21 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['20.x']
-
+    
     steps:
     - uses: actions/checkout@v4
     
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '20.x'
         cache: 'npm'
     
     - name: Install dependencies
       run: |
-        npm ci --prefer-offline --no-audit
+        npm ci --prefer-offline --no-audit --legacy-peer-deps
     
     - name: Build
       run: |

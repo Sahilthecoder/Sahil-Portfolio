@@ -232,7 +232,7 @@ jobs:
           
           # Install all required type definitions
           echo "Installing type definitions..."
-          npm install --save-dev @types/react @types/react-dom @types/node @types/react-helmet @types/vite
+          npm install --save-dev @types/react @types/react-dom @types/node @types/react-helmet
           
           # Create a minimal vite-env.d.ts if it doesn't exist
           if [ ! -f "src/vite-env.d.ts" ]; then
@@ -240,6 +240,9 @@ jobs:
             mkdir -p src
             echo '/// <reference types="vite/client" />' > src/vite-env.d.ts
           fi
+          
+          # Install Vite as a development dependency to ensure types are available
+          npm install --save-dev vite
           
           # Verify installations
           echo "Node.js version: $(node -v)"

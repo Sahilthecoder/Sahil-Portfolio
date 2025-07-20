@@ -38,17 +38,23 @@ jobs:
           npm ci --prefer-offline --no-audit --legacy-peer-deps --ignore-scripts
           # Then install required dev dependencies
           npm install --save-dev \
-            @types/react @types/node @types/react-dom \
-            @vitejs/plugin-react @typescript-eslint/parser \
-            @typescript-eslint/eslint-plugin eslint eslint-plugin-react \
-            typescript @typescript-eslint/parser
+            typescript@latest \
+            @types/react@^18.2.0 \
+            @types/node@^20.0.0 \
+            @types/react-dom@^18.2.0 \
+            @vitejs/plugin-react@^4.2.0 \
+            @typescript-eslint/parser@^6.0.0 \
+            @typescript-eslint/eslint-plugin@^6.0.0 \
+            eslint@^8.0.0 \
+            eslint-plugin-react@^7.33.0 \
+            vite-tsconfig-paths@^4.2.0
           
       - name: Check installed dependencies
         run: npm list || echo "Continuing despite npm list warnings"
 
-      - name: Configure TypeScript
+      - name: Configure TypeScript and build
         run: |
-          # Create or update tsconfig.json to be more lenient
+          # Create or update tsconfig.json with proper paths and settings
           cat > tsconfig.json << 'EOL'
           {
             "compilerOptions": {
@@ -66,12 +72,41 @@ jobs:
               "resolveJsonModule": true,
               "isolatedModules": true,
               "noEmit": true,
-              "jsx": "react-jsx"
+              "jsx": "react-jsx",
+              "baseUrl": ".",
+              "paths": {
+                "@/*": ["./src/*"]
+              },
+              "types": ["node", "vite/client"]
             },
             "include": ["src"],
-            "exclude": ["node_modules"]
+            "exclude": ["node_modules", "dist"]
           }
           EOL
+          
+          # Create a simple vite config if it doesn't exist
+          if [ ! -f "vite.config.ts" ]; then
+            cat > vite.config.ts << 'EOL'
+          import { defineConfig } from 'vite';
+          import react from '@vitejs/plugin-react';
+          import tsconfigPaths from 'vite-tsconfig-paths';
+          
+          export default defineConfig({
+            plugins: [react(), tsconfigPaths()],
+            build: {
+              outDir: 'dist',
+              emptyOutDir: true,
+            },
+            server: {
+              port: 3000,
+              open: true,
+            },
+            define: {
+              'process.env': {}
+            }
+          });
+          EOL
+          fi
           
       - name: Run type checking
         continue-on-error: true
@@ -83,17 +118,22 @@ jobs:
       - name: Skip tests (temporarily disabled)
         run: echo "Tests temporarily disabled"
 
-      - name: Build with TypeScript ignore
+      - name: Build application
         run: |
-          # Temporarily ignore TypeScript errors for build
+          # Set Node.js options
           export NODE_OPTIONS=--openssl-legacy-provider
-          npm run build --if-present || echo "Build completed with TypeScript errors (ignored for now)"
+          
+          # Build the application
+          echo "Building application..."
+          npx vite build || echo "Build completed with errors"
           
           # Check if build output exists
           if [ -d "dist" ]; then
             echo "Build output found in dist/"
+            ls -la dist/
           else
-            echo "Warning: Build output not found in dist/"
+            echo "Error: Build output not found in dist/"
+            exit 1
           fi
         
       - name: Run Lighthouse CI

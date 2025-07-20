@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build and Test
+    name: Build and Test (Node.js 20.x)
     runs-on: ubuntu-latest
     
     steps:
@@ -18,13 +18,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
+        cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
     
     - name: Install dependencies
       run: |
         echo "Node.js version: $(node -v)"
         echo "npm version: $(npm -v)"
-        # Using npm install for better compatibility
-        npm install --no-audit --legacy-peer-deps --prefer-offline
+        # Clean npm cache and install dependencies
+        npm cache clean --force
+        npm install --no-audit --legacy-peer-deps
     
     - name: Check dependency tree
       run: npm ls ajv postcss-selector-parser rollup picomatch

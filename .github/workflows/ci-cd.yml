@@ -365,7 +365,7 @@ jobs:
           # Debug: Show where TypeScript is installed
           echo "\n=== TypeScript Installation Path ==="
           which tsc || echo "tsc not found in PATH"
-          echo "Local tsc version: $(npx tsc --version || echo 'npx tsc not found')
+          npx tsc --version || echo 'npx tsc not found'
         
       - name: Build application
         run: |

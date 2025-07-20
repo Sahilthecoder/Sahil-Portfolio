@@ -117,6 +117,7 @@ jobs:
         with:
           uploadArtifacts: true
           temporaryPublicStorage: true
+          configPath: .github/lighthouserc.json
 
   deploy:
     needs: test

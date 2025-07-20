@@ -1,8 +1,10 @@
 {
   "ci": {
     "collect": {
+      "startServerCommand": "npm run preview",
+      "startServerReadyPattern": "ready in",
+      "numberOfRuns": 3,
       "settings": {
-        "staticDistDir": "./dist",
         "preset": "desktop",
         "throttling": {
           "rttMs": 40,
@@ -20,29 +22,9 @@
           "disabled": false
         },
         "formFactor": "desktop",
-        "onlyCategories": [
-          "performance",
-          "accessibility",
-          "best-practices",
-          "seo",
-          "pwa"
-        ]
+        "onlyCategories": ["performance", "accessibility", "best-practices", "seo"]
       },
-      "numberOfRuns": 3,
-      "url": [
-        {
-          "url": "http://localhost:3000",
-          "name": "homepage"
-        },
-        {
-          "url": "http://localhost:3000/projects",
-          "name": "projects"
-        },
-        {
-          "url": "http://localhost:3000/contact",
-          "name": "contact"
-        }
-      ]
+      "url": ["http://localhost:4173"]
     },
     "assert": {
       "preset": "lighthouse:recommended",
@@ -90,9 +72,7 @@
           { "resourceType": "font", "budget": 100 },
           { "resourceType": "other", "budget": 150 }
         ],
-        "resourceCounts": [
-          { "resourceType": "third-party", "budget": 10 }
-        ]
+        "resourceCounts": [{ "resourceType": "third-party", "budget": 10 }]
       }
     ]
   }

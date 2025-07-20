@@ -58,9 +58,10 @@ jobs:
           # Install optional plugins
           npm install --save-dev --legacy-peer-deps \
             rollup-plugin-visualizer@^5.0.0
-          
-          # Install Vite globally for CLI access
-          npm install -g vite
+            
+          # Install Vite both locally and globally
+          npm install --save-dev --legacy-peer-deps vite@^5.0.0
+          npm install -g vite@^5.0.0
           
           # Re-enable scripts for build
           npm config set ignore-scripts false
@@ -154,12 +155,41 @@ jobs:
           echo "Running TypeScript type checking..."
           npx tsc --noEmit --skipLibCheck || echo "Type checking completed with warnings"
           
+          # Create a minimal Vite config if it doesn't exist
+          if [ ! -f "vite.config.js" ] && [ ! -f "vite.config.ts" ]; then
+            echo "Creating minimal Vite config..."
+            cat > vite.config.js << 'EOL'
+            import { defineConfig } from 'vite';
+            import react from '@vitejs/plugin-react';
+            
+            export default defineConfig({
+              plugins: [react()],
+              build: {
+                outDir: 'dist',
+                sourcemap: true,
+                minify: 'terser',
+                rollupOptions: {
+                  output: {
+                    manualChunks: {
+                      vendor: ['react', 'react-dom', 'react-router-dom']
+                    }
+                  }
+                }
+              },
+              server: {
+                port: 3000,
+                open: true
+              }
+            });
+            EOL
+          fi
+          
           # Build the application with Vite
           echo "Building with Vite..."
           set +e  # Don't exit on error
           
           # Try building with production mode
-          npx vite build --mode production
+          NODE_OPTIONS=--openssl-legacy-provider npx vite build --mode production
           
           # If build fails, try with a more permissive configuration
           if [ $? -ne 0 ]; then

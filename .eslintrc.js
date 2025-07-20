@@ -11,7 +11,6 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier', // Add Prettier to avoid conflicts with ESLint formatting rules
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -21,7 +20,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint', 'jsx-a11y', 'prettier'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'jsx-a11y'],
   settings: {
     react: {
       version: 'detect',
@@ -29,19 +28,12 @@ module.exports = {
   },
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'react/prop-types': 'off',
+    'react/prop-types': 'off', // Using TypeScript for prop validation
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'warn',
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_',
-      },
-    ],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
@@ -50,17 +42,12 @@ module.exports = {
         aspects: ['invalidHref', 'preferButton'],
       },
     ],
-    // Disable rules causing issues
-    'no-dupe-keys': 'off',
-    'no-dupe-args': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/ban-ts-comment': 'off',
   },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        '@typescript-eslint/explicit-function-return-type': ['off'],
+        '@typescript-eslint/explicit-function-return-type': ['error'],
       },
     },
   ],

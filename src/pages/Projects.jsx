@@ -871,12 +871,12 @@ const Projects = () => {
               <div className="relative max-w-md mx-auto lg:mr-0">
                 <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
                   <img 
-                    src="/images/hero/project-showcase.jpg" 
+                    src="/Sahil-Portfolio/images/hero/project-showcase.jpg" 
                     alt="Data Analysis and Project Showcase"
                     className="w-full h-auto object-cover rounded-lg"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/images/fallback-image.jpg';
+                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
                     }}
                   />
                 </div>

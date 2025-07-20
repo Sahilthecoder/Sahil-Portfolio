@@ -1,0 +1,253 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      
+      - name: Remove temp-portfolio to prevent conflicts
+        run: |
+          echo "Removing temp-portfolio directory to prevent version conflicts"
+          rm -rf temp-portfolio
+          
+      - name: Install dependencies
+        run: |
+          # Clean npm cache
+          echo "Cleaning npm cache..."
+          npm cache clean --force
+          
+          # Install dependencies with legacy peer deps to avoid conflicts
+          echo "Installing dependencies..."
+          npm ci --legacy-peer-deps
+          npm install --legacy-peer-deps
+          
+      - name: Verify Environment Variables
+        run: |
+          echo "=== Environment Variables ==="
+          echo "VITE_EMAILJS_SERVICE_ID: ${#VITE_EMAILJS_SERVICE_ID} characters"
+          echo "VITE_EMAILJS_TEMPLATE_ID: ${#VITE_EMAILJS_TEMPLATE_ID} characters"
+          echo "VITE_EMAILJS_PUBLIC_KEY: ${#VITE_EMAILJS_PUBLIC_KEY} characters"
+          echo "VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${#VITE_EMAILJS_ADMIN_TEMPLATE_ID} characters"
+          echo "VITE_ADMIN_EMAIL: ${VITE_ADMIN_EMAIL}"
+          
+          # Verify required variables are not empty
+          if [ -z "$VITE_EMAILJS_SERVICE_ID" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_SERVICE_ID"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "$VITE_EMAILJS_TEMPLATE_ID" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_TEMPLATE_ID"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+          if [ -z "$VITE_EMAILJS_PUBLIC_KEY" ]; then
+            echo "::error::Missing required secret: VITE_EMAILJS_PUBLIC_KEY"
+            echo "Please add this secret in your repository's Settings > Secrets and variables > Actions"
+            exit 1
+          fi
+        env:
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID || '' }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID || '' }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY || '' }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID || '' }}
+          VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL || '' }}
+          
+      - name: Check required secrets
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.VITE_EMAILJS_SERVICE_ID }}" ] || [ -z "${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" ] || [ -z "${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" ]; then
+            echo "::error::Missing required secrets. Please ensure all EmailJS secrets are set in repository settings."
+            echo "::error::Missing VITE_EMAILJS_SERVICE_ID: $([ -z "${{ secrets.VITE_EMAILJS_SERVICE_ID }}" ] && echo 'true' || echo 'false')"
+            echo "::error::Missing VITE_EMAILJS_TEMPLATE_ID: $([ -z "${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" ] && echo 'true' || echo 'false')"
+            echo "::error::Missing VITE_EMAILJS_PUBLIC_KEY: $([ -z "${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" ] && echo 'true' || echo 'false')"
+            exit 1
+          fi
+
+      - name: Create .env.production
+        if: steps.check_secrets.outcome == 'success'
+        run: |
+          echo "Creating .env.production file..."
+          cat > .env.production << 'EOL'
+          VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_ADMIN_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID || '' }}
+          VITE_ADMIN_EMAIL=${{ secrets.VITE_ADMIN_EMAIL || '' }}
+          NODE_ENV=production
+          EOL
+          
+          # Verify the file was created
+          if [ ! -f ".env.production" ]; then
+            echo "::error::Failed to create .env.production file"
+            exit 1
+          fi
+          
+          echo "Environment variables set successfully"
+          
+          # Verify the file was created (without showing sensitive values)
+          echo ".env.production created with the following keys (values hidden for security):"
+          cat .env.production | awk -F= '{print $1}' | sort
+          
+      - name: Build
+        run: |
+          echo "Building the application..."
+          echo "Vite Environment Mode: $NODE_ENV"
+          
+          # Verify .env.production exists and has content
+          if [ ! -f ".env.production" ]; then
+            echo "Error: .env.production file not found!"
+            exit 1
+          fi
+          
+          echo "Environment file content (keys only for security):"
+          cat .env.production | awk -F= '{print $1}' | sort
+          
+          # Build the application
+          npm run build
+          
+          # Verify the built files
+          echo "Build output files:"
+          find dist -type f | sort
+          
+      - name: Verify Installation
+        run: |
+          echo "Verifying installation..."
+          npm list --depth=0
+          
+      - name: Debug - List files
+        run: |
+          echo "Current directory structure:"
+          ls -la
+          echo -e "\nNode version:"
+          node -v
+          echo -e "\nNPM version:"
+          npm -v
+          echo -e "\nVite version:"
+          npx vite --version
+      
+      - name: Setup service worker
+        run: |
+          echo "=== Service Worker Setup ==="
+          echo "Current working directory:"
+          pwd
+          
+          # Ensure public directory exists
+          mkdir -p public
+          
+          # Create sw.js if it doesn't exist
+          if [ ! -f "public/sw.js" ]; then
+            echo "Creating basic service worker at public/sw.js"
+            echo "// Basic service worker" > public/sw.js
+          fi
+          
+          # Create service-worker.js symlink in public directory
+          echo -e "\n=== Creating service-worker.js symlink in public/ ==="
+          cd public
+          
+          # Remove existing service-worker.js if it exists (file or symlink)
+          if [ -e "service-worker.js" ] || [ -L "service-worker.js" ]; then
+            echo "Removing existing service-worker.js"
+            rm -f service-worker.js
+          fi
+          
+          # Create the symlink
+          ln -sf sw.js service-worker.js
+          
+          # Verify the symlink
+          echo -e "\n=== Verifying symlink ==="
+          ls -la service-worker.js
+          
+          # Show final directory structure
+          echo -e "\n=== Final Public Directory Structure ==="
+          ls -la
+          
+          # Clean up any existing service worker in dist directory
+          echo -e "\n=== Cleaning up dist directory ==="
+          cd ..
+          rm -f dist/service-worker.js 2>/dev/null || true
+          
+      - name: Build
+        run: |
+          set -e
+          echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
+          
+          # Ensure dist directory exists and clean up any existing service worker files
+          echo "Preparing dist directory..."
+          mkdir -p dist
+          rm -f dist/service-worker.js 2>/dev/null || true
+          
+          # Run the build
+          VITE_BASE_URL='/Sahil-Portfolio/' npm run build --if-present || (echo "Build failed. Check logs above for error details." && exit 1)
+          
+          # Create necessary files
+          echo -e "\nCreating deployment files..."
+          touch ./dist/.nojekyll
+          echo '/* /index.html 200' > ./dist/_redirects
+          
+          # Build application
+          echo "Building the application..."
+          npm run build
+          
+          # Verify the build was successful
+          if [ ! -d "dist" ]; then
+            echo "Error: Build failed - dist directory not found!"
+            exit 1
+          fi
+          
+          echo "Build completed successfully"
+          
+          # Show final dist directory contents
+          echo -e "\nFinal dist directory contents:"
+          ls -la dist/
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: "vite"
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+    
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

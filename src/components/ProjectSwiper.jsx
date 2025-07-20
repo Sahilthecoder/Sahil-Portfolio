@@ -6,7 +6,6 @@ import ProjectCard from './shared/ProjectCard';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-// Minimum slides needed for loop to work properly
 const MIN_SLIDES_FOR_LOOP = 3;
 
 const ProjectSwiper = ({
@@ -32,8 +31,7 @@ const ProjectSwiper = ({
 }) => {
   const hasEnoughSlides = projects.length >= MIN_SLIDES_FOR_LOOP;
   const shouldLoop = loop && hasEnoughSlides;
-  // Only enable autoplay if we have enough slides for loop or if we have at least 2 slides for non-loop
-  const shouldAutoplay = (shouldLoop || projects.length >= 2) ? autoplay : false;
+  const shouldAutoplay = shouldLoop ? autoplay : false;
 
   if (!projects.length) {
     return (
@@ -46,46 +44,29 @@ const ProjectSwiper = ({
   const getSlides = (base) => Math.min(base, projects.length);
   const getSpace = (base) => (projects.length <= 2 ? base * 0.75 : base);
 
-  // Calculate the optimal number of slides to show based on viewport width
-  const calculateSlidesPerView = (base) => {
-    if (projects.length === 1) return 1;
-    if (projects.length === 2) return Math.min(1.5, base);
-    return Math.min(base, projects.length);
-  };
-
   const breakpoints = {
     320: {
-      slidesPerView: calculateSlidesPerView(1.1),
-      spaceBetween: getSpace(16),
-      centeredSlides: projects.length > 1,
-    },
-    375: {
-      slidesPerView: calculateSlidesPerView(1.2),
-      spaceBetween: getSpace(18),
-      centeredSlides: projects.length > 1,
-    },
-    480: {
-      slidesPerView: calculateSlidesPerView(1.3),
+      slidesPerView: projects.length === 1 ? 1 : getSlides(1.2),
       spaceBetween: getSpace(20),
       centeredSlides: projects.length > 1,
     },
     640: {
-      slidesPerView: calculateSlidesPerView(1.5),
+      slidesPerView: getSlides(1.5),
       spaceBetween: getSpace(24),
       centeredSlides: projects.length > 1,
     },
     768: {
-      slidesPerView: calculateSlidesPerView(2),
+      slidesPerView: getSlides(2),
       spaceBetween: getSpace(24),
       centeredSlides: false,
     },
     1024: {
-      slidesPerView: calculateSlidesPerView(2.5),
-      spaceBetween: getSpace(28),
+      slidesPerView: getSlides(2.5),
+      spaceBetween: getSpace(32),
       centeredSlides: false,
     },
     1280: {
-      slidesPerView: calculateSlidesPerView(3),
+      slidesPerView: getSlides(3),
       spaceBetween: getSpace(32),
       centeredSlides: false,
     },
@@ -107,15 +88,6 @@ const ProjectSwiper = ({
         preventClicks={false}
         preventClicksPropagation={false}
         breakpoints={breakpoints}
-        // Disable loop warning in console
-        onSwiper={(swiper) => {
-          // Suppress loop warning
-          swiper.on('_warning', (e) => {
-            if (e.message && e.message.includes('Loop')) {
-              e.stopPropagation();
-            }
-          });
-        }}
         style={{
           '--swiper-pagination-color': 'rgba(99, 102, 241, 0.8)',
           '--swiper-pagination-bullet-border-radius': '100%',
@@ -123,7 +95,6 @@ const ProjectSwiper = ({
           '--swiper-pagination-bullet-size': '10px',
           '--swiper-pagination-bullet-inactive-color': '#9ca3af',
           '--swiper-pagination-bullet-inactive-opacity': '0.5',
-          padding: '10px 0 40px', // Add padding for pagination
         }}
         {...props}
       >

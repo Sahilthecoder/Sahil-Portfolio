@@ -1,9 +1,7 @@
 # Sahil's Portfolio
-
 [![GitHub stars](https://img.shields.io/github/stars/Sahilthecoder/Sahil-Portfolio?style=social)](https://github.com/Sahilthecoder/Sahil-Portfolio/stargazers)
 [![GitHub license](https://img.shields.io/github/license/Sahilthecoder/Sahil-Portfolio)](https://github.com/Sahilthecoder/Sahil-Portfolio/blob/main/LICENSE)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fsahilthecoder.github.io%2FSahil-Portfolio%2F)](https://sahilthecoder.github.io/Sahil-Portfolio/)
-[![CI/CD](https://github.com/Sahilthecoder/Sahil-Portfolio/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Sahilthecoder/Sahil-Portfolio/actions/workflows/ci-cd.yml)
 
 A modern, responsive, and performant portfolio website built with React, TypeScript, Vite, and Tailwind CSS. Showcase your projects, skills, and experience with a clean, accessible design.
 

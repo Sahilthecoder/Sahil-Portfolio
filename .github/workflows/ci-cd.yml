@@ -40,17 +40,17 @@ jobs:
           # Install all dependencies including dev dependencies
           npm install --legacy-peer-deps
           
-          # Install Vite and required plugins globally for the preview server
-          npm install -g vite @vitejs/plugin-react
-          
-          # Install Vite and TypeScript locally
+          # Install Vite and required plugins
           npm install --save-dev vite @vitejs/plugin-react typescript
           
           # Re-enable scripts for build
           npm config set ignore-scripts false
           
+          # Link local Vite for global access
+          npm link vite
+          
           # Verify installations
-          echo "Vite version: $(vite --version || echo 'Vite not found')"
+          echo "Vite version: $(npx vite --version || echo 'Vite not found')"
           echo "TypeScript version: $(npx tsc --version || echo 'TypeScript not found')"
           
       - name: Check installed dependencies
@@ -117,11 +117,19 @@ jobs:
         
       - name: Run Lighthouse CI
         if: matrix.node-version == '20.x' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch')
-        uses: treosh/lighthouse-ci-action@v11
-        with:
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-          configPath: .github/lighthouserc.json
+        run: |
+          # Start the preview server in background
+          npx vite preview --port 4173 &
+          PREVIEW_PID=$!
+          
+          # Give the server time to start
+          sleep 10
+          
+          # Run Lighthouse CI
+          npx @lhci/cli collect --config=.github/lighthouserc.json
+          
+          # Stop the preview server
+          kill $PREVIEW_PID || true
 
   deploy:
     needs: test

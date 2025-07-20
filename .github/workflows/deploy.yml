@@ -3,17 +3,25 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
+  security-events: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 concurrency:
   group: 'pages'
   cancel-in-progress: true
+
+# Environment variables
+env:
+  NODE_ENV: production
+  VITE_BASE_URL: '/Sahil-Portfolio/'
 
 jobs:
   build-and-deploy:
@@ -26,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,22 +42,34 @@ jobs:
           node-version: '20'
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
+          check-latest: true
       
-      - name: Remove temp-portfolio to prevent conflicts
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      
+      - name: Clean workspace
         run: |
-          echo "Removing temp-portfolio directory to prevent version conflicts"
+          echo "Cleaning workspace..."
           rm -rf temp-portfolio
+          rm -rf node_modules/.cache
           
       - name: Install dependencies
         run: |
-          # Clean npm cache
-          echo "Cleaning npm cache..."
-          npm cache clean --force
-          
-          # Install dependencies with legacy peer deps to avoid conflicts
           echo "Installing dependencies..."
-          npm ci --legacy-peer-deps
-          npm install --legacy-peer-deps
+          npm ci --prefer-offline --no-audit --legacy-peer-deps
+          
+      - name: Audit dependencies
+        run: |
+          echo "Running security audit..."
+          npm audit --production --audit-level=moderate || true
           
       - name: Verify Environment Variables
         run: |
@@ -118,26 +139,41 @@ jobs:
           echo ".env.production created with the following keys (values hidden for security):"
           cat .env.production | awk -F= '{print $1}' | sort
           
-      - name: Build
+      - name: Build application
         run: |
           echo "Building the application..."
           echo "Vite Environment Mode: $NODE_ENV"
           
-          # Verify .env.production exists and has content
+          # Verify .env.production exists
           if [ ! -f ".env.production" ]; then
-            echo "Error: .env.production file not found!"
+            echo "::error::.env.production file not found!"
             exit 1
           fi
           
-          echo "Environment file content (keys only for security):"
-          cat .env.production | awk -F= '{print $1}' | sort
+          echo "Environment variables (keys only for security):"
+          grep -v '^#' .env.production | awk -F= '{print $1}' | sort
           
-          # Build the application
+          # Build with production settings
+          echo "Starting build process..."
           npm run build
           
-          # Verify the built files
+          # Verify build output
+          if [ ! -d "dist" ]; then
+            echo "::error::Build failed - dist directory not found!"
+            exit 1
+          fi
+          
+          echo "Build completed successfully"
           echo "Build output files:"
           find dist -type f | sort
+          
+          # Check build size
+          echo -e "\nChecking build size..."
+          BUILD_SIZE=$(du -sh ./dist | cut -f1)
+          echo "Build size: $BUILD_SIZE"
+          if [ "$(echo $BUILD_SIZE | grep -o '^[0-9]*')" -gt 10 ]; then
+            echo "::warning::Build size exceeds 10MB. Consider optimizing assets."
+          fi
           
       - name: Verify Installation
         run: |
@@ -158,76 +194,100 @@ jobs:
       - name: Setup service worker
         run: |
           echo "=== Service Worker Setup ==="
-          echo "Current working directory:"
-          pwd
+          echo "Current working directory: $(pwd)"
           
           # Ensure public directory exists
           mkdir -p public
           
-          # Create sw.js if it doesn't exist
+          # Create a basic service worker if it doesn't exist
           if [ ! -f "public/sw.js" ]; then
             echo "Creating basic service worker at public/sw.js"
-            echo "// Basic service worker" > public/sw.js
+            cat > public/sw.js << 'EOL'
+            // Basic service worker with offline support
+            const CACHE_NAME = 'sahil-portfolio-v1';
+            const urlsToCache = [
+              '/',
+              '/index.html',
+              '/assets/index-*.js',
+              '/assets/*.css',
+              '/images/logo/logo192.png',
+              '/images/fallback-image.webp'
+            ];
+
+            self.addEventListener('install', event => {
+              event.waitUntil(
+                caches.open(CACHE_NAME)
+                  .then(cache => cache.addAll(urlsToCache))
+              );
+            });
+
+            self.addEventListener('fetch', event => {
+              event.respondWith(
+                caches.match(event.request)
+                  .then(response => response || fetch(event.request))
+              );
+            });
+            EOL
           fi
           
-          # Create service-worker.js symlink in public directory
-          echo -e "\n=== Creating service-worker.js symlink in public/ ==="
+          # Create service-worker.js symlink
+          echo -e "\n=== Setting up service worker symlink ==="
           cd public
-          
-          # Remove existing service-worker.js if it exists (file or symlink)
-          if [ -e "service-worker.js" ] || [ -L "service-worker.js" ]; then
-            echo "Removing existing service-worker.js"
-            rm -f service-worker.js
-          fi
-          
-          # Create the symlink
+          rm -f service-worker.js 2>/dev/null || true
           ln -sf sw.js service-worker.js
           
-          # Verify the symlink
-          echo -e "\n=== Verifying symlink ==="
+          # Verify setup
+          echo -e "\n=== Service Worker Verification ==="
           ls -la service-worker.js
-          
-          # Show final directory structure
-          echo -e "\n=== Final Public Directory Structure ==="
-          ls -la
-          
-          # Clean up any existing service worker in dist directory
-          echo -e "\n=== Cleaning up dist directory ==="
           cd ..
-          rm -f dist/service-worker.js 2>/dev/null || true
           
-      - name: Build
+      - name: Final build with production settings
         run: |
           set -e
-          echo "Starting build with VITE_BASE_URL='/Sahil-Portfolio/'"
+          echo "=== Starting Production Build ==="
           
-          # Ensure dist directory exists and clean up any existing service worker files
+          # Clean dist directory
           echo "Preparing dist directory..."
+          rm -rf dist
           mkdir -p dist
-          rm -f dist/service-worker.js 2>/dev/null || true
           
-          # Run the build
-          VITE_BASE_URL='/Sahil-Portfolio/' npm run build --if-present || (echo "Build failed. Check logs above for error details." && exit 1)
+          # Build with production settings
+          echo "Building with VITE_BASE_URL=$VITE_BASE_URL"
+          npm run build
           
-          # Create necessary files
+          # Create necessary deployment files
           echo -e "\nCreating deployment files..."
           touch ./dist/.nojekyll
           echo '/* /index.html 200' > ./dist/_redirects
           
-          # Build application
-          echo "Building the application..."
-          npm run build
+          # Generate sitemap (if not already generated)
+          if [ ! -f "dist/sitemap.xml" ]; then
+            echo "Generating sitemap..."
+            echo '<?xml version="1.0" encoding="UTF-8"?>
+            <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+              <url>
+                <loc>https://sahilthecoder.github.io/Sahil-Portfolio/</loc>
+                <lastmod>$(date +%Y-%m-%d)</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>1.0</priority>
+              </url>
+            </urlset>' > dist/sitemap.xml
+          fi
           
-          # Verify the build was successful
+          # Verify build output
+          echo -e "\n=== Build Verification ==="
           if [ ! -d "dist" ]; then
-            echo "Error: Build failed - dist directory not found!"
+            echo "::error::Build failed - dist directory not found!"
             exit 1
           fi
           
-          echo "Build completed successfully"
+          # Check for common issues
+          if ! find dist -name "*.html" | grep -q .; then
+            echo "::warning::No HTML files found in dist directory"
+          fi
           
-          # Show final dist directory contents
-          echo -e "\nFinal dist directory contents:"
+          echo -e "\nBuild completed successfully"
+          echo "Final dist directory contents:"
           ls -la dist/
       
       - name: Setup Pages
@@ -239,6 +299,15 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: './dist'
+          retention-days: 5
+    
+      - name: Run Lighthouse Audit
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: .github/lighthouserc.json
+        if: always()
     
   # Deployment job
   deploy:
@@ -251,3 +320,45 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      
+      - name: Verify deployment
+        run: |
+          echo "Verifying deployment at ${{ steps.deployment.outputs.page_url }}"
+          curl -s ${{ steps.deployment.outputs.page_url }} | grep -q "Sahil Ali" && \
+            echo "Deployment verified successfully" || \
+            (echo "::error::Deployment verification failed" && exit 1)
+        
+      - name: Post deployment cleanup
+        if: always()
+        run: |
+          echo "Cleaning up..."
+          rm -rf node_modules
+          rm -f .env.production
+    
+  # Post-deployment checks
+  post-deploy:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployment status
+        run: |
+          echo "Deployment URL: ${{ needs.deploy.outputs.page_url }}"
+          echo "Deployment status: ${{ needs.deploy.result }}"
+          
+      - name: Notify on success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: "🚀 Deployment Successful"
+          SLACK_MESSAGE: "New version of Sahil's Portfolio has been deployed to GitHub Pages"
+          SLACK_COLOR: "#36a64f"
+          
+      - name: Notify on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: "❌ Deployment Failed"
+          SLACK_MESSAGE: "Failed to deploy Sahil's Portfolio to GitHub Pages"
+          SLACK_COLOR: "#ff0000"

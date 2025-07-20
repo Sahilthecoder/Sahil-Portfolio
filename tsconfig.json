@@ -5,8 +5,13 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "types": [],
+    "baseUrl": ".",
+    "types": ["vite/client", "node"],
     "typeRoots": ["./node_modules/@types"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "esModuleInterop": true,
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -15,7 +20,7 @@
     "jsxImportSource": "@emotion/react",
     "incremental": true,
 
-    /* Strict Type-Checking Options */
+    /* Strict Type-Checking */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -34,18 +39,11 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
 
-    /* Module Resolution Options */
-    "esModuleInterop": true,
+    /* Module Resolution */
     "preserveSymlinks": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-
-    /* Paths */
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
 
     /* Output */
     "declaration": true,
@@ -53,8 +51,6 @@
     "sourceMap": true,
     "outDir": "./dist",
     "removeComments": true
-
-    /* React */
   },
   "include": ["src", "vite.config.ts"],
   "exclude": [

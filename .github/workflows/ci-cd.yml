@@ -60,41 +60,30 @@ jobs:
           echo "Installed @types packages:"
           ls -la node_modules/@types/
           
-          # Create or update tsconfig.json
-          cat > tsconfig.json << 'EOL'
+          # Create a custom tsconfig.json for CI
+          cat > tsconfig.ci.json << 'EOL'
           {
+            "extends": "./tsconfig.json",
             "compilerOptions": {
-              "target": "ESNext",
-              "useDefineForClassFields": true,
-              "lib": ["DOM", "DOM.Iterable", "ESNext"],
-              "allowJs": true,
-              "skipLibCheck": true,
-              "esModuleInterop": true,
-              "allowSyntheticDefaultImports": true,
-              "strict": true,
-              "forceConsistentCasingInFileNames": true,
-              "module": "ESNext",
-              "moduleResolution": "node",
-              "resolveJsonModule": true,
-              "isolatedModules": true,
-              "noEmit": true,
-              "jsx": "react-jsx",
-              "types": ["vite/client", "node"],
-              "baseUrl": ".",
-              "paths": {
-                "@/*": ["src/*"]
-              }
+              "types": ["node", "vite/client", "react"],
+              "typeRoots": ["./node_modules/@types", "./src/types"]
             },
-            "include": ["src"],
-            "exclude": ["node_modules", "dist"]
+            "include": ["src", "vite.config.ts", "**/*.ts", "**/*.tsx"],
+            "exclude": ["node_modules", "dist", "**/node_modules/*"]
           }
           EOL
           
-          # Verify installations
+          # Copy the custom tsconfig to override the existing one
+          cp tsconfig.ci.json tsconfig.json
+          
+          # Verify installations and TypeScript configuration
           echo "Node.js version: $(node --version)"
           echo "npm version: $(npm --version)"
-          echo "Vite version: $(vite --version || npx vite --version || echo 'Vite not found')"
-          echo "TypeScript version: $(npx tsc --version || echo 'TypeScript not found')"
+          echo "TypeScript version: $(npx tsc --version)"
+          echo "TypeScript configuration:"
+          npx tsc --showConfig || true
+          echo "Node modules @types directory:"
+          ls -la node_modules/@types/
           
           # List installed dependencies for debugging
           echo "Installed dependencies:"
@@ -142,6 +131,14 @@ jobs:
           
           # Ensure local node_modules/.bin is in PATH
           export PATH=$PATH:$(npm bin):$(npm bin -g)
+          
+          # Verify TypeScript can find the types
+          echo "Final TypeScript configuration:"
+          npx tsc --showConfig || true
+          
+          # List all installed @types for debugging
+          echo "Installed @types packages:"
+          find node_modules -maxdepth 2 -name "@types" -type d -exec ls -la {} \;
           
           echo "Building application..."
           

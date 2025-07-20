@@ -40,15 +40,21 @@ jobs:
           # Install dependencies without running scripts first
           npm ci --prefer-offline --no-audit --legacy-peer-deps --ignore-scripts
           
-          # Install Vite and core dependencies first with exact versions
+          # Install TypeScript and core dependencies first with exact versions
+          npm install --save-dev --legacy-peer-deps \
+            typescript@^5.0.0
+            
+          # Install Vite and React dependencies
           npm install --save-dev --legacy-peer-deps \
             vite@^5.0.0 \
-            @vitejs/plugin-react@^4.0.0 \
-            typescript@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0
+            
+          # Install type definitions
+          npm install --save-dev --legacy-peer-deps \
             @types/node@^20.0.0 \
             @types/react@^18.0.0 \
             @types/react-dom@^18.0.0
-          
+            
           # Install additional type definitions
           npm install --save-dev --legacy-peer-deps \
             @types/react-router-dom@^5.3.3 \
@@ -155,34 +161,29 @@ jobs:
           echo "Running TypeScript type checking..."
           npx tsc --noEmit --skipLibCheck || echo "Type checking completed with warnings"
           
-          # Create a minimal Vite config if it doesn't exist
-          if [ ! -f "vite.config.js" ] && [ ! -f "vite.config.ts" ]; then
-            echo "Creating minimal Vite config..."
-            cat > vite.config.js << 'EOL'
-            import { defineConfig } from 'vite';
-            import react from '@vitejs/plugin-react';
-            
-            export default defineConfig({
-              plugins: [react()],
-              build: {
-                outDir: 'dist',
-                sourcemap: true,
-                minify: 'terser',
-                rollupOptions: {
-                  output: {
-                    manualChunks: {
-                      vendor: ['react', 'react-dom', 'react-router-dom']
-                    }
-                  }
-                }
-              },
-              server: {
-                port: 3000,
-                open: true
-              }
-            });
-            EOL
-          fi
+          # Create a minimal Vite config
+          echo 'import { defineConfig } from "vite";' > vite.config.js
+          echo 'import react from "@vitejs/plugin-react";' >> vite.config.js
+          echo '' >> vite.config.js
+          echo 'export default defineConfig({' >> vite.config.js
+          echo '  plugins: [react()],' >> vite.config.js
+          echo '  build: {' >> vite.config.js
+          echo '    outDir: "dist",' >> vite.config.js
+          echo '    sourcemap: true,' >> vite.config.js
+          echo '    minify: "terser",' >> vite.config.js
+          echo '    rollupOptions: {' >> vite.config.js
+          echo '      output: {' >> vite.config.js
+          echo '        manualChunks: {' >> vite.config.js
+          echo '          vendor: ["react", "react-dom", "react-router-dom"]' >> vite.config.js
+          echo '        }' >> vite.config.js
+          echo '      }' >> vite.config.js
+          echo '    }' >> vite.config.js
+          echo '  },' >> vite.config.js
+          echo '  server: {' >> vite.config.js
+          echo '    port: 3000,' >> vite.config.js
+          echo '    open: true' >> vite.config.js
+          echo '  }' >> vite.config.js
+          echo '});' >> vite.config.js
           
           # Build the application with Vite
           echo "Building with Vite..."

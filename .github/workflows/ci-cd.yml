@@ -343,12 +343,18 @@ jobs:
           node -v
           npm -v
           
-          # Install TypeScript globally and locally
-          echo "\nInstalling TypeScript..."
+          # Install TypeScript and Vite types
+          echo "\nInstalling TypeScript and Vite..."
           npm install -g typescript@5.0.4
-          npm install --save-dev typescript@5.0.4
+          npm install --save-dev \
+            typescript@5.0.4 \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
+            @types/node@^20.0.0 \
+            @types/react@^18.0.0 \
+            @types/react-dom@^18.0.0
           
-          # Install all dependencies
+          # Install remaining dependencies
           echo "\nInstalling project dependencies..."
           npm ci --legacy-peer-deps
           

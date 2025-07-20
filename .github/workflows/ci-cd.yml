@@ -40,14 +40,18 @@ jobs:
           # Install all dependencies including dev dependencies
           npm install --legacy-peer-deps
           
-          # Ensure Vite and TypeScript are installed
+          # Install Vite and required plugins globally for the preview server
+          npm install -g vite @vitejs/plugin-react
+          
+          # Install Vite and TypeScript locally
           npm install --save-dev vite @vitejs/plugin-react typescript
           
           # Re-enable scripts for build
           npm config set ignore-scripts false
           
-          # Verify TypeScript installation
-          npx tsc --version || echo "TypeScript not found"
+          # Verify installations
+          echo "Vite version: $(vite --version || echo 'Vite not found')"
+          echo "TypeScript version: $(npx tsc --version || echo 'TypeScript not found')"
           
       - name: Check installed dependencies
         run: npm list || echo "Continuing despite npm list warnings"

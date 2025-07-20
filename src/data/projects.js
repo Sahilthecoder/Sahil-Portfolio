@@ -61,6 +61,7 @@ export const projects = [
     description: 'Professional portfolio website showcasing projects and skills.',
     image: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-1200w.webp',
     previewImage: '/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover-300w.webp',
+    fallbackImage: '/images/fallback-image.webp',
     tags: ['React', 'Web', 'UI/UX', 'Responsive Design'],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     github: 'https://github.com/Sahilthecoder/Sahil-Portfolio/tree/main/src/pages/projects/MahiraPortfolio',

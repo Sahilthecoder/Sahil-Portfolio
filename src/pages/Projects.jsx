@@ -623,10 +623,10 @@ const projects = [
       'Designed and hosted a professional AI-integrated portfolio for Mahira Chaudhry on GitHub with responsive UI and project showcases. Attracted international clients and improved creative visibility.',
     techStack: ['React', 'JavaScript', 'HTML5', 'CSS3', 'Git', 'GitHub'],
     icon: 'GitHub',
-    image: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
-    previewImage: 'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    image: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+    previewImage: '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     images: [
-      'Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
+      '/Sahil-Portfolio/images/projects/Mahira_Portfolio_Web+AI/Project7_Cover.webp',
     ],
     link: 'https://mahiradesignhub.github.io/mahira-portfolio/',
     githubLink: 'https://github.com/mahiradesignhub/mahira-portfolio',
@@ -871,12 +871,12 @@ const Projects = () => {
               <div className="relative max-w-md mx-auto lg:mr-0">
                 <div className="relative z-10 w-full h-full rounded-2xl overflow-hidden shadow-2xl">
                   <img 
-                    src="/Sahil-Portfolio/images/hero/project-showcase.jpg" 
+                    src="/images/hero/project-showcase.jpg" 
                     alt="Data Analysis and Project Showcase"
                     className="w-full h-auto object-cover rounded-lg"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = '/Sahil-Portfolio/images/fallback-image.jpg';
+                      e.target.src = '/images/fallback-image.jpg';
                     }}
                   />
                 </div>

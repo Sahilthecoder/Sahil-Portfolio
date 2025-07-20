@@ -16,15 +16,15 @@ const ProjectCard = ({
   const [isImageError, setIsImageError] = useState(false);
   const imageRef = useRef(null);
   
-  // Helper function to ensure image path has the correct prefix
+  // Helper function to ensure image path has the correct format
   const getImagePath = (path) => {
     if (!path) return '';
-    // If the path already has the prefix, return as is
-    if (path.startsWith('/Sahil-Portfolio/')) return path;
     // If it's an external URL, return as is
     if (path.startsWith('http')) return path;
-    // Otherwise, add the prefix
-    return `/Sahil-Portfolio${path.startsWith('/') ? '' : '/'}${path}`;
+    // Remove any duplicate /Sahil-Portfolio prefixes
+    path = path.replace(/^\/+Sahil-Portfolio\//, '/');
+    // Ensure the path starts with a single forward slash
+    return `/${path.replace(/^\/+/, '')}`;
   };
   const navigate = useNavigate();
 
@@ -33,12 +33,26 @@ const ProjectCard = ({
     const img = imageRef.current;
     if (!img) return;
 
-    const handleLoad = () => setIsImageLoaded(true);
+    const handleLoad = () => {
+      setIsImageLoaded(true);
+      setIsImageError(false);
+    };
+    
     const handleError = () => {
-      // Try fallback image if main image fails
-      if (img.src !== getImagePath('/images/fallback-image.jpg')) {
+      // Try project's fallback image if available
+      if (project?.fallbackImage && img.src !== getImagePath(project.fallbackImage)) {
+        img.src = getImagePath(project.fallbackImage);
+      } 
+      // Try default fallback image
+      else if (img.src !== getImagePath('/images/fallback-image.webp')) {
+        img.src = getImagePath('/images/fallback-image.webp');
+      } 
+      // Try JPG fallback if WebP fails
+      else if (img.src !== getImagePath('/images/fallback-image.jpg')) {
         img.src = getImagePath('/images/fallback-image.jpg');
-      } else {
+      } 
+      // If all else fails, show error state
+      else {
         setIsImageError(true);
         setIsImageLoaded(true);
       }
@@ -120,15 +134,30 @@ const ProjectCard = ({
       {/* Image Container */}
       <div className="relative pt-[56.25%] overflow-hidden bg-gray-100 dark:bg-gray-700">
         {!isImageError && (
-          <img
-            ref={imageRef}
-            src={getImagePath(project.previewImage || project.image)}
-            alt={project.title}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
-              isImageLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-            loading="lazy"
-          />
+          <div className="relative w-full h-48 sm:h-56 md:h-64 bg-gray-100 dark:bg-gray-800 rounded-t-lg overflow-hidden">
+            <img
+              ref={imageRef}
+              src={getImagePath(project.previewImage || project.image)}
+              alt={project.title}
+              className={`w-full h-full object-cover transition-opacity duration-300 ${
+                isImageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              loading="lazy"
+              onError={(e) => {
+                e.target.onerror = null;
+                if (project?.fallbackImage) {
+                  e.target.src = getImagePath(project.fallbackImage);
+                } else {
+                  e.target.src = getImagePath('/images/fallback-image.webp');
+                }
+              }}
+            />
+            {isImageError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                <span className="text-gray-400 dark:text-gray-600">Image not available</span>
+              </div>
+            )}
+          </div>
         )}
         
         {/* Fallback if image fails to load */}

@@ -1,5 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import Button from '../../components/ui/Button';
+import React, { ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -18,7 +17,7 @@ interface State {
  * ErrorBoundary component that catches JavaScript errors in its child component tree.
  * Logs those errors and displays a fallback UI when an error occurs.
  */
-export class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundary extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -26,6 +25,9 @@ export class ErrorBoundary extends Component<Props, State> {
       error: null,
       errorInfo: null,
     };
+    
+    // Bind methods
+    this.resetErrorBoundary = this.resetErrorBoundary.bind(this);
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -37,7 +39,7 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log the error to an error reporting service
     console.error('ErrorBoundary caught an error:', error, errorInfo);
 
@@ -53,7 +55,7 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
+  override componentDidUpdate(prevProps: Props) {
     // Reset the error boundary when resetOnChange dependencies change
     if (
       this.state.hasError &&
@@ -72,7 +74,7 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       // Render custom fallback UI if provided
       if (this.props.fallback) {

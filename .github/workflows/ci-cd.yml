@@ -34,33 +34,31 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Skip husky install in CI
-          npm config set ignore-scripts true
+          # Enable script execution for the entire installation
+          npm config set ignore-scripts false
           
-          # Install Node.js types first
-          npm install --save-dev @types/node @types/react @types/react-dom @vitejs/plugin-react
+          # Clean install all dependencies
+          npm ci --legacy-peer-deps
           
-          # Install all other dependencies
-          npm ci --legacy-peer-deps --ignore-scripts
-          
-          # Install TypeScript and Vite
-          npm install --save-dev typescript@^5.0.0 vite@^5.0.0 @vitejs/plugin-react@^4.0.0
-          
-          # Install remaining type definitions
+          # Install all required type definitions in one go
           npm install --save-dev \
+            typescript@^5.0.0 \
+            vite@^5.0.0 \
+            @vitejs/plugin-react@^4.0.0 \
+            @types/node@^20.0.0 \
             @types/react@^18.0.0 \
             @types/react-dom@^18.0.0 \
             @types/react-router-dom@^5.3.3 \
             @types/react-transition-group@^4.4.10 \
             @types/styled-components@^5.1.34 \
             rollup-plugin-visualizer@^5.0.0
-            
-          # Re-enable scripts for build
-          npm config set ignore-scripts false
           
-          # Verify TypeScript can find the types
+          # Verify installations
+          echo "Node.js version: $(node --version)"
+          echo "npm version: $(npm --version)"
           echo "TypeScript version: $(npx tsc --version)"
-          echo "Node types: $(ls -la node_modules/@types/node || echo 'Not found')"
+          echo "Installed @types packages:"
+          ls -la node_modules/@types/
           
           # Create or update tsconfig.json
           cat > tsconfig.json << 'EOL'

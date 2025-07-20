@@ -34,11 +34,17 @@ jobs:
 
       - name: Install dependencies
         run: |
+          # Skip husky install in CI
+          npm config set ignore-scripts true
+          
           # Install all dependencies including dev dependencies
           npm install --legacy-peer-deps
           
           # Ensure Vite is installed
           npm install --save-dev vite @vitejs/plugin-react
+          
+          # Re-enable scripts for build
+          npm config set ignore-scripts false
           
       - name: Check installed dependencies
         run: npm list || echo "Continuing despite npm list warnings"

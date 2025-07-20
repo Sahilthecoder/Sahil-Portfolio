@@ -226,9 +226,13 @@ jobs:
           }
           EOL
           
-          # Install Vite globally for CLI access
-          echo "Installing Vite globally..."
-          npm install -g vite
+          # Install Vite and TypeScript globally for CLI access
+          echo "Installing global dependencies..."
+          npm install -g vite typescript
+          
+          # Install all required type definitions
+          echo "Installing type definitions..."
+          npm install --save-dev @types/react @types/react-dom @types/node @types/react-helmet
           
           # Verify installations
           echo "Node.js version: $(node -v)"

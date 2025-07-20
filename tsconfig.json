@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vite/client", "node"],
     /* Base Options */
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
@@ -54,12 +55,7 @@
     /* React */
     "jsxImportSource": "@emotion/react"
   },
-  "include": [
-    "src",
-    "vite.config.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["src", "vite.config.ts", "**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules",
     "dist",

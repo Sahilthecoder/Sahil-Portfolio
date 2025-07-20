@@ -6,19 +6,30 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "baseUrl": ".",
-    "types": ["vite/client", "node"],
-    "typeRoots": ["./node_modules/@types"],
     "paths": {
       "@/*": ["./src/*"]
     },
+    "types": ["vite/client", "node"],
+    "incremental": true,
+
+    /* Module Resolution */
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* Emit */
     "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "outDir": "./dist",
+
+    /* JSX */
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
-    "incremental": true,
 
     /* Strict Type-Checking */
     "strict": true,
@@ -37,34 +48,16 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-
-    /* Module Resolution */
-    "preserveSymlinks": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-
-    /* Output */
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "removeComments": true
+    "noPropertyAccessFromIndexSignature": true
   },
   "include": ["src", "vite.config.ts"],
   "exclude": [
     "node_modules",
     "dist",
     "build",
-    "**/node_modules/*",
-    "**/__tests__/*",
-    "**/*.test.ts",
-    "**/*.test.tsx"
-  ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+    "**/*.test.{ts,tsx}",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/__mocks__/**"
+  ]
 }

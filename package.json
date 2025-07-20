@@ -25,7 +25,7 @@
     "optimize-images": "node scripts/optimize-images.js",
     "clean": "node scripts/cleanup.js",
     "clean:full": "node scripts/cleanup.js && rimraf node_modules",
-    "prepare": "husky install",
+    "prepare": "[ -z \"$CI\" ] && husky install || echo 'Skipping husky install in CI'",
     "analyze": "vite build --mode analyze"
   },
   "dependencies": {

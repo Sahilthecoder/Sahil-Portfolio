@@ -37,8 +37,8 @@ jobs:
           # Skip husky install in CI
           npm config set ignore-scripts true
           
-          # Install all production dependencies first
-          npm install --production=false --legacy-peer-deps
+          # Install dependencies without running scripts first
+          npm ci --prefer-offline --no-audit --legacy-peer-deps --ignore-scripts
           
           # Install TypeScript and type definitions
           npm install --save-dev typescript @types/node @types/react @types/react-dom @types/react-router-dom
